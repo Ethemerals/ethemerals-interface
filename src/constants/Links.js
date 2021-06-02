@@ -1,6 +1,6 @@
 const Links = {
-	LANDING_URL: 'https://d3mjwcj8l3mc2r.cloudfront.net/',
-	DISCORD_URL: 'https://google.com',
+	LANDING_URL: 'https://ethemerals.com',
+	DISCORD_URL: 'https://discord.gg/cwszZt9t4j',
 	ETHERSCAN_URL: 'https://kovan.etherscan.io/tx/',
 };
 

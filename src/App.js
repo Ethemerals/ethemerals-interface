@@ -1,4 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { isMobile } from 'react-device-detect';
 
 import Navbar from './components/navigation/Navbar';
@@ -12,9 +13,9 @@ import Marketplace from './pages/Marketplace';
 
 function App() {
 	return (
-		<div className={`text-white pt-11 lg:pt-14 ${isMobile ? 'overflow-hidden' : ''}`}>
+		<div className={`text-white pt-8 sm:pt-14 ${isMobile ? 'overflow-hidden' : ''}`}>
 			<Navbar />
-
+			<ReactQueryDevtools initialIsOpen={false} />
 			<Switch>
 				<Route exact path="/">
 					<Home />

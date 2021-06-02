@@ -5,18 +5,32 @@ module.exports = {
 	darkMode: false, // or 'media' or 'class'
 	theme: {
 		screens: {
-			xs: '400px',
-			sm: '640px',
-			md: '768px',
-			lg: '1024px',
-			xl: '1280px',
-			'2xl': '1536px',
+			xs: { max: '575px' }, // Mobile (iPhone 3 - iPhone XS Max).
+			sm: { min: '576px' }, // Mobile (matches max: iPhone 11 Pro Max landscape @ 896px).
+			md: { min: '898px' }, // Tablet (matches max: iPad Pro @ 1112px).
+			lg: { min: '1200px' }, // Desktop smallest.
+			xl: { min: '1159px' }, // Desktop wide.
+			xxl: { min: '1359px' }, // Desktop widescreen.
 		},
 		extend: {
+			spacing: {
+				'50vw': '50vw',
+				420: '420px',
+			},
+			maxWidth: {
+				420: '420px',
+			},
+			maxHeight: {
+				'90vh': '90vh',
+			},
 			keyframes: {
-				wiggle: {
-					'0%, 100%': { transform: 'rotate(-3deg)' },
-					'50%': { transform: 'rotate(3deg)' },
+				fadeOn: {
+					'0%': { opacity: 0 },
+					'100%': { opacity: 1 },
+				},
+				fadeOff: {
+					'0%': { opacity: 1 },
+					'100%': { opacity: 0 },
 				},
 				receiptOff: {
 					'0%': { opacity: 1 },
@@ -24,11 +38,25 @@ module.exports = {
 				},
 			},
 			animation: {
-				wiggle: 'wiggle 1s ease-in-out infinite',
 				receiptOff: 'receiptOff 2s ease-out forwards',
+				fadeOnFast: 'fadeOn 0.5s ease-in-out forwards',
+				fadeOffFast: 'fadeOff 0.5s ease-in-out forwards',
+			},
+			colors: {
+				customLightBlue: {
+					DEFAULT: '#77D9E2',
+				},
+				brandColor: {
+					DEFAULT: '#EF00C9',
+					purple: '#9C00D3',
+					dark: '#934E9E',
+					pale: '#FF66D4',
+					black: 'rgba(14,21,28,1)',
+				},
 			},
 			fontFamily: {
-				sans: ['Ubuntu', ...defaultTheme.fontFamily.sans],
+				ubuntu: ['Ubuntu', ...defaultTheme.fontFamily.sans],
+				sans: ['Noto Sans SC', ...defaultTheme.fontFamily.sans],
 			},
 		},
 	},

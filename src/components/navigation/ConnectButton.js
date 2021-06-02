@@ -1,9 +1,11 @@
 const ConnectButton = ({ login }) => {
 	return (
-		<button className="py-2 px-2 bg-pink-600 hover:bg-yellow-300 text-white hover:text-yellow-800 rounded-xl transition duration-300" onClick={login}>
+		<button className="p-2 bg-brandColor hover:bg-yellow-400 text-white rounded-lg shadow-lg transition duration-300 " onClick={login}>
 			Connect Wallet
 		</button>
 	);
 };
 
 export default ConnectButton;
+
+// bg-brandColor shadow-lg bg-opacity-100 hover:bg-yellow-400 py-2 px-4 rounded-lg text-lg font-bold uppercase mt-6 sm:mt-16 transition duration-300

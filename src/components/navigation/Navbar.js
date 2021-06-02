@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useTransition, useSpring, animated, config } from '@react-spring/web';
+
+import MobileMenuItems from './MobileMenuItems';
+import Images from '../../constants/Images';
 
 import useOnboard from '../../hooks/useOnboard';
-
-// import { useWeb3, useUserData, useLoadingUserData, useOnboard, useWallet } from './hooks/Web3Context';
-// import { usePage } from './hooks/PageContext';
 
 import AccountBar from './AccountBar';
 import ConnectButton from './ConnectButton';
 import MoreLinks from '../modals/MoreLinks';
 import MoreLinksButton from './MoreLinksButton';
 import MainMenu from './MainMenu';
-
-const logo = 'https://firebasestorage.googleapis.com/v0/b/cbae-f9c77.appspot.com/o/images%2Ffrontend%2Flogo.png?alt=media&token=e90250de-4f46-42c5-9de8-9e5bbdfbf904';
 
 const Navbar = () => {
 	const [onboard, provider, address, balance] = useOnboard();
@@ -27,6 +26,13 @@ const Navbar = () => {
 	const toggleMoreLinks = () => {
 		setIsMoreLinksOpen(!isMoreLinksOpen);
 	};
+
+	// SPRING
+	const mobileMenuTransition = useTransition(isMobileMenuOpen, {
+		from: { y: 600, opacity: 0 },
+		enter: { x: 0, y: 50, opacity: 1 },
+		leave: { y: 1000, opacity: 0 },
+	});
 
 	const LoadingAccountSpinner = () => (
 		<span className="text-white font-medium inline-flex items-center tracking-wide px-2">
@@ -59,26 +65,25 @@ const Navbar = () => {
 	return (
 		<>
 			{/* <!-- navbar goes here --> */}
-			<header className="top-0 left-0 right-0 z-20 bg-transparent sm:bg-gray-800 fixed">
-				<nav className="container">
+			<header className="top-0 left-0 right-0 z-50 fixed">
+				<nav className="p-4 font-ubuntu bg-gray-800">
 					<div className="flex items-center">
 						{/* <!-- logo --> */}
 						<div>
 							<Link to="/">
-								<img src={logo} alt="brand icon" width="30" height="30" className="cursor-pointer ml-2 xs:py-2 lg:py-4 mr-2" />
+								<a className="hidden sm:flex">
+									<img src={Images.avator} alt="brand icon" width="34" height="34" />
+								</a>
 							</Link>
 						</div>
 
 						{/* <!-- primary nav --> */}
-						<div className="hidden lg:flex items-center">
-							<MainMenu />
-						</div>
-						<div className="hidden lg:hidden sm:flex items-center space-x-1 right-0 sm:absolute">
+						<div className="hidden sm:flex items-center">
 							<MainMenu />
 						</div>
 
-						{/* <!-- secondary nav --> LARGE */}
-						<div className="hidden lg:flex items-center right-0 absolute mr-2">
+						{/* <!-- secondary nav --> MD */}
+						<div className="hidden md:flex items-center right-0 absolute mr-2">
 							{!provider && onboard && <ConnectButton login={login} />}
 							{provider && (!address || !balance) && <LoadingAccountSpinner />}
 							{address && balance && <AccountBar props={{ address, balance }} />}
@@ -87,8 +92,8 @@ const Navbar = () => {
 							{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} isLoggedIn={address && balance} logout={logout} />}
 						</div>
 
-						{/* <!-- secondary nav bottom --> SMALL */}
-						<div className="lg:hidden w-full flex items-center right-0 fixed bottom-0 bg-gray-800 py-2 px-2 h-12">
+						{/* <!-- secondary nav bottom --> SM */}
+						<div className="md:hidden w-full flex items-center right-0 fixed bottom-0 bg-gray-800 p-2 h-12">
 							{!provider && onboard && <ConnectButton login={login} />}
 							{address && balance && <AccountBar props={{ address, balance }} />}
 							{provider && (!address || !balance) && <LoadingAccountSpinner />}
@@ -98,49 +103,38 @@ const Navbar = () => {
 						</div>
 					</div>
 				</nav>
-
-				<div className="justify-center">
-					{/* <!-- MOBILE MENU--> */}
+			</header>
+			<header className="top-0 left-0 right-0 z-50 fixed mx-auto w-full sm:hidden">
+				<nav>
+					{/* <!-- mobile menu --> */}
 					{/* <!-- mobile button goes here --> */}
-					<div className="sm:hidden flex items-center fixed top-3 right-4">
-						<button className="mobile-menu-button" onClick={toggle}>
-							<svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white">
+					<div className="flex items-center w-screen justify-between sm:px-10 bg-gray-800">
+						<div className="pl-2 py-1">
+							<Link to="/">
+								<a className="flex">
+									<img src={Images.avator} alt="icon" width="28" height="28" />
+								</a>
+							</Link>
+						</div>
+
+						<span className="text-yellow-400 uppercase font-bold text-sm font-ubuntu sm:text-xl">Kingdom of the Ethemerals</span>
+
+						<button className="pr-2" onClick={toggle}>
+							<svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
 							</svg>
 						</button>
 					</div>
-
-					<div className={isMobileMenuOpen ? 'md:hidden' : 'hidden'}>
-						<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen"></div>
-						<div className="fixed top-14 right-0 w-full px-4 bg-black text-right py-4">
-							<Link to="/">
-								<span onClick={toggle} href="#" className="block py-2 px-7 text-sm text-right text-white hover:text-gray-300">
-									Mint
-								</span>
-							</Link>
-							<Link to="/ethemerals">
-								<span onClick={toggle} href="#" className="block py-2 px-7 text-sm text-right text-white hover:text-gray-300">
-									Ethemerals
-								</span>
-							</Link>
-							<Link to="/battle">
-								<span onClick={toggle} href="#" className="block py-2 px-7 text-sm text-right text-white hover:text-gray-300">
-									Battle
-								</span>
-							</Link>
-							<Link to="/marketplace">
-								<span onClick={toggle} href="#" className="block py-2 px-7 text-sm text-right text-white hover:text-gray-300">
-									Marketplace
-								</span>
-							</Link>
-							<Link to="/art">
-								<span onClick={toggle} href="#" className="block py-2 px-7 text-sm text-right text-white hover:text-gray-300">
-									Art
-								</span>
-							</Link>
-						</div>
-					</div>
-				</div>
+				</nav>
+				{mobileMenuTransition(
+					(style, item) =>
+						item && (
+							<animated.div style={style} className="flex justify-center">
+								<div onClick={toggle} className="fixed w-full h-screen"></div>
+								<MobileMenuItems toggle={toggle} />
+							</animated.div>
+						)
+				)}
 			</header>
 		</>
 	);
