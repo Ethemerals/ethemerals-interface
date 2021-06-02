@@ -43,3 +43,15 @@
 		transform: translate(-50%, -50%);
 	}
 }
+
+.bn-onboard-custom.bn-onboard-modal {
+	z-index: 50;
+}
+.bn-onboard-custom.bn-onboard-modal-content {
+	border-radius: 1rem /* 16px */;
+	color: rgba(229, 231, 235);
+	background-color: rgba(19, 31, 49);
+}
+.bn-onboard-custom.bn-onboard-modal-selected-wallet {
+	background-color: #283248;
+}

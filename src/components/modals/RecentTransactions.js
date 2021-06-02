@@ -1,17 +1,28 @@
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
+
+import { useWeb3, useOnboard, useAddress, useBalance } from '../../hooks/Web3Context';
 import { isAddress, shortenAddress, formatELF, formatETH } from '../../utils';
 
-import useOnboard from '../../hooks/useOnboard';
 import Links from '../../constants/Links';
 
 const RecentTransactions = ({ toggle, props, account }) => {
-	const [onboard, provider, address, balance] = useOnboard();
+	const provider = useWeb3();
+	const onboard = useOnboard();
+	const [connection, setConnection] = useState('');
+
+	const login = async () => {
+		const selected = await onboard.walletSelect();
+		console.log(selected);
+		if (selected) {
+			await onboard.walletCheck();
+		}
+	};
 
 	useEffect(() => {
 		if (provider) {
-			console.log('PROVIDER', provider);
+			setConnection(provider.connection.url);
 		}
 	}, [provider]);
 
@@ -29,13 +40,29 @@ const RecentTransactions = ({ toggle, props, account }) => {
 								</svg>
 							</span>
 						</div>
-						<div className="h-24 rounded-2xl mx-4 border border-gray-600 relative">
-							<div className="px-4 vertical-center space-y-2">
-								<p className="text-sm text-gray-400">Connected with Metamask </p>
-								<span className="flex items-center gap-2 text-2xl">
+						<div className="h-28 rounded-2xl mx-4 border border-gray-600 relative">
+							<div className="p-3 space-y-2">
+								<div className="flex items-center justify-between">
+									<p className="text-sm text-gray-400">Connected with {connection} </p>
+									<button onClick={login} className="text-sm text-blue-500 px-2 mr-0 ml-4 border-gray-900 hover:bg-gray-900 border rounded-xl">
+										Change
+									</button>
+								</div>
+								<span className="flex items-center gap-2 text-2xl justify-center">
 									<Jazzicon diameter={20} seed={jsNumberForAddress(props.address)} />
 									{shortenAddress(props.address)}
 								</span>
+								{/* TODO */}
+								<a href="google.com">
+									<div className="flex items-center space-x-2 text-gray-400 hover:text-gray-300 mt-2">
+										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+											<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+											<polyline points="15 3 21 3 21 9"></polyline>
+											<line x1="10" y1="14" x2="21" y2="3"></line>
+										</svg>
+										<p className="text-sm">View on Etherscan</p>
+									</div>
+								</a>
 							</div>
 						</div>
 					</div>

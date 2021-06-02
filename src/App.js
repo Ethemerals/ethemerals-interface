@@ -13,41 +13,45 @@ import Marketplace from './pages/Marketplace';
 import About from './pages/About';
 import Help from './pages/Help';
 
+import Web3ContextProvider from './hooks/Web3Context';
+
 function App() {
 	return (
-		<div className={`text-white pt-8 sm:pt-14 ${isMobile ? 'overflow-hidden' : ''}`}>
-			<Navbar />
-			<ReactQueryDevtools initialIsOpen={false} />
-			<Switch>
-				<Route exact path="/">
-					<Home />
-				</Route>
-				<Route exact path="/admin">
-					<Admin />
-				</Route>
-				<Route exact path="/art">
-					<Art />
-				</Route>
-				<Route exact path="/battle">
-					<Battle />
-				</Route>
-				<Route exact path="/dashboard">
-					<Dashboard />
-				</Route>
-				<Route exact path="/ethemerals">
-					<Ethemerals />
-				</Route>
-				<Route exact path="/marketplace">
-					<Marketplace />
-				</Route>
-				<Route exact path="/about">
-					<About />
-				</Route>
-				<Route exact path="/help">
-					<Help />
-				</Route>
-			</Switch>
-		</div>
+		<Web3ContextProvider>
+			<div className={`text-white pt-8 sm:pt-14 ${isMobile ? 'overflow-hidden' : ''}`}>
+				<Navbar />
+				<ReactQueryDevtools initialIsOpen={false} />
+				<Switch>
+					<Route exact path="/">
+						<Home />
+					</Route>
+					<Route exact path="/admin">
+						<Admin />
+					</Route>
+					<Route exact path="/art">
+						<Art />
+					</Route>
+					<Route exact path="/battle">
+						<Battle />
+					</Route>
+					<Route exact path="/dashboard">
+						<Dashboard />
+					</Route>
+					<Route exact path="/ethemerals">
+						<Ethemerals />
+					</Route>
+					<Route exact path="/marketplace">
+						<Marketplace />
+					</Route>
+					<Route exact path="/about">
+						<About />
+					</Route>
+					<Route exact path="/help">
+						<Help />
+					</Route>
+				</Switch>
+			</div>
+		</Web3ContextProvider>
 	);
 }
 

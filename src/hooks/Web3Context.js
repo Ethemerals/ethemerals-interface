@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, createContext } from 'react';
 import { ethers, utils } from 'ethers';
 import { Web3Provider } from '@ethersproject/providers';
 import { Contract } from '@ethersproject/contracts';
@@ -12,7 +12,31 @@ import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import Addresses from '../constants/contracts/Addresses';
 
-export default function useOnboard() {
+// CONTEXT
+const Web3Context = createContext();
+const OnboardContext = createContext();
+const AddressContext = createContext();
+const BalanceContext = createContext();
+
+// PROVIDER
+export function useWeb3() {
+	return useContext(Web3Context);
+}
+
+export function useOnboard() {
+	return useContext(OnboardContext);
+}
+
+export function useAddress() {
+	return useContext(AddressContext);
+}
+
+export function useBalance() {
+	return useContext(BalanceContext);
+}
+
+// PROVIDER
+export default function Web3ContextProvider({ children }) {
 	//ONBOARD
 	const [address, setAddress] = useState(null);
 	const [balance, setBalance] = useState(null);
@@ -81,5 +105,15 @@ export default function useOnboard() {
 		}
 	};
 
-	return [onboard, provider, address, balance];
+	// return [onboard, provider, address, balance];
+
+	return (
+		<Web3Context.Provider value={provider}>
+			<OnboardContext.Provider value={onboard}>
+				<BalanceContext.Provider value={balance}>
+					<AddressContext.Provider value={address}>{children}</AddressContext.Provider>
+				</BalanceContext.Provider>
+			</OnboardContext.Provider>
+		</Web3Context.Provider>
+	);
 }

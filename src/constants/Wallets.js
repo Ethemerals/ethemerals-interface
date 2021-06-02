@@ -10,9 +10,9 @@ export function initOnboard(subscriptions) {
 
 	return onboard({
 		dappId: apiKey,
-		hideBranding: false,
+		hideBranding: true,
 		networkId,
-		darkMode: true,
+		darkMode: false,
 		subscriptions,
 		walletSelect: {
 			wallets: [
