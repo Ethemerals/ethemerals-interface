@@ -10,6 +10,8 @@ import Battle from './pages/Battle';
 import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
 import Marketplace from './pages/Marketplace';
+import About from './pages/About';
+import Help from './pages/Help';
 
 function App() {
 	return (
@@ -37,6 +39,12 @@ function App() {
 				</Route>
 				<Route exact path="/marketplace">
 					<Marketplace />
+				</Route>
+				<Route exact path="/about">
+					<About />
+				</Route>
+				<Route exact path="/help">
+					<Help />
 				</Route>
 			</Switch>
 		</div>

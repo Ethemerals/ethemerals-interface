@@ -29,6 +29,10 @@ const AccountBar = ({ props }) => {
 		setIsRecentTXOpen(!isRecentTXOpen);
 	};
 
+	const toggleShowELF = () => {
+		setShowELF(!showELF);
+	};
+
 	useEffect(() => {
 		if (data && data.account === null) {
 			// new account
@@ -53,31 +57,31 @@ const AccountBar = ({ props }) => {
 
 	const mining = false;
 
-	const toggle = () => {
-		setShowELF(!showELF);
-	};
-
 	return (
 		<>
 			<span className="hidden md:flex">
 				<NFTBalance account={account} active={active} />
 			</span>
 
-			<span className="bg-gray-700 flex rounded-xl items-center h-8 md:h-11 text-xs sm:text-sm">
-				<span className="text-white px-2 cursor-pointer h-full flex items-center" onClick={toggle}>
+			<span className="bg-gray-700 flex rounded-xl items-center h-8 md:h-11 text-xs sm:text-base text-white">
+				<span className="px-2 cursor-pointer h-full flex items-center hover:text-gray-200" onClick={toggleShowELF}>
 					{!showELF && <span>{formatETH(props.balance)} ETH</span>}
-					{showELF && !active && <span>0 ELF</span>}
-					{showELF && active && <span>{formatELF(data.account.elfBalance)} ELF</span>}
+					{showELF && !active && <span className="text-brandColor-pale"> 0 ELF</span>}
+					{showELF && active && <span className="text-brandColor-pale">{formatELF(data.account.elfBalance)} ELF</span>}
 				</span>
 
-				<span className={`${mining ? 'bg-green-600' : 'bg-gray-900'} flex text-white rounded-xl h-8 md:h-11 w-32 md:w-36 items-center px-2 md:px-4 `}>
+				<span
+					className={`${
+						mining ? 'bg-green-600' : 'bg-gray-900'
+					} flex rounded-xl h-8 md:h-11 w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 border border-gray-800 hover:bg-gray-800 hover:border-gray-600 transition duration-300`}
+				>
 					{mining ? (
-						<span className="text-white cursor-pointer text-bold h-full flex items-center tracking-wide">
+						<span className="cursor-pointer h-full flex items-center tracking-wide">
 							<span className="pr-5">PENDING...</span>
 							<Spinner />
 						</span>
 					) : (
-						<span onClick={toggleRecentTX} className="text-white cursor-pointer h-full flex items-center gap-2 md:gap-3">
+						<span onClick={toggleRecentTX} className="cursor-pointer h-full flex items-center gap-2 md:gap-3">
 							{shortenAddress(props.address)}
 							<Jazzicon diameter={20} seed={jsNumberForAddress(props.address)} />
 						</span>
@@ -89,7 +93,7 @@ const AccountBar = ({ props }) => {
 				<NFTBalance account={account} active={active} />
 			</span>
 
-			{isRecentTXOpen && <RecentTransactions toggle={toggleRecentTX} />}
+			{isRecentTXOpen && <RecentTransactions toggle={toggleRecentTX} props={props} account={account} />}
 		</>
 	);
 };

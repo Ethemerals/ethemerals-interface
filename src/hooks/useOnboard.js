@@ -45,6 +45,13 @@ export default function useOnboard() {
 	}, []);
 
 	useEffect(() => {
+		if (provider) {
+			// console.log('PROVIDER', provider);
+			setProvider(provider);
+		}
+	}, [provider]);
+
+	useEffect(() => {
 		console.log('ADDRESS CHANGED', address);
 		if (address !== null && previousAddress !== null && address !== previousAddress) {
 			if (onboard && provider) {
