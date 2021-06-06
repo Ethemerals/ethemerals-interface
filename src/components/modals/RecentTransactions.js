@@ -99,7 +99,7 @@ const RecentTransactions = ({ toggle, props }) => {
 							</div>
 						</div>
 					</div>
-					<p className="text-lg p-4">Recent Successful Transactions</p>
+					<p className="text-lg p-4">Recent Activity</p>
 					<div className="h-20 rounded-2xl mx-4 relative text-xs sm:text-sm leading-relaxed text-blue-500">
 						{status == 'success' && data.account.actions.length > 0 && data.account.actions.map((action, index) => <p key={index}>{ActionLink(action)}</p>)}
 					</div>

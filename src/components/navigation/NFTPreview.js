@@ -1,16 +1,4 @@
-import { useEffect, useState } from 'react';
-
-import { useQueryClient, useIsFetching } from 'react-query';
-
-const NFTBalance = ({ account }) => {
-	const isFetching = useIsFetching();
-	const isFetchingAccount = useIsFetching(['account']);
-
-	// useEffect(() => {
-	// 	console.log('isFetching', isFetching);
-	// 	console.log('fetching account', isFetchingAccount);
-	// }, [isFetching, isFetchingAccount]);
-
+const NFTPreview = ({ account }) => {
 	return (
 		<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
 			{/* {account && <NFTNumber NFTS={account.ethemerals} />} */}
@@ -24,4 +12,4 @@ const NFTBalance = ({ account }) => {
 	);
 };
 
-export default NFTBalance;
+export default NFTPreview;

@@ -28,7 +28,7 @@ const WaitingConfirmation = ({ toggle, message }) => {
 						</div>
 						<div className="py-2">
 							<p className="text-2xl">Waiting for Confirmation</p>
-							<p className="py-1">{message && `${message}`}</p>
+							<p className="py-1">{message && message}</p>
 							<p className="text-sm text-gray-500">Confirm this transaction in your wallet</p>
 						</div>
 					</div>

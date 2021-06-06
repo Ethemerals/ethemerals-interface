@@ -5,12 +5,13 @@ import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { isAddress, shortenAddress, formatELF, formatETH } from '../../utils';
 import { useMiningStatus } from '../../hooks/TxContext';
 import RecentTransactions from '../modals/RecentTransactions';
+import UserNFTs from '../modals/UserNFTs';
 
 import { useGQLQuery } from '../../hooks/useGQLQuery';
 import { GET_ACCOUNT } from '../../queries/Subgraph';
 
 // import { useMiningStatus } from './hooks/TxContext';
-import NFTBalance from './NFTBalance';
+import NFTPreview from './NFTPreview';
 
 const Spinner = () => (
 	<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -29,6 +30,7 @@ const AccountBar = ({ props }) => {
 	const [active, setActive] = useState(false);
 	const [account, setAccount] = useState({});
 	const [isRecentTXOpen, setIsRecentTXOpen] = useState(false);
+	const [isUserNFTsOpen, setIsUserNFTsOpen] = useState(false);
 
 	const toggleRecentTX = () => {
 		setIsRecentTXOpen(!isRecentTXOpen);
@@ -36,6 +38,10 @@ const AccountBar = ({ props }) => {
 
 	const toggleShowELF = () => {
 		setShowELF(!showELF);
+	};
+
+	const toggleUserNFTs = () => {
+		setIsUserNFTsOpen(!isUserNFTsOpen);
 	};
 
 	useEffect(() => {
@@ -61,7 +67,9 @@ const AccountBar = ({ props }) => {
 
 	return (
 		<>
-			<span className="hidden md:flex">{active && <NFTBalance account={data.account} />}</span>
+			<span onClick={toggleUserNFTs} className="hidden md:flex">
+				{active && <NFTPreview account={data.account} />}
+			</span>
 
 			<span className="bg-gray-700 flex rounded-xl items-center h-8 md:h-11 text-xs sm:text-base text-white">
 				<span className="px-2 cursor-pointer h-full flex items-center rounded-xl rounded-r-none hover:bg-gradient-to-r from-gray-600 " onClick={toggleShowELF}>
@@ -89,9 +97,12 @@ const AccountBar = ({ props }) => {
 				</span>
 			</span>
 
-			<span className="md:hidden flex">{active && <NFTBalance account={data.account} />}</span>
+			<span onClick={toggleUserNFTs} className="md:hidden flex">
+				{active && <NFTPreview onClick={toggleUserNFTs} account={data.account} />}
+			</span>
 
 			{isRecentTXOpen && active && <RecentTransactions toggle={toggleRecentTX} props={props} />}
+			{isUserNFTsOpen && active && <UserNFTs toggle={toggleUserNFTs} props={props} account={data.account} />}
 		</>
 	);
 };

@@ -11,6 +11,7 @@ import { useWeb3, useOnboard, useAddress, useBalance, useLogin, useContractCore,
 import { useSendTx } from '../hooks/TxContext';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
+import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 const Home = () => {
 	const { data, status, isLoading, error } = useGQLQuery('core', GET_CORE, { id: Addresses.Ethemerals });
@@ -24,9 +25,15 @@ const Home = () => {
 	const [core, setCore] = useState({});
 	const [ready, setReady] = useState(false);
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+	const [isErrorOpen, setIsErrorOpen] = useState(false);
+	const [errorMsg, setErrorMsg] = useState('');
 
 	const toggleConfirmation = () => {
 		setIsConfirmationOpen(!isConfirmationOpen);
+	};
+
+	const toggleError = () => {
+		setIsErrorOpen(!isErrorOpen);
 	};
 
 	useEffect(() => {
@@ -50,7 +57,9 @@ const Home = () => {
 
 				sendTx(tx.hash, 'Minted an Ethemeral');
 			} catch (error) {
-				alert(`${error.data} \n${error.message}`);
+				setIsErrorOpen(true);
+				setErrorMsg('Mint transaction rejected from user wallet');
+				console.log(`${error.data} \n${error.message}`);
 			}
 			setIsConfirmationOpen(false);
 		} else {
@@ -87,6 +96,7 @@ const Home = () => {
 				</div>
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Mint an Ethemeral, good luck!" />}
+			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</div>
 	);
 };

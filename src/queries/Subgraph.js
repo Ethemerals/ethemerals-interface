@@ -29,8 +29,14 @@ export const GET_ACCOUNT = gql`
 			id
 			elfBalance
 			disallowDelegates
-			ethemerals(orderBy: id, orderDirection: asc) {
+			ethemerals(orderBy: timestamp, orderDirection: desc) {
 				id
+				timestamp
+				score
+				metadata {
+					coin
+					mainClass
+				}
 			}
 		}
 	}
