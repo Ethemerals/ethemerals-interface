@@ -11,6 +11,7 @@ export const useGQLQuery = (key, query, variables, config = {}) => {
 	// }
 
 	const graphQLClient = new GraphQLClient(endpoint);
+	// const invalidate = async () => await graphQLClient.invalidateQueries('account');
 
 	const fetchData = async () => await graphQLClient.request(query, variables);
 

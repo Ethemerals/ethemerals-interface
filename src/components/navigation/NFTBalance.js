@@ -1,29 +1,25 @@
 import { useEffect, useState } from 'react';
 
-const NFTBalance = ({ account, active }) => {
-	const [NFTS, setNFTS] = useState([]);
+import { useQueryClient, useIsFetching } from 'react-query';
 
-	useEffect(() => {
-		if (active) {
-			setNFTS(account.ethemerals);
-		}
-	}, [account]);
+const NFTBalance = ({ account }) => {
+	const isFetching = useIsFetching();
+	const isFetchingAccount = useIsFetching(['account']);
 
-	// TODO get NFT preference
-
-	if (!active || NFTS.length === 0) {
-		return (
-			<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
-				<span className="text-white px-3">NO NFTS</span>
-			</span>
-		);
-	}
+	// useEffect(() => {
+	// 	console.log('isFetching', isFetching);
+	// 	console.log('fetching account', isFetchingAccount);
+	// }, [isFetching, isFetchingAccount]);
 
 	return (
 		<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
-			<span className="text-white px-3">
-				#{NFTS[0].id} / {NFTS.length} NFTS
-			</span>
+			{/* {account && <NFTNumber NFTS={account.ethemerals} />} */}
+			{account.ethemerals.length === 0 && <span className="text-white px-2 md:px-3">NO NFTS</span>}
+			{account.ethemerals.length > 0 && (
+				<span className="text-white px-2 md:px-3">
+					#{account.ethemerals[0].id} / {account.ethemerals.length} NFTS
+				</span>
+			)}
 		</span>
 	);
 };

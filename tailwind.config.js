@@ -14,8 +14,8 @@ module.exports = {
 		},
 		extend: {
 			spacing: {
-				'50vw': '50vw',
 				420: '420px',
+				400: '400px',
 			},
 			maxWidth: {
 				420: '420px',
@@ -38,20 +38,25 @@ module.exports = {
 				},
 			},
 			animation: {
-				receiptOff: 'receiptOff 2s ease-out forwards',
-				fadeOnFast: 'fadeOn 0.5s ease-in-out forwards',
-				fadeOffFast: 'fadeOff 0.5s ease-in-out forwards',
+				fadeOnFast: 'fadeOn 0.2s ease-in-out forwards',
+				fadeOffFast: 'fadeOff 0.2s ease-out forwards',
+				fadeOffSlow: 'fadeOff 2s ease-out forwards',
+				'spin-slow': 'spin 3s linear infinite',
 			},
 			colors: {
 				customLightBlue: {
 					DEFAULT: '#77D9E2',
 				},
+				custom: {
+					aquaDark: '#003A37',
+				},
 				brandColor: {
-					DEFAULT: '#EF00C9',
+					DEFAULT: '#F900D1',
 					purple: '#9C00D3',
 					dark: '#934E9E',
 					pale: '#FF66D4',
 					black: 'rgba(14,21,28,1)',
+					blue: '#def2ff',
 				},
 			},
 			fontFamily: {
@@ -61,7 +66,9 @@ module.exports = {
 		},
 	},
 	variants: {
-		extend: {},
+		extend: {
+			backgroundImage: ['hover', 'focus'],
+		},
 	},
 	plugins: [],
 	future: {

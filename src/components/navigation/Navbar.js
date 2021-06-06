@@ -5,7 +5,7 @@ import { useTransition, useSpring, animated, config } from '@react-spring/web';
 import MobileMenuItems from './MobileMenuItems';
 import Images from '../../constants/Images';
 
-import { useWeb3, useOnboard, useAddress, useBalance } from '../../hooks/Web3Context';
+import { useWeb3, useOnboard, useAddress, useBalance, useLogin } from '../../hooks/Web3Context';
 
 import AccountBar from './AccountBar';
 import ConnectButton from './ConnectButton';
@@ -29,6 +29,7 @@ const Navbar = () => {
 	const onboard = useOnboard();
 	const address = useAddress();
 	const balance = useBalance();
+	const login = useLogin();
 
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isMoreLinksOpen, setIsMoreLinksOpen] = useState(false);
@@ -48,16 +49,6 @@ const Navbar = () => {
 		leave: { y: 1000, opacity: 0 },
 	});
 
-	const login = async () => {
-		if (!provider && onboard) {
-			const selected = await onboard.walletSelect();
-			console.log(selected);
-			if (selected) {
-				await onboard.walletCheck();
-			}
-		}
-	};
-
 	const logout = async () => {
 		if (onboard) {
 			onboard.walletReset();
@@ -76,9 +67,9 @@ const Navbar = () => {
 						{/* <!-- logo --> */}
 						<div>
 							<Link to="/">
-								<a className="hidden sm:flex">
+								<span className="hidden sm:flex">
 									<img src={Images.avator} alt="brand icon" width="34" height="34" />
-								</a>
+								</span>
 							</Link>
 						</div>
 
@@ -91,7 +82,7 @@ const Navbar = () => {
 
 						<div className="hidden md:flex items-center right-0 absolute mr-2">
 							{!provider && onboard && <ConnectButton login={login} />}
-							{provider && (!address || !balance) && <LoadingAccountSpinner />}
+							{provider && !address && <LoadingAccountSpinner />}
 							{address && <AccountBar props={{ address, balance }} />}
 
 							<MoreLinksButton large={true} toggle={toggleMoreLinks} />
@@ -102,8 +93,8 @@ const Navbar = () => {
 
 						<div className="md:hidden w-full flex items-center right-0 fixed bottom-0 bg-gray-800 p-2 h-12">
 							{!provider && onboard && <ConnectButton login={login} />}
-							{address && balance && <AccountBar props={{ address, balance }} />}
-							{provider && (!address || !balance) && <LoadingAccountSpinner />}
+							{address && <AccountBar props={{ address, balance }} />}
+							{provider && !address && <LoadingAccountSpinner />}
 
 							<MoreLinksButton large={false} toggle={toggleMoreLinks} />
 							{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} isLoggedIn={address && balance} logout={logout} />}
@@ -118,9 +109,9 @@ const Navbar = () => {
 					<div className="flex items-center w-screen justify-between sm:px-10 bg-gray-800">
 						<div className="pl-2 py-1">
 							<Link to="/">
-								<a className="flex">
+								<span className="flex">
 									<img src={Images.avator} alt="icon" width="28" height="28" />
-								</a>
+								</span>
 							</Link>
 						</div>
 

@@ -1,5 +1,19 @@
 import gql from 'graphql-tag';
 
+export const GET_CORE = gql`
+	query ($id: ID!) {
+		core(id: $id) {
+			id
+			owner
+			mintPrice
+			revivePrice
+			winnerFunds
+			winnerMult
+			winningCoin
+		}
+	}
+`;
+
 export const GET_ACCOUNTS = gql`
 	query {
 		accounts {
@@ -10,13 +24,38 @@ export const GET_ACCOUNTS = gql`
 `;
 
 export const GET_ACCOUNT = gql`
-	query($id: ID!) {
+	query ($id: ID!) {
 		account(id: $id) {
 			id
 			elfBalance
 			disallowDelegates
 			ethemerals(orderBy: id, orderDirection: asc) {
 				id
+			}
+		}
+	}
+`;
+
+export const GET_ACCOUNT_ACTIONS = gql`
+	query ($id: ID!) {
+		account(id: $id) {
+			id
+			actions(first: 5, orderBy: timestamp, orderDirection: desc) {
+				id
+				type
+				timestamp
+				account {
+					id
+					disallowDelegates
+				}
+				ethemeral {
+					id
+				}
+				transaction {
+					id
+					from
+					to
+				}
 			}
 		}
 	}

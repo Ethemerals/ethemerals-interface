@@ -3,6 +3,7 @@ import { ethers, utils } from 'ethers';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
 import { isAddress, shortenAddress, formatELF, formatETH } from '../../utils';
+import { useMiningStatus } from '../../hooks/TxContext';
 import RecentTransactions from '../modals/RecentTransactions';
 
 import { useGQLQuery } from '../../hooks/useGQLQuery';
@@ -19,7 +20,11 @@ const Spinner = () => (
 );
 
 const AccountBar = ({ props }) => {
+	const mining = useMiningStatus();
+	// const mining = true;
+
 	const { data, status, isLoading, error } = useGQLQuery('account', GET_ACCOUNT, { id: props.address });
+
 	const [showELF, setShowELF] = useState(false);
 	const [active, setActive] = useState(false);
 	const [account, setAccount] = useState({});
@@ -34,14 +39,13 @@ const AccountBar = ({ props }) => {
 	};
 
 	useEffect(() => {
+		console.log('status', status);
 		if (data && data.account === null) {
 			// new account
 			setActive(false);
 		}
 		if (data && data.account) {
 			setActive(true);
-			setAccount(data.account);
-			console.log(data);
 		}
 	}, [status]);
 
@@ -55,33 +59,29 @@ const AccountBar = ({ props }) => {
 		return null;
 	}
 
-	const mining = false;
-
 	return (
 		<>
-			<span className="hidden md:flex">
-				<NFTBalance account={account} active={active} />
-			</span>
+			<span className="hidden md:flex">{active && <NFTBalance account={data.account} />}</span>
 
 			<span className="bg-gray-700 flex rounded-xl items-center h-8 md:h-11 text-xs sm:text-base text-white">
-				<span className="px-2 cursor-pointer h-full flex items-center hover:text-gray-200" onClick={toggleShowELF}>
+				<span className="px-2 cursor-pointer h-full flex items-center rounded-xl rounded-r-none hover:bg-gradient-to-r from-gray-600 " onClick={toggleShowELF}>
 					{!showELF && <span>{formatETH(props.balance)} ETH</span>}
-					{showELF && !active && <span className="text-brandColor-pale"> 0 ELF</span>}
-					{showELF && active && <span className="text-brandColor-pale">{formatELF(data.account.elfBalance)} ELF</span>}
+					{showELF && !active && <span className="text-brandColor font-bold"> 0 ELF</span>}
+					{showELF && active && <span className="text-brandColor font-bold">{formatELF(data.account.elfBalance)} ELF</span>}
 				</span>
 
 				<span
 					className={`${
-						mining ? 'bg-green-600' : 'bg-gray-900'
-					} flex rounded-xl h-8 md:h-11 w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 border border-gray-800 hover:bg-gray-800 hover:border-gray-600 transition duration-300`}
+						mining ? ' bg-yellow-400 border-yellow-100' : 'bg-gray-900 border-gray-800 hover:bg-gray-800 hover:border-gray-600 transition duration-300'
+					} flex rounded-xl h-8 md:h-11 w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 border `}
 				>
 					{mining ? (
-						<span className="cursor-pointer h-full flex items-center tracking-wide">
-							<span className="pr-5">PENDING...</span>
+						<span onClick={toggleRecentTX} className="cursor-pointer h-full flex items-center tracking-wide">
+							<span className="pr-5 text-white">PENDING...</span>
 							<Spinner />
 						</span>
 					) : (
-						<span onClick={toggleRecentTX} className="cursor-pointer h-full flex items-center gap-2 md:gap-3">
+						<span onClick={toggleRecentTX} className="cursor-pointer h-full flex items-center gap-1 md:gap-3">
 							{shortenAddress(props.address)}
 							<Jazzicon diameter={20} seed={jsNumberForAddress(props.address)} />
 						</span>
@@ -89,11 +89,9 @@ const AccountBar = ({ props }) => {
 				</span>
 			</span>
 
-			<span className="md:hidden flex">
-				<NFTBalance account={account} active={active} />
-			</span>
+			<span className="md:hidden flex">{active && <NFTBalance account={data.account} />}</span>
 
-			{isRecentTXOpen && <RecentTransactions toggle={toggleRecentTX} props={props} account={account} />}
+			{isRecentTXOpen && active && <RecentTransactions toggle={toggleRecentTX} props={props} />}
 		</>
 	);
 };

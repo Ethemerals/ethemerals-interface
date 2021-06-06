@@ -6,8 +6,8 @@ const landingURL = Links.LANDING_URL;
 const discordURL = Links.DISCORD_URL;
 
 const MoreLinks = ({ large, toggle, isLoggedIn, logout }) => {
-	const modalTop = 'rounded-xl p-2 py-4 top-16 right-0 w-48 bg-gray-700 absolute space-y-4 border-gray-500 border-2 shadow-lg';
-	const modalBottom = 'rounded-xl p-2 py-4 bottom-16 right-2 w-48 bg-gray-700 fixed space-y-4 border-gray-500 border-2 shadow-lg';
+	const modalTop = 'rounded-xl p-2 py-4 top-16 right-0 w-48 bg-gray-700 absolute space-y-4 border-gray-500 border-2 shadow-lg animate-fadeOnFast';
+	const modalBottom = 'rounded-xl p-2 py-4 bottom-16 right-2 w-48 bg-gray-700 fixed space-y-4 border-gray-500 border-2 shadow-lg animate-fadeOnFast';
 
 	return (
 		<>
@@ -20,9 +20,7 @@ const MoreLinks = ({ large, toggle, isLoggedIn, logout }) => {
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 							</svg>
 							<Link to="/dashboard">
-								<span onClick={toggle} href="#">
-									Dashboard
-								</span>
+								<span onClick={toggle}>Dashboard</span>
 							</Link>
 						</div>
 						<div className="flex ml-2 text-gray-300 hover:text-white cursor-pointer w-auto space-x-2 items-center">
@@ -31,9 +29,7 @@ const MoreLinks = ({ large, toggle, isLoggedIn, logout }) => {
 							</svg>
 
 							<a href="/">
-								<span onClick={logout} href="#">
-									Logout
-								</span>
+								<span onClick={logout}>Logout</span>
 							</a>
 						</div>
 						<hr className="border-gray-600 border-t-2"></hr>
@@ -66,9 +62,7 @@ const MoreLinks = ({ large, toggle, isLoggedIn, logout }) => {
 						/>
 					</svg>
 					<a href={discordURL} target="blank">
-						<span onClick={toggle} href="#">
-							Discord
-						</span>
+						<span onClick={toggle}>Discord</span>
 					</a>
 				</div>
 				<div className="flex ml-2 text-gray-300 hover:text-white cursor-pointer w-auto space-x-2 items-center">
@@ -107,9 +101,7 @@ const MoreLinks = ({ large, toggle, isLoggedIn, logout }) => {
 						/>
 					</svg>
 					<a href={landingURL} target="blank">
-						<span onClick={toggle} href="#">
-							Splash Page
-						</span>
+						<span onClick={toggle}>Splash Page</span>
 					</a>
 				</div>
 			</div>
