@@ -30,7 +30,7 @@ const ActionLink = (action) => {
 	);
 };
 
-const RecentTransactions = ({ toggle, props }) => {
+const UserAccount = ({ toggle, props }) => {
 	const provider = useWeb3();
 	const login = useLogin();
 	const [copied, copy] = useCopyToClipboard(props.address);
@@ -101,4 +101,4 @@ const RecentTransactions = ({ toggle, props }) => {
 	);
 };
 
-export default RecentTransactions;
+export default UserAccount;

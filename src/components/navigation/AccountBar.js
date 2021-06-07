@@ -3,8 +3,9 @@ import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
 import { shortenAddress, formatELF, formatETH } from '../../utils';
 import { useMiningStatus } from '../../hooks/TxContext';
-import RecentTransactions from '../modals/RecentTransactions';
+import UserAccount from '../modals/UserAccount';
 import UserNFTs from '../modals/UserNFTs';
+import UserELF from '../modals/UserElf';
 
 import { useGQLQuery } from '../../hooks/useGQLQuery';
 import { GET_ACCOUNT } from '../../queries/Subgraph';
@@ -25,17 +26,17 @@ const AccountBar = ({ props }) => {
 
 	const { data, status, error } = useGQLQuery('account', GET_ACCOUNT, { id: props.address });
 
-	const [showELF, setShowELF] = useState(false);
 	const [active, setActive] = useState(false);
-	const [isRecentTXOpen, setIsRecentTXOpen] = useState(false);
+	const [isUserAccountOpen, setIsUserAccountOpen] = useState(false);
+	const [isUserELFOpen, setIsUserELFOpen] = useState(false);
 	const [isUserNFTsOpen, setIsUserNFTsOpen] = useState(false);
 
-	const toggleRecentTX = () => {
-		setIsRecentTXOpen(!isRecentTXOpen);
+	const toggleUserAccount = () => {
+		setIsUserAccountOpen(!isUserAccountOpen);
 	};
 
-	const toggleShowELF = () => {
-		setShowELF(!showELF);
+	const toggleUserELF = () => {
+		setIsUserELFOpen(!isUserELFOpen);
 	};
 
 	const toggleUserNFTs = () => {
@@ -69,10 +70,8 @@ const AccountBar = ({ props }) => {
 			</span>
 
 			<span className="bg-gray-700 flex rounded-xl items-center h-8 md:h-11 text-xs sm:text-base text-white">
-				<span className="px-2 cursor-pointer h-full flex items-center rounded-xl rounded-r-none hover:bg-gradient-to-r from-gray-600 " onClick={toggleShowELF}>
-					{!showELF && <span>{formatETH(props.balance)} ETH</span>}
-					{showELF && !active && <span className="text-brandColor font-bold"> 0 ELF</span>}
-					{showELF && active && <span className="text-brandColor font-bold">{formatELF(data.account.elfBalance)} ELF</span>}
+				<span className="px-2 cursor-pointer h-full flex items-center rounded-xl rounded-r-none hover:bg-gradient-to-r from-gray-600 " onClick={toggleUserELF}>
+					<span>{formatETH(props.balance)} ETH</span>
 				</span>
 
 				<span
@@ -81,12 +80,12 @@ const AccountBar = ({ props }) => {
 					} flex rounded-xl h-8 md:h-11 w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 border `}
 				>
 					{mining ? (
-						<span onClick={toggleRecentTX} className="cursor-pointer h-full flex items-center tracking-wide">
+						<span onClick={toggleUserAccount} className="cursor-pointer h-full flex items-center tracking-wide">
 							<span className="pr-5 text-white">PENDING...</span>
 							<Spinner />
 						</span>
 					) : (
-						<span onClick={toggleRecentTX} className="cursor-pointer h-full flex items-center gap-1 md:gap-3">
+						<span onClick={toggleUserAccount} className="cursor-pointer h-full flex items-center gap-1 md:gap-3">
 							{shortenAddress(props.address)}
 							<Jazzicon diameter={20} seed={jsNumberForAddress(props.address)} />
 						</span>
@@ -98,7 +97,8 @@ const AccountBar = ({ props }) => {
 				{active && <NFTPreview onClick={toggleUserNFTs} account={data.account} />}
 			</span>
 
-			{isRecentTXOpen && active && <RecentTransactions toggle={toggleRecentTX} props={props} />}
+			{isUserAccountOpen && active && <UserAccount toggle={toggleUserAccount} props={props} />}
+			{isUserELFOpen && active && <UserELF toggle={toggleUserELF} props={props} account={data.account} />}
 			{isUserNFTsOpen && active && <UserNFTs toggle={toggleUserNFTs} props={props} account={data.account} />}
 		</>
 	);

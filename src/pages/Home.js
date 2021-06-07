@@ -35,7 +35,7 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		if (status !== 'success' && data && data.core) {
+		if (status === 'success' && data && data.core) {
 			setCore(data.core);
 			setReady(true);
 		}
