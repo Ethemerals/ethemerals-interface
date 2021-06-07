@@ -1,4 +1,4 @@
-import { ethers, utils } from 'ethers';
+import { utils } from 'ethers';
 
 class ContractCore {
 	constructor(contract) {

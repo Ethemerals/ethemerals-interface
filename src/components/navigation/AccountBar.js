@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { ethers, utils } from 'ethers';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
-import { isAddress, shortenAddress, formatELF, formatETH } from '../../utils';
+import { shortenAddress, formatELF, formatETH } from '../../utils';
 import { useMiningStatus } from '../../hooks/TxContext';
 import RecentTransactions from '../modals/RecentTransactions';
 import UserNFTs from '../modals/UserNFTs';
@@ -24,11 +23,10 @@ const AccountBar = ({ props }) => {
 	const mining = useMiningStatus();
 	// const mining = true;
 
-	const { data, status, isLoading, error } = useGQLQuery('account', GET_ACCOUNT, { id: props.address });
+	const { data, status, error } = useGQLQuery('account', GET_ACCOUNT, { id: props.address });
 
 	const [showELF, setShowELF] = useState(false);
 	const [active, setActive] = useState(false);
-	const [account, setAccount] = useState({});
 	const [isRecentTXOpen, setIsRecentTXOpen] = useState(false);
 	const [isUserNFTsOpen, setIsUserNFTsOpen] = useState(false);
 
@@ -45,15 +43,14 @@ const AccountBar = ({ props }) => {
 	};
 
 	useEffect(() => {
-		console.log('status', status);
-		if (data && data.account === null) {
+		if (status !== 'success' && data && data.account === null) {
 			// new account
 			setActive(false);
 		}
-		if (data && data.account) {
+		if (status === 'success' && data && data.account) {
 			setActive(true);
 		}
-	}, [status]);
+	}, [status, data]);
 
 	useEffect(() => {
 		if (error) {

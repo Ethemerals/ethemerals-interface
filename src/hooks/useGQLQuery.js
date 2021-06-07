@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { GraphQLClient, request } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
 
 export const useGQLQuery = (key, query, variables, config = {}) => {
 	const endpoint = 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals';
@@ -11,7 +11,6 @@ export const useGQLQuery = (key, query, variables, config = {}) => {
 	// }
 
 	const graphQLClient = new GraphQLClient(endpoint);
-	// const invalidate = async () => await graphQLClient.invalidateQueries('account');
 
 	const fetchData = async () => await graphQLClient.request(query, variables);
 

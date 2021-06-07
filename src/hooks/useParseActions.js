@@ -1,10 +1,10 @@
-import { useState, useCallback, useEffect } from 'react';
-import gql from 'graphql-tag';
-import { useQuery } from 'react-query';
-import { GraphQLClient, request } from 'graphql-request';
+// import { useState, useCallback, useEffect } from 'react';
+// import gql from 'graphql-tag';
+// import { useQuery } from 'react-query';
+// import { GraphQLClient, request } from 'graphql-request';
 
 import Links from '../constants/Links';
-import { isAddress, shortenAddress, formatELF, formatETH } from '../utils';
+import { shortenAddress } from '../utils';
 
 // const graphQLClient = new GraphQLClient(Links.SUBGRAPH_ENDPOINT);
 
@@ -72,7 +72,7 @@ const useParseAction = (action) => {
 			break;
 		case 'Receive': // ACCOUNT RECEIVED TOKEN // New Minted if from == self
 			if (action.ethemeral.id !== null) {
-				if (action.transaction.from == action.account.id) {
+				if (action.transaction.from === action.account.id) {
 					actionString = `Minted Ethemeral #${action.ethemeral.id}. Congratulations! `;
 				} else {
 					actionString = `Received Ethemeral #${action.ethemeral.id} from ${shortenAddress(action.transaction.from)} `;

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { useTransition, useSpring, animated, config } from '@react-spring/web';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTransition, animated } from '@react-spring/web';
 
 import MobileMenuItems from './MobileMenuItems';
 import Images from '../../constants/Images';

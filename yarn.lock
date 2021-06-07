@@ -2009,13 +2009,6 @@
     enc-utils "^3.0.0"
     randombytes "^2.1.0"
 
-"@play-when-visible/react-spring@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@play-when-visible/react-spring/-/react-spring-1.0.5.tgz#48238d4b0aba6ee753cc70cdf789bca76c43ce13"
-  integrity sha512-JNq8JpV/Ap9jILzEK1fwjvrPV9jvh0/GZU35Q+YR3zuaEsy9CMGtoq7v5O/J/iSNMIbtNUKbVGjaQ65NM8JTvQ==
-  dependencies:
-    react-intersection-observer "^8.31.0"
-
 "@pmmmwh/react-refresh-webpack-plugin@0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.4.3.tgz#1eec460596d200c0236bf195b078a5d1df89b766"
@@ -11777,11 +11770,6 @@ react-error-overlay@^6.0.9:
   version "6.0.9"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
-
-react-intersection-observer@^8.31.0:
-  version "8.32.0"
-  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.32.0.tgz#47249332e12e8bb99ed35a10bb7dd10446445a7b"
-  integrity sha512-RlC6FvS3MFShxTn4FHAy904bVjX5Nn4/eTjUkurW0fHK+M/fyQdXuyCy9+L7yjA+YMGogzzSJNc7M4UtfSKvtw==
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"

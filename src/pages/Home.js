@@ -1,20 +1,18 @@
 import { useState, useEffect } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
 import { useGQLQuery } from '../hooks/useGQLQuery';
-import { GET_ACCOUNT, GET_CORE } from '../queries/Subgraph';
+import { GET_CORE } from '../queries/Subgraph';
 
 import Addresses from '../constants/contracts/Addresses';
-import { isAddress, shortenAddress, formatELF, formatETH } from '../utils';
+import { shortenAddress, formatELF, formatETH } from '../utils';
 
-import CoreMethods from '../hooks/ContractCore';
-import { useWeb3, useOnboard, useAddress, useBalance, useLogin, useContractCore, useReadyToTransact } from '../hooks/Web3Context';
+import { useWeb3, useOnboard, useLogin, useContractCore, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 const Home = () => {
-	const { data, status, isLoading, error } = useGQLQuery('core', GET_CORE, { id: Addresses.Ethemerals });
+	const { data, status } = useGQLQuery('core', GET_CORE, { id: Addresses.Ethemerals });
 	const provider = useWeb3();
 	const onboard = useOnboard();
 	const login = useLogin();
@@ -37,11 +35,11 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		if (data && data.core) {
+		if (status !== 'success' && data && data.core) {
 			setCore(data.core);
 			setReady(true);
 		}
-	}, [status]);
+	}, [status, data]);
 
 	const onSubmitBuy = async () => {
 		if (contractCore && readyToTransact()) {

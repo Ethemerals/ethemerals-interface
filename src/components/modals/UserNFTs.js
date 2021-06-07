@@ -1,17 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
-import { useWeb3, useOnboard, useAddress, useBalance, useLogin } from '../../hooks/Web3Context';
-import { isAddress, shortenAddress, formatELF, formatETH } from '../../utils';
-import useParseAction from '../../hooks/useParseActions';
-import useCopyToClipboard from '../../hooks/useCopyToClipboard';
-
-import Links from '../../constants/Links';
 import Images from '../../constants/Images';
-
-import { useGQLQuery } from '../../hooks/useGQLQuery';
-import { GET_ACCOUNT, GET_ACCOUNT_ACTIONS } from '../../queries/Subgraph';
 
 const CloseSVG = () => (
 	<svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
@@ -56,7 +46,7 @@ const UserNFTs = ({ toggle, props, account }) => {
 							</span>
 						</div>
 						<div className="h-24 rounded-2xl mx-4 relative flex text-sm ">
-							<img width="256" height="96" className="object-cover w-52 sm:w-64 h-24 cursor-pointer" src={Images.nftPreviewWide} />
+							<img width="256" height="96" className="object-cover w-52 sm:w-64 h-24 cursor-pointer" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
 
 							<div className="mx-2">
 								<p className="text-2xl">#{account.ethemerals[0].id}</p>

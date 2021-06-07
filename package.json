@@ -4,7 +4,6 @@
 	"private": true,
 	"dependencies": {
 		"@craco/craco": "^6.1.2",
-		"@play-when-visible/react-spring": "^1.0.5",
 		"@react-spring/web": "^9.2.1",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",

@@ -1,11 +1,4 @@
 import { Link } from 'react-router-dom';
-import Links from '../../constants/Links';
-
-// <MenuItem to="/" text="Mint" />
-// <MenuItem to="/ethemerals" text="Ethemerals" />
-// <MenuItem to="/battle" text="Battle" />
-// <MenuItem to="/marketplace" text="Marketplace" />
-// <MenuItem to="/art" text="Art" />
 
 const MenuItem = ({ to, text }) => (
 	<span className="block py-4 border-b border-gray-800">

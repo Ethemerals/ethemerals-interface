@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect, createContext } from 'react';
+import React, { useContext, useState, useEffect, createContext, useCallback } from 'react';
 import { useQueryClient } from 'react-query';
-import { ethers, utils } from 'ethers';
-import { Web3Provider } from '@ethersproject/providers';
+import { ethers } from 'ethers';
+
 import { Contract } from '@ethersproject/contracts';
 
 import { isAddress } from '../utils';
@@ -67,7 +67,6 @@ export default function Web3ContextProvider({ children }) {
 	//ONBOARD
 	const [address, setAddress] = useState(null);
 	const [balance, setBalance] = useState(null);
-	const [wallet, setWallet] = useState({});
 	const [onboard, setOnboard] = useState(null);
 
 	//CONTRACTS
@@ -85,13 +84,13 @@ export default function Web3ContextProvider({ children }) {
 			balance: setBalance,
 			wallet: (wallet) => {
 				if (wallet.provider) {
-					setWallet(wallet);
+					// setWallet(wallet);
 					const ethersProvider = new ethers.providers.Web3Provider(wallet.provider);
 					setProvider(ethersProvider);
 					getContracts(ethersProvider);
 				} else {
 					setProvider(null);
-					setWallet({});
+					// setWallet({});
 				}
 			},
 		});
@@ -106,7 +105,15 @@ export default function Web3ContextProvider({ children }) {
 		}
 	}, [provider]);
 
-	useEffect(() => {
+	const rehydrate = useCallback(
+		(queryKey = 'account') => {
+			console.log('rehydrate', queryKey);
+			queryClient.invalidateQueries(queryKey);
+		},
+		[queryClient]
+	);
+
+	const addressChanged = useCallback(() => {
 		console.log('ADDRESS CHANGED', address);
 		if (address !== null && previousAddress !== null && address !== previousAddress) {
 			if (onboard && provider) {
@@ -121,18 +128,28 @@ export default function Web3ContextProvider({ children }) {
 		}
 		if (address !== null && isAddress(address)) {
 			setPreviousAddress(address);
-			setTimeout(() => rehydrate('account'), 3000);
+			const timer1 = setTimeout(() => rehydrate('account'), 3000);
+			return () => {
+				clearTimeout(timer1);
+			};
 		}
-	}, [address]);
+	}, [onboard, provider, address, previousAddress, rehydrate]);
+
+	const balanceChanged = useCallback(() => {
+		console.log('BALANCE CHANGED', balance);
+		const timer1 = setTimeout(() => rehydrate('account'), 4000);
+		return () => {
+			clearTimeout(timer1);
+		};
+	}, [balance, rehydrate]);
 
 	useEffect(() => {
-		console.log('BALANCE CHANGED', balance);
-		setTimeout(() => rehydrate('account'), 4000);
-	}, [balance]);
+		addressChanged();
+	}, [address, addressChanged]);
 
-	// useEffect(() => {
-	// 	console.log('wallet CHANGED', wallet);
-	// }, [wallet]);
+	useEffect(() => {
+		balanceChanged();
+	}, [balance, balanceChanged]);
 
 	const getContracts = async (ethersProvider) => {
 		if (ethersProvider) {
@@ -141,11 +158,6 @@ export default function Web3ContextProvider({ children }) {
 			console.log('GOT CONTRACTS');
 		} else {
 		}
-	};
-
-	const rehydrate = (queryKey = 'account') => {
-		console.log('rehydrate', queryKey);
-		queryClient.invalidateQueries(queryKey);
 	};
 
 	const login = async () => {

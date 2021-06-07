@@ -1,9 +1,9 @@
-import { Contract } from '@ethersproject/contracts';
+// import { Contract } from '@ethersproject/contracts';
 import { getAddress } from '@ethersproject/address';
-import { AddressZero } from '@ethersproject/constants';
+// import { AddressZero } from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
 
-import { ethers, utils } from 'ethers';
+import { utils } from 'ethers';
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value) {
