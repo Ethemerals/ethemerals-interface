@@ -25,9 +25,8 @@ const AccountBar = ({ props }) => {
 	const mining = useMiningStatus();
 	// const mining = true;
 
-	const { data, status, error } = useGQLQuery('account', GET_ACCOUNT, { id: props.address });
+	const { data, status, loaded, error } = useGQLQuery('account', GET_ACCOUNT, { id: props.address });
 
-	const [active, setActive] = useState(false);
 	const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 	const [selectedUserModal, setSelectedUserModal] = useState(0);
 
@@ -35,16 +34,6 @@ const AccountBar = ({ props }) => {
 		setIsUserModalOpen(!isUserModalOpen);
 		setSelectedUserModal(selected);
 	};
-
-	useEffect(() => {
-		if (status !== 'success' && data && data.account === null) {
-			// new account
-			setActive(false);
-		}
-		if (status === 'success' && data && data.account) {
-			setActive(true);
-		}
-	}, [status, data]);
 
 	useEffect(() => {
 		if (error) {
@@ -59,7 +48,7 @@ const AccountBar = ({ props }) => {
 	return (
 		<>
 			<span onClick={() => toggleUserModal(0)} className="hidden md:flex">
-				{active && <NFTPreview account={data.account} />}
+				<NFTPreview data={data} />
 			</span>
 
 			<span className="bg-gray-700 flex rounded-xl items-center h-8 md:h-11 text-xs sm:text-base text-white">
@@ -88,10 +77,10 @@ const AccountBar = ({ props }) => {
 			</span>
 
 			<span onClick={() => toggleUserModal(0)} className="md:hidden flex">
-				{active && <NFTPreview account={data.account} />}
+				<NFTPreview data={data} />
 			</span>
 
-			{isUserModalOpen && active && <UserModal toggle={toggleUserModal} selected={selectedUserModal} props={props} account={data.account} />}
+			{isUserModalOpen && status === 'success' && <UserModal toggle={toggleUserModal} selected={selectedUserModal} props={props} data={data} />}
 		</>
 	);
 };

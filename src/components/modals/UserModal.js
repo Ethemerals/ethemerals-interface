@@ -17,14 +17,30 @@ const CloseSVG = () => (
 
 const ModalMenuItem = ({ toggle, selected, text }) => {
 	return (
-		<span onClick={toggle} className={`"cursor-pointer text-lg p-4 ${selected ? 'text-white bg-brandColor-purple' : ' text-gray-400 hover:text-gray-100'}`}>
+		<span onClick={toggle} className={`"cursor-pointer text-lg px-4 pb-2 py-3 ${selected ? 'text-white bg-brandColor-purple' : ' text-gray-400 hover:text-gray-100'}`}>
 			{text}
 		</span>
 	);
 };
 
-const UserModal = ({ toggle, selected, props, account }) => {
+const UserModal = ({ toggle, selected, props, data }) => {
 	const [selectedTab, setSelectedTab] = useState(selected);
+	const [active, setActive] = useState(false);
+	const [account, setAccount] = useState(false);
+
+	useEffect(() => {
+		setAccount(data.account);
+	}, [data]);
+
+	useEffect(() => {
+		if (data && data.account === null) {
+			// new account
+			setActive(false);
+		}
+		if (data && data.account) {
+			setActive(true);
+		}
+	}, [data]);
 
 	useEffect(() => {
 		setSelectedTab(selected);
@@ -37,7 +53,7 @@ const UserModal = ({ toggle, selected, props, account }) => {
 	return (
 		<>
 			<div className="w-full h-full flex justify-center fixed top-0 left-0 animate-fadeOnFast">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
+				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-40 bg-black"></div>
 				<div className=" w-11/12 max-w-420 center overflow-hidden z-30 tracking-wide shadow-xl rounded-2xl">
 					{/* nav */}
 					<div className="flex items-center bg-gray-700 cursor-pointer">
@@ -45,15 +61,23 @@ const UserModal = ({ toggle, selected, props, account }) => {
 						<ModalMenuItem toggle={() => toggleTab(1)} selected={selectedTab === 1} text="Balance" />
 						<ModalMenuItem toggle={() => toggleTab(2)} selected={selectedTab === 2} text="Account" />
 						<span className="flex-grow cursor-auto"></span>
-						<span onClick={toggle} className="p-4 text-gray-300 hover:text-gray-100 flex-none">
+						<span onClick={toggle} className="px-4 text-gray-300 hover:text-gray-100 flex-none">
 							<CloseSVG />
 						</span>
 					</div>
+
 					{/* content */}
 					<div className="w-full h-420 bg-gray-800 bg-opacity-100 rounded-2xl rounded-t-none overflow-hidden z-30 tracking-wide shadow-xl">
 						{selectedTab === 0 && <UserNFTs toggle={toggle} props={props} account={account} />}
 						{selectedTab === 1 && <UserELF toggle={toggle} props={props} account={account} />}
 						{selectedTab === 2 && <UserAccount toggle={toggle} props={props} />}
+					</div>
+
+					{/* footer */}
+					<div onClick={toggle} className="p-4 text-xs sm:text-sm text-blue-500 hover:text-blue-400 absolute bottom-0">
+						<Link exact="true" to="/dashboard">
+							More? Go to Dashboard
+						</Link>
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
@@ -35,7 +34,7 @@ const ActionLink = (action) => {
 	);
 };
 
-const UserAccount = ({ toggle, props }) => {
+const UserAccount = ({ props }) => {
 	const provider = useWeb3();
 	const login = useLogin();
 	const [copied, copy] = useCopyToClipboard(props.address);
@@ -52,18 +51,18 @@ const UserAccount = ({ toggle, props }) => {
 
 	return (
 		<>
-			<div className="h-28 border border-gray-500 p-3 m-4 space-y-2">
-				<div className="flex items-center justify-between">
+			<div className="h-28 border border-gray-700 bg-gray-900 px-4 m-4 relative">
+				<div className="flex items-center justify-between py-2">
 					<p className="text-xs sm:text-sm text-gray-400">Connected with {connection} </p>
 					<button onClick={login} className="text-xs sm:text-sm text-blue-500 px-2 hover:bg-gray-600 hover:text-blue-400 rounded-xl">
 						Change
 					</button>
 				</div>
-				<span className="flex items-center gap-2 text-2xl">
+				<span className="flex items-center gap-2 text-2xl vertical-center">
 					<Jazzicon diameter={20} seed={jsNumberForAddress(props.address)} />
 					{shortenAddress(props.address)}
 				</span>
-				<div className="flex items-center">
+				<div className="flex items-center py-2 absolute bottom-0">
 					<a href={`${Links.ETHERSCAN_URL}address/${props.address}`} target="_blank" rel="noreferrer">
 						<div className="flex items-center space-x-2 text-gray-400 hover:text-gray-300 mr-6">
 							<ExternalLinkSVG />
@@ -83,14 +82,9 @@ const UserAccount = ({ toggle, props }) => {
 			</div>
 			<div className="p-4">
 				<p className="text-lg">Recent Activity</p>
-				<div className="text-xs sm:text-sm leading-relaxed text-blue-500">
-					{status === 'success' && data.account.actions.length > 0 && data.account.actions.map((action, index) => <p key={index}>{ActionLink(action)}</p>)}
-				</div>
-				<div onClick={toggle} className="text-xs sm:text-sm mt-2 text-blue-500 hover:text-blue-400">
-					<Link exact="true" to="/dashboard">
-						More? Go to dashboard
-					</Link>
-				</div>
+				<ul className="text-xs sm:text-sm text-blue-500">
+					{status === 'success' && data.account && data.account.actions.length > 0 && data.account.actions.map((action, index) => <li key={index}>{ActionLink(action)}</li>)}
+				</ul>
 			</div>
 		</>
 	);
