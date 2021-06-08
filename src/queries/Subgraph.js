@@ -46,7 +46,7 @@ export const GET_ACCOUNT_ACTIONS = gql`
 	query ($id: ID!) {
 		account(id: $id) {
 			id
-			actions(first: 5, orderBy: timestamp, orderDirection: desc) {
+			actions(first: 8, orderBy: timestamp, orderDirection: desc) {
 				id
 				type
 				timestamp

@@ -12,7 +12,7 @@ const CloseSVG = () => (
 const NFTLink = (nft, index) => {
 	return (
 		<div key={index} className="flex capitalize items-center">
-			<span className="flex-none w-12 text-right">#{nft.id}1</span>
+			<span className="flex-none w-12 text-right">#{nft.id}</span>
 			<span className="flex-grow mx-4 overflow-hidden">{nft.metadata.coin.slice(0, 30)}</span>
 			<span className="flex-none">{nft.score} HP</span>
 		</div>
@@ -24,7 +24,7 @@ const UserNFTs = ({ toggle, props, account }) => {
 
 	useEffect(() => {
 		if (account.ethemerals.length > 0) {
-			setNFTShortList(account.ethemerals.slice(0, 5));
+			setNFTShortList(account.ethemerals.slice(0, 7));
 		}
 	}, [account]);
 
@@ -34,17 +34,36 @@ const UserNFTs = ({ toggle, props, account }) => {
 
 	return (
 		<>
-			<div className="w-full h-full flex justify-center fixed top-0 left-0 animate-fadeOnFast">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
-				<div className=" w-11/12 max-w-420 h-96 center border-gray-400 bg-opacity-100 bg-gray-700 rounded-2xl overflow-hidden z-30 tracking-wide shadow-xl">
-					<div className="h-44 bg-gray-800">
-						<div className="flex justify-between">
-							<p className="text-lg p-4">Current Ethemeral</p>
-
-							<span onClick={toggle} className="cursor-pointer p-4 text-gray-300 hover:text-gray-100">
-								<CloseSVG />
-							</span>
+			<div className="h-28 m-4 ">
+				<div className="flex h-28">
+					<img width="256" height="112" className="object-cover w-52 sm:w-64 h-28 cursor-pointer border-gray-600 border border-r-0" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
+					<div className="h-full w-full text-sm text-center flex-grow border border-l-0 border-gray-600">
+						<div className="overflow-hidden bg-red-800">
+							<p className="text-xl">#{account.ethemerals[0].id}</p>
+							<p className="uppercase over">{account.ethemerals[0].metadata.coin}</p>
 						</div>
+						<p className="bg-yellow-300">
+							current
+							<button onClick={changeCurrentNFT} className="text-sm text-blue-500 hover:text-blue-400 align-bottom">
+								change
+							</button>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div className="p-4">
+				<p className="text-lg pb-2">Inventory</p>
+				{NFTShortList.map((nft, index) => NFTLink(nft, index))}
+				<div onClick={toggle} className="text-xs sm:text-sm mt-2 text-blue-500 hover:text-blue-400">
+					<Link exact="true" to="/dashboard">
+						More? Go to dashboard
+					</Link>
+				</div>
+			</div>
+
+			{/* <div className=" w-11/12 max-w-420 h-96 center border-gray-400 bg-opacity-100 bg-gray-700 rounded-2xl overflow-hidden z-30 tracking-wide shadow-xl">
+					<div className="h-44 bg-gray-800">
+
 						<div className="h-24 rounded-2xl mx-4 relative flex text-sm ">
 							<img width="256" height="96" className="object-cover w-52 sm:w-64 h-24 cursor-pointer" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
 
@@ -69,8 +88,7 @@ const UserNFTs = ({ toggle, props, account }) => {
 							</div>
 						</div>
 					)}
-				</div>
-			</div>
+				</div> */}
 		</>
 	);
 };

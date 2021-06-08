@@ -24,22 +24,19 @@ const NFTLink = (nft, index) => {
 const UserELF = ({ toggle, props, account }) => {
 	return (
 		<>
-			<div className="w-full h-full flex justify-center fixed top-0 left-0 animate-fadeOnFast">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
-				<div className=" w-11/12 max-w-420 h-96 center border-gray-400 bg-opacity-100 bg-gray-700 rounded-2xl overflow-hidden z-30 tracking-wide shadow-xl">
-					<div className="h-44 bg-gray-800">
-						<div className="flex justify-between">
-							<p className="text-lg p-4">ELF Balance</p>
-							<span onClick={toggle} className="cursor-pointer p-4 text-gray-300 hover:text-gray-100">
-								<CloseSVG />
-							</span>
-						</div>
-						<div className="h-24 rounded-2xl mx-4 relative flex text-sm ">
-							{account && account.elfBalance <= 0 && <span className="text-2xl"> 0 ELF</span>}
-							{account && account.elfBalance > 0 && <span className="text-2xl">{formatELF(account.elfBalance)} ELF</span>}
-						</div>
-					</div>
-					<p className="text-lg px-4 py-3">Inventory</p>
+			<div className="h-28 border border-gray-500 p-3 m-4 space-y-2">
+				<span className="flex items-center gap-2 text-2xl">
+					{account && account.elfBalance <= 0 && <span className="text-2xl"> 0 ELF</span>}
+					{account && account.elfBalance > 0 && <span className="text-2xl">{formatELF(account.elfBalance)} ELF</span>}
+				</span>
+			</div>
+			<div className="p-4">
+				<p className="text-lg">Recent Activity</p>
+
+				<div onClick={toggle} className="text-xs sm:text-sm mt-2 text-blue-500 hover:text-blue-400">
+					<Link exact="true" to="/dashboard">
+						More? Go to dashboard
+					</Link>
 				</div>
 			</div>
 		</>
