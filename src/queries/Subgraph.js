@@ -23,6 +23,29 @@ export const GET_ACCOUNTS = gql`
 	}
 `;
 
+export const GET_NFTS = gql`
+	query {
+		ethemerals(first: 100, orderBy: timestamp, orderDirection: desc) {
+			id
+			timestamp
+			edition
+			score
+			owner {
+				id
+			}
+			metadata {
+				coin
+				mainClass
+				subClass
+				special1
+				attack
+				defence
+				speed
+			}
+		}
+	}
+`;
+
 export const GET_ACCOUNT = gql`
 	query ($id: ID!) {
 		account(id: $id) {

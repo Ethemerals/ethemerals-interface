@@ -1,7 +1,50 @@
+import { useState, useEffect } from 'react';
+import { useGQLQuery } from '../hooks/useGQLQuery';
+import { GET_NFTS } from '../queries/Subgraph';
+
+import { shortenAddress, formatELF, formatETH } from '../utils';
+
+const NFTCard = ({ nft }) => {
+	console.log(nft);
+	return (
+		<div className="w-64 h-96 p-4 m-4 bg-gray-700 rounded shadow-lg">
+			<h2 className="capitalize">{`${nft.metadata.coin} #${nft.id}`}</h2>
+			<h4></h4>
+			<p>{nft.edition} of 10</p>
+			<p>{nft.score} Honor Points</p>
+			<h4>Stats:</h4>
+			<ul>
+				<li>{nft.metadata.subClass}</li>
+				<li>Special: {nft.metadata.special1}</li>
+				<li>attack: {nft.metadata.attack}</li>
+				<li>defence: {nft.metadata.defence}</li>
+				<li>speed:{nft.metadata.speed}</li>
+				<li>owner:{shortenAddress(nft.owner.id)}</li>
+			</ul>
+		</div>
+	);
+};
 const Ethemerals = () => {
+	const { data, status } = useGQLQuery('nfts', GET_NFTS);
+
+	const [nfts, setNfts] = useState({});
+	const [ready, setReady] = useState(false);
+
+	useEffect(() => {
+		if (status === 'success' && data && data.ethemerals) {
+			setNfts(data.ethemerals);
+			setReady(true);
+		}
+	}, [status, data]);
+
+	useEffect(() => {
+		console.log(nfts);
+	}, [nfts]);
+
 	return (
 		<div>
 			<h1>Ethemerals</h1>
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-5 max-w-max mx-auto">{ready && nfts.map((nft, index) => <NFTCard key={index} nft={nft} />)}</div>
 		</div>
 	);
 };
