@@ -5,7 +5,6 @@ import { GET_NFTS } from '../queries/Subgraph';
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
 const NFTCard = ({ nft }) => {
-	console.log(nft);
 	return (
 		<div className="w-64 h-96 p-4 m-4 bg-gray-700 rounded shadow-lg">
 			<h2 className="capitalize">{`${nft.metadata.coin} #${nft.id}`}</h2>
@@ -36,10 +35,6 @@ const Ethemerals = () => {
 			setReady(true);
 		}
 	}, [status, data]);
-
-	useEffect(() => {
-		console.log(nfts);
-	}, [nfts]);
 
 	return (
 		<div>

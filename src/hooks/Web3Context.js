@@ -22,6 +22,8 @@ const LoginContext = createContext();
 const ReadyToTransactContext = createContext();
 
 const ContractCoreContext = createContext();
+const ContractTokenContext = createContext();
+
 const RehydrateContext = createContext();
 
 // PROVIDER
@@ -54,6 +56,10 @@ export function useContractCore() {
 	return useContext(ContractCoreContext);
 }
 
+export function useContractToken() {
+	return useContext(ContractTokenContext);
+}
+
 // QUERIES
 export function useRehydrate() {
 	return useContext(RehydrateContext);
@@ -71,6 +77,7 @@ export default function Web3ContextProvider({ children }) {
 
 	//CONTRACTS
 	const [contractCore, setContractCore] = useState(undefined);
+	const [contractToken, setContractToken] = useState(undefined);
 
 	//ETHERS
 	const [provider, setProvider] = useState(null);
@@ -154,7 +161,7 @@ export default function Web3ContextProvider({ children }) {
 	const getContracts = async (ethersProvider) => {
 		if (ethersProvider) {
 			await setContractCore(new Contract(Addresses.Ethemerals, abis.Ethemerals, getSigner(ethersProvider)));
-			// await setContractToken(new Contract(Addresses.EthemeralLifeForce, abis.EthemeralLifeForce, getSigner(ethersProvider)));
+			await setContractToken(new Contract(Addresses.EthemeralLifeForce, abis.EthemeralLifeForce, getSigner(ethersProvider)));
 			console.log('GOT CONTRACTS');
 		} else {
 		}
@@ -186,11 +193,13 @@ export default function Web3ContextProvider({ children }) {
 				<BalanceContext.Provider value={balance}>
 					<AddressContext.Provider value={address}>
 						<ContractCoreContext.Provider value={contractCore}>
-							<LoginContext.Provider value={login}>
-								<ReadyToTransactContext.Provider value={readyToTransact}>
-									<RehydrateContext.Provider value={rehydrate}>{children}</RehydrateContext.Provider>
-								</ReadyToTransactContext.Provider>
-							</LoginContext.Provider>
+							<ContractTokenContext.Provider value={contractToken}>
+								<LoginContext.Provider value={login}>
+									<ReadyToTransactContext.Provider value={readyToTransact}>
+										<RehydrateContext.Provider value={rehydrate}>{children}</RehydrateContext.Provider>
+									</ReadyToTransactContext.Provider>
+								</LoginContext.Provider>
+							</ContractTokenContext.Provider>
 						</ContractCoreContext.Provider>
 					</AddressContext.Provider>
 				</BalanceContext.Provider>
