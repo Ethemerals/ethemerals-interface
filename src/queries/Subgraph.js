@@ -38,6 +38,53 @@ export const GET_NFTS = gql`
 				mainClass
 				subClass
 				special1
+				special2
+				attack
+				defence
+				speed
+			}
+		}
+	}
+`;
+
+export const GET_NFT = gql`
+	query ($id: ID!) {
+		ethemeral(id: $id) {
+			id
+			timestamp
+			creator {
+				id
+			}
+			owner {
+				id
+			}
+			edition
+			score
+			rewards
+			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
+				timestamp
+				transaction {
+					id
+					from
+				}
+				type
+			}
+			scorecard {
+				highestScore
+				highestRewards
+				battles
+				wins
+				revived
+				resurrected
+				reaped
+				drained
+			}
+			metadata {
+				coin
+				artist
+				mainClass
+				subClass
+				special1
 				attack
 				defence
 				speed

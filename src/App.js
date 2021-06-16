@@ -10,6 +10,7 @@ import Art from './pages/Art';
 import Battle from './pages/Battle';
 import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
+import NFTDetails from './pages/NFTDetails';
 import Marketplace from './pages/Marketplace';
 import About from './pages/About';
 import Help from './pages/Help';
@@ -47,6 +48,9 @@ function App() {
 							</Route>
 							<Route exact path="/ethemerals">
 								<Ethemerals />
+							</Route>
+							<Route exact path="/ethemerals/:id">
+								<NFTDetails />
 							</Route>
 							<Route exact path="/marketplace">
 								<Marketplace />

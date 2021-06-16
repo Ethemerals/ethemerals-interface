@@ -62,7 +62,7 @@ const Navbar = () => {
 		<>
 			{/* <!-- navbar goes here --> */}
 			<header className="top-0 left-0 right-0 z-50 fixed">
-				<nav className="p-4 font-ubuntu bg-gray-800">
+				<nav className="px-4 py-3 font-ubuntu bg-gray-800">
 					<div className="flex items-center">
 						{/* <!-- logo --> */}
 						<div>

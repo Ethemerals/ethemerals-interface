@@ -92,13 +92,6 @@ const Home = () => {
 			}
 			if (elfBalance >= requiredElfDiscount) {
 				setDiscountable(true);
-				console.log(core.mintPrice);
-				// console.log(BigNumber.from(core.mintPrice));
-				// setDiscountPrice(
-				// 	BigNumber.from(core.mintPrice)
-				// 		.mul(BigNumber.from(10000).sub(BigNumber.from(2000)))
-				// 		.div(BigNumber.from(10000))
-				// );
 			} else {
 				setDiscountable(false);
 			}

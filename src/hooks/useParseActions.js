@@ -55,7 +55,7 @@ const useParseAction = (action) => {
 			actionString = 'Default Transaction';
 			break;
 		case 'Minted': // TOKEN ACTION
-			actionString = `Minted`;
+			actionString = `Minted by ${shortenAddress(action.transaction.from)} on ${action.timestamp}`;
 			break;
 		case 'Transfer': // TOKEN ACTION
 			actionString = `Transfer`;
