@@ -3,7 +3,7 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "uniswapAddress",
+				"name": "UniV3SpotPriceAddress",
 				"type": "address"
 			}
 		],
@@ -16,20 +16,26 @@
 			{
 				"indexed": false,
 				"internalType": "address",
-				"name": "token0",
+				"name": "pool",
 				"type": "address"
 			},
 			{
 				"indexed": false,
 				"internalType": "address",
-				"name": "token1",
+				"name": "baseToken",
 				"type": "address"
 			},
 			{
 				"indexed": false,
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "quoteToken",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "id",
+				"type": "uint32"
 			}
 		],
 		"name": "FeedAdded",
@@ -78,23 +84,33 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_token0",
+				"name": "_pool",
+				"type": "address"
+			},
+			{
+				"internalType": "uint32",
+				"name": "_period",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint128",
+				"name": "_baseAmount",
+				"type": "uint128"
+			},
+			{
+				"internalType": "address",
+				"name": "_baseToken",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "_token1",
+				"name": "_quoteToken",
 				"type": "address"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
+				"internalType": "uint32",
 				"name": "_id",
-				"type": "uint256"
+				"type": "uint32"
 			}
 		],
 		"name": "addFeed",
@@ -106,7 +122,7 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "uniswapAddress",
+				"name": "UniV3SpotPriceAddress",
 				"type": "address"
 			}
 		],

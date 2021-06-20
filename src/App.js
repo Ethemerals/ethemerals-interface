@@ -49,7 +49,7 @@ function App() {
 							<Route exact path="/ethemerals">
 								<Ethemerals />
 							</Route>
-							<Route exact path="/ethemerals/:id">
+							<Route exact path="/ethemeral/:id">
 								<NFTDetails />
 							</Route>
 							<Route exact path="/marketplace">

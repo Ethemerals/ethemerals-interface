@@ -8,7 +8,7 @@ import { shortenAddress, formatELF, formatETH } from '../utils';
 const NFTCard = ({ nft }) => {
 	return (
 		<div className="w-64 h-96 p-4 m-4 bg-gray-700 rounded shadow-lg">
-			<Link to={`/ethemerals/${nft.id}`}>
+			<Link to={`/ethemeral/${nft.id}`}>
 				<h2 className="capitalize">{`${nft.metadata.coin} #${nft.id}`}</h2>
 				<p>{nft.edition} of 10</p>
 			</Link>
