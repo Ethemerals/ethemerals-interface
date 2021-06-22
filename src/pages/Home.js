@@ -8,7 +8,6 @@ import Addresses from '../constants/contracts/Addresses';
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
 import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
-import TokenMethods from '../hooks/ContractElf';
 import { useSendTx } from '../hooks/TxContext';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
