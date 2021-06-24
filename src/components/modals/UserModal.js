@@ -8,6 +8,7 @@ import { shortenAddress, formatELF, formatETH } from '../../utils';
 import UserAccount from './UserAccount';
 import UserELF from './UserElf';
 import UserNFTs from './UserNFTs';
+import MainSelect from './MainSelect';
 
 const CloseSVG = () => (
 	<svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
@@ -27,6 +28,11 @@ const UserModal = ({ toggle, selected, props, data }) => {
 	const [selectedTab, setSelectedTab] = useState(selected);
 	const [active, setActive] = useState(false);
 	const [account, setAccount] = useState(false);
+	const [isMainSelectOpen, setMainSelectOpen] = useState(false);
+
+	const toggleMainSelectModal = () => {
+		setMainSelectOpen(!isMainSelectOpen);
+	};
 
 	useEffect(() => {
 		setAccount(data.account);
@@ -68,7 +74,7 @@ const UserModal = ({ toggle, selected, props, data }) => {
 
 					{/* content */}
 					<div className="w-full h-420 bg-gray-800 bg-opacity-100 rounded-2xl rounded-t-none overflow-hidden z-30 tracking-wide shadow-xl">
-						{selectedTab === 0 && <UserNFTs toggle={toggle} props={props} account={account} />}
+						{selectedTab === 0 && <UserNFTs toggle={toggle} props={props} account={account} toggleExtra={toggleMainSelectModal} />}
 						{selectedTab === 1 && <UserELF toggle={toggle} props={props} account={account} />}
 						{selectedTab === 2 && <UserAccount toggle={toggle} props={props} />}
 					</div>
@@ -81,6 +87,7 @@ const UserModal = ({ toggle, selected, props, data }) => {
 					</div>
 				</div>
 			</div>
+			{isMainSelectOpen && <MainSelect toggle={toggleMainSelectModal} account={account} />}
 		</>
 	);
 };

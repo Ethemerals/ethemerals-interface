@@ -103,9 +103,14 @@ export const GET_ACCOUNT = gql`
 				id
 				timestamp
 				score
+				rewards
+				scorecard {
+					battles
+				}
 				metadata {
 					coin
 					mainClass
+					subClass
 				}
 			}
 		}

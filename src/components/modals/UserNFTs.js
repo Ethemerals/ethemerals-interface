@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+import useLocalUser from '../../hooks/useLocalUser';
 import Images from '../../constants/Images';
 
 const NFTLink = (nft, index) => {
@@ -13,7 +14,11 @@ const NFTLink = (nft, index) => {
 	);
 };
 
-const UserNFTs = ({ props, account }) => {
+const UserNFTs = ({ props, account, toggleExtra }) => {
+	const [localUser, updateLocalUser] = useLocalUser();
+	const [mainID, setMainID] = useState(undefined);
+	const [mainIndex, setMainIndex] = useState(undefined);
+
 	const [NFTShortList, setNFTShortList] = useState([]);
 
 	useEffect(() => {
@@ -22,9 +27,21 @@ const UserNFTs = ({ props, account }) => {
 		}
 	}, [account]);
 
-	const changeCurrentNFT = () => {
-		console.log('change ethemeral');
-	};
+	useEffect(() => {
+		if (localUser && account) {
+			setMainID(localUser[account.id].main);
+		}
+	}, [localUser]);
+
+	useEffect(() => {
+		if (mainID) {
+			account.ethemerals.forEach((nft, index) => {
+				if (nft.id === mainID) {
+					setMainIndex(index);
+				}
+			});
+		}
+	}, [mainID]);
 
 	if (!account) {
 		return (
@@ -51,11 +68,11 @@ const UserNFTs = ({ props, account }) => {
 				<div className="flex h-28">
 					<div className="h-full w-full text-sm text-center border border-r-0 border-gray-700 bg-gray-900 relative">
 						<div className="overflow-hidden center -my-3">
-							<p className="text-xl">#{account.ethemerals[0].id}</p>
-							<p className="uppercase">{account.ethemerals[0].metadata.coin}</p>
+							<p className="text-xl">#{mainID}</p>
+							<p className="uppercase">{mainIndex !== undefined && account.ethemerals[mainIndex].metadata.coin}</p>
 						</div>
 						{account.ethemerals.length > 1 && (
-							<div onClick={changeCurrentNFT} className="cursor-pointer absolute bottom-0 w-full text-blue-700 hover:bg-gray-800">
+							<div onClick={toggleExtra} className="cursor-pointer absolute bottom-0 w-full text-blue-700 hover:bg-gray-800">
 								change main
 							</div>
 						)}
