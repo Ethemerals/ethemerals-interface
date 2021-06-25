@@ -74,7 +74,7 @@ const UserModal = ({ toggle, selected, props, data }) => {
 
 					{/* content */}
 					<div className="w-full h-420 bg-gray-800 bg-opacity-100 rounded-2xl rounded-t-none overflow-hidden z-30 tracking-wide shadow-xl">
-						{selectedTab === 0 && <UserNFTs toggle={toggle} props={props} account={account} toggleExtra={toggleMainSelectModal} />}
+						{selectedTab === 0 && active && <UserNFTs toggle={toggle} props={props} account={account} toggleExtra={toggleMainSelectModal} />}
 						{selectedTab === 1 && <UserELF toggle={toggle} props={props} account={account} />}
 						{selectedTab === 2 && <UserAccount toggle={toggle} props={props} />}
 					</div>

@@ -29,9 +29,10 @@ export default function TxContextProvider({ children }) {
 		setMiningStatus(true);
 		provider.once(hash, (receipt) => {
 			receiptTx(receipt, method);
-			setTimeout(() => rehydrate('account'), 5000);
-			setTimeout(() => rehydrate('account_actions'), 6000);
-			setTimeout(() => rehydrate('core'), 7000);
+			// setTimeout(() => rehydrate('account'), 5000);
+			// setTimeout(() => rehydrate('account_actions'), 6000);
+			// setTimeout(() => rehydrate('core'), 7000);
+			setTimeout(() => rehydrate('user'), 1000);
 			setMiningStatus(false);
 		});
 	};

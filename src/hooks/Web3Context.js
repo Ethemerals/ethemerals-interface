@@ -135,19 +135,19 @@ export default function Web3ContextProvider({ children }) {
 		}
 		if (address !== null && isAddress(address)) {
 			setPreviousAddress(address);
-			const timer1 = setTimeout(() => rehydrate('account'), 3000);
-			return () => {
-				clearTimeout(timer1);
-			};
+			// const timer1 = setTimeout(() => rehydrate('account'), 3000);
+			// return () => {
+			// 	clearTimeout(timer1);
+			// };
 		}
 	}, [onboard, provider, address, previousAddress, rehydrate]);
 
 	const balanceChanged = useCallback(() => {
 		console.log('BALANCE CHANGED', balance);
-		const timer1 = setTimeout(() => rehydrate('account'), 4000);
-		return () => {
-			clearTimeout(timer1);
-		};
+		// const timer1 = setTimeout(() => rehydrate('account'), 4000);
+		// return () => {
+		// 	clearTimeout(timer1);
+		// };
 	}, [balance, rehydrate]);
 
 	useEffect(() => {

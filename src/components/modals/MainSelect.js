@@ -1,20 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import useUserState from '../../hooks/useUserState';
 
 import Images from '../../constants/Images';
-
 import { shortenAddress, formatELF, formatETH } from '../../utils';
-import useLocalUser from '../../hooks/useLocalUser';
 
-import UserAccount from './UserAccount';
-import UserELF from './UserElf';
-import UserNFTs from './UserNFTs';
-
-const UserModal = ({ toggle, selected, account }) => {
-	const [localUser, updateLocalUser] = useLocalUser();
+const UserModal = ({ toggle, account }) => {
+	const { mainID, mainIndex, mutateUser, isLoading } = useUserState(account);
 	const [NFTs, setNFTs] = useState([]);
-	const [mainID, setMainID] = useState(undefined);
-	const [mainIndex, setMainIndex] = useState(undefined);
 
 	useEffect(() => {
 		if (account && account.ethemerals.length > 0) {
@@ -22,32 +15,11 @@ const UserModal = ({ toggle, selected, account }) => {
 		}
 	}, [account]);
 
-	useEffect(() => {
-		if (localUser && account) {
-			setMainID(localUser[account.id].main);
-		}
-	}, [localUser]);
-
-	useEffect(() => {
-		if (mainID) {
-			NFTs.forEach((nft, index) => {
-				if (nft.id === mainID) {
-					setMainIndex(index);
-				}
-			});
-		}
-	}, [mainID]);
-
 	const selectMain = (index) => {
-		const _localUser = localUser[account.id];
-		updateLocalUser({
-			[account.id]: {
-				..._localUser,
-				main: NFTs[index].id,
-			},
-		});
-		console.log(_localUser);
-		console.log(index);
+		if (account) {
+			mutateUser.mutate({ address: account.id, main: parseInt(NFTs[index].id) });
+			toggle();
+		}
 	};
 
 	return (
@@ -68,7 +40,7 @@ const UserModal = ({ toggle, selected, account }) => {
 						</thead>
 						<tbody>
 							{NFTs.map((nft, index) => {
-								let currentMain = -1;
+								let currentMain;
 								if (index === mainIndex) {
 									currentMain = index;
 								}
