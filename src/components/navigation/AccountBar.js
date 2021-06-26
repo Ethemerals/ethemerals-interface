@@ -10,6 +10,7 @@ import UserModal from '../modals/UserModal';
 
 import { useGQLQuery } from '../../hooks/useGQLQuery';
 import { GET_ACCOUNT } from '../../queries/Subgraph';
+import useUserAccount from '../../hooks/useUserAccount';
 
 // import { useMiningStatus } from './hooks/TxContext';
 import NFTPreview from './NFTPreview';
@@ -21,11 +22,9 @@ const Spinner = () => (
 	</svg>
 );
 
-const AccountBar = ({ props }) => {
+const AccountBar = () => {
 	const mining = useMiningStatus();
-	// const mining = true;
-
-	const { data, status, loaded, error } = useGQLQuery('account', GET_ACCOUNT, { id: props.address });
+	const { account, loaded, status, address, balance } = useUserAccount();
 
 	const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 	const [selectedUserModal, setSelectedUserModal] = useState(0);
@@ -35,25 +34,19 @@ const AccountBar = ({ props }) => {
 		setSelectedUserModal(selected);
 	};
 
-	useEffect(() => {
-		if (error) {
-			console.log(error);
-		}
-	}, [error]);
-
-	if (!props.address || !props.balance) {
+	if (!balance || !address) {
 		return null;
 	}
 
 	return (
 		<>
 			<span onClick={() => toggleUserModal(0)} className="hidden md:flex">
-				{data && data.account && <NFTPreview account={data.account} />}
+				{account && <NFTPreview account={account} />}
 			</span>
 
 			<span className="bg-gray-700 flex rounded-xl items-center h-8 md:h-11 text-xs sm:text-base text-white">
 				<span className="px-2 cursor-pointer h-full flex items-center rounded-xl rounded-r-none hover:bg-gradient-to-r from-gray-600 " onClick={() => toggleUserModal(1)}>
-					<span>{formatETH(props.balance)} ETH</span>
+					<span>{formatETH(balance)} ETH</span>
 					{/* TODO, animated ELF ticker */}
 				</span>
 
@@ -69,18 +62,18 @@ const AccountBar = ({ props }) => {
 						</span>
 					) : (
 						<span onClick={() => toggleUserModal(2)} className="cursor-pointer h-full flex items-center gap-1 md:gap-3">
-							{shortenAddress(props.address)}
-							<Jazzicon diameter={20} seed={jsNumberForAddress(props.address)} />
+							{shortenAddress(address)}
+							<Jazzicon diameter={20} seed={jsNumberForAddress(address)} />
 						</span>
 					)}
 				</span>
 			</span>
 
 			<span onClick={() => toggleUserModal(0)} className="md:hidden flex">
-				{data && data.account && <NFTPreview account={data.account} />}
+				{account && <NFTPreview account={account} />}
 			</span>
 
-			{isUserModalOpen && status === 'success' && <UserModal toggle={toggleUserModal} selected={selectedUserModal} props={props} data={data} />}
+			{isUserModalOpen && <UserModal toggle={toggleUserModal} selected={selectedUserModal} />}
 		</>
 	);
 };

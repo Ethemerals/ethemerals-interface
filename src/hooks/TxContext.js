@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-
+import { useQueryClient } from 'react-query';
 import { useWeb3, useRehydrate } from './Web3Context';
 
 const MiningStatusContext = React.createContext();
@@ -19,20 +19,21 @@ export function useReceipt() {
 export default function TxContextProvider({ children }) {
 	const provider = useWeb3();
 	const rehydrate = useRehydrate();
+	const queryClient = useQueryClient();
 
 	// const updateUserData = useUpdateUserData();
 
 	const [miningStatus, setMiningStatus] = useState(false);
 	const [receipt, setReceipt] = useState({ status: -1 });
 
-	const sendTx = async (hash, method) => {
+	const sendTx = async (hash, method, shouldInvalidate = false, key = 'core') => {
 		setMiningStatus(true);
 		provider.once(hash, (receipt) => {
 			receiptTx(receipt, method);
-			// setTimeout(() => rehydrate('account'), 5000);
-			// setTimeout(() => rehydrate('account_actions'), 6000);
-			// setTimeout(() => rehydrate('core'), 7000);
-			setTimeout(() => rehydrate('user'), 1000);
+			if (shouldInvalidate) {
+				setTimeout(() => queryClient.invalidateQueries(key), 5500);
+			}
+			setTimeout(() => queryClient.invalidateQueries('account'), 5000);
 			setMiningStatus(false);
 		});
 	};

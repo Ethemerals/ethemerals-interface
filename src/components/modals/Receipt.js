@@ -46,7 +46,7 @@ const Receipt = () => {
 		(styles, item) =>
 			item && (
 				<animated.div style={styles}>
-					<div className="text-white text-xs sm:text-sm rounded-lg top-32 right-4 w-64 sm:w-72 h-20 bg-gray-800 absolute shadow-lg overflow-hidden z-50">
+					<div className="text-white text-xs sm:text-sm rounded-lg top-16 right-4 w-64 sm:w-72 h-20 bg-gray-800 absolute shadow-lg overflow-hidden z-50">
 						<div className="flex items-center h-full">
 							{receipt.status === 1 && (
 								<div className="pl-2 text-green-600">

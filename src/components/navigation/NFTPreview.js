@@ -10,15 +10,7 @@ const Spinner = () => (
 );
 
 const NFTPreview = ({ account }) => {
-	const { mainID, mainIndex, mutateUser, isLoading } = useUserState(account);
-
-	// useEffect(() => {
-	// 	if (account && mainID === -1) {
-	// 		if (account.ethemerals.length > 0) {
-	// 			mutateUser.mutate({ address: account.id, main: parseInt(account.ethemerals[0].id) });
-	// 		}
-	// 	}
-	// }, [account, mainID]);
+	const { mainID, mainIndex, mutateUser, isLoading, userNFTs } = useUserState(account);
 
 	if (!account) {
 		return (
@@ -39,7 +31,13 @@ const NFTPreview = ({ account }) => {
 
 	return (
 		<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
-			{account && account.ethemerals.length > 0 && mainID ? <span className="text-white px-2 md:px-3">#{mainID} NFTS</span> : <span className="text-white px-2 md:px-3">NO NFTS</span>}
+			{account && userNFTs.length > 0 && mainID ? (
+				<span className="text-white px-2 md:px-3">
+					#{mainID}/{userNFTs.length} NFTS
+				</span>
+			) : (
+				<span className="text-white px-2 md:px-3">NO NFTS</span>
+			)}
 		</span>
 	);
 };

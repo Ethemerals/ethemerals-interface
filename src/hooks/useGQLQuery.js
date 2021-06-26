@@ -12,9 +12,9 @@ export const useGQLQuery = (key, query, variables, config = {}) => {
 		},
 	};
 
-	const graphQLClient = new GraphQLClient(endpoint, headers);
-
 	const fetchData = async () => await graphQLClient.request(query, variables);
+
+	const graphQLClient = new GraphQLClient(endpoint);
 
 	return useQuery(key, fetchData, config);
 };

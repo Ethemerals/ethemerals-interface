@@ -6,6 +6,7 @@ import { useWeb3, useLogin } from '../../hooks/Web3Context';
 import { shortenAddress } from '../../utils';
 import useParseAction from '../../hooks/useParseActions';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
+import useUserAccount from '../../hooks/useUserAccount';
 
 import Links from '../../constants/Links';
 
@@ -34,14 +35,14 @@ const ActionLink = (action) => {
 	);
 };
 
-const UserAccount = ({ props }) => {
+const UserAccount = () => {
 	const provider = useWeb3();
 	const login = useLogin();
-	const [copied, copy] = useCopyToClipboard(props.address);
+	const { account, loaded, address, balance } = useUserAccount();
+	const [copied, copy] = useCopyToClipboard(address);
 
 	const [connection, setConnection] = useState('');
-
-	const { data, status } = useGQLQuery('account_actions', GET_ACCOUNT_ACTIONS, { id: props.address });
+	const { data, status } = useGQLQuery('account_actions', GET_ACCOUNT_ACTIONS, { id: address });
 
 	useEffect(() => {
 		if (provider) {
@@ -59,11 +60,11 @@ const UserAccount = ({ props }) => {
 					</button>
 				</div>
 				<span className="flex items-center gap-2 text-2xl vertical-center">
-					<Jazzicon diameter={20} seed={jsNumberForAddress(props.address)} />
-					{shortenAddress(props.address)}
+					<Jazzicon diameter={20} seed={jsNumberForAddress(address)} />
+					{shortenAddress(address)}
 				</span>
 				<div className="flex items-center py-2 absolute bottom-0">
-					<a href={`${Links.ETHERSCAN_URL}address/${props.address}`} target="_blank" rel="noreferrer">
+					<a href={`${Links.ETHERSCAN_URL}address/${address}`} target="_blank" rel="noreferrer">
 						<div className="flex items-center space-x-2 text-gray-400 hover:text-gray-300 mr-6">
 							<ExternalLinkSVG />
 							<p className="text-xs sm:text-sm">View on Etherscan</p>

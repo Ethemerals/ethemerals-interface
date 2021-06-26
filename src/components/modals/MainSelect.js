@@ -6,18 +6,11 @@ import Images from '../../constants/Images';
 import { shortenAddress, formatELF, formatETH } from '../../utils';
 
 const UserModal = ({ toggle, account }) => {
-	const { mainID, mainIndex, mutateUser, isLoading } = useUserState(account);
-	const [NFTs, setNFTs] = useState([]);
-
-	useEffect(() => {
-		if (account && account.ethemerals.length > 0) {
-			setNFTs(account.ethemerals);
-		}
-	}, [account]);
+	const { mainID, mainIndex, mutateUser, isLoading, userNFTs } = useUserState(account);
 
 	const selectMain = (index) => {
 		if (account) {
-			mutateUser.mutate({ address: account.id, main: parseInt(NFTs[index].id) });
+			mutateUser.mutate({ address: account.id, main: userNFTs[index].id });
 			toggle();
 		}
 	};
@@ -39,7 +32,7 @@ const UserModal = ({ toggle, account }) => {
 							</tr>
 						</thead>
 						<tbody>
-							{NFTs.map((nft, index) => {
+							{userNFTs.map((nft, index) => {
 								let currentMain;
 								if (index === mainIndex) {
 									currentMain = index;

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Images from '../../constants/Images';
 
 import { shortenAddress, formatELF, formatETH } from '../../utils';
+import useUserAccount from '../../hooks/useUserAccount';
 
 import UserAccount from './UserAccount';
 import UserELF from './UserElf';
@@ -24,10 +25,11 @@ const ModalMenuItem = ({ toggle, selected, text }) => {
 	);
 };
 
-const UserModal = ({ toggle, selected, props, data }) => {
+const UserModal = ({ toggle, selected }) => {
+	const { account, loaded, status, address, balance } = useUserAccount();
+
 	const [selectedTab, setSelectedTab] = useState(selected);
 	const [active, setActive] = useState(false);
-	const [account, setAccount] = useState(false);
 	const [isMainSelectOpen, setMainSelectOpen] = useState(false);
 
 	const toggleMainSelectModal = () => {
@@ -35,18 +37,14 @@ const UserModal = ({ toggle, selected, props, data }) => {
 	};
 
 	useEffect(() => {
-		setAccount(data.account);
-	}, [data]);
-
-	useEffect(() => {
-		if (data && data.account === null) {
+		if (account === null) {
 			// new account
 			setActive(false);
 		}
-		if (data && data.account) {
+		if (account) {
 			setActive(true);
 		}
-	}, [data]);
+	}, [account]);
 
 	useEffect(() => {
 		setSelectedTab(selected);
@@ -74,9 +72,10 @@ const UserModal = ({ toggle, selected, props, data }) => {
 
 					{/* content */}
 					<div className="w-full h-420 bg-gray-800 bg-opacity-100 rounded-2xl rounded-t-none overflow-hidden z-30 tracking-wide shadow-xl">
-						{selectedTab === 0 && active && <UserNFTs toggle={toggle} props={props} account={account} toggleExtra={toggleMainSelectModal} />}
-						{selectedTab === 1 && <UserELF toggle={toggle} props={props} account={account} />}
-						{selectedTab === 2 && <UserAccount toggle={toggle} props={props} />}
+						{/* // TODO add no account Ethemerals */}
+						{selectedTab === 0 && active && <UserNFTs toggle={toggle} toggleExtra={toggleMainSelectModal} account={account} />}
+						{selectedTab === 1 && <UserELF />}
+						{selectedTab === 2 && <UserAccount />}
 					</div>
 
 					{/* footer */}

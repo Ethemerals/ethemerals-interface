@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 
+import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_NFT } from '../queries/Subgraph';
+import useUserAccount from '../hooks/useUserAccount';
 import useParseAction from '../hooks/useParseActions';
+
+import NFTActions from '../components/modals/NFTActions';
 
 import { Links } from '../constants/Links';
 
@@ -24,25 +29,22 @@ const ActionLink = (action) => {
 };
 
 const NFTDetails = () => {
+	const address = useAddress();
+	const history = useHistory();
+
 	const { id } = useParams();
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id });
 
 	const [nft, setNFT] = useState({});
 	const [ready, setReady] = useState(false);
+	const [loggedIn, setIsLoggedIn] = useState(false);
 
 	useEffect(() => {
 		if (status === 'success' && data && data.ethemeral) {
 			setNFT(data.ethemeral);
 			setReady(true);
 		}
-		console.log(data);
 	}, [status, data]);
-
-	useEffect(() => {
-		if (nft) {
-			console.log(nft);
-		}
-	}, [nft]);
 
 	if (!ready || isLoading !== false || status !== 'success') {
 		return <p>Loading {id}</p>;
@@ -51,8 +53,12 @@ const NFTDetails = () => {
 	return (
 		<div>
 			<h1>NFT Details</h1>
+			<button type="button" onClick={() => history.goBack()}>
+				Go back
+			</button>
+			{address && <NFTActions nft={nft} />}
 
-			<div className="w-420 p-4 m-4 bg-gray-700 rounded shadow-lg mx-auto">
+			<div className="w-420 p-4 m-4 bg-gray-700 rounded shadow-lg">
 				<h2 className="capitalize">{`${nft.metadata.coin} #${nft.id}`}</h2>
 				<p>{nft.edition} of 10</p>
 

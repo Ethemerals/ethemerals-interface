@@ -2,8 +2,11 @@ import Images from '../../constants/Images';
 import Links from '../../constants/Links';
 
 import { formatELF, formatETH } from '../../utils';
+import useUserAccount from '../../hooks/useUserAccount';
 
-const UserELF = ({ props, account }) => {
+const UserELF = () => {
+	const { account, loaded, status, address, balance } = useUserAccount();
+
 	return (
 		<>
 			<div className="h-28 border border-gray-700 bg-gray-900 m-4 relative">
@@ -14,7 +17,7 @@ const UserELF = ({ props, account }) => {
 						<span className="text-brandColor text-4xl"> ELF</span>
 					</div>
 				</div>
-				<p className="text-xs sm:text-sm text-gray-400 py-2 text-right px-4">{formatETH(props.balance, 6)} ETH</p>
+				<p className="text-xs sm:text-sm text-gray-400 py-2 text-right px-4">{formatETH(balance, 6)} ETH</p>
 				<a href={Links.UNISWAP} target="_blank" rel="noreferrer" className="text-xs sm:text-sm text-gray-400 py-2 absolute bottom-0 w-full text-center hover:text-gray-200">
 					Trade on Uniswap
 				</a>

@@ -19,10 +19,10 @@ const getUser = async (id) => {
 	try {
 		const { data } = await axios.get(`${process.env.REACT_APP_FIREBASE_URL}${id}`);
 		if (data.message === 'does not exist') {
-			return { main: -1 };
+			return data;
 		}
 		if (data.message === 'got entry') {
-			return data.data;
+			return data;
 		}
 		throw new Error('error');
 	} catch (error) {
@@ -37,29 +37,54 @@ const useUserState = (account) => {
 
 	const [mainID, setMainID] = useState(undefined);
 	const [mainIndex, setMainIndex] = useState(undefined);
+	const [userNFTs, setUserNFTs] = useState([]);
 
 	useEffect(() => {
-		if (data && data.main !== -1) {
-			setMainID(data.main);
+		if (account && account.ethemerals.length > 0) {
+			setUserNFTs(account.ethemerals);
 		}
-	}, [data]);
+	}, [account]);
 
 	useEffect(() => {
+		// console.log(userNFTs);
+	}, [userNFTs]);
+
+	useEffect(() => {
+		if (data && data.message === 'got entry' && data.data.main) {
+			setMainID(data.data.main);
+		}
+
+		// NEW USER
+		if (data && data.message === 'does not exist' && account && account.ethemerals.length > 0) {
+			mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
+		}
+	}, [data, account]);
+
+	useEffect(() => {
+		let found = false;
 		if (mainID) {
-			let found = false;
+			// ID to index
 			account.ethemerals.forEach((nft, index) => {
 				if (nft.id === mainID.toString()) {
 					setMainIndex(index);
 					found = true;
 				}
 			});
-			if (!found && account.ethemerals > 0) {
-				mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
+
+			// ID and index reset
+			if (!found) {
+				if (account.ethemerals.length > 0) {
+					// sold but still has NFTS
+					mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
+				} else {
+					mutateUser.mutate({ address: account.id, main: -1 });
+				}
+				setUserNFTs(account.ethemerals);
 			}
 		}
-	}, [mainID]);
+	}, [mainID, account]);
 
-	return { mainID, mainIndex, mutateUser, isLoading };
+	return { mainID, mainIndex, mutateUser, isLoading, userNFTs };
 };
 
 export default useUserState;

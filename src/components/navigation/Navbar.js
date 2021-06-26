@@ -24,7 +24,6 @@ const LoadingAccountSpinner = () => (
 );
 
 const Navbar = () => {
-	// const [onboard, provider, address, balance] = useOnboard();
 	const provider = useWeb3();
 	const onboard = useOnboard();
 	const address = useAddress();
@@ -83,7 +82,7 @@ const Navbar = () => {
 						<div className="hidden md:flex items-center right-0 absolute mr-2">
 							{!provider && onboard && <ConnectButton login={login} />}
 							{provider && !address && <LoadingAccountSpinner />}
-							{address && <AccountBar props={{ address, balance }} />}
+							{address && <AccountBar />}
 
 							<MoreLinksButton large={true} toggle={toggleMoreLinks} />
 							{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} isLoggedIn={address && balance} logout={logout} />}
@@ -93,7 +92,7 @@ const Navbar = () => {
 
 						<div className="md:hidden w-full flex items-center right-0 fixed bottom-0 bg-gray-800 p-2 h-12">
 							{!provider && onboard && <ConnectButton login={login} />}
-							{address && <AccountBar props={{ address, balance }} />}
+							{address && <AccountBar />}
 							{provider && !address && <LoadingAccountSpinner />}
 
 							<MoreLinksButton large={false} toggle={toggleMoreLinks} />
