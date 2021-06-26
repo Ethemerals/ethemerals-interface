@@ -73,7 +73,7 @@ const UserModal = ({ toggle, selected }) => {
 					{/* content */}
 					<div className="w-full h-420 bg-gray-800 bg-opacity-100 rounded-2xl rounded-t-none overflow-hidden z-30 tracking-wide shadow-xl">
 						{/* // TODO add no account Ethemerals */}
-						{selectedTab === 0 && active && <UserNFTs toggle={toggle} toggleExtra={toggleMainSelectModal} address={address} />}
+						{selectedTab === 0 && active && <UserNFTs toggle={toggle} toggleExtra={toggleMainSelectModal} />}
 						{selectedTab === 1 && <UserELF />}
 						{selectedTab === 2 && <UserAccount />}
 					</div>
@@ -86,7 +86,7 @@ const UserModal = ({ toggle, selected }) => {
 					</div>
 				</div>
 			</div>
-			{isMainSelectOpen && <MainSelect toggle={toggleMainSelectModal} address={address} />}
+			{isMainSelectOpen && <MainSelect toggle={toggleMainSelectModal} />}
 		</>
 	);
 };
