@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import useUserState from '../../hooks/useUserState';
+import useUserAccount from '../../hooks/useUserAccount';
 
 import Images from '../../constants/Images';
 import { shortenAddress, formatELF, formatETH } from '../../utils';
 
-const UserModal = ({ toggle, address }) => {
-	const { mainID, mainIndex, mutateUser, isLoading, userNFTs } = useUserState(address);
+const UserModal = ({ toggle }) => {
+	const { mainIndex, mutateUser, userNFTs, account } = useUserAccount();
 
 	const selectMain = (index) => {
-		if (address) {
-			mutateUser.mutate({ address: address, main: userNFTs[index].id });
+		if (account) {
+			mutateUser.mutate({ address: account.id, main: userNFTs[index].id });
 			toggle();
 		}
 	};

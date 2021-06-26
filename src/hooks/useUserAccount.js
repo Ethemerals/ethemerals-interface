@@ -1,17 +1,54 @@
 import React, { useEffect, useState } from 'react';
 
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import axios from 'axios';
+
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_ACCOUNT } from '../queries/Subgraph';
 import { useAddress, useBalance } from '../hooks/Web3Context';
 import { isAddress } from '../utils';
 
+const updateUser = async (userData) => {
+	try {
+		const { data } = await axios.post(process.env.REACT_APP_FIREBASE_URL, userData);
+		return data;
+	} catch (error) {
+		throw new Error('error');
+	}
+};
+
+const getUser = async (id) => {
+	if (isAddress(id)) {
+		try {
+			const { data } = await axios.get(`${process.env.REACT_APP_FIREBASE_URL}${id}`);
+			if (data.message === 'does not exist') {
+				return data;
+			}
+			if (data.message === 'got entry') {
+				return data;
+			}
+			throw new Error('error');
+		} catch (error) {
+			throw new Error('error');
+		}
+	} else {
+		return { message: 'address not valid' };
+	}
+};
+
 const useUserAccount = () => {
 	const address = useAddress();
 	const balance = useBalance();
+	const queryClient = useQueryClient();
 
-	const { data, status, loaded, error } = useGQLQuery('account', GET_ACCOUNT, { id: address });
+	const { data, status, loaded } = useGQLQuery('account', GET_ACCOUNT, { id: address });
+	const { isLoading: userIsLoading, data: userData } = useQuery(['user', address], () => getUser(address));
+	const mutateUser = useMutation(updateUser, { onSuccess: () => queryClient.invalidateQueries('user') });
 
 	const [account, setAccount] = useState(null);
+	const [mainID, setMainID] = useState(undefined);
+	const [mainIndex, setMainIndex] = useState(undefined);
+	const [userNFTs, setUserNFTs] = useState([]);
 
 	useEffect(() => {
 		if (data && data.account !== null) {
@@ -19,13 +56,62 @@ const useUserAccount = () => {
 		}
 	}, [data]);
 
+	// LOCAL NFTS
 	useEffect(() => {
-		if (error) {
-			console.log(error);
+		if (account && account.ethemerals.length > 0) {
+			setUserNFTs(account.ethemerals);
 		}
-	}, [error]);
+	}, [account]);
 
-	return { account, loaded, status, address, balance };
+	// GET MAIN
+	useEffect(() => {
+		if (userData && userData.message === 'got entry' && userData.data.main) {
+			setMainID(userData.data.main);
+		}
+
+		// NEW USER
+		if (userData && userData.message === 'does not exist' && account && account.ethemerals.length > 0) {
+			mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
+		}
+	}, [userData, account]);
+
+	// PARSE NFT CHANGES
+	useEffect(() => {
+		let found = false;
+		if (mainID && account) {
+			// ID to index
+			account.ethemerals.forEach((nft, index) => {
+				if (nft.id === mainID.toString()) {
+					setMainIndex(index);
+					found = true;
+				}
+			});
+
+			// ID and index reset
+			if (!found) {
+				if (account.ethemerals.length > 0) {
+					// sold but still has NFTS
+					mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
+				} else {
+					mutateUser.mutate({ address: account.id, main: -1 });
+				}
+				setUserNFTs(account.ethemerals);
+			}
+		}
+	}, [mainID, account]);
+
+	// prettier-ignore
+	return {
+    address,
+    balance,
+    account,
+    loaded,
+    status,
+    userIsLoading,
+    mutateUser,
+    mainID,
+    mainIndex,
+    userNFTs };
 };
 
 export default useUserAccount;

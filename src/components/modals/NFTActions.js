@@ -35,7 +35,7 @@ const NFTActions = ({ nft }) => {
 	return (
 		<>
 			<div className="w-48 h-64 bg-gray-900 top-40 right-4 fixed rounded-lg">
-				<MakeMain address={address} id={nft.id} />
+				<MakeMain id={nft.id} />
 				<button onClick={toggleGift} className="bg-pink-700 p-4">
 					Gift
 				</button>

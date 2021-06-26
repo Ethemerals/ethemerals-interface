@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import useUserState from '../../hooks/useUserState';
+import { isAddress } from '../../utils';
 import useUserAccount from '../../hooks/useUserAccount';
 
 const Spinner = () => (
@@ -10,11 +10,10 @@ const Spinner = () => (
 	</svg>
 );
 
-const NFTPreview = ({ address }) => {
-	const { account } = useUserAccount();
-	const { mainID, mainIndex, mutateUser, isLoading, userNFTs } = useUserState(address);
+const NFTPreview = () => {
+	const { mainID, mainIndex, mutateUser, userIsLoading, userNFTs, address } = useUserAccount();
 
-	if (!address) {
+	if (!isAddress(address)) {
 		return (
 			<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
 				<span className="text-white px-2 md:px-3">NO NFTS</span>
@@ -22,7 +21,7 @@ const NFTPreview = ({ address }) => {
 		);
 	}
 
-	if (isLoading || mutateUser.isLoading) {
+	if (userIsLoading || mutateUser.isLoading) {
 		return (
 			<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
 				<span className="text-white px-2 md:px-3">LOADING</span>

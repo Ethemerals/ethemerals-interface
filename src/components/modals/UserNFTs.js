@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import useUserState from '../../hooks/useUserState';
 import useUserAccount from '../../hooks/useUserAccount';
 
 import Images from '../../constants/Images';
@@ -17,9 +16,8 @@ const NFTLink = (nft, index, toggle) => {
 	);
 };
 
-const UserNFTs = ({ address, toggle, toggleExtra }) => {
-	const { account } = useUserAccount();
-	const { mainID, mainIndex, mutateUser, isLoading, userNFTs } = useUserState(address);
+const UserNFTs = ({ toggle, toggleExtra }) => {
+	const { account, mainID, mainIndex, userNFTs } = useUserAccount();
 
 	const [NFTShortList, setNFTShortList] = useState([]);
 

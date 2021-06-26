@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import useUserState from '../../../hooks/useUserState';
 import useUserAccount from '../../../hooks/useUserAccount';
 
-const MakeMain = ({ address, id }) => {
-	const { account } = useUserAccount();
-	const { mainID, mainIndex, mutateUser, isLoading, userNFTs } = useUserState(address);
+const MakeMain = ({ id }) => {
+	const { account, mutateUser, mainID } = useUserAccount();
 
 	const selectMain = (id) => {
 		if (account) {
