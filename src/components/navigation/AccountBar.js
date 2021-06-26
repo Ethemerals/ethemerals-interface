@@ -41,7 +41,7 @@ const AccountBar = () => {
 	return (
 		<>
 			<span onClick={() => toggleUserModal(0)} className="hidden md:flex">
-				{account && <NFTPreview account={account} />}
+				{address && <NFTPreview address={address} />}
 			</span>
 
 			<span className="bg-gray-700 flex rounded-xl items-center h-8 md:h-11 text-xs sm:text-base text-white">
@@ -70,7 +70,7 @@ const AccountBar = () => {
 			</span>
 
 			<span onClick={() => toggleUserModal(0)} className="md:hidden flex">
-				{account && <NFTPreview account={account} />}
+				{address && <NFTPreview address={address} />}
 			</span>
 
 			{isUserModalOpen && <UserModal toggle={toggleUserModal} selected={selectedUserModal} />}

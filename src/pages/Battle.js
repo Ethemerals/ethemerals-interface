@@ -21,6 +21,10 @@ import Addresses from '../constants/contracts/Addresses';
 
 import PriceFeeds from '../constants/PriceFeeds';
 
+import useUserAccount from '../hooks/useUserAccount';
+
+import EternalBattleCard from '../components/EternalBattleCard';
+
 const Battle = () => {
 	const provider = useWeb3();
 	const address = useAddress();
@@ -32,6 +36,7 @@ const Battle = () => {
 	const [contractBattle, setContractBattle] = useState(undefined);
 	const [contractPriceFeed, setContractPriceFeed] = useState(undefined);
 	const [prices, setPrices] = useState({});
+	const [gettingPrices, setGettingPrices] = useState(false);
 	const [core, setCore] = useState({});
 	const [ready, setReady] = useState(false);
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -43,11 +48,10 @@ const Battle = () => {
 	}, [provider]);
 
 	useEffect(() => {
-		getPrices();
-		return () => {
-			getPrices();
-		};
-	}, [contractPriceFeed]);
+		if (prices) {
+			console.log(prices);
+		}
+	}, [prices]);
 
 	const getContracts = async () => {
 		if (provider) {
@@ -62,8 +66,12 @@ const Battle = () => {
 		if (contractPriceFeed) {
 			let newPrices = {};
 			// btc usd
-			newPrices[PriceFeeds[0].name] = (await contractPriceFeed.getPrice(0)).toString();
+			setGettingPrices(true);
+			for (let i = 0; i < PriceFeeds.length; i++) {
+				newPrices[PriceFeeds[i].name] = (await contractPriceFeed.getPrice(i)).toString();
+			}
 			setPrices(newPrices);
+			setGettingPrices(false);
 			console.log('getprice', newPrices);
 		}
 	};
@@ -87,19 +95,16 @@ const Battle = () => {
 	// }, [WBTCUSDCPool]);
 
 	return (
-		<div>
+		<>
 			<h1>Battle</h1>
 			<h2>Eternal Battle</h2>
-			<div className="w-420 h-64 bg-gray-700 p-4 m-4">
-				<h3>Bitcoin vs USDC</h3>
-				<button className="p-2 m-2 rounded bg-brandColor-purple">Join Bitcoin</button>
-				<button className="p-2 m-2 rounded bg-brandColor-purple">Join USDC</button>
-				<p>BTC/USDC</p>
-				<p>Price: {prices && prices[PriceFeeds[0].name]}</p>
-				<p>1hr percentage</p>
-				<p>24h vol:</p>
-			</div>
-		</div>
+			{contractPriceFeed && PriceFeeds && (
+				<>
+					<EternalBattleCard contract={contractPriceFeed} priceFeed={PriceFeeds[0]} />
+					<EternalBattleCard contract={contractPriceFeed} priceFeed={PriceFeeds[1]} />
+				</>
+			)}
+		</>
 	);
 };
 

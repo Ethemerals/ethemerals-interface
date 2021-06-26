@@ -6,7 +6,7 @@ import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContract
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
 
-const NFTGift = ({ toggle, nft }) => {
+const JoinEternalBattle = ({ toggle, account }) => {
 	const { register, handleSubmit } = useForm();
 
 	const provider = useWeb3();
@@ -31,27 +31,27 @@ const NFTGift = ({ toggle, nft }) => {
 	};
 
 	const onSubmitGift = async (data) => {
-		if (contractCore && readyToTransact()) {
-			setIsConfirmationOpen(true);
-			try {
-				let toAddress = data.address;
-				let id = nft.id;
-				const gasEstimate = await contractCore.estimateGas.transferFrom(address, toAddress, id);
-				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.transferFrom(address, toAddress, id, { gasLimit });
-				console.log(tx);
-				sendTx(tx.hash, 'Gift an Ethemeral', true, `nft_${id}`);
-			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transfer transaction rejected from user wallet');
-				console.log(`${error.data} \n${error.message}`);
-			}
-			setIsConfirmationOpen(false);
-			toggle();
-		} else {
-			// connect
-			console.log('no wallet');
-		}
+		// if (contractCore && readyToTransact()) {
+		// 	setIsConfirmationOpen(true);
+		// 	try {
+		// 		let toAddress = data.address;
+		// 		let id = nft.id;
+		// 		const gasEstimate = await contractCore.estimateGas.transferFrom(address, toAddress, id);
+		// 		const gasLimit = gasEstimate.add(gasEstimate.div(9));
+		// 		const tx = await contractCore.transferFrom(address, toAddress, id, { gasLimit });
+		// 		console.log(tx);
+		// 		sendTx(tx.hash, 'Gift an Ethemeral', true, `nft_${id}`);
+		// 	} catch (error) {
+		// 		setIsErrorOpen(true);
+		// 		setErrorMsg('Transfer transaction rejected from user wallet');
+		// 		console.log(`${error.data} \n${error.message}`);
+		// 	}
+		// 	setIsConfirmationOpen(false);
+		// 	toggle();
+		// } else {
+		// 	// connect
+		// 	console.log('no wallet');
+		// }
 	};
 
 	return (
@@ -68,7 +68,7 @@ const NFTGift = ({ toggle, nft }) => {
 					</div>
 					<div className="text-center p-4">
 						<p className="text-2xl">Gift Ethemeral</p>
-						<p className="text-sm text-gray-200">{`You are about to gift #${nft.id} ${nft.metadata.coin} to another person, enter receiver's Ethereum wallet address to continue:`}</p>
+						{/* <p className="text-sm text-gray-200">{`You are about to gift #${nft.id} ${nft.metadata.coin} to another person, enter receiver's Ethereum wallet address to continue:`}</p> */}
 						<form className="p-4">
 							<input className="w-full text-black" {...register('address')} />
 							<button onClick={handleSubmit(onSubmitGift)} className="bg-brandColor text-xl text-bold px-4 py-2 center my-10 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
@@ -84,4 +84,4 @@ const NFTGift = ({ toggle, nft }) => {
 	);
 };
 
-export default NFTGift;
+export default JoinEternalBattle;

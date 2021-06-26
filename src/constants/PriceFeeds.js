@@ -16,7 +16,7 @@ const tokens = {
 };
 
 PriceFeeds.push({
-	name: 'wbtc_usdc',
+	name: 'BTC/USD',
 	pool: pools.wbtc_usdc,
 	period: 1,
 	baseAmount: '10000000', // js
@@ -24,10 +24,12 @@ PriceFeeds.push({
 	quote: tokens.usdc,
 	price: '1',
 	id: 0,
+	baseName: 'Bitcoin',
+	quoteName: 'USDC',
 });
 
 PriceFeeds.push({
-	name: 'usdc_eth',
+	name: 'ETH/USD',
 	pool: pools.usdc_eth,
 	period: 1,
 	baseAmount: '1000000000000000000', // js
@@ -35,10 +37,12 @@ PriceFeeds.push({
 	quote: tokens.usdc,
 	price: '1',
 	id: 1,
+	baseName: 'Ethereum',
+	quoteName: 'USDC',
 });
 
 PriceFeeds.push({
-	name: 'wbtc_eth',
+	name: 'ETH/BTC',
 	pool: pools.wbtc_eth,
 	period: 1,
 	baseAmount: '1000000000000000000000', // js
@@ -46,10 +50,12 @@ PriceFeeds.push({
 	quote: tokens.wbtc,
 	price: '1',
 	id: 2,
+	baseName: 'Ethereum',
+	quoteName: 'Bitcoin',
 });
 
 PriceFeeds.push({
-	name: 'uni_eth',
+	name: 'UNI/ETH',
 	pool: pools.uni_eth,
 	period: 1,
 	baseAmount: '1000000000000', // js
@@ -57,6 +63,8 @@ PriceFeeds.push({
 	quote: tokens.weth,
 	price: '1',
 	id: 3,
+	baseName: 'Uniswap',
+	quoteName: 'Ethereum',
 });
 
 export default PriceFeeds;

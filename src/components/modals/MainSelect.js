@@ -5,12 +5,12 @@ import useUserState from '../../hooks/useUserState';
 import Images from '../../constants/Images';
 import { shortenAddress, formatELF, formatETH } from '../../utils';
 
-const UserModal = ({ toggle, account }) => {
-	const { mainID, mainIndex, mutateUser, isLoading, userNFTs } = useUserState(account);
+const UserModal = ({ toggle, address }) => {
+	const { mainID, mainIndex, mutateUser, isLoading, userNFTs } = useUserState(address);
 
 	const selectMain = (index) => {
-		if (account) {
-			mutateUser.mutate({ address: account.id, main: userNFTs[index].id });
+		if (address) {
+			mutateUser.mutate({ address: address, main: userNFTs[index].id });
 			toggle();
 		}
 	};

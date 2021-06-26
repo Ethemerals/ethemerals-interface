@@ -3,11 +3,11 @@ import Images from '../../constants/Images';
 import Links from '../../constants/Links';
 
 import useUserAccount from '../../hooks/useUserAccount';
-import NFTGift from './actions/NFTGift';
-import NFTMakeMain from './actions/NFTMakeMain';
+import Gift from './actions/Gift';
+import MakeMain from './actions/MakeMain';
 
 const NFTActions = ({ nft }) => {
-	const { account } = useUserAccount();
+	const { account, address } = useUserAccount();
 
 	const [isOwned, setIsOwned] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);
@@ -35,12 +35,12 @@ const NFTActions = ({ nft }) => {
 	return (
 		<>
 			<div className="w-48 h-64 bg-gray-900 top-40 right-4 fixed rounded-lg">
+				<MakeMain address={address} id={nft.id} />
 				<button onClick={toggleGift} className="bg-pink-700 p-4">
 					Gift
 				</button>
-				<NFTMakeMain account={account} id={nft.id} />
 			</div>
-			{isGiftOpen && <NFTGift nft={nft} toggle={toggleGift} />}
+			{isGiftOpen && <Gift nft={nft} toggle={toggleGift} />}
 		</>
 	);
 };

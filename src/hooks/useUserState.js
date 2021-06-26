@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 
+import useUserAccount from './useUserAccount';
+
 // TODO
 // update on mint
 // update on battle
@@ -30,9 +32,10 @@ const getUser = async (id) => {
 	}
 };
 
-const useUserState = (account) => {
+const useUserState = (address) => {
 	const queryClient = useQueryClient();
-	const { isLoading, isError, data } = useQuery(['user', account.id], () => getUser(account.id));
+	const { account } = useUserAccount();
+	const { isLoading, isError, data } = useQuery(['user', address], () => getUser(address));
 	const mutateUser = useMutation(updateUser, { onSuccess: () => queryClient.invalidateQueries('user') });
 
 	const [mainID, setMainID] = useState(undefined);

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import useUserState from '../../hooks/useUserState';
+import useUserAccount from '../../hooks/useUserAccount';
 
 const Spinner = () => (
 	<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -9,10 +10,11 @@ const Spinner = () => (
 	</svg>
 );
 
-const NFTPreview = ({ account }) => {
-	const { mainID, mainIndex, mutateUser, isLoading, userNFTs } = useUserState(account);
+const NFTPreview = ({ address }) => {
+	const { account } = useUserAccount();
+	const { mainID, mainIndex, mutateUser, isLoading, userNFTs } = useUserState(address);
 
-	if (!account) {
+	if (!address) {
 		return (
 			<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
 				<span className="text-white px-2 md:px-3">NO NFTS</span>
@@ -31,7 +33,7 @@ const NFTPreview = ({ account }) => {
 
 	return (
 		<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
-			{account && userNFTs.length > 0 && mainID ? (
+			{address && userNFTs.length > 0 && mainID ? (
 				<span className="text-white px-2 md:px-3">
 					#{mainID}/{userNFTs.length} NFTS
 				</span>
