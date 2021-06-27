@@ -30,7 +30,7 @@ const rangeDefaults = {
 	step: 2,
 };
 
-const JoinEternalBattle = ({ contractPriceFeed, toggle, priceFeed, long }) => {
+const StakeEternalBattle = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	const { mainID, mainIndex, userNFTs } = useUserAccount();
 	const { isLoading, isError, data } = useQuery([`priceFeed${priceFeed.id}`, priceFeed.id], () => getPrice(contractPriceFeed, priceFeed.id));
 	const { register, handleSubmit } = useForm();
@@ -210,4 +210,4 @@ const JoinEternalBattle = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	);
 };
 
-export default JoinEternalBattle;
+export default StakeEternalBattle;

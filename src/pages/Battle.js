@@ -22,11 +22,11 @@ import Addresses from '../constants/contracts/Addresses';
 import PriceFeeds from '../constants/PriceFeeds';
 
 import useUserAccount from '../hooks/useUserAccount';
-
-import EternalBattleCard from '../components/EternalBattleCard';
+import EternalBattleCard from '../components/battle/EternalBattleCard';
 
 const Battle = () => {
 	const provider = useWeb3();
+
 	const address = useAddress();
 	const onboard = useOnboard();
 	const login = useLogin();
@@ -46,12 +46,6 @@ const Battle = () => {
 	useEffect(() => {
 		getContracts();
 	}, [provider]);
-
-	useEffect(() => {
-		if (prices) {
-			console.log(prices);
-		}
-	}, [prices]);
 
 	const getContracts = async () => {
 		if (provider) {

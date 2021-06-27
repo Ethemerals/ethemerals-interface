@@ -117,6 +117,31 @@ export const GET_ACCOUNT = gql`
 	}
 `;
 
+export const GET_ETERNALBATTLE_ACCOUNT = gql`
+	query ($id: ID!) {
+		account(id: $id) {
+			id
+			ethemerals(orderBy: score, orderDirection: desc) {
+				id
+				score
+				previousOwner {
+					id
+				}
+				metadata {
+					coin
+					mainClass
+					subClass
+				}
+				actions(where: { staked: true }) {
+					timestamp
+					priceFeed
+					staked
+				}
+			}
+		}
+	}
+`;
+
 export const GET_ACCOUNT_ACTIONS = gql`
 	query ($id: ID!) {
 		account(id: $id) {
