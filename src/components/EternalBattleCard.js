@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
+import JoinEternalBattle from './modals/actions/JoinEternalBattle';
+
 const getPrice = async (contract, index) => {
 	try {
 		const price = await contract.getPrice(index);
@@ -10,13 +12,15 @@ const getPrice = async (contract, index) => {
 	}
 };
 
-const EternalBattleCard = ({ contract, priceFeed }) => {
-	const { isLoading, isError, data } = useQuery([`priceFeed${priceFeed.id}`, priceFeed.id], () => getPrice(contract, priceFeed.id));
+const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
+	const { isLoading, isError, data } = useQuery([`priceFeed${priceFeed.id}`, priceFeed.id], () => getPrice(contractPriceFeed, priceFeed.id));
 
 	const [baseName, setBaseName] = useState('');
 	const [quoteName, setQuoteName] = useState('');
 	const [ticker, setTicker] = useState('');
 	const [price, setPrice] = useState(undefined);
+	const [isLong, setIsLong] = useState(true);
+	const [isJoinBattleOpen, setIsJoinBattleOpen] = useState(false);
 
 	useEffect(() => {
 		if (priceFeed) {
@@ -32,21 +36,37 @@ const EternalBattleCard = ({ contract, priceFeed }) => {
 		}
 	}, [data, isLoading]);
 
-	return (
-		<div>
-			<div className="w-420 h-64 bg-gray-700 p-4 m-4">
-				<h3>
-					{baseName} vs {quoteName}
-				</h3>
-				<button className="p-2 m-2 rounded bg-brandColor-purple">Join {baseName}</button>
-				<button className="p-2 m-2 rounded bg-brandColor-purple">Join {quoteName}</button>
-				<p>{ticker}</p>
-				<p>Price: {price}</p>
+	const toggleJoinBattle = () => {
+		setIsJoinBattleOpen(!isJoinBattleOpen);
+	};
 
-				<p>1hr percentage</p>
-				<p>24h vol:</p>
+	const handleJoinBattle = (long) => {
+		toggleJoinBattle();
+		setIsLong(long);
+	};
+
+	return (
+		<>
+			<div>
+				<div className="w-420 h-64 bg-gray-700 p-4 m-4">
+					<h3>
+						{baseName} vs {quoteName}
+					</h3>
+					<button onClick={() => handleJoinBattle(true)} className="p-2 m-2 rounded bg-brandColor-purple">
+						Join {baseName}
+					</button>
+					<button onClick={() => handleJoinBattle(false)} className="p-2 m-2 rounded bg-brandColor-purple">
+						Join {quoteName}
+					</button>
+					<p>{ticker}</p>
+					<p>Price: {price}</p>
+
+					<p>1hr percentage</p>
+					<p>24h vol:</p>
+				</div>
 			</div>
-		</div>
+			{isJoinBattleOpen && <JoinEternalBattle contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattle} priceFeed={priceFeed} long={isLong} />}
+		</>
 	);
 };
 

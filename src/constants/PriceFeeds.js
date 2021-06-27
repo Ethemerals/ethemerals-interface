@@ -26,6 +26,8 @@ PriceFeeds.push({
 	id: 0,
 	baseName: 'Bitcoin',
 	quoteName: 'USDC',
+	baseSymbol: 'BTC',
+	quoteSymbol: 'USD',
 });
 
 PriceFeeds.push({
@@ -39,6 +41,8 @@ PriceFeeds.push({
 	id: 1,
 	baseName: 'Ethereum',
 	quoteName: 'USDC',
+	baseSymbol: 'ETH',
+	quoteSymbol: 'USD',
 });
 
 PriceFeeds.push({
@@ -52,6 +56,8 @@ PriceFeeds.push({
 	id: 2,
 	baseName: 'Ethereum',
 	quoteName: 'Bitcoin',
+	baseSymbol: 'ETH',
+	quoteSymbol: 'BTC',
 });
 
 PriceFeeds.push({
@@ -65,6 +71,8 @@ PriceFeeds.push({
 	id: 3,
 	baseName: 'Uniswap',
 	quoteName: 'Ethereum',
+	baseSymbol: 'UNI',
+	quoteSymbol: 'ETH',
 });
 
 export default PriceFeeds;
