@@ -21,19 +21,20 @@ export default function TxContextProvider({ children }) {
 	const rehydrate = useRehydrate();
 	const queryClient = useQueryClient();
 
-	// const updateUserData = useUpdateUserData();
-
 	const [miningStatus, setMiningStatus] = useState(false);
 	const [receipt, setReceipt] = useState({ status: -1 });
 
-	const sendTx = async (hash, method, shouldInvalidate = false, key = 'core') => {
+	const sendTx = async (hash, method, shouldInvalidate = false, keys = ['core']) => {
 		setMiningStatus(true);
 		provider.once(hash, (receipt) => {
 			receiptTx(receipt, method);
+
 			if (shouldInvalidate) {
-				setTimeout(() => queryClient.invalidateQueries(key), 5500);
+				keys.forEach((key) => {
+					setTimeout(() => queryClient.invalidateQueries(key), 5000);
+				});
 			}
-			setTimeout(() => queryClient.invalidateQueries('account'), 5000);
+
 			setMiningStatus(false);
 		});
 	};

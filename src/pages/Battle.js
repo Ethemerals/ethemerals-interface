@@ -1,18 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useGQLQuery, useUniGQLQuery } from '../hooks/useGQLQuery';
-import { GET_POOL } from '../queries/UniSubgraph';
-
-import { shortenAddress, formatELF, formatETH } from '../utils';
-
-import { BigNumber } from '@ethersproject/bignumber';
 
 import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
-// import { useContractBattle } from '../hooks/ContractBattleContext';
-import { useSendTx } from '../hooks/TxContext';
-
-import WaitingConfirmation from '../components/modals/WaitingConfirmation';
-import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 import { Contract } from '@ethersproject/contracts';
 import getSigner from '../constants/Signer';
@@ -21,27 +9,14 @@ import Addresses from '../constants/contracts/Addresses';
 
 import PriceFeeds from '../constants/PriceFeeds';
 
-import useUserAccount from '../hooks/useUserAccount';
 import EternalBattleCard from '../components/battle/EternalBattleCard';
 
 const Battle = () => {
 	const provider = useWeb3();
 
-	const address = useAddress();
-	const onboard = useOnboard();
-	const login = useLogin();
-	const sendTx = useSendTx();
-	const readyToTransact = useReadyToTransact();
+	// TODO do without provider
 
-	const [contractBattle, setContractBattle] = useState(undefined);
 	const [contractPriceFeed, setContractPriceFeed] = useState(undefined);
-	const [prices, setPrices] = useState({});
-	const [gettingPrices, setGettingPrices] = useState(false);
-	const [core, setCore] = useState({});
-	const [ready, setReady] = useState(false);
-	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
 
 	useEffect(() => {
 		getContracts();

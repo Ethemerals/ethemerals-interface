@@ -5,6 +5,7 @@ import { GET_CORE } from '../queries/Subgraph';
 import { BigNumber } from '@ethersproject/bignumber';
 
 import Addresses from '../constants/contracts/Addresses';
+import FunctionTx from '../constants/FunctionTx';
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
 import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
@@ -66,10 +67,10 @@ const Home = () => {
 					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(2000))).div(BigNumber.from(10000));
 				}
 				const gasEstimate = await contractCore.estimateGas.buy({ value });
-				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.buy.gasDiv));
 				const tx = await contractCore.buy({ value, gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Minted an Ethemeral');
+				sendTx(tx.hash, FunctionTx.buy.receiptMsg, true, ['account']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Mint transaction rejected from user wallet');

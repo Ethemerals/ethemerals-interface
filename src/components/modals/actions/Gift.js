@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../hooks/TxContext';
 import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
 
+import FunctionTx from '../../../constants/FunctionTx';
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
 
@@ -37,10 +38,10 @@ const Gift = ({ toggle, nft }) => {
 				let toAddress = data.address;
 				let id = nft.id;
 				const gasEstimate = await contractCore.estimateGas.transferFrom(address, toAddress, id);
-				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.transferFrom.gasDiv));
 				const tx = await contractCore.transferFrom(address, toAddress, id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Gift an Ethemeral', true, `nft_${id}`);
+				sendTx(tx.hash, FunctionTx.transferFrom.receiptMsg, true, [`nft_${id}`, 'account']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');

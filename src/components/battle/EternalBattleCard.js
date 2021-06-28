@@ -29,17 +29,17 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
 	const [isCreateStakeOpen, setIsCreateStakeOpen] = useState(false);
 
 	useEffect(() => {
+		const staked = [];
 		if (accountEternalBattle) {
 			if (accountEternalBattle.ethemerals.length > 0) {
-				const staked = [];
 				accountEternalBattle.ethemerals.forEach((nft) => {
 					if (nft.actions[0].priceFeed === priceFeed.id.toString()) {
 						staked.push(nft);
 					}
 				});
-				setStakedNFTs(staked);
 			}
 		}
+		setStakedNFTs(staked);
 	}, [accountEternalBattle]);
 
 	useEffect(() => {

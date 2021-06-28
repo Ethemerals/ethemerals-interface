@@ -6,6 +6,7 @@ import { Contract } from '@ethersproject/contracts';
 
 import abis from '../../../constants/contracts/abis';
 import Addresses from '../../../constants/contracts/Addresses';
+import FunctionTx from '../../../constants/FunctionTx';
 import getSigner from '../../../constants/Signer';
 import { useSendTx } from '../../../hooks/TxContext';
 import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
@@ -93,11 +94,10 @@ const UnstakeEternalBattle = ({ contractPriceFeed, toggle, priceFeed, nft }) => 
 			try {
 				let id = nft.id;
 				const gasEstimate = await contractBattle.estimateGas.cancelStake(id);
-				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.cancelStake.gasDiv));
 				const tx = await contractBattle.cancelStake(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Return from Battle', true, `nft_${id}`);
-				// TODO INVALIDATE
+				sendTx(tx.hash, FunctionTx.cancelStake.receiptMsg, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');
