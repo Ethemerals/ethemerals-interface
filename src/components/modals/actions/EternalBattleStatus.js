@@ -11,7 +11,7 @@ import getSigner from '../../../constants/Signer';
 import { useSendTx } from '../../../hooks/TxContext';
 import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
 
-import useUserAccount from '../../../hooks/useUserAccount';
+import { useEternalBattleContract, useExternalBattleGetChange } from '../../../hooks/useEternalBattle';
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
 
@@ -24,34 +24,14 @@ const getPrice = async (contract, index) => {
 	}
 };
 
-const getChange = async (contract, id) => {
-	if (contract) {
-		try {
-			const value = await contract.getChange(id);
-
-			return parseInt(value[0]) * (value[1] ? 1 : -1);
-		} catch (error) {
-			throw new Error('error');
-		}
-	} else {
-		// connect
-		console.log('no wallet');
-		throw new Error('error');
-	}
-};
-
-const NFTComputedScore = ({ contract, nft, scoreChange, setScoreChange }) => {
-	const { isLoading, isError, data } = useQuery([`getChange_${nft.id}`, nft.id], () => getChange(contract, nft.id));
+const NFTComputedScore = ({ contract, nft, setScoreChange }) => {
+	const { scoreChange } = useExternalBattleGetChange(contract, nft.id);
 
 	useEffect(() => {
-		if (!isLoading) {
-			if (data) {
-				setScoreChange(data);
-			}
-		}
-	}, [data, isLoading]);
+		setScoreChange(scoreChange);
+	}, [scoreChange]);
 
-	if (isLoading) {
+	if (scoreChange === undefined) {
 		return <p>Loading</p>;
 	}
 
@@ -67,8 +47,8 @@ const NFTComputedScore = ({ contract, nft, scoreChange, setScoreChange }) => {
 
 const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwned }) => {
 	const { isLoading, isError, data } = useQuery([`priceFeed${priceFeed.id}`, priceFeed.id], () => getPrice(contractPriceFeed, priceFeed.id));
+	const { contractBattle } = useEternalBattleContract();
 
-	const provider = useWeb3();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
@@ -76,7 +56,6 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
 
-	const [contractBattle, setContractBattle] = useState(undefined);
 	const [price, setPrice] = useState(undefined);
 	const [allyName, setAllyName] = useState('');
 	const [enemyName, setEnemyName] = useState('');
@@ -94,10 +73,6 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 	}, [priceFeed, nft]);
 
 	useEffect(() => {
-		getContracts();
-	}, [provider]);
-
-	useEffect(() => {
 		if (!isLoading) {
 			setPrice(data);
 		}
@@ -112,14 +87,6 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 			}
 		}
 	}, [scoreChange, nft]);
-
-	const getContracts = async () => {
-		if (provider) {
-			await setContractBattle(new Contract(Addresses.EternalBattle, abis.EternalBattle, getSigner(provider)));
-			console.log('GOT BATTLE CONTRACTS');
-		} else {
-		}
-	};
 
 	const toggleConfirmation = () => {
 		setIsConfirmationOpen(!isConfirmationOpen);
@@ -174,7 +141,7 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 						)}
 						<p className="my-4">{`${nft.metadata.coin} is allied with ${allyName}, on her Eternal Battle against ${enemyName}!`}</p>
 
-						{contractBattle && <NFTComputedScore contract={contractBattle} nft={nft} scoreChange={scoreChange} setScoreChange={setScoreChange} />}
+						{contractBattle && <NFTComputedScore contract={contractBattle} nft={nft} setScoreChange={setScoreChange} />}
 
 						{isOwned && (
 							<button onClick={onSubmitUnStake} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">

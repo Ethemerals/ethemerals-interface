@@ -2,28 +2,18 @@ import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 import EternalBattleStake from '../modals/actions/EternalBattleStake';
-import useEternalBattleAccount from '../../hooks/useEternalBattleAccount';
-import useUserAccount from '../../hooks/useUserAccount';
+import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
+import { usePriceFeedPrice } from '../../hooks/usePriceFeed';
 
 import StakedNFT from './StakedNFT';
 
-const getPrice = async (contract, index) => {
-	try {
-		const price = await contract.getPrice(index);
-		return price.toString();
-	} catch (error) {
-		throw new Error('error');
-	}
-};
-
 const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
-	const { isLoading, isError, data } = useQuery([`priceFeed${priceFeed.id}`, priceFeed.id], () => getPrice(contractPriceFeed, priceFeed.id));
+	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed.id);
 	const { accountEternalBattle } = useEternalBattleAccount(); // TODO INVALIDATE
 
 	const [baseName, setBaseName] = useState('');
 	const [quoteName, setQuoteName] = useState('');
 	const [ticker, setTicker] = useState('');
-	const [price, setPrice] = useState(undefined);
 	const [stakedNFTs, setStakedNFTs] = useState([]);
 	const [isLong, setIsLong] = useState(true);
 	const [isCreateStakeOpen, setIsCreateStakeOpen] = useState(false);
@@ -43,22 +33,10 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
 	}, [accountEternalBattle]);
 
 	useEffect(() => {
-		console.log(stakedNFTs);
-	}, [stakedNFTs]);
-
-	useEffect(() => {
-		if (priceFeed) {
-			setBaseName(priceFeed.baseName);
-			setQuoteName(priceFeed.quoteName);
-			setTicker(priceFeed.name);
-		}
+		setBaseName(priceFeed.baseName);
+		setQuoteName(priceFeed.quoteName);
+		setTicker(priceFeed.name);
 	}, [priceFeed]);
-
-	useEffect(() => {
-		if (!isLoading) {
-			setPrice(data);
-		}
-	}, [data, isLoading]);
 
 	const toggleJoinBattle = () => {
 		setIsCreateStakeOpen(!isCreateStakeOpen);

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import { Range, getTrackBackground } from 'react-range';
 import { useQuery } from 'react-query';
 import { Contract } from '@ethersproject/contracts';
@@ -34,12 +33,8 @@ const rangeDefaults = {
 const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	const { mainID, mainIndex, userNFTs } = useUserAccount();
 	const { isLoading, isError, data } = useQuery([`priceFeed${priceFeed.id}`, priceFeed.id], () => getPrice(contractPriceFeed, priceFeed.id));
-	const { register, handleSubmit } = useForm();
 
 	const provider = useWeb3();
-	const address = useAddress();
-	const onboard = useOnboard();
-	const login = useLogin();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
@@ -106,7 +101,6 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	const onSubmitStake = async () => {
 		if (contractBattle && readyToTransact()) {
 			setIsConfirmationOpen(true);
-			// function createStake(uint _tokenId, uint _priceFeedId, uint _position, bool long) external {
 			console.log(userNFT.id, priceFeed.id, position, long);
 			try {
 				let id = userNFT.id;
