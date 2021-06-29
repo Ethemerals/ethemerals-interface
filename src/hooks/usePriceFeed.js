@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Contract } from '@ethersproject/contracts';
+import axios from 'axios';
 
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_ETERNALBATTLE_ACCOUNT } from '../queries/Subgraph';
@@ -12,23 +13,42 @@ import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import Addresses from '../constants/contracts/Addresses';
 
-const getPrice = async (contract, index) => {
+const getPriceAPI = async (id) => {
+	const url = `${process.env.REACT_APP_API_URL}pricefeed/${id}`;
+	console.log(url);
+	const { data } = await axios.get(url);
+	if (data.success) {
+		return data.result;
+	} else {
+		return null;
+	}
+};
+
+const getPrice = async (contract, priceFeed) => {
 	if (contract) {
 		try {
-			const price = await contract.getPrice(index);
+			const price = await contract.getPrice(priceFeed.id);
 			return price.toString();
 		} catch (error) {
 			throw new Error('error');
 		}
 	} else {
-		// connect access api
-		console.log('no wallet');
-		throw new Error('error');
+		try {
+			const price = await getPriceAPI(priceFeed.id);
+			if (price) {
+				return price;
+			} else {
+				throw new Error('error');
+			}
+		} catch (error) {
+			console.log(error);
+			throw new Error('error');
+		}
 	}
 };
 
-export const usePriceFeedPrice = (contract, id) => {
-	const { isLoading, isError, data } = useQuery([`priceFeed_${id}`, id], () => getPrice(contract, id));
+export const usePriceFeedPrice = (contract, priceFeed) => {
+	const { isLoading, isError, data } = useQuery([`priceFeed_${priceFeed.id}`, priceFeed.id], () => getPrice(contract, priceFeed));
 
 	const [price, setPriceFeed] = useState(undefined);
 

@@ -8,7 +8,7 @@ import { usePriceFeedPrice } from '../../hooks/usePriceFeed';
 import StakedNFT from './StakedNFT';
 
 const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
-	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed.id);
+	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 	const { accountEternalBattle } = useEternalBattleAccount(); // TODO INVALIDATE
 
 	const [baseName, setBaseName] = useState('');

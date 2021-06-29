@@ -28,6 +28,7 @@ PriceFeeds.push({
 	quoteName: 'USDC',
 	baseSymbol: 'BTC',
 	quoteSymbol: 'USD',
+	uniToken: 'token1Price',
 });
 
 PriceFeeds.push({
@@ -43,6 +44,7 @@ PriceFeeds.push({
 	quoteName: 'USDC',
 	baseSymbol: 'ETH',
 	quoteSymbol: 'USD',
+	uniToken: 'token0Price',
 });
 
 PriceFeeds.push({
@@ -58,6 +60,7 @@ PriceFeeds.push({
 	quoteName: 'Bitcoin',
 	baseSymbol: 'ETH',
 	quoteSymbol: 'BTC',
+	uniToken: 'token0Price',
 });
 
 PriceFeeds.push({
@@ -73,6 +76,7 @@ PriceFeeds.push({
 	quoteName: 'Ethereum',
 	baseSymbol: 'UNI',
 	quoteSymbol: 'ETH',
+	uniToken: 'token1Price',
 });
 
 export default PriceFeeds;

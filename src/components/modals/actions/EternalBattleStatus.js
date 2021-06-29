@@ -15,14 +15,7 @@ import { useEternalBattleContract, useExternalBattleGetChange } from '../../../h
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
 
-const getPrice = async (contract, index) => {
-	try {
-		const price = await contract.getPrice(index);
-		return price.toString();
-	} catch (error) {
-		throw new Error('error');
-	}
-};
+import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
 
 const NFTComputedScore = ({ contract, nft, setScoreChange }) => {
 	const { scoreChange } = useExternalBattleGetChange(contract, nft.id);
@@ -46,7 +39,7 @@ const NFTComputedScore = ({ contract, nft, setScoreChange }) => {
 };
 
 const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwned }) => {
-	const { isLoading, isError, data } = useQuery([`priceFeed${priceFeed.id}`, priceFeed.id], () => getPrice(contractPriceFeed, priceFeed.id));
+	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 	const { contractBattle } = useEternalBattleContract();
 
 	const sendTx = useSendTx();
@@ -56,7 +49,6 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
 
-	const [price, setPrice] = useState(undefined);
 	const [allyName, setAllyName] = useState('');
 	const [enemyName, setEnemyName] = useState('');
 	const [ticker, setTicker] = useState('');
@@ -71,12 +63,6 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 			setTicker(priceFeed.name);
 		}
 	}, [priceFeed, nft]);
-
-	useEffect(() => {
-		if (!isLoading) {
-			setPrice(data);
-		}
-	}, [data, isLoading]);
 
 	useEffect(() => {
 		if (nft && scoreChange) {

@@ -14,14 +14,7 @@ import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
 
-const getPrice = async (contract, index) => {
-	try {
-		const price = await contract.getPrice(index);
-		return price.toString();
-	} catch (error) {
-		throw new Error('error');
-	}
-};
+import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
 
 const rangeDefaults = {
 	min: 10,
@@ -32,7 +25,7 @@ const rangeDefaults = {
 
 const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	const { mainID, mainIndex, userNFTs } = useUserAccount();
-	const { isLoading, isError, data } = useQuery([`priceFeed${priceFeed.id}`, priceFeed.id], () => getPrice(contractPriceFeed, priceFeed.id));
+	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 
 	const provider = useWeb3();
 	const sendTx = useSendTx();
@@ -43,7 +36,6 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	const [errorMsg, setErrorMsg] = useState('');
 
 	const [contractBattle, setContractBattle] = useState(undefined);
-	const [price, setPrice] = useState(undefined);
 	const [allyName, setAllyName] = useState('');
 	const [enemyName, setEnemyName] = useState('');
 	const [ticker, setTicker] = useState('');
@@ -77,12 +69,6 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	useEffect(() => {
 		setPosition(positionMult * rangeValues[0]);
 	}, [positionMult, rangeValues]);
-
-	useEffect(() => {
-		if (!isLoading) {
-			setPrice(data);
-		}
-	}, [data, isLoading]);
 
 	useEffect(() => {
 		if (userNFTs && userNFTs.length > 0) {
