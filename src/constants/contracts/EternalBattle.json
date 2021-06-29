@@ -45,12 +45,6 @@
 			},
 			{
 				"indexed": false,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": false,
 				"internalType": "bool",
 				"name": "win",
 				"type": "bool"
@@ -70,15 +64,15 @@
 			},
 			{
 				"indexed": false,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": false,
 				"internalType": "uint256",
 				"name": "priceFeedId",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "long",
+				"type": "bool"
 			}
 		],
 		"name": "StakeCreated",

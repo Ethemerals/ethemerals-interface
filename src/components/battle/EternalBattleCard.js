@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
-import StakeEternalBattle from '../modals/actions/StakeEternalBattle';
+import EternalBattleStake from '../modals/actions/EternalBattleStake';
 import useEternalBattleAccount from '../../hooks/useEternalBattleAccount';
 import useUserAccount from '../../hooks/useUserAccount';
 
@@ -71,27 +71,33 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
 
 	return (
 		<>
-			<div>
-				<div className="w-420 bg-gray-700 p-4 m-4">
+			<div className="flex justify-center">
+				<div className="bg-gray-700 p-4 m-4 w-full max-w-4xl">
 					<h3>
 						{baseName} vs {quoteName}
 					</h3>
-					<button onClick={() => handleJoinBattle(true)} className="p-2 m-2 rounded bg-brandColor-purple">
-						Join {baseName}
-					</button>
-					<button onClick={() => handleJoinBattle(false)} className="p-2 m-2 rounded bg-brandColor-purple">
-						Join {quoteName}
-					</button>
 					<p>{ticker}</p>
 					<p>Price: {price}</p>
-
-					<h3>Current Fighters</h3>
-					{stakedNFTs.map((nft, index) => (
-						<StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />
-					))}
+					<hr></hr>
+					<div className="grid grid-cols-2 gap-4">
+						<div>
+							<button onClick={() => handleJoinBattle(true)} className="p-2 my-2 rounded bg-brandColor-purple">
+								Join {baseName}
+							</button>
+							<h3>Current Fighters</h3>
+							{stakedNFTs.map((nft, index) => nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
+						</div>
+						<div>
+							<button onClick={() => handleJoinBattle(false)} className="p-2 my-2 rounded bg-brandColor-purple">
+								Join {quoteName}
+							</button>
+							<h3>Current Fighters</h3>
+							{stakedNFTs.map((nft, index) => !nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
+						</div>
+					</div>
 				</div>
 			</div>
-			{isCreateStakeOpen && <StakeEternalBattle contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattle} priceFeed={priceFeed} long={isLong} />}
+			{isCreateStakeOpen && <EternalBattleStake contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattle} priceFeed={priceFeed} long={isLong} />}
 		</>
 	);
 };

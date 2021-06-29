@@ -132,10 +132,11 @@ export const GET_ETERNALBATTLE_ACCOUNT = gql`
 					mainClass
 					subClass
 				}
-				actions(where: { staked: true }) {
+				actions(first: 1, where: { staked: true }) {
 					timestamp
 					priceFeed
 					staked
+					long
 				}
 			}
 		}

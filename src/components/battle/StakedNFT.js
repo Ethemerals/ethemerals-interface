@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import useUserAccount from '../../hooks/useUserAccount';
-import UnstakeEternalBattle from '../modals/actions/UnstakeEternalBattle';
+import EternalBattleStatus from '../modals/actions/EternalBattleStatus';
 
 const StakedNFT = ({ nft, contractPriceFeed, priceFeed }) => {
 	const { account } = useUserAccount();
@@ -22,13 +22,14 @@ const StakedNFT = ({ nft, contractPriceFeed, priceFeed }) => {
 
 	return (
 		<>
-			<div className={`flex space-x-3 ${isOwned ? 'bg-gray-800' : 'bg-gray-600'} `}>
-				<p>{nft.metadata.coin}</p>
-				<button onClick={toggleUnstake} className="bg-indigo-900 rounded-lg">
-					Check Status
+			<div className={`flex bg-gray-600 items-center p-2`}>
+				<p className="flex-grow">{`#${nft.id} ⚔️ ${nft.metadata.coin}`}</p>
+				<button onClick={toggleUnstake} className="px-2 text-sm text-right text-gray-300 hover:text-white">
+					{isOwned && <span className="mr-2">✅</span>}
+					status
 				</button>
 			</div>
-			{isUnstakeOpen && <UnstakeEternalBattle contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} nft={nft} toggle={toggleUnstake} isOwned={isOwned} />}
+			{isUnstakeOpen && <EternalBattleStatus contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} nft={nft} toggle={toggleUnstake} isOwned={isOwned} />}
 		</>
 	);
 };

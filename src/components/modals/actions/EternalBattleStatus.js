@@ -24,16 +24,53 @@ const getPrice = async (contract, index) => {
 	}
 };
 
-const UnstakeEternalBattle = ({ contractPriceFeed, toggle, priceFeed, nft }) => {
-	const long = true; // TODO
+const getChange = async (contract, id) => {
+	if (contract) {
+		try {
+			const value = await contract.getChange(id);
+
+			return parseInt(value[0]) * (value[1] ? 1 : -1);
+		} catch (error) {
+			throw new Error('error');
+		}
+	} else {
+		// connect
+		console.log('no wallet');
+		throw new Error('error');
+	}
+};
+
+const NFTComputedScore = ({ contract, nft, scoreChange, setScoreChange }) => {
+	const { isLoading, isError, data } = useQuery([`getChange_${nft.id}`, nft.id], () => getChange(contract, nft.id));
+
+	useEffect(() => {
+		if (!isLoading) {
+			if (data) {
+				setScoreChange(data);
+			}
+		}
+	}, [data, isLoading]);
+
+	if (isLoading) {
+		return <p>Loading</p>;
+	}
+
+	return (
+		<>
+			<p>
+				{`${nft.metadata.coin}'s current Honor Points: ${parseInt(nft.score) + scoreChange}`}
+				<span className="text-xs"> {`(${scoreChange < 0 ? '' : '+'}${scoreChange})`}</span>
+			</p>
+		</>
+	);
+};
+
+const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwned }) => {
 	const { isLoading, isError, data } = useQuery([`priceFeed${priceFeed.id}`, priceFeed.id], () => getPrice(contractPriceFeed, priceFeed.id));
-	const { account } = useUserAccount();
 
 	const provider = useWeb3();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
-
-	const [isOwned, setIsOwned] = useState(false);
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
@@ -45,25 +82,36 @@ const UnstakeEternalBattle = ({ contractPriceFeed, toggle, priceFeed, nft }) => 
 	const [enemyName, setEnemyName] = useState('');
 	const [ticker, setTicker] = useState('');
 
-	useEffect(() => {
-		if (account) {
-			if (nft.previousOwner.id === account.id) {
-				setIsOwned(true);
-			}
-		}
-	}, [account]);
+	const [scoreChange, setScoreChange] = useState(undefined);
+	const [marginCall, setMarginCall] = useState(false);
 
 	useEffect(() => {
 		if (priceFeed) {
-			setAllyName(long ? priceFeed.baseName : priceFeed.quoteName);
-			setEnemyName(long ? priceFeed.quoteName : priceFeed.baseName);
+			setAllyName(nft.actions[0].long ? priceFeed.baseName : priceFeed.quoteName);
+			setEnemyName(nft.actions[0].long ? priceFeed.quoteName : priceFeed.baseName);
 			setTicker(priceFeed.name);
 		}
-	}, [priceFeed, long]);
+	}, [priceFeed, nft]);
 
 	useEffect(() => {
 		getContracts();
 	}, [provider]);
+
+	useEffect(() => {
+		if (!isLoading) {
+			setPrice(data);
+		}
+	}, [data, isLoading]);
+
+	useEffect(() => {
+		if (nft && scoreChange) {
+			if (parseInt(nft.score) + scoreChange < 18) {
+				setMarginCall(true);
+			} else {
+				setMarginCall(false);
+			}
+		}
+	}, [scoreChange, nft]);
 
 	const getContracts = async () => {
 		if (provider) {
@@ -72,12 +120,6 @@ const UnstakeEternalBattle = ({ contractPriceFeed, toggle, priceFeed, nft }) => 
 		} else {
 		}
 	};
-
-	useEffect(() => {
-		if (!isLoading) {
-			setPrice(data);
-		}
-	}, [data, isLoading]);
 
 	const toggleConfirmation = () => {
 		setIsConfirmationOpen(!isConfirmationOpen);
@@ -130,17 +172,31 @@ const UnstakeEternalBattle = ({ contractPriceFeed, toggle, priceFeed, nft }) => 
 								current price: {price} {priceFeed.quoteSymbol}
 							</p>
 						)}
-						{nft && (
-							<>
-								<p className="">{`You are about to leave ${nft.metadata.coin} to join ${allyName}'s Eternal Battle against ${enemyName}!`}</p>
-								<p>{`${nft.metadata.coin}'s current Honor Points: ${nft.score}`}</p>
-							</>
-						)}
+						<p className="my-4">{`${nft.metadata.coin} is allied with ${allyName}, on her Eternal Battle against ${enemyName}!`}</p>
+
+						{contractBattle && <NFTComputedScore contract={contractBattle} nft={nft} scoreChange={scoreChange} setScoreChange={setScoreChange} />}
 
 						{isOwned && (
 							<button onClick={onSubmitUnStake} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 								Leave the Battle
 							</button>
+						)}
+
+						{!isOwned && (
+							<>
+								<button
+									disabled={!marginCall}
+									className={`text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg bg-brandColor ${!marginCall ? 'opacity-50 cursor-default' : 'hover:bg-yellow-400 transition duration-300'}  `}
+								>
+									Revive
+								</button>
+								<button
+									disabled={!marginCall}
+									className={`text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg bg-brandColor ${!marginCall ? 'opacity-50 cursor-default' : 'hover:bg-yellow-400 transition duration-300'}  `}
+								>
+									Reap
+								</button>
+							</>
 						)}
 					</div>
 				</div>
@@ -151,4 +207,4 @@ const UnstakeEternalBattle = ({ contractPriceFeed, toggle, priceFeed, nft }) => 
 	);
 };
 
-export default UnstakeEternalBattle;
+export default EternalBattleStatus;

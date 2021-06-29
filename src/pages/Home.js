@@ -83,6 +83,20 @@ const Home = () => {
 		}
 	};
 
+	const onSubmitTest = async () => {
+		if (contractCore) {
+			try {
+				let value = await contractCore.getCoinScore(10);
+				console.log(value.toString());
+			} catch (error) {
+				console.log(`${error.data} \n${error.message}`);
+			}
+		} else {
+			// connect
+			console.log('no wallet');
+		}
+	};
+
 	const isDiscountable = async () => {
 		try {
 			const value = await contractToken.balanceOf(address);
@@ -127,6 +141,10 @@ const Home = () => {
 							Connect Wallet to Mint
 						</button>
 					)}
+
+					<button onClick={onSubmitTest} className="bg-brandColor text-xl text-bold px-4 py-2 my-10 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+						Test
+					</button>
 				</div>
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Mint an Ethemeral, good luck!" />}

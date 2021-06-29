@@ -13,6 +13,7 @@ module.exports = {
 			xxl: { min: '1359px' }, // Desktop widescreen.
 		},
 		extend: {
+			opacity: ['disabled'],
 			spacing: {
 				420: '420px',
 				400: '400px',

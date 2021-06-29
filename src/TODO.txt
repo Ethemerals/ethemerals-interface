@@ -1,4 +1,6 @@
+make battle work without connection
+add loadings everywhere
 not allow enter battle if nfts = 0
 case where user doesn not allow delegates
-core ELF balance
-make core account
+
+make core account query
