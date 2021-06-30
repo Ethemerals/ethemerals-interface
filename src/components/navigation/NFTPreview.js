@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import { isAddress } from '../../utils';
 import useUserAccount from '../../hooks/useUserAccount';
 
@@ -11,7 +9,7 @@ const Spinner = () => (
 );
 
 const NFTPreview = () => {
-	const { mainID, mainIndex, mutateUser, userIsLoading, userNFTs, address } = useUserAccount();
+	const { mainID, mutateUser, userIsLoading, userNFTs, address } = useUserAccount();
 
 	if (!isAddress(address)) {
 		return (

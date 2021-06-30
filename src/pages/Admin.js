@@ -1,30 +1,50 @@
 import { useState, useEffect } from 'react';
-import { useGQLQuery } from '../hooks/useGQLQuery';
-import { GET_CORE } from '../queries/Subgraph';
-
 import { BigNumber } from '@ethersproject/bignumber';
 
 import Addresses from '../constants/contracts/Addresses';
 import FunctionTx from '../constants/FunctionTx';
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
-import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
+import { useWeb3, useAddress, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
 import { useCoreContract, useCore, useCoreAccount } from '../hooks/useCore';
+import { useTokenContract } from '../hooks/useToken';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 const requiredElfDiscount = 2000;
 
+const getBalance = async (provider, setContractBalance) => {
+	const balance = await provider.getBalance(Addresses.Ethemerals);
+	setContractBalance(balance.toString());
+};
+
+const isDiscountable = async (contractToken, address, setDiscountable) => {
+	try {
+		const value = await contractToken.balanceOf(address);
+		let elfBalance = 0;
+		if (value) {
+			elfBalance = formatELF(value);
+		}
+		if (elfBalance >= requiredElfDiscount) {
+			setDiscountable(true);
+		} else {
+			setDiscountable(false);
+		}
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const Admin = () => {
 	const provider = useWeb3();
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
 	const { accountCore } = useCoreAccount();
+	const { contractToken } = useTokenContract();
 
 	const address = useAddress();
-	const contractToken = useContractToken();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
@@ -45,27 +65,21 @@ const Admin = () => {
 
 	useEffect(() => {
 		if (provider) {
-			getBalance();
+			getBalance(provider, setContractBalance);
 		}
 	}, [provider]);
 
 	useEffect(() => {
 		if (contractToken) {
-			isDiscountable();
+			isDiscountable(contractToken, address, setDiscountable);
 		}
 	}, [contractToken, address]);
-
-	const getBalance = async () => {
-		const balance = await provider.getBalance(Addresses.Ethemerals);
-		setContractBalance(balance.toString());
-	};
 
 	const onSubmitBuy = async () => {
 		if (contractCore && readyToTransact()) {
 			setIsConfirmationOpen(true);
 			try {
 				let value = await contractCore.mintPrice();
-				console.log(formatETH(value));
 				if (discountable) {
 					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(2000))).div(BigNumber.from(10000));
 				}
@@ -97,23 +111,6 @@ const Admin = () => {
 		} else {
 			// connect
 			console.log('no wallet');
-		}
-	};
-
-	const isDiscountable = async () => {
-		try {
-			const value = await contractToken.balanceOf(address);
-			let elfBalance = 0;
-			if (value) {
-				elfBalance = formatELF(value);
-			}
-			if (elfBalance >= requiredElfDiscount) {
-				setDiscountable(true);
-			} else {
-				setDiscountable(false);
-			}
-		} catch (error) {
-			console.log(error);
 		}
 	};
 

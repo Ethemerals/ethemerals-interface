@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GraphQLClient } from 'graphql-request';
 
 import { useQuery, useMutation, useQueryClient } from 'react-query';
@@ -56,7 +56,7 @@ const useUserAccount = () => {
 	const balance = useBalance();
 	const queryClient = useQueryClient();
 
-	const { data, status, loaded } = useQuery('account', () => getAccount({ id: address }));
+	const { data, status, loaded } = useQuery(`account_${address}`, () => getAccount({ id: address }));
 	const { isLoading: userIsLoading, data: userData } = useQuery(['user', address], () => getUser(address));
 	const mutateUser = useMutation(updateUser, { onSuccess: () => queryClient.invalidateQueries('user') });
 
@@ -88,7 +88,7 @@ const useUserAccount = () => {
 		if (userData && userData.message === 'does not exist' && account && account.ethemerals.length > 0) {
 			mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
 		}
-	}, [userData, account]);
+	}, [userData, account, mutateUser]);
 
 	// PARSE NFT CHANGES
 	useEffect(() => {
@@ -113,7 +113,7 @@ const useUserAccount = () => {
 				setUserNFTs(account.ethemerals);
 			}
 		}
-	}, [mainID, account]);
+	}, [mainID, account, mutateUser]);
 
 	// prettier-ignore
 	return {

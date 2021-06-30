@@ -1,17 +1,8 @@
 import React, { useContext, useState, useEffect, createContext, useCallback } from 'react';
-import { useQueryClient } from 'react-query';
 import { ethers } from 'ethers';
-
-import { Contract } from '@ethersproject/contracts';
-
-import { isAddress } from '../utils';
 
 // ONBOARD
 import { initOnboard } from '../constants/Wallets';
-import getSigner from '../constants/Signer';
-
-import abis from '../constants/contracts/abis';
-import Addresses from '../constants/contracts/Addresses';
 
 // CONTEXT
 const Web3Context = createContext();
@@ -20,10 +11,6 @@ const AddressContext = createContext();
 const BalanceContext = createContext();
 const LoginContext = createContext();
 const ReadyToTransactContext = createContext();
-
-const ContractTokenContext = createContext();
-
-const RehydrateContext = createContext();
 
 // PROVIDER
 export function useWeb3() {
@@ -50,28 +37,12 @@ export function useReadyToTransact() {
 	return useContext(ReadyToTransactContext);
 }
 
-// CONTRACTS
-export function useContractToken() {
-	return useContext(ContractTokenContext);
-}
-
-// QUERIES
-export function useRehydrate() {
-	return useContext(RehydrateContext);
-}
-
 // PROVIDER
 export default function Web3ContextProvider({ children }) {
-	// HOOKS
-	const queryClient = useQueryClient();
-
 	//ONBOARD
 	const [address, setAddress] = useState(null);
 	const [balance, setBalance] = useState(null);
 	const [onboard, setOnboard] = useState(null);
-
-	//CONTRACTS
-	const [contractToken, setContractToken] = useState(undefined);
 
 	//ETHERS
 	const [provider, setProvider] = useState(null);
@@ -88,7 +59,6 @@ export default function Web3ContextProvider({ children }) {
 					// setWallet(wallet);
 					const ethersProvider = new ethers.providers.Web3Provider(wallet.provider);
 					setProvider(ethersProvider);
-					getContracts(ethersProvider);
 				} else {
 					setProvider(null);
 					// setWallet({});
@@ -101,24 +71,14 @@ export default function Web3ContextProvider({ children }) {
 
 	useEffect(() => {
 		if (provider) {
-			// console.log('PROVIDER', provider);
 			setProvider(provider);
 		}
 	}, [provider]);
-
-	const rehydrate = useCallback(
-		(queryKey = 'account') => {
-			console.log('rehydrate', queryKey);
-			queryClient.invalidateQueries(queryKey);
-		},
-		[queryClient]
-	);
 
 	const addressChanged = useCallback(() => {
 		console.log('ADDRESS CHANGED', address);
 		if (address !== null && previousAddress !== null && address !== previousAddress) {
 			if (onboard && provider) {
-				console.log('re login');
 				if (onboard) {
 					onboard.walletReset();
 					if (typeof window !== 'undefined') {
@@ -127,38 +87,20 @@ export default function Web3ContextProvider({ children }) {
 				}
 			}
 		}
-		if (address !== null && isAddress(address)) {
-			setPreviousAddress(address);
-			// const timer1 = setTimeout(() => rehydrate('account'), 3000);
-			// return () => {
-			// 	clearTimeout(timer1);
-			// };
-		}
-	}, [onboard, provider, address, previousAddress, rehydrate]);
+	}, [onboard, provider, address, previousAddress]);
 
 	const balanceChanged = useCallback(() => {
 		console.log('BALANCE CHANGED', balance);
-		// const timer1 = setTimeout(() => rehydrate('account'), 4000);
-		// return () => {
-		// 	clearTimeout(timer1);
-		// };
-	}, [balance, rehydrate]);
+	}, [balance]);
 
 	useEffect(() => {
+		setPreviousAddress(address);
 		addressChanged();
 	}, [address, addressChanged]);
 
 	useEffect(() => {
 		balanceChanged();
 	}, [balance, balanceChanged]);
-
-	const getContracts = async (ethersProvider) => {
-		if (ethersProvider) {
-			await setContractToken(new Contract(Addresses.EthemeralLifeForce, abis.EthemeralLifeForce, getSigner(ethersProvider)));
-			console.log('GOT CONTRACTS');
-		} else {
-		}
-	};
 
 	const login = async () => {
 		if (onboard) {
@@ -176,7 +118,7 @@ export default function Web3ContextProvider({ children }) {
 		}
 
 		const ready = await onboard.walletCheck();
-		console.log(ready);
+		console.log('ready', ready);
 		return ready;
 	}
 
@@ -185,13 +127,9 @@ export default function Web3ContextProvider({ children }) {
 			<OnboardContext.Provider value={onboard}>
 				<BalanceContext.Provider value={balance}>
 					<AddressContext.Provider value={address}>
-						<ContractTokenContext.Provider value={contractToken}>
-							<LoginContext.Provider value={login}>
-								<ReadyToTransactContext.Provider value={readyToTransact}>
-									<RehydrateContext.Provider value={rehydrate}>{children}</RehydrateContext.Provider>
-								</ReadyToTransactContext.Provider>
-							</LoginContext.Provider>
-						</ContractTokenContext.Provider>
+						<LoginContext.Provider value={login}>
+							<ReadyToTransactContext.Provider value={readyToTransact}>{children}</ReadyToTransactContext.Provider>
+						</LoginContext.Provider>
 					</AddressContext.Provider>
 				</BalanceContext.Provider>
 			</OnboardContext.Provider>

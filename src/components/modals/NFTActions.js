@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import Images from '../../constants/Images';
-import Links from '../../constants/Links';
 
 import useUserAccount from '../../hooks/useUserAccount';
 import Gift from './actions/Gift';
 import MakeMain from './actions/MakeMain';
 
 const NFTActions = ({ nft }) => {
-	const { account, address } = useUserAccount();
+	const { account } = useUserAccount();
 
 	const [isOwned, setIsOwned] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);

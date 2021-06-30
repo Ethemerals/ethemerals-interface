@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Range, getTrackBackground } from 'react-range';
-import { useQuery } from 'react-query';
 import { Contract } from '@ethersproject/contracts';
 
 import abis from '../../../constants/contracts/abis';
@@ -9,7 +8,7 @@ import Addresses from '../../../constants/contracts/Addresses';
 import FunctionTx from '../../../constants/FunctionTx';
 import getSigner from '../../../constants/Signer';
 import { useSendTx } from '../../../hooks/TxContext';
-import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
+import { useWeb3, useReadyToTransact } from '../../../hooks/Web3Context';
 
 import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../WaitingConfirmation';
@@ -24,8 +23,16 @@ const rangeDefaults = {
 	step: 2,
 };
 
+const getContracts = async (provider, setContractBattle) => {
+	if (provider) {
+		await setContractBattle(new Contract(Addresses.EternalBattle, abis.EternalBattle, getSigner(provider)));
+		console.log('GOT BATTLE CONTRACTS');
+	} else {
+	}
+};
+
 const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
-	const { mainID, mainIndex, userNFTs } = useUserAccount();
+	const { mainIndex, userNFTs } = useUserAccount();
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 
 	const provider = useWeb3();
@@ -56,16 +63,8 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	}, [priceFeed, long]);
 
 	useEffect(() => {
-		getContracts();
+		getContracts(provider, setContractBattle);
 	}, [provider]);
-
-	const getContracts = async () => {
-		if (provider) {
-			await setContractBattle(new Contract(Addresses.EternalBattle, abis.EternalBattle, getSigner(provider)));
-			console.log('GOT BATTLE CONTRACTS');
-		} else {
-		}
-	};
 
 	useEffect(() => {
 		setPosition(positionMult * rangeValues[0]);
@@ -88,7 +87,6 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	const onSubmitStake = async () => {
 		if (contractBattle && readyToTransact()) {
 			setIsConfirmationOpen(true);
-			console.log(userNFT.id, priceFeed.id, position, long);
 			try {
 				let id = userNFT.id;
 				let priceFeedId = priceFeed.id;

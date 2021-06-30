@@ -1,12 +1,3 @@
-import { useState, useEffect } from 'react';
-
-import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
-
-import { Contract } from '@ethersproject/contracts';
-import getSigner from '../constants/Signer';
-import abis from '../constants/contracts/abis';
-import Addresses from '../constants/contracts/Addresses';
-
 import { usePriceFeedContract } from '../hooks/usePriceFeed';
 
 import PriceFeeds from '../constants/PriceFeeds';

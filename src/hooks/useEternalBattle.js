@@ -1,22 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { Contract } from '@ethersproject/contracts';
 
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_ETERNALBATTLE_ACCOUNT } from '../queries/Subgraph';
 
-import { useSendTx } from './TxContext';
-import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from './Web3Context';
+import { useWeb3 } from './Web3Context';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import Addresses from '../constants/contracts/Addresses';
 
+const getContracts = async (provider, setContractBattle) => {
+	if (provider) {
+		await setContractBattle(new Contract(Addresses.EternalBattle, abis.EternalBattle, getSigner(provider)));
+		console.log('GOT BATTLE CONTRACTS');
+	} else {
+	}
+};
+
 const getChange = async (contract, id) => {
 	if (contract) {
 		try {
 			const value = await contract.getChange(id);
-			console.log(value);
 
 			if (value[0].toString() === '0') {
 				return 0;
@@ -34,7 +40,7 @@ const getChange = async (contract, id) => {
 };
 
 export const useExternalBattleGetChange = (contract, id) => {
-	const { isLoading, isError, data } = useQuery([`getChange_${id}`, id], () => getChange(contract, id));
+	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(contract, id));
 
 	const [scoreChange, setScoreChange] = useState(undefined);
 
@@ -53,22 +59,14 @@ export const useEternalBattleContract = () => {
 	const [contractBattle, setContractBattle] = useState(undefined);
 
 	useEffect(() => {
-		getContracts();
+		getContracts(provider, setContractBattle);
 	}, [provider]);
-
-	const getContracts = async () => {
-		if (provider) {
-			await setContractBattle(new Contract(Addresses.EternalBattle, abis.EternalBattle, getSigner(provider)));
-			console.log('GOT BATTLE CONTRACTS');
-		} else {
-		}
-	};
 
 	return { contractBattle };
 };
 
 export const useEternalBattleAccount = () => {
-	const { data, status, loaded } = useGQLQuery('account_eternalBattle', GET_ETERNALBATTLE_ACCOUNT, { id: Addresses.EternalBattle.toLowerCase() });
+	const { data } = useGQLQuery('account_eternalBattle', GET_ETERNALBATTLE_ACCOUNT, { id: Addresses.EternalBattle.toLowerCase() });
 	const [accountEternalBattle, setAccountEternalBattle] = useState(null);
 
 	useEffect(() => {

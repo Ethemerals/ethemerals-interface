@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { Contract } from '@ethersproject/contracts';
 import axios from 'axios';
 
-import { useGQLQuery } from '../hooks/useGQLQuery';
-import { GET_ETERNALBATTLE_ACCOUNT } from '../queries/Subgraph';
-
-import { useSendTx } from './TxContext';
-import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from './Web3Context';
+import { useWeb3 } from './Web3Context';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
@@ -47,7 +43,7 @@ const getPrice = async (contract, priceFeed) => {
 };
 
 export const usePriceFeedPrice = (contract, priceFeed) => {
-	const { isLoading, isError, data } = useQuery([`priceFeed_${priceFeed.id}`, priceFeed.id], () => getPrice(contract, priceFeed));
+	const { isLoading, data } = useQuery([`priceFeed_${priceFeed.id}`, priceFeed.id], () => getPrice(contract, priceFeed));
 
 	const [price, setPriceFeed] = useState(undefined);
 
@@ -60,22 +56,22 @@ export const usePriceFeedPrice = (contract, priceFeed) => {
 	return { price };
 };
 
+const getContracts = async (provider, setContractPriceFeed) => {
+	if (provider) {
+		await setContractPriceFeed(new Contract(Addresses.priceFeed, abis.priceFeed, getSigner(provider)));
+		console.log('GOT PRICEFEED CONTRACTS');
+	} else {
+	}
+};
+
 export const usePriceFeedContract = () => {
 	const provider = useWeb3();
 
 	const [contractPriceFeed, setContractPriceFeed] = useState(undefined);
 
 	useEffect(() => {
-		getContracts();
+		getContracts(provider, setContractPriceFeed);
 	}, [provider]);
-
-	const getContracts = async () => {
-		if (provider) {
-			await setContractPriceFeed(new Contract(Addresses.priceFeed, abis.priceFeed, getSigner(provider)));
-			console.log('GOT PRICEFEED CONTRACTS');
-		} else {
-		}
-	};
 
 	return { contractPriceFeed };
 };

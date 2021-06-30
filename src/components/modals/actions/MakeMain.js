@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 import useUserAccount from '../../../hooks/useUserAccount';
 
 const MakeMain = ({ id }) => {

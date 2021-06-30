@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
-import { shortenAddress, formatELF, formatETH } from '../../utils';
+import { shortenAddress, formatETH } from '../../utils';
 import { useMiningStatus } from '../../hooks/TxContext';
-import UserAccount from '../modals/UserAccount';
-import UserNFTs from '../modals/UserNFTs';
-import UserELF from '../modals/UserElf';
+
 import UserModal from '../modals/UserModal';
 
-import { useGQLQuery } from '../../hooks/useGQLQuery';
-import { GET_ACCOUNT } from '../../queries/Subgraph';
 import useUserAccount from '../../hooks/useUserAccount';
 
 // import { useMiningStatus } from './hooks/TxContext';
@@ -24,7 +20,7 @@ const Spinner = () => (
 
 const AccountBar = () => {
 	const mining = useMiningStatus();
-	const { account, loaded, status, address, balance } = useUserAccount();
+	const { address, balance } = useUserAccount();
 
 	const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 	const [selectedUserModal, setSelectedUserModal] = useState(0);

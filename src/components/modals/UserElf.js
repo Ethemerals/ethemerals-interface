@@ -5,7 +5,7 @@ import { formatELF, formatETH } from '../../utils';
 import useUserAccount from '../../hooks/useUserAccount';
 
 const UserELF = () => {
-	const { account, loaded, status, address, balance } = useUserAccount();
+	const { account, balance } = useUserAccount();
 
 	return (
 		<>

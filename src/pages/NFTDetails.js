@@ -2,15 +2,12 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
+import { useAddress } from '../hooks/Web3Context';
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_NFT } from '../queries/Subgraph';
-import useUserAccount from '../hooks/useUserAccount';
 import useParseAction from '../hooks/useParseActions';
 
 import NFTActions from '../components/modals/NFTActions';
-
-import { Links } from '../constants/Links';
 
 import { shortenAddress } from '../utils';
 
@@ -37,7 +34,6 @@ const NFTDetails = () => {
 
 	const [nft, setNFT] = useState({});
 	const [ready, setReady] = useState(false);
-	const [loggedIn, setIsLoggedIn] = useState(false);
 
 	useEffect(() => {
 		if (status === 'success' && data && data.ethemeral) {

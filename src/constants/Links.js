@@ -8,7 +8,6 @@ const Links = {
 	ETHEMERALS: 'https://app.ethemerals.com/ethemerals',
 	BATTLE: 'https://app.ethemerals.com/battle',
 	ELF: 'https://app.ethemerals.com/elf',
-	UNISWAP: 'https://google.com',
 	GITHUB: 'https://github.com/Ethemerals',
 	INSTAGRAM: 'https://www.instagram.com/ethemeralsart/',
 	TWITTER: 'https://twitter.com/ethemerals',

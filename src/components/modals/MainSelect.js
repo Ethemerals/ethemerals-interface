@@ -1,9 +1,6 @@
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import useUserAccount from '../../hooks/useUserAccount';
 
-import Images from '../../constants/Images';
-import { shortenAddress, formatELF, formatETH } from '../../utils';
+import { formatELF } from '../../utils';
 
 const UserModal = ({ toggle }) => {
 	const { mainIndex, mutateUser, userNFTs, account } = useUserAccount();

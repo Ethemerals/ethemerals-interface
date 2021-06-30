@@ -1,9 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import Images from '../../constants/Images';
-
-import { shortenAddress, formatELF, formatETH } from '../../utils';
 import useUserAccount from '../../hooks/useUserAccount';
 
 import UserAccount from './UserAccount';
@@ -26,7 +23,7 @@ const ModalMenuItem = ({ toggle, selected, text }) => {
 };
 
 const UserModal = ({ toggle, selected }) => {
-	const { account, loaded, status, address, balance } = useUserAccount();
+	const { account } = useUserAccount();
 
 	const [selectedTab, setSelectedTab] = useState(selected);
 	const [active, setActive] = useState(false);

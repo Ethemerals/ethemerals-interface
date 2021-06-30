@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_NFTS } from '../queries/Subgraph';
 
-import { shortenAddress, formatELF, formatETH } from '../utils';
+import { shortenAddress } from '../utils';
 
 const NFTCard = ({ nft }) => {
 	return (

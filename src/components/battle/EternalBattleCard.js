@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from 'react-query';
 
 import EternalBattleStake from '../modals/actions/EternalBattleStake';
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
@@ -30,7 +29,7 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
 			}
 		}
 		setStakedNFTs(staked);
-	}, [accountEternalBattle]);
+	}, [accountEternalBattle, priceFeed.id]);
 
 	useEffect(() => {
 		setBaseName(priceFeed.baseName);

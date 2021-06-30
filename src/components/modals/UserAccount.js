@@ -38,7 +38,7 @@ const ActionLink = (action) => {
 const UserAccount = () => {
 	const provider = useWeb3();
 	const login = useLogin();
-	const { account, loaded, address, balance } = useUserAccount();
+	const { address } = useUserAccount();
 	const [copied, copy] = useCopyToClipboard(address);
 
 	const [connection, setConnection] = useState('');

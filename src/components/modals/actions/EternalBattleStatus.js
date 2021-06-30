@@ -1,15 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { Range, getTrackBackground } from 'react-range';
-import { useQuery } from 'react-query';
-import { Contract } from '@ethersproject/contracts';
-
-import abis from '../../../constants/contracts/abis';
-import Addresses from '../../../constants/contracts/Addresses';
 import FunctionTx from '../../../constants/FunctionTx';
-import getSigner from '../../../constants/Signer';
 import { useSendTx } from '../../../hooks/TxContext';
-import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
+import { useWeb3, useReadyToTransact } from '../../../hooks/Web3Context';
 
 import { useEternalBattleContract, useExternalBattleGetChange } from '../../../hooks/useEternalBattle';
 import useUserAccount from '../../../hooks/useUserAccount';
@@ -25,7 +17,7 @@ const NFTComputedScore = ({ contract, nft, setScoreChange }) => {
 
 	useEffect(() => {
 		setScoreChange(scoreChange);
-	}, [scoreChange]);
+	}, [scoreChange, setScoreChange]);
 
 	if (scoreChange === undefined) {
 		return (
@@ -46,7 +38,7 @@ const NFTComputedScore = ({ contract, nft, setScoreChange }) => {
 };
 
 const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwned }) => {
-	const { mainID, mainIndex, userNFTs } = useUserAccount();
+	const { mainID, userNFTs } = useUserAccount();
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 	const { contractBattle } = useEternalBattleContract();
 	const provider = useWeb3();

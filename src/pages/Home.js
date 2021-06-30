@@ -1,36 +1,50 @@
 import { useState, useEffect } from 'react';
-import { useGQLQuery } from '../hooks/useGQLQuery';
-import { GET_CORE } from '../queries/Subgraph';
 
 import { BigNumber } from '@ethersproject/bignumber';
 
-import Addresses from '../constants/contracts/Addresses';
 import FunctionTx from '../constants/FunctionTx';
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
-import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
+import { useWeb3, useAddress, useOnboard, useLogin, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
 import { useCoreContract, useCore } from '../hooks/useCore';
+import { useTokenContract } from '../hooks/useToken';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 const requiredElfDiscount = 2000;
 
+const isDiscountable = async (contractToken, address, setDiscountable) => {
+	try {
+		const value = await contractToken.balanceOf(address);
+		let elfBalance = 0;
+		if (value) {
+			elfBalance = formatELF(value);
+		}
+		if (elfBalance >= requiredElfDiscount) {
+			setDiscountable(true);
+		} else {
+			setDiscountable(false);
+		}
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const Home = () => {
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
+	const { contractToken } = useTokenContract();
 
 	const provider = useWeb3();
 	const address = useAddress();
 	const onboard = useOnboard();
 	const login = useLogin();
-	const contractToken = useContractToken();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
 	const [discountable, setDiscountable] = useState(false);
-	const [discountPrice, setDiscountPrice] = useState(false);
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
@@ -45,20 +59,15 @@ const Home = () => {
 
 	useEffect(() => {
 		if (contractToken) {
-			isDiscountable();
+			isDiscountable(contractToken, address, setDiscountable);
 		}
 	}, [contractToken, address]);
-
-	useEffect(() => {
-		console.log(core);
-	}, [core]);
 
 	const onSubmitBuy = async () => {
 		if (contractCore && readyToTransact()) {
 			setIsConfirmationOpen(true);
 			try {
 				let value = await contractCore.mintPrice();
-				console.log(formatETH(value));
 				if (discountable) {
 					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(2000))).div(BigNumber.from(10000));
 				}
@@ -76,37 +85,6 @@ const Home = () => {
 		} else {
 			// connect
 			console.log('no wallet');
-		}
-	};
-
-	const onSubmitTest = async () => {
-		if (contractCore) {
-			try {
-				let value = await contractCore.getCoinScore(10);
-				console.log(value.toString());
-			} catch (error) {
-				console.log(`${error.data} \n${error.message}`);
-			}
-		} else {
-			// connect
-			console.log('no wallet');
-		}
-	};
-
-	const isDiscountable = async () => {
-		try {
-			const value = await contractToken.balanceOf(address);
-			let elfBalance = 0;
-			if (value) {
-				elfBalance = formatELF(value);
-			}
-			if (elfBalance >= requiredElfDiscount) {
-				setDiscountable(true);
-			} else {
-				setDiscountable(false);
-			}
-		} catch (error) {
-			console.log(error);
 		}
 	};
 
@@ -138,10 +116,6 @@ const Home = () => {
 							Connect Wallet to Mint
 						</button>
 					)}
-
-					<button onClick={onSubmitTest} className="bg-brandColor text-xl text-bold px-4 py-2 my-10 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-						Test
-					</button>
 				</div>
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Mint an Ethemeral, good luck!" />}

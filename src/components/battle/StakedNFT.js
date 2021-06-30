@@ -18,7 +18,7 @@ const StakedNFT = ({ nft, contractPriceFeed, priceFeed }) => {
 				setIsOwned(true);
 			}
 		}
-	}, [account]);
+	}, [account, nft]);
 
 	return (
 		<>
