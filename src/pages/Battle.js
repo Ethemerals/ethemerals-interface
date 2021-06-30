@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
+import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
 
 import { Contract } from '@ethersproject/contracts';
 import getSigner from '../constants/Signer';

@@ -4,7 +4,6 @@ export const GET_CORE = gql`
 	query ($id: ID!) {
 		core(id: $id) {
 			id
-			owner
 			mintPrice
 			revivePrice
 			winnerFunds
@@ -153,7 +152,6 @@ export const GET_ACCOUNT_ACTIONS = gql`
 				timestamp
 				account {
 					id
-					disallowDelegates
 				}
 				ethemeral {
 					id
@@ -164,6 +162,14 @@ export const GET_ACCOUNT_ACTIONS = gql`
 					to
 				}
 			}
+		}
+	}
+`;
+
+export const GET_CORE_ACCOUNT = gql`
+	query ($id: ID!) {
+		account(id: $id) {
+			elfBalance
 		}
 	}
 `;

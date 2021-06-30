@@ -8,8 +8,9 @@ import Addresses from '../constants/contracts/Addresses';
 import FunctionTx from '../constants/FunctionTx';
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
-import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
+import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
+import { useCoreContract, useCore } from '../hooks/useCore';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
@@ -17,19 +18,17 @@ import ErrorDialogue from '../components/modals/ErrorDialogue';
 const requiredElfDiscount = 2000;
 
 const Home = () => {
-	const { data, status } = useGQLQuery('core', GET_CORE, { id: Addresses.Ethemerals });
+	const { core } = useCore();
+	const { contractCore } = useCoreContract();
 
 	const provider = useWeb3();
 	const address = useAddress();
 	const onboard = useOnboard();
 	const login = useLogin();
-	const contractCore = useContractCore();
 	const contractToken = useContractToken();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
-	const [core, setCore] = useState({});
-	const [ready, setReady] = useState(false);
 	const [discountable, setDiscountable] = useState(false);
 	const [discountPrice, setDiscountPrice] = useState(false);
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -45,17 +44,14 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		if (status === 'success' && data && data.core) {
-			setCore(data.core);
-			setReady(true);
-		}
-	}, [status, data]);
-
-	useEffect(() => {
 		if (contractToken) {
 			isDiscountable();
 		}
 	}, [contractToken, address]);
+
+	useEffect(() => {
+		console.log(core);
+	}, [core]);
 
 	const onSubmitBuy = async () => {
 		if (contractCore && readyToTransact()) {
@@ -120,17 +116,18 @@ const Home = () => {
 			<div className="w-full h-full flex justify-center fixed top-0 left-0">
 				<div className=" w-11/12 max-w-420 h-96 center overflow-hidden z-30 tracking-wide p-4">
 					<h2>Contract</h2>
-					{ready && (
+					{core && (
 						<>
 							<p>Contract Address: {shortenAddress(core.id)}</p>
-							<p>Contract Owner: {shortenAddress(core.owner)}</p>
 							<p>{`Mint / Revive Price: ${formatETH(core.mintPrice, 6)} ETH`}</p>
 							<p>{`Revive Price: ${formatELF(core.revivePrice)} ELF`}</p>
 							<p>{`Winner Funds: ${formatELF(core.winnerFunds)} ELF`}</p>
+							<p>{`Winner Mult: ${core.winnerMult}`}</p>
+							<p>{`Winning Coin: ${core.winningCoin}`}</p>
 							<p>{discountable ? '20% Discount' : 'No Discount'}</p>
 						</>
 					)}
-					{contractCore && ready && (
+					{contractCore && core && (
 						<button onClick={onSubmitBuy} className="bg-brandColor text-xl text-bold px-4 py-2 center my-10 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 							{`mint for ${formatETH(core.mintPrice, 3)} ETH`}
 						</button>

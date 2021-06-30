@@ -9,7 +9,7 @@ import Addresses from '../../../constants/contracts/Addresses';
 import FunctionTx from '../../../constants/FunctionTx';
 import getSigner from '../../../constants/Signer';
 import { useSendTx } from '../../../hooks/TxContext';
-import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
+import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
 
 import { useEternalBattleContract, useExternalBattleGetChange } from '../../../hooks/useEternalBattle';
 import useUserAccount from '../../../hooks/useUserAccount';
@@ -170,7 +170,7 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 						)}
 						{!provider && <p>* Connect your wallet to view the Ethemeral's status</p>}
 						{marginCall && <p>* Looks like this Ethemeral has fallen, Revive or Reap?</p>}
-						{userNFTs.length < 1 && <p>* You need your own Ethemeral to Revive or Reap</p>}
+						{provider && userNFTs.length < 1 && <p>* You need your own Ethemeral to Revive or Reap</p>}
 
 						{!isOwned && (
 							<>

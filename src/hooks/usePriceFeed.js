@@ -7,7 +7,7 @@ import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_ETERNALBATTLE_ACCOUNT } from '../queries/Subgraph';
 
 import { useSendTx } from './TxContext';
-import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from './Web3Context';
+import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from './Web3Context';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';

@@ -9,7 +9,7 @@ import Addresses from '../../../constants/contracts/Addresses';
 import FunctionTx from '../../../constants/FunctionTx';
 import getSigner from '../../../constants/Signer';
 import { useSendTx } from '../../../hooks/TxContext';
-import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
+import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
 
 import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../WaitingConfirmation';

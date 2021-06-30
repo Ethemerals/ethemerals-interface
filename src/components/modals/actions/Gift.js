@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../hooks/TxContext';
-import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
+import { useWeb3, useAddress, useOnboard, useLogin, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
+import { useCoreContract } from '../../../hooks/useCore';
 
 import FunctionTx from '../../../constants/FunctionTx';
 import WaitingConfirmation from '../WaitingConfirmation';
@@ -10,12 +11,8 @@ import ErrorDialogue from '../ErrorDialogue';
 const Gift = ({ toggle, nft }) => {
 	const { register, handleSubmit } = useForm();
 
-	const provider = useWeb3();
 	const address = useAddress();
-	const onboard = useOnboard();
-	const login = useLogin();
-	const contractCore = useContractCore();
-	const contractToken = useContractToken();
+	const { contractCore } = useCoreContract();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
@@ -30,6 +27,10 @@ const Gift = ({ toggle, nft }) => {
 	const toggleError = () => {
 		setIsErrorOpen(!isErrorOpen);
 	};
+
+	useEffect(() => {
+		console.log(contractCore);
+	}, [contractCore]);
 
 	const onSubmitGift = async (data) => {
 		if (contractCore && readyToTransact()) {
