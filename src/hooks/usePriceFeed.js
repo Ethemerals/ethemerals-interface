@@ -15,7 +15,6 @@ import Addresses from '../constants/contracts/Addresses';
 
 const getPriceAPI = async (id) => {
 	const url = `${process.env.REACT_APP_API_URL}pricefeed/${id}`;
-	console.log(url);
 	const { data } = await axios.get(url);
 	if (data.success) {
 		return data.result;

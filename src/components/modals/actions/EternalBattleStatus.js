@@ -12,8 +12,11 @@ import { useSendTx } from '../../../hooks/TxContext';
 import { useWeb3, useAddress, useOnboard, useLogin, useContractCore, useContractToken, useReadyToTransact } from '../../../hooks/Web3Context';
 
 import { useEternalBattleContract, useExternalBattleGetChange } from '../../../hooks/useEternalBattle';
+import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
+
+import Spinner from '../../Spinner';
 
 import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
 
@@ -25,7 +28,11 @@ const NFTComputedScore = ({ contract, nft, setScoreChange }) => {
 	}, [scoreChange]);
 
 	if (scoreChange === undefined) {
-		return <p>Loading</p>;
+		return (
+			<p className="flex space-x-10 justify-center items-center">
+				<Spinner />
+			</p>
+		);
 	}
 
 	return (
@@ -39,14 +46,17 @@ const NFTComputedScore = ({ contract, nft, setScoreChange }) => {
 };
 
 const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwned }) => {
+	const { mainID, mainIndex, userNFTs } = useUserAccount();
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 	const { contractBattle } = useEternalBattleContract();
+	const provider = useWeb3();
 
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
+	const [shouldReap, setShouldReap] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
 
 	const [allyName, setAllyName] = useState('');
@@ -106,6 +116,30 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 		}
 	};
 
+	const onSubmitRevive = async (reap) => {
+		if (contractBattle && readyToTransact()) {
+			setIsConfirmationOpen(true);
+			try {
+				setShouldReap(reap);
+				let id = nft.id;
+				const gasEstimate = await contractBattle.estimateGas.reviveToken(id, mainID, reap);
+				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.cancelStake.gasDiv));
+				const tx = await contractBattle.reviveToken(id, mainID, reap, { gasLimit });
+				console.log(tx);
+				sendTx(tx.hash, `${reap ? 'Reaped' : 'Revived'} #${id} Ethemeral`, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
+			} catch (error) {
+				setIsErrorOpen(true);
+				setErrorMsg('Transfer transaction rejected from user wallet');
+				console.log(`${error.data} \n${error.message}`);
+			}
+			setIsConfirmationOpen(false);
+			toggle();
+		} else {
+			// connect
+			console.log('no wallet');
+		}
+	};
+
 	return (
 		<>
 			<div className="w-full h-full flex justify-center fixed top-0 left-0">
@@ -134,18 +168,27 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 								Leave the Battle
 							</button>
 						)}
+						{!provider && <p>* Connect your wallet to view the Ethemeral's status</p>}
+						{marginCall && <p>* Looks like this Ethemeral has fallen, Revive or Reap?</p>}
+						{userNFTs.length < 1 && <p>* You need your own Ethemeral to Revive or Reap</p>}
 
 						{!isOwned && (
 							<>
 								<button
-									disabled={!marginCall}
-									className={`text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg bg-brandColor ${!marginCall ? 'opacity-50 cursor-default' : 'hover:bg-yellow-400 transition duration-300'}  `}
+									disabled={!marginCall || userNFTs.length < 1}
+									onClick={() => onSubmitRevive(false)}
+									className={`text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg bg-brandColor ${
+										!marginCall || userNFTs.length < 1 ? 'opacity-50 cursor-default' : 'hover:bg-yellow-400 transition duration-300'
+									}  `}
 								>
 									Revive
 								</button>
 								<button
-									disabled={!marginCall}
-									className={`text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg bg-brandColor ${!marginCall ? 'opacity-50 cursor-default' : 'hover:bg-yellow-400 transition duration-300'}  `}
+									disabled={!marginCall || userNFTs.length < 1}
+									onClick={() => onSubmitRevive(true)}
+									className={`text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg bg-brandColor ${
+										!marginCall || userNFTs.length < 1 ? 'opacity-50 cursor-default' : 'hover:bg-yellow-400 transition duration-300'
+									}  `}
 								>
 									Reap
 								</button>
@@ -154,7 +197,7 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 					</div>
 				</div>
 			</div>
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={`Retrieve ${nft.metadata.coin} from Battle`} />}
+			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={`${shouldReap ? 'Reaping' : 'Reviving'} ${nft.metadata.coin} from Battle`} />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</>
 	);

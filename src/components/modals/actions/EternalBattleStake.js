@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Range, getTrackBackground } from 'react-range';
 import { useQuery } from 'react-query';
 import { Contract } from '@ethersproject/contracts';
@@ -128,60 +129,67 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 								current price: {price} {priceFeed.quoteSymbol}
 							</p>
 						)}
-						{userNFT && (
+						{userNFT ? (
 							<>
 								<p className="">{`You are about to send ${userNFT.metadata.coin} to join ${allyName}'s Eternal Battle against ${enemyName}!`}</p>
 								<p>{`${userNFT.metadata.coin}'s current Honor Points: ${userNFT.score}`}</p>
+								<div className="flex justify-center py-4 items-center">
+									<p className="px-2">Multiplier: </p>
+									<button onClick={() => setPositionMult(1)} className={`p-2 ${positionMult === 1 ? 'bg-gray-400' : 'bg-gray-700'}`}>
+										1x
+									</button>
+									<button onClick={() => setPositionMult(10)} className={`p-2 ${positionMult === 10 ? 'bg-gray-400' : 'bg-gray-700'}`}>
+										10x
+									</button>
+									<button onClick={() => setPositionMult(100)} className={`p-2 ${positionMult === 100 ? 'bg-gray-400' : 'bg-gray-700'}`}>
+										100x
+									</button>
+								</div>
+
+								<Range
+									step={rangeDefaults.step}
+									min={rangeDefaults.min}
+									max={rangeDefaults.max}
+									values={rangeValues}
+									onChange={(rangeValues) => {
+										setRangeValues(rangeValues);
+									}}
+									renderTrack={({ props, children }) => (
+										<div
+											{...props}
+											className="w-64 h-3 pr-2 rounded-md mx-auto"
+											style={{
+												background: getTrackBackground({
+													values: rangeValues,
+													colors: ['#548BF4', '#ccc'],
+													min: rangeDefaults.min,
+													max: rangeDefaults.max,
+												}),
+											}}
+										>
+											{children}
+										</div>
+									)}
+									renderThumb={({ props }) => (
+										<div {...props} className="w-5 h-5 transform translate-x-10 bg-indigo-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" />
+									)}
+								/>
+
+								<p className="my-4">Stake {position} Honor Points</p>
+								<button onClick={onSubmitStake} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+									Enter the Battle
+								</button>
+							</>
+						) : (
+							<>
+								<p className="">{`You need to have an Ethemeral to join ${allyName}'s Eternal Battle against ${enemyName}`}</p>
+								<Link to="/">
+									<button onClick={onSubmitStake} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+										Mint an Ethemeral
+									</button>
+								</Link>
 							</>
 						)}
-
-						<div className="flex justify-center py-4 items-center">
-							<p className="px-2">Multiplier: </p>
-							<button onClick={() => setPositionMult(1)} className={`p-2 ${positionMult === 1 ? 'bg-gray-400' : 'bg-gray-700'}`}>
-								1x
-							</button>
-							<button onClick={() => setPositionMult(10)} className={`p-2 ${positionMult === 10 ? 'bg-gray-400' : 'bg-gray-700'}`}>
-								10x
-							</button>
-							<button onClick={() => setPositionMult(100)} className={`p-2 ${positionMult === 100 ? 'bg-gray-400' : 'bg-gray-700'}`}>
-								100x
-							</button>
-						</div>
-
-						<Range
-							step={rangeDefaults.step}
-							min={rangeDefaults.min}
-							max={rangeDefaults.max}
-							values={rangeValues}
-							onChange={(rangeValues) => {
-								setRangeValues(rangeValues);
-							}}
-							renderTrack={({ props, children }) => (
-								<div
-									{...props}
-									className="w-64 h-3 pr-2 rounded-md mx-auto"
-									style={{
-										background: getTrackBackground({
-											values: rangeValues,
-											colors: ['#548BF4', '#ccc'],
-											min: rangeDefaults.min,
-											max: rangeDefaults.max,
-										}),
-									}}
-								>
-									{children}
-								</div>
-							)}
-							renderThumb={({ props }) => (
-								<div {...props} className="w-5 h-5 transform translate-x-10 bg-indigo-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" />
-							)}
-						/>
-
-						<p className="my-4">Stake {position} Honor Points</p>
-
-						<button onClick={onSubmitStake} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-							Enter the Battle
-						</button>
 					</div>
 				</div>
 			</div>

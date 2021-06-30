@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { GraphQLClient } from 'graphql-request';
 
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 
-import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_ACCOUNT } from '../queries/Subgraph';
 import { useAddress, useBalance } from '../hooks/Web3Context';
 import { isAddress } from '../utils';
@@ -36,12 +36,27 @@ const getUser = async (id) => {
 	}
 };
 
+export const getAccount = async (variables) => {
+	if (isAddress(variables.id)) {
+		try {
+			let endpoint = 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals';
+			const graphQLClient = new GraphQLClient(endpoint);
+			const fetchData = await graphQLClient.request(GET_ACCOUNT, variables);
+			return fetchData;
+		} catch (error) {
+			throw new Error('get account error');
+		}
+	} else {
+		return { message: 'address not valid' };
+	}
+};
+
 const useUserAccount = () => {
 	const address = useAddress();
 	const balance = useBalance();
 	const queryClient = useQueryClient();
 
-	const { data, status, loaded } = useGQLQuery('account', GET_ACCOUNT, { id: address });
+	const { data, status, loaded } = useQuery('account', () => getAccount({ id: address }));
 	const { isLoading: userIsLoading, data: userData } = useQuery(['user', address], () => getUser(address));
 	const mutateUser = useMutation(updateUser, { onSuccess: () => queryClient.invalidateQueries('user') });
 
