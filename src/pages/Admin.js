@@ -543,7 +543,7 @@ const Admin = () => {
 				</button>
 				<br></br>
 				<button onClick={() => getReviverTokenReward(contractBattle, setReviverTokenReward)} className="bg-gray-800 text-xs px-4 py-2 m-2 rounded hover:bg-yellow-400 transition duration-300">
-					Get Token Rewards: {formatELF(reviverTokenReward)}
+					Get Token Rewards: {reviverTokenReward && formatELF(reviverTokenReward)}
 				</button>
 				<br></br>
 				<button onClick={handleSubmit(onSubmitCancelStakeAdmin)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">

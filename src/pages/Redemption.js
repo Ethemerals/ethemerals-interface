@@ -2,14 +2,19 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { useAddress } from '../hooks/Web3Context';
+import { useWeb3, useAddress, useOnboard, useLogin, useReadyToTransact } from '../hooks/Web3Context';
+import { useSendTx } from '../hooks/TxContext';
+import { useCoreContract, useCore } from '../hooks/useCore';
+
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
 
-import NFTActions from '../components/modals/NFTActions';
+import { shortenAddress, formatELF, formatETH } from '../utils';
 
-import { shortenAddress, formatELF } from '../utils';
+import WaitingConfirmation from '../components/modals/WaitingConfirmation';
+import ErrorDialogue from '../components/modals/ErrorDialogue';
+import { useTokenContract } from '../hooks/useToken';
 
 const ActionLink = (action) => {
 	const [actionString, txLink] = useParseAction(action);
@@ -25,15 +30,38 @@ const ActionLink = (action) => {
 	);
 };
 
-const NFTDetails = () => {
-	const address = useAddress();
+const Redemption = () => {
 	const history = useHistory();
+
+	const { core } = useCore();
+	const { contractCore } = useCoreContract();
+	const { contractToken } = useTokenContract();
+
+	const provider = useWeb3();
+	const address = useAddress();
+	const onboard = useOnboard();
+	const login = useLogin();
+	const sendTx = useSendTx();
+	const readyToTransact = useReadyToTransact();
 
 	const { id } = useParams();
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id });
 
 	const [nft, setNFT] = useState({});
 	const [ready, setReady] = useState(false);
+
+	// TRANSACTIONS
+	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+	const [isErrorOpen, setIsErrorOpen] = useState(false);
+	const [errorMsg, setErrorMsg] = useState('');
+
+	const toggleConfirmation = () => {
+		setIsConfirmationOpen(!isConfirmationOpen);
+	};
+
+	const toggleError = () => {
+		setIsErrorOpen(!isErrorOpen);
+	};
 
 	useEffect(() => {
 		if (status === 'success' && data && data.ethemeral) {
@@ -42,17 +70,45 @@ const NFTDetails = () => {
 		}
 	}, [status, data]);
 
+	const onSubmitRedeem = async () => {
+		if (contractCore && readyToTransact()) {
+			setIsConfirmationOpen(true);
+			try {
+				let id = nft.id;
+				const gasEstimate = await contractCore.estimateGas.redeemTokens(id);
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const tx = await contractCore.redeemTokens(id, { gasLimit });
+				console.log(tx);
+				sendTx(tx.hash, 'Redeem ELF', true, ['account', `nft_${id}`]);
+			} catch (error) {
+				setIsErrorOpen(true);
+				setErrorMsg('Redeem transaction rejected from user wallet');
+				console.log(`${error.data} \n${error.message}`);
+			}
+			setIsConfirmationOpen(false);
+		} else {
+			// connect
+			console.log('no wallet');
+		}
+	};
+
 	if (!ready || isLoading !== false || status !== 'success') {
 		return <p>Loading {id}</p>;
 	}
 
 	return (
 		<div>
-			<h1>NFT Details</h1>
+			<h1>Redemption</h1>
 			<button type="button" onClick={() => history.goBack()}>
 				Go back
 			</button>
-			{address && <NFTActions nft={nft} />}
+			<br></br>
+
+			<div>
+				<button onClick={onSubmitRedeem} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+					Redeem {formatELF(nft.rewards)} ELF From {nft.metadata.coin}
+				</button>
+			</div>
 
 			<div className="w-420 p-4 m-4 bg-gray-700 rounded shadow-lg">
 				<h2 className="capitalize">{`${nft.metadata.coin} #${nft.id}`}</h2>
@@ -85,8 +141,10 @@ const NFTDetails = () => {
 				<h4 className="text-xl pt-2">Actions:</h4>
 				<ul>{status === 'success' && nft && nft.actions.length > 0 && nft.actions.map((action, index) => <li key={index}>{ActionLink(action)}</li>)}</ul>
 			</div>
+			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Draining all Life Force from an Ethemeral!" />}
+			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</div>
 	);
 };
 
-export default NFTDetails;
+export default Redemption;

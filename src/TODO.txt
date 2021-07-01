@@ -6,12 +6,11 @@ parse actions
 
 receipt fixed on screen
 
-add admin functions
+ressurect with ELF
 
-ressurect
-
-redeem token
 redeem winner funds
 
 revver rewwards
 reaper rewards
+
+resurrect subgraph

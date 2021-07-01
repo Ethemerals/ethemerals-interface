@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import useUserAccount from '../../hooks/useUserAccount';
 import Gift from './actions/Gift';
@@ -34,9 +35,20 @@ const NFTActions = ({ nft }) => {
 		<>
 			<div className="w-48 h-64 bg-gray-900 top-40 right-4 fixed rounded-lg">
 				<MakeMain id={nft.id} />
+				<br></br>
 				<button onClick={toggleGift} className="bg-pink-700 p-4">
 					Gift
 				</button>
+				<br></br>
+				<Link to={`/redemption/${nft.id}`}>
+					<button className="bg-pink-700 p-4">Redeem</button>
+				</Link>
+				<br></br>
+				<Link to={`/resurrect/${nft.id}`}>
+					<button disabled={nft.score > 25} className={`${nft.score < 25 ? 'bg-pink-700' : 'bg-gray-800 cursor-default'} p-4`}>
+						Resurrect
+					</button>
+				</Link>
 			</div>
 			{isGiftOpen && <Gift nft={nft} toggle={toggleGift} />}
 		</>

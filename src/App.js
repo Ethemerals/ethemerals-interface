@@ -11,6 +11,8 @@ import Battle from './pages/Battle';
 import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
 import NFTDetails from './pages/NFTDetails';
+import Resurrect from './pages/Resurrect';
+import Redemption from './pages/Redemption';
 import Marketplace from './pages/Marketplace';
 import About from './pages/About';
 import Help from './pages/Help';
@@ -51,6 +53,12 @@ function App() {
 							</Route>
 							<Route exact path="/ethemeral/:id">
 								<NFTDetails />
+							</Route>
+							<Route exact path="/resurrect/:id">
+								<Resurrect />
+							</Route>
+							<Route exact path="/redemption/:id">
+								<Redemption />
 							</Route>
 							<Route exact path="/marketplace">
 								<Marketplace />
