@@ -56,7 +56,7 @@ const useUserAccount = () => {
 	const balance = useBalance();
 	const queryClient = useQueryClient();
 
-	const { data, status, loaded } = useQuery(`account_${address}`, () => getAccount({ id: address }));
+	const { data, status, loaded } = useQuery(`account`, () => getAccount({ id: address }));
 	const { isLoading: userIsLoading, data: userData } = useQuery(['user', address], () => getUser(address));
 	const mutateUser = useMutation(updateUser, { onSuccess: () => queryClient.invalidateQueries('user') });
 

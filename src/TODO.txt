@@ -12,3 +12,6 @@ ressurect
 
 redeem token
 redeem winner funds
+
+revver rewwards
+reaper rewards
