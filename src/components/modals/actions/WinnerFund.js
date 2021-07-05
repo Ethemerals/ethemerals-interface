@@ -2,16 +2,19 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../hooks/TxContext';
 import { useAddress, useReadyToTransact } from '../../../hooks/Web3Context';
-import { useCoreContract } from '../../../hooks/useCore';
+import { useCoreContract, useCore } from '../../../hooks/useCore';
 
 import FunctionTx from '../../../constants/FunctionTx';
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
 
-const ResurrectNFT = ({ toggle, nft }) => {
+import { formatELF } from '../../../utils';
+
+const Gift = ({ toggle, nft }) => {
 	const { register, handleSubmit } = useForm();
 
 	const address = useAddress();
+	const { core } = useCore();
 	const { contractCore } = useCoreContract();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
@@ -28,20 +31,19 @@ const ResurrectNFT = ({ toggle, nft }) => {
 		setIsErrorOpen(!isErrorOpen);
 	};
 
-	const onSubmitGift = async (data) => {
+	const onSubmitRedeemWinnerFunds = async () => {
 		if (contractCore && readyToTransact()) {
 			setIsConfirmationOpen(true);
 			try {
-				let toAddress = data.address;
 				let id = nft.id;
-				const gasEstimate = await contractCore.estimateGas.transferFrom(address, toAddress, id);
-				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.transferFrom.gasDiv));
-				const tx = await contractCore.transferFrom(address, toAddress, id, { gasLimit });
+				const gasEstimate = await contractCore.estimateGas.redeemWinnerFunds(id);
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const tx = await contractCore.redeemWinnerFunds(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, FunctionTx.transferFrom.receiptMsg, true, [`nft_${id}`, 'account']);
+				sendTx(tx.hash, 'Claim Highest Honor', true, [`nft_${id}`, 'account', 'core']);
 			} catch (error) {
 				setIsErrorOpen(true);
-				setErrorMsg('Transfer transaction rejected from user wallet');
+				setErrorMsg('Claim Highest Honor rejected from user wallet');
 				console.log(`${error.data} \n${error.message}`);
 			}
 			setIsConfirmationOpen(false);
@@ -65,21 +67,27 @@ const ResurrectNFT = ({ toggle, nft }) => {
 						</span>
 					</div>
 					<div className="text-center p-4">
-						<p className="text-2xl">Gift Ethemeral</p>
-						<p className="text-sm text-gray-200">{`You are about to gift #${nft.id} ${nft.metadata.coin} to another person, enter receiver's Ethereum wallet address to continue:`}</p>
-						<form className="p-4">
-							<input className="w-full text-black" {...register('address')} />
-							<button onClick={handleSubmit(onSubmitGift)} className="bg-brandColor text-xl text-bold px-4 py-2 center my-10 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-								Gift
-							</button>
-						</form>
+						<p className="text-2xl">Claim Honor Fund</p>
+						<p className="text-sm text-gray-200">You are about to claim the highest honor fund:</p>
+						{core && (
+							<>
+								<p>{`${formatELF(core.winnerFunds)} ELF`}</p>
+								<p>For owning the winning Ethemeral:</p>
+								<p>{`#${nft.id} ${nft.metadata.coin}`}</p>
+								<p className="text-sm">{`note: claiming will reset the rewards share percentage multiplier back to 1% (currently: ${core.winnerMult}%)`}</p>
+							</>
+						)}
+
+						<button onClick={onSubmitRedeemWinnerFunds} className="bg-brandColor text-xl text-bold px-4 py-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+							Claim
+						</button>
 					</div>
 				</div>
 			</div>
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Gift an Ethemeral, What a kind soul!" />}
+			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Claim the highest honor fund, Queen!" />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</>
 	);
 };
 
-export default ResurrectNFT;
+export default Gift;

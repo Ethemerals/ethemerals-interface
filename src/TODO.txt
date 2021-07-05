@@ -4,13 +4,8 @@ case where user doesn not allow delegates
 
 parse actions
 
-receipt fixed on screen
-
 ressurect with ELF
 
 redeem winner funds
 
-revver rewwards
-reaper rewards
-
-resurrect subgraph
+CONTRACT
