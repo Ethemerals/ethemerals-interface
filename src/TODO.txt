@@ -1,11 +1,13 @@
 add loadings everywhere
 
-case where user doesn not allow delegates
-
 parse actions
 
-ressurect with ELF
+case where user doesnt not allow delegates
 
-redeem winner funds
+subgraph ELF approvals
+subgraph TOKEN approvals
+
+dashboard
 
 CONTRACT
+promotion CONTRACT

@@ -161,7 +161,8 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 							</button>
 						)}
 						{!provider && <p>* Connect your wallet to view the Ethemeral's status</p>}
-						{marginCall && <p>* Looks like this Ethemeral has fallen, Revive or Reap?</p>}
+						{marginCall && isOwned && <p>Your Ethemeral has fallen, Leave the battle now or risk being Reaped</p>}
+						{marginCall && !isOwned && <p>* Looks like this Ethemeral has fallen, Revive or Reap?</p>}
 						{provider && userNFTs.length < 1 && <p>* You need your own Ethemeral to Revive or Reap</p>}
 
 						{!isOwned && (

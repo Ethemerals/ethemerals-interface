@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
+import { utils, BigNumber } from 'ethers';
 
 import { useWeb3, useAddress, useOnboard, useLogin, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
 import { useCoreContract, useCore } from '../hooks/useCore';
+
+import Addresses from '../constants/contracts/Addresses';
 
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_NFT } from '../queries/Subgraph';
@@ -15,6 +18,24 @@ import { shortenAddress, formatELF, formatETH } from '../utils';
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 import { useTokenContract } from '../hooks/useToken';
+
+const getAllowance = async (contract, owner, spender, setAllowance) => {
+	try {
+		const value = await contract.allowance(owner, spender);
+		setAllowance(value);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const getRevivePrice = async (contract, setRevivePrice) => {
+	try {
+		const value = await contract.revivePrice();
+		setRevivePrice(value);
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 const ActionLink = (action) => {
 	const [actionString, txLink] = useParseAction(action);
@@ -49,6 +70,9 @@ const Resurrect = () => {
 
 	const [nft, setNFT] = useState({});
 	const [ready, setReady] = useState(false);
+	const [allowance, setAllowance] = useState(undefined);
+	const [revivePrice, setRevivePrice] = useState(undefined);
+	const [isApproved, setIsApproved] = useState(false);
 
 	// TRANSACTIONS
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -64,11 +88,33 @@ const Resurrect = () => {
 	};
 
 	useEffect(() => {
+		if (contractToken) {
+			getAllowance(contractToken, address, Addresses.Ethemerals, setAllowance);
+		}
+	}, [contractToken, address, Addresses, setAllowance]);
+
+	useEffect(() => {
+		if (contractCore) {
+			getRevivePrice(contractCore, setRevivePrice);
+		}
+	}, [contractCore, setRevivePrice]);
+
+	useEffect(() => {
+		if (allowance && revivePrice) {
+			setIsApproved(allowance.gte(revivePrice));
+		}
+	}, [allowance, revivePrice]);
+
+	useEffect(() => {
 		if (status === 'success' && data && data.ethemeral) {
 			setNFT(data.ethemeral);
 			setReady(true);
 		}
 	}, [status, data]);
+
+	// check approved
+
+	// approve
 
 	const onSubmitResurrect = async (withETH) => {
 		if (contractCore && readyToTransact()) {
@@ -84,12 +130,8 @@ const Resurrect = () => {
 					sendTx(tx.hash, 'Resurrect Ethemeral', true, ['account', `nft_${id}`]);
 				} else {
 					let value = await contractCore.revivePrice();
-					console.log(value.toString());
 					value = await contractToken.balanceOf(address);
-					console.log(value.toString());
-					console.log(address);
 					const gasEstimate = await contractCore.estimateGas.resurrectWithToken(id, { from: address });
-					console.log(gasEstimate);
 					const gasLimit = gasEstimate.add(gasEstimate.div(9));
 					const tx = await contractCore.resurrectWithToken(id, { from: address, gasLimit });
 					console.log(tx);
@@ -98,6 +140,30 @@ const Resurrect = () => {
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Resurrect transaction rejected from user wallet');
+				console.log(`${error.data} \n${error.message}`);
+			}
+			setIsConfirmationOpen(false);
+		} else {
+			// connect
+			console.log('no wallet');
+		}
+	};
+
+	const onSubmitApprove = async () => {
+		if (contractToken && readyToTransact()) {
+			setIsConfirmationOpen(true);
+			try {
+				const mult = BigNumber.from('100');
+				const value = revivePrice.mul(mult);
+				console.log(value.toString());
+				const gasEstimate = await contractToken.estimateGas.approve(Addresses.Ethemerals, value);
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const tx = await contractToken.approve(Addresses.Ethemerals, value, { gasLimit });
+				console.log(tx);
+				sendTx(tx.hash, 'Approve ELF Spend limit', true, ['account']);
+			} catch (error) {
+				setIsErrorOpen(true);
+				setErrorMsg('Approve transaction rejected from user wallet');
 				console.log(`${error.data} \n${error.message}`);
 			}
 			setIsConfirmationOpen(false);
@@ -124,9 +190,16 @@ const Resurrect = () => {
 				<button onClick={() => onSubmitResurrect(true)} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 					Resurrect with ETH
 				</button>
-				<button onClick={() => onSubmitResurrect(false)} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-					Resurrect with ELF
-				</button>
+				{!isApproved && (
+					<button onClick={onSubmitApprove} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+						Approve ELF
+					</button>
+				)}
+				{isApproved && (
+					<button onClick={() => onSubmitResurrect(false)} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+						Resurrect with ELF
+					</button>
+				)}
 			</div>
 
 			<div className="w-420 p-4 m-4 bg-gray-700 rounded shadow-lg">

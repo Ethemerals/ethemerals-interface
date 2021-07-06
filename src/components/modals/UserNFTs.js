@@ -50,7 +50,7 @@ const UserNFTs = ({ toggle, toggleExtra }) => {
 		<>
 			<div className="h-28 m-4">
 				<div className="flex h-28">
-					<div className="h-full w-full text-sm text-center border border-r-0 border-gray-700 bg-gray-900 relative">
+					<div className="h-full w-2/4 text-sm text-center border border-r-0 border-gray-700 bg-gray-900 relative">
 						<div className="overflow-hidden center -my-3">
 							{mainIndex !== undefined && mainID && (
 								<>
@@ -65,7 +65,11 @@ const UserNFTs = ({ toggle, toggleExtra }) => {
 							</div>
 						)}
 					</div>
-					<img width="256" height="112" className="object-cover w-44 sm:w-64 h-28 cursor-pointer border-gray-600 border border-l-0" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
+					<div onClick={toggle} className="w-2/4 h-28 cursor-pointer border-gray-600 border border-l-0">
+						<Link to={`/ethemeral/${mainID}`}>
+							<img width="256" height="112" className="object-cover h-28" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
+						</Link>
+					</div>
 				</div>
 			</div>
 			<div className="p-4">

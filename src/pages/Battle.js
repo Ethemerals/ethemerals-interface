@@ -25,11 +25,9 @@ const Battle = () => {
 			if (account.ethemerals.length > 0) {
 				setIsOwnedWinning(false);
 				account.ethemerals.forEach((userNFT) => {
-					console.log(userNFT.id);
 					if (userNFT.id === core.winningCoin) {
 						setIsOwnedWinning(true);
 						setWinningCoin(userNFT);
-						console.log('winning');
 					}
 				});
 			}
