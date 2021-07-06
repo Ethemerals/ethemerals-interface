@@ -4,8 +4,6 @@ parse actions
 
 case where user doesnt not allow delegates
 
-subgraph ELF approvals
-subgraph TOKEN approvals
 
 dashboard
 

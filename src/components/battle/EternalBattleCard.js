@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 
 import EternalBattleStake from '../modals/actions/EternalBattleStake';
+import DisallowDelegates from '../modals/actions/DisallowDelegates';
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 import { usePriceFeedPrice } from '../../hooks/usePriceFeed';
 
 import StakedNFT from './StakedNFT';
+import useUserAccount from '../../hooks/useUserAccount';
 
 const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
-	const { accountEternalBattle } = useEternalBattleAccount(); // TODO INVALIDATE
+	const { accountEternalBattle } = useEternalBattleAccount();
+	const { account } = useUserAccount();
 
 	const [baseName, setBaseName] = useState('');
 	const [quoteName, setQuoteName] = useState('');
@@ -16,6 +19,7 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
 	const [stakedNFTs, setStakedNFTs] = useState([]);
 	const [isLong, setIsLong] = useState(true);
 	const [isCreateStakeOpen, setIsCreateStakeOpen] = useState(false);
+	const [isDisallowDelegatesOpen, setIsDisallowDelegatesOpen] = useState(false);
 
 	useEffect(() => {
 		const staked = [];
@@ -41,9 +45,17 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
 		setIsCreateStakeOpen(!isCreateStakeOpen);
 	};
 
+	const toggleDisallowDelegates = () => {
+		setIsDisallowDelegatesOpen(!isDisallowDelegatesOpen);
+	};
+
 	const handleJoinBattle = (long) => {
-		toggleJoinBattle();
-		setIsLong(long);
+		if (account && account.disallowDelegates) {
+			toggleDisallowDelegates();
+		} else {
+			toggleJoinBattle();
+			setIsLong(long);
+		}
 	};
 
 	return (
@@ -74,6 +86,7 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed }) => {
 					</div>
 				</div>
 			</div>
+			{isDisallowDelegatesOpen && <DisallowDelegates toggle={toggleDisallowDelegates} />}
 			{isCreateStakeOpen && <EternalBattleStake contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattle} priceFeed={priceFeed} long={isLong} />}
 		</>
 	);

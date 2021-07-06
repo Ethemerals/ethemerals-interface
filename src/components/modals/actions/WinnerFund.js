@@ -1,19 +1,14 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../hooks/TxContext';
-import { useAddress, useReadyToTransact } from '../../../hooks/Web3Context';
+import { useReadyToTransact } from '../../../hooks/Web3Context';
 import { useCoreContract, useCore } from '../../../hooks/useCore';
 
-import FunctionTx from '../../../constants/FunctionTx';
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
 
 import { formatELF } from '../../../utils';
 
 const Gift = ({ toggle, nft }) => {
-	const { register, handleSubmit } = useForm();
-
-	const address = useAddress();
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
 	const sendTx = useSendTx();

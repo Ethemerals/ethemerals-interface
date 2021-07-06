@@ -8,7 +8,7 @@ import WinnerFund from './actions/WinnerFund';
 import MakeMain from './actions/MakeMain';
 
 const NFTActions = ({ nft }) => {
-	const { account, mainID } = useUserAccount();
+	const { account } = useUserAccount();
 	const { core } = useCore();
 
 	const [isOwned, setIsOwned] = useState(false);
