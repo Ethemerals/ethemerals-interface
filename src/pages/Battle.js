@@ -40,8 +40,7 @@ const Battle = () => {
 
 	return (
 		<>
-			<h1>Battle</h1>
-			<h2>Eternal Battle</h2>
+			<h2 className="text-center text-2xl">Eternal Battle</h2>
 
 			{core && (
 				<div className="w-full flex bg-gray-600 max-w-4xl mx-auto space-x-3 items-center">

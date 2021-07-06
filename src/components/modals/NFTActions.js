@@ -65,7 +65,7 @@ const NFTActions = ({ nft }) => {
 				</button>
 				<br></br>
 				<Link to={`/redemption/${nft.id}`}>
-					<button className="bg-pink-700 p-4">Drain ELF</button>
+					<button className="bg-pink-700 p-4">Redemption</button>
 				</Link>
 				{isOwnedWinning && (
 					<>

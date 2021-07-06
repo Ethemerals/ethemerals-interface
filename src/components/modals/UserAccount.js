@@ -4,7 +4,7 @@ import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
 import { useWeb3, useLogin } from '../../hooks/Web3Context';
 import { shortenAddress } from '../../utils';
-import useParseAction from '../../hooks/useParseActions';
+import useParseAccountAction from '../../hooks/useParseAccountActions';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
 import useUserAccount from '../../hooks/useUserAccount';
 
@@ -22,7 +22,7 @@ const ExternalLinkSVG = () => (
 );
 
 const ActionLink = (action) => {
-	const [actionString, txLink] = useParseAction(action);
+	const [actionString, txLink] = useParseAccountAction(action);
 
 	return (
 		<a href={txLink} target="_blank" rel="noreferrer" className="flex items-center hover:text-blue-400">

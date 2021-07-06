@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
-import { utils, BigNumber } from 'ethers';
+import { BigNumber } from 'ethers';
 
-import { useWeb3, useAddress, useOnboard, useLogin, useReadyToTransact } from '../hooks/Web3Context';
+import { useAddress, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
 import { useCoreContract, useCore } from '../hooks/useCore';
 
@@ -58,10 +58,7 @@ const Resurrect = () => {
 	const { contractCore } = useCoreContract();
 	const { contractToken } = useTokenContract();
 
-	const provider = useWeb3();
 	const address = useAddress();
-	const onboard = useOnboard();
-	const login = useLogin();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
@@ -91,7 +88,7 @@ const Resurrect = () => {
 		if (contractToken) {
 			getAllowance(contractToken, address, Addresses.Ethemerals, setAllowance);
 		}
-	}, [contractToken, address, Addresses, setAllowance]);
+	}, [contractToken, address, setAllowance]);
 
 	useEffect(() => {
 		if (contractCore) {
@@ -129,8 +126,6 @@ const Resurrect = () => {
 					console.log(tx);
 					sendTx(tx.hash, 'Resurrect Ethemeral', true, ['account', `nft_${id}`]);
 				} else {
-					let value = await contractCore.revivePrice();
-					value = await contractToken.balanceOf(address);
 					const gasEstimate = await contractCore.estimateGas.resurrectWithToken(id, { from: address });
 					const gasLimit = gasEstimate.add(gasEstimate.div(9));
 					const tx = await contractCore.resurrectWithToken(id, { from: address, gasLimit });

@@ -2,19 +2,18 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { useWeb3, useAddress, useOnboard, useLogin, useReadyToTransact } from '../hooks/Web3Context';
+import { useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
-import { useCoreContract, useCore } from '../hooks/useCore';
+import { useCoreContract } from '../hooks/useCore';
 
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
 
-import { shortenAddress, formatELF, formatETH } from '../utils';
+import { shortenAddress, formatELF } from '../utils';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
-import { useTokenContract } from '../hooks/useToken';
 
 const ActionLink = (action) => {
 	const [actionString, txLink] = useParseAction(action);
@@ -33,14 +32,8 @@ const ActionLink = (action) => {
 const Redemption = () => {
 	const history = useHistory();
 
-	const { core } = useCore();
 	const { contractCore } = useCoreContract();
-	const { contractToken } = useTokenContract();
 
-	const provider = useWeb3();
-	const address = useAddress();
-	const onboard = useOnboard();
-	const login = useLogin();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
@@ -106,7 +99,7 @@ const Redemption = () => {
 
 			<div>
 				<button onClick={onSubmitRedeem} className="bg-brandColor text-xl text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-					Redeem {formatELF(nft.rewards)} ELF From {nft.metadata.coin}
+					Drain {formatELF(nft.rewards)} ELF From {nft.metadata.coin}
 				</button>
 			</div>
 

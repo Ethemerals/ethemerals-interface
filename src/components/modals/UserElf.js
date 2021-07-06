@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Images from '../../constants/Images';
 import Links from '../../constants/Links';
 
@@ -6,6 +7,25 @@ import useUserAccount from '../../hooks/useUserAccount';
 
 const UserELF = () => {
 	const { account, balance } = useUserAccount();
+
+	const [userNFTs, setUserNFTs] = useState(undefined);
+	const [totalNFTElf, setTotalNFTElf] = useState(0);
+
+	useEffect(() => {
+		if (account && account.ethemerals.length > 0) {
+			setUserNFTs(account.ethemerals);
+		}
+	}, [account]);
+
+	useEffect(() => {
+		if (userNFTs && userNFTs.length > 0) {
+			let nftRewards = 0;
+			userNFTs.forEach((nft) => {
+				nftRewards += parseInt(formatELF(nft.rewards));
+			});
+			setTotalNFTElf(nftRewards);
+		}
+	}, [userNFTs]);
 
 	return (
 		<>
@@ -23,7 +43,10 @@ const UserELF = () => {
 				</a>
 			</div>
 			<div className="p-4">
-				<p className="text-lg">Claim ELF</p>
+				<p className="text-lg text-center">Claimable ELF from owned Ethemerals</p>
+				<p className="flex items-center justify-center">
+					<span className="text-lg">{totalNFTElf > 0 ? totalNFTElf : 'ZERO'}</span>
+				</p>
 			</div>
 		</>
 	);

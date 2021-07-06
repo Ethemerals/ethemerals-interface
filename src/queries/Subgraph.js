@@ -62,9 +62,11 @@ export const GET_NFT = gql`
 			rewards
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
 				timestamp
+				win
 				transaction {
 					id
 					from
+					to
 				}
 				type
 			}

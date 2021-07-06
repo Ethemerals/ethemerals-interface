@@ -1,11 +1,23 @@
 add loadings everywhere
 
+add NEW ACCOUNT Ethemerals tab
+
+add Ethemerals that went to battle in user
+
+add sorting
+
 parse actions
-
-case where user doesnt not allow delegates
-
 
 dashboard
 
 CONTRACT
 promotion CONTRACT
+
+
+Resurrection
+RedeemELF
+RedeemHonor
+Revived
+DelegateChange
+Reviver
+Reaper
