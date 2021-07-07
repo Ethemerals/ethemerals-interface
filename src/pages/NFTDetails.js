@@ -82,7 +82,7 @@ const NFTDetails = () => {
 					<li>drained: {nft.scorecard.drained}</li>
 				</ul>
 
-				<h4 className="text-xl pt-2">Actions:</h4>
+				<h4 className="text-xl pt-2">History:</h4>
 				<ul>{status === 'success' && nft && nft.actions.length > 0 && nft.actions.map((action, index) => <li key={index}>{ActionLink(action)}</li>)}</ul>
 			</div>
 		</div>

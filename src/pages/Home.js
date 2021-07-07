@@ -5,6 +5,8 @@ import { BigNumber } from '@ethersproject/bignumber';
 import FunctionTx from '../constants/FunctionTx';
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
+import Images from '../constants/Images';
+
 import { useWeb3, useAddress, useOnboard, useLogin, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
 import { useCoreContract, useCore } from '../hooks/useCore';
@@ -88,35 +90,35 @@ const Home = () => {
 		}
 	};
 
+	const handleOnSubmitBuy = async () => {
+		if (contractCore && core) {
+			onSubmitBuy();
+		} else {
+			login();
+		}
+	};
+
 	return (
 		<div>
 			<h1>Home</h1>
-			<div className="w-full h-full flex justify-center fixed top-0 left-0">
-				<div className=" w-11/12 max-w-420 h-96 center overflow-hidden z-30 tracking-wide p-4">
-					<h2>Contract</h2>
-					{core && (
-						<>
-							<p>Contract Address: {shortenAddress(core.id)}</p>
-							<p>{`Mint / Revive Price: ${formatETH(core.mintPrice, 6)} ETH`}</p>
-							<p>{`Revive Price: ${formatELF(core.revivePrice)} ELF`}</p>
-							<p>{`Winner Funds: ${formatELF(core.winnerFunds)} ELF`}</p>
-							<p>{`Winner Mult: ${core.winnerMult}`}</p>
-							<p>{`Winning Coin: ${core.winningCoin}`}</p>
-							<p>{discountable ? '20% Discount' : 'No Discount'}</p>
-						</>
-					)}
-					{contractCore && core && (
-						<button onClick={onSubmitBuy} className="bg-brandColor text-xl text-bold px-4 py-2 center my-10 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-							{`mint for ${formatETH(core.mintPrice, 3)} ETH`}
-						</button>
-					)}
+			<div className="center">
+				{core && (
+					<>
+						<p>{`Mint Price: ${formatETH(core.mintPrice, 3)} ETH`}</p>
+						<p>{discountable ? 'You hold ELF! 20% Discount will be applied' : 'You dont hold enough ELF for a Discount'}</p>
+					</>
+				)}
 
-					{!provider && onboard && (
-						<button onClick={login} className="bg-brandColor text-xl text-bold px-4 py-2 center my-10 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-							Connect Wallet to Mint
-						</button>
-					)}
+				<div className="sm:flex flex-none">
+					<img onClick={handleOnSubmitBuy} className="rounded-xl m-2 cursor-pointer" width="137" height="200" alt="mintable ethemeral one" src={Images.wisp1} />
+					<img onClick={handleOnSubmitBuy} className="rounded-xl m-2 cursor-pointer" width="137" height="200" alt="mintable ethemeral two" src={Images.wisp2} />
+					<img onClick={handleOnSubmitBuy} className="rounded-xl m-2 cursor-pointer" width="137" height="200" alt="mintable ethemeral three" src={Images.wisp3} />
 				</div>
+				{!provider && onboard && (
+					<button onClick={login} className="bg-brandColor text-xl text-bold px-4 py-2 center rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+						Connect Wallet to Mint
+					</button>
+				)}
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Mint an Ethemeral, good luck!" />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}

@@ -32,7 +32,7 @@ const NFTPreview = () => {
 		<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
 			{address && userNFTs.length > 0 && mainID ? (
 				<span className="text-white px-2 md:px-3">
-					#{mainID}/{userNFTs.length} NFTS
+					#{mainID} of {userNFTs.length}
 				</span>
 			) : (
 				<span className="text-white px-2 md:px-3">NO NFTS</span>

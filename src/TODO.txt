@@ -6,18 +6,9 @@ add Ethemerals that went to battle in user
 
 add sorting
 
-parse actions
 
 dashboard
 
 CONTRACT
 promotion CONTRACT
 
-
-Resurrection
-RedeemELF
-RedeemHonor
-Revived
-DelegateChange
-Reviver
-Reaper

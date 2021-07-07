@@ -43,7 +43,7 @@ const UserELF = () => {
 				</a>
 			</div>
 			<div className="p-4">
-				<p className="text-lg text-center">Claimable ELF from owned Ethemerals</p>
+				<p className="text-lg text-center">Total claimable ELF from your Ethemerals</p>
 				<p className="flex items-center justify-center">
 					<span className="text-lg">{totalNFTElf > 0 ? totalNFTElf : 'ZERO'}</span>
 				</p>

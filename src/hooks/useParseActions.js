@@ -15,47 +15,51 @@ const useParseAction = (action) => {
 			actionString = 'Default Transaction';
 			break;
 		case 'Transfer':
-			actionString = 'Transfer';
-			console.log(action);
+			actionString = 'Transfer 🎁';
+			actionString = `Transfered from ${shortenAddress(action.transaction.from)} 🎁`;
 			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Retrieved Ethemeral  from Eternal Battle 🛡️`;
+				actionString = `Retreated from the Eternal Battle 🛡️`;
 			}
 			break;
 		case 'Minted':
-			actionString = 'Minted';
+			actionString = `Was given life by ${shortenAddress(action.transaction.from)} 🐣`;
 			break;
 		case 'Unstaked':
 			actionString = 'Unstaked';
-			if (action.transaction.from === Addresses.EternalBattle) {
-				actionString = `Retrieved Ethemeral  from Eternal Battle 🛡️`;
+			console.log(action);
+			if (action.transaction.to === Addresses.EternalBattle) {
+				actionString = `Retreated from the Eternal Battle 🛡️`;
 			}
 			break;
 		case 'Staked':
 			actionString = 'Staked';
 			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Entered an Eternal Battle ⚔️`;
+				actionString = `Entered the Eternal Battle ⚔️`;
 			}
 			break;
 		case 'Resurrection':
-			actionString = `Resurrected Ethemeral  💖`;
+			actionString = `Resurrected from the depth of sorrow  💖`;
 			break;
 		case 'RedeemELF':
-			actionString = `Drained ELF from Ethemeral  💔`;
+			actionString = `Was drained of all Life Force  💔`;
 			break;
 		case 'Revived':
 			actionString = 'Revived';
 			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Ethemeral was revived from Eternal Battle 💖`;
+				actionString = `Was revived from the Eternal Battle 💖`;
 			}
 			break;
 		case 'Reviver':
-			actionString = `Sent Angel Ethemeral to revive a poor soul! 😇`;
+			actionString = `Became and Angel to revive a poor soul! 😇`;
 			break;
 		case 'Reaped':
-			actionString = `Reaped`;
+			actionString = 'Reaped';
+			if (action.transaction.to === Addresses.EternalBattle) {
+				actionString = `Was Reaped from the Eternal Battle 💀`;
+			}
 			break;
 		case 'Reaper':
-			actionString = `Sent Reaper Ethemeral  in for the kill! 💀`;
+			actionString = `Became a Reaper and stole an Ethemeral! 💀`;
 			break;
 		default:
 			console.log('did not parse action');
