@@ -91,12 +91,8 @@ const useUserAccount = () => {
 					});
 					// FOUND USER BUT NO MAIN
 					if (!foundNFT) {
-						// submitMutateUser(account.id, account.ethemerals[0].id);
-						console.log('not found');
 						setMainIndex(0);
 					}
-				} else {
-					// FOUND USER BUT NO MAIN AND NO ETHEMERALS
 				}
 			}
 		}

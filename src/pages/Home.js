@@ -110,9 +110,7 @@ const Home = () => {
 				)}
 
 				<div className="sm:flex flex-none">
-					<img onClick={handleOnSubmitBuy} className="rounded-xl m-2 cursor-pointer" width="137" height="200" alt="mintable ethemeral one" src={Images.wisp1} />
 					<img onClick={handleOnSubmitBuy} className="rounded-xl m-2 cursor-pointer" width="137" height="200" alt="mintable ethemeral two" src={Images.wisp2} />
-					<img onClick={handleOnSubmitBuy} className="rounded-xl m-2 cursor-pointer" width="137" height="200" alt="mintable ethemeral three" src={Images.wisp3} />
 				</div>
 				{!provider && onboard && (
 					<button onClick={login} className="bg-brandColor text-xl text-bold px-4 py-2 center rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">

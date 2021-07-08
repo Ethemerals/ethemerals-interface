@@ -26,7 +26,6 @@ const useParseAction = (action) => {
 			break;
 		case 'Unstaked':
 			actionString = 'Unstaked';
-			console.log(action);
 			if (action.transaction.to === Addresses.EternalBattle) {
 				actionString = `Retreated from the Eternal Battle 🛡️`;
 			}

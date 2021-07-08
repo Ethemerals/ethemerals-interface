@@ -31,7 +31,7 @@ export const useCoreContract = () => {
 };
 
 export const useCore = () => {
-	const { data } = useGQLQuery('core', GET_CORE, { id: Addresses.Ethemerals.toLowerCase() });
+	const { data } = useGQLQuery('core', GET_CORE, { id: Addresses.Ethemerals.toLowerCase() }, { refetchOnMount: true });
 	const [core, setCore] = useState(null);
 
 	useEffect(() => {
@@ -46,7 +46,7 @@ export const useCore = () => {
 };
 
 export const useCoreAccount = () => {
-	const { data } = useGQLQuery('account_core', GET_CORE_ACCOUNT, { id: Addresses.Ethemerals.toLowerCase() });
+	const { data } = useGQLQuery('account_core', GET_CORE_ACCOUNT, { id: Addresses.Ethemerals.toLowerCase() }, { refetchOnMount: true });
 	const [accountCore, setAccountCore] = useState(null);
 
 	useEffect(() => {

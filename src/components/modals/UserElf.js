@@ -37,7 +37,7 @@ const UserELF = () => {
 						<span className="text-brandColor text-4xl"> ELF</span>
 					</div>
 				</div>
-				<p className="text-xs sm:text-sm text-gray-400 py-2 text-right px-4">{formatETH(balance, 6)} ETH</p>
+				{balance && <p className="text-xs sm:text-sm text-gray-400 py-2 text-right px-4">{formatETH(balance, 6)} ETH</p>}
 				<a href={Links.UNISWAP} target="_blank" rel="noreferrer" className="text-xs sm:text-sm text-gray-400 py-2 absolute bottom-0 w-full text-center hover:text-gray-200">
 					Trade on Uniswap
 				</a>

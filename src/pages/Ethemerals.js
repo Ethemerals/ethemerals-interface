@@ -26,7 +26,7 @@ const NFTCard = ({ nft }) => {
 	);
 };
 const Ethemerals = () => {
-	const { data, status } = useGQLQuery('nfts', GET_NFTS);
+	const { data, status } = useGQLQuery('nfts', GET_NFTS, {}, { refetchOnMount: true });
 
 	const [nfts, setNfts] = useState({});
 	const [ready, setReady] = useState(false);

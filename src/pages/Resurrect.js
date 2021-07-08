@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import { BigNumber } from 'ethers';
+import { useQuery } from 'react-query';
 
 import { useAddress, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
@@ -13,18 +14,24 @@ import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
 
-import { shortenAddress, formatELF, formatETH } from '../utils';
+import { shortenAddress, formatELF, formatETH, isAddress } from '../utils';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 import { useTokenContract } from '../hooks/useToken';
 
-const getAllowance = async (contract, owner, spender, setAllowance) => {
-	try {
-		const value = await contract.allowance(owner, spender);
-		setAllowance(value);
-	} catch (error) {
-		console.log(error);
+const getAllowance = async (contract, owner, spender) => {
+	if (contract) {
+		try {
+			const value = await contract.allowance(owner, spender);
+			console.log(value.toString());
+			return value;
+		} catch (error) {
+			console.log(error);
+			throw new Error('error');
+		}
+	} else {
+		return { message: 'address not valid' };
 	}
 };
 
@@ -63,7 +70,8 @@ const Resurrect = () => {
 	const readyToTransact = useReadyToTransact();
 
 	const { id } = useParams();
-	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id });
+	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
+	const { data: allowanceData } = useQuery('allowance', () => getAllowance(contractToken, address, Addresses.Ethemerals), { enabled: !!contractToken, refetchOnMount: true });
 
 	const [nft, setNFT] = useState({});
 	const [ready, setReady] = useState(false);
@@ -85,10 +93,10 @@ const Resurrect = () => {
 	};
 
 	useEffect(() => {
-		if (contractToken) {
-			getAllowance(contractToken, address, Addresses.Ethemerals, setAllowance);
+		if (allowanceData) {
+			setAllowance(allowanceData);
 		}
-	}, [contractToken, address, setAllowance]);
+	}, [allowanceData, setAllowance]);
 
 	useEffect(() => {
 		if (contractCore) {
@@ -97,7 +105,7 @@ const Resurrect = () => {
 	}, [contractCore, setRevivePrice]);
 
 	useEffect(() => {
-		if (allowance && revivePrice) {
+		if (BigNumber.isBigNumber(allowance) && BigNumber.isBigNumber(revivePrice)) {
 			setIsApproved(allowance.gte(revivePrice));
 		}
 	}, [allowance, revivePrice]);
@@ -108,10 +116,6 @@ const Resurrect = () => {
 			setReady(true);
 		}
 	}, [status, data]);
-
-	// check approved
-
-	// approve
 
 	const onSubmitResurrect = async (withETH) => {
 		if (contractCore && readyToTransact()) {
@@ -155,7 +159,7 @@ const Resurrect = () => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractToken.approve(Addresses.Ethemerals, value, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Approve ELF Spend limit', true, ['account']);
+				sendTx(tx.hash, 'Approve ELF Spend limit', true, ['account', 'allowance']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Approve transaction rejected from user wallet');
@@ -225,7 +229,7 @@ const Resurrect = () => {
 					<li>drained: {nft.scorecard.drained}</li>
 				</ul>
 
-				<h4 className="text-xl pt-2">Actions:</h4>
+				<h4 className="text-xl pt-2">History:</h4>
 				<ul>{status === 'success' && nft && nft.actions.length > 0 && nft.actions.map((action, index) => <li key={index}>{ActionLink(action)}</li>)}</ul>
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Resurrect an Ethemeral from the ashes" />}

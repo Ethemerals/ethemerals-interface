@@ -40,7 +40,7 @@ const getChange = async (contract, id) => {
 };
 
 export const useExternalBattleGetChange = (contract, id) => {
-	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(contract, id));
+	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(contract, id), { refetchInterval: 30000 });
 
 	const [scoreChange, setScoreChange] = useState(undefined);
 
@@ -66,7 +66,7 @@ export const useEternalBattleContract = () => {
 };
 
 export const useEternalBattleAccount = () => {
-	const { data } = useGQLQuery('account_eternalBattle', GET_ETERNALBATTLE_ACCOUNT, { id: Addresses.EternalBattle.toLowerCase() });
+	const { data } = useGQLQuery('account_eternalBattle', GET_ETERNALBATTLE_ACCOUNT, { id: Addresses.EternalBattle.toLowerCase() }, { refetchOnMount: true });
 	const [accountEternalBattle, setAccountEternalBattle] = useState(null);
 
 	useEffect(() => {

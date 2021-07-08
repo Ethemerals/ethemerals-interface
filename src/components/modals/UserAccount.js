@@ -42,7 +42,7 @@ const UserAccount = () => {
 	const [copied, copy] = useCopyToClipboard(address);
 
 	const [connection, setConnection] = useState('');
-	const { data, status } = useGQLQuery('account_actions', GET_ACCOUNT_ACTIONS, { id: address });
+	const { data, status } = useGQLQuery('account_actions', GET_ACCOUNT_ACTIONS, { id: address }, { enabled: !!address, refetchOnMount: true });
 
 	useEffect(() => {
 		if (provider) {

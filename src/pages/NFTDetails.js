@@ -30,7 +30,7 @@ const NFTDetails = () => {
 	const history = useHistory();
 
 	const { id } = useParams();
-	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id });
+	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
 	const [nft, setNFT] = useState({});
 	const [ready, setReady] = useState(false);
