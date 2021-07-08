@@ -38,7 +38,7 @@ const NFTComputedScore = ({ contract, nft, setScoreChange }) => {
 };
 
 const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwned }) => {
-	const { mainID, userNFTs } = useUserAccount();
+	const { mainIndex, userNFTs } = useUserAccount();
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 	const { contractBattle } = useEternalBattleContract();
 	const provider = useWeb3();
@@ -114,9 +114,10 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 			try {
 				setShouldReap(reap);
 				let id = nft.id;
-				const gasEstimate = await contractBattle.estimateGas.reviveToken(id, mainID, reap);
+				let userTokenId = userNFTs[mainIndex].id;
+				const gasEstimate = await contractBattle.estimateGas.reviveToken(id, userTokenId, reap);
 				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.cancelStake.gasDiv));
-				const tx = await contractBattle.reviveToken(id, mainID, reap, { gasLimit });
+				const tx = await contractBattle.reviveToken(id, userTokenId, reap, { gasLimit });
 				console.log(tx);
 				sendTx(tx.hash, `${reap ? 'Reaped' : 'Revived'} #${id} Ethemeral`, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
 			} catch (error) {

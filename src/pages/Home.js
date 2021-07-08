@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { BigNumber } from '@ethersproject/bignumber';
 
 import FunctionTx from '../constants/FunctionTx';
-import { shortenAddress, formatELF, formatETH } from '../utils';
+import { formatELF, formatETH } from '../utils';
 
 import Images from '../constants/Images';
 

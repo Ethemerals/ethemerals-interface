@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTransition, animated } from '@react-spring/web';
 
 import MobileMenuItems from './MobileMenuItems';
 import Images from '../../constants/Images';
 
-import { useWeb3, useOnboard, useAddress, useBalance, useLogin } from '../../hooks/Web3Context';
+import { useWeb3, useOnboard, useAddress, useLogin } from '../../hooks/Web3Context';
+import useWindowSize from '../../hooks/useWindowSize';
 
 import AccountBar from './AccountBar';
 import ConnectButton from './ConnectButton';
@@ -27,11 +28,20 @@ const Navbar = () => {
 	const provider = useWeb3();
 	const onboard = useOnboard();
 	const address = useAddress();
-	const balance = useBalance();
 	const login = useLogin();
+	const windowSize = useWindowSize(898);
 
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isMoreLinksOpen, setIsMoreLinksOpen] = useState(false);
+	const [windowMed, setWindowMed] = useState(true);
+
+	useEffect(() => {
+		if (windowSize.width >= 898) {
+			setWindowMed(true);
+		} else {
+			setWindowMed(false);
+		}
+	}, [windowSize]);
 
 	const toggle = () => {
 		setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -78,26 +88,26 @@ const Navbar = () => {
 						</div>
 
 						{/* <!-- secondary nav --> MD */}
-
-						<div className="hidden md:flex items-center right-0 absolute mr-2">
-							{!provider && onboard && <ConnectButton login={login} />}
-							{provider && !address && <LoadingAccountSpinner />}
-							{address && <AccountBar />}
-
-							<MoreLinksButton large={true} toggle={toggleMoreLinks} />
-							{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} isLoggedIn={address && balance} logout={logout} />}
-						</div>
+						{windowMed && (
+							<div className="flex items-center right-0 absolute mr-2">
+								{!provider && onboard && <ConnectButton login={login} />}
+								{provider && !address && <LoadingAccountSpinner />}
+								{address && <AccountBar />}
+								<MoreLinksButton large={true} toggle={toggleMoreLinks} />
+								{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
+							</div>
+						)}
 
 						{/* <!-- secondary nav bottom --> SM */}
-
-						<div className="md:hidden w-full flex items-center right-0 fixed bottom-0 bg-gray-800 p-2 h-12">
-							{!provider && onboard && <ConnectButton login={login} />}
-							{address && <AccountBar />}
-							{provider && !address && <LoadingAccountSpinner />}
-
-							<MoreLinksButton large={false} toggle={toggleMoreLinks} />
-							{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} isLoggedIn={address && balance} logout={logout} />}
-						</div>
+						{!windowMed && (
+							<div className="w-full flex items-center right-0 fixed bottom-0 bg-gray-800 p-2 h-12">
+								{!provider && onboard && <ConnectButton login={login} />}
+								{address && <AccountBar />}
+								{provider && !address && <LoadingAccountSpinner />}
+								<MoreLinksButton large={false} toggle={toggleMoreLinks} />
+								{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
+							</div>
+						)}
 					</div>
 				</nav>
 			</header>

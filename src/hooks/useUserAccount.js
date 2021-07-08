@@ -9,11 +9,15 @@ import { useAddress, useBalance } from '../hooks/Web3Context';
 import { isAddress } from '../utils';
 
 const updateUser = async (userData) => {
-	try {
-		const { data } = await axios.post(process.env.REACT_APP_FIREBASE_URL, userData);
-		return data;
-	} catch (error) {
-		throw new Error('error');
+	if (isAddress(userData.address)) {
+		try {
+			const { data } = await axios.post(process.env.REACT_APP_FIREBASE_URL, userData);
+			return data;
+		} catch (error) {
+			throw new Error('error');
+		}
+	} else {
+		return { message: 'address not valid' };
 	}
 };
 
@@ -21,10 +25,7 @@ const getUser = async (id) => {
 	if (isAddress(id)) {
 		try {
 			const { data } = await axios.get(`${process.env.REACT_APP_FIREBASE_URL}${id}`);
-			if (data.message === 'does not exist') {
-				return data;
-			}
-			if (data.message === 'got entry') {
+			if (data.message === 'got entry' || data.message === 'does not exist') {
 				return data;
 			}
 			throw new Error('error');
@@ -56,64 +57,50 @@ const useUserAccount = () => {
 	const balance = useBalance();
 	const queryClient = useQueryClient();
 
-	const { data, status, loaded } = useQuery(`account`, () => getAccount({ id: address }));
-	const { isLoading: userIsLoading, data: userData } = useQuery(['user', address], () => getUser(address));
-	const mutateUser = useMutation(updateUser, { onSuccess: () => queryClient.invalidateQueries('user') });
-
 	const [account, setAccount] = useState(null);
-	const [mainID, setMainID] = useState(undefined);
-	const [mainIndex, setMainIndex] = useState(undefined);
+	const [mainIndex, setMainIndex] = useState(0);
 	const [userNFTs, setUserNFTs] = useState([]);
+
+	const { data, status, loaded } = useQuery(`account`, () => getAccount({ id: address }), { enabled: !!address });
+
+	const userId = data?.account?.id;
+
+	const { isLoading: userIsLoading, data: userData } = useQuery(['user', address], () => getUser(address), { enabled: !!userId });
+	const mutateUser = useMutation(updateUser, { onSuccess: async () => queryClient.invalidateQueries('user') });
 
 	useEffect(() => {
 		if (data && data.account !== null) {
 			setAccount(data.account);
+			// LOCAL NFTS
+			setUserNFTs(data.account.ethemerals);
 		}
 	}, [data]);
 
-	// LOCAL NFTS
-	useEffect(() => {
-		if (account && account.ethemerals.length > 0) {
-			setUserNFTs(account.ethemerals);
-		}
-	}, [account]);
-
 	// GET MAIN
 	useEffect(() => {
-		if (userData && userData.message === 'got entry' && userData.data.main) {
-			setMainID(userData.data.main);
-		}
-
-		// NEW USER
-		if (userData && userData.message === 'does not exist' && account && account.ethemerals.length > 0) {
-			mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
-		}
-	}, [userData, account, mutateUser]);
-
-	// PARSE NFT CHANGES
-	useEffect(() => {
-		let found = false;
-		if (mainID && account) {
-			// ID to index
-			account.ethemerals.forEach((nft, index) => {
-				if (nft.id === mainID.toString()) {
-					setMainIndex(index);
-					found = true;
-				}
-			});
-
-			// ID and index reset
-			if (!found) {
-				if (account.ethemerals.length > 0) {
-					// sold but still has NFTS
-					mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
+		if (account) {
+			let foundNFT = false;
+			// FOUND USER
+			if (userData && userData.message === 'got entry' && userData.data.main) {
+				if (account && account.ethemerals.length > 0) {
+					account.ethemerals.forEach((nft, index) => {
+						if (nft.id === userData.data.main) {
+							setMainIndex(index);
+							foundNFT = true;
+						}
+					});
+					// FOUND USER BUT NO MAIN
+					if (!foundNFT) {
+						// submitMutateUser(account.id, account.ethemerals[0].id);
+						console.log('not found');
+						setMainIndex(0);
+					}
 				} else {
-					mutateUser.mutate({ address: account.id, main: -1 });
+					// FOUND USER BUT NO MAIN AND NO ETHEMERALS
 				}
-				setUserNFTs(account.ethemerals);
 			}
 		}
-	}, [mainID, account, mutateUser]);
+	}, [userData, account]);
 
 	// prettier-ignore
 	return {
@@ -123,9 +110,9 @@ const useUserAccount = () => {
     loaded,
     status,
     userIsLoading,
-    mutateUser,
-    mainID,
     mainIndex,
+    mutateUser,
+    userData,
     userNFTs };
 };
 

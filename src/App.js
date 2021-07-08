@@ -21,7 +21,15 @@ import Web3ContextProvider from './hooks/Web3Context';
 import TxContextProvider from './hooks/TxContext';
 import Receipt from './components/modals/Receipt';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+			refetchOnMount: false,
+			refetchInterval: 240000,
+		},
+	},
+});
 
 function App() {
 	return (

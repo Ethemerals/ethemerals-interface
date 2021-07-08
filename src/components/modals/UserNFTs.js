@@ -17,7 +17,7 @@ const NFTLink = (nft, index, toggle) => {
 };
 
 const UserNFTs = ({ toggle, toggleExtra }) => {
-	const { account, mainID, mainIndex, userNFTs } = useUserAccount();
+	const { account, mainIndex, userNFTs } = useUserAccount();
 
 	const [NFTShortList, setNFTShortList] = useState([]);
 
@@ -27,7 +27,7 @@ const UserNFTs = ({ toggle, toggleExtra }) => {
 		}
 	}, [account, userNFTs]);
 
-	if (!account) {
+	if (!account || userNFTs.length <= 0) {
 		return (
 			<>
 				<div className="h-28 m-4">
@@ -52,12 +52,10 @@ const UserNFTs = ({ toggle, toggleExtra }) => {
 				<div className="flex h-28">
 					<div className="h-full w-2/4 text-sm text-center border border-r-0 border-gray-700 bg-gray-900 relative">
 						<div className="overflow-hidden center -my-3">
-							{mainIndex !== undefined && mainID && (
-								<>
-									<p className="text-xl">#{mainID}</p>
-									<p className="uppercase">{userNFTs[mainIndex].metadata.coin}</p>
-								</>
-							)}
+							<>
+								<p className="text-xl">#{userNFTs[mainIndex].id}</p>
+								<p className="uppercase">{userNFTs[mainIndex].metadata.coin}</p>
+							</>
 						</div>
 						{userNFTs.length > 1 && (
 							<div onClick={toggleExtra} className="cursor-pointer absolute bottom-0 w-full text-blue-700 hover:bg-gray-800">
@@ -66,7 +64,7 @@ const UserNFTs = ({ toggle, toggleExtra }) => {
 						)}
 					</div>
 					<div onClick={toggle} className="w-2/4 h-28 cursor-pointer border-gray-600 border border-l-0">
-						<Link to={`/ethemeral/${mainID}`}>
+						<Link to={`/ethemeral/${userNFTs[mainIndex].id}`}>
 							<img width="256" height="112" className="object-cover h-28" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
 						</Link>
 					</div>

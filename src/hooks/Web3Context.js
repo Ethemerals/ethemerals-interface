@@ -37,6 +37,16 @@ export function useReadyToTransact() {
 	return useContext(ReadyToTransactContext);
 }
 
+const getBalance = async (provider, address, setBalance) => {
+	try {
+		const value = await provider.getBalance(address);
+		setBalance(value.toString());
+		console.log('get balance manually');
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 // PROVIDER
 export default function Web3ContextProvider({ children }) {
 	//ONBOARD
@@ -91,7 +101,10 @@ export default function Web3ContextProvider({ children }) {
 
 	const balanceChanged = useCallback(() => {
 		console.log('BALANCE CHANGED', balance);
-	}, [balance]);
+		if (!balance && provider && address) {
+			getBalance(provider, address, setBalance);
+		}
+	}, [balance, provider, address]);
 
 	useEffect(() => {
 		setPreviousAddress(address);

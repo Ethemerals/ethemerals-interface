@@ -43,7 +43,7 @@ const getPrice = async (contract, priceFeed) => {
 };
 
 export const usePriceFeedPrice = (contract, priceFeed) => {
-	const { isLoading, data } = useQuery([`priceFeed_${priceFeed.id}`, priceFeed.id], () => getPrice(contract, priceFeed));
+	const { isLoading, data } = useQuery([`priceFeed_${priceFeed.id}`, priceFeed.id], () => getPrice(contract, priceFeed), { refetchInterval: 30000 });
 
 	const [price, setPriceFeed] = useState(undefined);
 

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { isAddress } from '../../utils';
 import useUserAccount from '../../hooks/useUserAccount';
 
@@ -9,7 +10,15 @@ const Spinner = () => (
 );
 
 const NFTPreview = () => {
-	const { mainID, mutateUser, userIsLoading, userNFTs, address } = useUserAccount();
+	const { mainIndex, userIsLoading, userNFTs, address } = useUserAccount();
+
+	const [mainNFT, setMainNFT] = useState(undefined);
+
+	useEffect(() => {
+		if (userNFTs && userNFTs.length > 0) {
+			setMainNFT(userNFTs[mainIndex]);
+		}
+	}, [userNFTs, mainIndex]);
 
 	if (!isAddress(address)) {
 		return (
@@ -19,7 +28,7 @@ const NFTPreview = () => {
 		);
 	}
 
-	if (userIsLoading || mutateUser.isLoading) {
+	if (userIsLoading) {
 		return (
 			<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
 				<span className="text-white px-2 md:px-3">LOADING</span>
@@ -30,9 +39,9 @@ const NFTPreview = () => {
 
 	return (
 		<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
-			{address && userNFTs.length > 0 && mainID ? (
+			{address && mainNFT && userNFTs.length > 0 ? (
 				<span className="text-white px-2 md:px-3">
-					#{mainID} of {userNFTs.length}
+					#{mainNFT.id} of {userNFTs.length}
 				</span>
 			) : (
 				<span className="text-white px-2 md:px-3">NO NFTS</span>

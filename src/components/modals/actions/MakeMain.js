@@ -1,7 +1,7 @@
 import useUserAccount from '../../../hooks/useUserAccount';
 
 const MakeMain = ({ id }) => {
-	const { account, mutateUser, mainID } = useUserAccount();
+	const { account, mutateUser, mainIndex, userNFTs } = useUserAccount();
 
 	const selectMain = (id) => {
 		if (account) {
@@ -9,9 +9,13 @@ const MakeMain = ({ id }) => {
 		}
 	};
 
+	if (!account) {
+		return null;
+	}
+
 	return (
 		<>
-			{mainID === id ? (
+			{userNFTs[mainIndex].id === id ? (
 				<div className="bg-gray-700 p-4">Current Main</div>
 			) : (
 				<button onClick={() => selectMain(id)} className="bg-gray-700 p-4">

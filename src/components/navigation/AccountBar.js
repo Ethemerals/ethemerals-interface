@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
 import { shortenAddress, formatETH } from '../../utils';
@@ -8,7 +8,6 @@ import UserModal from '../modals/UserModal';
 
 import useUserAccount from '../../hooks/useUserAccount';
 
-// import { useMiningStatus } from './hooks/TxContext';
 import NFTPreview from './NFTPreview';
 
 const Spinner = () => (
@@ -20,7 +19,7 @@ const Spinner = () => (
 
 const AccountBar = () => {
 	const mining = useMiningStatus();
-	const { address, balance } = useUserAccount();
+	const { address, balance, userData, userIsLoading, mutateUser, account } = useUserAccount();
 
 	const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 	const [selectedUserModal, setSelectedUserModal] = useState(0);
@@ -30,7 +29,20 @@ const AccountBar = () => {
 		setSelectedUserModal(selected);
 	};
 
-	if (!balance || !address) {
+	useEffect(() => {
+		console.log('idle', mutateUser.isIdle);
+		// NEW USER
+		if (mutateUser.isIdle) {
+			if (account && !userIsLoading && userData && userData.message === 'does not exist') {
+				if (account.ethemerals.length > 0) {
+					mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
+					console.log('new user');
+				}
+			}
+		}
+	}, [userData, userIsLoading, mutateUser, account]);
+
+	if (!address) {
 		return null;
 	}
 
@@ -42,7 +54,7 @@ const AccountBar = () => {
 
 			<span className="bg-gray-700 flex rounded-xl items-center h-8 md:h-11 text-xs sm:text-base text-white">
 				<span className="px-2 cursor-pointer h-full flex items-center rounded-xl rounded-r-none hover:bg-gradient-to-r from-gray-600 " onClick={() => toggleUserModal(1)}>
-					<span>{formatETH(balance)} ETH</span>
+					{balance && <span>{formatETH(balance)} ETH</span>}
 					{/* TODO, animated ELF ticker */}
 				</span>
 
