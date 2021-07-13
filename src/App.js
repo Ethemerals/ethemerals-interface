@@ -20,6 +20,7 @@ import Help from './pages/Help';
 import Web3ContextProvider from './hooks/Web3Context';
 import TxContextProvider from './hooks/TxContext';
 import Receipt from './components/modals/Receipt';
+import ClaimHighestHonor from './pages/ClaimHighestHonor';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -67,6 +68,9 @@ function App() {
 							</Route>
 							<Route exact path="/redemption/:id">
 								<Redemption />
+							</Route>
+							<Route exact path="/claim/:id">
+								<ClaimHighestHonor />
 							</Route>
 							<Route exact path="/marketplace">
 								<Marketplace />

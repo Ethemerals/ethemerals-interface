@@ -65,7 +65,7 @@ const UserNFTs = ({ toggle, toggleExtra }) => {
 					</div>
 					<div onClick={toggle} className="w-2/4 h-28 cursor-pointer border-gray-600 border border-l-0">
 						<Link to={`/ethemeral/${userNFTs[mainIndex].id}`}>
-							<img width="256" height="112" className="object-cover h-28" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
+							<img width="256" height="112" className="object-cover h-full" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
 						</Link>
 					</div>
 				</div>

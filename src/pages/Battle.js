@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { usePriceFeedContract } from '../hooks/usePriceFeed';
 
 import PriceFeeds from '../constants/PriceFeeds';
@@ -16,9 +17,6 @@ const Battle = () => {
 	const { account } = useUserAccount();
 	const [winningCoin, setWinningCoin] = useState(false);
 	const [isOwnedWinning, setIsOwnedWinning] = useState(false);
-	const [isWinnerFundOpen, setIsWinnerFundOpen] = useState(false);
-
-	// TODO do without provider
 
 	useEffect(() => {
 		if (account && core) {
@@ -34,10 +32,6 @@ const Battle = () => {
 		}
 	}, [account, core, winningCoin]);
 
-	const toggleWinnerFund = () => {
-		setIsWinnerFundOpen(!isWinnerFundOpen);
-	};
-
 	return (
 		<>
 			<h2 className="text-center text-2xl">Eternal Battle</h2>
@@ -48,14 +42,16 @@ const Battle = () => {
 					<p>{`Rewards Multiplier: ${core.winnerMult}`}</p>
 					<div className="flex items-center">
 						<p>{`Winning Ethemeral: ${core.winningCoin}`}</p>
-
-						<button
-							onClick={toggleWinnerFund}
-							disabled={!isOwnedWinning}
-							className={`${isOwnedWinning ? 'bg-pink-700 cursor-pointer' : 'bg-gray-500 cursor-default'} px-4 py-2 rounded-xl text-xs mx-2`}
-						>
-							Claim
-						</button>
+						<Link to={`/claim/${core.winningCoin}`}>
+							<button
+								// onClick={}
+								// onClick={toggleWinnerFund}
+								// disabled={!isOwnedWinning}
+								className={`${isOwnedWinning ? 'bg-pink-700 cursor-pointer' : 'bg-gray-500 cursor-default'} px-4 py-2 rounded-xl text-xs mx-2`}
+							>
+								Claim
+							</button>
+						</Link>
 					</div>
 				</div>
 			)}
@@ -64,7 +60,6 @@ const Battle = () => {
 			<EternalBattleCard contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[1]} />
 			<EternalBattleCard contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[2]} />
 			<EternalBattleCard contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[3]} />
-			{core && winningCoin && isWinnerFundOpen && <WinnerFund nft={winningCoin} toggle={toggleWinnerFund} />}
 		</>
 	);
 };

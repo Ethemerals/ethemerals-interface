@@ -41,6 +41,7 @@ export const GET_NFTS = gql`
 				attack
 				defence
 				speed
+				baseImage
 			}
 		}
 	}
@@ -89,6 +90,7 @@ export const GET_NFT = gql`
 				attack
 				defence
 				speed
+				baseImage
 			}
 		}
 	}
