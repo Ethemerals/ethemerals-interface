@@ -33,6 +33,7 @@ export const GET_NFTS = gql`
 				id
 			}
 			metadata {
+				cmId
 				coin
 				mainClass
 				subClass
@@ -41,7 +42,6 @@ export const GET_NFTS = gql`
 				attack
 				defence
 				speed
-				baseImage
 			}
 		}
 	}
@@ -82,6 +82,7 @@ export const GET_NFT = gql`
 				drained
 			}
 			metadata {
+				cmId
 				coin
 				artist
 				mainClass
@@ -90,7 +91,6 @@ export const GET_NFT = gql`
 				attack
 				defence
 				speed
-				baseImage
 			}
 		}
 	}
@@ -111,6 +111,7 @@ export const GET_ACCOUNT = gql`
 					battles
 				}
 				metadata {
+					cmId
 					coin
 					mainClass
 					subClass
@@ -131,6 +132,7 @@ export const GET_ETERNALBATTLE_ACCOUNT = gql`
 					id
 				}
 				metadata {
+					cmId
 					coin
 					mainClass
 					subClass

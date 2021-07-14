@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { useAddress } from '../hooks/Web3Context';
 import { useGQLQuery } from '../hooks/useGQLQuery';
+import { useImages } from '../hooks/useImages';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
 
@@ -28,13 +29,13 @@ const ActionLink = (action) => {
 const NFTDetails = () => {
 	const address = useAddress();
 	const history = useHistory();
+	const { getBaseURL } = useImages();
 
 	const { id } = useParams();
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
 	const [nft, setNFT] = useState({});
 	const [ready, setReady] = useState(false);
-	const [baseImageURL, setBaseImageURL] = useState(undefined);
 
 	useEffect(() => {
 		if (status === 'success' && data && data.ethemeral) {
@@ -42,12 +43,6 @@ const NFTDetails = () => {
 			setReady(true);
 		}
 	}, [status, data]);
-
-	useEffect(() => {
-		if (nft && nft.metadata) {
-			setBaseImageURL(nft.metadata.baseImage);
-		}
-	}, [nft]);
 
 	if (!ready || isLoading !== false || status !== 'success') {
 		return <p>Loading {id}</p>;
@@ -67,7 +62,7 @@ const NFTDetails = () => {
 
 				<p>{nft.score} Honor Points</p>
 				<p>{formatELF(nft.rewards)} Ethemeral Life Force</p>
-				<img className="w-96 h-96 mx-auto" src={baseImageURL} />
+				<img className="w-96 h-96 mx-auto" src={getBaseURL(nft.metadata.cmId)} />
 				<h4 className="text-xl pt-2">Stats:</h4>
 				<ul>
 					<li>{nft.metadata.subClass}</li>
