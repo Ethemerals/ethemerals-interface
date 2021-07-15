@@ -18,6 +18,10 @@
 }
 
 @layer components {
+	.nft_details_bg {
+		width: 600px;
+		height: 800px;
+	}
 	.navBg {
 		background: #030029; /* fallback for old browsers */
 	}

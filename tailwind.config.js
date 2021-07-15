@@ -15,8 +15,11 @@ module.exports = {
 		extend: {
 			opacity: ['disabled'],
 			spacing: {
+				74: '74px',
+				90: '90px',
 				420: '420px',
 				400: '400px',
+				600: '600px',
 			},
 			maxWidth: {
 				420: '420px',
@@ -37,11 +40,16 @@ module.exports = {
 					'0%': { opacity: 1 },
 					'100%': { opacity: 0 },
 				},
+				bounceSlow: {
+					'0%, 100%': { transform: 'translate(0px,0px)' },
+					'50%': { transform: 'translate(0px,5px)' },
+				},
 			},
 			animation: {
 				fadeOnFast: 'fadeOn 0.2s ease-in-out forwards',
 				fadeOffFast: 'fadeOff 0.2s ease-out forwards',
 				fadeOffSlow: 'fadeOff 2s ease-out forwards',
+				bounceSlow: 'bounceSlow 5s ease-in-out infinite',
 				'spin-slow': 'spin 3s linear infinite',
 			},
 			colors: {
