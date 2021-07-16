@@ -7,6 +7,7 @@ import iconWings from '../assets/icon_wings.svg';
 import iconGift from '../assets/icon_gift.svg';
 import iconMain from '../assets/icon_main.svg';
 import iconDrain from '../assets/icon_drain.svg';
+import iconSell from '../assets/icon_sell.svg';
 import wisp2 from '../assets/wisp02.png';
 
 const Images = {
@@ -19,6 +20,7 @@ const Images = {
 	iconGift,
 	iconMain,
 	iconDrain,
+	iconSell,
 	wisp2,
 };
 

@@ -19,15 +19,15 @@
 
 @layer components {
 	.nft_details_container {
-		width: 900px;
+		width: 1200px;
 	}
 	.nft_details_bg {
-		width: 600px;
-		height: 800px;
+		width: 840px;
+		height: 900px;
 	}
 	.nft_details_sidebar {
-		width: 300px;
-		height: 800px;
+		width: 360px;
+		height: 900px;
 	}
 	.navBg {
 		background: #030029; /* fallback for old browsers */

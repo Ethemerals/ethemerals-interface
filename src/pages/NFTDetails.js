@@ -114,7 +114,7 @@ const NFTDetails = () => {
 					</div>
 
 					{/* BOTTOM BAR */}
-					<div className="px-4 h-40 z-20 w-600 bottom-0 absolute overflow-hidden">
+					<div className="px-4 h-40 z-20 w-full bottom-0 absolute overflow-hidden">
 						<p className="font-bold text-5xl uppercase -mx-1">{nft.metadata.coin}</p>
 						<div className="flex h-8 my-2">
 							<div className="w-8 bg-white">
@@ -125,18 +125,21 @@ const NFTDetails = () => {
 						<div className="flex h-3 items-center mb-1 text-sm font-bold">
 							<span className="w-8">ATK</span>
 							<span style={{ width: `${nft.metadata.attack * 3}px` }} className="h-3 bg-white opacity-20"></span>
+							<span className="pl-1 text-gray-500 text-xs">{nft.metadata.attack}</span>
 							<span className="flex-grow"></span>
 							<span className="flex-none opacity-30 font-normal">Designer: {nft.metadata.artist}</span>
 						</div>
 						<div className="flex h-3 items-center mb-1 text-sm font-bold">
 							<span className="w-8">DEF</span>
 							<span style={{ width: `${nft.metadata.defence * 3}px` }} className="h-3 bg-white opacity-20"></span>
+							<span className="pl-1 text-gray-500 text-xs">{nft.metadata.defence}</span>
 							<span className="flex-grow"></span>
 							<span className="flex-none opacity-30 font-normal">Birth: {dateFormat(birthDate, 'mmm dd yyyy')}</span>
 						</div>
 						<div className="flex h-3 items-center mb-1 text-sm font-bold">
 							<span className="w-8">SPD</span>
 							<span style={{ width: `${nft.metadata.speed * 3}px` }} className="h-3 bg-white opacity-20"></span>
+							<span className="pl-1 text-gray-500 text-xs">{nft.metadata.speed}</span>
 							<span className="flex-grow"></span>
 							<span className="flex-none opacity-30 font-normal">Owner: {shortenAddress(nft.owner.id)}</span>
 						</div>
@@ -144,37 +147,48 @@ const NFTDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div className="">
-						<img style={styles} className="object-fit w-full z-10 animate-bounceSlow" src={getNFTImages(cmId).tall} />
+						<img style={styles} className="object-fit w-full z-10 animate-bounceSlow" src={getNFTImages(cmId).base} />
 					</div>
 				</div>
 
 				{/* SIDE BAR */}
 				<div className="nft_details_sidebar bg-black bg-opacity-50 z-20">
 					{/* ACTIONS */}
-					<div className="h-28 m-4">
-						<h3 className="font-bold text-sm mb-2">ACTIONS</h3>
-						<div className="flex justify-around">
-							<div className="w-14 h-14 bg-white bg-opacity-10 relative">
-								<img className="center" width="38px" height="38px" alt="icon wing" src={Images.iconMain} />
+					<div className="m-4">
+						<h3 className="font-bold text-sm mb-4">ACTIONS</h3>
+						<div className="flex justify-center space-x-5">
+							<div className="w-11 h-11 bg-white bg-opacity-10 relative">
+								<img className="center" width="28px" height="28px" alt="icon wing" src={Images.iconMain} />
 							</div>
-							<div className="w-14 h-14 bg-white bg-opacity-10 relative">
-								<img className="center" width="32px" height="32px" alt="icon wing" src={Images.iconGift} />
+							<div className="w-11 h-11 bg-white bg-opacity-10 relative">
+								<img className="center" width="22px" height="22px" alt="icon wing" src={Images.iconSell} />
 							</div>
-							<div className="w-14 h-14 bg-white bg-opacity-10 relative">
-								<img className="center" width="32px" height="32px" alt="icon wing" src={Images.iconDrain} />
+							<div className="w-11 h-11 bg-white bg-opacity-10 relative">
+								<img className="center" width="24px" height="24px" alt="icon wing" src={Images.iconGift} />
 							</div>
-							<div className="w-14 h-14 bg-white bg-opacity-10 relative">
-								<img className="center" width="48px" height="48px" alt="icon wing" src={Images.iconWings} />
+							<div className="w-11 h-11 bg-white bg-opacity-10 relative">
+								<img className="center" width="22px" height="22px" alt="icon wing" src={Images.iconDrain} />
 							</div>
+							<div className="w-11 h-11 bg-white bg-opacity-10 relative">
+								<img className="center" width="34px" height="34px" alt="icon wing" src={Images.iconWings} />
+							</div>
+						</div>
+						<div className="flex justify-center space-x-5 text-xs font-bold text-gray-500">
+							<div className="w-11 text-center">Main</div>
+							<div className="w-11 text-center">Sell</div>
+							<div className="w-11 text-center">Gift</div>
+							<div className="w-11 text-center">Drain</div>
+							<div className="w-11 text-center">Revive</div>
 						</div>
 					</div>
 
-					<div className="h-32 m-4">
-						<h3 className="font-bold text-sm">SPECIALS</h3>
+					{/* ABILITIES */}
+					<div className="h-32 m-4 mt-8">
+						<h3 className="font-bold text-sm">ABILITIES</h3>
 					</div>
 
 					{/* EQUIPMENT */}
-					<div className="h-28">
+					<div className="mt-8">
 						<h3 className="font-bold text-sm mx-4 my-2">EQUIPMENT</h3>
 						<div className="flex justify-center">
 							<div className="w-14 h-14 mr-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
@@ -185,7 +199,7 @@ const NFTDetails = () => {
 					</div>
 
 					{/* STATS */}
-					<div className="h-32 m-4">
+					<div className="m-4 mt-8">
 						<h3 className="font-bold text-sm">STATS</h3>
 						<div className="text-gray-200 text-sm leading-7 grid grid-cols-2 gap-2 mt-1">
 							<div className="bg-white bg-opacity-10 px-3 py-2">
@@ -220,7 +234,7 @@ const NFTDetails = () => {
 					</div>
 
 					{/* HISTORY */}
-					<div className="h-48 m-4 mt-8">
+					<div className="m-4 mt-8">
 						<h3 className="font-bold text-sm">HISTORY</h3>
 						<ul className="text-gray-400 text-sm leading-6">
 							{status === 'success' &&
