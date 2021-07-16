@@ -92,80 +92,149 @@ const NFTDetails = () => {
 			<button type="button" onClick={() => history.goBack()}>
 				Go back
 			</button>
-			{address && <NFTActions nft={nft} />}
-
-			<div style={{ backgroundImage: `url(${getNFTImages(cmId).bg})` }} className="nft_details_bg bg-cover m-6 mx-auto relative overflow-hidden">
-				{/* LEFT BAR */}
-				<div className="p-4 w-32 z-20 absolute font-bold text-center">
-					<img className="w-90 h-74 mx-auto" src={Images.logoEthem} />
-					<p className="mt-20 text-lg border-b border-white">{nft.edition}/10</p>
-					<p className="text-sm">EDITION</p>
-					<p className="mt-2 text-3xl">#{nft.id.padStart(4, '0')}</p>
-				</div>
-
-				{/* RIGHT BAR */}
-				<div className="m-4 w-64 z-20 right-0 absolute border-white border-r">
-					<div className="flex justify-end mx-2">
-						<RankedStars amount={parseScore(nft.score)} />
+			{/* {address && <NFTActions nft={nft} />} */}
+			<div style={{ backgroundImage: `url(${getNFTImages(cmId).bg})` }} className="nft_details_container flex items-center justify-center bg-cover mx-auto overflow-hidden">
+				{/* MAIN CARD     */}
+				<div className="nft_details_bg relative">
+					{/* LEFT BAR */}
+					<div className="p-4 w-32 z-20 absolute font-bold text-center">
+						<img className="w-90 h-74 mx-auto opacity-20" src={Images.logoEthem} />
+						<p className="mt-20 text-lg border-b border-white">{nft.edition}/10</p>
+						<p className="text-sm">EDITION</p>
+						<p className="mt-2 text-3xl">#{nft.id.padStart(4, '0')}</p>
 					</div>
-					<p className="font-bold text-right mx-2">{nft.score} HP</p>
-					<p className="font-bold text-right mx-2">{formatELF(nft.rewards)} ELF</p>
-				</div>
 
-				{/* BOTTOM BAR */}
-				<div className="px-4 h-40 z-20 w-600 bottom-0 absolute overflow-hidden">
-					<p className="font-bold text-5xl uppercase -mx-1">{nft.metadata.coin}</p>
-					<div className="flex h-8 my-2">
-						<div className="w-8 bg-white">
-							<img src={getNFTImages(cmId).subclassIcon} />
+					{/* RIGHT BAR */}
+					<div className="m-4 w-64 z-20 right-0 absolute border-white border-r">
+						<div className="flex justify-end mx-2">
+							<RankedStars amount={parseScore(nft.score)} />
 						</div>
-						<div className=" w-48 px-2 bg-black uppercase text-lg align-middle">{nft.metadata.subClass}</div>
+						<p className="font-bold text-right mx-2">{nft.score} HP</p>
+						<p className="font-bold text-right mx-2">{formatELF(nft.rewards)} ELF</p>
 					</div>
-					<div className="flex h-3 items-center mb-1 text-sm font-bold">
-						<span className="w-8">ATK</span>
-						<span style={{ width: `${nft.metadata.attack * 3}px` }} className="h-3 bg-white opacity-20"></span>
-						<span className="flex-grow"></span>
-						<span className="flex-none opacity-60">Designer: {nft.metadata.artist}</span>
+
+					{/* BOTTOM BAR */}
+					<div className="px-4 h-40 z-20 w-600 bottom-0 absolute overflow-hidden">
+						<p className="font-bold text-5xl uppercase -mx-1">{nft.metadata.coin}</p>
+						<div className="flex h-8 my-2">
+							<div className="w-8 bg-white">
+								<img src={getNFTImages(cmId).subclassIcon} />
+							</div>
+							<div className=" w-48 px-2 bg-black uppercase text-lg align-middle">{nft.metadata.subClass}</div>
+						</div>
+						<div className="flex h-3 items-center mb-1 text-sm font-bold">
+							<span className="w-8">ATK</span>
+							<span style={{ width: `${nft.metadata.attack * 3}px` }} className="h-3 bg-white opacity-20"></span>
+							<span className="flex-grow"></span>
+							<span className="flex-none opacity-30 font-normal">Designer: {nft.metadata.artist}</span>
+						</div>
+						<div className="flex h-3 items-center mb-1 text-sm font-bold">
+							<span className="w-8">DEF</span>
+							<span style={{ width: `${nft.metadata.defence * 3}px` }} className="h-3 bg-white opacity-20"></span>
+							<span className="flex-grow"></span>
+							<span className="flex-none opacity-30 font-normal">Birth: {dateFormat(birthDate, 'mmm dd yyyy')}</span>
+						</div>
+						<div className="flex h-3 items-center mb-1 text-sm font-bold">
+							<span className="w-8">SPD</span>
+							<span style={{ width: `${nft.metadata.speed * 3}px` }} className="h-3 bg-white opacity-20"></span>
+							<span className="flex-grow"></span>
+							<span className="flex-none opacity-30 font-normal">Owner: {shortenAddress(nft.owner.id)}</span>
+						</div>
 					</div>
-					<div className="flex h-3 items-center mb-1 text-sm font-bold">
-						<span className="w-8">DEF</span>
-						<span style={{ width: `${nft.metadata.defence * 3}px` }} className="h-3 bg-white opacity-20"></span>
-						<span className="flex-grow"></span>
-						<span className="flex-none opacity-60 font-bold">Birthed On: {dateFormat(birthDate, 'mmm dd yyyy')}</span>
-					</div>
-					<div className="flex h-3 items-center mb-1 text-sm font-bold">
-						<span className="w-8">SPD</span>
-						<span style={{ width: `${nft.metadata.speed * 3}px` }} className="h-3 bg-white opacity-20"></span>
-						<span className="flex-grow"></span>
-						<span className="flex-none opacity-60">Owner: {shortenAddress(nft.owner.id)}</span>
+
+					{/* MAIN IMAGE */}
+					<div className="">
+						<img style={styles} className="object-fit w-full z-10 animate-bounceSlow" src={getNFTImages(cmId).tall} />
 					</div>
 				</div>
 
-				{/* MAIN IMAGE */}
-				<div className="">
-					<img style={styles} className="object-fit w-full animate-bounceSlow" src={getNFTImages(cmId).tall} />
+				{/* SIDE BAR */}
+				<div className="nft_details_sidebar bg-black bg-opacity-50">
+					{/* ACTIONS */}
+					<div className="h-28 m-4">
+						<h3 className="font-bold text-sm mb-2">ACTIONS</h3>
+						<div className="flex justify-around">
+							<div className="w-14 h-14 bg-white bg-opacity-10 relative">
+								<img className="center" width="38px" height="38px" alt="icon wing" src={Images.iconMain} />
+							</div>
+							<div className="w-14 h-14 bg-white bg-opacity-10 relative">
+								<img className="center" width="32px" height="32px" alt="icon wing" src={Images.iconGift} />
+							</div>
+							<div className="w-14 h-14 bg-white bg-opacity-10 relative">
+								<img className="center" width="32px" height="32px" alt="icon wing" src={Images.iconDrain} />
+							</div>
+							<div className="w-14 h-14 bg-white bg-opacity-10 relative">
+								<img className="center" width="48px" height="48px" alt="icon wing" src={Images.iconWings} />
+							</div>
+						</div>
+					</div>
+
+					<div className="h-32 m-4">
+						<h3 className="font-bold text-sm">SPECIALS</h3>
+					</div>
+
+					{/* EQUIPMENT */}
+					<div className="h-28">
+						<h3 className="font-bold text-sm mx-4 my-2">EQUIPMENT</h3>
+						<div className="flex justify-center">
+							<div className="w-14 h-14 mr-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
+							<div className="w-14 h-14 mr-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
+							<div className="w-14 h-14 mr-4 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
+							<div className="w-14 h-14 ml-4 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
+						</div>
+					</div>
+
+					{/* STATS */}
+					<div className="h-32 m-4">
+						<h3 className="font-bold text-sm">STATS</h3>
+						<div className="text-gray-200 text-sm leading-7 grid grid-cols-2 gap-2 mt-1">
+							<div className="bg-white bg-opacity-10 px-3 py-2">
+								<div className="flex justify-between">
+									<span>Battles</span>
+									<span>{nft.scorecard.battles}</span>
+								</div>
+								<div className="flex justify-between">
+									<span>Wins</span>
+									<span>{nft.scorecard.wins}</span>
+								</div>
+								<div className="flex justify-between">
+									<span>Resurrected</span>
+									<span>{nft.scorecard.resurrected}</span>
+								</div>
+							</div>
+							<div className="bg-white bg-opacity-10 px-3 py-2">
+								<div className="flex justify-between">
+									<span>Revived</span>
+									<span>{nft.scorecard.revived}</span>
+								</div>
+								<div className="flex justify-between">
+									<span>Reaped</span>
+									<span>{nft.scorecard.reaped}</span>
+								</div>
+								<div className="flex justify-between">
+									<span>Drained</span>
+									<span>{nft.scorecard.drained}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{/* HISTORY */}
+					<div className="h-48 m-4 mt-8">
+						<h3 className="font-bold">HISTORY</h3>
+						<ul className="text-gray-400 text-sm leading-6">
+							{status === 'success' &&
+								nft &&
+								nft.actions.length > 0 &&
+								nft.actions.map((action, index) => {
+									if (index > 6) {
+										return;
+									}
+									return <li key={index}>{ActionLink(action)}</li>;
+								})}
+						</ul>
+					</div>
 				</div>
-
-				{/* <p>{nft.score} Honor Points</p>
-				<p>{formatELF(nft.rewards)} Ethemeral Life Force</p>
-
-				<h4 className="text-xl pt-2">Stats:</h4>
-				<ul>
-					<li>{nft.metadata.subClass}</li>
-					<li>Special: {nft.metadata.special1}</li>
-				</ul>
-				<h4 className="text-xl pt-2">Scorecard:</h4>
-				<ul>
-					<li>battles: {nft.scorecard.battles}</li>
-					<li>wins: {nft.scorecard.wins}</li>
-					<li>revived: {nft.scorecard.revived}</li>
-					<li>resurrected: {nft.scorecard.resurrected}</li>
-					<li>reaped: {nft.scorecard.reaped}</li>
-					<li>drained: {nft.scorecard.drained}</li>
-				</ul>
-
-				<h4 className="text-xl pt-2">History:</h4>
-				<ul>{status === 'success' && nft && nft.actions.length > 0 && nft.actions.map((action, index) => <li key={index}>{ActionLink(action)}</li>)}</ul> */}
 			</div>
 		</div>
 	);

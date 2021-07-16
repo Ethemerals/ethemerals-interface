@@ -22,12 +22,12 @@ const useParseAction = (action) => {
 			}
 			break;
 		case 'Minted':
-			actionString = `Was given life by ${shortenAddress(action.transaction.from)} 🐣`;
+			actionString = `Birthed by ${shortenAddress(action.transaction.from)} 🐣`;
 			break;
 		case 'Unstaked':
 			actionString = 'Unstaked';
 			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Retreated from the Eternal Battle 🛡️`;
+				actionString = `Retreated from Battle 🛡️`;
 			}
 			break;
 		case 'Staked':
@@ -37,28 +37,28 @@ const useParseAction = (action) => {
 			}
 			break;
 		case 'Resurrection':
-			actionString = `Resurrected from the depth of sorrow  💖`;
+			actionString = `Resurrected at the altar  💖`;
 			break;
 		case 'RedeemELF':
-			actionString = `Was drained of all Life Force  💔`;
+			actionString = `Drained of all Life Force  💔`;
 			break;
 		case 'Revived':
 			actionString = 'Revived';
 			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Was revived from the Eternal Battle 💖`;
+				actionString = `Revived from the Eternal Battle 💖`;
 			}
 			break;
 		case 'Reviver':
-			actionString = `Became and Angel to revive a poor soul! 😇`;
+			actionString = `Became an Angel, revived a poor soul! 😇`;
 			break;
 		case 'Reaped':
 			actionString = 'Reaped';
 			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Was Reaped from the Eternal Battle 💀`;
+				actionString = `Reaped from the Battle 💀`;
 			}
 			break;
 		case 'Reaper':
-			actionString = `Became a Reaper and stole an Ethemeral! 💀`;
+			actionString = `Reaper | stole an Ethemeral! 💀`;
 			break;
 		default:
 			console.log('did not parse action');
