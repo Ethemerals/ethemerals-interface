@@ -149,7 +149,7 @@ const NFTDetails = () => {
 				</div>
 
 				{/* SIDE BAR */}
-				<div className="nft_details_sidebar bg-black bg-opacity-50">
+				<div className="nft_details_sidebar bg-black bg-opacity-50 z-20">
 					{/* ACTIONS */}
 					<div className="h-28 m-4">
 						<h3 className="font-bold text-sm mb-2">ACTIONS</h3>
@@ -179,8 +179,8 @@ const NFTDetails = () => {
 						<div className="flex justify-center">
 							<div className="w-14 h-14 mr-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
 							<div className="w-14 h-14 mr-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
-							<div className="w-14 h-14 mr-4 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
-							<div className="w-14 h-14 ml-4 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
+							<div className="w-14 h-14 mr-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
+							<div className="w-14 h-14 ml-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
 						</div>
 					</div>
 
@@ -221,7 +221,7 @@ const NFTDetails = () => {
 
 					{/* HISTORY */}
 					<div className="h-48 m-4 mt-8">
-						<h3 className="font-bold">HISTORY</h3>
+						<h3 className="font-bold text-sm">HISTORY</h3>
 						<ul className="text-gray-400 text-sm leading-6">
 							{status === 'success' &&
 								nft &&
