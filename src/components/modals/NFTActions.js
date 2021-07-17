@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useCore } from '../../hooks/useCore';
+
+import Images from '../../constants/Images';
 
 import useUserAccount from '../../hooks/useUserAccount';
 import Gift from './actions/Gift';
 import WinnerFund from './actions/WinnerFund';
-import MakeMain from './actions/MakeMain';
+import { shortenAddress } from '../../utils';
 
 const NFTActions = ({ nft }) => {
-	const { account } = useUserAccount();
+	const { account, mutateUser, mainIndex, userNFTs } = useUserAccount();
 	const { core } = useCore();
+	const history = useHistory();
 
 	const [isOwned, setIsOwned] = useState(false);
 	const [isOwnedWinning, setIsOwnedWinning] = useState(false);
@@ -32,11 +35,9 @@ const NFTActions = ({ nft }) => {
 	}, [account, core, nft]);
 
 	const toggleGift = () => {
-		setIsGiftOpen(!isGiftOpen);
-	};
-
-	const toggleWinnerFund = () => {
-		setIsWinnerFundOpen(!isWinnerFundOpen);
+		if (isOwned) {
+			setIsGiftOpen(!isGiftOpen);
+		}
 	};
 
 	useEffect(() => {
@@ -51,40 +52,102 @@ const NFTActions = ({ nft }) => {
 		setIsOwned(owned);
 	}, [account, nft]);
 
-	if (!isOwned) {
+	if (!nft) {
 		return null;
 	}
 
+	const selectMain = (id) => {
+		if (account && isOwned) {
+			mutateUser.mutate({ address: account.id, main: id });
+		}
+	};
+
+	const handleSell = (id) => {
+		console.log('sell', id);
+	};
+
+	const handleBuy = (id) => {
+		console.log('buy', id);
+	};
+
 	return (
-		<>
-			<div className="w-48 h-96 bg-gray-900 top-40 right-4 fixed rounded-lg">
-				<MakeMain id={nft.id} />
-				<br></br>
-				<button onClick={toggleGift} className="bg-pink-700 p-4">
-					Gift
-				</button>
-				<br></br>
-				<Link to={`/redemption/${nft.id}`}>
-					<button className="bg-pink-700 p-4">Redemption</button>
-				</Link>
-				{isOwnedWinning && (
-					<>
-						<br></br>
-						<button onClick={toggleWinnerFund} className="bg-pink-700 p-4">
-							Claim Highest Honor
-						</button>
-					</>
-				)}
-				<br></br>
-				<Link to={`/resurrect/${nft.id}`}>
-					<button disabled={nft.score > 25} className={`${nft.score < 25 ? 'bg-pink-700' : 'bg-gray-800 cursor-default'} p-4`}>
-						Resurrect
-					</button>
-				</Link>
+		<div className="grid grid-cols-2 gap-2 px-4">
+			{account && isOwned && userNFTs[mainIndex].id === nft.id ? (
+				<div className="flex items-center col-span-2 rounded-lg opacity-100 cursor-default">
+					<div className="w-8 h-8 mr-1 relative">
+						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
+					</div>
+					<p>Current Main Ethemeral</p>
+				</div>
+			) : (
+				<div
+					onClick={() => selectMain(nft.id)}
+					className={`flex items-center col-span-2 rounded-lg opacity-40 cursor-default ${
+						account && isOwned ? 'opacity-70 cursor-pointer hover:opacity-100 hover:bg-brandColor-dark transition duration-200' : ''
+					}`}
+				>
+					<div className="w-8 h-8 mr-1 relative">
+						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
+					</div>
+					{account && isOwned ? <p>Select as Main</p> : <p>Owner: {shortenAddress(nft.owner.id)}</p>}
+				</div>
+			)}
+
+			{account && isOwned ? (
+				<div onClick={() => handleSell(nft.id)} className="flex items-center rounded-lg opacity-70 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200">
+					<div className="w-8 h-8 mr-1 relative">
+						<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
+					</div>
+					<p>Sell</p>
+				</div>
+			) : (
+				<div onClick={() => handleBuy(nft.id)} className="flex items-center rounded-lg cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200">
+					<div className="w-8 h-8 mr-1 relative">
+						<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
+					</div>
+					<p>Buy</p>
+				</div>
+			)}
+
+			<div
+				onClick={() => {
+					if (isOwned) {
+						history.push(`/redemption/${nft.id}`);
+					}
+				}}
+				className={`flex items-center rounded-lg opacity-40 cursor-default ${account && isOwned ? 'opacity-70 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200' : ''}`}
+			>
+				<div className="w-8 h-8 mr-1 relative">
+					<img className="center" width="20px" height="20px" alt="icon drain" src={Images.iconDrain} />
+				</div>
+				<p>Redeem ELF</p>
 			</div>
-			{isWinnerFundOpen && <WinnerFund nft={nft} toggle={toggleWinnerFund} />}
+
+			<div
+				onClick={toggleGift}
+				className={`flex items-center rounded-lg opacity-40 cursor-default ${account && isOwned ? 'opacity-70 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200' : ''}`}
+			>
+				<div className="w-8 h-8 mr-1 relative">
+					<img className="center" width="20px" height="20px" alt="icon gift" src={Images.iconGift} />
+				</div>
+				<p>Gift</p>
+			</div>
+
+			<div
+				onClick={() => {
+					if (isOwned) {
+						history.push(`/resurrect/${nft.id}`);
+					}
+				}}
+				className={`flex items-center rounded-lg opacity-40 cursor-default ${account && isOwned ? 'opacity-70 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200' : ''}`}
+			>
+				<div className="w-8 h-8 mr-1 relative">
+					<img className="center" width="26px" height="26px" alt="icon wing" src={Images.iconWings} />
+				</div>
+				<p>Resurrect</p>
+			</div>
 			{isGiftOpen && <Gift nft={nft} toggle={toggleGift} />}
-		</>
+		</div>
 	);
 };
 
