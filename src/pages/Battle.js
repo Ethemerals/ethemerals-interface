@@ -9,8 +9,6 @@ import { useCore } from '../hooks/useCore';
 import { formatELF } from '../utils';
 import useUserAccount from '../hooks/useUserAccount';
 
-import WinnerFund from '../components/modals/actions/WinnerFund';
-
 const Battle = () => {
 	const { contractPriceFeed } = usePriceFeedContract();
 	const { core } = useCore();

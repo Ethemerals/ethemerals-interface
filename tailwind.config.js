@@ -15,6 +15,7 @@ module.exports = {
 		extend: {
 			opacity: ['disabled'],
 			spacing: {
+				'10px': '10px',
 				74: '74px',
 				90: '90px',
 				420: '420px',

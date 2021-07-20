@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { useCore } from '../../hooks/useCore';
+import { useHistory } from 'react-router-dom';
+import { useCore } from '../hooks/useCore';
 
-import Images from '../../constants/Images';
+import Images from '../constants/Images';
 
-import useUserAccount from '../../hooks/useUserAccount';
-import Gift from './actions/Gift';
-import WinnerFund from './actions/WinnerFund';
-import { shortenAddress } from '../../utils';
+import useUserAccount from '../hooks/useUserAccount';
+import Gift from './modals/actions/Gift';
+import { shortenAddress } from '../utils';
 
 const NFTActions = ({ nft }) => {
 	const { account, mutateUser, mainIndex, userNFTs } = useUserAccount();
@@ -16,7 +15,6 @@ const NFTActions = ({ nft }) => {
 
 	const [isOwned, setIsOwned] = useState(false);
 	const [isOwnedWinning, setIsOwnedWinning] = useState(false);
-	const [isWinnerFundOpen, setIsWinnerFundOpen] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);
 
 	useEffect(() => {
@@ -93,6 +91,21 @@ const NFTActions = ({ nft }) => {
 				</div>
 			)}
 
+			{isOwnedWinning && (
+				<div
+					onClick={() => {
+						if (isOwned) {
+							history.push(`/claim/${nft.id}`);
+						}
+					}}
+					className="col-span-2 flex items-center rounded-lg opacity-100 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200"
+				>
+					<div className="w-8 h-8 mr-1 relative">
+						<img className="center" width="26px" height="26px" alt="icon drain" src={Images.iconClaim} />
+					</div>
+					<p>Claim the Highest Honor Reward</p>
+				</div>
+			)}
 			{account && isOwned ? (
 				<div onClick={() => handleSell(nft.id)} className="flex items-center rounded-lg opacity-70 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200">
 					<div className="w-8 h-8 mr-1 relative">
@@ -105,7 +118,7 @@ const NFTActions = ({ nft }) => {
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
 					</div>
-					<p>Buy</p>
+					<p>Bid</p>
 				</div>
 			)}
 
@@ -146,6 +159,7 @@ const NFTActions = ({ nft }) => {
 				</div>
 				<p>Resurrect</p>
 			</div>
+
 			{isGiftOpen && <Gift nft={nft} toggle={toggleGift} />}
 		</div>
 	);

@@ -8,10 +8,10 @@ export const useNFTUtils = () => {
 
 	const getNFTImages = (cmId) => {
 		let base = `${s3URL}${cmId}_base.png`;
-		let tall = `${s3URL}${cmId}_tall.png`;
+		let large = `${s3URL}${cmId}_large.png`;
 		let bg = `${s3URL}bg_texture.jpg`;
 		let subclassIcon = iconAssassin;
-		return { base, bg, tall, subclassIcon };
+		return { base, bg, large, subclassIcon };
 	};
 
 	function parseScore(score) {

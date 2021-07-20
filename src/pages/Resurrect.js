@@ -14,7 +14,7 @@ import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
 
-import { shortenAddress, formatELF, formatETH, isAddress } from '../utils';
+import { shortenAddress, formatELF, formatETH } from '../utils';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';

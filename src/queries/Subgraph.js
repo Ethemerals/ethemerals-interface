@@ -29,6 +29,7 @@ export const GET_NFTS = gql`
 			timestamp
 			edition
 			score
+			rewards
 			owner {
 				id
 			}

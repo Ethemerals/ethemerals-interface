@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
-import { useSpring, animated, config } from '@react-spring/web';
 import dateFormat from 'dateformat';
 
-import { useAddress } from '../hooks/Web3Context';
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { useNFTUtils } from '../hooks/useNFTUtils';
 import Images from '../constants/Images';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
 
-import NFTActions from '../components/modals/NFTActions';
+import NFTActions from '../components/NFTActions';
 
 import { shortenAddress, formatELF } from '../utils';
 
@@ -53,7 +51,6 @@ const ActionLink = (action) => {
 };
 
 const NFTDetails = () => {
-	const address = useAddress();
 	const history = useHistory();
 	const { getNFTImages, parseScore } = useNFTUtils();
 
@@ -65,14 +62,6 @@ const NFTDetails = () => {
 	const [cmId, setCmId] = useState(undefined);
 	const [birthDate, setBirthDate] = useState(Date.now());
 
-	// REACT SPRING
-	const styles = useSpring({
-		loop: false,
-		to: { y: 0 },
-		from: { y: -10 },
-		config: config.wobbly,
-	});
-
 	useEffect(() => {
 		if (status === 'success' && data && data.ethemeral) {
 			setNFT(data.ethemeral);
@@ -80,7 +69,7 @@ const NFTDetails = () => {
 			setBirthDate(parseInt(nft.timestamp) * 1000);
 			setReady(true);
 		}
-	}, [status, data]);
+	}, [status, data, nft]);
 
 	if (!ready || isLoading !== false || status !== 'success') {
 		return <p>Loading {id}</p>;
@@ -98,7 +87,7 @@ const NFTDetails = () => {
 				<div className="nft_details_bg relative">
 					{/* LEFT BAR */}
 					<div className="p-4 w-32 z-20 absolute font-bold text-center">
-						<img className="w-90 h-74 mx-auto opacity-20" src={Images.logoEthem} />
+						<img className="w-90 h-74 mx-auto opacity-20" src={Images.logoEthem} alt="logo" />
 						<p className="mt-20 text-lg border-b border-white">{nft.edition}/10</p>
 						<p className="text-sm">EDITION</p>
 						<p className="mt-2 text-3xl">#{nft.id.padStart(4, '0')}</p>
@@ -118,7 +107,7 @@ const NFTDetails = () => {
 						<p className="font-bold text-5xl uppercase -mx-1">{nft.metadata.coin}</p>
 						<div className="flex h-8 my-2">
 							<div className="w-8 bg-white">
-								<img src={getNFTImages(cmId).subclassIcon} />
+								<img src={getNFTImages(cmId).subclassIcon} alt="subclass icon" />
 							</div>
 							<div className=" w-48 px-2 bg-black uppercase text-lg align-middle">{nft.metadata.subClass}</div>
 						</div>
@@ -147,7 +136,7 @@ const NFTDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div className="">
-						<img style={styles} className="object-fit w-full z-10 animate-bounceSlow" src={getNFTImages(cmId).base} />
+						<img className="object-fit w-full z-10 animate-bounceSlow" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
 					</div>
 				</div>
 
@@ -219,7 +208,7 @@ const NFTDetails = () => {
 								nft.actions.length > 0 &&
 								nft.actions.map((action, index) => {
 									if (index > 6) {
-										return;
+										return null;
 									}
 									return <li key={index}>{ActionLink(action)}</li>;
 								})}

@@ -7,7 +7,7 @@ import { formatELF, formatETH } from '../utils';
 
 import Images from '../constants/Images';
 
-import { useWeb3, useAddress, useOnboard, useLogin, useReadyToTransact } from '../hooks/Web3Context';
+import { useAddress, useLogin, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
 import { useCoreContract, useCore } from '../hooks/useCore';
 import { useTokenContract } from '../hooks/useToken';
@@ -39,9 +39,7 @@ const Home = () => {
 	const { contractCore } = useCoreContract();
 	const { contractToken } = useTokenContract();
 
-	const provider = useWeb3();
 	const address = useAddress();
-	const onboard = useOnboard();
 	const login = useLogin();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();

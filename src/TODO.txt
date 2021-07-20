@@ -7,6 +7,9 @@ add Ethemerals that went to battle in user
 
 add sorting
 
+add crown to highest ranked detail page
+
+add leader boards
 
 dashboard
 
