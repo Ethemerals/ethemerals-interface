@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useUserAccount from '../../hooks/useUserAccount';
+import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 
 import Images from '../../constants/Images';
 
 const NFTLink = (nft, index, toggle) => {
 	return (
 		<Link key={index} to={`/ethemeral/${nft.id}`}>
-			<div onClick={toggle} className="w-74 h-74 bg-gray-500 flex rounded-md hover:bg-gray-600 mx-auto my-1 shadow-sm">
-				<span className="flex-none w-12 text-right">#{nft.id}</span>
-				{/* <span className="flex-grow mx-4 overflow-hidden">{nft.metadata.coin.slice(0, 30)}</span> */}
-				{/* <span className="flex-none">{nft.score} HP</span> */}
+			<div onClick={toggle} className="flex w-74 h-74 bg-gray-700 rounded hover:bg-gray-600 mx-auto my-1 shadow-sm items-baseline">
+				<span className="flex-grow h-full"></span>
+				<span className="text-sm font-bold text-gray-400">#{nft.id.padStart(4, '0')}</span>
 			</div>
 		</Link>
 	);
@@ -18,8 +18,12 @@ const NFTLink = (nft, index, toggle) => {
 
 const UserInventory = ({ toggle, toggleExtra }) => {
 	const { account, mainIndex, userNFTs } = useUserAccount();
+	const { accountEternalBattle } = useEternalBattleAccount();
 
 	const [NFTShortList, setNFTShortList] = useState([]);
+	const [NFTInBattle, setNFTInBattle] = useState(0);
+	const [NFTInBattleShortList, setNFTInBattleShortList] = useState([]);
+	const [selectedTab, setSelectedTab] = useState(0);
 
 	useEffect(() => {
 		if (account && userNFTs.length > 0) {
@@ -27,34 +31,43 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 		}
 	}, [account, userNFTs]);
 
-	if (!account || userNFTs.length <= 0) {
-		return (
-			<>
-				<div className="h-28 m-4">
-					<div className="flex h-28">
-						<div className="h-full w-full text-sm text-center border border-r-0 border-gray-700 bg-gray-900 relative">
-							<div className="overflow-hidden center -my-3">None</div>
-						</div>
-						<img width="256" height="112" className="object-cover w-44 sm:w-64 h-28 cursor-pointer border-gray-600 border border-l-0" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
-					</div>
-				</div>
-				<div className="p-4">
-					<p className="text-lg pb-2">Ethemerals</p>
-					NONE
-				</div>
-			</>
-		);
-	}
+	useEffect(() => {
+		if (accountEternalBattle && account) {
+			let inBattle = [];
+			accountEternalBattle.ethemerals.forEach((nft) => {
+				if (nft.previousOwner.id === account.id) {
+					inBattle.push(nft);
+				}
+			});
+			if (inBattle.length > 0) {
+				setNFTInBattle(inBattle.length);
+				setNFTInBattleShortList(inBattle.slice(0, 10));
+			}
+		}
+	}, [accountEternalBattle, account]);
 
 	return (
 		<>
 			<div className="h-28 m-4">
 				<div className="flex h-28">
-					<div className="h-full w-2/4 text-sm text-center border border-r-0 border-gray-700 bg-gray-900 relative">
+					<div className={`${userNFTs.length > 1 ? 'w-2/4' : 'w-full'} h-full text-sm text-center border border-r-0 border-gray-700 bg-gray-900 relative`}>
 						<div className="overflow-hidden center -my-3">
 							<>
-								<p className="text-xl">#{userNFTs[mainIndex].id}</p>
-								<p className="uppercase">{userNFTs[mainIndex].metadata.coin}</p>
+								{userNFTs.length > 0 ? (
+									<>
+										<p className="text-xl">#{userNFTs[mainIndex].id}</p>
+										<p className="uppercase">{userNFTs[mainIndex].metadata.coin}</p>
+									</>
+								) : (
+									<>
+										<p>None active</p>
+										<Link to="/">
+											<p onClick={toggle} className="hover:text-blue-400 text-base cursor-pointer">
+												Mint one now
+											</p>
+										</Link>
+									</>
+								)}
 							</>
 						</div>
 						{userNFTs.length > 1 && (
@@ -63,21 +76,34 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 							</div>
 						)}
 					</div>
-					<div onClick={toggle} className="w-2/4 h-28 cursor-pointer border-gray-600 border border-l-0">
-						<Link to={`/ethemeral/${userNFTs[mainIndex].id}`}>
-							<img width="256" height="112" className="object-cover h-full" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
-						</Link>
-					</div>
+					{userNFTs.length > 1 && (
+						<div onClick={toggle} className="w-2/4 h-28 cursor-pointer border-gray-600 border border-l-0">
+							<Link to={`/ethemeral/${userNFTs[mainIndex].id}`}>
+								<img width="256" height="112" className="object-cover h-full" alt="Preview of current Ethemeral" src={Images.nftPreviewWide} />
+							</Link>
+						</div>
+					)}
 				</div>
 			</div>
 
-			<div className="flex px-2 pt-4 text-xs font-bold items-center">
-				<p className="bg-gray-900 p-2 cursor-pointer text-gray-400 hover:text-gray-100">ETHEMERALS</p>
-				<p className="bg-gray-800 p-2 ml-2 cursor-pointer text-gray-400 hover:text-gray-100">IN BATTLE</p>
-				<p className="bg-gray-800 p-2 ml-2 cursor-pointer text-gray-400 hover:text-gray-100">ITEMS</p>
+			{/* INVENTORY TABS */}
+			<div className="flex pr-2 pt-4 text-xs font-bold items-center">
+				<p onClick={() => setSelectedTab(0)} className={`${selectedTab === 0 ? 'bg-gray-900 text-gray-100' : 'bg-gray-800 text-gray-500'} p-2 cursor-pointer hover:text-gray-100`}>
+					ETHEMERALS <span>({account ? account.ethemerals.length : 0})</span>
+				</p>
+				<p onClick={() => setSelectedTab(1)} className={`${selectedTab === 1 ? 'bg-gray-900 text-gray-100' : 'bg-gray-800 text-gray-500'} p-2 cursor-pointer hover:text-gray-100`}>
+					IN BATTLE <span>({NFTInBattle})</span>
+				</p>
+				<p onClick={() => setSelectedTab(2)} className={`${selectedTab === 2 ? 'bg-gray-900 text-gray-100' : 'bg-gray-800 text-gray-500'} p-2 cursor-pointer hover:text-gray-100`}>
+					ITEMS (0)
+				</p>
 			</div>
 
-			<div className="grid grid-cols-5 p-2 bg-gray-900">{NFTShortList.map((nft, index) => NFTLink(nft, index, toggle))}</div>
+			<div className="bg-gray-900 p-2 h-full">
+				{account && selectedTab === 0 && <div className="grid grid-cols-5">{NFTShortList.map((nft, index) => NFTLink(nft, index, toggle))}</div>}
+				{account && selectedTab === 1 && <div className="grid grid-cols-5">{NFTInBattleShortList.map((nft, index) => NFTLink(nft, index, toggle))}</div>}
+				{account && selectedTab === 2 && <div></div>}
+			</div>
 		</>
 	);
 };

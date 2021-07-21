@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import useUserAccount from '../../hooks/useUserAccount';
-
 import UserAccount from './UserAccount';
 import UserELF from './UserElf';
 import UserInventory from './UserInventory';
@@ -23,25 +21,12 @@ const ModalMenuItem = ({ toggle, selected, text }) => {
 };
 
 const UserModal = ({ toggle, selected }) => {
-	const { account } = useUserAccount();
-
 	const [selectedTab, setSelectedTab] = useState(selected);
-	const [active, setActive] = useState(false);
 	const [isMainSelectOpen, setMainSelectOpen] = useState(false);
 
 	const toggleMainSelectModal = () => {
 		setMainSelectOpen(!isMainSelectOpen);
 	};
-
-	useEffect(() => {
-		if (account === null) {
-			// new account
-			setActive(false);
-		}
-		if (account) {
-			setActive(true);
-		}
-	}, [account]);
 
 	useEffect(() => {
 		setSelectedTab(selected);
@@ -69,8 +54,7 @@ const UserModal = ({ toggle, selected }) => {
 
 					{/* content */}
 					<div className="w-full h-420 bg-gray-800 bg-opacity-100 rounded-2xl rounded-t-none overflow-hidden z-30 tracking-wide shadow-xl">
-						{/* // TODO add no account Ethemerals */}
-						{selectedTab === 0 && active && <UserInventory toggle={toggle} toggleExtra={toggleMainSelectModal} />}
+						{selectedTab === 0 && <UserInventory toggle={toggle} toggleExtra={toggleMainSelectModal} />}
 						{selectedTab === 1 && <UserELF />}
 						{selectedTab === 2 && <UserAccount />}
 					</div>
