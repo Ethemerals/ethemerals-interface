@@ -41,10 +41,6 @@ const AccountBar = () => {
 				} else {
 					// AUTO MAIN
 					if (account.ethemerals.length > 0) {
-						console.log(userData.data.main);
-						console.log(account.ethemerals[mainIndex].id);
-						console.log(mainIndex);
-
 						let foundNFT = false;
 
 						account.ethemerals.forEach((nft) => {
@@ -73,8 +69,8 @@ const AccountBar = () => {
 				<NFTPreview />
 			</span>
 
-			<span className="bg-gray-700 flex rounded-xl items-center h-8 md:h-11 text-xs sm:text-base text-white">
-				<span className="px-2 cursor-pointer h-full flex items-center rounded-xl rounded-r-none hover:bg-gradient-to-r from-gray-600 " onClick={() => toggleUserModal(1)}>
+			<span className="bg-gray-700 flex rounded-lg items-center h-8 md:h-11 text-xs sm:text-base text-white">
+				<span className="px-2 cursor-pointer h-full flex items-center rounded-lg rounded-r-none hover:bg-gradient-to-r from-gray-600 " onClick={() => toggleUserModal(1)}>
 					{balance && <span>{formatETH(balance)} ETH</span>}
 					{/* TODO, animated ELF ticker */}
 				</span>
@@ -82,7 +78,7 @@ const AccountBar = () => {
 				<span
 					className={`${
 						mining ? ' bg-yellow-400 border-yellow-100' : 'bg-gray-900 border-gray-800 hover:bg-gray-800 hover:border-gray-600 transition duration-300'
-					} flex rounded-xl h-8 md:h-11 w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 border `}
+					} flex rounded-lg h-8 md:h-11 w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 border`}
 				>
 					{mining ? (
 						<span onClick={() => toggleUserModal(2)} className="cursor-pointer h-full flex items-center tracking-wide">
@@ -98,7 +94,7 @@ const AccountBar = () => {
 				</span>
 			</span>
 
-			<span onClick={() => toggleUserModal(0)} className="md:hidden flex">
+			<span onClick={() => toggleUserModal(0)} className="md:hidden flex pl-1">
 				<NFTPreview />
 			</span>
 

@@ -55,7 +55,7 @@ const UserAccount = () => {
 			<div className="h-28 border border-gray-700 bg-gray-900 px-4 m-4 relative">
 				<div className="flex items-center justify-between py-2">
 					<p className="text-xs sm:text-sm text-gray-400">Connected with {connection} </p>
-					<button onClick={login} className="text-xs sm:text-sm text-blue-500 px-2 hover:bg-gray-600 hover:text-blue-400 rounded-xl">
+					<button onClick={login} className="text-xs sm:text-sm text-blue-500 px-2 hover:bg-gray-600 hover:text-blue-400 rounded-lg">
 						Change
 					</button>
 				</div>

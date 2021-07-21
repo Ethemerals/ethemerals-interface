@@ -22,7 +22,7 @@ const NFTPreview = () => {
 
 	if (!isAddress(address)) {
 		return (
-			<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
+			<span className="flex bg-brandColor-purple rounded-lg items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
 				<span className="text-white px-2 md:px-3">NO NFTS</span>
 			</span>
 		);
@@ -30,7 +30,7 @@ const NFTPreview = () => {
 
 	if (userIsLoading) {
 		return (
-			<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
+			<span className="flex bg-brandColor-purple rounded-lg items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
 				<span className="text-white px-2 md:px-3">LOADING</span>
 				<Spinner />
 			</span>
@@ -38,7 +38,7 @@ const NFTPreview = () => {
 	}
 
 	return (
-		<span className="flex bg-brandColor-purple rounded-xl items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
+		<span className="flex bg-brandColor-purple rounded-lg items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
 			{address && mainNFT && userNFTs.length > 0 ? (
 				<span className="text-white px-2 md:px-3">
 					#{mainNFT.id} of {userNFTs.length}

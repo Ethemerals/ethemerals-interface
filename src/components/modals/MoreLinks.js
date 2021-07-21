@@ -6,8 +6,8 @@ const landingURL = Links.LANDING_URL;
 const discordURL = Links.DISCORD_URL;
 
 const MoreLinks = ({ large, toggle, isLoggedIn, logout }) => {
-	const modalTop = 'rounded-xl p-2 py-4 top-16 right-0 w-48 bg-gray-700 absolute space-y-4 border-gray-500 border-2 shadow-lg animate-fadeOnFast';
-	const modalBottom = 'rounded-xl p-2 py-4 bottom-16 right-2 w-48 bg-gray-700 fixed space-y-4 border-gray-500 border-2 shadow-lg animate-fadeOnFast';
+	const modalTop = 'rounded-lg p-2 py-4 top-16 right-0 w-48 bg-gray-700 absolute space-y-4 border-gray-500 border-2 shadow-lg animate-fadeOnFast';
+	const modalBottom = 'rounded-lg p-2 py-4 bottom-16 right-2 w-48 bg-gray-700 fixed space-y-4 border-gray-500 border-2 shadow-lg animate-fadeOnFast';
 
 	return (
 		<>

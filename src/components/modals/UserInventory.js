@@ -7,23 +7,23 @@ import Images from '../../constants/Images';
 const NFTLink = (nft, index, toggle) => {
 	return (
 		<Link key={index} to={`/ethemeral/${nft.id}`}>
-			<div onClick={toggle} className="flex capitalize items-center mx-2 hover:bg-gray-500">
+			<div onClick={toggle} className="w-74 h-74 bg-gray-500 flex rounded-md hover:bg-gray-600 mx-auto my-1 shadow-sm">
 				<span className="flex-none w-12 text-right">#{nft.id}</span>
-				<span className="flex-grow mx-4 overflow-hidden">{nft.metadata.coin.slice(0, 30)}</span>
-				<span className="flex-none">{nft.score} HP</span>
+				{/* <span className="flex-grow mx-4 overflow-hidden">{nft.metadata.coin.slice(0, 30)}</span> */}
+				{/* <span className="flex-none">{nft.score} HP</span> */}
 			</div>
 		</Link>
 	);
 };
 
-const UserNFTs = ({ toggle, toggleExtra }) => {
+const UserInventory = ({ toggle, toggleExtra }) => {
 	const { account, mainIndex, userNFTs } = useUserAccount();
 
 	const [NFTShortList, setNFTShortList] = useState([]);
 
 	useEffect(() => {
 		if (account && userNFTs.length > 0) {
-			setNFTShortList(userNFTs.slice(0, 7));
+			setNFTShortList(userNFTs.slice(0, 10));
 		}
 	}, [account, userNFTs]);
 
@@ -39,7 +39,7 @@ const UserNFTs = ({ toggle, toggleExtra }) => {
 					</div>
 				</div>
 				<div className="p-4">
-					<p className="text-lg pb-2">Inventory</p>
+					<p className="text-lg pb-2">Ethemerals</p>
 					NONE
 				</div>
 			</>
@@ -70,12 +70,16 @@ const UserNFTs = ({ toggle, toggleExtra }) => {
 					</div>
 				</div>
 			</div>
-			<div className="p-4">
-				<p className="text-lg pb-2">Inventory</p>
-				{NFTShortList.map((nft, index) => NFTLink(nft, index, toggle))}
+
+			<div className="flex px-2 pt-4 text-xs font-bold items-center">
+				<p className="bg-gray-900 p-2 cursor-pointer text-gray-400 hover:text-gray-100">ETHEMERALS</p>
+				<p className="bg-gray-800 p-2 ml-2 cursor-pointer text-gray-400 hover:text-gray-100">IN BATTLE</p>
+				<p className="bg-gray-800 p-2 ml-2 cursor-pointer text-gray-400 hover:text-gray-100">ITEMS</p>
 			</div>
+
+			<div className="grid grid-cols-5 p-2 bg-gray-900">{NFTShortList.map((nft, index) => NFTLink(nft, index, toggle))}</div>
 		</>
 	);
 };
 
-export default UserNFTs;
+export default UserInventory;

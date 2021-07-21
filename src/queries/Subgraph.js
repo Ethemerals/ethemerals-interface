@@ -129,6 +129,7 @@ export const GET_ETERNALBATTLE_ACCOUNT = gql`
 			ethemerals(orderBy: score, orderDirection: desc) {
 				id
 				score
+				rewards
 				previousOwner {
 					id
 				}

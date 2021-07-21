@@ -45,7 +45,7 @@ const Battle = () => {
 								// onClick={}
 								// onClick={toggleWinnerFund}
 								// disabled={!isOwnedWinning}
-								className={`${isOwnedWinning ? 'bg-pink-700 cursor-pointer' : 'bg-gray-500 cursor-default'} px-4 py-2 rounded-xl text-xs mx-2`}
+								className={`${isOwnedWinning ? 'bg-pink-700 cursor-pointer' : 'bg-gray-500 cursor-default'} px-4 py-2 rounded-lg text-xs mx-2`}
 							>
 								Claim
 							</button>

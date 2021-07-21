@@ -11,10 +11,7 @@ const MenuItem = ({ to, text }) => (
 const MobileNavItems = ({ toggle }) => {
 	return (
 		<>
-			<div
-				onClick={toggle}
-				className="fixed w-3/4 justify-center rounded-2xl text-gray-300 text-center shadow-2xl bg-opacity-100 py-4 mx-auto border-4 border-gray-800 bg-brandColor-black font-medium"
-			>
+			<div onClick={toggle} className="fixed w-3/4 justify-center rounded-lg text-gray-300 text-center shadow-2xl bg-opacity-100 py-4 mx-auto border-4 border-gray-800 bg-brandColor-black font-medium">
 				<span className="block pt-0 pb-4 border-b border-gray-800">
 					<Link exact="true" to="/">
 						Mint

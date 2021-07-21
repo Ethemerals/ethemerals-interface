@@ -24,7 +24,7 @@ const getAllowance = async (contract, owner, spender) => {
 	if (contract) {
 		try {
 			const value = await contract.allowance(owner, spender);
-			console.log(value.toString());
+
 			return value;
 		} catch (error) {
 			console.log(error);

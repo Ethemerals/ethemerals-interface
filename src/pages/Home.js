@@ -108,7 +108,7 @@ const Home = () => {
 				)}
 
 				<div className="sm:flex flex-none">
-					<img onClick={handleOnSubmitBuy} className="rounded-xl m-2 cursor-pointer" width="137" height="200" alt="mintable ethemeral two" src={Images.wisp2} />
+					<img onClick={handleOnSubmitBuy} className="rounded-lg m-2 cursor-pointer" width="137" height="200" alt="mintable ethemeral two" src={Images.wisp2} />
 				</div>
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Mint an Ethemeral, good luck!" />}

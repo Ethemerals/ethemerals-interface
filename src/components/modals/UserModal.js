@@ -5,7 +5,7 @@ import useUserAccount from '../../hooks/useUserAccount';
 
 import UserAccount from './UserAccount';
 import UserELF from './UserElf';
-import UserNFTs from './UserNFTs';
+import UserInventory from './UserInventory';
 import MainSelect from './MainSelect';
 
 const CloseSVG = () => (
@@ -55,10 +55,10 @@ const UserModal = ({ toggle, selected }) => {
 		<>
 			<div className="w-full h-full flex justify-center fixed top-0 left-0 animate-fadeOnFast">
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-40 bg-black"></div>
-				<div className=" w-11/12 max-w-420 center overflow-hidden z-30 tracking-wide shadow-xl rounded-2xl">
+				<div className=" w-11/12 max-w-420 center overflow-hidden z-30 tracking-wide shadow-xl rounded">
 					{/* nav */}
 					<div className="flex items-center bg-gray-700 cursor-pointer">
-						<ModalMenuItem toggle={() => toggleTab(0)} selected={selectedTab === 0} text="Ethemerals" />
+						<ModalMenuItem toggle={() => toggleTab(0)} selected={selectedTab === 0} text="Inventory" />
 						<ModalMenuItem toggle={() => toggleTab(1)} selected={selectedTab === 1} text="Balance" />
 						<ModalMenuItem toggle={() => toggleTab(2)} selected={selectedTab === 2} text="Account" />
 						<span className="flex-grow cursor-auto"></span>
@@ -70,7 +70,7 @@ const UserModal = ({ toggle, selected }) => {
 					{/* content */}
 					<div className="w-full h-420 bg-gray-800 bg-opacity-100 rounded-2xl rounded-t-none overflow-hidden z-30 tracking-wide shadow-xl">
 						{/* // TODO add no account Ethemerals */}
-						{selectedTab === 0 && active && <UserNFTs toggle={toggle} toggleExtra={toggleMainSelectModal} />}
+						{selectedTab === 0 && active && <UserInventory toggle={toggle} toggleExtra={toggleMainSelectModal} />}
 						{selectedTab === 1 && <UserELF />}
 						{selectedTab === 2 && <UserAccount />}
 					</div>
