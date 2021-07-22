@@ -31,7 +31,7 @@ const NFTPreviewCard = ({ nft }) => {
 		return <p>Loading</p>;
 	}
 
-	const cmId = nft.cmId;
+	const cmId = nft.metadata.cmId;
 
 	const handleOnClick = () => {
 		history.push(`/ethemeral/${nft.id}`);
@@ -44,12 +44,12 @@ const NFTPreviewCard = ({ nft }) => {
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border border-gray-500 shadow-xl hover:shadow-2xl hover:border-gray-100 transition duration-300"
 		>
 			{/* TOP BAR */}
-			<div className="flex items-center px-2">
+			<div className="flex items-center px-2 z-20">
 				<RankedStars amount={parseScore(nft.score)} />
 				<div className="flex-grow"></div>
 				<div className="flex-none text-right">{nft.score} HP</div>
 			</div>
-			<div className="text-right px-2">{formatELF(nft.rewards)} ELF</div>
+			<div className="text-right px-2 z-20">{formatELF(nft.rewards)} ELF</div>
 
 			{/* BOTTOM BAR */}
 			<div className="p-2 z-20 w-full bottom-0 absolute overflow-hidden bg-gray-700 bg-opacity-90">
@@ -79,6 +79,10 @@ const NFTPreviewCard = ({ nft }) => {
 					<span className="pl-1 text-xs">{nft.metadata.speed}</span>
 					<span className="flex-grow"></span>
 				</div>
+			</div>
+			{/* MAIN IMAGE */}
+			<div className="absolute top-0 left-0 z-0">
+				<img className="" src={getNFTImages(cmId).preview} alt="" />
 			</div>
 		</div>
 	);

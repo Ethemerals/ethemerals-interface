@@ -30,12 +30,17 @@ const RankedStars = ({ amount }) => {
 	);
 };
 
-const NFTLink = (nft, index, toggle) => {
+const NFTLink = (nft, index, toggle, getImages) => {
+	const bgImg = getImages(nft.metadata.cmId).thumbnail;
+
 	return (
 		<Link key={index} to={`/ethemeral/${nft.id}`}>
-			<div onClick={toggle} className="flex w-74 h-74 bg-gray-500 rounded hover:bg-gray-600 mx-auto my-1 shadow-sm items-baseline">
+			<div onClick={toggle} className="flex w-74 h-74 bg-gray-500 rounded hover:bg-gray-600 mx-auto my-1 shadow-sm items-baseline relative">
+				<div className="absolute top-0 left-0">
+					<img className="" src={bgImg} alt="" />
+				</div>
 				<span className="flex-grow h-full"></span>
-				<span className="text-sm font-bold text-gray-400">#{nft.id.padStart(4, '0')}</span>
+				<span className="text-sm font-bold text-gray-400 z-10">#{nft.id.padStart(4, '0')}</span>
 			</div>
 		</Link>
 	);
@@ -77,7 +82,7 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 			<div className="h-28 m-4">
 				<div className="flex h-28 border border-gray-700">
 					{userNFTs.length > 0 ? (
-						<div className="flex-grow bg-gray-900 relative overflow-hidden">
+						<div className="flex-grow bg-gray-900 relative overflow-hidden" style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/nft_preview_bg.jpg')" }}>
 							<div className="left-0 absolute px-2 py-1 text-left text-sm font-bold">
 								<p>#{userNFTs[mainIndex].id.padStart(4, '0')}</p>
 								<p onClick={toggleExtra} className="cursor-pointer text-xs hover:text-yellow-400 text-blue-400 transition duration-300">
@@ -95,8 +100,12 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 							</div>
 
 							{/* BOTTOM BAR */}
-							<div className="w-full bottom-0 absolute text-center bg-black bg-opacity-50">
+							<div className="w-full bottom-0 absolute text-center bg-black bg-opacity-50 z-20">
 								<span className="font-bold text-lg uppercase text-center">{userNFTs[mainIndex].metadata.coin}</span>
+							</div>
+							{/* MAIN IMAGE */}
+							<div className="absolute top-0 left-0">
+								<img className="" src={getNFTImages(userNFTs[mainIndex].metadata.cmId).inventory} alt="" />
 							</div>
 						</div>
 					) : (
@@ -128,8 +137,8 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 			</div>
 
 			<div className="bg-gray-700 p-2 h-full">
-				{account && selectedTab === 0 && <div className="grid grid-cols-5">{NFTShortList.map((nft, index) => NFTLink(nft, index, toggle))}</div>}
-				{account && selectedTab === 1 && <div className="grid grid-cols-5">{NFTInBattleShortList.map((nft, index) => NFTLink(nft, index, toggle))}</div>}
+				{account && selectedTab === 0 && <div className="grid grid-cols-5">{NFTShortList.map((nft, index) => NFTLink(nft, index, toggle, getNFTImages))}</div>}
+				{account && selectedTab === 1 && <div className="grid grid-cols-5">{NFTInBattleShortList.map((nft, index) => NFTLink(nft, index, toggle, getNFTImages))}</div>}
 				{account && selectedTab === 2 && <div></div>}
 			</div>
 		</>
