@@ -39,7 +39,7 @@ const UserModal = ({ toggle, selected }) => {
 	return (
 		<>
 			<div className="w-full h-full flex justify-center fixed top-0 left-0 animate-fadeOnFast">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-40 bg-black"></div>
+				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-70 bg-black"></div>
 				<div className=" w-11/12 max-w-420 center overflow-hidden z-30 tracking-wide shadow-xl rounded">
 					{/* nav */}
 					<div className="flex items-center bg-gray-700 cursor-pointer">

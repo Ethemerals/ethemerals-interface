@@ -109,7 +109,7 @@ const NFTDetails = () => {
 							<div className="w-8 bg-white">
 								<img src={getNFTImages(cmId).subclassIcon} alt="subclass icon" />
 							</div>
-							<div className=" w-48 px-2 bg-black uppercase text-lg align-middle">{nft.metadata.subClass}</div>
+							<div className=" w-48 px-2 bg-black uppercase text-lg">{nft.metadata.subClass}</div>
 						</div>
 						<div className="flex h-3 items-center mb-1 text-sm font-bold">
 							<span className="w-8">ATK</span>

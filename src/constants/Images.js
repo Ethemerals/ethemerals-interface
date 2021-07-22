@@ -1,5 +1,6 @@
 import avator from '../assets/ethemavator.png';
 import nftPreviewWide from '../assets/nft_preview_wide.png';
+import test from '../assets/test.png';
 import logoELF from '../assets/logo_elf.svg';
 import logoUNI from '../assets/logo_uni.svg';
 import logoEthem from '../assets/logo_ethem.svg';
@@ -12,6 +13,7 @@ import iconClaim from '../assets/icon_claim.svg';
 import wisp2 from '../assets/wisp02.png';
 
 const Images = {
+	test,
 	avator,
 	nftPreviewWide,
 	logoELF,
