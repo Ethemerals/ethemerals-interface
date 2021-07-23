@@ -83,11 +83,11 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 				<div className="flex h-28 border border-gray-700">
 					{userNFTs.length > 0 ? (
 						<div className="flex-grow bg-gray-900 relative overflow-hidden" style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/nft_preview_bg.jpg')" }}>
-							<div className="left-0 absolute px-2 py-1 text-left text-sm font-bold">
+							<div className="left-0 absolute px-2 py-1 text-left text-sm font-bold z-20">
 								<p>#{userNFTs[mainIndex].id.padStart(4, '0')}</p>
-								<p onClick={toggleExtra} className="cursor-pointer text-xs hover:text-yellow-400 text-blue-400 transition duration-300">
+								<button onClick={toggleExtra} className="py-1 cursor-pointer text-xs hover:text-yellow-400 text-blue-400 transition duration-300">
 									change
-								</p>
+								</button>
 							</div>
 
 							{/* RIGHT BAR */}
@@ -104,9 +104,11 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 								<span className="font-bold text-lg uppercase text-center">{userNFTs[mainIndex].metadata.coin}</span>
 							</div>
 							{/* MAIN IMAGE */}
-							<div className="absolute top-0 left-0">
-								<img className="" src={getNFTImages(userNFTs[mainIndex].metadata.cmId).inventory} alt="" />
-							</div>
+							<Link onClick={toggle} to={`/ethemeral/${userNFTs[mainIndex].id}`}>
+								<div className="absolute top-0 left-0">
+									<img className="" src={getNFTImages(userNFTs[mainIndex].metadata.cmId).inventory} alt="" />
+								</div>
+							</Link>
 						</div>
 					) : (
 						<div className="flex-grow bg-gray-900 relative overflow-hidden">
