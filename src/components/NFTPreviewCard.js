@@ -43,16 +43,22 @@ const NFTPreviewCard = ({ nft }) => {
 			style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/nft_preview_bg.jpg')" }}
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border border-gray-500 shadow-xl hover:shadow-2xl hover:border-gray-100 transition duration-300"
 		>
-			{/* TOP BAR */}
-			<div className="flex items-center px-2 z-20">
-				<RankedStars amount={parseScore(nft.score)} />
-				<div className="flex-grow"></div>
-				<div className="flex-none text-right">{nft.score} HP</div>
+			{/* MAIN IMAGE */}
+			<div className="absolute top-0 left-0">
+				<img className="" src={getNFTImages(cmId).preview} alt="" />
 			</div>
-			<div className="text-right px-2 z-20">{formatELF(nft.rewards)} ELF</div>
+
+			{/* TOP BAR */}
+			<div className="absolute flex items-center p-1 ">
+				<RankedStars amount={parseScore(nft.score)} />
+			</div>
+			<div className="absolute right-0 text-right pr-2">
+				<p>{nft.score} HP</p>
+				<p>{formatELF(nft.rewards)} ELF</p>
+			</div>
 
 			{/* BOTTOM BAR */}
-			<div className="p-2 z-20 w-full bottom-0 absolute overflow-hidden bg-gray-700 bg-opacity-90">
+			<div className="p-2 w-full bottom-0 absolute overflow-hidden bg-gray-700 bg-opacity-90">
 				<p className="text-xs font-bold text-gray-400"># {nft.id.padStart(4, '0')}</p>
 				<p className="font-bold text-2xl uppercase">{nft.metadata.coin}</p>
 				<div className="flex h-6 my-2">
@@ -79,10 +85,6 @@ const NFTPreviewCard = ({ nft }) => {
 					<span className="pl-1 text-xs">{nft.metadata.speed}</span>
 					<span className="flex-grow"></span>
 				</div>
-			</div>
-			{/* MAIN IMAGE */}
-			<div className="absolute top-0 left-0 z-0">
-				<img className="" src={getNFTImages(cmId).preview} alt="" />
 			</div>
 		</div>
 	);

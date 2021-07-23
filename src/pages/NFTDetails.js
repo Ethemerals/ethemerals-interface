@@ -135,8 +135,8 @@ const NFTDetails = () => {
 					</div>
 
 					{/* MAIN IMAGE */}
-					<div className="">
-						<img className="object-fit w-full z-10 animate-bounceSlow" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
+					<div className="nft_details_bg">
+						<img className="z-10 animate-bounceSlow" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
 					</div>
 				</div>
 

@@ -16,6 +16,7 @@ import Redemption from './pages/Redemption';
 import Marketplace from './pages/Marketplace';
 import About from './pages/About';
 import Help from './pages/Help';
+import Dev from './pages/Dev';
 
 import Web3ContextProvider from './hooks/Web3Context';
 import TxContextProvider from './hooks/TxContext';
@@ -80,6 +81,9 @@ function App() {
 							</Route>
 							<Route exact path="/help">
 								<Help />
+							</Route>
+							<Route exact path="/dev">
+								<Dev />
 							</Route>
 						</Switch>
 					</div>
