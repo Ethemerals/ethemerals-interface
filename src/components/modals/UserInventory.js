@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useUserAccount from '../../hooks/useUserAccount';
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
@@ -50,6 +50,7 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 	const { account, mainIndex, userNFTs } = useUserAccount();
 	const { accountEternalBattle } = useEternalBattleAccount();
 	const { getNFTImages, parseScore } = useNFTUtils();
+	const history = useHistory();
 
 	const [NFTShortList, setNFTShortList] = useState([]);
 	const [NFTInBattle, setNFTInBattle] = useState(0);
@@ -77,13 +78,18 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 		}
 	}, [accountEternalBattle, account]);
 
+	const handleClick = () => {
+		history.push(`/ethemeral/${userNFTs[mainIndex].id}`);
+		toggle();
+	};
+
 	return (
 		<>
 			<div className="h-28 m-4">
 				<div className="flex h-28 border border-gray-700">
 					{userNFTs.length > 0 ? (
-						<div className="flex-grow bg-gray-900 relative overflow-hidden" style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/nft_preview_bg.jpg')" }}>
-							<div className="left-0 absolute px-2 py-1 text-left text-sm font-bold z-20">
+						<div className="flex-grow cursor-pointer bg-gray-900 relative overflow-hidden" style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/nft_preview_bg.jpg')" }}>
+							<div className="left-0 absolute px-2 py-1 text-left text-sm font-bold z-10">
 								<p>#{userNFTs[mainIndex].id.padStart(4, '0')}</p>
 								<button onClick={toggleExtra} className="py-1 cursor-pointer text-xs hover:text-yellow-400 text-blue-400 transition duration-300">
 									change
@@ -91,7 +97,7 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 							</div>
 
 							{/* RIGHT BAR */}
-							<div className="right-0 absolute p-2 text-right text-sm font-bold">
+							<div className="right-0 absolute p-2 text-right text-sm font-bold z-10">
 								<div className="flex justify-end">
 									<RankedStars amount={parseScore(userNFTs[mainIndex].score)} />
 								</div>
@@ -104,19 +110,18 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 								<span className="font-bold text-lg uppercase text-center">{userNFTs[mainIndex].metadata.coin}</span>
 							</div>
 							{/* MAIN IMAGE */}
-							<Link onClick={toggle} to={`/ethemeral/${userNFTs[mainIndex].id}`}>
-								<div className="absolute top-0 left-0">
-									<img className="" src={getNFTImages(userNFTs[mainIndex].metadata.cmId).inventory} alt="" />
-								</div>
-							</Link>
+
+							<div onClick={handleClick} className="absolute top-0 left-0 w-full h-28">
+								<img className="" src={getNFTImages(userNFTs[mainIndex].metadata.cmId).inventory} alt="" />
+							</div>
 						</div>
 					) : (
-						<div className="flex-grow bg-gray-900 relative overflow-hidden">
+						<div className="flex-grow bg-gray-900 relative overflow-hidden text-center">
 							<div className="center">
 								<p>None active</p>
 								<Link to="/">
-									<p onClick={toggle} className="hover:text-blue-400 text-base cursor-pointer">
-										Mint one now
+									<p onClick={toggle} className="text-2xl cursor-pointer text-brandColor font-bold hover:text-yellow-400 transition duration-300">
+										mint one now
 									</p>
 								</Link>
 							</div>
