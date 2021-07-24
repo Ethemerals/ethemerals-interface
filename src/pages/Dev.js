@@ -388,7 +388,7 @@ const Dev = () => {
 			{currentTab === 1 && (
 				<div className="flex flex-wrap mx-auto">
 					{previewCards.map((card, index) => (
-						<NFTPreviewCard key={index} startingIndex={index + 1} />
+						<NFTPreviewCard key={index} startingIndex={index} />
 					))}
 				</div>
 			)}
@@ -396,7 +396,7 @@ const Dev = () => {
 			{currentTab === 2 && (
 				<div className="flex flex-wrap mx-auto">
 					{inventoryCards.map((card, index) => (
-						<NFTInventoryHero key={index} startingIndex={index + 1} />
+						<NFTInventoryHero key={index} startingIndex={index} />
 					))}
 				</div>
 			)}
