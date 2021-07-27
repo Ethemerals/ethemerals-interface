@@ -17,12 +17,10 @@ const Ethemerals = () => {
 	}, [status, data]);
 
 	return (
-		<div>
-			<h1>Ethemerals</h1>
+		<div className="page-container">
 			<p>
 				Sort By:
 				<button className="p-2 m-2 rounded bg-brandColor-purple">Recently Minted</button>
-				<button className="p-2 m-2 rounded bg-brandColor-purple">Marketcap Rank</button>
 				<button className="p-2 m-2 rounded bg-brandColor-purple">Highest Honor</button>
 			</p>
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+
 import { useParams } from 'react-router-dom';
 import dateFormat from 'dateformat';
 
@@ -12,6 +12,7 @@ import useParseAction from '../hooks/useParseActions';
 import NFTActions from '../components/NFTActions';
 
 import { shortenAddress, formatELF } from '../utils';
+import BackButton from '../components/navigation/BackButton';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -51,7 +52,6 @@ const ActionLink = (action) => {
 };
 
 const NFTDetails = () => {
-	const history = useHistory();
 	const { getNFTImages, parseScore } = useNFTUtils();
 
 	const { id } = useParams();
@@ -72,15 +72,14 @@ const NFTDetails = () => {
 	}, [status, data, nft]);
 
 	if (!ready || isLoading !== false || status !== 'success') {
-		return <p>Loading {id}</p>;
+		// return <p>Loading {id}</p>;
+		return null;
 	}
 
 	return (
 		<div>
-			<h1>NFT Details</h1>
-			<button type="button" onClick={() => history.goBack()}>
-				Go back
-			</button>
+			<BackButton />
+
 			{/* {address && <NFTActions nft={nft} />} */}
 			<div style={{ backgroundImage: `url(${getNFTImages(cmId).bg})` }} className="nft_details_container flex items-center justify-center bg-cover mx-auto overflow-hidden">
 				{/* MAIN CARD     */}

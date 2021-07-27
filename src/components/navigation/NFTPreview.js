@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { isAddress } from '../../utils';
+import { useNFTUtils } from '../../hooks/useNFTUtils';
 import useUserAccount from '../../hooks/useUserAccount';
 
 const Spinner = () => (
@@ -11,7 +12,7 @@ const Spinner = () => (
 
 const NFTPreview = () => {
 	const { mainIndex, userIsLoading, userNFTs, address } = useUserAccount();
-
+	const { getNFTImages } = useNFTUtils();
 	const [mainNFT, setMainNFT] = useState(undefined);
 
 	useEffect(() => {
@@ -22,15 +23,16 @@ const NFTPreview = () => {
 
 	if (!isAddress(address)) {
 		return (
-			<span className="flex bg-brandColor-purple rounded-lg items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
-				<span className="text-white px-2 md:px-3">NO NFTS</span>
+			<span className="flex w-8 md:w-11 h-8 md:h-11 bg-gray-800 rounded-lg mr-2 items-baseline relative cursor-pointer shadow-lg opacity-70 hover:opacity-100 border border-gray-600">
+				<span className="flex-grow h-full"></span>
+				<span className=" rounded-t-none rounded-lg text-xs font-bold z-10 w-full h-3 text-gray-100 text-right bg-black bg-opacity-50"></span>
 			</span>
 		);
 	}
 
 	if (userIsLoading) {
 		return (
-			<span className="flex bg-brandColor-purple rounded-lg items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
+			<span className="flex bg-gray-800 rounded-lg items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base shadow-lg border border-gray-600">
 				<span className="text-white px-2 md:px-3">LOADING</span>
 				<Spinner />
 			</span>
@@ -38,15 +40,20 @@ const NFTPreview = () => {
 	}
 
 	return (
-		<span className="flex bg-brandColor-purple rounded-lg items-center h-8 md:h-11 mr-2 cursor-pointer text-xs sm:text-base hover:bg-brandColor transition duration-300">
+		<>
 			{address && mainNFT && userNFTs.length > 0 ? (
-				<span className="text-white px-2 md:px-3">
-					#{mainNFT.id} of {userNFTs.length}
+				<span className="flex w-8 md:w-11 h-8 md:h-11 rounded-lg mr-2 items-baseline relative cursor-pointer shadow-lg opacity-70 hover:opacity-100 border border-gray-600">
+					<div className="absolute top-0 left-0">{address && mainNFT && userNFTs.length > 0 && <img className="w-8 md:w-11 h-8 md:h-11 rounded-lg" src={getNFTImages(1).thumbnail} alt="" />}</div>
+					<span className="flex-grow h-full"></span>
+					<span className=" rounded-t-none rounded-lg text-xs font-bold z-10 w-full text-gray-100 text-right bg-black bg-opacity-50">#{mainNFT.id.toString().padStart(4, '0')}</span>
 				</span>
 			) : (
-				<span className="text-white px-2 md:px-3">NO NFTS</span>
+				<span className="flex w-8 md:w-11 h-8 md:h-11 bg-gray-800 rounded-lg mr-2 items-baseline relative cursor-pointer shadow-lg opacity-70 hover:opacity-100 border border-gray-600">
+					<span className="flex-grow h-full"></span>
+					<span className=" rounded-t-none rounded-lg text-xs font-bold z-10 w-full h-3 text-gray-100 text-right bg-black bg-opacity-50"></span>
+				</span>
 			)}
-		</span>
+		</>
 	);
 };
 

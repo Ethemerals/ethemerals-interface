@@ -69,15 +69,15 @@ const AccountBar = () => {
 				<NFTPreview />
 			</span>
 
-			<span className="bg-gray-700 flex rounded-lg items-center h-8 md:h-11 text-xs sm:text-base text-white">
-				<span className="px-2 cursor-pointer h-full flex items-center rounded-lg rounded-r-none hover:bg-gradient-to-r from-gray-600 " onClick={() => toggleUserModal(1)}>
+			<span className="bg-gray-800 flex rounded-lg items-center h-8 md:h-11 text-xs sm:text-base text-white shadow-lg border border-gray-700">
+				<span className="px-2 cursor-pointer h-full flex items-center rounded-lg rounded-r-none hover:bg-gradient-to-r from-gray-700 " onClick={() => toggleUserModal(1)}>
 					{balance && <span>{formatETH(balance)} ETH</span>}
 					{/* TODO, animated ELF ticker */}
 				</span>
 
 				<span
 					className={`${
-						mining ? ' bg-yellow-400 border-yellow-100' : 'bg-gray-900 border-gray-800 hover:bg-gray-800 hover:border-gray-600 transition duration-300'
+						mining ? ' bg-yellow-400 border-yellow-100' : ' bg-brandColor-purple bg-opacity-60 border-gray-700 hover:bg-opacity-100 transition duration-300'
 					} flex rounded-lg h-8 md:h-11 w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 border`}
 				>
 					{mining ? (

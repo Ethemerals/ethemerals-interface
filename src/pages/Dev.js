@@ -362,7 +362,7 @@ const Dev = () => {
 
 	return (
 		<div>
-			<h1>DEV</h1>
+			<h1 className="text-center">DEV</h1>
 			<div className="flex items-center justify-center">
 				<button onClick={() => setCurrentTab(0)} className={`${currentTab === 0 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
 					Large Detail

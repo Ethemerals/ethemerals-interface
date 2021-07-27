@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useTransition, animated } from '@react-spring/web';
+import { useTransition, animated, useSpring } from '@react-spring/web';
 
 import MobileMenuItems from './MobileMenuItems';
 import Images from '../../constants/Images';
@@ -34,6 +34,7 @@ const Navbar = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isMoreLinksOpen, setIsMoreLinksOpen] = useState(false);
 	const [windowMed, setWindowMed] = useState(true);
+	const [isTop, setIsTop] = useState(true);
 
 	useEffect(() => {
 		if (windowSize.width >= 898) {
@@ -42,6 +43,20 @@ const Navbar = () => {
 			setWindowMed(false);
 		}
 	}, [windowSize]);
+
+	const changeIsTop = () => {
+		if (window.scrollY < 20) {
+			setIsTop(true);
+		} else {
+			setIsTop(false);
+		}
+	};
+
+	useEffect(() => {
+		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+			window.addEventListener('scroll', changeIsTop);
+		}
+	}, []);
 
 	const toggle = () => {
 		setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -58,6 +73,10 @@ const Navbar = () => {
 		leave: { y: 1000, opacity: 0 },
 	});
 
+	const navbarTopStyles = useSpring({
+		backgroundColor: isTop ? 'rgba(17,24,39,0)' : 'rgba(17,24,39,1)',
+	});
+
 	const logout = async () => {
 		if (onboard) {
 			onboard.walletReset();
@@ -70,8 +89,8 @@ const Navbar = () => {
 	return (
 		<>
 			{/* <!-- navbar goes here --> */}
-			<header className="top-0 left-0 right-0 z-50 fixed">
-				<nav className="px-4 py-3 bg-gray-800">
+			<animated.header style={navbarTopStyles} className="top-0 left-0 right-0 z-50 fixed">
+				<nav className="px-4 py-3">
 					<div className="flex items-center">
 						{/* <!-- logo --> */}
 						<div>
@@ -110,7 +129,7 @@ const Navbar = () => {
 						)}
 					</div>
 				</nav>
-			</header>
+			</animated.header>
 			<header className="top-0 left-0 right-0 z-50 fixed mx-auto w-full sm:hidden">
 				<nav>
 					{/* <!-- mobile menu --> */}
