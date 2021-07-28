@@ -17,16 +17,19 @@ const Ethemerals = () => {
 	}, [status, data]);
 
 	return (
-		<div className="page-container">
-			<p>
-				Sort By:
-				<button className="p-2 m-2 rounded bg-brandColor-purple">Recently Minted</button>
-				<button className="p-2 m-2 rounded bg-brandColor-purple">Highest Honor</button>
+		<div>
+			<div className="page_bg z-0"></div>
+			<p className="text-center text-sm text-gray-400">
+				<span className="text-xs font-bold">SORT BY</span>
+				<button className="py-1 px-2 mx-2 rounded bg-gray-600 font-bold">Recently Minted</button>
+				<button className="py-1 px-2 mx-2 rounded bg-gray-700">Highest Honor</button>
+			</p>
+			<p className="text-center text-sm my-2 text-gray-400">
+				<span className="text-xs font-bold">SINGLE EDITIONS ONLY</span>
 			</p>
 
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-5 max-w-max mx-auto">
-				{ready && nfts.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />)}
-			</div>
+			<div className="flex flex-wrap mx-auto justify-center">{ready && nfts.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />)}</div>
+			<div className="h-40"></div>
 		</div>
 	);
 };

@@ -69,7 +69,7 @@ const AccountBar = () => {
 				<NFTPreview />
 			</span>
 
-			<span className="bg-gray-800 flex rounded-lg items-center h-8 md:h-11 text-xs sm:text-base text-white shadow-lg border border-gray-700">
+			<span className=" bg-gray-800 flex rounded-lg items-center h-8 md:h-11 text-xs sm:text-base text-white shadow-lg border border-gray-700">
 				<span className="px-2 cursor-pointer h-full flex items-center rounded-lg rounded-r-none hover:bg-gradient-to-r from-gray-700 " onClick={() => toggleUserModal(1)}>
 					{balance && <span>{formatETH(balance)} ETH</span>}
 					{/* TODO, animated ELF ticker */}

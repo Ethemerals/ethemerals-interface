@@ -91,6 +91,7 @@ const Redemption = () => {
 
 	return (
 		<div>
+			<div className="page_bg"></div>
 			<h1>Redemption</h1>
 			<button type="button" onClick={() => history.goBack()}>
 				Go back

@@ -98,6 +98,7 @@ const Home = () => {
 
 	return (
 		<div>
+			<div className="page_bg"></div>
 			<div className="center">
 				{core && (
 					<>

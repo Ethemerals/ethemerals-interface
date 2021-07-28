@@ -78,6 +78,7 @@ const NFTDetails = () => {
 
 	return (
 		<div>
+			<div className="page_bg"></div>
 			<BackButton />
 
 			{/* {address && <NFTActions nft={nft} />} */}

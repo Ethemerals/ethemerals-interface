@@ -95,7 +95,7 @@ const Navbar = () => {
 						{/* <!-- logo --> */}
 						<div>
 							<Link to="/">
-								<span className="hidden sm:flex">
+								<span className="hidden sm:flex shadow-lg">
 									<img src={Images.avator} alt="brand icon" width="34" height="34" />
 								</span>
 							</Link>

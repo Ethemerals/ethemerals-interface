@@ -424,6 +424,7 @@ const Admin = () => {
 
 	return (
 		<div>
+			<div className="page_bg"></div>
 			<h1>Admin</h1>
 			<div className="p-4">
 				<h2>CORE Contract</h2>

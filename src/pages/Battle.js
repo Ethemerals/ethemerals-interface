@@ -32,6 +32,7 @@ const Battle = () => {
 
 	return (
 		<>
+			<div className="page_bg"></div>
 			<h2 className="text-center text-2xl">Eternal Battle</h2>
 
 			{core && (

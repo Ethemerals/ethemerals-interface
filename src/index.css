@@ -19,6 +19,15 @@
 }
 
 @layer components {
+	.page_bg {
+		background-image: linear-gradient(to bottom, #5a6571, #4b5665, #3d4759, #30384d, #242a41);
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		z-index: -100;
+		position: fixed;
+	}
 	.nft_details_container {
 		width: 1200px;
 	}
