@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
-import { shortenAddress, formatETH } from '../../utils';
+import { shortenAddress, formatETH, formatELF } from '../../utils';
 import { useMiningStatus } from '../../hooks/TxContext';
 
 import UserModal from '../modals/UserModal';
@@ -65,20 +65,24 @@ const AccountBar = () => {
 
 	return (
 		<>
-			<span onClick={() => toggleUserModal(0)} className="hidden md:flex">
+			<div onClick={() => toggleUserModal(0)} className="hidden md:flex">
 				<NFTPreview />
-			</span>
+			</div>
 
-			<span className=" bg-gray-800 flex rounded-lg items-center h-8 md:h-11 text-xs sm:text-base text-white shadow-lg border border-gray-700">
-				<span className="px-2 cursor-pointer h-full flex items-center rounded-lg rounded-r-none hover:bg-gradient-to-r from-gray-700 " onClick={() => toggleUserModal(1)}>
+			<div className=" bg-brandColor flex rounded-lg items-center h-9 text-xs sm:text-base text-white shadow-lg">
+				<span
+					className="px-2 w-28 whitespace-nowrap cursor-pointer h-full flex items-center justify-end rounded-lg rounded-r-none hover:bg-gradient-to-r from-brandColor-pale overflow-hidden"
+					onClick={() => toggleUserModal(1)}
+				>
 					{balance && <span>{formatETH(balance)} ETH</span>}
+					{/* {account && <span>{formatELF(account.elfBalance)} ELF</span>} */}
 					{/* TODO, animated ELF ticker */}
 				</span>
 
 				<span
 					className={`${
-						mining ? ' bg-yellow-400 border-yellow-100' : ' bg-brandColor-purple bg-opacity-60 border-gray-700 hover:bg-opacity-100 transition duration-300'
-					} flex rounded-lg h-8 md:h-11 w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 border`}
+						mining ? ' bg-yellow-400' : ' bg-brandColor-purple bg-opacity-100 text-white hover:bg-opacity-60 transition duration-300'
+					} flex rounded-lg w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 h-full`}
 				>
 					{mining ? (
 						<span onClick={() => toggleUserModal(2)} className="cursor-pointer h-full flex items-center tracking-wide">
@@ -92,11 +96,11 @@ const AccountBar = () => {
 						</span>
 					)}
 				</span>
-			</span>
+			</div>
 
-			<span onClick={() => toggleUserModal(0)} className="md:hidden flex pl-1">
+			<div onClick={() => toggleUserModal(0)} className="md:hidden flex pl-1">
 				<NFTPreview />
-			</span>
+			</div>
 
 			{isUserModalOpen && <UserModal toggle={toggleUserModal} selected={selectedUserModal} />}
 		</>

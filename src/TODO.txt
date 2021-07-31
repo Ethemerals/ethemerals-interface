@@ -16,3 +16,6 @@ dashboard
 CONTRACT
 promotion CONTRACT
 
+
+
+CHANGE Owner to BATTLE when in battle in invenotry (turn of bid)

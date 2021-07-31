@@ -74,7 +74,7 @@ const Navbar = () => {
 	});
 
 	const navbarTopStyles = useSpring({
-		backgroundColor: isTop ? 'rgba(17,24,39,0)' : 'rgba(17,24,39,1)',
+		backgroundColor: isTop ? 'rgba(31,41,55,0)' : 'rgba(31,41,55,1)',
 	});
 
 	const logout = async () => {
@@ -90,13 +90,13 @@ const Navbar = () => {
 		<>
 			{/* <!-- navbar goes here --> */}
 			<animated.header style={navbarTopStyles} className="top-0 left-0 right-0 z-50 fixed">
-				<nav className="px-4 py-3">
+				<nav className="px-4 py-2">
 					<div className="flex items-center">
 						{/* <!-- logo --> */}
 						<div>
 							<Link to="/">
 								<span className="hidden sm:flex shadow-lg">
-									<img src={Images.avator} alt="brand icon" width="34" height="34" />
+									<img src={Images.avator} alt="brand icon" width="30" height="30" />
 								</span>
 							</Link>
 						</div>

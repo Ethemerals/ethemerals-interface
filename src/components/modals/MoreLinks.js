@@ -11,7 +11,7 @@ const MoreLinks = ({ large, toggle, isLoggedIn, logout }) => {
 
 	return (
 		<>
-			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen"></div>
+			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-60"></div>
 			<div className={large ? modalTop : modalBottom}>
 				{isLoggedIn ? (
 					<>
