@@ -24,7 +24,33 @@ export const GET_ACCOUNTS = gql`
 
 export const GET_NFTS = gql`
 	query {
-		ethemerals(first: 100, orderBy: timestamp, orderDirection: desc) {
+		ethemerals(first: 10, orderBy: timestamp, orderDirection: desc) {
+			id
+			timestamp
+			edition
+			score
+			rewards
+			owner {
+				id
+			}
+			metadata {
+				cmId
+				coin
+				mainClass
+				subClass
+				special1
+				special2
+				attack
+				defence
+				speed
+			}
+		}
+	}
+`;
+
+export const GET_NFTS_ORDERED = gql`
+	query ($orderBy: String!, $first: Int!) {
+		ethemerals(first: $first, orderBy: $orderBy, orderDirection: desc) {
 			id
 			timestamp
 			edition

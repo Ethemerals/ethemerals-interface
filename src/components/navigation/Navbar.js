@@ -108,7 +108,7 @@ const Navbar = () => {
 
 						{/* <!-- secondary nav --> MD */}
 						{windowMed && (
-							<div className="flex items-center right-0 absolute mr-2">
+							<div className="flex items-center absolute mr-4 scrollbar_right">
 								{!provider && onboard && <ConnectButton login={login} />}
 								{provider && !address && <LoadingAccountSpinner />}
 								{address && <AccountBar />}
@@ -119,7 +119,7 @@ const Navbar = () => {
 
 						{/* <!-- secondary nav bottom --> SM */}
 						{!windowMed && (
-							<div className="w-full flex items-center right-0 fixed bottom-0 bg-gray-800 p-2 h-12">
+							<div className="w-full flex items-center mr-6 fixed bottom-0 bg-gray-800 p-2 h-12 scrollbar_right">
 								{!provider && onboard && <ConnectButton login={login} />}
 								{address && <AccountBar />}
 								{provider && !address && <LoadingAccountSpinner />}
