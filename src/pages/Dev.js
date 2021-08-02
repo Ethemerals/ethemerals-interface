@@ -202,8 +202,8 @@ const NFTPreviewCard = ({ startingIndex }) => {
 
 	return (
 		<div
-			style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/nft_preview_bg.jpg')" }}
-			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border border-gray-500 shadow-xl hover:shadow-2xl hover:border-gray-100 transition duration-300"
+			// style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/nft_preview_bg.jpg')" }}
+			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border border-gray-500 shadow-xl hover:shadow-2xl hover:border-gray-100 transition duration-300 bg-gray-700"
 		>
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
@@ -219,7 +219,7 @@ const NFTPreviewCard = ({ startingIndex }) => {
 			</div>
 
 			{/* BOTTOM BAR */}
-			<div className="p-2 w-full bottom-0 absolute overflow-hidden bg-gray-700 bg-opacity-90">
+			<div className="p-2 w-full bottom-0 absolute overflow-hidden bg-gray-900 bg-opacity-50">
 				<p className="text-xs font-bold text-gray-400">#{((metaDataIndex + 1) * 10).toString().padStart(4, '0')}</p>
 				<p className="font-bold text-2xl uppercase">{nftMetadata.coinName[metaDataIndex]}</p>
 				<div className="flex h-6 my-2">
