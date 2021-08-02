@@ -374,11 +374,9 @@ const Dev = () => {
 			<div className="page_bg"></div>
 			<h1 className="text-center">DEV</h1>
 			<div className="flex items-center justify-center">
-				<Link to="/dev/0">
-					<button onClick={() => history.push(`/dev/0`)} className={`${currentTab === 0 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
-						Large Detail
-					</button>
-				</Link>
+				<button onClick={() => history.push(`/dev/0`)} className={`${currentTab === 0 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
+					Large Detail
+				</button>
 				<button onClick={() => history.push(`/dev/1`)} className={`${currentTab === 1 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
 					Preview Cards
 				</button>

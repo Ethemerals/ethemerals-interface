@@ -66,6 +66,9 @@ function App() {
 								<Route exact path="/ethemerals">
 									<Ethemerals />
 								</Route>
+								<Route exact path="/ethemerals/:sort">
+									<Ethemerals />
+								</Route>
 								<Route exact path="/ethemeral/:id">
 									<NFTDetails />
 								</Route>
@@ -90,12 +93,7 @@ function App() {
 								<Route exact path="/dev">
 									<Dev />
 								</Route>
-							</Switch>
-							<Switch>
 								<Route exact path="/dev/:crop">
-									{/* <meta http-equiv="cache-control" content="no-cache" />
-									<meta http-equiv="expires" content="0" />
-									<meta http-equiv="pragma" content="no-cache" /> */}
 									<Dev />
 								</Route>
 							</Switch>
