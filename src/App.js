@@ -43,10 +43,10 @@ function App() {
 						<div className={`text-white pt-8 sm:pt-14 ${isMobile ? 'overflow-hidden' : ''}`}>
 							<Navbar />
 							<Receipt />
+							<ReactQueryDevtools initialIsOpen={false} />
 							<Helmet>
 								<title>Ethemerals</title>
 							</Helmet>
-							<ReactQueryDevtools initialIsOpen={false} />
 							<Switch>
 								<Route exact path="/">
 									<Home />
@@ -88,6 +88,14 @@ function App() {
 									<Help />
 								</Route>
 								<Route exact path="/dev">
+									<Dev />
+								</Route>
+							</Switch>
+							<Switch>
+								<Route exact path="/dev/:crop">
+									{/* <meta http-equiv="cache-control" content="no-cache" />
+									<meta http-equiv="expires" content="0" />
+									<meta http-equiv="pragma" content="no-cache" /> */}
 									<Dev />
 								</Route>
 							</Switch>

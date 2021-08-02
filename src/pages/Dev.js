@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory, useParams, Link } from 'react-router-dom';
 
 import dateFormat from 'dateformat';
 
@@ -354,7 +355,15 @@ const NFTLink = ({ startingIndex }) => {
 };
 
 const Dev = () => {
+	const { crop } = useParams();
+	const history = useHistory();
 	const [currentTab, setCurrentTab] = useState(0);
+
+	useEffect(() => {
+		if (crop >= 0 && crop <= 3) {
+			setCurrentTab(parseInt(crop));
+		}
+	}, [crop]);
 
 	const previewCards = new Array(100).fill(0);
 	const inventoryCards = new Array(100).fill(0);
@@ -365,16 +374,18 @@ const Dev = () => {
 			<div className="page_bg"></div>
 			<h1 className="text-center">DEV</h1>
 			<div className="flex items-center justify-center">
-				<button onClick={() => setCurrentTab(0)} className={`${currentTab === 0 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
-					Large Detail
-				</button>
-				<button onClick={() => setCurrentTab(1)} className={`${currentTab === 1 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
+				<Link to="/dev/0">
+					<button onClick={() => history.push(`/dev/0`)} className={`${currentTab === 0 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
+						Large Detail
+					</button>
+				</Link>
+				<button onClick={() => history.push(`/dev/1`)} className={`${currentTab === 1 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
 					Preview Cards
 				</button>
-				<button onClick={() => setCurrentTab(2)} className={`${currentTab === 2 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
+				<button onClick={() => history.push(`/dev/2`)} className={`${currentTab === 2 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
 					Inventory Hero
 				</button>
-				<button onClick={() => setCurrentTab(3)} className={`${currentTab === 3 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
+				<button onClick={() => history.push(`/dev/3`)} className={`${currentTab === 3 ? 'bg-brandColor-blue' : 'bg-gray-400'} p-2 m-2 rounded text-black hover:bg-white`}>
 					Thumbnails
 				</button>
 			</div>
