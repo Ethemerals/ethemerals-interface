@@ -23,7 +23,7 @@ const NFTPreview = () => {
 
 	if (!isAddress(address)) {
 		return (
-			<span className="flex w-9 h-9 bg-gray-900 rounded-lg mr-2 items-baseline relative cursor-pointer shadow-lg opacity-70 hover:opacity-100">
+			<span className="flex w-10 h-10 bg-gray-900 rounded-lg mr-2 items-baseline relative cursor-pointer opacity-70 hover:opacity-100">
 				<span className="flex-grow h-full"></span>
 				<span className=" rounded-t-none rounded-lg text-xs font-bold z-10 w-full h-3 text-gray-100 text-right bg-black bg-opacity-50"></span>
 			</span>
@@ -32,7 +32,7 @@ const NFTPreview = () => {
 
 	if (userIsLoading) {
 		return (
-			<span className="flex bg-gray-800 rounded-lg items-center h-9 mr-2 cursor-pointer text-xs sm:text-base shadow-lg">
+			<span className="flex bg-gray-800 rounded-lg items-center h-10 mr-2 cursor-pointer text-xs sm:text-base">
 				<span className="text-white px-2 md:px-3">LOADING</span>
 				<Spinner />
 			</span>
@@ -42,15 +42,15 @@ const NFTPreview = () => {
 	return (
 		<>
 			{address && mainNFT && userNFTs.length > 0 ? (
-				<span className="flex w-9 h-9 rounded-lg mr-2 relative cursor-pointer shadow-lg opacity-100 bg-brandColor-purple">
+				<span className="flex w-10 h-10 rounded-lg mr-2 relative cursor-pointer opacity-100 bg-brandColor-purple">
 					<div className="absolute top-0 left-0">
-						{address && mainNFT && userNFTs.length > 0 && <img className="w-9 h-9 z-0 rounded-lg" src={getNFTImages(mainNFT.metadata.cmId).thumbnail} alt="" />}
+						{address && mainNFT && userNFTs.length > 0 && <img className="w-10 h-10 z-0 rounded-lg" src={getNFTImages(mainNFT.metadata.cmId).thumbnail} alt="" />}
 					</div>
 					<div className="flex-grow h-full"></div>
 					<div className="absolute bottom-0 left-0 rounded-t-none rounded-lg text-xs font-bold w-full text-gray-200 text-center bg-black bg-opacity-60">{mainNFT.id.toString().padStart(4, '0')}</div>
 				</span>
 			) : (
-				<span className="flex w-9 h-9 bg-gray-800 rounded-lg mr-2 items-baseline relative cursor-pointer shadow-lg opacity-70">
+				<span className="flex w-10 h-10 bg-gray-800 rounded-lg mr-2 items-baseline relative cursor-pointer opacity-70">
 					<span className="flex-grow h-full"></span>
 					<span className="rounded-t-none rounded-lg text-xs font-bold w-full h-3 text-gray-100 text-right bg-black bg-opacity-50"></span>
 				</span>

@@ -69,7 +69,7 @@ const AccountBar = () => {
 				<NFTPreview />
 			</div>
 
-			<div className=" bg-brandColor flex rounded-lg items-center h-9 text-xs sm:text-base text-white shadow-lg">
+			<div className=" bg-brandColor flex rounded-lg items-center h-10 text-xs sm:text-base text-white">
 				<span
 					className="px-2 w-28 whitespace-nowrap cursor-pointer h-full flex items-center justify-end rounded-lg rounded-r-none hover:bg-gradient-to-r from-brandColor-pale overflow-hidden"
 					onClick={() => toggleUserModal(1)}

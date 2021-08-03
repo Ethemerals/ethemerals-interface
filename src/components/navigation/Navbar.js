@@ -74,7 +74,7 @@ const Navbar = () => {
 	});
 
 	const navbarTopStyles = useSpring({
-		backgroundColor: isTop ? 'rgba(31,41,55,0)' : 'rgba(31,41,55,1)',
+		backgroundColor: isTop ? 'rgba(255,255,255,0)' : 'rgba(255,255,255,1)',
 	});
 
 	const logout = async () => {
@@ -90,13 +90,13 @@ const Navbar = () => {
 		<>
 			{/* <!-- navbar goes here --> */}
 			<animated.header style={navbarTopStyles} className="top-0 left-0 right-0 z-50 fixed">
-				<nav className="px-4 py-2">
+				<nav className="px-4 py-3">
 					<div className="flex items-center">
 						{/* <!-- logo --> */}
 						<div>
 							<Link to="/">
-								<span className="hidden sm:flex shadow-lg">
-									<img src={Images.avator} alt="brand icon" width="30" height="30" />
+								<span className="hidden sm:flex">
+									<img src={Images.avator} alt="brand icon" width="40" height="40" />
 								</span>
 							</Link>
 						</div>
@@ -119,7 +119,7 @@ const Navbar = () => {
 
 						{/* <!-- secondary nav bottom --> SM */}
 						{!windowMed && (
-							<div className="w-full flex items-center mr-6 fixed bottom-0 bg-gray-800 p-2 h-12 scrollbar_right">
+							<div className="w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12">
 								{!provider && onboard && <ConnectButton login={login} />}
 								{address && <AccountBar />}
 								{provider && !address && <LoadingAccountSpinner />}
@@ -134,16 +134,16 @@ const Navbar = () => {
 				<nav>
 					{/* <!-- mobile menu --> */}
 					{/* <!-- mobile button goes here --> */}
-					<div className="flex items-center w-screen justify-between sm:px-10 bg-gray-800">
+					<div className="flex items-center w-screen justify-between sm:px-10 bg-white">
 						<div className="pl-2 py-1">
 							<Link to="/">
 								<span className="flex">
-									<img src={Images.avator} alt="icon" width="28" height="28" />
+									<img src={Images.avator} alt="icon" width="30" height="30" />
 								</span>
 							</Link>
 						</div>
 
-						<span className="text-yellow-400 uppercase font-bold text-sm font-ubuntu sm:text-xl">Kingdom of the Ethemerals</span>
+						<span className=" text-brandColor uppercase font-bold text-base sm:text-xl">Ethemerals</span>
 
 						<button className="pr-2" onClick={toggle}>
 							<svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

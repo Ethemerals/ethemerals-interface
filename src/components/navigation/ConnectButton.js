@@ -1,6 +1,6 @@
 const ConnectButton = ({ login }) => {
 	return (
-		<button className="h-9 px-6 mx-2 bg-brandColor hover:bg-yellow-400 text-white rounded-lg shadow-lg transition duration-300 " onClick={login}>
+		<button className="h-10 px-6 mx-2 text-lg bg-brandColor hover:bg-yellow-400 text-white rounded-lg transition duration-300 " onClick={login}>
 			Connect Wallet
 		</button>
 	);

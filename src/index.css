@@ -13,17 +13,17 @@
 		@apply text-xl;
 	}
 	body {
-		background: #273042;
+		background: hsla(186, 33%, 94%, 1);
 	}
 }
 
 @layer components {
 	.page_bg {
 		/* background-image: linear-gradient(to bottom, #5a6571, #4b5665, #3d4759, #30384d, #242a41); */
-		background: hsla(18, 76%, 85%, 1);
-		background: linear-gradient(90deg, hsla(18, 76%, 85%, 1) 0%, hsla(223, 50%, 85%, 1) 0%, hsla(271, 37%, 72%, 1) 100%);
-		background: -moz-linear-gradient(90deg, hsla(18, 76%, 85%, 1) 0%, hsla(223, 50%, 85%, 1) 0%, hsla(271, 37%, 72%, 1) 100%);
-		background: -webkit-linear-gradient(90deg, hsla(18, 76%, 85%, 1) 0%, hsla(223, 50%, 85%, 1) 0%, hsla(271, 37%, 72%, 1) 100%);
+		background: hsla(186, 33%, 94%, 1);
+		background: linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%);
+		background: -moz-linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%);
+		background: -webkit-linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%);
 		top: 0px;
 		left: 0px;
 		width: 100%;
@@ -55,7 +55,7 @@
 		background: #003973; /* fallback for old browsers */
 	}
 	.menu-active {
-		color: white;
+		color: #f900d1;
 	}
 	.vertical-center {
 		margin: 0;
