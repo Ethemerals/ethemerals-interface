@@ -16,6 +16,6 @@ dashboard
 CONTRACT
 promotion CONTRACT
 
-
+UPDATE STATUS NOT UPDATING
 
 CHANGE Owner to BATTLE when in battle in invenotry (turn of bid)

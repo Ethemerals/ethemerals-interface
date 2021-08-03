@@ -13,7 +13,7 @@ const Mainmenu = () => {
 		<div className="flex p-4 items-center ml-4 h-9 bg-gray-800 rounded-lg shadow-lg font-bold">
 			<MenuItem to="/" text="Mint" />
 			<MenuItem to="/ethemerals/2" text="Ethemerals" />
-			<MenuItem to="/battle" text="Battle" />
+			<MenuItem to="/battle/eternal" text="Battle" />
 			<MenuItem to="/marketplace" text="Marketplace" />
 			{/* <MenuItem to="/art" text="Art" /> */}
 		</div>

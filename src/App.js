@@ -8,7 +8,9 @@ import Navbar from './components/navigation/Navbar';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Art from './pages/Art';
-import Battle from './pages/Battle';
+import BattleEternal from './pages/BattleEternal';
+import BattleWilds from './pages/BattleWilds';
+import BattleRoyale from './pages/BattleRoyale';
 import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
 import NFTDetails from './pages/NFTDetails';
@@ -57,8 +59,14 @@ function App() {
 								<Route exact path="/art">
 									<Art />
 								</Route>
-								<Route exact path="/battle">
-									<Battle />
+								<Route exact path="/battle/eternal">
+									<BattleEternal />
+								</Route>
+								<Route exact path="/battle/wilds">
+									<BattleWilds />
+								</Route>
+								<Route exact path="/battle/royale">
+									<BattleRoyale />
 								</Route>
 								<Route exact path="/dashboard">
 									<Dashboard />

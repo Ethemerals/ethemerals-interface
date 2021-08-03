@@ -100,16 +100,15 @@ const Home = () => {
 		<div>
 			<div className="page_bg"></div>
 			<div className="center">
+				<div className="sm:flex flex-none">
+					<img onClick={handleOnSubmitBuy} className="rounded-lg m-2 cursor-pointer" width="128" height="128" alt="mintable ethemeral two" src={Images.mintball} />
+				</div>
 				{core && (
 					<>
 						<p>{`Mint Price: ${formatETH(core.mintPrice, 3)} ETH`}</p>
 						<p>{discountable ? 'You hold ELF! 20% Discount will be applied' : 'You dont hold enough ELF for a Discount'}</p>
 					</>
 				)}
-
-				<div className="sm:flex flex-none">
-					<img onClick={handleOnSubmitBuy} className="rounded-lg m-2 cursor-pointer" width="137" height="200" alt="mintable ethemeral two" src={Images.wisp2} />
-				</div>
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Mint an Ethemeral, good luck!" />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
