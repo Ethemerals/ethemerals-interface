@@ -150,35 +150,35 @@ const Ethemerals = () => {
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
 			<div className="flex flex-wrap items-center mx-auto mt-10 justify-center">
-				<span className="text-xs font-bold px-2">SORT BY</span>
+				<span className="text-xs font-bold px-2 text-gray-800">SORT BY</span>
 
 				<button
 					onClick={() => history.push(`/ethemerals/2`)}
-					className={`${sortBy === 2 ? 'bg-indigo-700 text-gray-100' : 'bg-gray-600 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none font-bold`}
+					className={`${sortBy === 2 ? 'bg-indigo-700 text-gray-100' : ' bg-indigo-400 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none font-bold`}
 				>
 					Honor Points
 				</button>
 				<button
 					onClick={() => history.push(`/ethemerals/3`)}
-					className={`${sortBy === 3 ? 'bg-indigo-700 text-gray-100' : 'bg-gray-600 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none font-bold`}
+					className={`${sortBy === 3 ? 'bg-indigo-700 text-gray-100' : 'bg-indigo-400 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none font-bold`}
 				>
 					ELF Balance
 				</button>
 				<span className="w-14"></span>
 				<button
 					onClick={() => history.push(`/ethemerals/0`)}
-					className={`${sortBy < 2 ? 'bg-indigo-700 text-gray-100' : 'bg-gray-600 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none font-bold`}
+					className={`${sortBy < 2 ? 'bg-indigo-700 text-gray-100' : 'bg-indigo-400 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none font-bold`}
 				>
 					Recently Minted
 				</button>
 				<span className="w-2"></span>
-				<div className={`${sortBy < 2 ? 'opacity-100' : 'opacity-20'}`}>
+				<div className={`${sortBy < 2 ? 'opacity-100' : 'opacity-30'}`}>
 					<label>
 						{sortBy === 1 && <Checkbox defaultChecked={false} onChange={onChange} disabled={false} />}
 						{sortBy === 0 && <Checkbox defaultChecked={true} onChange={onChange} disabled={false} />}
 						{sortBy > 1 && <Checkbox defaultChecked={false} disabled={true} />}
 					</label>
-					<span className="text-xs font-bold px-2">SINGLE EDITIONS ONLY</span>
+					<span className="text-xs font-bold px-2 text-gray-800">SINGLE EDITIONS ONLY</span>
 				</div>
 				<div className="md:flex md:w-0.5 flex-none w-full"></div>
 			</div>

@@ -33,5 +33,51 @@ export const useNFTUtils = () => {
 		return 1;
 	}
 
-	return { getBaseURL, getNFTImages, parseScore };
+	function getColorPalette(subclass) {
+		let palette = { base: 'hsla(194,35%,72%,1)' };
+
+		if (subclass === 'Paladin') {
+			palette.base = 'hsla(194,35%,72%,1)';
+		}
+		if (subclass === 'Knight') {
+			palette.base = 'hsla(205,35%,72%,1)';
+			console.log('KNIOGHTTT');
+		}
+		if (subclass === 'Dark Knight') {
+			palette.base = 'hsla(220,35%,72%,1)';
+		}
+		if (subclass === 'Dragoon') {
+			palette.base = 'hsla(235,35%,72%,1)';
+		}
+
+		if (subclass === 'Sorcerer') {
+			palette.base = 'hsla(277,35%,72%,1)';
+		}
+		if (subclass === 'Summoner') {
+			palette.base = 'hsla(295,35%,72%,1)';
+		}
+		if (subclass === 'Cleric') {
+			palette.base = 'hsla(317,35%,72%,1)';
+		}
+		if (subclass === 'Druid') {
+			palette.base = 'hsla(338,35%,72%,1)';
+		}
+
+		if (subclass === 'Ranger') {
+			palette.base = 'hsla(115,35%,72%,1)';
+		}
+		if (subclass === 'Berserker') {
+			palette.base = 'hsla(133,35%,72%,1)';
+		}
+		if (subclass === 'Assassin') {
+			palette.base = 'hsla(155,35%,72%,1)';
+		}
+		if (subclass === 'Monk') {
+			palette.base = 'hsla(176,35%,72%,1)';
+		}
+
+		return palette;
+	}
+
+	return { getBaseURL, getNFTImages, parseScore, getColorPalette };
 };

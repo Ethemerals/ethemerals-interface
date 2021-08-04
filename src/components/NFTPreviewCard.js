@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { formatELF } from '../utils';
 import { useNFTUtils } from '../hooks/useNFTUtils';
@@ -24,8 +25,15 @@ const RankedStars = ({ amount }) => {
 };
 
 const NFTPreviewCard = ({ nft }) => {
-	const { getNFTImages, parseScore } = useNFTUtils();
+	const { getNFTImages, parseScore, getColorPalette } = useNFTUtils();
 	const history = useHistory();
+	const [subclass, setSubclass] = useState(undefined);
+
+	useEffect(() => {
+		if (nft) {
+			setSubclass(nft.metadata.subClass);
+		}
+	}, [nft]);
 
 	if (!nft) {
 		return <p>Loading</p>;
@@ -37,11 +45,14 @@ const NFTPreviewCard = ({ nft }) => {
 		history.push(`/ethemeral/${nft.id}`);
 	};
 
+	console.log(nft.metadata.subClass);
+
 	return (
 		<div
 			onClick={handleOnClick}
 			// style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/nft_preview_bg.jpg')" }}
-			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border border-gray-500 shadow-xl hover:shadow-2xl hover:border-gray-100 transition duration-300 bg-gray-700"
+			style={{ backgroundColor: getColorPalette(subclass).base }}
+			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border border-indigo-200 hover:shadow-2xl hover:border-gray-100 transition duration-300"
 		>
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
