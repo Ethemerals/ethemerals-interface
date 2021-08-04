@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { formatELF } from '../utils';
 import { useNFTUtils } from '../hooks/useNFTUtils';
+import Images from '../constants/Images';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
-		<svg className="w-4 h-4" fill="goldenRod" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+		<svg width="16" height="16" fill="gold" stroke="goldenRod" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 			<path
 				strokeLinecap="round"
 				strokeLinejoin="round"
@@ -24,7 +25,7 @@ const RankedStars = ({ amount }) => {
 	);
 };
 
-const NFTPreviewCard = ({ nft }) => {
+const NFTPreviewCard = ({ nft, rewards }) => {
 	const { getNFTImages, parseScore, getColorPalette } = useNFTUtils();
 	const history = useHistory();
 	const [subclass, setSubclass] = useState(undefined);
@@ -50,10 +51,17 @@ const NFTPreviewCard = ({ nft }) => {
 	return (
 		<div
 			onClick={handleOnClick}
-			// style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/nft_preview_bg.jpg')" }}
-			style={{ backgroundColor: getColorPalette(subclass).base }}
-			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border border-indigo-200 hover:shadow-2xl hover:border-gray-100 transition duration-300"
+			style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},5%,66%,0.5)` }}
+			className="w-64 h-96 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300"
 		>
+			<div className="text-xs font-bold absolute right-0 text-right text-white z-10">
+				{!rewards && <p className=" bg-yellow-400 rounded-l-md mt-1 px-2">{nft.score} HP</p>}
+				{rewards && <p className="bg-brandColor rounded-l-md mt-1 px-2">{formatELF(nft.rewards)} ELF</p>}
+			</div>
+
+			{/* BORDER */}
+			<div style={{ borderColor: `hsla(${getColorPalette(subclass).hue},20%,90%,1)` }} className=" w-60 h-80 top-6 absolute left-2 border-8"></div>
+
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
 				<img className="" src={getNFTImages(cmId).preview} alt="" />
@@ -63,38 +71,35 @@ const NFTPreviewCard = ({ nft }) => {
 			<div className="absolute flex items-center p-1 ">
 				<RankedStars amount={parseScore(nft.score)} />
 			</div>
-			<div className="absolute right-0 text-right pr-2">
-				<p>{nft.score} HP</p>
-				<p>{formatELF(nft.rewards)} ELF</p>
+
+			<div style={{ bottom: '64px' }} className="w-full absolute z-10 flex justify-end right-2 space-x-1">
+				<div className="relative">
+					<img width="30px" height="30px" src={Images.iconAtk} />
+					<span className="center text font-black">{nft.metadata.attack}</span>
+				</div>
+				<div className="relative">
+					<img width="30px" height="30px" src={Images.iconDef} />
+					<span className="center text font-black">{nft.metadata.defence}</span>
+				</div>
+				<div className="relative">
+					<img width="30px" height="30px" src={Images.iconSpd} />
+					<span className="center text font-black">{nft.metadata.speed}</span>
+				</div>
 			</div>
 
 			{/* BOTTOM BAR */}
-			<div className="p-2 w-full bottom-0 absolute overflow-hidden bg-gray-900 bg-opacity-60">
-				<p className="text-xs font-bold text-gray-400"># {nft.id.padStart(4, '0')}</p>
-				<p className="font-bold text-2xl uppercase">{nft.metadata.coin}</p>
-				<div className="flex h-6 my-2">
-					<div className="w-6 bg-white">
-						<img src={getNFTImages(cmId).subclassIcon} alt="subclass icon" />
+			<div style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},40%,40%,0.8)` }} className="w-full bottom-0 absolute overflow-hidden">
+				<div className="px-2 py-1">
+					<p className="text-xs text-white">
+						#<span className="text-sm font-bold">{nft.id.padStart(4, '0')}</span>
+					</p>
+					<p className="text-2xl font-medium">{nft.metadata.coin}</p>
+					<div className="flex h-6 my-1">
+						<div style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},100%,80%,1)` }} className="w-6">
+							<img src={getNFTImages(cmId).subclassIcon} alt="subclass icon" />
+						</div>
+						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nft.metadata.subClass}</div>
 					</div>
-					<div className="w-full pl-2 bg-black uppercase">{nft.metadata.subClass}</div>
-				</div>
-				<div className="flex h-2 items-center mb-1 text-xs">
-					<span className="w-6">ATK</span>
-					<span style={{ width: `${nft.metadata.attack * 2}px` }} className="h-10px bg-white opacity-40"></span>
-					<span className="pl-1 text-xs">{nft.metadata.attack}</span>
-					<span className="flex-grow"></span>
-				</div>
-				<div className="flex h-2 items-center mb-1 text-xs">
-					<span className="w-6">DEF</span>
-					<span style={{ width: `${nft.metadata.defence * 2}px` }} className="h-10px bg-white opacity-40"></span>
-					<span className="pl-1 text-xs">{nft.metadata.defence}</span>
-					<span className="flex-grow"></span>
-				</div>
-				<div className="flex h-2 items-center mb-1 text-xs">
-					<span className="w-6">SPD</span>
-					<span style={{ width: `${nft.metadata.speed * 2}px` }} className="h-10px bg-white opacity-40"></span>
-					<span className="pl-1 text-xs">{nft.metadata.speed}</span>
-					<span className="flex-grow"></span>
 				</div>
 			</div>
 		</div>

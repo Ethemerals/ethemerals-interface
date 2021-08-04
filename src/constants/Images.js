@@ -10,6 +10,9 @@ import iconMain from '../assets/icon_main.svg';
 import iconDrain from '../assets/icon_drain.svg';
 import iconSell from '../assets/icon_sell.svg';
 import iconClaim from '../assets/icon_claim.svg';
+import iconAtk from '../assets/icon_atk.svg';
+import iconDef from '../assets/icon_def.svg';
+import iconSpd from '../assets/icon_spd.svg';
 import mintball from '../assets/mintball.gif';
 
 const Images = {
@@ -26,6 +29,9 @@ const Images = {
 	iconSell,
 	iconClaim,
 	mintball,
+	iconAtk,
+	iconDef,
+	iconSpd,
 };
 
 export default Images;

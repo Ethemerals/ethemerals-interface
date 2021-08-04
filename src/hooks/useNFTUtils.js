@@ -34,46 +34,57 @@ export const useNFTUtils = () => {
 	}
 
 	function getColorPalette(subclass) {
-		let palette = { base: 'hsla(194,35%,72%,1)' };
+		let palette = { base: 'hsla(194,0%,90%,1)' };
 
 		if (subclass === 'Paladin') {
-			palette.base = 'hsla(194,35%,72%,1)';
+			palette.hue = 194;
+			palette.base = 'hsla(194,100%,80%,1)';
 		}
 		if (subclass === 'Knight') {
-			palette.base = 'hsla(205,35%,72%,1)';
-			console.log('KNIOGHTTT');
+			palette.hue = 205;
+			palette.base = 'hsla(205,100%,80%,1)';
 		}
 		if (subclass === 'Dark Knight') {
-			palette.base = 'hsla(220,35%,72%,1)';
+			palette.hue = 220;
+			palette.base = 'hsla(220,100%,80%,1)';
 		}
 		if (subclass === 'Dragoon') {
-			palette.base = 'hsla(235,35%,72%,1)';
+			palette.hue = 235;
+			palette.base = 'hsla(235,100%,80%,1)';
 		}
 
 		if (subclass === 'Sorcerer') {
-			palette.base = 'hsla(277,35%,72%,1)';
+			palette.hue = 277;
+			palette.base = 'hsla(277,100%,80%,1)';
 		}
 		if (subclass === 'Summoner') {
-			palette.base = 'hsla(295,35%,72%,1)';
+			palette.hue = 295;
+			palette.base = 'hsla(295,100%,80%,1)';
 		}
 		if (subclass === 'Cleric') {
-			palette.base = 'hsla(317,35%,72%,1)';
+			palette.hue = 317;
+			palette.base = 'hsla(317,100%,80%,1)';
 		}
 		if (subclass === 'Druid') {
-			palette.base = 'hsla(338,35%,72%,1)';
+			palette.hue = 338;
+			palette.base = 'hsla(338,100%,80%,1)';
 		}
 
 		if (subclass === 'Ranger') {
-			palette.base = 'hsla(115,35%,72%,1)';
+			palette.hue = 115;
+			palette.base = 'hsla(115,100%,80%,1)';
 		}
 		if (subclass === 'Berserker') {
-			palette.base = 'hsla(133,35%,72%,1)';
+			palette.hue = 133;
+			palette.base = 'hsla(133,100%,80%,1)';
 		}
 		if (subclass === 'Assassin') {
-			palette.base = 'hsla(155,35%,72%,1)';
+			palette.hue = 155;
+			palette.base = 'hsla(155,100%,80%,1)';
 		}
 		if (subclass === 'Monk') {
-			palette.base = 'hsla(176,35%,72%,1)';
+			palette.hue = 176;
+			palette.base = 'hsla(176,100%,80%,1)';
 		}
 
 		return palette;
