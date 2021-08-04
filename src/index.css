@@ -13,11 +13,33 @@
 		@apply text-xl;
 	}
 	body {
-		background: hsla(186, 33%, 94%, 1);
+		background: hsla(216, 41%, 79%, 1);
+	}
+}
+
+@keyframes slide {
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: -2000px -2000px;
 	}
 }
 
 @layer components {
+	.bg_home {
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		z-index: -100;
+		position: fixed;
+		background-image: url('https://ethemerals-media.s3.amazonaws.com/bg_home.png');
+		-webkit-animation: slide 30s linear infinite;
+		animation: slide 30s linear infinite;
+		font-size: 18px;
+		background-repeat: repeat;
+	}
 	.page_bg {
 		/* background-image: linear-gradient(to bottom, #5a6571, #4b5665, #3d4759, #30384d, #242a41); */
 		background: hsla(186, 33%, 94%, 1);

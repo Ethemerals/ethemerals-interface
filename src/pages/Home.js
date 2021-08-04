@@ -98,7 +98,7 @@ const Home = () => {
 
 	return (
 		<div className="scrollbar_pad">
-			<div className="page_bg"></div>
+			<div className="bg_home bg-contain"></div>
 			<div className="center text-black">
 				<div className="sm:flex flex-none">
 					<img onClick={handleOnSubmitBuy} className="rounded-lg m-2 cursor-pointer" width="128" height="128" alt="mintable ethemeral two" src={Images.mintball} />
