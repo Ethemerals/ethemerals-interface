@@ -18,11 +18,11 @@
 }
 
 @keyframes slide {
-	0% {
+	100% {
 		background-position: 0 0;
 	}
-	100% {
-		background-position: -2000px -2000px;
+	0% {
+		background-position: -1982px -800px;
 	}
 }
 
@@ -35,14 +35,12 @@
 		z-index: -100;
 		position: fixed;
 		background-image: url('https://ethemerals-media.s3.amazonaws.com/bg_home.png');
-		-webkit-animation: slide 30s linear infinite;
-		animation: slide 30s linear infinite;
-		font-size: 18px;
+		-webkit-animation: slide 120s linear infinite;
+		animation: slide 120s linear infinite;
 		background-repeat: repeat;
 	}
 	.page_bg {
 		/* background-image: linear-gradient(to bottom, #5a6571, #4b5665, #3d4759, #30384d, #242a41); */
-		background: hsla(186, 33%, 94%, 1);
 		background: linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%);
 		background: -moz-linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%);
 		background: -webkit-linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%);

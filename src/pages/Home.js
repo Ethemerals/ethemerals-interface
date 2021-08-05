@@ -98,17 +98,15 @@ const Home = () => {
 
 	return (
 		<div className="scrollbar_pad">
-			<div className="bg_home bg-contain"></div>
-			<div className="center text-black">
-				<div className="sm:flex flex-none">
-					<img onClick={handleOnSubmitBuy} className="rounded-lg m-2 cursor-pointer" width="128" height="128" alt="mintable ethemeral two" src={Images.mintball} />
-				</div>
+			<div className="bg_home"></div>
+			<div className="center text-blue-900 w-420 flex">
 				{core && (
-					<>
-						<p>{`Mint Price: ${formatETH(core.mintPrice, 3)} ETH`}</p>
+					<div>
+						<p className="font-bold text-2xl">{`Mint Price: ${formatETH(core.mintPrice, 3)} ETH`}</p>
 						<p>{discountable ? 'You hold ELF! 20% Discount will be applied' : 'You dont hold enough ELF for a Discount'}</p>
-					</>
+					</div>
 				)}
+				<img onClick={handleOnSubmitBuy} className="cursor-pointer" width="128" height="128" alt="mintable ethemeral two" src={Images.mintball} />
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Mint an Ethemeral, good luck!" />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
