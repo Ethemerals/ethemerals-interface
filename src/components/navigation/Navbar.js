@@ -146,7 +146,7 @@ const Navbar = () => {
 						<span className=" text-brandColor uppercase font-bold text-base sm:text-xl">Ethemerals</span>
 
 						<button className="pr-2" onClick={toggle}>
-							<svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="black">
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
 							</svg>
 						</button>
