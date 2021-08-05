@@ -98,11 +98,13 @@ const Home = () => {
 
 	return (
 		<div className="scrollbar_pad">
-			<div className="bg_home bg-cover"></div>
-			<div onClick={handleOnSubmitBuy} className="center text-blue-900 w-full flex space-x-8 p-4 justify-center items-center cursor-pointer">
-				<img width="128" height="128" alt="mintable ethemeral two" src={Images.logoELF} />
+			<div className="bg_home sm:bg-75% lg:bg-50% bg-cover"></div>
+			<div onClick={handleOnSubmitBuy} className="center text-blue-900 cursor-pointer w-420">
+				<div className="flex justify-center">
+					<img width="128" height="128" alt="mintable ethemeral two" src={Images.logoELF} />
+				</div>
 				{core && (
-					<div className="w-64">
+					<div className="text-center mt-4">
 						<p className="font-bold text-3xl">{`Mint: ${formatETH(core.mintPrice, 3)} ETH`}</p>
 						<p>{discountable ? 'You hold ELF! 20% Discount will be applied' : 'You dont hold enough ELF for a Discount'}</p>
 					</div>

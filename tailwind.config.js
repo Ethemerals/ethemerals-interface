@@ -13,6 +13,14 @@ module.exports = {
 			xl: { min: '1159px' }, // Desktop wide.
 			xxl: { min: '1359px' }, // Desktop widescreen.
 		},
+		backgroundSize: {
+			auto: 'auto',
+			cover: 'cover',
+			contain: 'contain',
+			'25%': '25%',
+			'50%': '50%',
+			'75%': '75%',
+		},
 		extend: {
 			opacity: ['disabled'],
 			spacing: {
