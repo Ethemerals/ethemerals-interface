@@ -15,8 +15,9 @@ const BattleEternal = () => {
 	return (
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
-			<BattleMenu current="eternal" />
+
 			<HighestHonorBar />
+			<BattleMenu current="eternal" />
 
 			<EternalBattleCard contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[0]} />
 			<EternalBattleCard contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[1]} />

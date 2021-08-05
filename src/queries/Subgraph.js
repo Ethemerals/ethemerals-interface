@@ -123,6 +123,32 @@ export const GET_NFT = gql`
 	}
 `;
 
+export const GET_NFT_LIGHT = gql`
+	query ($id: ID!) {
+		ethemeral(id: $id) {
+			id
+			owner {
+				id
+			}
+			edition
+			score
+			rewards
+			scorecard {
+				battles
+				wins
+			}
+			metadata {
+				cmId
+				coin
+				subClass
+				attack
+				defence
+				speed
+			}
+		}
+	}
+`;
+
 export const GET_ACCOUNT = gql`
 	query ($id: ID!) {
 		account(id: $id) {

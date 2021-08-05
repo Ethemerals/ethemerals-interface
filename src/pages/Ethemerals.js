@@ -98,24 +98,25 @@ const Ethemerals = () => {
 	return (
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
-			<div className="flex flex-wrap items-center mx-auto mt-10 justify-center">
-				<span className="text-xs font-bold px-2 text-white">SORT BY</span>
+			<div className="text-sm font-bold text-white sm:hidden mt-4 text-center">SORT BY</div>
+			<div className="flex items-center mx-auto mt-2 sm:mt-10 text-sm sm:text-xl justify-center">
+				<span className="text-xs font-bold px-2 text-white hidden sm:flex">SORT BY</span>
 
 				<button
 					onClick={() => history.push(`/ethemerals/2`)}
-					className={`${sortBy === 2 ? 'bg-indigo-700 text-gray-100' : ' bg-indigo-400 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none font-bold`}
+					className={`${sortBy === 2 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
 				>
 					Honor Points
 				</button>
 				<button
 					onClick={() => history.push(`/ethemerals/3`)}
-					className={`${sortBy === 3 ? 'bg-indigo-700 text-gray-100' : 'bg-indigo-400 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none font-bold`}
+					className={`${sortBy === 3 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
 				>
 					ELF Balance
 				</button>
 				<button
 					onClick={() => history.push(`/ethemerals/1`)}
-					className={`${sortBy < 2 ? 'bg-indigo-700 text-gray-100' : 'bg-indigo-400 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none font-bold`}
+					className={`${sortBy < 2 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
 				>
 					Recently Minted
 				</button>

@@ -53,11 +53,17 @@ function App() {
 								<Route exact path="/">
 									<Home />
 								</Route>
+								<Route exact path="/mint">
+									<Home />
+								</Route>
 								<Route exact path="/admin">
 									<Admin />
 								</Route>
 								<Route exact path="/art">
 									<Art />
+								</Route>
+								<Route exact path="/battle">
+									<BattleEternal />
 								</Route>
 								<Route exact path="/battle/eternal">
 									<BattleEternal />
