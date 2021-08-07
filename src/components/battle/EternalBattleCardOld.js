@@ -8,7 +8,7 @@ import { usePriceFeedPrice } from '../../hooks/usePriceFeed';
 import StakedNFT from './StakedNFT';
 import useUserAccount from '../../hooks/useUserAccount';
 
-const EternalBattleCard = ({ contractPriceFeed, priceFeed, graphic }) => {
+const EternalBattleCardOld = ({ contractPriceFeed, priceFeed, graphic }) => {
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 	const { accountEternalBattle } = useEternalBattleAccount();
 	const { account } = useUserAccount();
@@ -60,33 +60,30 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed, graphic }) => {
 
 	return (
 		<>
-			<div className="my-8">
-				<div style={{ width: '1090px' }} className="mx-auto">
-					<div style={{ width: '1090px', height: '718px' }} className="relative">
-						<img width="1090" height="718" src={graphic} />
-						<div className="bottom-0 absolute w-full">
-							<div className="flex justify-center space-x-7 items-center">
-								<button onClick={() => handleJoinBattle(true)} className="p-2 my-2 rounded bg-brandColor-purple">
-									Join {baseName}
-								</button>
-								<p>Price: {price}</p>
-								<button onClick={() => handleJoinBattle(false)} className="p-2 my-2 rounded bg-brandColor-purple">
-									Join {quoteName}
-								</button>
-							</div>
-						</div>
-					</div>
+			<div className="flex justify-center">
+				{/* <div style={{backgroundImage: `url(${graphic})`}} className="bg-gray-700 p-4 m-4 w-full max-w-5xl"> */}
+				<div className="bg-gray-700 p-4 m-4 w-full max-w-5xl">
+					<h3>
+						{baseName} vs {quoteName}
+					</h3>
 
-					<div className="px-10 mx-auto">
-						<div className="grid grid-cols-2 gap-4">
-							<div>
-								<h3 className="text-black">Current Fighters</h3>
-								{stakedNFTs.map((nft, index) => nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
-							</div>
-							<div>
-								<h3 className="text-black">Current Fighters</h3>
-								{stakedNFTs.map((nft, index) => !nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
-							</div>
+					<p>{ticker}</p>
+					<p>Price: {price}</p>
+					<hr></hr>
+					<div className="grid grid-cols-2 gap-4">
+						<div>
+							<button onClick={() => handleJoinBattle(true)} className="p-2 my-2 rounded bg-brandColor-purple">
+								Join {baseName}
+							</button>
+							<h3>Current Fighters</h3>
+							{stakedNFTs.map((nft, index) => nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
+						</div>
+						<div>
+							<button onClick={() => handleJoinBattle(false)} className="p-2 my-2 rounded bg-brandColor-purple">
+								Join {quoteName}
+							</button>
+							<h3>Current Fighters</h3>
+							{stakedNFTs.map((nft, index) => !nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
 						</div>
 					</div>
 				</div>
@@ -97,4 +94,4 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed, graphic }) => {
 	);
 };
 
-export default EternalBattleCard;
+export default EternalBattleCardOld;

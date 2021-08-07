@@ -26,11 +26,11 @@ const NFTWinnerCard = ({ id }) => {
 	}, [status, data, nft]);
 
 	if (!nft) {
-		return <div className="w-420 h-74 flex relative"></div>;
+		return <div className="max-w-420 h-74 flex relative"></div>;
 	}
 
 	return (
-		<div className="w-420 h-74 flex relative">
+		<div className="max-w-420 h-74 flex relative">
 			{/* HP */}
 			<div className="text-sm font-bold absolute right-0 text-right text-white z-10">
 				<p className=" bg-yellow-400 rounded-l-md mt-1 px-2">{nft.score} HP</p>
@@ -102,8 +102,8 @@ const HighestHonorBar = () => {
 	}
 
 	return (
-		<div className="w-420 mx-auto mt-8">
-			<div className="text-brandColor font-bold flex items-center justify-between my-2">
+		<div className="max-w-420 mx-auto mt-8">
+			<div className="text-white font-bold flex items-center justify-between my-2">
 				<p>LEADING ETHEMERAL</p>
 				<button
 					onClick={() => history.push(`/claim/${core.winningCoin}`)}
