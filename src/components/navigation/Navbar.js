@@ -100,11 +100,11 @@ const Navbar = () => {
 								</span>
 							</Link>
 						</div>
-
 						{/* <!-- primary nav --> */}
 						<div className="hidden sm:flex items-center">
 							<MainMenu />
 						</div>
+						<div className="bg-black">ALPHA HAS STOPPED DO NOT USE</div>
 
 						{/* <!-- secondary nav --> MD */}
 						{windowMed && (
@@ -116,7 +116,6 @@ const Navbar = () => {
 								{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
 							</div>
 						)}
-
 						{/* <!-- secondary nav bottom --> SM */}
 						{!windowMed && (
 							<div className="w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12">
@@ -142,7 +141,7 @@ const Navbar = () => {
 								</span>
 							</Link>
 						</div>
-
+						<div className="bg-black">ALPHA HAS STOPPED DO NOT USE</div>
 						<span className=" text-brandColor uppercase font-bold text-base sm:text-xl">Ethemerals</span>
 
 						<button className="pr-2" onClick={toggle}>
