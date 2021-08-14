@@ -5,10 +5,7 @@ export const GET_CORE = gql`
 		core(id: $id) {
 			id
 			mintPrice
-			revivePrice
-			winnerFunds
-			winnerMult
-			winningCoin
+			discountMinTokens
 		}
 	}
 `;
@@ -30,19 +27,19 @@ export const GET_NFTS = gql`
 			edition
 			score
 			rewards
+			atk
+			def
+			spd
+			baseId
+			bgId
 			owner {
 				id
 			}
 			metadata {
-				cmId
+				id
 				coin
 				mainClass
 				subClass
-				special1
-				special2
-				attack
-				defence
-				speed
 			}
 		}
 	}
@@ -56,19 +53,19 @@ export const GET_NFTS_ORDERED = gql`
 			edition
 			score
 			rewards
+			atk
+			def
+			spd
+			baseId
+			bgId
 			owner {
 				id
 			}
 			metadata {
-				cmId
+				id
 				coin
 				mainClass
 				subClass
-				special1
-				special2
-				attack
-				defence
-				speed
 			}
 		}
 	}
@@ -88,6 +85,11 @@ export const GET_NFT = gql`
 			edition
 			score
 			rewards
+			atk
+			def
+			spd
+			baseId
+			bgId
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
 				timestamp
 				win
@@ -98,26 +100,22 @@ export const GET_NFT = gql`
 				}
 				type
 			}
-			scorecard {
-				highestScore
-				highestRewards
-				battles
-				wins
-				revived
-				resurrected
-				reaped
-				drained
-			}
+			# scorecard {
+			# 	highestScore
+			# 	highestRewards
+			# 	battles
+			# 	wins
+			# 	revived
+			# 	resurrected
+			# 	reaped
+			# 	drained
+			# }
 			metadata {
-				cmId
+				id
 				coin
 				artist
 				mainClass
 				subClass
-				special1
-				attack
-				defence
-				speed
 			}
 		}
 	}
@@ -133,17 +131,19 @@ export const GET_NFT_LIGHT = gql`
 			edition
 			score
 			rewards
-			scorecard {
-				battles
-				wins
-			}
+			atk
+			def
+			spd
+			baseId
+			bgId
+			# scorecard {
+			# 	battles
+			# 	wins
+			# }
 			metadata {
-				cmId
+				id
 				coin
 				subClass
-				attack
-				defence
-				speed
 			}
 		}
 	}
@@ -160,11 +160,13 @@ export const GET_ACCOUNT = gql`
 				timestamp
 				score
 				rewards
-				scorecard {
-					battles
-				}
+				baseId
+				bgId
+				# scorecard {
+				# 	battles
+				# }
 				metadata {
-					cmId
+					id
 					coin
 					mainClass
 					subClass
@@ -186,7 +188,7 @@ export const GET_ETERNALBATTLE_ACCOUNT = gql`
 					id
 				}
 				metadata {
-					cmId
+					id
 					coin
 					mainClass
 					subClass

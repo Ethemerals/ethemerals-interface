@@ -31,7 +31,7 @@ const RankedStars = ({ amount }) => {
 };
 
 const NFTLink = (nft, index, toggle, getImages) => {
-	const bgImg = getImages(nft.metadata.cmId).thumbnail;
+	const bgImg = getImages(nft.metadata.id).thumbnail;
 
 	return (
 		<Link key={index} to={`/ethemeral/${nft.id}`}>
@@ -112,7 +112,7 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 							{/* MAIN IMAGE */}
 
 							<div onClick={handleClick} className="absolute top-0 left-0 w-full h-28">
-								<img className="" src={getNFTImages(userNFTs[mainIndex].metadata.cmId).inventory} alt="" />
+								<img className="" src={getNFTImages(userNFTs[mainIndex].metadata.id).inventory} alt="" />
 							</div>
 						</div>
 					) : (

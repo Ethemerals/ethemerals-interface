@@ -40,7 +40,7 @@ const getUser = async (id) => {
 export const getAccount = async (variables) => {
 	if (isAddress(variables.id)) {
 		try {
-			let endpoint = 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals';
+			const endpoint = process.env.REACT_APP_GRAPH_ENDPOINT;
 			const graphQLClient = new GraphQLClient(endpoint);
 			const fetchData = await graphQLClient.request(GET_ACCOUNT, variables);
 			return fetchData;

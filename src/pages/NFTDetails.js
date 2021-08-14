@@ -65,7 +65,7 @@ const NFTDetails = () => {
 	useEffect(() => {
 		if (status === 'success' && data && data.ethemeral) {
 			setNFT(data.ethemeral);
-			setCmId(data.ethemeral.metadata.cmId);
+			setCmId(data.ethemeral.metadata.id);
 			setBirthDate(parseInt(nft.timestamp) * 1000);
 			setReady(true);
 		}

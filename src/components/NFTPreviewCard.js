@@ -40,7 +40,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 		return <p>Loading</p>;
 	}
 
-	const cmId = nft.metadata.cmId;
+	const cmId = nft.metadata.id;
 
 	const handleOnClick = () => {
 		history.push(`/ethemeral/${nft.id}`);

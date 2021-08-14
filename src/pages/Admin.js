@@ -11,63 +11,72 @@ import { useWeb3, useAddress, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
 import { useCoreContract, useCore, useCoreAccount } from '../hooks/useCore';
 import { useTokenContract } from '../hooks/useToken';
-import { useEternalBattleContract } from '../hooks/useEternalBattle';
-import { useEternalBattleAccount } from '../hooks/useEternalBattle';
+// import { useEternalBattleContract } from '../hooks/useEternalBattle';
+// import { useEternalBattleAccount } from '../hooks/useEternalBattle';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 const requiredElfDiscount = 2000;
 
-const getReviverScorePenalty = async (contract, setReviverScorePenalty) => {
+// const getReviverScorePenalty = async (contract, setReviverScorePenalty) => {
+// 	try {
+// 		const value = await contract.reviverScorePenalty();
+// 		setReviverScorePenalty(value.toString());
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// };
+
+// const getReviverTokenReward = async (contract, setReviverTokenReward) => {
+// 	try {
+// 		const value = await contract.reviverTokenReward();
+// 		setReviverTokenReward(value.toString());
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// };
+
+// const getStake = async (contract, id, setStake) => {
+// 	try {
+// 		const value = await contract.getStake(id);
+// 		setStake(value.toString());
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// };
+
+// const getChange = async (contract, id, setChange) => {
+// 	try {
+// 		const value = await contract.getChange(id);
+// 		setChange(value.toString());
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// };
+
+const getMaxAvailableEthemerals = async (contract, setMaxAvailableEthemerals) => {
 	try {
-		const value = await contract.reviverScorePenalty();
-		setReviverScorePenalty(value.toString());
+		const value = await contract.maxAvailableEthemerals();
+		setMaxAvailableEthemerals(value.toString());
 	} catch (error) {
 		console.log(error);
 	}
 };
 
-const getReviverTokenReward = async (contract, setReviverTokenReward) => {
+const getCurrentSupply = async (contract, setCurrentSupply) => {
 	try {
-		const value = await contract.reviverTokenReward();
-		setReviverTokenReward(value.toString());
+		const value = await contract.ethemeralSupply();
+		setCurrentSupply(value.toString());
 	} catch (error) {
 		console.log(error);
 	}
 };
 
-const getStake = async (contract, id, setStake) => {
+const getEthemeral = async (contract, id, setEthemeral) => {
 	try {
-		const value = await contract.getStake(id);
-		setStake(value.toString());
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-const getChange = async (contract, id, setChange) => {
-	try {
-		const value = await contract.getChange(id);
-		setChange(value.toString());
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-const getAvailableCoins = async (contract, setAvailableCoins) => {
-	try {
-		const value = await contract.getAvailableCoins();
-		setAvailableCoins(value.toString());
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-const getCoinById = async (contract, id, setCoin) => {
-	try {
-		const value = await contract.getCoinById(id);
-		setCoin(`${value[0].toString()}, ${value[1].toString()}, ${formatELF(value[2])}`);
+		const value = await contract.getEthemeral(id);
+		setEthemeral(`${value[0].toString()}, ${value[1].toString()}, ${value[2].toString()}, ${value[3].toString()}, ${value[4].toString()}`);
 	} catch (error) {
 		console.log(error);
 	}
@@ -137,28 +146,29 @@ const Admin = () => {
 	const provider = useWeb3();
 	const { core } = useCore();
 	const { accountCore } = useCoreAccount();
-	const { accountEternalBattle } = useEternalBattleAccount();
+	// const { accountEternalBattle } = useEternalBattleAccount();
 	const { contractCore } = useCoreContract();
 	const { contractToken } = useTokenContract();
-	const { contractBattle } = useEternalBattleContract();
+	// const { contractBattle } = useEternalBattleContract();
 
 	const address = useAddress();
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
 	// core contract
-	const [availableCoins, setAvailableCoins] = useState(undefined);
-	const [coin, setCoin] = useState(undefined);
+	const [availableCoins, setMaxAvailableEthemerals] = useState(undefined);
+	const [currentSupply, setCurrentSupply] = useState(undefined);
+	const [ethemeral, setEthemeral] = useState(undefined);
 	const [approved, setApproved] = useState(undefined);
 	const [isApprovedForAll, setIsApprovedForAll] = useState(undefined);
 	const [tokenURI, setTokenURI] = useState(undefined);
 	const [contractURI, setContractURI] = useState(undefined);
 
 	// battle contract
-	const [stake, setStake] = useState(undefined);
-	const [change, setChange] = useState(undefined);
-	const [reviverScorePenalty, setReviverScorePenalty] = useState(undefined);
-	const [reviverTokenReward, setReviverTokenReward] = useState(undefined);
+	// const [stake, setStake] = useState(undefined);
+	// const [change, setChange] = useState(undefined);
+	// const [reviverScorePenalty, setReviverScorePenalty] = useState(undefined);
+	// const [reviverTokenReward, setReviverTokenReward] = useState(undefined);
 
 	const [discountable, setDiscountable] = useState(false);
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -188,18 +198,31 @@ const Admin = () => {
 	}, [contractToken, address]);
 
 	const onSubmitBuy = async () => {
+		onSubmitMint(1);
+	};
+
+	const onSubmitBuy3 = async () => {
+		onSubmitMint(3);
+	};
+
+	const onSubmitBuy5 = async () => {
+		onSubmitMint(5);
+	};
+
+	const onSubmitMint = async (amount) => {
 		if (contractCore && readyToTransact()) {
 			setIsConfirmationOpen(true);
 			try {
 				let value = await contractCore.mintPrice();
+				value = value.mul(BigNumber.from(amount));
 				if (discountable) {
 					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(2000))).div(BigNumber.from(10000));
 				}
-				const gasEstimate = await contractCore.estimateGas.buy({ value });
-				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.buy.gasDiv));
-				const tx = await contractCore.buy({ value, gasLimit });
+				const gasEstimate = await contractCore.estimateGas.mintEthemeral(amount, address, { value });
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const tx = await contractCore.mintEthemeral(amount, address, { value, gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, FunctionTx.buy.receiptMsg, true, ['account', 'account_core']);
+				sendTx(tx.hash, 'Minted Ethemeral/s', true, ['account', 'account_core']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Mint transaction rejected from user wallet');
@@ -233,43 +256,16 @@ const Admin = () => {
 		}
 	};
 
-	const onSubmitSetAvailableCoin = async (data) => {
+	const onSubmitSetMaxAvailableEthemerals = async (data) => {
 		if (contractCore && readyToTransact()) {
 			setIsConfirmationOpen(true);
 			try {
 				let id = data.setAvailableCoin_id;
-				const gasEstimate = await contractCore.estimateGas.setAvailableCoin(id);
+				const gasEstimate = await contractCore.estimateGas.setMaxAvailableEthemerals(id);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.setAvailableCoin(id, { gasLimit });
+				const tx = await contractCore.setMaxAvailableEthemerals(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Set available coin', true, ['core', 'account_core']);
-			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transaction rejected from user wallet');
-				console.log(`${error.data} \n${error.message}`);
-			}
-			setIsConfirmationOpen(false);
-		} else {
-			// connect
-			console.log('no wallet');
-		}
-	};
-
-	const onSubmitSetAvailableCoins = async (data) => {
-		if (contractCore && readyToTransact()) {
-			setIsConfirmationOpen(true);
-			try {
-				let coins = [];
-				let start = data.setAvailableCoins_start;
-				let end = data.setAvailableCoins_end;
-				for (let i = start; i <= end; i++) {
-					coins.push(i);
-				}
-				const gasEstimate = await contractCore.estimateGas.setAvailableCoins(coins);
-				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.setAvailableCoins(coins, { gasLimit });
-				console.log(tx);
-				sendTx(tx.hash, 'Set available coins', true, ['core', 'account_core']);
+				sendTx(tx.hash, 'Set max available ethemeral', true, ['core', 'account_core']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transaction rejected from user wallet');
@@ -373,81 +369,88 @@ const Admin = () => {
 	};
 
 	// ETERNAL BATTLE FUNCTIONS
-	const onSubmitCancelStakeAdmin = async (data) => {
-		if (contractBattle && readyToTransact()) {
-			setIsConfirmationOpen(true);
-			try {
-				let id = data.cancelStakeAdmin_id;
-				const gasEstimate = await contractBattle.estimateGas.cancelStakeAdmin(id);
-				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractBattle.cancelStakeAdmin(id, { gasLimit });
-				console.log(tx);
-				sendTx(tx.hash, 'cancel stake admin', true, ['account_eternalBattle']);
-			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transaction rejected from user wallet');
-				console.log(`${error.data} \n${error.message}`);
-			}
-			setIsConfirmationOpen(false);
-		} else {
-			// connect
-			console.log('no wallet');
-		}
-	};
+	// const onSubmitCancelStakeAdmin = async (data) => {
+	// 	if (contractBattle && readyToTransact()) {
+	// 		setIsConfirmationOpen(true);
+	// 		try {
+	// 			let id = data.cancelStakeAdmin_id;
+	// 			const gasEstimate = await contractBattle.estimateGas.cancelStakeAdmin(id);
+	// 			const gasLimit = gasEstimate.add(gasEstimate.div(9));
+	// 			const tx = await contractBattle.cancelStakeAdmin(id, { gasLimit });
+	// 			console.log(tx);
+	// 			sendTx(tx.hash, 'cancel stake admin', true, ['account_eternalBattle']);
+	// 		} catch (error) {
+	// 			setIsErrorOpen(true);
+	// 			setErrorMsg('Transaction rejected from user wallet');
+	// 			console.log(`${error.data} \n${error.message}`);
+	// 		}
+	// 		setIsConfirmationOpen(false);
+	// 	} else {
+	// 		// connect
+	// 		console.log('no wallet');
+	// 	}
+	// };
 
-	const onSubmitSetReviverRewards = async (data) => {
-		if (contractBattle && readyToTransact()) {
-			setIsConfirmationOpen(true);
-			try {
-				let score = data.setReviverRewards_score;
-				let token = utils.parseEther(data.setReviverRewards_token);
-				const gasEstimate = await contractBattle.estimateGas.setReviverRewards(score, token);
-				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractBattle.setReviverRewards(score, token, { gasLimit });
-				console.log(tx);
-				sendTx(tx.hash, 'set reviver rewards', true, ['account_eternalBattle']);
-			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transaction rejected from user wallet');
-				console.log(`${error.data} \n${error.message}`);
-			}
-			setIsConfirmationOpen(false);
-		} else {
-			// connect
-			console.log('no wallet');
-		}
-	};
+	// const onSubmitSetReviverRewards = async (data) => {
+	// 	if (contractBattle && readyToTransact()) {
+	// 		setIsConfirmationOpen(true);
+	// 		try {
+	// 			let score = data.setReviverRewards_score;
+	// 			let token = utils.parseEther(data.setReviverRewards_token);
+	// 			const gasEstimate = await contractBattle.estimateGas.setReviverRewards(score, token);
+	// 			const gasLimit = gasEstimate.add(gasEstimate.div(9));
+	// 			const tx = await contractBattle.setReviverRewards(score, token, { gasLimit });
+	// 			console.log(tx);
+	// 			sendTx(tx.hash, 'set reviver rewards', true, ['account_eternalBattle']);
+	// 		} catch (error) {
+	// 			setIsErrorOpen(true);
+	// 			setErrorMsg('Transaction rejected from user wallet');
+	// 			console.log(`${error.data} \n${error.message}`);
+	// 		}
+	// 		setIsConfirmationOpen(false);
+	// 	} else {
+	// 		// connect
+	// 		console.log('no wallet');
+	// 	}
+	// };
 
-	if (!provider || !contractCore || !accountCore || !contractToken || !accountEternalBattle || !contractBattle) {
+	// if (!provider || !contractCore || !accountCore || !contractToken || !accountEternalBattle || !contractBattle) {
+	// 	return <div>Login</div>;
+	// }
+
+	if (!provider || !contractCore || !accountCore || !contractToken) {
 		return <div>Login</div>;
 	}
 
 	return (
-		<div>
-			<div className="page_bg"></div>
+		<div className="bg-gray-500">
 			<h1>Admin</h1>
 			<div className="p-4">
 				<h2>CORE Contract</h2>
 				<p>Contract Address: {shortenAddress(core.id)}</p>
 				{contractBalance && <p>{`ETH Balance: ${formatETH(contractBalance)} ETH`}</p>}
 				{accountCore && <p>{`ELF Balance: ${formatELF(accountCore.elfBalance)} ELF`}</p>}
-				<p>{`Mint / Revive Price: ${formatETH(core.mintPrice, 6)} ETH`}</p>
-				<p>{`Revive Price: ${formatELF(core.revivePrice)} ELF`}</p>
-				<p>{`Winner Funds: ${formatELF(core.winnerFunds)} ELF`}</p>
-				<p>{`Winner Mult: ${core.winnerMult}`}</p>
-				<p>{`Winning Coin: ${core.winningCoin}`}</p>
+				<p>{`Mint Price: ${formatETH(core.mintPrice, 6)} ETH`}</p>
+				{/* <p>{`Revive Price: ${formatELF(core.revivePrice)} ELF`}</p> */}
+				{/* <p>{`Winner Funds: ${formatELF(core.winnerFunds)} ELF`}</p> */}
+				{/* <p>{`Winner Mult: ${core.winnerMult}`}</p> */}
+				{/* <p>{`Winning Coin: ${core.winningCoin}`}</p> */}
 				<br></br>
-				<button onClick={() => getAvailableCoins(contractCore, setAvailableCoins)} className="bg-gray-800 text-xs px-4 py-2 m-2 rounded hover:bg-yellow-400 transition duration-300">
+				<button onClick={() => getMaxAvailableEthemerals(contractCore, setMaxAvailableEthemerals)} className="bg-gray-800 text-xs px-4 py-2 m-2 rounded hover:bg-yellow-400 transition duration-300">
 					Available Coins: {availableCoins}
 				</button>
 				<br></br>
+				<button onClick={() => getCurrentSupply(contractCore, setCurrentSupply)} className="bg-gray-800 text-xs px-4 py-2 m-2 rounded hover:bg-yellow-400 transition duration-300">
+					Current Supply: {currentSupply}
+				</button>
+				<br></br>
 				<button
-					onClick={handleSubmit((data) => getCoinById(contractCore, data.coinById_id, setCoin))}
+					onClick={handleSubmit((data) => getEthemeral(contractCore, data.ethemeral_id, setEthemeral))}
 					className="bg-gray-800 text-xs px-4 py-2 m-2 rounded hover:bg-yellow-400 transition duration-300"
 				>
-					CoinById: {coin}
+					CoinById: {ethemeral}
 				</button>
-				<input className="text-black w-24" {...register('coinById_id')} />
+				<input className="text-black w-24" {...register('ethemeral_id')} />
 				<br></br>
 				<button
 					onClick={handleSubmit((data) => getApproved(contractCore, data.approved_id, setApproved))}
@@ -479,36 +482,39 @@ const Admin = () => {
 				</button>
 				<br></br>
 				<button onClick={onSubmitBuy} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-					{`mint for ${formatETH(core.mintPrice, 3)} ETH`}
+					{`mint 1 for ${formatETH(core.mintPrice, 3)} ETH`}
+				</button>
+				<br></br>
+				<button onClick={onSubmitBuy3} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+					{`mint 3 for ${parseFloat(formatETH(core.mintPrice, 3)) * 3} ETH`}
+				</button>
+				<br></br>
+				<button onClick={onSubmitBuy5} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+					{`mint 5 for ${parseFloat(formatETH(core.mintPrice, 3)) * 5} ETH`}
 				</button>
 				<br></br>
 				<button onClick={onSubmitWithdraw} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 					Withdraw
 				</button>
 				<br></br>
-				<button onClick={handleSubmit(onSubmitSetAvailableCoin)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-					Set Available Coin
+				<button onClick={handleSubmit(onSubmitSetMaxAvailableEthemerals)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+					Set Max Available Ethemerals
 				</button>
 				<input className="text-black w-24" {...register('setAvailableCoin_id')} />
-				<br></br>
-				<button onClick={handleSubmit(onSubmitSetAvailableCoins)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-					Set Available Coins
-				</button>
-				<input className="text-black w-24" {...register('setAvailableCoins_start')} />
-				<input className="text-black w-24 ml-4" {...register('setAvailableCoins_end')} />
 				<br></br>
 				<button onClick={handleSubmit(onSubmitSetPrice)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 					Set Price
 				</button>
 				<input className="text-black w-24" {...register('setPrice_price')} />
 				<input type="checkbox" className="text-black w-24" {...register('setPrice_inEth')} />
-				In ETH
+				TRUE: In ETH | FALSE: Dicount Min Tokens Needed
 				<br></br>
 				<button onClick={handleSubmit(onSubmitAddDelegate)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 					Add Delegate
 				</button>
 				<input className="text-black w-96" {...register('addDelegate_delegate')} />
 				<input type="checkbox" className="text-black w-24" {...register('addDelegate_add')} />
+				TRUE: Add | FALSE: Remove
 				<br></br>
 				<button onClick={handleSubmit(onSubmitSetBaseURI)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 					Set Base URI
@@ -523,7 +529,7 @@ const Admin = () => {
 				<h2 className="mt-10">Eternal Battle Contract</h2>
 				<p>Contract Address: {shortenAddress(core.id)}</p>
 				<br></br>
-				<button
+				{/* <button
 					onClick={handleSubmit((data) => getStake(contractBattle, data.setStake_id, setStake))}
 					className="bg-gray-800 text-xs px-4 py-2 m-2 rounded hover:bg-yellow-400 transition duration-300"
 				>
@@ -557,7 +563,7 @@ const Admin = () => {
 				</button>
 				<input className="text-black w-24" {...register('setReviverRewards_score')} />
 				<input className="text-black w-24 ml-4" {...register('setReviverRewards_token')} />
-				<br></br>
+				<br></br> */}
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Admin" />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}

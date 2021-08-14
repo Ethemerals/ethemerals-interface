@@ -21,7 +21,7 @@ const NFTWinnerCard = ({ id }) => {
 		if (status === 'success' && data && data.ethemeral) {
 			setNFT(data.ethemeral);
 			setSubclass(data.ethemeral.metadata.subClass);
-			setCmId(data.ethemeral.metadata.cmId);
+			setCmId(data.ethemeral.metadata.id);
 		}
 	}, [status, data, nft]);
 

@@ -44,7 +44,7 @@ const NFTPreview = () => {
 			{address && mainNFT && userNFTs.length > 0 ? (
 				<span className="flex w-10 h-10 rounded-lg mr-2 relative cursor-pointer opacity-100 bg-brandColor-purple">
 					<div className="absolute top-0 left-0">
-						{address && mainNFT && userNFTs.length > 0 && <img className="w-10 h-10 z-0 rounded-lg" src={getNFTImages(mainNFT.metadata.cmId).thumbnail} alt="" />}
+						{address && mainNFT && userNFTs.length > 0 && <img className="w-10 h-10 z-0 rounded-lg" src={getNFTImages(mainNFT.metadata.id).thumbnail} alt="" />}
 					</div>
 					<div className="flex-grow h-full"></div>
 					<div className="absolute bottom-0 left-0 rounded-t-none rounded-lg text-xs font-bold w-full text-gray-200 text-center bg-black bg-opacity-60">{mainNFT.id.toString().padStart(4, '0')}</div>
