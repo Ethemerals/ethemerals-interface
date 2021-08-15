@@ -17,15 +17,16 @@ const UserModal = ({ toggle }) => {
 			<div className="w-full h-full flex justify-center fixed top-0 left-0 animate-fadeOnFast">
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-30 bg-opacity-40 bg-black"></div>
 				<div className=" w-11/12 max-w-2xl min-w-min center overflow-hidden z-40 shadow-xl rounded">
-					<table className="bg-gray-900 text-gray-200 mx-auto w-full">
+					<table className=" bg-indigo-900 text-black mx-auto w-full">
 						<thead>
-							<tr className="text-left border-b border-gray-300">
-								<th className="px-4 py-2">ID</th>
-								<th className="px-4 py-2">Name</th>
-								<th className="px-4 py-2">Subclass</th>
-								<th className="px-4 py-2">Battles</th>
-								<th className="px-4 py-2">ELF</th>
-								<th className="px-4 py-2">HP</th>
+							<tr className="text-left border-b border-black text-white">
+								<th className="px-2 py-1 text-sm font-normal">ID #</th>
+								<th className="px-2 py-1 text-sm font-normal">Name</th>
+								<th className="px-2 py-1 text-sm font-normal">Subclass</th>
+								<th className="px-2 py-1 text-sm font-normal">ATK/DEF/SPD</th>
+								<th className="px-2 py-1 text-sm font-normal">Battles</th>
+								<th className="px-2 py-1 text-sm font-normal">ELF</th>
+								<th className="px-2 py-1 text-sm font-normal">HP</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -38,14 +39,15 @@ const UserModal = ({ toggle }) => {
 									<tr
 										key={index}
 										onClick={() => selectMain(index)}
-										className={`border-b border-gray-600 text-left ${currentMain === index ? ' bg-indigo-800' : 'bg-gray-700'} hover:bg-gray-500 cursor-pointer`}
+										className={`border-b border-gray-200 text-left ${currentMain === index ? ' bg-pink-400' : 'bg-brandColor-blue hover:bg-pink-200'} cursor-pointer`}
 									>
-										<th className="px-4 py-2 font-light">#{nft.id}</th>
-										<th className="px-4 py-2">{nft.metadata.coin.slice(0, 30)}</th>
-										<th className="px-4 py-2">{nft.metadata.subClass}</th>
-										<th className="px-4 py-2">{nft.scorecard.battles}</th>
-										<th className="px-4 py-2">{formatELF(nft.rewards)}</th>
-										<th className="px-4 py-2">{nft.score}</th>
+										<th className="px-2 py-1 text-sm">{nft.id.padStart(4, '0')}</th>
+										<th className="px-2 py-1 text-sm">{nft.metadata.coin.slice(0, 30)}</th>
+										<th className="px-2 py-1 text-sm">{nft.metadata.subClass}</th>
+										<th className="px-2 py-1 text-sm">{`${nft.atk}/${nft.def}/${nft.spd}`}</th>
+										<th className="px-2 py-1 text-sm">{nft.scorecard.battles}</th>
+										<th className="px-2 py-1 text-sm">{nft.rewards}</th>
+										<th className="px-2 py-1 text-sm">{nft.score}</th>
 									</tr>
 								);
 							})}

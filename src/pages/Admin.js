@@ -55,24 +55,6 @@ const requiredElfDiscount = 2000;
 // 	}
 // };
 
-const getMaxAvailableEthemerals = async (contract, setMaxAvailableEthemerals) => {
-	try {
-		const value = await contract.maxAvailableEthemerals();
-		setMaxAvailableEthemerals(value.toString());
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-const getCurrentSupply = async (contract, setCurrentSupply) => {
-	try {
-		const value = await contract.ethemeralSupply();
-		setCurrentSupply(value.toString());
-	} catch (error) {
-		console.log(error);
-	}
-};
-
 const getEthemeral = async (contract, id, setEthemeral) => {
 	try {
 		const value = await contract.getEthemeral(id);
@@ -156,7 +138,7 @@ const Admin = () => {
 	const readyToTransact = useReadyToTransact();
 
 	// core contract
-	const [availableCoins, setMaxAvailableEthemerals] = useState(undefined);
+	const [availableCoins, setMaxAvailableIndex] = useState(undefined);
 	const [currentSupply, setCurrentSupply] = useState(undefined);
 	const [ethemeral, setEthemeral] = useState(undefined);
 	const [approved, setApproved] = useState(undefined);
@@ -197,32 +179,48 @@ const Admin = () => {
 		}
 	}, [contractToken, address]);
 
-	const onSubmitBuy = async () => {
-		onSubmitMint(1);
-	};
-
-	const onSubmitBuy3 = async () => {
-		onSubmitMint(3);
-	};
-
-	const onSubmitBuy5 = async () => {
-		onSubmitMint(5);
-	};
-
-	const onSubmitMint = async (amount) => {
+	const onSubmitMint = async () => {
 		if (contractCore && readyToTransact()) {
 			setIsConfirmationOpen(true);
+			let amount = 1;
 			try {
 				let value = await contractCore.mintPrice();
 				value = value.mul(BigNumber.from(amount));
 				if (discountable) {
-					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(2000))).div(BigNumber.from(10000));
+					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(1000))).div(BigNumber.from(10000));
 				}
-				const gasEstimate = await contractCore.estimateGas.mintEthemeral(amount, address, { value });
+				const gasEstimate = await contractCore.estimateGas.mintEthemeral(address, { value });
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.mintEthemeral(amount, address, { value, gasLimit });
+				const tx = await contractCore.mintEthemeral(address, { value, gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Minted Ethemeral/s', true, ['account', 'account_core']);
+				sendTx(tx.hash, 'Minted an Ethemeral', true, ['account', 'account_core']);
+			} catch (error) {
+				setIsErrorOpen(true);
+				setErrorMsg('Mint transaction rejected from user wallet');
+				console.log(`${error.data} \n${error.message}`);
+			}
+			setIsConfirmationOpen(false);
+		} else {
+			// connect
+			console.log('no wallet');
+		}
+	};
+
+	const onSubmitMints = async () => {
+		if (contractCore && readyToTransact()) {
+			setIsConfirmationOpen(true);
+			let amount = 3;
+			try {
+				let value = await contractCore.mintPrice();
+				value = value.mul(BigNumber.from(amount));
+				if (discountable) {
+					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(1000))).div(BigNumber.from(10000));
+				}
+				const gasEstimate = await contractCore.estimateGas.mintEthemerals(address, { value });
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const tx = await contractCore.mintEthemerals(address, { value, gasLimit });
+				console.log(tx);
+				sendTx(tx.hash, 'Minted 3 Ethemerals', true, ['account', 'account_core']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Mint transaction rejected from user wallet');
@@ -256,14 +254,14 @@ const Admin = () => {
 		}
 	};
 
-	const onSubmitSetMaxAvailableEthemerals = async (data) => {
+	const onSubmitSetMaxAvailableIndex = async (data) => {
 		if (contractCore && readyToTransact()) {
 			setIsConfirmationOpen(true);
 			try {
 				let id = data.setAvailableCoin_id;
-				const gasEstimate = await contractCore.estimateGas.setMaxAvailableEthemerals(id);
+				const gasEstimate = await contractCore.estimateGas.setMaxAvailableIndex(id);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.setMaxAvailableEthemerals(id, { gasLimit });
+				const tx = await contractCore.setMaxAvailableIndex(id, { gasLimit });
 				console.log(tx);
 				sendTx(tx.hash, 'Set max available ethemeral', true, ['core', 'account_core']);
 			} catch (error) {
@@ -431,18 +429,10 @@ const Admin = () => {
 				{contractBalance && <p>{`ETH Balance: ${formatETH(contractBalance)} ETH`}</p>}
 				{accountCore && <p>{`ELF Balance: ${formatELF(accountCore.elfBalance)} ELF`}</p>}
 				<p>{`Mint Price: ${formatETH(core.mintPrice, 6)} ETH`}</p>
-				{/* <p>{`Revive Price: ${formatELF(core.revivePrice)} ELF`}</p> */}
-				{/* <p>{`Winner Funds: ${formatELF(core.winnerFunds)} ELF`}</p> */}
-				{/* <p>{`Winner Mult: ${core.winnerMult}`}</p> */}
-				{/* <p>{`Winning Coin: ${core.winningCoin}`}</p> */}
-				<br></br>
-				<button onClick={() => getMaxAvailableEthemerals(contractCore, setMaxAvailableEthemerals)} className="bg-gray-800 text-xs px-4 py-2 m-2 rounded hover:bg-yellow-400 transition duration-300">
-					Available Coins: {availableCoins}
-				</button>
-				<br></br>
-				<button onClick={() => getCurrentSupply(contractCore, setCurrentSupply)} className="bg-gray-800 text-xs px-4 py-2 m-2 rounded hover:bg-yellow-400 transition duration-300">
-					Current Supply: {currentSupply}
-				</button>
+				<p>{`Discount Min Tokens: ${formatELF(core.discountMinTokens)} ELF`}</p>
+				<p>{`Max Index: ${core.maxAvailableIndex} `}</p>
+				<p>{`Current Supply: ${core.ethemeralSupply}`}</p>
+				<p>{`Latest Index: ${parseInt(core.ethemeralSupply) - 1}`}</p>
 				<br></br>
 				<button
 					onClick={handleSubmit((data) => getEthemeral(contractCore, data.ethemeral_id, setEthemeral))}
@@ -481,24 +471,20 @@ const Admin = () => {
 					Contract URI: {contractURI}
 				</button>
 				<br></br>
-				<button onClick={onSubmitBuy} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+				<button onClick={onSubmitMint} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 					{`mint 1 for ${formatETH(core.mintPrice, 3)} ETH`}
 				</button>
 				<br></br>
-				<button onClick={onSubmitBuy3} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+				<button onClick={onSubmitMints} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 					{`mint 3 for ${parseFloat(formatETH(core.mintPrice, 3)) * 3} ETH`}
-				</button>
-				<br></br>
-				<button onClick={onSubmitBuy5} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-					{`mint 5 for ${parseFloat(formatETH(core.mintPrice, 3)) * 5} ETH`}
 				</button>
 				<br></br>
 				<button onClick={onSubmitWithdraw} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 					Withdraw
 				</button>
 				<br></br>
-				<button onClick={handleSubmit(onSubmitSetMaxAvailableEthemerals)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-					Set Max Available Ethemerals
+				<button onClick={handleSubmit(onSubmitSetMaxAvailableIndex)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+					Set Max Ethemerals Index
 				</button>
 				<input className="text-black w-24" {...register('setAvailableCoin_id')} />
 				<br></br>

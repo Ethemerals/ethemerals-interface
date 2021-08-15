@@ -7,7 +7,7 @@ import { useHistory, useParams } from 'react-router-dom';
 const maxQuery = 100;
 
 const NFTRecentlyMinted = () => {
-	const { data, status } = useGQLQuery('nfts_minted', GET_NFTS_ORDERED, { orderBy: 'timestamp', first: parseInt(maxQuery * 2) }, { refetchOnMount: true });
+	const { data, status } = useGQLQuery('nfts_minted', GET_NFTS_ORDERED, { orderBy: 'timestamp', first: maxQuery }, { refetchOnMount: true });
 	const [nfts, setNfts] = useState([]);
 
 	useEffect(() => {

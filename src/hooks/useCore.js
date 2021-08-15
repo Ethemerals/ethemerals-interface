@@ -52,6 +52,7 @@ export const useCoreAccount = () => {
 	useEffect(() => {
 		if (data && data.account !== null) {
 			setAccountCore(data.account);
+			console.log('GOT ACCOUNT CORE');
 		}
 	}, [data]);
 

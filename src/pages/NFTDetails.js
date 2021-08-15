@@ -113,24 +113,24 @@ const NFTDetails = () => {
 						</div>
 						<div className="flex h-3 items-center mb-1 text-sm font-bold">
 							<span className="w-8">ATK</span>
-							<span style={{ width: `${nft.metadata.attack * 3}px` }} className="h-3 bg-white opacity-20"></span>
-							<span className="pl-1 text-xs">{nft.metadata.attack}</span>
+							<span style={{ width: `${nft.atk * 3}px` }} className="h-3 bg-white opacity-20"></span>
+							<span className="pl-1 text-xs">{nft.atk}</span>
 							<span className="flex-grow"></span>
 							<span className="flex-none opacity-30 font-normal">Designer: {nft.metadata.artist}</span>
 						</div>
 						<div className="flex h-3 items-center mb-1 text-sm font-bold">
 							<span className="w-8">DEF</span>
-							<span style={{ width: `${nft.metadata.defence * 3}px` }} className="h-3 bg-white opacity-20"></span>
-							<span className="pl-1 text-xs">{nft.metadata.defence}</span>
+							<span style={{ width: `${nft.def * 3}px` }} className="h-3 bg-white opacity-20"></span>
+							<span className="pl-1 text-xs">{nft.def}</span>
 							<span className="flex-grow"></span>
 							<span className="flex-none opacity-30 font-normal">Birth: {dateFormat(birthDate, 'mmm dd yyyy')}</span>
 						</div>
 						<div className="flex h-3 items-center mb-1 text-sm font-bold">
 							<span className="w-8">SPD</span>
-							<span style={{ width: `${nft.metadata.speed * 3}px` }} className="h-3 bg-white opacity-20"></span>
-							<span className="pl-1 text-xs">{nft.metadata.speed}</span>
+							<span style={{ width: `${nft.spd * 3}px` }} className="h-3 bg-white opacity-20"></span>
+							<span className="pl-1 text-xs">{nft.spd}</span>
 							<span className="flex-grow"></span>
-							<span className="flex-none opacity-30 font-normal">Owner: {shortenAddress(nft.owner.id)}</span>
+							<span className="flex-none opacity-30 font-normal">Minted By: {shortenAddress(nft.creator.id)}</span>
 						</div>
 					</div>
 

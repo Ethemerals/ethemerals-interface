@@ -39,7 +39,7 @@ const UserELF = () => {
 			let nftRewards = 0;
 			if (userNFTs.length > 0)
 				userNFTs.forEach((nft) => {
-					nftRewards += parseInt(formatELF(nft.rewards));
+					nftRewards += parseInt(nft.rewards);
 				});
 			setTotalNFTElf(nftRewards);
 		}
@@ -51,7 +51,7 @@ const UserELF = () => {
 
 			if (userNFTsInBattle.length > 0)
 				userNFTsInBattle.forEach((nft) => {
-					nftRewards += parseInt(formatELF(nft.rewards));
+					nftRewards += parseInt(nft.rewards);
 				});
 			setTotalNFTinBattleElf(nftRewards);
 		}

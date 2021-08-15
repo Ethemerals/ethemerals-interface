@@ -63,19 +63,21 @@ const Home = () => {
 		}
 	}, [contractToken, address]);
 
-	const onSubmitBuy = async () => {
+	const onSubmitMint = async () => {
 		if (contractCore && readyToTransact()) {
 			setIsConfirmationOpen(true);
+			let amount = 1;
 			try {
 				let value = await contractCore.mintPrice();
+				value = value.mul(BigNumber.from(amount));
 				if (discountable) {
-					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(2000))).div(BigNumber.from(10000));
+					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(1000))).div(BigNumber.from(10000));
 				}
-				const gasEstimate = await contractCore.estimateGas.buy({ value });
-				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.buy.gasDiv));
-				const tx = await contractCore.buy({ value, gasLimit });
+				const gasEstimate = await contractCore.estimateGas.mintEthemeral(address, { value });
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const tx = await contractCore.mintEthemeral(address, { value, gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, FunctionTx.buy.receiptMsg, true, ['account']);
+				sendTx(tx.hash, 'Minted an Ethemeral', true, ['account', 'account_core']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Mint transaction rejected from user wallet');
@@ -88,9 +90,41 @@ const Home = () => {
 		}
 	};
 
-	const handleOnSubmitBuy = async () => {
+	const onSubmitMints = async () => {
+		if (contractCore && readyToTransact()) {
+			setIsConfirmationOpen(true);
+			let amount = 3;
+			try {
+				let value = await contractCore.mintPrice();
+				value = value.mul(BigNumber.from(amount));
+				value = value.mul(BigNumber.from(10000).sub(BigNumber.from(1000))).div(BigNumber.from(10000));
+				if (discountable) {
+					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(1000))).div(BigNumber.from(10000));
+				}
+				const gasEstimate = await contractCore.estimateGas.mintEthemerals(address, { value });
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const tx = await contractCore.mintEthemerals(address, { value, gasLimit });
+				console.log(tx);
+				sendTx(tx.hash, 'Minted 3 Ethemerals', true, ['account', 'account_core']);
+			} catch (error) {
+				setIsErrorOpen(true);
+				setErrorMsg('Mint transaction rejected from user wallet');
+				console.log(`${error.data} \n${error.message}`);
+			}
+			setIsConfirmationOpen(false);
+		} else {
+			// connect
+			console.log('no wallet');
+		}
+	};
+
+	const handleOnSubmitBuy = async (amount) => {
 		if (contractCore && core) {
-			onSubmitBuy();
+			if (amount > 1) {
+				onSubmitMints();
+			} else {
+				onSubmitMint();
+			}
 		} else {
 			login();
 		}
@@ -99,16 +133,35 @@ const Home = () => {
 	return (
 		<div className="scrollbar_pad">
 			<div className="bg_home sm:bg-75% lg:bg-50% bg-cover"></div>
-			<div onClick={handleOnSubmitBuy} className="center text-blue-900 cursor-pointer w-420">
-				<div className="flex justify-center">
-					<img width="128" height="128" alt="mintable ethemeral two" src={Images.logoELF} />
-				</div>
+			<div className="center">
 				{core && (
-					<div className="text-center mt-4">
-						<p className="font-bold text-3xl">{`Mint: ${formatETH(core.mintPrice, 3)} ETH`}</p>
-						<p>{discountable ? 'You hold ELF! 20% Discount will be applied' : 'You dont hold enough ELF for a Discount'}</p>
+					<div className="text-center my-8">
+						<p className="text-blue-900">Season 1 Ethemeral Characters</p>
+						<p className="text-blue-900">{`current supply ${core.ethemeralSupply}/${core.maxAvailableIndex}`}</p>
 					</div>
 				)}
+				<div onClick={() => handleOnSubmitBuy(1)} className="text-blue-900 cursor-pointer w-420">
+					<div className="flex justify-center">
+						<img width="72" height="72" alt="mintable ethemeral two" src={Images.logoELF} />
+					</div>
+					{core && (
+						<div className="text-center mt-4">
+							<p className="font-bold text-3xl">{`Mint 1 for ${formatETH(core.mintPrice, 4)} ETH`}</p>
+							<p>{discountable ? 'You hold ELF! 10% Discount will be applied' : 'You dont hold enough ELF for a Discount'}</p>
+						</div>
+					)}
+				</div>
+				<div onClick={() => handleOnSubmitBuy(3)} className="text-blue-900 cursor-pointer w-420 mt-10">
+					<div className="flex justify-center">
+						<img width="72" height="72" alt="mintable ethemeral two" src={Images.logoELF} />
+					</div>
+					{core && (
+						<div className="text-center mt-4">
+							<p className="font-bold text-3xl">{`Mint 3 for ${parseFloat(formatETH(core.mintPrice, 3)) * 3 * 0.9} ETH`}</p>
+							<p>{discountable ? 'You hold ELF! 10% Discount will be applied' : 'You dont hold enough ELF for a Discount'}</p>
+						</div>
+					)}
+				</div>
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Mint an Ethemeral, good luck!" />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}

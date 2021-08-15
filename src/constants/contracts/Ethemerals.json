@@ -209,60 +209,6 @@
 		"type": "event"
 	},
 	{
-		"inputs": [],
-		"name": "admin",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "allEthemerals",
-		"outputs": [
-			{
-				"internalType": "uint16",
-				"name": "score",
-				"type": "uint16"
-			},
-			{
-				"internalType": "uint16",
-				"name": "rewards",
-				"type": "uint16"
-			},
-			{
-				"internalType": "uint8",
-				"name": "atk",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "def",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "spd",
-				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -350,7 +296,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "maxAvailableEthemerals",
+		"name": "maxAvailableIndex",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -365,20 +311,6 @@
 	{
 		"inputs": [],
 		"name": "maxEthemeralSupply",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
-	},
-	{
-		"inputs": [],
-		"name": "maxPurchase",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -556,20 +488,6 @@
 		"constant": true
 	},
 	{
-		"inputs": [],
-		"name": "tokenAddress",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -615,17 +533,26 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "numOfTokens",
-				"type": "uint256"
-			},
-			{
 				"internalType": "address",
 				"name": "recipient",
 				"type": "address"
 			}
 		],
 		"name": "mintEthemeral",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function",
+		"payable": true
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			}
+		],
+		"name": "mintEthemerals",
 		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function",
@@ -690,7 +617,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "setMaxAvailableEthemerals",
+		"name": "setMaxAvailableIndex",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

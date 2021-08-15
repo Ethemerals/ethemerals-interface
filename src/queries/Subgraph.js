@@ -6,6 +6,8 @@ export const GET_CORE = gql`
 			id
 			mintPrice
 			discountMinTokens
+			maxAvailableIndex
+			ethemeralSupply
 		}
 	}
 `;
@@ -19,38 +21,11 @@ export const GET_ACCOUNTS = gql`
 	}
 `;
 
-export const GET_NFTS = gql`
-	query {
-		ethemerals(first: 10, orderBy: timestamp, orderDirection: desc) {
-			id
-			timestamp
-			edition
-			score
-			rewards
-			atk
-			def
-			spd
-			baseId
-			bgId
-			owner {
-				id
-			}
-			metadata {
-				id
-				coin
-				mainClass
-				subClass
-			}
-		}
-	}
-`;
-
 export const GET_NFTS_ORDERED = gql`
 	query ($orderBy: String!, $first: Int!) {
 		ethemerals(first: $first, orderBy: $orderBy, orderDirection: desc) {
 			id
 			timestamp
-			edition
 			score
 			rewards
 			atk
@@ -58,13 +33,9 @@ export const GET_NFTS_ORDERED = gql`
 			spd
 			baseId
 			bgId
-			owner {
-				id
-			}
 			metadata {
 				id
 				coin
-				mainClass
 				subClass
 			}
 		}
@@ -88,7 +59,6 @@ export const GET_NFT = gql`
 			atk
 			def
 			spd
-			baseId
 			bgId
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
 				timestamp
@@ -100,16 +70,16 @@ export const GET_NFT = gql`
 				}
 				type
 			}
-			# scorecard {
-			# 	highestScore
-			# 	highestRewards
-			# 	battles
-			# 	wins
-			# 	revived
-			# 	resurrected
-			# 	reaped
-			# 	drained
-			# }
+			scorecard {
+				highestScore
+				highestRewards
+				battles
+				wins
+				revived
+				resurrected
+				reaped
+				drained
+			}
 			metadata {
 				id
 				coin
@@ -136,10 +106,10 @@ export const GET_NFT_LIGHT = gql`
 			spd
 			baseId
 			bgId
-			# scorecard {
-			# 	battles
-			# 	wins
-			# }
+			scorecard {
+				battles
+				wins
+			}
 			metadata {
 				id
 				coin
@@ -160,11 +130,14 @@ export const GET_ACCOUNT = gql`
 				timestamp
 				score
 				rewards
+				atk
+				def
+				spd
 				baseId
 				bgId
-				# scorecard {
-				# 	battles
-				# }
+				scorecard {
+					battles
+				}
 				metadata {
 					id
 					coin

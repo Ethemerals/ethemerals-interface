@@ -46,8 +46,6 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 		history.push(`/ethemeral/${nft.id}`);
 	};
 
-	console.log(nft.metadata.subClass);
-
 	return (
 		<div
 			onClick={handleOnClick}
@@ -56,7 +54,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 		>
 			<div className="text-xs font-bold absolute right-0 text-right text-white z-10">
 				{!rewards && <p className=" bg-yellow-400 rounded-l-md mt-1 px-2">{nft.score} HP</p>}
-				{rewards && <p className="bg-brandColor rounded-l-md mt-1 px-2">{formatELF(nft.rewards)} ELF</p>}
+				{rewards && <p className="bg-brandColor rounded-l-md mt-1 px-2">{nft.rewards} ELF</p>}
 			</div>
 
 			{/* BORDER */}
@@ -75,20 +73,20 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 			<div style={{ bottom: '64px' }} className="w-full absolute z-10 flex justify-end right-2 space-x-1">
 				<div className="relative">
 					<img width="30px" height="30px" src={Images.iconAtk} />
-					<span className="center text font-black">{nft.metadata.attack}</span>
+					<span className="center text font-black">{nft.atk}</span>
 				</div>
 				<div className="relative">
 					<img width="30px" height="30px" src={Images.iconDef} />
-					<span className="center text font-black">{nft.metadata.defence}</span>
+					<span className="center text font-black">{nft.def}</span>
 				</div>
 				<div className="relative">
 					<img width="30px" height="30px" src={Images.iconSpd} />
-					<span className="center text font-black">{nft.metadata.speed}</span>
+					<span className="center text font-black">{nft.spd}</span>
 				</div>
 			</div>
 
 			{/* BOTTOM BAR */}
-			<div style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},40%,40%,0.8)` }} className="w-full bottom-0 absolute overflow-hidden">
+			<div style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},40%,40%,0.9)` }} className="w-full bottom-0 absolute overflow-hidden">
 				<div className="px-2 py-1">
 					<p className="text-xs text-white">
 						#<span className="text-sm font-bold">{nft.id.padStart(4, '0')}</span>

@@ -61,7 +61,7 @@ const useUserAccount = () => {
 	const [mainIndex, setMainIndex] = useState(0);
 	const [userNFTs, setUserNFTs] = useState([]);
 
-	const { data, status, loaded } = useQuery(`account`, () => getAccount({ id: address }), { enabled: !!address });
+	const { data, status, loaded } = useQuery(`account`, () => getAccount({ id: address }), { enabled: !!address, refetchOnMount: true }); // TODO
 
 	const userId = data?.account?.id;
 
