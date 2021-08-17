@@ -124,7 +124,7 @@ export const GET_ACCOUNT = gql`
 		account(id: $id) {
 			id
 			elfBalance
-			disallowDelegates
+			allowDelegates
 			ethemerals(orderBy: timestamp, orderDirection: desc) {
 				id
 				timestamp

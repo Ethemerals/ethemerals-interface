@@ -26,6 +26,25 @@
 			{
 				"indexed": true,
 				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "allow",
+				"type": "bool"
+			}
+		],
+		"name": "AllowDelegatesChange",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
 				"name": "owner",
 				"type": "address"
 			},
@@ -87,25 +106,6 @@
 			}
 		],
 		"name": "DelegateChange",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "bool",
-				"name": "disallow",
-				"type": "bool"
-			}
-		],
-		"name": "DisallowDelegatesChange",
 		"type": "event"
 	},
 	{
@@ -562,11 +562,11 @@
 		"inputs": [
 			{
 				"internalType": "bool",
-				"name": "disallow",
+				"name": "allow",
 				"type": "bool"
 			}
 		],
-		"name": "setDisallowDelegates",
+		"name": "setAllowDelegates",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

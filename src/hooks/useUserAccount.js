@@ -7,6 +7,7 @@ import axios from 'axios';
 import { GET_ACCOUNT } from '../queries/Subgraph';
 import { useAddress, useBalance } from '../hooks/Web3Context';
 import { isAddress } from '../utils';
+import Links from '../constants/Links';
 
 const updateUser = async (userData) => {
 	if (isAddress(userData.address)) {
@@ -40,7 +41,7 @@ const getUser = async (id) => {
 export const getAccount = async (variables) => {
 	if (isAddress(variables.id)) {
 		try {
-			const endpoint = process.env.REACT_APP_GRAPH_ENDPOINT;
+			const endpoint = Links.SUBGRAPH_ENDPOINT;
 			const graphQLClient = new GraphQLClient(endpoint);
 			const fetchData = await graphQLClient.request(GET_ACCOUNT, variables);
 			return fetchData;

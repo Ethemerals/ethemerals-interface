@@ -1,9 +1,10 @@
 import { useQuery } from 'react-query';
 import { GraphQLClient } from 'graphql-request';
+import Links from '../constants/Links';
 
 export const useGQLQuery = (key, query, variables, config = {}) => {
 	// let endpoint = 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals';
-	const endpoint = process.env.REACT_APP_GRAPH_ENDPOINT;
+	const endpoint = Links.SUBGRAPH_ENDPOINT;
 	// let endpoint = `https://gateway.testnet.thegraph.com/api/${apiKey}/subgraphs/id/0xf8e29f760d92dfd371d864976d7a4729ddd98300-0`;
 
 	// const headers = {
