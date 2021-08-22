@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { useParams } from 'react-router-dom';
 import dateFormat from 'dateformat';
@@ -13,6 +13,43 @@ import NFTActions from '../components/NFTActions';
 
 import { shortenAddress, formatELF } from '../utils';
 import BackButton from '../components/navigation/BackButton';
+
+import bg1 from '../assets/bg1.png';
+import bg2 from '../assets/bg2.png';
+import bg3 from '../assets/bg3.png';
+import bg4 from '../assets/bg4.png';
+import bg5 from '../assets/bg5.png';
+import bg6 from '../assets/bg6.png';
+import bg7 from '../assets/bg7.png';
+import bg8 from '../assets/bg8.png';
+import bg9 from '../assets/bg9.png';
+import bg10 from '../assets/bg10.png';
+import bg11 from '../assets/bg11.png';
+import bg12 from '../assets/bg12.png';
+import bg13 from '../assets/bg13.png';
+import bg14 from '../assets/bg14.png';
+import bg15 from '../assets/bg15.png';
+import bg16 from '../assets/bg16.png';
+
+const bgImages = [bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9, bg10, bg11, bg12, bg13, bg14, bg15, bg16];
+
+const useInterval = (callback, delay) => {
+	const savedCallback = useRef();
+
+	useEffect(() => {
+		savedCallback.current = callback;
+	}, [callback]);
+
+	useEffect(() => {
+		function tick() {
+			savedCallback.current();
+		}
+		if (delay !== null) {
+			let id = setInterval(tick, delay);
+			return () => clearInterval(id);
+		}
+	}, [delay]);
+};
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -58,6 +95,7 @@ const NFTDetails = () => {
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
 	const [nft, setNFT] = useState({});
+	const [bgChoice, setBgChoice] = useState(0);
 	const [ready, setReady] = useState(false);
 	const [cmId, setCmId] = useState(undefined);
 	const [birthDate, setBirthDate] = useState(Date.now());
@@ -71,6 +109,14 @@ const NFTDetails = () => {
 		}
 	}, [status, data, nft]);
 
+	useInterval(() => {
+		if (bgChoice >= bgImages.length - 1) {
+			setBgChoice(0);
+		} else {
+			setBgChoice(bgChoice + 1);
+		}
+	}, 2000);
+
 	if (!ready || isLoading !== false || status !== 'success') {
 		// return <p>Loading {id}</p>;
 		return null;
@@ -82,9 +128,10 @@ const NFTDetails = () => {
 			<BackButton />
 
 			{/* {address && <NFTActions nft={nft} />} */}
-			<div style={{ backgroundImage: `url(${getNFTImages(cmId).bg})` }} className="nft_details_container flex items-center justify-center bg-cover mx-auto overflow-hidden">
+			<div className="nft_details_container flex items-center justify-center bg-fill mx-auto overflow-hidden">
 				{/* MAIN CARD     */}
-				<div className="nft_details_bg relative">
+				{/* <div style={{ backgroundImage: `url(${getNFTImages(cmId).bg})` }} className="nft_details_bg relative bg-cover"> */}
+				<div className="nft_details_bg relative bg-gray-800">
 					{/* LEFT BAR */}
 					<div className="p-4 w-32 z-20 absolute font-bold text-center">
 						<img className="w-90 h-74 mx-auto opacity-20" src={Images.logoEthem} alt="logo" />
@@ -94,49 +141,52 @@ const NFTDetails = () => {
 					</div>
 
 					{/* RIGHT BAR */}
-					<div className="m-4 w-64 z-20 right-0 absolute border-white border-r">
+					<div className="mx-2 my-4 w-64 z-20 right-0 absolute border-white border-r">
 						<div className="flex justify-end mx-2">
 							<RankedStars amount={parseScore(nft.score)} />
 						</div>
 						<p className="font-bold text-right mx-2">{nft.score} HP</p>
-						<p className="font-bold text-right mx-2">{formatELF(nft.rewards)} ELF</p>
+						<p className="font-bold text-right mx-2">{nft.rewards} ELF</p>
 					</div>
 
 					{/* BOTTOM BAR */}
-					<div className="px-4 h-40 z-20 w-full bottom-0 absolute overflow-hidden">
-						<p className="font-bold text-5xl uppercase -mx-1">{nft.metadata.coin}</p>
-						<div className="flex h-8 my-2">
-							<div className="w-8 bg-white">
-								<img src={getNFTImages(cmId).subclassIcon} alt="subclass icon" />
+					<div className="z-20 w-full bottom-0 absolute overflow-hidden">
+						<p className="px-4 font-bold text-5xl uppercase -mx-1">{nft.metadata.coin}</p>
+						<div style={{ height: '120px' }} className="bg-black w-full px-4 pb-4 pt-2 h">
+							<div className="flex h-8 my-2">
+								<div className="w-8 bg-white">
+									<img src={getNFTImages(cmId).subclassIcon} alt="subclass icon" />
+								</div>
+								<div className=" w-48 px-2 bg-black uppercase text-lg">{nft.metadata.subClass}</div>
 							</div>
-							<div className=" w-48 px-2 bg-black uppercase text-lg">{nft.metadata.subClass}</div>
-						</div>
-						<div className="flex h-3 items-center mb-1 text-sm font-bold">
-							<span className="w-8">ATK</span>
-							<span style={{ width: `${nft.atk * 3}px` }} className="h-3 bg-white opacity-20"></span>
-							<span className="pl-1 text-xs">{nft.atk}</span>
-							<span className="flex-grow"></span>
-							<span className="flex-none opacity-30 font-normal">Designer: {nft.metadata.artist}</span>
-						</div>
-						<div className="flex h-3 items-center mb-1 text-sm font-bold">
-							<span className="w-8">DEF</span>
-							<span style={{ width: `${nft.def * 3}px` }} className="h-3 bg-white opacity-20"></span>
-							<span className="pl-1 text-xs">{nft.def}</span>
-							<span className="flex-grow"></span>
-							<span className="flex-none opacity-30 font-normal">Birth: {dateFormat(birthDate, 'mmm dd yyyy')}</span>
-						</div>
-						<div className="flex h-3 items-center mb-1 text-sm font-bold">
-							<span className="w-8">SPD</span>
-							<span style={{ width: `${nft.spd * 3}px` }} className="h-3 bg-white opacity-20"></span>
-							<span className="pl-1 text-xs">{nft.spd}</span>
-							<span className="flex-grow"></span>
-							<span className="flex-none opacity-30 font-normal">Minted By: {shortenAddress(nft.creator.id)}</span>
+							<div className="flex h-3 items-center mb-1 text-sm font-bold">
+								<span className="w-8">ATK</span>
+								<span style={{ width: `${nft.atk * 3}px` }} className="h-3 bg-white opacity-20"></span>
+								<span className="pl-1 text-xs">{nft.atk}</span>
+								<span className="flex-grow"></span>
+								<span className="flex-none opacity-30 font-normal">Designer: {nft.metadata.artist}</span>
+							</div>
+							<div className="flex h-3 items-center mb-1 text-sm font-bold">
+								<span className="w-8">DEF</span>
+								<span style={{ width: `${nft.def * 3}px` }} className="h-3 bg-white opacity-20"></span>
+								<span className="pl-1 text-xs">{nft.def}</span>
+								<span className="flex-grow"></span>
+								<span className="flex-none opacity-30 font-normal">Birth: {dateFormat(birthDate, 'mmm dd yyyy')}</span>
+							</div>
+							<div className="flex h-3 items-center mb-1 text-sm font-bold">
+								<span className="w-8">SPD</span>
+								<span style={{ width: `${nft.spd * 3}px` }} className="h-3 bg-white opacity-20"></span>
+								<span className="pl-1 text-xs">{nft.spd}</span>
+								<span className="flex-grow"></span>
+								<span className="flex-none opacity-30 font-normal">Minted By: {shortenAddress(nft.creator.id)}</span>
+							</div>
 						</div>
 					</div>
 
 					{/* MAIN IMAGE */}
-					<div className="nft_details_bg">
-						<img className="z-10 animate-bounceSlow" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
+					<div className="nft_details_img relative">
+						<img style={{ width: '700px', height: '800px' }} className="absolute" src={bgImages[bgChoice]} />
+						<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
 					</div>
 				</div>
 

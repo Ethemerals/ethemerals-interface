@@ -170,7 +170,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 
 				{/* MAIN IMAGE */}
 				<div className="nft_details_bg">
-					<img width="840px" height="900px" className="z-10 animate-bounceSlow" src={getNFTImages(metaDataArray[0]).large} alt="Ethemeral Full Size" />
+					<img width="840px" height="900px" className="z-10 animate-bounceSlow1" src={getNFTImages(metaDataArray[0]).large} alt="Ethemeral Full Size" />
 				</div>
 			</div>
 		</div>

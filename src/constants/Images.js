@@ -15,6 +15,7 @@ import iconDef from '../assets/icon_def.svg';
 import iconSpd from '../assets/icon_spd.svg';
 import mintball from '../assets/mintball.gif';
 import iconPlaytoearn from '../assets/icon_playtoearn.png';
+import sparkles from '../assets/sparkles.png';
 
 const Images = {
 	test,
@@ -34,6 +35,7 @@ const Images = {
 	iconDef,
 	iconSpd,
 	iconPlaytoearn,
+	sparkles,
 };
 
 export default Images;
