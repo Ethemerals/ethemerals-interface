@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory, useParams, Link } from 'react-router-dom';
 
@@ -8,6 +8,56 @@ import { useNFTUtils } from '../hooks/useNFTUtils';
 import Images from '../constants/Images';
 
 import nftMetadata from '../constants/NFTMetadata';
+
+// prettier-ignore
+const bgColors = [
+  'hsl(0, 50%, 50%)',
+  'hsl(20, 50%, 50%)',
+  'hsl(40, 50%, 50%)',
+  'hsl(60, 50%, 50%)',
+  'hsl(80, 50%, 50%)',
+  'hsl(100, 50%, 50%)',
+  'hsl(120, 50%, 50%)',
+  'hsl(130, 50%, 50%)',
+  'hsl(140, 50%, 50%)',
+  'hsl(150, 50%, 50%)',
+  'hsl(160, 50%, 50%)',
+  'hsl(180, 50%, 50%)',
+  'hsl(200, 50%, 50%)',
+  'hsl(220, 50%, 50%)',
+  'hsl(240, 50%, 50%)',
+  'hsl(260, 50%, 50%)',
+  'hsl(280, 50%, 50%)',
+  'hsl(300, 50%, 50%)',
+  'hsl(320, 50%, 50%)',
+  'hsl(340, 50%, 50%)',
+];
+
+// const bgColors = [
+//   '#ffbdd8',
+//   '#bde3eb',
+//   '#dee0c2',
+//   '#8ad7cb',
+//   '#dcc2fd'
+// ];
+
+const useInterval = (callback, delay) => {
+	const savedCallback = useRef();
+
+	useEffect(() => {
+		savedCallback.current = callback;
+	}, [callback]);
+
+	useEffect(() => {
+		function tick() {
+			savedCallback.current();
+		}
+		if (delay !== null) {
+			let id = setInterval(tick, delay);
+			return () => clearInterval(id);
+		}
+	}, [delay]);
+};
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -90,6 +140,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 
 	const [metaDataIndex, setMetaDataIndex] = useState(undefined);
 	const [metaDataArray, setMetaDataArray] = useState(undefined);
+	const [bgChoice, setBgChoice] = useState(0);
 
 	const watchIndex = watch('rankIndex', startingIndex);
 
@@ -108,37 +159,44 @@ const NFTLargeDetail = ({ startingIndex }) => {
 		}
 	}, [watchIndex]);
 
+	useInterval(() => {
+		if (bgChoice >= bgColors.length - 1) {
+			setBgChoice(0);
+		} else {
+			setBgChoice(bgChoice + 1);
+		}
+	}, 2000);
+
 	if (!metaDataArray || metaDataIndex === undefined) {
 		return <p>Loading</p>;
 	}
 
 	return (
-		<div style={{ backgroundImage: `url(${getNFTImages(metaDataArray[0]).bg})` }} className="nft_details_bg flex items-center justify-center bg-cover overflow-hidden flex-shrink-0">
-			{/* MAIN CARD     */}
-			<div className="nft_details_bg relative">
-				{/* LEFT BAR */}
-				<div className="p-4 w-32 z-20 absolute font-bold text-center">
-					<img className="w-90 h-74 mx-auto opacity-20" src={Images.logoEthem} alt="logo" />
-					<form onSubmit={(e) => e.preventDefault()} className="absolute">
-						<input type="number" defaultValue={startingIndex} className="text-black w-12 font-bold text-xl" {...register('rankIndex')} />
-					</form>
-					<p className="mt-20 text-lg border-b border-white">1/10</p>
-					<p className="text-sm">EDITION</p>
-					<p className="mt-2 text-3xl">#{((metaDataIndex + 1) * 10).toString().padStart(4, '0')}</p>
-				</div>
+		<div className="nft_details_bg relative bg-gray-800">
+			{/* LEFT BAR */}
+			<div className="p-4 w-32 z-20 absolute font-bold text-center">
+				<img className="w-90 h-74 mx-auto opacity-20" src={Images.logoEthem} alt="logo" />
+				<form onSubmit={(e) => e.preventDefault()} className="absolute">
+					<input type="number" defaultValue={startingIndex} className="text-black w-12 font-bold text-xl" {...register('rankIndex')} />
+				</form>
+				<p className="mt-20 text-lg border-b border-white">1/10</p>
+				<p className="text-sm">EDITION</p>
+				<p className="mt-2 text-3xl">#{((metaDataIndex + 1) * 10).toString().padStart(4, '0')}</p>
+			</div>
 
-				{/* RIGHT BAR */}
-				<div className="m-4 w-64 z-20 right-0 absolute border-white border-r">
-					<div className="flex justify-end mx-2">
-						<RankedStars amount={3} />
-					</div>
-					<p className="font-bold text-right mx-2">300 HP</p>
-					<p className="font-bold text-right mx-2">1000 ELF</p>
+			{/* RIGHT BAR */}
+			<div className="mx-2 my-4 w-64 z-20 right-0 absolute border-white border-r">
+				<div className="flex justify-end mx-2">
+					<RankedStars amount={3} />
 				</div>
+				<p className="font-bold text-right mx-2">300 HP</p>
+				<p className="font-bold text-right mx-2">1000 ELF</p>
+			</div>
 
-				{/* BOTTOM BAR */}
-				<div className="px-4 h-40 z-20 w-full bottom-0 absolute overflow-hidden">
-					<p className="font-bold text-5xl uppercase -mx-1">{nftMetadata.coinName[metaDataIndex]}</p>
+			{/* BOTTOM BAR */}
+			<div className="z-20 w-full bottom-0 absolute overflow-hidden">
+				<p className="px-4 font-bold text-5xl uppercase -mx-1">{nftMetadata.coinName[metaDataIndex]}</p>
+				<div style={{ height: '120px' }} className="bg-black w-full px-4 pb-4 pt-2 h">
 					<div className="flex h-8 my-2">
 						<div className="w-8 bg-white">
 							<img src={getNFTImages(metaDataArray[0]).subclassIcon} alt="subclass icon" />
@@ -167,11 +225,12 @@ const NFTLargeDetail = ({ startingIndex }) => {
 						<span className="flex-none opacity-30 font-normal">Owner: </span>
 					</div>
 				</div>
+			</div>
 
-				{/* MAIN IMAGE */}
-				<div className="nft_details_bg">
-					<img width="840px" height="900px" className="z-10 animate-bounceSlow1" src={getNFTImages(metaDataArray[0]).large} alt="Ethemeral Full Size" />
-				</div>
+			{/* MAIN IMAGE */}
+			<div className="nft_details_img relative">
+				<div style={{ width: '700px', height: '800px', backgroundColor: bgColors[bgChoice] }} className="absolute"></div>
+				<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(metaDataArray[0]).large} alt="Ethemeral Full Size" />
 			</div>
 		</div>
 	);
@@ -392,7 +451,7 @@ const Dev = () => {
 				</button>
 			</div>
 			{currentTab === 0 && (
-				<div className="flex space-x-4">
+				<div className="flex space-x-4 overflow-x-scroll">
 					<NFTLargeDetail startingIndex={1} />
 					<NFTLargeDetail startingIndex={2} />
 					<NFTLargeDetail startingIndex={3} />

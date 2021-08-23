@@ -185,7 +185,7 @@ const NFTDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div className="nft_details_img relative">
-						<img style={{ width: '700px', height: '800px' }} className="absolute" src={bgImages[bgChoice]} />
+						<img style={{ width: '700px', height: '800px' }} className="absolute" src={bgImages[9]} />
 						<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
 					</div>
 				</div>
