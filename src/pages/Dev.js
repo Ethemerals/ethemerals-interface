@@ -10,36 +10,6 @@ import Images from '../constants/Images';
 import nftMetadata from '../constants/NFTMetadata';
 
 // prettier-ignore
-const bgColors = [
-  'hsl(0, 50%, 50%)',
-  'hsl(20, 50%, 50%)',
-  'hsl(40, 50%, 50%)',
-  'hsl(60, 50%, 50%)',
-  'hsl(80, 50%, 50%)',
-  'hsl(100, 50%, 50%)',
-  'hsl(120, 50%, 50%)',
-  'hsl(130, 50%, 50%)',
-  'hsl(140, 50%, 50%)',
-  'hsl(150, 50%, 50%)',
-  'hsl(160, 50%, 50%)',
-  'hsl(180, 50%, 50%)',
-  'hsl(200, 50%, 50%)',
-  'hsl(220, 50%, 50%)',
-  'hsl(240, 50%, 50%)',
-  'hsl(260, 50%, 50%)',
-  'hsl(280, 50%, 50%)',
-  'hsl(300, 50%, 50%)',
-  'hsl(320, 50%, 50%)',
-  'hsl(340, 50%, 50%)',
-];
-
-// const bgColors = [
-//   '#ffbdd8',
-//   '#bde3eb',
-//   '#dee0c2',
-//   '#8ad7cb',
-//   '#dcc2fd'
-// ];
 
 const useInterval = (callback, delay) => {
 	const savedCallback = useRef();
@@ -135,7 +105,7 @@ const ModalMenuItem = ({ toggle, selected, text }) => {
 };
 
 const NFTLargeDetail = ({ startingIndex }) => {
-	const { getNFTImages } = useNFTUtils();
+	const { getNFTImages, bgImages } = useNFTUtils();
 	const { register, watch } = useForm();
 
 	const [metaDataIndex, setMetaDataIndex] = useState(undefined);
@@ -160,7 +130,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 	}, [watchIndex]);
 
 	useInterval(() => {
-		if (bgChoice >= bgColors.length - 1) {
+		if (bgChoice >= bgImages.length - 1) {
 			setBgChoice(0);
 		} else {
 			setBgChoice(bgChoice + 1);
@@ -229,7 +199,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 
 			{/* MAIN IMAGE */}
 			<div className="nft_details_img relative">
-				<div style={{ width: '700px', height: '800px', backgroundColor: bgColors[bgChoice] }} className="absolute"></div>
+				<div style={{ backgroundImage: `url("${bgImages[bgChoice]}")` }} className="absolute bg-contain nft_details_img"></div>
 				<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(metaDataArray[0]).large} alt="Ethemeral Full Size" />
 			</div>
 		</div>

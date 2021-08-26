@@ -26,7 +26,7 @@ const RankedStars = ({ amount }) => {
 };
 
 const NFTPreviewCard = ({ nft, rewards }) => {
-	const { getNFTImages, parseScore, getColorPalette } = useNFTUtils();
+	const { getNFTImages, parseScore, getColorPalette, bgColors, bgImages } = useNFTUtils();
 	const history = useHistory();
 	const [subclass, setSubclass] = useState(undefined);
 
@@ -49,16 +49,13 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 	return (
 		<div
 			onClick={handleOnClick}
-			style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},5%,66%,0.5)` }}
+			style={{ backgroundColor: bgColors[nft.bgId], backgroundImage: `url("${bgImages[nft.bgId]}")` }}
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300"
 		>
 			<div className="text-xs font-bold absolute right-0 text-right text-white z-10">
 				{!rewards && <p className=" bg-yellow-400 rounded-l-md mt-1 px-2">{nft.score} HP</p>}
 				{rewards && <p className="bg-brandColor rounded-l-md mt-1 px-2">{nft.rewards} ELF</p>}
 			</div>
-
-			{/* BORDER */}
-			<div style={{ borderColor: `hsla(${getColorPalette(subclass).hue},20%,90%,1)` }} className=" w-60 h-80 top-6 absolute left-2 border-8"></div>
 
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
@@ -86,7 +83,8 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 			</div>
 
 			{/* BOTTOM BAR */}
-			<div style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},40%,40%,0.9)` }} className="w-full bottom-0 absolute overflow-hidden">
+			{/* <div style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},40%,40%,0.9)` }} className="w-full bottom-0 absolute overflow-hidden"> */}
+			<div style={{ backgroundColor: bgColors[nft.bgId] }} className="w-full bottom-0 absolute overflow-hidden">
 				<div className="px-2 py-1">
 					<p className="text-xs text-white">
 						#<span className="text-sm font-bold">{nft.id.padStart(4, '0')}</span>

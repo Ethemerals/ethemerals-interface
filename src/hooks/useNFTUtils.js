@@ -1,10 +1,69 @@
 import iconAssassin from '../assets/icon_assassin.svg';
+
+import void1 from '../assets/backgrounds/void/1.jpg';
+import void2 from '../assets/backgrounds/void/2.jpg';
+import void3 from '../assets/backgrounds/void/3.jpg';
+import void4 from '../assets/backgrounds/void/4.jpg';
+
+import earth1 from '../assets/backgrounds/earth/1.jpg';
+import earth2 from '../assets/backgrounds/earth/2.jpg';
+import earth3 from '../assets/backgrounds/earth/3.jpg';
+import earth4 from '../assets/backgrounds/earth/4.jpg';
+import earth5 from '../assets/backgrounds/earth/5.jpg';
+
+import fire1 from '../assets/backgrounds/fire/1.jpg';
+import fire2 from '../assets/backgrounds/fire/2.jpg';
+import fire3 from '../assets/backgrounds/fire/3.jpg';
+import fire4 from '../assets/backgrounds/fire/4.jpg';
+
+import water1 from '../assets/backgrounds/water/1.jpg';
+import water2 from '../assets/backgrounds/water/2.jpg';
+import water3 from '../assets/backgrounds/water/3.jpg';
+import water4 from '../assets/backgrounds/water/4.jpg';
+import water5 from '../assets/backgrounds/water/5.jpg';
+
+import wind1 from '../assets/backgrounds/wind/1.jpg';
+import wind2 from '../assets/backgrounds/wind/2.jpg';
+import wind3 from '../assets/backgrounds/wind/3.jpg';
+import wind4 from '../assets/backgrounds/wind/4.jpg';
+import wind5 from '../assets/backgrounds/wind/5.jpg';
+import wind6 from '../assets/backgrounds/wind/6.jpg';
+
 const s3URL = 'https://ethemerals-media.s3.amazonaws.com/';
 
 export const useNFTUtils = () => {
 	const getBaseURL = (cmId) => {
 		return `${s3URL}${cmId}_base.png`;
 	};
+
+	// 24
+	const bgImages = [void1, void2, void3, void4, earth1, earth2, earth3, earth4, earth5, fire1, fire2, fire3, fire4, water1, water2, water3, water4, water5, wind1, wind2, wind3, wind4, wind5, wind6];
+	const bgColors = [
+		'#2b2b2b',
+		'#5b636c',
+		'#b2babe',
+		'#c2ceda',
+		'#36403a',
+		'#486b51',
+		'#207861',
+		'#67a19c',
+		'#92b884',
+		'#804242',
+		'#7d4a5e',
+		'#97677b',
+		'#886b79',
+		'#2a4772',
+		'#30699e',
+		'#337c8e',
+		'#97cfee',
+		'#a0c9f4',
+		'#9c56a2',
+		'#8983c3',
+		'#ad8dc5',
+		'#c08ecc',
+		'#c0a5df',
+		'#b1aadb',
+	];
 
 	const getNFTImages = (cmId) => {
 		let base = `${s3URL}${cmId}_base.png`;
@@ -90,5 +149,5 @@ export const useNFTUtils = () => {
 		return palette;
 	}
 
-	return { getBaseURL, getNFTImages, parseScore, getColorPalette };
+	return { getBaseURL, getNFTImages, parseScore, getColorPalette, bgImages, bgColors };
 };

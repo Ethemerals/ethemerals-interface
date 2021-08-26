@@ -14,43 +14,6 @@ import NFTActions from '../components/NFTActions';
 import { shortenAddress, formatELF } from '../utils';
 import BackButton from '../components/navigation/BackButton';
 
-import bg1 from '../assets/bg1.png';
-import bg2 from '../assets/bg2.png';
-import bg3 from '../assets/bg3.png';
-import bg4 from '../assets/bg4.png';
-import bg5 from '../assets/bg5.png';
-import bg6 from '../assets/bg6.png';
-import bg7 from '../assets/bg7.png';
-import bg8 from '../assets/bg8.png';
-import bg9 from '../assets/bg9.png';
-import bg10 from '../assets/bg10.png';
-import bg11 from '../assets/bg11.png';
-import bg12 from '../assets/bg12.png';
-import bg13 from '../assets/bg13.png';
-import bg14 from '../assets/bg14.png';
-import bg15 from '../assets/bg15.png';
-import bg16 from '../assets/bg16.png';
-
-const bgImages = [bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9, bg10, bg11, bg12, bg13, bg14, bg15, bg16];
-
-const useInterval = (callback, delay) => {
-	const savedCallback = useRef();
-
-	useEffect(() => {
-		savedCallback.current = callback;
-	}, [callback]);
-
-	useEffect(() => {
-		function tick() {
-			savedCallback.current();
-		}
-		if (delay !== null) {
-			let id = setInterval(tick, delay);
-			return () => clearInterval(id);
-		}
-	}, [delay]);
-};
-
 const RankedStars = ({ amount }) => {
 	const starSVG = (
 		<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -89,13 +52,12 @@ const ActionLink = (action) => {
 };
 
 const NFTDetails = () => {
-	const { getNFTImages, parseScore } = useNFTUtils();
+	const { getNFTImages, parseScore, bgImages, bgColors } = useNFTUtils();
 
 	const { id } = useParams();
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
 	const [nft, setNFT] = useState({});
-	const [bgChoice, setBgChoice] = useState(0);
 	const [ready, setReady] = useState(false);
 	const [cmId, setCmId] = useState(undefined);
 	const [birthDate, setBirthDate] = useState(Date.now());
@@ -108,14 +70,6 @@ const NFTDetails = () => {
 			setReady(true);
 		}
 	}, [status, data, nft]);
-
-	useInterval(() => {
-		if (bgChoice >= bgImages.length - 1) {
-			setBgChoice(0);
-		} else {
-			setBgChoice(bgChoice + 1);
-		}
-	}, 2000);
 
 	if (!ready || isLoading !== false || status !== 'success') {
 		// return <p>Loading {id}</p>;
@@ -130,12 +84,11 @@ const NFTDetails = () => {
 			{/* {address && <NFTActions nft={nft} />} */}
 			<div className="nft_details_container flex items-center justify-center bg-fill mx-auto overflow-hidden">
 				{/* MAIN CARD     */}
-				{/* <div style={{ backgroundImage: `url(${getNFTImages(cmId).bg})` }} className="nft_details_bg relative bg-cover"> */}
 				<div className="nft_details_bg relative bg-gray-800">
 					{/* LEFT BAR */}
 					<div className="p-4 w-32 z-20 absolute font-bold text-center">
-						<img className="w-90 h-74 mx-auto opacity-20" src={Images.logoEthem} alt="logo" />
-						<p className="mt-20 text-lg border-b border-white">{nft.edition}/10</p>
+						<img className="w-90 h-74 mx-auto" src={Images.logoEthem} alt="logo" />
+						<p className="mt-10 text-lg border-b border-white">{nft.edition}/10</p>
 						<p className="text-sm">EDITION</p>
 						<p className="mt-2 text-3xl">#{nft.id.padStart(4, '0')}</p>
 					</div>
@@ -185,7 +138,7 @@ const NFTDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div className="nft_details_img relative">
-						<img style={{ width: '700px', height: '800px' }} className="absolute" src={bgImages[9]} />
+						<div style={{ backgroundColor: bgColors[nft.bgId], backgroundImage: `url("${bgImages[nft.bgId]}")` }} className="absolute bg-contain nft_details_img"></div>
 						<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
 					</div>
 				</div>
