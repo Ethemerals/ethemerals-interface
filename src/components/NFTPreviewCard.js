@@ -4,6 +4,16 @@ import { formatELF } from '../utils';
 import { useNFTUtils } from '../hooks/useNFTUtils';
 import Images from '../constants/Images';
 
+const pentagon = (color) => {
+	return (
+		<svg width="698" height="814" viewBox="0 0 698 814" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M-2.60506e-05 595.969L-9.53045e-06 218.031C-9.08144e-06 207.759 5.42888 198.243 14.2896 193.01L334.206 4.04101C343.338 -1.34702 354.662 -1.34702 363.774 4.04101L683.691 193.01C692.571 198.243 698 207.759 698 218.031L698 595.969C698 606.241 692.571 615.757 683.71 620.99L363.794 809.959C354.662 815.347 343.338 815.347 334.226 809.959L14.3089 620.99C5.42882 615.757 -2.64996e-05 606.241 -2.60506e-05 595.969Z"
+				fill="black"
+			/>
+		</svg>
+	);
+};
 const RankedStars = ({ amount }) => {
 	const starSVG = (
 		<svg width="16" height="16" fill="gold" stroke="goldenRod" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +36,7 @@ const RankedStars = ({ amount }) => {
 };
 
 const NFTPreviewCard = ({ nft, rewards }) => {
-	const { getNFTImages, parseScore, getSubclassPalette, elements } = useNFTUtils();
+	const { getNFTImages, parseScore, getSubclassIcon, elements } = useNFTUtils();
 	const history = useHistory();
 	const [subclass, setSubclass] = useState(undefined);
 
@@ -90,9 +100,9 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 						#<span className="text-sm font-bold">{nft.id.padStart(4, '0')}</span>
 					</p>
 					<p className="text-2xl font-medium">{nft.metadata.coin}</p>
-					<div className="flex h-6 my-1">
-						<div style={{ backgroundColor: `hsla(${getSubclassPalette(subclass).hue},100%,70%,1)` }} className="w-6">
-							<img src={getNFTImages(cmId).subclassIcon} alt="subclass icon" />
+					<div className="flex h-6 my-1 items-center">
+						<div style={{ backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%,70%,1)` }}>
+							<img style={{ margin: '1px 4px 1px 2px' }} width="20" height="20" src={getSubclassIcon(subclass).icon} alt="subclass icon" />
 						</div>
 						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nft.metadata.subClass}</div>
 					</div>
