@@ -38,37 +38,32 @@ export const useNFTUtils = () => {
 	};
 
 	// 25
-	const backgrounds = [
-		{ img: void1, color: 'hsl(0, 0%, 17%)', color1: 'hsl(0, 0%, 17%, 0.8)' },
-		{ img: void2, color: 'hsl(226, 14%, 24%)', color1: 'hsl(226, 14%, 12%, 0.8)' },
-		{ img: void3, color: 'hsl(212, 9%, 39%)', color1: 'hsl(212, 9%, 20%, 0.8)' },
-		{ img: void4, color: 'hsl(200, 8%, 72%)', color1: 'hsl(200, 8%, 35%, 0.8)' },
-		{ img: void5, color: 'hsl(210, 24%, 81%)', color1: 'hsl(210, 24%, 40%, 0.8)' },
-		{ img: earth1, color: 'hsl(144, 8%, 23%)', color1: 'hsl(144, 8%, 11%, 0.8)' },
-		{ img: earth2, color: 'hsl(135, 20%, 35%)', color1: 'hsl(135, 20%, 17%, 0.8)' },
-		{ img: earth3, color: 'hsl(164, 58%, 30%)', color1: 'hsl(164, 58%, 15%, 0.8)' },
-		{ img: earth4, color: 'hsl(175, 24%, 52%)', color1: 'hsl(175, 24%, 26%, 0.8)' },
-		{ img: earth5, color: 'hsl(104, 27%, 62%)', color1: 'hsl(104, 27%, 31%, 0.8)' },
-		{ img: fire1, color: 'hsl(0, 32%, 38%)', color1: 'hsl(0, 32%, 20%, 0.8)' },
-		{ img: fire2, color: 'hsl(336, 26%, 39%)', color1: 'hsl(336, 26%, 20%, 0.8)' },
-		{ img: fire3, color: 'hsl(335, 19%, 50%)', color1: 'hsl(335, 19%, 25%, 0.8)' },
-		{ img: fire4, color: 'hsl(331, 12%, 48%)', color1: 'hsl(331, 12%, 25%, 0.8)' },
-		{ img: water1, color: 'hsl(216, 46%, 31%)', color1: 'hsl(216, 46%, 15%, 0.8)' },
-		{ img: water2, color: 'hsl(209, 53%, 40%)', color1: 'hsl(209, 53%, 20%, 0.8)' },
-		{ img: water3, color: 'hsl(192, 47%, 38%)', color1: 'hsl(192, 47%, 20%, 0.8)' },
-		{ img: water4, color: 'hsl(201, 72%, 76%)', color1: 'hsl(201, 72%, 40%, 0.8)' },
-		{ img: water5, color: 'hsl(211, 79%, 79%)', color1: 'hsl(211, 79%, 40%, 0.8)' },
-		{ img: wind1, color: 'hsl(295, 31%, 49%)', color1: 'hsl(295, 31%, 25%, 0.8)' },
-		{ img: wind2, color: 'hsl(246, 35%, 64%)', color1: 'hsl(246, 35%, 32%, 0.8)' },
-		{ img: wind3, color: 'hsl(274, 33%, 66%)', color1: 'hsl(274, 33%, 33%, 0.8)' },
-		{ img: wind4, color: 'hsl(288, 38%, 68%)', color1: 'hsl(288, 38%, 34%, 0.8)' },
-		{ img: wind5, color: 'hsl(268, 48%, 76%)', color1: 'hsl(268, 48%, 38%, 0.8)' },
-		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' }, // END
-		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' },
-		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' },
-		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' },
-		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' },
-		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' },
+	const elements = [
+		{ element: 'Void R1', img: void1, color: 'hsl(0, 0%, 17%)', color1: 'hsl(0, 0%, 17%, 0.8)' },
+		{ element: 'Void R2', img: void2, color: 'hsl(226, 14%, 24%)', color1: 'hsl(226, 14%, 12%, 0.8)' },
+		{ element: 'Void R3', img: void3, color: 'hsl(212, 9%, 39%)', color1: 'hsl(212, 9%, 20%, 0.8)' },
+		{ element: 'Void R4', img: void4, color: 'hsl(200, 8%, 72%)', color1: 'hsl(200, 8%, 35%, 0.8)' },
+		{ element: 'Void R5', img: void5, color: 'hsl(210, 24%, 81%)', color1: 'hsl(210, 24%, 40%, 0.8)' },
+		{ element: 'Earth R1', img: earth1, color: 'hsl(144, 8%, 23%)', color1: 'hsl(144, 8%, 11%, 0.8)' },
+		{ element: 'Earth R2', img: earth2, color: 'hsl(135, 20%, 35%)', color1: 'hsl(135, 20%, 17%, 0.8)' },
+		{ element: 'Earth R3', img: earth3, color: 'hsl(164, 58%, 30%)', color1: 'hsl(164, 58%, 15%, 0.8)' },
+		{ element: 'Earth R4', img: earth4, color: 'hsl(175, 24%, 52%)', color1: 'hsl(175, 24%, 26%, 0.8)' },
+		{ element: 'Earth R5', img: earth5, color: 'hsl(104, 27%, 62%)', color1: 'hsl(104, 27%, 31%, 0.8)' },
+		{ element: 'Fire R1', img: fire1, color: 'hsl(0, 32%, 38%)', color1: 'hsl(0, 32%, 20%, 0.8)' },
+		{ element: 'Fire R2', img: fire2, color: 'hsl(336, 26%, 39%)', color1: 'hsl(336, 26%, 20%, 0.8)' },
+		{ element: 'Fire R3', img: fire3, color: 'hsl(335, 19%, 50%)', color1: 'hsl(335, 19%, 25%, 0.8)' },
+		{ element: 'Fire R4', img: fire4, color: 'hsl(331, 12%, 48%)', color1: 'hsl(331, 12%, 25%, 0.8)' },
+		{ element: 'Water R1', img: water1, color: 'hsl(216, 46%, 31%)', color1: 'hsl(216, 46%, 15%, 0.8)' },
+		{ element: 'Water R2', img: water2, color: 'hsl(209, 53%, 40%)', color1: 'hsl(209, 53%, 20%, 0.8)' },
+		{ element: 'Water R3', img: water3, color: 'hsl(192, 47%, 38%)', color1: 'hsl(192, 47%, 20%, 0.8)' },
+		{ element: 'Water R4', img: water4, color: 'hsl(201, 72%, 76%)', color1: 'hsl(201, 72%, 40%, 0.8)' },
+		{ element: 'Water R5', img: water5, color: 'hsl(211, 79%, 79%)', color1: 'hsl(211, 79%, 40%, 0.8)' },
+		{ element: 'Wind R1', img: wind1, color: 'hsl(295, 31%, 49%)', color1: 'hsl(295, 31%, 25%, 0.8)' },
+		{ element: 'Wind R2', img: wind2, color: 'hsl(246, 35%, 64%)', color1: 'hsl(246, 35%, 32%, 0.8)' },
+		{ element: 'Wind R3', img: wind3, color: 'hsl(274, 33%, 66%)', color1: 'hsl(274, 33%, 33%, 0.8)' },
+		{ element: 'Wind R4', img: wind4, color: 'hsl(288, 38%, 68%)', color1: 'hsl(288, 38%, 34%, 0.8)' },
+		{ element: 'Wind R5', img: wind5, color: 'hsl(268, 48%, 76%)', color1: 'hsl(268, 48%, 38%, 0.8)' },
+		{ element: 'Wind R6', img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' }, // END
 	];
 
 	// 25
@@ -79,9 +74,8 @@ export const useNFTUtils = () => {
 		let preview = `${s3URL}${cmId}_preview.png`;
 		let inventory = `${s3URL}${cmId}_inventory.png`;
 		let thumbnail = `${s3URL}${cmId}_thumbnail.png`;
-		let bg = `${s3URL}bg_texture.jpg`;
 		let subclassIcon = iconAssassin;
-		return { base, bg, large, subclassIcon, preview, inventory, thumbnail };
+		return { base, large, subclassIcon, preview, inventory, thumbnail };
 	};
 
 	function parseScore(score) {
@@ -100,62 +94,50 @@ export const useNFTUtils = () => {
 		return 1;
 	}
 
-	function getColorPalette(subclass) {
+	function getSubclassPalette(subclass) {
 		let palette = { base: 'hsla(194,0%,90%,1)' };
 
 		if (subclass === 'Paladin') {
 			palette.hue = 194;
-			palette.base = 'hsla(194,100%,80%,1)';
 		}
 		if (subclass === 'Knight') {
 			palette.hue = 205;
-			palette.base = 'hsla(205,100%,80%,1)';
 		}
 		if (subclass === 'Dark Knight') {
 			palette.hue = 220;
-			palette.base = 'hsla(220,100%,80%,1)';
 		}
 		if (subclass === 'Dragoon') {
 			palette.hue = 235;
-			palette.base = 'hsla(235,100%,80%,1)';
 		}
 
 		if (subclass === 'Sorcerer') {
 			palette.hue = 277;
-			palette.base = 'hsla(277,100%,80%,1)';
 		}
 		if (subclass === 'Summoner') {
 			palette.hue = 295;
-			palette.base = 'hsla(295,100%,80%,1)';
 		}
 		if (subclass === 'Cleric') {
 			palette.hue = 317;
-			palette.base = 'hsla(317,100%,80%,1)';
 		}
 		if (subclass === 'Druid') {
 			palette.hue = 338;
-			palette.base = 'hsla(338,100%,80%,1)';
 		}
 
 		if (subclass === 'Ranger') {
 			palette.hue = 115;
-			palette.base = 'hsla(115,100%,80%,1)';
 		}
 		if (subclass === 'Berserker') {
 			palette.hue = 133;
-			palette.base = 'hsla(133,100%,80%,1)';
 		}
 		if (subclass === 'Assassin') {
 			palette.hue = 155;
-			palette.base = 'hsla(155,100%,80%,1)';
 		}
 		if (subclass === 'Monk') {
 			palette.hue = 176;
-			palette.base = 'hsla(176,100%,80%,1)';
 		}
 
 		return palette;
 	}
 
-	return { getBaseURL, getNFTImages, parseScore, getColorPalette, backgrounds };
+	return { getBaseURL, getNFTImages, parseScore, getSubclassPalette, elements };
 };

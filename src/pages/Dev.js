@@ -105,7 +105,7 @@ const ModalMenuItem = ({ toggle, selected, text }) => {
 };
 
 const NFTLargeDetail = ({ startingIndex }) => {
-	const { getNFTImages, backgrounds } = useNFTUtils();
+	const { getNFTImages, elements } = useNFTUtils();
 	const { register, watch } = useForm();
 
 	const [metaDataIndex, setMetaDataIndex] = useState(undefined);
@@ -130,7 +130,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 	}, [watchIndex]);
 
 	useInterval(() => {
-		if (bgChoice >= backgrounds.length - 1) {
+		if (bgChoice >= elements.length - 1) {
 			setBgChoice(0);
 		} else {
 			setBgChoice(bgChoice + 1);
@@ -199,7 +199,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 
 			{/* MAIN IMAGE */}
 			<div className="nft_details_img relative">
-				<div style={{ backgroundImage: `url("${backgrounds[bgChoice].img}")` }} className="absolute bg-contain nft_details_img"></div>
+				<div style={{ backgroundImage: `url("${elements[bgChoice].img}")` }} className="absolute bg-contain nft_details_img"></div>
 				<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(metaDataArray[0]).large} alt="Ethemeral Full Size" />
 			</div>
 		</div>
@@ -207,7 +207,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 };
 
 const NFTPreviewCard = ({ startingIndex }) => {
-	const { getNFTImages, getColorPalette } = useNFTUtils();
+	const { getNFTImages, getSubclassPalette } = useNFTUtils();
 	let metaDataIndex = startingIndex;
 
 	const [metaDataArray, setMetaDataArray] = useState(undefined);
@@ -231,7 +231,7 @@ const NFTPreviewCard = ({ startingIndex }) => {
 
 	return (
 		<div
-			style={{ backgroundColor: `hsla(${getColorPalette(nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]).hue},5%,66%,0.5)` }}
+			style={{ backgroundColor: `hsla(${getSubclassPalette(nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]).hue},5%,66%,0.5)` }}
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300"
 		>
 			<div className="text-xs font-bold absolute right-0 text-right text-white z-10">
@@ -239,7 +239,7 @@ const NFTPreviewCard = ({ startingIndex }) => {
 			</div>
 
 			{/* BORDER */}
-			<div style={{ borderColor: `hsla(${getColorPalette(nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]).hue},20%,90%,1)` }} className=" w-60 h-80 top-6 absolute left-2 border-8"></div>
+			<div style={{ borderColor: `hsla(${getSubclassPalette(nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]).hue},20%,90%,1)` }} className=" w-60 h-80 top-6 absolute left-2 border-8"></div>
 
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
@@ -266,14 +266,14 @@ const NFTPreviewCard = ({ startingIndex }) => {
 			</div>
 
 			{/* BOTTOM BAR */}
-			<div style={{ backgroundColor: `hsla(${getColorPalette(nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]).hue},40%,40%,0.8)` }} className="w-full bottom-0 absolute overflow-hidden">
+			<div style={{ backgroundColor: `hsla(${getSubclassPalette(nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]).hue},40%,40%,0.8)` }} className="w-full bottom-0 absolute overflow-hidden">
 				<div className="px-2 py-1">
 					<p className="text-xs text-white">
 						#<span className="text-sm font-bold">{((metaDataIndex + 1) * 10).toString().padStart(4, '0')}</span>
 					</p>
 					<p className="text-2xl font-medium">{nftMetadata.coinName[metaDataIndex]}</p>
 					<div className="flex h-6 my-1">
-						<div style={{ backgroundColor: `hsla(${getColorPalette(nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]).hue},100%,80%,1)` }} className="w-6">
+						<div style={{ backgroundColor: `hsla(${getSubclassPalette(nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]).hue},100%,80%,1)` }} className="w-6">
 							<img src={getNFTImages(metaDataArray[0]).subclassIcon} alt="subclass icon" />
 						</div>
 						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]}</div>

@@ -26,7 +26,7 @@ const RankedStars = ({ amount }) => {
 };
 
 const NFTPreviewCard = ({ nft, rewards }) => {
-	const { getNFTImages, parseScore, getColorPalette, backgrounds } = useNFTUtils();
+	const { getNFTImages, parseScore, getSubclassPalette, elements } = useNFTUtils();
 	const history = useHistory();
 	const [subclass, setSubclass] = useState(undefined);
 
@@ -49,7 +49,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 	return (
 		<div
 			onClick={handleOnClick}
-			style={{ backgroundColor: backgrounds[nft.bgId].color, backgroundImage: `url("${backgrounds[nft.bgId].img}")` }}
+			style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }}
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300"
 		>
 			<div className="text-xs font-bold absolute right-0 text-right text-white z-10">
@@ -83,15 +83,15 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 			</div>
 
 			{/* BOTTOM BAR */}
-			{/* <div style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},40%,40%,0.9)` }} className="w-full bottom-0 absolute overflow-hidden"> */}
-			<div style={{ backgroundColor: backgrounds[nft.bgId].color1 }} className="w-full bottom-0 absolute overflow-hidden">
+			{/* <div style={{ backgroundColor: `hsla(${getSubclassPalette(subclass).hue},40%,40%,0.9)` }} className="w-full bottom-0 absolute overflow-hidden"> */}
+			<div style={{ backgroundColor: elements[nft.bgId].color1 }} className="w-full bottom-0 absolute overflow-hidden">
 				<div className="px-2 py-1">
 					<p className="text-xs text-white">
 						#<span className="text-sm font-bold">{nft.id.padStart(4, '0')}</span>
 					</p>
 					<p className="text-2xl font-medium">{nft.metadata.coin}</p>
 					<div className="flex h-6 my-1">
-						<div style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},100%,80%,1)` }} className="w-6">
+						<div style={{ backgroundColor: `hsla(${getSubclassPalette(subclass).hue},100%,70%,1)` }} className="w-6">
 							<img src={getNFTImages(cmId).subclassIcon} alt="subclass icon" />
 						</div>
 						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nft.metadata.subClass}</div>

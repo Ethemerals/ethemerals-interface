@@ -52,7 +52,7 @@ const ActionLink = (action) => {
 };
 
 const NFTDetails = () => {
-	const { getNFTImages, parseScore, backgrounds } = useNFTUtils();
+	const { getNFTImages, parseScore, elements } = useNFTUtils();
 
 	const { id } = useParams();
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
@@ -88,9 +88,10 @@ const NFTDetails = () => {
 					{/* LEFT BAR */}
 					<div className="p-4 w-32 z-20 absolute font-bold text-center">
 						<img className="w-90 h-74 mx-auto" src={Images.logoEthem} alt="logo" />
-						<p className="mt-10 text-lg border-b border-white">{nft.edition}/10</p>
-						<p className="text-sm">EDITION</p>
-						<p className="mt-2 text-3xl">#{nft.id.padStart(4, '0')}</p>
+						<p className="mt-20 text-lg border-b border-white">{nft.edition}/10</p>
+						<p className="text-sm">{nft.metadata.coin}</p>
+						<p className="mt-5 text-sm">{elements[nft.bgId].element}</p>
+						<p className="mt-5 text-3xl">#{nft.id.padStart(4, '0')}</p>
 					</div>
 
 					{/* RIGHT BAR */}
@@ -138,7 +139,7 @@ const NFTDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div className="nft_details_img relative">
-						<div style={{ backgroundColor: backgrounds[nft.bgId].color, backgroundImage: `url("${backgrounds[nft.bgId].img}")` }} className="absolute bg-contain nft_details_img"></div>
+						<div style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }} className="absolute bg-contain nft_details_img"></div>
 						<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
 					</div>
 				</div>
