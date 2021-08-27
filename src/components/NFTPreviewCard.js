@@ -26,7 +26,7 @@ const RankedStars = ({ amount }) => {
 };
 
 const NFTPreviewCard = ({ nft, rewards }) => {
-	const { getNFTImages, parseScore, getColorPalette, bgColors, bgImages } = useNFTUtils();
+	const { getNFTImages, parseScore, getColorPalette, backgrounds } = useNFTUtils();
 	const history = useHistory();
 	const [subclass, setSubclass] = useState(undefined);
 
@@ -49,7 +49,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 	return (
 		<div
 			onClick={handleOnClick}
-			style={{ backgroundColor: bgColors[nft.bgId], backgroundImage: `url("${bgImages[nft.bgId]}")` }}
+			style={{ backgroundColor: backgrounds[nft.bgId].color, backgroundImage: `url("${backgrounds[nft.bgId].img}")` }}
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300"
 		>
 			<div className="text-xs font-bold absolute right-0 text-right text-white z-10">
@@ -84,7 +84,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 
 			{/* BOTTOM BAR */}
 			{/* <div style={{ backgroundColor: `hsla(${getColorPalette(subclass).hue},40%,40%,0.9)` }} className="w-full bottom-0 absolute overflow-hidden"> */}
-			<div style={{ backgroundColor: bgColors[nft.bgId] }} className="w-full bottom-0 absolute overflow-hidden">
+			<div style={{ backgroundColor: backgrounds[nft.bgId].color1 }} className="w-full bottom-0 absolute overflow-hidden">
 				<div className="px-2 py-1">
 					<p className="text-xs text-white">
 						#<span className="text-sm font-bold">{nft.id.padStart(4, '0')}</span>

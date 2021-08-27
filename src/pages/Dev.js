@@ -105,7 +105,7 @@ const ModalMenuItem = ({ toggle, selected, text }) => {
 };
 
 const NFTLargeDetail = ({ startingIndex }) => {
-	const { getNFTImages, bgImages } = useNFTUtils();
+	const { getNFTImages, backgrounds } = useNFTUtils();
 	const { register, watch } = useForm();
 
 	const [metaDataIndex, setMetaDataIndex] = useState(undefined);
@@ -130,7 +130,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 	}, [watchIndex]);
 
 	useInterval(() => {
-		if (bgChoice >= bgImages.length - 1) {
+		if (bgChoice >= backgrounds.length - 1) {
 			setBgChoice(0);
 		} else {
 			setBgChoice(bgChoice + 1);
@@ -199,7 +199,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 
 			{/* MAIN IMAGE */}
 			<div className="nft_details_img relative">
-				<div style={{ backgroundImage: `url("${bgImages[bgChoice]}")` }} className="absolute bg-contain nft_details_img"></div>
+				<div style={{ backgroundImage: `url("${backgrounds[bgChoice].img}")` }} className="absolute bg-contain nft_details_img"></div>
 				<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(metaDataArray[0]).large} alt="Ethemeral Full Size" />
 			</div>
 		</div>

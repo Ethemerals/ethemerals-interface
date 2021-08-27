@@ -4,6 +4,7 @@ import void1 from '../assets/backgrounds/void/1.jpg';
 import void2 from '../assets/backgrounds/void/2.jpg';
 import void3 from '../assets/backgrounds/void/3.jpg';
 import void4 from '../assets/backgrounds/void/4.jpg';
+import void5 from '../assets/backgrounds/void/5.jpg';
 
 import earth1 from '../assets/backgrounds/earth/1.jpg';
 import earth2 from '../assets/backgrounds/earth/2.jpg';
@@ -36,34 +37,41 @@ export const useNFTUtils = () => {
 		return `${s3URL}${cmId}_base.png`;
 	};
 
-	// 24
-	const bgImages = [void1, void2, void3, void4, earth1, earth2, earth3, earth4, earth5, fire1, fire2, fire3, fire4, water1, water2, water3, water4, water5, wind1, wind2, wind3, wind4, wind5, wind6];
-	const bgColors = [
-		'#2b2b2b',
-		'#5b636c',
-		'#b2babe',
-		'#c2ceda',
-		'#36403a',
-		'#486b51',
-		'#207861',
-		'#67a19c',
-		'#92b884',
-		'#804242',
-		'#7d4a5e',
-		'#97677b',
-		'#886b79',
-		'#2a4772',
-		'#30699e',
-		'#337c8e',
-		'#97cfee',
-		'#a0c9f4',
-		'#9c56a2',
-		'#8983c3',
-		'#ad8dc5',
-		'#c08ecc',
-		'#c0a5df',
-		'#b1aadb',
+	// 25
+	const backgrounds = [
+		{ img: void1, color: 'hsl(0, 0%, 17%)', color1: 'hsl(0, 0%, 17%, 0.8)' },
+		{ img: void2, color: 'hsl(226, 14%, 24%)', color1: 'hsl(226, 14%, 12%, 0.8)' },
+		{ img: void3, color: 'hsl(212, 9%, 39%)', color1: 'hsl(212, 9%, 20%, 0.8)' },
+		{ img: void4, color: 'hsl(200, 8%, 72%)', color1: 'hsl(200, 8%, 35%, 0.8)' },
+		{ img: void5, color: 'hsl(210, 24%, 81%)', color1: 'hsl(210, 24%, 40%, 0.8)' },
+		{ img: earth1, color: 'hsl(144, 8%, 23%)', color1: 'hsl(144, 8%, 11%, 0.8)' },
+		{ img: earth2, color: 'hsl(135, 20%, 35%)', color1: 'hsl(135, 20%, 17%, 0.8)' },
+		{ img: earth3, color: 'hsl(164, 58%, 30%)', color1: 'hsl(164, 58%, 15%, 0.8)' },
+		{ img: earth4, color: 'hsl(175, 24%, 52%)', color1: 'hsl(175, 24%, 26%, 0.8)' },
+		{ img: earth5, color: 'hsl(104, 27%, 62%)', color1: 'hsl(104, 27%, 31%, 0.8)' },
+		{ img: fire1, color: 'hsl(0, 32%, 38%)', color1: 'hsl(0, 32%, 20%, 0.8)' },
+		{ img: fire2, color: 'hsl(336, 26%, 39%)', color1: 'hsl(336, 26%, 20%, 0.8)' },
+		{ img: fire3, color: 'hsl(335, 19%, 50%)', color1: 'hsl(335, 19%, 25%, 0.8)' },
+		{ img: fire4, color: 'hsl(331, 12%, 48%)', color1: 'hsl(331, 12%, 25%, 0.8)' },
+		{ img: water1, color: 'hsl(216, 46%, 31%)', color1: 'hsl(216, 46%, 15%, 0.8)' },
+		{ img: water2, color: 'hsl(209, 53%, 40%)', color1: 'hsl(209, 53%, 20%, 0.8)' },
+		{ img: water3, color: 'hsl(192, 47%, 38%)', color1: 'hsl(192, 47%, 20%, 0.8)' },
+		{ img: water4, color: 'hsl(201, 72%, 76%)', color1: 'hsl(201, 72%, 40%, 0.8)' },
+		{ img: water5, color: 'hsl(211, 79%, 79%)', color1: 'hsl(211, 79%, 40%, 0.8)' },
+		{ img: wind1, color: 'hsl(295, 31%, 49%)', color1: 'hsl(295, 31%, 25%, 0.8)' },
+		{ img: wind2, color: 'hsl(246, 35%, 64%)', color1: 'hsl(246, 35%, 32%, 0.8)' },
+		{ img: wind3, color: 'hsl(274, 33%, 66%)', color1: 'hsl(274, 33%, 33%, 0.8)' },
+		{ img: wind4, color: 'hsl(288, 38%, 68%)', color1: 'hsl(288, 38%, 34%, 0.8)' },
+		{ img: wind5, color: 'hsl(268, 48%, 76%)', color1: 'hsl(268, 48%, 38%, 0.8)' },
+		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' }, // END
+		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' },
+		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' },
+		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' },
+		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' },
+		{ img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' },
 	];
+
+	// 25
 
 	const getNFTImages = (cmId) => {
 		let base = `${s3URL}${cmId}_base.png`;
@@ -149,5 +157,5 @@ export const useNFTUtils = () => {
 		return palette;
 	}
 
-	return { getBaseURL, getNFTImages, parseScore, getColorPalette, bgImages, bgColors };
+	return { getBaseURL, getNFTImages, parseScore, getColorPalette, backgrounds };
 };

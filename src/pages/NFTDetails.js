@@ -52,7 +52,7 @@ const ActionLink = (action) => {
 };
 
 const NFTDetails = () => {
-	const { getNFTImages, parseScore, bgImages, bgColors } = useNFTUtils();
+	const { getNFTImages, parseScore, backgrounds } = useNFTUtils();
 
 	const { id } = useParams();
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
@@ -138,7 +138,7 @@ const NFTDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div className="nft_details_img relative">
-						<div style={{ backgroundColor: bgColors[nft.bgId], backgroundImage: `url("${bgImages[nft.bgId]}")` }} className="absolute bg-contain nft_details_img"></div>
+						<div style={{ backgroundColor: backgrounds[nft.bgId].color, backgroundImage: `url("${backgrounds[nft.bgId].img}")` }} className="absolute bg-contain nft_details_img"></div>
 						<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
 					</div>
 				</div>
