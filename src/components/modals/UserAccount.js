@@ -52,25 +52,25 @@ const UserAccount = () => {
 
 	return (
 		<>
-			<div className="h-28 border border-gray-700 bg-gray-900 px-4 m-4 relative">
+			<div className="h-28 bg-customBlue-pale px-4 m-4 relative">
 				<div className="flex items-center justify-between py-2">
-					<p className="text-xs sm:text-sm text-gray-400">Connected with {connection} </p>
-					<button onClick={login} className="text-xs sm:text-sm text-blue-500 px-2 hover:bg-gray-600 hover:text-blue-400 rounded-lg">
+					<p className="text-xs sm:text-sm text-white">Connected with {connection} </p>
+					<button onClick={login} className="text-xs sm:text-sm text-gray-200 px-2 hover:text-white">
 						Change
 					</button>
 				</div>
-				<span className="flex items-center gap-2 text-2xl vertical-center">
+				<span className="flex items-center gap-2 text-2xl vertical-center text-white">
 					<Jazzicon diameter={20} seed={jsNumberForAddress(address)} />
 					{shortenAddress(address)}
 				</span>
 				<div className="flex items-center py-2 absolute bottom-0">
 					<a href={`${Links.ETHERSCAN_URL}address/${address}`} target="_blank" rel="noreferrer">
-						<div className="flex items-center space-x-2 text-gray-400 hover:text-gray-300 mr-6">
+						<div className="flex items-center space-x-2 text-gray-200 hover:text-white mr-6">
 							<ExternalLinkSVG />
 							<p className="text-xs sm:text-sm">View on Etherscan</p>
 						</div>
 					</a>
-					<div onClick={copy} className="flex items-center space-x-2 text-gray-400 hover:text-gray-300 cursor-pointer">
+					<div onClick={copy} className="flex items-center space-x-2 text-gray-200 hover:text-white cursor-pointer">
 						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
 							<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
 							<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -82,7 +82,7 @@ const UserAccount = () => {
 				</div>
 			</div>
 			<div className="p-4">
-				<p className="text-lg">Recent Activity</p>
+				<p className="text-lg text-black">Recent Activity</p>
 				<ul className="text-xs sm:text-sm text-blue-500">
 					{status === 'success' && data.account && data.account.actions.length > 0 && data.account.actions.map((action, index) => <li key={index}>{ActionLink(action)}</li>)}
 				</ul>

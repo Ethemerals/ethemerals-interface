@@ -59,7 +59,7 @@ const UserELF = () => {
 
 	return (
 		<>
-			<div className="h-28 border border-gray-700 bg-gray-900 m-4 relative">
+			<div className="h-28 bg-customBlue-pale px-4 m-4 relative">
 				<div className="flex center items-center justify-center">
 					<div className="px-2 pt-1">
 						<img width="24" height="24" alt="Preview of current Ethemeral" src={Images.logoELF} />
@@ -69,20 +69,20 @@ const UserELF = () => {
 						<span className="text-brandColor text-3xl"> ELF</span>
 					</div>
 				</div>
-				<div className="flex text-xs sm:text-sm text-gray-400 py-2 px-4">
+				<div className="flex text-xs sm:text-sm text-white py-2 px-4">
 					<p>Available:</p>
 					<p className="flex-grow"></p>
 					{balance && <p className="text-right">{formatETH(balance, 6)} ETH</p>}
 				</div>
 
-				<a href={Links.UNISWAP} target="_blank" rel="noreferrer" className="text-xs sm:text-sm text-gray-400 py-2 px-4 absolute bottom-0 w-full hover:text-gray-200">
+				<a href={Links.UNISWAP} target="_blank" rel="noreferrer" className="text-xs sm:text-sm text-gray-200 py-2 px-4 absolute bottom-0 w-full hover:text-white">
 					Trade on Uniswap
 				</a>
 			</div>
-			<div className="p-4">
+			<div className="p-4 text-black">
 				<p className="text-lg">Claimable ELF</p>
-				<p className="text-xs text-gray-400">Ethemerals on stand by: {totalNFTElf > 0 ? ` ${totalNFTElf}` : 'ZERO'}</p>
-				<p className="text-xs text-gray-400">Ethemerals in Battle: {totalNFTInBattleElf > 0 ? ` ${totalNFTInBattleElf}` : 'ZERO'} (recorded before entering)</p>
+				<p className="text-xs text-gray-700">Ethemerals on stand by: {totalNFTElf > 0 ? ` ${totalNFTElf}` : 'ZERO'}</p>
+				<p className="text-xs text-gray-700">Ethemerals in Battle: {totalNFTInBattleElf > 0 ? ` ${totalNFTInBattleElf}` : 'ZERO'} (recorded before entering)</p>
 				<p className="text-lg py-2 text-center">Total: {totalNFTElf + totalNFTInBattleElf} ELF Tokens</p>
 			</div>
 		</>

@@ -14,7 +14,7 @@ const CloseSVG = () => (
 
 const ModalMenuItem = ({ toggle, selected, text }) => {
 	return (
-		<span onClick={toggle} className={`"cursor-pointer text-lg px-4 pb-2 py-3 ${selected ? 'text-white bg-brandColor-purple' : ' text-gray-400 hover:text-gray-100'}`}>
+		<span onClick={toggle} className={`"cursor-pointer text-lg px-4 pb-2 py-3 ${selected ? 'text-black bg-blue-100' : ' text-gray-400 hover:text-yellow-400 transition duration-300'}`}>
 			{text}
 		</span>
 	);
@@ -39,30 +39,30 @@ const UserModal = ({ toggle, selected }) => {
 	return (
 		<>
 			<div className="w-full h-full flex justify-center fixed top-0 left-0 animate-fadeOnFast">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-70 bg-black"></div>
+				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
 				<div className=" w-11/12 max-w-420 center overflow-hidden z-30 tracking-wide shadow-xl rounded">
 					{/* nav */}
-					<div className="flex items-center bg-gray-700 cursor-pointer">
+					<div className="flex items-center bg-white cursor-pointer">
 						<ModalMenuItem toggle={() => toggleTab(0)} selected={selectedTab === 0} toggleExtra={toggleMainSelectModal} text="Inventory" />
 						<ModalMenuItem toggle={() => toggleTab(1)} selected={selectedTab === 1} text="Balance" />
 						<ModalMenuItem toggle={() => toggleTab(2)} selected={selectedTab === 2} text="Account" />
 						<span className="flex-grow cursor-auto"></span>
-						<span onClick={toggle} className="px-4 text-gray-300 hover:text-gray-100 flex-none">
+						<span onClick={toggle} className="px-4 text-gray-300 hover:text-yellow-400 transition duration-300 flex-none">
 							<CloseSVG />
 						</span>
 					</div>
 
 					{/* content */}
-					<div className="w-full h-420 bg-gray-800 bg-opacity-100 rounded rounded-t-none overflow-hidden z-30 tracking-wide shadow-xl">
+					<div className="w-full h-420 bg-blue-100 rounded rounded-t-none overflow-hidden z-30 tracking-wide shadow-xl">
 						{selectedTab === 0 && <UserInventory toggle={toggle} toggleExtra={toggleMainSelectModal} />}
 						{selectedTab === 1 && <UserELF />}
 						{selectedTab === 2 && <UserAccount />}
 					</div>
 
 					{/* footer */}
-					<div onClick={toggle} className="p-4 text-xs sm:text-sm text-blue-500 hover:text-blue-400 absolute bottom-0">
+					<div onClick={toggle} className="py-2 px-4 text-xs sm:text-sm text-blue-500 hover:text-blue-400 absolute bottom-0">
 						<Link exact="true" to="/dashboard">
-							More? Go to Dashboard
+							More? Go to Dashboards
 						</Link>
 					</div>
 				</div>

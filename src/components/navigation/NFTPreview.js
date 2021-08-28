@@ -32,7 +32,7 @@ const NFTPreview = () => {
 
 	if (userIsLoading) {
 		return (
-			<span className="flex bg-gray-800 rounded-lg items-center h-10 mr-2 cursor-pointer text-xs sm:text-base">
+			<span className="flex bg-brandColor rounded-lg items-center h-10 mr-2 cursor-pointer text-xs sm:text-base">
 				<span className="text-white px-2 md:px-3">LOADING</span>
 				<Spinner />
 			</span>
@@ -50,7 +50,7 @@ const NFTPreview = () => {
 					<div className="absolute bottom-0 left-0 rounded-t-none rounded-lg text-xs font-bold w-full text-gray-200 text-center bg-black bg-opacity-60">{mainNFT.id.toString().padStart(4, '0')}</div>
 				</span>
 			) : (
-				<span className="flex w-10 h-10 bg-gray-800 rounded-lg mr-2 items-baseline relative cursor-pointer opacity-70">
+				<span className="flex w-10 h-10 bg-brandColor rounded-lg mr-2 items-baseline relative cursor-pointer opacity-70">
 					<span className="flex-grow h-full"></span>
 					<span className="rounded-t-none rounded-lg text-xs font-bold w-full h-3 text-gray-100 text-right bg-black bg-opacity-50"></span>
 				</span>

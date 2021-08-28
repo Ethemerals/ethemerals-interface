@@ -66,6 +66,9 @@ module.exports = {
 				customLightBlue: {
 					DEFAULT: '#77D9E2',
 				},
+				customBlue: {
+					pale: 'hsl(214, 49%, 73%)',
+				},
 				custom: {
 					aquaDark: '#003A37',
 				},
