@@ -100,10 +100,8 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 						#<span className="text-sm font-bold">{nft.id.padStart(4, '0')}</span>
 					</p>
 					<p className="text-2xl font-medium">{nft.metadata.coin}</p>
-					<div className="flex h-6 my-1 items-center">
-						<div style={{ backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%,70%,1)` }}>
-							<img style={{ margin: '1px 4px 1px 2px' }} width="20" height="20" src={getSubclassIcon(subclass).icon} alt="subclass icon" />
-						</div>
+					<div style={{ backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%,70%,1)` }} className="flex h-6 my-1 items-center">
+						<img style={{ margin: '1px 2px 1px 2px' }} width="20" height="20" src={getSubclassIcon(subclass).icon} alt="subclass icon" />
 						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nft.metadata.subClass}</div>
 					</div>
 				</div>

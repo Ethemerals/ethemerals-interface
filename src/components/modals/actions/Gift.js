@@ -54,8 +54,8 @@ const Gift = ({ toggle, nft }) => {
 
 	return (
 		<>
-			<div className="w-full h-full flex justify-center fixed top-0 left-0">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
+			<div className="w-full h-full flex justify-center fixed top-0 left-0 z-20">
+				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-30 bg-opacity-20 bg-black"></div>
 				<div className=" w-11/12 max-w-420 h-96 center border-gray-400 bg-opacity-100 rounded-2xl overflow-hidden z-30 tracking-wide shadow-xl bg-gray-900">
 					<div className="flex justify-end">
 						<span onClick={toggle} className="cursor-pointer p-4 text-gray-300 hover:text-gray-100">

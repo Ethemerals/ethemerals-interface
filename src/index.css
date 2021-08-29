@@ -58,19 +58,19 @@
 		padding-left: calc(100vw - 100%);
 	}
 	.nft_details_container {
-		width: 1060px;
+		width: 1096px;
 	}
 	.nft_details_bg {
 		width: 700px;
-		height: 920px;
+		height: 924px;
 	}
 	.nft_details_img {
 		width: 700px;
 		height: 800px;
 	}
 	.nft_details_sidebar {
-		width: 360px;
-		height: 920px;
+		width: 396px;
+		height: 924px;
 	}
 	.navBg {
 		background: #030029; /* fallback for old browsers */

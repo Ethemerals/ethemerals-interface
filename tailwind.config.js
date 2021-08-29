@@ -67,7 +67,10 @@ module.exports = {
 					DEFAULT: '#77D9E2',
 				},
 				customBlue: {
-					pale: 'hsl(214, 49%, 73%)',
+					pale: 'hsl(213,40%,80%)',
+					paler: 'hsl(213,35%,70%)',
+					dark: 'hsl(213,40%,40%)',
+					darker: 'hsl(213,40%,20%)',
 				},
 				custom: {
 					aquaDark: '#003A37',

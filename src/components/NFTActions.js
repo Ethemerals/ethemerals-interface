@@ -69,9 +69,9 @@ const NFTActions = ({ nft }) => {
 	};
 
 	return (
-		<div className="grid grid-cols-2 gap-2 px-4">
+		<div className="grid grid-cols-2 gap-2 px-2">
 			{account && isOwned && userNFTs[mainIndex].id === nft.id ? (
-				<div className="flex items-center col-span-2 rounded-lg opacity-100 cursor-default">
+				<div className="flex items-center col-span-2 rounded-lg cursor-default">
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
@@ -80,9 +80,7 @@ const NFTActions = ({ nft }) => {
 			) : (
 				<div
 					onClick={() => selectMain(nft.id)}
-					className={`flex items-center col-span-2 rounded-lg opacity-40 cursor-default ${
-						account && isOwned ? 'opacity-70 cursor-pointer hover:opacity-100 hover:bg-brandColor-dark transition duration-200' : ''
-					}`}
+					className={`flex items-center col-span-2 rounded-lg cursor-default ${account && isOwned ? 'bg-blue-300 cursor-pointer hover:bg-brandColor transition duration-200' : ''}`}
 				>
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
@@ -98,7 +96,7 @@ const NFTActions = ({ nft }) => {
 							history.push(`/claim/${nft.id}`);
 						}
 					}}
-					className="col-span-2 flex items-center rounded-lg opacity-100 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200"
+					className="col-span-2 bg-customBlue-pale flex items-center rounded-lg cursor-pointer hover:bg-yellow-400 transition duration-200"
 				>
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon drain" src={Images.iconClaim} />
@@ -107,14 +105,14 @@ const NFTActions = ({ nft }) => {
 				</div>
 			)}
 			{account && isOwned ? (
-				<div onClick={() => handleSell(nft.id)} className="flex items-center rounded-lg opacity-70 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200">
+				<div onClick={() => handleSell(nft.id)} className="flex items-center bg-blue-300 rounded-lg cursor-pointer hover:bg-yellow-400 transition duration-200">
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
 					</div>
 					<p>Sell</p>
 				</div>
 			) : (
-				<div onClick={() => handleBuy(nft.id)} className="flex items-center rounded-lg cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200">
+				<div onClick={() => handleBuy(nft.id)} className="flex items-center bg-blue-300 rounded-lg cursor-pointer hover:bg-yellow-400 transition duration-200">
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
 					</div>
@@ -128,7 +126,7 @@ const NFTActions = ({ nft }) => {
 						history.push(`/redemption/${nft.id}`);
 					}
 				}}
-				className={`flex items-center rounded-lg opacity-40 cursor-default ${account && isOwned ? 'opacity-70 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200' : ''}`}
+				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-blue-300 cursor-pointer hover:bg-yellow-400 transition duration-200' : ' bg-customBlue-pale'}`}
 			>
 				<div className="w-8 h-8 mr-1 relative">
 					<img className="center" width="20px" height="20px" alt="icon drain" src={Images.iconDrain} />
@@ -138,7 +136,7 @@ const NFTActions = ({ nft }) => {
 
 			<div
 				onClick={toggleGift}
-				className={`flex items-center rounded-lg opacity-40 cursor-default ${account && isOwned ? 'opacity-70 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200' : ''}`}
+				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-blue-300 cursor-pointer hover:bg-yellow-400 transition duration-200' : ' bg-customBlue-pale'}`}
 			>
 				<div className="w-8 h-8 mr-1 relative">
 					<img className="center" width="20px" height="20px" alt="icon gift" src={Images.iconGift} />
@@ -152,7 +150,7 @@ const NFTActions = ({ nft }) => {
 						history.push(`/resurrect/${nft.id}`);
 					}
 				}}
-				className={`flex items-center rounded-lg opacity-40 cursor-default ${account && isOwned ? 'opacity-70 cursor-pointer hover:opacity-100 hover:bg-yellow-400 transition duration-200' : ''}`}
+				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-blue-300 cursor-pointer hover:bg-yellow-400 transition duration-200' : 'bg-customBlue-pale'}`}
 			>
 				<div className="w-8 h-8 mr-1 relative">
 					<img className="center" width="26px" height="26px" alt="icon wing" src={Images.iconWings} />

@@ -52,28 +52,36 @@ const ActionLink = (action) => {
 };
 
 const NFTDetails = () => {
-	const { getNFTImages, parseScore, elements } = useNFTUtils();
+	const { getNFTImages, parseScore, elements, getSubclassIcon } = useNFTUtils();
 
 	const { id } = useParams();
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
-	const [nft, setNFT] = useState({});
+	const [nft, setNFT] = useState(undefined);
 	const [ready, setReady] = useState(false);
 	const [cmId, setCmId] = useState(undefined);
 	const [birthDate, setBirthDate] = useState(Date.now());
+
+	const [subclass, setSubclass] = useState('Paladin');
 
 	useEffect(() => {
 		if (status === 'success' && data && data.ethemeral) {
 			setNFT(data.ethemeral);
 			setCmId(data.ethemeral.metadata.id);
-			setBirthDate(parseInt(nft.timestamp) * 1000);
+			setSubclass(data.ethemeral.metadata.subClass);
+			setBirthDate(parseInt(data.ethemeral.timestamp) * 1000);
 			setReady(true);
 		}
 	}, [status, data, nft]);
 
-	if (!ready || isLoading !== false || status !== 'success') {
-		// return <p>Loading {id}</p>;
-		return null;
+	if (!ready || isLoading !== false || status !== 'success' || !nft) {
+		return (
+			<div>
+				<div className="page_bg"></div>
+				<BackButton />
+				<div className="nft_details_container mx-auto">Loading ...</div>
+			</div>
+		);
 	}
 
 	return (
@@ -81,14 +89,13 @@ const NFTDetails = () => {
 			<div className="page_bg"></div>
 			<BackButton />
 
-			{/* {address && <NFTActions nft={nft} />} */}
-			<div className="nft_details_container flex items-center justify-center bg-fill mx-auto overflow-hidden">
+			<div className="nft_details_container flex items-center justify-center mx-auto overflow-hidden">
 				{/* MAIN CARD     */}
-				<div className="nft_details_bg relative bg-gray-800">
+				<div className="nft_details_bg relative">
 					{/* LEFT BAR */}
 					<div className="p-4 w-32 z-20 absolute font-bold text-center">
 						<img className="w-90 h-74 mx-auto" src={Images.logoEthem} alt="logo" />
-						<p className="mt-20 text-lg border-b border-white">{nft.edition}/10</p>
+						<p className="mt-10 text-lg border-b border-white">{nft.edition}/10</p>
 						<p className="text-sm">{nft.metadata.coin}</p>
 						<p className="mt-5 text-sm">{elements[nft.bgId].element}</p>
 						<p className="mt-5 text-3xl">#{nft.id.padStart(4, '0')}</p>
@@ -105,74 +112,79 @@ const NFTDetails = () => {
 
 					{/* BOTTOM BAR */}
 					<div className="z-20 w-full bottom-0 absolute overflow-hidden">
-						<p className="px-4 font-bold text-5xl uppercase -mx-1">{nft.metadata.coin}</p>
-						<div style={{ height: '120px' }} className="bg-black w-full px-4 pb-4 pt-2 h">
-							<div className="flex h-8 my-2">
-								<div className="w-8 bg-white">
-									<img src={getNFTImages(cmId).subclassIcon} alt="subclass icon" />
+						<p className="px-4 font-bold text-5xl uppercase">{nft.metadata.coin}</p>
+						<div style={{ height: '124px' }} className="bg-black pt-3 px-4">
+							<div className="flex h-8">
+								<div style={{ backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%,70%,1)` }} className="w-8">
+									<img src={getSubclassIcon(subclass).icon} alt="subclass icon" />
 								</div>
-								<div className=" w-48 px-2 bg-black uppercase text-lg">{nft.metadata.subClass}</div>
+								<div className="w-48 px-2 uppercase text-lg">{subclass}</div>
 							</div>
-							<div className="flex h-3 items-center mb-1 text-sm font-bold">
-								<span className="w-8">ATK</span>
-								<span style={{ width: `${nft.atk * 3}px` }} className="h-3 bg-white opacity-20"></span>
-								<span className="pl-1 text-xs">{nft.atk}</span>
-								<span className="flex-grow"></span>
-								<span className="flex-none opacity-30 font-normal">Designer: {nft.metadata.artist}</span>
-							</div>
-							<div className="flex h-3 items-center mb-1 text-sm font-bold">
-								<span className="w-8">DEF</span>
-								<span style={{ width: `${nft.def * 3}px` }} className="h-3 bg-white opacity-20"></span>
-								<span className="pl-1 text-xs">{nft.def}</span>
-								<span className="flex-grow"></span>
-								<span className="flex-none opacity-30 font-normal">Birth: {dateFormat(birthDate, 'mmm dd yyyy')}</span>
-							</div>
-							<div className="flex h-3 items-center mb-1 text-sm font-bold">
-								<span className="w-8">SPD</span>
-								<span style={{ width: `${nft.spd * 3}px` }} className="h-3 bg-white opacity-20"></span>
-								<span className="pl-1 text-xs">{nft.spd}</span>
-								<span className="flex-grow"></span>
-								<span className="flex-none opacity-30 font-normal">Minted By: {shortenAddress(nft.creator.id)}</span>
+							<div className="flex justify-between">
+								<div className=" w-3/4">
+									<div className="flex h-3 items-center mb-1 mt-2 text-sm font-bold">
+										<span className="w-8 text-pink-200">ATK</span>
+										<span style={{ width: `${nft.atk * 3}px` }} className="h-3 bg-pink-900 opacity-80"></span>
+										<span className="pl-1 text-pink-200">{nft.atk}</span>
+									</div>
+									<div className="flex h-3 items-center mb-1 text-sm font-bold">
+										<span className="w-8 text-indigo-200">DEF</span>
+										<span style={{ width: `${nft.def * 3}px` }} className="h-3 bg-indigo-900 opacity-80"></span>
+										<span className="pl-1 text-indigo-200">{nft.def}</span>
+									</div>
+									<div className="flex h-3 items-center mb-1 text-sm font-bold">
+										<span className="w-8 text-green-200">SPD</span>
+										<span style={{ width: `${90 * 3}px` }} className="h-3 bg-green-900 opacity-80"></span>
+										<span className="pl-1 text-green-200">{nft.spd}</span>
+									</div>
+									<div className="flex h-3 items-center mb-1 text-sm font-bold">
+										<span className="">TOTAL </span>
+										<span className="pl-1">{parseInt(nft.spd) + parseInt(nft.def) + parseInt(nft.atk)}</span>
+									</div>
+								</div>
+								<div className="text-sm text-right leading-relaxed text-gray-400">
+									<p>Birthed: {dateFormat(birthDate, 'mmm dd yyyy')}</p>
+									<p>Designer: {nft.metadata.artist}</p>
+									<p>Minted By: {shortenAddress(nft.creator.id)}</p>
+								</div>
 							</div>
 						</div>
 					</div>
 
 					{/* MAIN IMAGE */}
-					<div className="nft_details_img relative">
-						<div style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }} className="absolute bg-contain nft_details_img"></div>
-						<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
-					</div>
+					<div style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }} className="absolute bg-contain nft_details_img"></div>
+					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
 				</div>
 
 				{/* SIDE BAR */}
-				<div className="nft_details_sidebar bg-black bg-opacity-50 z-20">
+				<div className="nft_details_sidebar text-gray-700">
 					{/* ACTIONS */}
-					<div className="m-4">
-						<h3 className="font-bold text-xs mb-2">ACTIONS</h3>
+					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-lg">
+						<h3 className="font-bold text-xs mb-4">ACTIONS</h3>
 						<NFTActions nft={nft} />
 					</div>
 
-					{/* ABILITIES */}
-					<div className="h-32 m-4 mt-8">
-						<h3 className="font-bold text-xs">ABILITIES</h3>
-					</div>
-
 					{/* EQUIPMENT */}
-					<div className="mt-8">
-						<h3 className="font-bold text-xs mx-4 my-2">EQUIPMENT</h3>
+					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-lg">
+						<h3 className="font-bold text-xs mb-4">EQUIPMENT</h3>
 						<div className="flex justify-center">
-							<div className="w-14 h-14 mr-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
-							<div className="w-14 h-14 mr-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
-							<div className="w-14 h-14 mr-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
-							<div className="w-14 h-14 ml-2 bg-gradient-to-br from-gray-600 to-gray-400 opacity-20 rounded-md border-2 border-white"></div>
+							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
+							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
+							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
+							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 ml-6 bg-customBlue-pale rounded-md border-2 border-white"></div>
 						</div>
 					</div>
 
+					{/* ABILITIES */}
+					<div className="h-32 p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-lg">
+						<h3 className="font-bold text-xs">ABILITIES</h3>
+					</div>
+
 					{/* STATS */}
-					<div className="m-4 mt-8">
-						<h3 className="font-bold text-xs">RECORD</h3>
-						<div className="text-gray-200 text-sm leading-7 grid grid-cols-2 gap-2 mt-1">
-							<div className="bg-white bg-opacity-10 px-3 py-2">
+					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-lg">
+						<h3 className="font-bold text-xs mb-4">RECORD</h3>
+						<div className="text-black text-sm leading-7 grid grid-cols-2 gap-2 mt-1">
+							<div className="bg-customBlue-paler px-3 py-2 rounded-lg">
 								<div className="flex justify-between">
 									<span>Battles</span>
 									<span>{nft.scorecard.battles}</span>
@@ -186,7 +198,7 @@ const NFTDetails = () => {
 									<span>{nft.scorecard.resurrected}</span>
 								</div>
 							</div>
-							<div className="bg-white bg-opacity-10 px-3 py-2">
+							<div className="bg-customBlue-paler px-3 py-2 rounded-lg">
 								<div className="flex justify-between">
 									<span>Revived</span>
 									<span>{nft.scorecard.revived}</span>
@@ -204,9 +216,9 @@ const NFTDetails = () => {
 					</div>
 
 					{/* HISTORY */}
-					<div className="m-4 mt-8">
-						<h3 className="font-bold text-xs">HISTORY</h3>
-						<ul className="text-gray-400 text-sm leading-6">
+					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-lg h-64">
+						<h3 className="font-bold text-xs mb-4">HISTORY</h3>
+						<ul className="text-gray-700 text-sm leading-6">
 							{status === 'success' &&
 								nft &&
 								nft.actions.length > 0 &&

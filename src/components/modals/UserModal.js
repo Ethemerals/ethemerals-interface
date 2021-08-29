@@ -14,7 +14,7 @@ const CloseSVG = () => (
 
 const ModalMenuItem = ({ toggle, selected, text }) => {
 	return (
-		<span onClick={toggle} className={`"cursor-pointer text-lg px-4 pb-2 py-3 ${selected ? 'text-black bg-blue-100' : ' text-gray-400 hover:text-yellow-400 transition duration-300'}`}>
+		<span onClick={toggle} className={`"cursor-pointer text-lg px-4 pb-2 py-3 ${selected ? 'text-black bg-blue-100' : ' text-gray-600 hover:text-yellow-400 transition duration-300'}`}>
 			{text}
 		</span>
 	);

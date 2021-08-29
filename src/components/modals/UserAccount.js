@@ -52,7 +52,7 @@ const UserAccount = () => {
 
 	return (
 		<>
-			<div className="h-28 bg-customBlue-pale px-4 m-4 relative">
+			<div className="h-28 px-4 m-4 relative bg-customBlue-dark">
 				<div className="flex items-center justify-between py-2">
 					<p className="text-xs sm:text-sm text-white">Connected with {connection} </p>
 					<button onClick={login} className="text-xs sm:text-sm text-gray-200 px-2 hover:text-white">

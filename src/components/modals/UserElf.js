@@ -59,7 +59,7 @@ const UserELF = () => {
 
 	return (
 		<>
-			<div className="h-28 bg-customBlue-pale px-4 m-4 relative">
+			<div className="h-28 px-4 m-4 relative bg-customBlue-dark">
 				<div className="flex center items-center justify-center">
 					<div className="px-2 pt-1">
 						<img width="24" height="24" alt="Preview of current Ethemeral" src={Images.logoELF} />

@@ -17,7 +17,7 @@ const UserModal = ({ toggle }) => {
 			<div className="w-full h-full flex justify-center fixed top-0 left-0 animate-fadeOnFast">
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-30 bg-opacity-40 bg-black"></div>
 				<div className=" w-11/12 max-w-2xl min-w-min center overflow-hidden z-40 shadow-xl rounded">
-					<table className=" bg-indigo-900 text-black mx-auto w-full">
+					<table className=" bg-customBlue-dark text-black mx-auto w-full">
 						<thead>
 							<tr className="text-left border-b border-black text-white">
 								<th className="px-2 py-1 text-sm font-normal">ID #</th>
@@ -39,7 +39,7 @@ const UserModal = ({ toggle }) => {
 									<tr
 										key={index}
 										onClick={() => selectMain(index)}
-										className={`border-b border-gray-200 text-left ${currentMain === index ? ' bg-pink-400' : 'bg-brandColor-blue hover:bg-pink-200'} cursor-pointer`}
+										className={`border-b border-gray-200 text-left ${currentMain === index ? ' bg-pink-300' : ' bg-blue-100 hover:bg-white'} cursor-pointer`}
 									>
 										<th className="px-2 py-1 text-sm">{nft.id.padStart(4, '0')}</th>
 										<th className="px-2 py-1 text-sm">{nft.metadata.coin.slice(0, 30)}</th>
