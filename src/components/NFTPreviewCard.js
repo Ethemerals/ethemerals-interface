@@ -63,7 +63,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300"
 		>
 			<div className="text-xs font-bold absolute right-0 text-right text-white z-10">
-				{!rewards && <p className=" bg-yellow-400 rounded-l-md mt-1 px-2">{nft.score} HP</p>}
+				{!rewards && <p className=" bg-customBlue-dark rounded-l-md mt-1 px-2">{nft.score} HP</p>}
 				{rewards && <p className="bg-brandColor rounded-l-md mt-1 px-2">{nft.rewards} ELF</p>}
 			</div>
 

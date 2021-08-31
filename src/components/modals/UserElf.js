@@ -60,22 +60,21 @@ const UserELF = () => {
 	return (
 		<>
 			<div className="h-28 px-4 m-4 relative bg-customBlue-dark">
-				<div className="flex center items-center justify-center">
-					<div className="px-2 pt-1">
-						<img width="24" height="24" alt="Preview of current Ethemeral" src={Images.logoELF} />
+				<div className="flex vertical-center items-center">
+					<div className="pt-1 pr-2">
+						<img width="20" height="20" alt="elf logo" src={Images.logoELF} />
 					</div>
 					<div>
-						<span className="text-3xl">{account && account.elfBalance > 0 ? formatELF(account.elfBalance) : 'ZERO'}</span>
-						<span className="text-brandColor text-3xl"> ELF</span>
+						<span className="text-2xl">{account && account.elfBalance > 0 ? formatELF(account.elfBalance) : 'ZERO'}</span>
+						<span className="text-brandColor text-2xl"> ELF</span>
 					</div>
 				</div>
-				<div className="flex text-xs sm:text-sm text-white py-2 px-4">
-					<p>Available:</p>
-					<p className="flex-grow"></p>
+				<div className="flex text-xs sm:text-sm text-white py-2 justify-between">
+					<p>Available</p>
 					{balance && <p className="text-right">{formatETH(balance, 6)} ETH</p>}
 				</div>
 
-				<a href={Links.UNISWAP} target="_blank" rel="noreferrer" className="text-xs sm:text-sm text-gray-200 py-2 px-4 absolute bottom-0 w-full hover:text-white">
+				<a href={Links.UNISWAP} target="_blank" rel="noreferrer" className="text-xs sm:text-sm text-gray-200 py-2 absolute bottom-0 hover:text-white">
 					Trade on Uniswap
 				</a>
 			</div>

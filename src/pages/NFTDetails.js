@@ -11,7 +11,7 @@ import useParseAction from '../hooks/useParseActions';
 
 import NFTActions from '../components/NFTActions';
 
-import { shortenAddress, formatELF } from '../utils';
+import { shortenAddress } from '../utils';
 import BackButton from '../components/navigation/BackButton';
 
 const RankedStars = ({ amount }) => {
@@ -124,17 +124,17 @@ const NFTDetails = () => {
 								<div className=" w-3/4">
 									<div className="flex h-3 items-center mb-1 mt-2 text-sm font-bold">
 										<span className="w-8 text-pink-200">ATK</span>
-										<span style={{ width: `${nft.atk * 3}px` }} className="h-3 bg-pink-900 opacity-80"></span>
+										<span style={{ width: `${nft.atk * 3}px` }} className="h-3 bg-pink-200 opacity-40"></span>
 										<span className="pl-1 text-pink-200">{nft.atk}</span>
 									</div>
 									<div className="flex h-3 items-center mb-1 text-sm font-bold">
 										<span className="w-8 text-indigo-200">DEF</span>
-										<span style={{ width: `${nft.def * 3}px` }} className="h-3 bg-indigo-900 opacity-80"></span>
+										<span style={{ width: `${nft.def * 3}px` }} className="h-3 bg-indigo-200 opacity-40"></span>
 										<span className="pl-1 text-indigo-200">{nft.def}</span>
 									</div>
 									<div className="flex h-3 items-center mb-1 text-sm font-bold">
 										<span className="w-8 text-green-200">SPD</span>
-										<span style={{ width: `${90 * 3}px` }} className="h-3 bg-green-900 opacity-80"></span>
+										<span style={{ width: `${nft.spd * 3}px` }} className="h-3 bg-green-200 opacity-40"></span>
 										<span className="pl-1 text-green-200">{nft.spd}</span>
 									</div>
 									<div className="flex h-3 items-center mb-1 text-sm font-bold">
@@ -157,16 +157,16 @@ const NFTDetails = () => {
 				</div>
 
 				{/* SIDE BAR */}
-				<div className="nft_details_sidebar text-gray-700">
+				<div className="nft_details_sidebar text-gray-900">
 					{/* ACTIONS */}
-					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-lg">
-						<h3 className="font-bold text-xs mb-4">ACTIONS</h3>
+					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
+						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">ACTIONS</h3>
 						<NFTActions nft={nft} />
 					</div>
 
 					{/* EQUIPMENT */}
-					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-lg">
-						<h3 className="font-bold text-xs mb-4">EQUIPMENT</h3>
+					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
+						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">EQUIPMENT</h3>
 						<div className="flex justify-center">
 							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
 							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
@@ -176,15 +176,15 @@ const NFTDetails = () => {
 					</div>
 
 					{/* ABILITIES */}
-					<div className="h-32 p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-lg">
-						<h3 className="font-bold text-xs">ABILITIES</h3>
+					<div className="h-32 p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
+						<h3 className="font-bold text-xs text-brandColor-purple">ABILITIES</h3>
 					</div>
 
 					{/* STATS */}
-					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-lg">
-						<h3 className="font-bold text-xs mb-4">RECORD</h3>
-						<div className="text-black text-sm leading-7 grid grid-cols-2 gap-2 mt-1">
-							<div className="bg-customBlue-paler px-3 py-2 rounded-lg">
+					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
+						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">RECORD</h3>
+						<div className="text-black text-sm leading-7 grid grid-cols-2 gap-2 mt-1 bg-customBlue-paler rounded-lg">
+							<div className="px-3 py-2">
 								<div className="flex justify-between">
 									<span>Battles</span>
 									<span>{nft.scorecard.battles}</span>
@@ -198,7 +198,7 @@ const NFTDetails = () => {
 									<span>{nft.scorecard.resurrected}</span>
 								</div>
 							</div>
-							<div className="bg-customBlue-paler px-3 py-2 rounded-lg">
+							<div className="px-3 py-2">
 								<div className="flex justify-between">
 									<span>Revived</span>
 									<span>{nft.scorecard.revived}</span>
@@ -216,8 +216,8 @@ const NFTDetails = () => {
 					</div>
 
 					{/* HISTORY */}
-					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-lg h-64">
-						<h3 className="font-bold text-xs mb-4">HISTORY</h3>
+					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md h-64">
+						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">HISTORY</h3>
 						<ul className="text-gray-700 text-sm leading-6">
 							{status === 'success' &&
 								nft &&

@@ -14,7 +14,7 @@ const CloseSVG = () => (
 
 const ModalMenuItem = ({ toggle, selected, text }) => {
 	return (
-		<span onClick={toggle} className={`"cursor-pointer text-lg px-4 pb-2 py-3 ${selected ? 'text-black bg-blue-100' : ' text-gray-600 hover:text-yellow-400 transition duration-300'}`}>
+		<span onClick={toggle} className={`"cursor-pointer text-lg px-4 pb-2 py-3 ${selected ? 'text-black bg-blue-100' : ' text-gray-600 hover:text-blue-400 transition duration-300'}`}>
 			{text}
 		</span>
 	);
@@ -60,7 +60,7 @@ const UserModal = ({ toggle, selected }) => {
 					</div>
 
 					{/* footer */}
-					<div onClick={toggle} className="py-2 px-4 text-xs sm:text-sm text-blue-500 hover:text-blue-400 absolute bottom-0">
+					<div onClick={toggle} className="py-2 px-4 text-xs sm:text-sm text-blue-700 hover:text-blue-500 absolute bottom-0">
 						<Link exact="true" to="/dashboard">
 							More? Go to Dashboards
 						</Link>

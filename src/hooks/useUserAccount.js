@@ -72,6 +72,7 @@ const useUserAccount = () => {
 	useEffect(() => {
 		if (data && data.account !== null) {
 			setAccount(data.account);
+
 			// LOCAL NFTS
 			setUserNFTs(data.account.ethemerals);
 		}
