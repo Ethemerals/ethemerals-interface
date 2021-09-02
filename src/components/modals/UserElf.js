@@ -82,7 +82,7 @@ const UserELF = () => {
 				<p className="text-lg">Claimable ELF</p>
 				<p className="text-xs text-gray-700">Ethemerals on stand by: {totalNFTElf > 0 ? ` ${totalNFTElf}` : 'ZERO'}</p>
 				<p className="text-xs text-gray-700">Ethemerals in Battle: {totalNFTInBattleElf > 0 ? ` ${totalNFTInBattleElf}` : 'ZERO'} (recorded before entering)</p>
-				<p className="text-lg py-2 text-center">Total: {totalNFTElf + totalNFTInBattleElf} ELF Tokens</p>
+				<p className="text-lg py-2 text-center">Total: {totalNFTElf + totalNFTInBattleElf} ELF Available to Claim</p>
 			</div>
 		</>
 	);

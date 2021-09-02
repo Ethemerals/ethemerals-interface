@@ -79,8 +79,6 @@ export const useNFTUtils = () => {
 		{ element: 'Wind R6', img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' }, // END
 	];
 
-	// 25
-
 	const getNFTImages = (cmId) => {
 		let base = `${s3URL}${cmId}_base.png`;
 		let large = `${s3URL}${cmId}_large.png`;
@@ -210,5 +208,50 @@ export const useNFTUtils = () => {
 		return palette;
 	}
 
-	return { getBaseURL, getNFTImages, parseScore, getSubclassPalette, getSubclassIcon, elements };
+	const getSubclassBonus = (subclass) => {
+		let bonus = [0, 0, 0];
+
+		if (subclass === 'Paladin') {
+			bonus = [0, 20, 0];
+		}
+		if (subclass === 'Knight') {
+			bonus = [5, 15, 0];
+		}
+		if (subclass === 'Dark Knight') {
+			bonus = [15, 5, 0];
+		}
+		if (subclass === 'Dragoon') {
+			bonus = [10, 5, 5];
+		}
+
+		if (subclass === 'Sorcerer') {
+			bonus = [20, 0, 0];
+		}
+		if (subclass === 'Summoner') {
+			bonus = [10, 10, 0];
+		}
+		if (subclass === 'Cleric') {
+			bonus = [0, 16, 4];
+		}
+		if (subclass === 'Druid') {
+			bonus = [7, 6, 7];
+		}
+
+		if (subclass === 'Ranger') {
+			bonus = [0, 0, 20];
+		}
+		if (subclass === 'Berserker') {
+			bonus = [10, 0, 10];
+		}
+		if (subclass === 'Assassin') {
+			bonus = [12, 0, 8];
+		}
+		if (subclass === 'Monk') {
+			bonus = [4, 8, 8];
+		}
+
+		return bonus;
+	};
+
+	return { getBaseURL, getNFTImages, parseScore, getSubclassPalette, getSubclassIcon, elements, getSubclassBonus };
 };

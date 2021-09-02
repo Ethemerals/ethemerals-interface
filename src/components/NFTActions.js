@@ -16,6 +16,7 @@ const NFTActions = ({ nft }) => {
 	const [isOwned, setIsOwned] = useState(false);
 	const [isOwnedWinning, setIsOwnedWinning] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);
+	const [mainLoading, setMainLoading] = useState(false);
 
 	useEffect(() => {
 		if (account && core) {
@@ -54,9 +55,15 @@ const NFTActions = ({ nft }) => {
 		return null;
 	}
 
-	const selectMain = (id) => {
+	const selectMain = async (id) => {
+		setMainLoading(true);
 		if (account && isOwned) {
-			mutateUser.mutate({ address: account.id, main: id });
+			try {
+				await mutateUser.mutateAsync({ address: account.id, main: id });
+				setMainLoading(false);
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	};
 
@@ -70,12 +77,12 @@ const NFTActions = ({ nft }) => {
 
 	return (
 		<div className="grid grid-cols-2 gap-2 px-2 text-sm text-white">
-			{account && isOwned && userNFTs[mainIndex].id === nft.id ? (
+			{account && isOwned && userNFTs[mainIndex] && userNFTs[mainIndex].id === nft.id ? (
 				<div className="flex items-center col-span-2 rounded-lg cursor-default">
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
-					<p className="text-black">Current Main Ethemeral</p>
+					<p className="text-black">{!mainLoading ? 'Current Main Ethemeral' : 'Loading'}</p>
 				</div>
 			) : (
 				<div
@@ -85,7 +92,7 @@ const NFTActions = ({ nft }) => {
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
-					{account && isOwned ? <p>Select as Main</p> : <p className="text-black">Owner: {shortenAddress(nft.owner.id)}</p>}
+					{account && isOwned ? <p>{!mainLoading ? 'Select as Main' : 'Loading'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner.id)}</p>}
 				</div>
 			)}
 
