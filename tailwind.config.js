@@ -85,8 +85,8 @@ module.exports = {
 				},
 			},
 			fontFamily: {
-				ubuntu: ['Ubuntu', ...defaultTheme.fontFamily.sans],
 				sans: ['Noto Sans SC', ...defaultTheme.fontFamily.sans],
+				// trochut: ['Trochut', ...defaultTheme.fontFamily.serif],
 			},
 		},
 	},

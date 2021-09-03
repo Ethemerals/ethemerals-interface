@@ -14,6 +14,7 @@ import BattleRoyale from './pages/BattleRoyale';
 import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
 import NFTDetails from './pages/NFTDetails';
+import Opensea from './pages/Opensea';
 import Resurrect from './pages/Resurrect';
 import Redemption from './pages/Redemption';
 import Marketplace from './pages/Marketplace';
@@ -42,14 +43,17 @@ function App() {
 			<QueryClientProvider client={queryClient}>
 				<Web3ContextProvider>
 					<TxContextProvider>
+						<Navbar />
+						<Receipt />
 						<div className={`text-white pt-8 sm:pt-14 ${isMobile ? 'overflow-hidden' : ''}`}>
-							<Navbar />
-							<Receipt />
-							<ReactQueryDevtools initialIsOpen={false} />
 							<Helmet>
 								<title>Ethemerals</title>
 							</Helmet>
+							<ReactQueryDevtools initialIsOpen={false} />
 							<Switch>
+								<Route exact path="/opensea/:id">
+									<Opensea />
+								</Route>
 								<Route exact path="/">
 									<Home />
 								</Route>
