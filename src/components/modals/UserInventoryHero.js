@@ -36,7 +36,7 @@ const UserInventoryHero = ({ userNFTs, mainIndex, toggle, toggleExtra }) => {
 	return (
 		<>
 			<div
-				className="flex-grow cursor-pointer bg-customBlue-dark relative overflow-hidden bg-cover bg-center"
+				className="flex-grow cursor-pointer bg-customBlue-dark relative overflow-hidden bg-cover bg-center text-white"
 				style={{ backgroundColor: elements[userNFTs[mainIndex].bgId].color, backgroundImage: `url("${elements[userNFTs[mainIndex].bgId].img}")` }}
 			>
 				{/* RIGHT BAR */}

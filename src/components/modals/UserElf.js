@@ -65,7 +65,7 @@ const UserELF = () => {
 						<img width="20" height="20" alt="elf logo" src={Images.logoELF} />
 					</div>
 					<div>
-						<span className="text-2xl">{account && account.elfBalance > 0 ? formatELF(account.elfBalance) : 'ZERO'}</span>
+						<span className="text-2xl text-white">{account && account.elfBalance > 0 ? formatELF(account.elfBalance) : 'ZERO'}</span>
 						<span className="text-brandColor text-2xl"> ELF</span>
 					</div>
 				</div>

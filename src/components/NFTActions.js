@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useCore } from '../hooks/useCore';
 
+import Links from '../constants/Links';
+import Addresses from '../constants/contracts/Addresses';
+
 import Images from '../constants/Images';
 
 import useUserAccount from '../hooks/useUserAccount';
@@ -67,13 +70,7 @@ const NFTActions = ({ nft }) => {
 		}
 	};
 
-	const handleSell = (id) => {
-		console.log('sell', id);
-	};
-
-	const handleBuy = (id) => {
-		console.log('buy', id);
-	};
+	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Ethemerals}/${nft.id}`;
 
 	return (
 		<div className="grid grid-cols-2 gap-2 px-2 text-sm text-white">
@@ -112,19 +109,23 @@ const NFTActions = ({ nft }) => {
 				</div>
 			)}
 			{account && isOwned ? (
-				<div onClick={() => handleSell(nft.id)} className="flex items-center bg-red-600 rounded-lg cursor-pointer hover:bg-red-400 transition duration-200">
-					<div className="w-8 h-8 mr-1 relative">
-						<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
+				<a href={openSeaURL} target="blank" rel="noreferrer">
+					<div className="flex items-center bg-red-600 rounded-lg cursor-pointer hover:bg-red-400 transition duration-200">
+						<div className="w-8 h-8 mr-1 relative">
+							<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
+						</div>
+						<p>Sell</p>
 					</div>
-					<p>Sell</p>
-				</div>
+				</a>
 			) : (
-				<div onClick={() => handleBuy(nft.id)} className="flex items-center bg-green-600 rounded-lg cursor-pointer hover:bg-green-400 transition duration-200">
-					<div className="w-8 h-8 mr-1 relative">
-						<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
+				<a href={openSeaURL} target="blank" rel="noreferrer">
+					<div className="flex items-center bg-green-600 rounded-lg cursor-pointer hover:bg-green-400 transition duration-200">
+						<div className="w-8 h-8 mr-1 relative">
+							<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
+						</div>
+						<p>Bid</p>
 					</div>
-					<p>Bid</p>
-				</div>
+				</a>
 			)}
 
 			<div
@@ -139,11 +140,14 @@ const NFTActions = ({ nft }) => {
 
 			<div
 				onClick={() => {
-					if (isOwned) {
+					if (isOwned && false) {
 						history.push(`/redemption/${nft.id}`);
 					}
 				}}
-				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-brandColor cursor-pointer hover:bg-brandColor-pale transition duration-200' : ' bg-customBlue-pale'}`}
+				// TODO
+				className={`flex items-center rounded-lg cursor-default ${
+					account && isOwned && false ? 'bg-brandColor cursor-pointer hover:bg-brandColor-pale transition duration-200' : ' bg-customBlue-pale'
+				}`}
 			>
 				<div className="w-8 h-8 mr-1 relative">
 					<img className="center" width="20px" height="20px" alt="icon drain" src={Images.iconDrain} />
@@ -153,11 +157,12 @@ const NFTActions = ({ nft }) => {
 
 			<div
 				onClick={() => {
-					if (isOwned) {
+					if (isOwned && false) {
 						history.push(`/resurrect/${nft.id}`);
 					}
 				}}
-				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-blue-400 cursor-pointer hover:bg-blue-300 transition duration-200' : 'bg-customBlue-pale'}`}
+				// TODO
+				className={`flex items-center rounded-lg cursor-default ${account && isOwned && false ? 'bg-blue-400 cursor-pointer hover:bg-blue-300 transition duration-200' : 'bg-customBlue-pale'}`}
 			>
 				<div className="w-8 h-8 mr-1 relative">
 					<img className="center" width="26px" height="26px" alt="icon wing" src={Images.iconWings} />

@@ -13,6 +13,7 @@ const Links = {
 	TWITTER: 'https://twitter.com/ethemerals',
 	DISCORD: 'https://discord.gg/cwszZt9t4j',
 	MEDIUM: 'https://google.com',
+	OPENSEAS: 'https://testnets.opensea.io/assets/',
 };
 
 export default Links;

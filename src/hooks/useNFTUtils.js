@@ -13,6 +13,19 @@ import iconRanger from '../assets/subclasses/ranger.png';
 import iconSorcerer from '../assets/subclasses/sorcerer.png';
 import iconSummoner from '../assets/subclasses/summoner.png';
 
+import iconAssassinB from '../assets/subclasses/big/assassin.png';
+import iconBerserkerB from '../assets/subclasses/big/berserker.png';
+import iconClericB from '../assets/subclasses/big/cleric.png';
+import iconDarkKnightB from '../assets/subclasses/big/darkknight.png';
+import iconDragoonB from '../assets/subclasses/big/dragoon.png';
+import iconDruidB from '../assets/subclasses/big/druid.png';
+import iconKnightB from '../assets/subclasses/big/knight.png';
+import iconMonkB from '../assets/subclasses/big/monk.png';
+import iconPaladinB from '../assets/subclasses/big/paladin.png';
+import iconRangerB from '../assets/subclasses/big/ranger.png';
+import iconSorcererB from '../assets/subclasses/big/sorcerer.png';
+import iconSummonerB from '../assets/subclasses/big/summoner.png';
+
 import void1 from '../assets/backgrounds/void/1.jpg';
 import void2 from '../assets/backgrounds/void/2.jpg';
 import void3 from '../assets/backgrounds/void/3.jpg';
@@ -107,60 +120,73 @@ export const useNFTUtils = () => {
 
 	function getSubclassIcon(subclass) {
 		let icon = iconPaladin;
+		let iconB = iconPaladinB;
 		let palette = { base: 'hsla(194,0%,90%,1)' };
 
 		if (subclass === 'Paladin') {
 			icon = iconPaladin;
+			iconB = iconPaladinB;
 			palette.hue = 194;
 		}
 		if (subclass === 'Knight') {
 			icon = iconKnight;
+			iconB = iconKnightB;
 			palette.hue = 205;
 		}
 		if (subclass === 'Dark Knight') {
 			icon = iconDarkKnight;
+			iconB = iconDarkKnightB;
 			palette.hue = 220;
 		}
 		if (subclass === 'Dragoon') {
 			icon = iconDragoon;
+			iconB = iconDragoonB;
 			palette.hue = 235;
 		}
 
 		if (subclass === 'Sorcerer') {
 			icon = iconSorcerer;
+			iconB = iconSorcererB;
 			palette.hue = 277;
 		}
 		if (subclass === 'Summoner') {
 			icon = iconSummoner;
+			iconB = iconSummonerB;
 			palette.hue = 295;
 		}
 		if (subclass === 'Cleric') {
 			icon = iconCleric;
+			iconB = iconClericB;
 			palette.hue = 317;
 		}
 		if (subclass === 'Druid') {
 			icon = iconDruid;
+			iconB = iconDruidB;
 			palette.hue = 338;
 		}
 
 		if (subclass === 'Ranger') {
 			icon = iconRanger;
+			iconB = iconRangerB;
 			palette.hue = 115;
 		}
 		if (subclass === 'Berserker') {
 			icon = iconBerserker;
+			iconB = iconBerserkerB;
 			palette.hue = 133;
 		}
 		if (subclass === 'Assassin') {
 			icon = iconAssassin;
+			iconB = iconAssassinB;
 			palette.hue = 155;
 		}
 		if (subclass === 'Monk') {
 			icon = iconMonk;
+			iconB = iconMonkB;
 			palette.hue = 176;
 		}
 
-		return { icon, palette };
+		return { icon, palette, iconB };
 	}
 
 	function getSubclassPalette(subclass) {

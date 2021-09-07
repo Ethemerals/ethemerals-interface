@@ -89,7 +89,7 @@ const NFTDetails = () => {
 					<div style={{ height: '124px' }} className="bg-black pt-3 px-4">
 						<div className="flex h-10">
 							<div style={{ backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%,70%,1)` }} className="w-10">
-								<img src={getSubclassIcon(subclass).icon} alt="subclass icon" />
+								<img src={getSubclassIcon(subclass).iconB} alt="subclass icon" />
 							</div>
 							<div className="px-2 uppercase text-3xl">{subclass}</div>
 						</div>

@@ -4,10 +4,10 @@ import { GET_NFTS_ORDERED } from '../queries/Subgraph';
 import NFTPreviewCard from '../components/NFTPreviewCard';
 import { useHistory, useParams } from 'react-router-dom';
 
-const maxQuery = 100;
+const maxQuery = 120;
 
-const NFTRecentlyMinted = () => {
-	const { data, status } = useGQLQuery('nfts_minted', GET_NFTS_ORDERED, { orderBy: 'timestamp', first: maxQuery }, { refetchOnMount: true });
+const NFTMinted = ({ orderDirection }) => {
+	const { data, status } = useGQLQuery('nfts_minted', GET_NFTS_ORDERED, { orderBy: 'timestamp', orderDirection: orderDirection, first: maxQuery }, { refetchOnMount: true });
 	const [nfts, setNfts] = useState([]);
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ const NFTRecentlyMinted = () => {
 };
 
 const NFTScore = () => {
-	const { data, status } = useGQLQuery('nfts_score', GET_NFTS_ORDERED, { orderBy: 'score', first: maxQuery }, { refetchOnMount: true });
+	const { data, status } = useGQLQuery('nfts_score', GET_NFTS_ORDERED, { orderBy: 'score', first: maxQuery, orderDirection: 'desc' }, { refetchOnMount: true });
 	const [nfts, setNfts] = useState([]);
 	const [nftsSorted, setNftsSorted] = useState([]);
 
@@ -52,7 +52,7 @@ const NFTScore = () => {
 };
 
 const NFTRewards = () => {
-	const { data, status } = useGQLQuery('nfts_rewards', GET_NFTS_ORDERED, { orderBy: 'rewards', first: maxQuery }, { refetchOnMount: true });
+	const { data, status } = useGQLQuery('nfts_rewards', GET_NFTS_ORDERED, { orderBy: 'rewards', first: maxQuery, orderDirection: 'desc' }, { refetchOnMount: true });
 	const [nfts, setNfts] = useState([]);
 	const [nftsSorted, setNftsSorted] = useState([]);
 
@@ -99,7 +99,7 @@ const Ethemerals = () => {
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
 			<div className="text-sm font-bold text-white sm:hidden mt-4 text-center">SORT BY</div>
-			<div className="flex items-center mx-auto mt-2 sm:mt-10 text-sm sm:text-xl justify-center">
+			<div className="flex items-center mx-auto mt-2 sm:mt-10 text-sm sm:text justify-center">
 				<span className="text-xs font-bold px-2 text-white hidden sm:flex">SORT BY</span>
 
 				<button
@@ -123,7 +123,7 @@ const Ethemerals = () => {
 			</div>
 
 			<div className="flex flex-wrap mx-auto justify-center">
-				{sortBy === 1 && <NFTRecentlyMinted />}
+				{sortBy === 1 && <NFTMinted orderDirection="desc" />}
 				{sortBy === 2 && <NFTScore />}
 				{sortBy === 3 && <NFTRewards />}
 			</div>

@@ -22,8 +22,8 @@ export const GET_ACCOUNTS = gql`
 `;
 
 export const GET_NFTS_ORDERED = gql`
-	query ($orderBy: String!, $first: Int!) {
-		ethemerals(first: $first, orderBy: $orderBy, orderDirection: desc) {
+	query ($orderBy: String!, $first: Int!, $orderDirection: String!) {
+		ethemerals(first: $first, orderBy: $orderBy, orderDirection: $orderDirection) {
 			id
 			timestamp
 			score
