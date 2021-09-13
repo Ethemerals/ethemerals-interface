@@ -106,8 +106,14 @@ const NFTDetails = () => {
 						<div className="flex justify-end mx-2">
 							<RankedStars amount={parseScore(nft.score)} />
 						</div>
-						<p className="font-bold text-right mx-2">{nft.score} HP</p>
-						<p className="font-bold text-right mx-2">{nft.rewards} ELF</p>
+						<div className="flex items-center justify-end">
+							<p className="font-bold text-right -mr-1">{nft.score} HP</p>
+							<img width="18px" height="18px" className="mx-2" src={Images.iconShield} />
+						</div>
+						<div className="flex items-center justify-end">
+							<p className="font-bold text-right">{nft.rewards} ELF</p>
+							<img width="16px" height="16px" className="mx-2" src={Images.iconDrain} />
+						</div>
 					</div>
 
 					{/* BOTTOM BAR */}

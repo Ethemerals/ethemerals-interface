@@ -1,6 +1,6 @@
 const Links = {
 	LANDING_URL: 'https://ethemerals.com',
-	DISCORD_URL: 'https://discord.gg/cwszZt9t4j',
+	DISCORD_URL: 'https://discord.gg/5GUbsxed6G',
 	ETHERSCAN_URL: 'https://rinkeby.etherscan.io/',
 	SUBGRAPH_ENDPOINT: 'https://api.studio.thegraph.com/query/5557/ethemerals/v0.0.45',
 	UNISWAP: 'https://google.com',
@@ -11,7 +11,7 @@ const Links = {
 	GITHUB: 'https://github.com/Ethemerals',
 	INSTAGRAM: 'https://www.instagram.com/ethemeralsart/',
 	TWITTER: 'https://twitter.com/ethemerals',
-	DISCORD: 'https://discord.gg/cwszZt9t4j',
+	DISCORD: 'https://discord.gg/5GUbsxed6G',
 	MEDIUM: 'https://google.com',
 	OPENSEAS: 'https://testnets.opensea.io/assets/',
 };
