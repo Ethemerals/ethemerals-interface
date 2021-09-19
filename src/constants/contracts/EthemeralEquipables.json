@@ -8,7 +8,7 @@
 			},
 			{
 				"internalType": "address",
-				"name": "_tokenAddress",
+				"name": "_nftAddress",
 				"type": "address"
 			}
 		],
@@ -88,68 +88,6 @@
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint32",
-				"name": "rewards",
-				"type": "uint32"
-			},
-			{
-				"indexed": false,
-				"internalType": "bool",
-				"name": "add",
-				"type": "bool"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint8",
-				"name": "action",
-				"type": "uint8"
-			}
-		],
-		"name": "ChangeRewards",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint16",
-				"name": "score",
-				"type": "uint16"
-			},
-			{
-				"indexed": false,
-				"internalType": "bool",
-				"name": "add",
-				"type": "bool"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint32",
-				"name": "rewards",
-				"type": "uint32"
-			}
-		],
-		"name": "ChangeScore",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
 				"indexed": true,
 				"internalType": "address",
 				"name": "delegate",
@@ -169,43 +107,6 @@
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint16",
-				"name": "elf",
-				"type": "uint16"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint8",
-				"name": "atk",
-				"type": "uint8"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint8",
-				"name": "def",
-				"type": "uint8"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint8",
-				"name": "spd",
-				"type": "uint8"
-			}
-		],
-		"name": "Mint",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
 				"indexed": true,
 				"internalType": "address",
 				"name": "previousOwner",
@@ -219,19 +120,6 @@
 			}
 		],
 		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			}
-		],
-		"name": "PriceChange",
 		"type": "event"
 	},
 	{
@@ -300,6 +188,26 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "delegates",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function",
+		"constant": true
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
@@ -319,49 +227,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "maxMeralIndex",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
-	},
-	{
-		"inputs": [],
-		"name": "maxMeralSupply",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
-	},
-	{
-		"inputs": [],
-		"name": "meralSupply",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
-	},
-	{
-		"inputs": [],
-		"name": "mintPrice",
+		"name": "itemSupply",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -415,6 +281,20 @@
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function",
+		"constant": true
+	},
+	{
+		"inputs": [],
+		"name": "petSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -496,20 +376,6 @@
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "startingELF",
-		"outputs": [
-			{
-				"internalType": "uint16",
-				"name": "",
-				"type": "uint16"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
 	},
 	{
 		"inputs": [
@@ -604,30 +470,33 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
 			}
 		],
-		"name": "mintMeral",
+		"name": "redeemPet",
 		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function",
-		"payable": true
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
 				"internalType": "address",
-				"name": "recipient",
+				"name": "_recipient",
 				"type": "address"
 			}
 		],
-		"name": "mintMerals",
+		"name": "mintItemsDelegate",
 		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function",
-		"payable": true
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [
@@ -646,118 +515,16 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint16",
-				"name": "offset",
-				"type": "uint16"
-			},
-			{
-				"internalType": "bool",
-				"name": "add",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint32",
-				"name": "amount",
-				"type": "uint32"
-			}
-		],
-		"name": "changeScore",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint32",
-				"name": "offset",
-				"type": "uint32"
-			},
-			{
-				"internalType": "bool",
-				"name": "add",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint8",
-				"name": "action",
-				"type": "uint8"
-			}
-		],
-		"name": "changeRewards",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "mintReserve",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
 				"name": "_amount",
 				"type": "uint256"
-			}
-		],
-		"name": "mintMeralsAdmin",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
+			},
 			{
-				"internalType": "address payable",
-				"name": "to",
+				"internalType": "address",
+				"name": "_recipient",
 				"type": "address"
 			}
 		],
-		"name": "withdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_price",
-				"type": "uint256"
-			}
-		],
-		"name": "setPrice",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "setMaxMeralIndex",
+		"name": "mintItemsAdmin",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -792,110 +559,6 @@
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint16",
-				"name": "_cmId",
-				"type": "uint16"
-			},
-			{
-				"internalType": "uint16",
-				"name": "_element",
-				"type": "uint16"
-			}
-		],
-		"name": "setMeralBase",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "getEthemeral",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint16",
-						"name": "score",
-						"type": "uint16"
-					},
-					{
-						"internalType": "uint32",
-						"name": "rewards",
-						"type": "uint32"
-					},
-					{
-						"internalType": "uint8",
-						"name": "atk",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint8",
-						"name": "def",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint8",
-						"name": "spd",
-						"type": "uint8"
-					}
-				],
-				"internalType": "struct Ethemerals.Meral",
-				"name": "",
-				"type": "tuple"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "getMeralBase",
-		"outputs": [
-			{
-				"internalType": "uint16[]",
-				"name": "",
-				"type": "uint16[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
-	},
-	{
-		"inputs": [],
-		"name": "totalSupply",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
 	},
 	{
 		"inputs": [

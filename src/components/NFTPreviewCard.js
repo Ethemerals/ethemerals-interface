@@ -93,7 +93,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 			</div>
 
 			{/* BOTTOM BAR */}
-			{/* <div style={{ backgroundColor: `hsla(${getSubclassPalette(subclass).hue},40%,40%,0.9)` }} className="w-full bottom-0 absolute overflow-hidden"> */}
+
 			<div style={{ backgroundColor: elements[nft.bgId].color1 }} className="w-full bottom-0 absolute overflow-hidden">
 				<div className="px-2 py-1">
 					<p className="text-xs text-white">

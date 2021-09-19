@@ -99,7 +99,7 @@ const Ethemerals = () => {
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
 			<div className="text-sm font-bold text-white sm:hidden mt-4 text-center">SORT BY</div>
-			<div className="flex items-center mx-auto mt-2 sm:mt-10 text-sm sm:text justify-center">
+			<div className="flex items-center mx-auto mt-2 sm:mt-10 text-sm sm:text-base justify-center">
 				<span className="text-xs font-bold px-2 text-white hidden sm:flex">SORT BY</span>
 
 				<button

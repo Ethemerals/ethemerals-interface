@@ -2,7 +2,7 @@ const Links = {
 	LANDING_URL: 'https://ethemerals.com',
 	DISCORD_URL: 'https://discord.gg/5GUbsxed6G',
 	ETHERSCAN_URL: 'https://rinkeby.etherscan.io/',
-	SUBGRAPH_ENDPOINT: 'https://api.studio.thegraph.com/query/5557/ethemerals/v0.0.45',
+	SUBGRAPH_ENDPOINT: 'https://api.studio.thegraph.com/query/5557/ethemerals/v0.0.51',
 	UNISWAP: 'https://google.com',
 	APP: 'https://app.ethemerals.com',
 	ETHEMERALS: 'https://app.ethemerals.com/ethemerals',

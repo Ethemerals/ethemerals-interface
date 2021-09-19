@@ -5,7 +5,6 @@ export const GET_CORE = gql`
 		core(id: $id) {
 			id
 			mintPrice
-			discountMinTokens
 			maxAvailableIndex
 			ethemeralSupply
 		}
@@ -191,6 +190,12 @@ export const GET_ACCOUNT_ACTIONS = gql`
 				ethemeral {
 					id
 				}
+				pet {
+					id
+				}
+				item {
+					id
+				}
 				transaction {
 					id
 					from
@@ -205,6 +210,134 @@ export const GET_CORE_ACCOUNT = gql`
 	query ($id: ID!) {
 		account(id: $id) {
 			elfBalance
+		}
+	}
+`;
+
+export const GET_ITEMS_ORDERED = gql`
+	query ($orderBy: String!, $first: Int!, $orderDirection: String!) {
+		items(first: $first, orderBy: $orderBy, orderDirection: $orderDirection) {
+			id
+			timestamp
+			atk
+			def
+			spd
+			metadata {
+				name
+			}
+		}
+	}
+`;
+
+export const GET_ITEM = gql`
+	query ($id: ID!) {
+		item(id: $id) {
+			id
+			timestamp
+			creator {
+				id
+			}
+			owner {
+				id
+			}
+			edition
+			atk
+			def
+			spd
+			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
+				timestamp
+				transaction {
+					id
+					from
+					to
+				}
+				type
+			}
+			metadata {
+				name
+			}
+		}
+	}
+`;
+
+export const GET_ITEM_LIGHT = gql`
+	query ($id: ID!) {
+		item(id: $id) {
+			id
+			owner {
+				id
+			}
+			edition
+			atk
+			def
+			spd
+			metadata {
+				name
+			}
+		}
+	}
+`;
+
+export const GET_PETS_ORDERED = gql`
+	query ($orderBy: String!, $first: Int!, $orderDirection: String!) {
+		pets(first: $first, orderBy: $orderBy, orderDirection: $orderDirection) {
+			id
+			timestamp
+			atk
+			def
+			spd
+			metadata {
+				name
+			}
+		}
+	}
+`;
+
+export const GET_PET = gql`
+	query ($id: ID!) {
+		pet(id: $id) {
+			id
+			timestamp
+			creator {
+				id
+			}
+			owner {
+				id
+			}
+			edition
+			atk
+			def
+			spd
+			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
+				timestamp
+				transaction {
+					id
+					from
+					to
+				}
+				type
+			}
+			metadata {
+				name
+			}
+		}
+	}
+`;
+
+export const GET_PET_LIGHT = gql`
+	query ($id: ID!) {
+		pet(id: $id) {
+			id
+			owner {
+				id
+			}
+			edition
+			atk
+			def
+			spd
+			metadata {
+				name
+			}
 		}
 	}
 `;

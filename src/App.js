@@ -13,6 +13,7 @@ import BattleWilds from './pages/BattleWilds';
 import BattleRoyale from './pages/BattleRoyale';
 import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
+import Equipables from './pages/Equipables';
 import NFTDetails from './pages/NFTDetails';
 import Opensea from './pages/Opensea';
 import Resurrect from './pages/Resurrect';
@@ -86,6 +87,12 @@ function App() {
 								</Route>
 								<Route exact path="/ethemerals/:sort">
 									<Ethemerals />
+								</Route>
+								<Route exact path="/equipables">
+									<Equipables />
+								</Route>
+								<Route exact path="/equipables/:type">
+									<Equipables />
 								</Route>
 								<Route exact path="/ethemeral/:id">
 									<NFTDetails />

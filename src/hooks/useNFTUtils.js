@@ -279,5 +279,21 @@ export const useNFTUtils = () => {
 		return bonus;
 	};
 
-	return { getBaseURL, getNFTImages, parseScore, getSubclassPalette, getSubclassIcon, elements, getSubclassBonus };
+	function getEquipableTypePalette(type) {
+		let palette = 'hsla(180,95%,14%,1)';
+
+		if (type === 0) {
+			palette = 'hsla(360,60%,40%,1)';
+		}
+		if (type === 1) {
+			palette = 'hsla(220,60%,40%,1)';
+		}
+		if (type === 2) {
+			palette = 'hsla(180,60%,40%,1)';
+		}
+
+		return palette;
+	}
+
+	return { getBaseURL, getNFTImages, parseScore, getSubclassPalette, getSubclassIcon, elements, getSubclassBonus, getEquipableTypePalette };
 };

@@ -15,25 +15,6 @@ import { useTokenContract } from '../hooks/useToken';
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
-const requiredElfDiscount = 2000;
-
-const isDiscountable = async (contractToken, address, setDiscountable) => {
-	try {
-		const value = await contractToken.balanceOf(address);
-		let elfBalance = 0;
-		if (value) {
-			elfBalance = formatELF(value);
-		}
-		if (elfBalance >= requiredElfDiscount) {
-			setDiscountable(true);
-		} else {
-			setDiscountable(false);
-		}
-	} catch (error) {
-		console.log(error);
-	}
-};
-
 const Home = () => {
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
@@ -44,7 +25,6 @@ const Home = () => {
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
-	const [discountable, setDiscountable] = useState(false);
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
@@ -57,12 +37,6 @@ const Home = () => {
 		setIsErrorOpen(!isErrorOpen);
 	};
 
-	useEffect(() => {
-		if (contractToken) {
-			isDiscountable(contractToken, address, setDiscountable);
-		}
-	}, [contractToken, address]);
-
 	const onSubmitMint = async () => {
 		if (contractCore && readyToTransact()) {
 			setIsConfirmationOpen(true);
@@ -70,9 +44,7 @@ const Home = () => {
 			try {
 				let value = await contractCore.mintPrice();
 				value = value.mul(BigNumber.from(amount));
-				if (discountable) {
-					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(1000))).div(BigNumber.from(10000));
-				}
+
 				const gasEstimate = await contractCore.estimateGas.mintEthemeral(address, { value });
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractCore.mintEthemeral(address, { value, gasLimit });
@@ -98,9 +70,7 @@ const Home = () => {
 				let value = await contractCore.mintPrice();
 				value = value.mul(BigNumber.from(amount));
 				value = value.mul(BigNumber.from(10000).sub(BigNumber.from(1000))).div(BigNumber.from(10000));
-				if (discountable) {
-					value = value.mul(BigNumber.from(10000).sub(BigNumber.from(1000))).div(BigNumber.from(10000));
-				}
+
 				const gasEstimate = await contractCore.estimateGas.mintEthemerals(address, { value });
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractCore.mintEthemerals(address, { value, gasLimit });
@@ -147,7 +117,6 @@ const Home = () => {
 					{core && (
 						<div className="text-center mt-4">
 							<p className="font-bold text-3xl">{`Mint 1 for ${formatETH(core.mintPrice, 4)} ETH`}</p>
-							<p>{discountable ? 'You hold ELF! 10% Discount will be applied' : 'You dont hold enough ELF for a Discount'}</p>
 						</div>
 					)}
 				</div>
@@ -158,7 +127,6 @@ const Home = () => {
 					{core && (
 						<div className="text-center mt-4">
 							<p className="font-bold text-3xl">{`Mint 3 for ${parseFloat(formatETH(core.mintPrice, 3)) * 3 * 0.9} ETH`}</p>
-							<p>{discountable ? 'You hold ELF! 10% Discount will be applied' : 'You dont hold enough ELF for a Discount'}</p>
 						</div>
 					)}
 				</div>
