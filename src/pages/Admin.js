@@ -259,9 +259,9 @@ const Admin = () => {
 			setIsConfirmationOpen(true);
 			try {
 				let id = data.setAvailableCoin_id;
-				const gasEstimate = await contractCore.estimateGas.setMaxAvailableIndex(id);
+				const gasEstimate = await contractCore.estimateGas.setMaxMeralIndex(id);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.setMaxAvailableIndex(id, { gasLimit });
+				const tx = await contractCore.setMaxMeralIndex(id, { gasLimit });
 				console.log(tx);
 				sendTx(tx.hash, 'Set max available ethemeral', true, ['core', 'account_core']);
 			} catch (error) {
@@ -281,10 +281,9 @@ const Admin = () => {
 			setIsConfirmationOpen(true);
 			try {
 				let price = utils.parseEther(data.setPrice_price);
-				let inEth = data.setPrice_inEth;
-				const gasEstimate = await contractCore.estimateGas.setPrice(price, inEth);
+				const gasEstimate = await contractCore.estimateGas.setPrice(price);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.setPrice(price, inEth, { gasLimit });
+				const tx = await contractCore.setPrice(price, { gasLimit });
 				console.log(tx);
 				sendTx(tx.hash, 'Set Price', true, ['core', 'account_core']);
 			} catch (error) {
@@ -330,28 +329,6 @@ const Admin = () => {
 				const gasEstimate = await contractCore.estimateGas.setBaseURI(uri);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractCore.setBaseURI(uri, { gasLimit });
-				console.log(tx);
-				sendTx(tx.hash, 'set uri', true, ['core', 'account_core']);
-			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transaction rejected from user wallet');
-				console.log(`${error.data} \n${error.message}`);
-			}
-			setIsConfirmationOpen(false);
-		} else {
-			// connect
-			console.log('no wallet');
-		}
-	};
-
-	const onSubmitSetContractURI = async (data) => {
-		if (contractCore && readyToTransact()) {
-			setIsConfirmationOpen(true);
-			try {
-				let uri = data.setContractURI_uri;
-				const gasEstimate = await contractCore.estimateGas.setContractURI(uri);
-				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.setContractURI(uri, { gasLimit });
 				console.log(tx);
 				sendTx(tx.hash, 'set uri', true, ['core', 'account_core']);
 			} catch (error) {
@@ -429,7 +406,6 @@ const Admin = () => {
 				{contractBalance && <p>{`ETH Balance: ${formatETH(contractBalance)} ETH`}</p>}
 				{accountCore && <p>{`ELF Balance: ${formatELF(accountCore.elfBalance)} ELF`}</p>}
 				<p>{`Mint Price: ${formatETH(core.mintPrice, 6)} ETH`}</p>
-				<p>{`Discount Min Tokens: ${formatELF(core.discountMinTokens)} ELF`}</p>
 				<p>{`Max Index: ${core.maxAvailableIndex} `}</p>
 				<p>{`Current Supply: ${core.ethemeralSupply}`}</p>
 				<p>{`Latest Index: ${parseInt(core.ethemeralSupply) - 1}`}</p>
@@ -467,10 +443,6 @@ const Admin = () => {
 				</button>
 				<input className="text-black w-24" {...register('tokenURI_id')} />
 				<br></br>
-				<button onClick={() => getContractURI(contractCore, setContractURI)} className="bg-gray-800 text-xs px-4 py-2 m-2 rounded hover:bg-yellow-400 transition duration-300">
-					Contract URI: {contractURI}
-				</button>
-				<br></br>
 				<button onClick={onSubmitMint} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 					{`mint 1 for ${formatETH(core.mintPrice, 3)} ETH`}
 				</button>
@@ -492,7 +464,6 @@ const Admin = () => {
 					Set Price
 				</button>
 				<input className="text-black w-24" {...register('setPrice_price')} />
-				<input type="checkbox" className="text-black w-24" {...register('setPrice_inEth')} />
 				TRUE: In ETH | FALSE: Dicount Min Tokens Needed
 				<br></br>
 				<button onClick={handleSubmit(onSubmitAddDelegate)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
@@ -506,11 +477,6 @@ const Admin = () => {
 					Set Base URI
 				</button>
 				<input className="text-black w-96" {...register('setBaseURI_uri')} />
-				<br></br>
-				<button onClick={handleSubmit(onSubmitSetContractURI)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-					Set Contract URI
-				</button>
-				<input className="text-black w-96" {...register('setContractURI_uri')} />
 				<br></br>
 				<h2 className="mt-10">Eternal Battle Contract</h2>
 				<p>Contract Address: {shortenAddress(core.id)}</p>

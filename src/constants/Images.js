@@ -17,6 +17,8 @@ import mintball from '../assets/mintball.gif';
 import iconPlaytoearn from '../assets/icon_playtoearn.png';
 import sparkles from '../assets/sparkles.png';
 import iconShield from '../assets/icon_shield.svg';
+import dragon from '../assets/dragon.png';
+import boots from '../assets/boots.png';
 
 const Images = {
 	test,
@@ -38,6 +40,8 @@ const Images = {
 	iconPlaytoearn,
 	sparkles,
 	iconShield,
+	dragon,
+	boots,
 };
 
 export default Images;

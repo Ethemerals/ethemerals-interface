@@ -106,27 +106,25 @@ const Home = () => {
 			<div className="center">
 				{core && (
 					<div className="text-center my-8">
+						<p className="text-red-900 font-bold text-2xl">BETA BUILD - RINKEBY TESTNET</p>
 						<p className="text-blue-900">Season 1 Ethemeral Characters</p>
-						<p className="text-blue-900">{`current supply ${core.ethemeralSupply}/${core.maxAvailableIndex}`}</p>
+						<p className="text-blue-900">{`current supply ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex) + 1}`}</p>
 					</div>
 				)}
-				<div onClick={() => handleOnSubmitBuy(1)} className="text-blue-900 cursor-pointer w-420">
+				<div onClick={() => handleOnSubmitBuy(1)} className="text-blue-900 cursor-pointer w-420 ">
 					<div className="flex justify-center">
 						<img width="72" height="72" alt="mintable ethemeral two" src={Images.logoELF} />
 					</div>
 					{core && (
 						<div className="text-center mt-4">
-							<p className="font-bold text-3xl">{`Mint 1 for ${formatETH(core.mintPrice, 4)} ETH`}</p>
+							<p className="font-bold text-3xl  bg-white bg-opacity-50">{`Mint 1 for ${formatETH(core.mintPrice, 4)} ETH`}</p>
 						</div>
 					)}
 				</div>
 				<div onClick={() => handleOnSubmitBuy(3)} className="text-blue-900 cursor-pointer w-420 mt-10">
-					<div className="flex justify-center">
-						<img width="72" height="72" alt="mintable ethemeral two" src={Images.logoELF} />
-					</div>
 					{core && (
-						<div className="text-center mt-4">
-							<p className="font-bold text-3xl">{`Mint 3 for ${parseFloat(formatETH(core.mintPrice, 3)) * 3 * 0.9} ETH`}</p>
+						<div className="text-center mt-4 ">
+							<p className="font-bold text-3xl  bg-white bg-opacity-50">{`Mint 3 for ${parseFloat(formatETH(core.mintPrice, 3)) * 3 * 0.9} ETH`}</p>
 						</div>
 					)}
 				</div>

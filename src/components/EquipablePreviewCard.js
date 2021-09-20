@@ -29,7 +29,7 @@ const EquipablePreviewCard = ({ nft }) => {
 		<div onClick={handleOnClick} className="w-64 h-96 bg-blue-500 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300">
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
-				<img className="" src={getNFTImages(1).preview} alt="" />
+				<img className="" src={nft.id < 1000 ? Images.dragon : Images.boots} alt="" />
 			</div>
 			{/* TOP BAR */}
 
