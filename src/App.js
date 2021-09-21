@@ -22,6 +22,8 @@ import Marketplace from './pages/Marketplace';
 import About from './pages/About';
 import Help from './pages/Help';
 import Dev from './pages/Dev';
+import DevPets from './pages/DevItems';
+import NFTTest from './pages/NFTTest';
 
 import Web3ContextProvider from './hooks/Web3Context';
 import TxContextProvider from './hooks/TxContext';
@@ -97,6 +99,9 @@ function App() {
 								<Route exact path="/ethemeral/:id">
 									<NFTDetails />
 								</Route>
+								<Route exact path="/test">
+									<NFTTest />
+								</Route>
 								<Route exact path="/resurrect/:id">
 									<Resurrect />
 								</Route>
@@ -120,6 +125,12 @@ function App() {
 								</Route>
 								<Route exact path="/dev/:crop">
 									<Dev />
+								</Route>
+								<Route exact path="/dev/items">
+									<DevPets />
+								</Route>
+								<Route exact path="/dev/items:crop">
+									<DevPets />
 								</Route>
 							</Switch>
 						</div>
