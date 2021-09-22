@@ -443,4 +443,45 @@ nftMetadata.artist = [
 	'Romi ',
 ];
 
+nftMetadata.pets = [
+	{ id: 100, name: 'The Doge' },
+	{ id: 101, name: 'Turtle' },
+	{ id: 102, name: 'Manta Ray' },
+	{ id: 103, name: 'Black Dragon' },
+	{ id: 104, name: 'Meerkat' },
+	{ id: 105, name: 'Ghost' },
+	{ id: 106, name: 'Salmon and Rice' },
+	{ id: 107, name: 'Green Phenix' },
+	{ id: 108, name: 'Axol' },
+	{ id: 109, name: 'The Balloon' },
+	{ id: 110, name: 'Drone of Neo' },
+	{ id: 111, name: 'Droid of Qtum' },
+	{ id: 112, name: 'Bunch of Butterflies' },
+];
+
+nftMetadata.slimes = [
+	{ id: 0, name: 'Slime Type A' },
+	{ id: 1, name: 'Slime Type B' },
+	{ id: 2, name: 'Slime Type C' },
+	{ id: 3, name: 'Slime Type D' },
+	{ id: 4, name: 'Slime Type E' },
+	{ id: 5, name: 'Slime Type F' },
+	{ id: 6, name: 'Slime Type G' },
+	{ id: 7, name: 'Slime Type H' },
+	{ id: 8, name: 'Slime Type I' },
+	{ id: 9, name: 'Slime Type J' },
+	{ id: 10, name: 'Slime Type K' },
+	{ id: 11, name: 'Slime Type L' },
+	{ id: 12, name: 'Slime Type M' },
+	{ id: 13, name: 'Slime Type N' },
+	{ id: 14, name: 'Slime Type O' },
+	{ id: 15, name: 'Slime Type P' },
+];
+
+nftMetadata.items = [
+	{ id: 1001, name: "Satoshi's Shield Of Anonymity" },
+	{ id: 1002, name: "Elon's Falcon Moon Boots" },
+	{ id: 1003, name: "Hayden's Sword Of The Degenerate" },
+];
+
 export default nftMetadata;

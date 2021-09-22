@@ -4,7 +4,7 @@ import { useNFTUtils } from '../hooks/useNFTUtils';
 import Images from '../constants/Images';
 
 const EquipablePreviewCard = ({ nft }) => {
-	const { getNFTImages, getEquipableTypePalette } = useNFTUtils();
+	const { getNFTImages, getEquipableTypePalette, getEquipmentImages } = useNFTUtils();
 	const history = useHistory();
 	const [equipableType, setEquipableType] = useState(0);
 
@@ -29,7 +29,7 @@ const EquipablePreviewCard = ({ nft }) => {
 		<div onClick={handleOnClick} className="w-64 h-96 bg-blue-500 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300">
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
-				<img className="" src={nft.id < 1000 ? Images.dragon : Images.boots} alt="" />
+				<img className="" src={getEquipmentImages(nft.baseId).preview} alt="" />
 			</div>
 			{/* TOP BAR */}
 

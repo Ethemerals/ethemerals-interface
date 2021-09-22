@@ -22,7 +22,7 @@ import Marketplace from './pages/Marketplace';
 import About from './pages/About';
 import Help from './pages/Help';
 import Dev from './pages/Dev';
-import DevPets from './pages/DevItems';
+import DevItems from './pages/DevItems';
 import NFTTest from './pages/NFTTest';
 
 import Web3ContextProvider from './hooks/Web3Context';
@@ -126,11 +126,11 @@ function App() {
 								<Route exact path="/dev/:crop">
 									<Dev />
 								</Route>
-								<Route exact path="/dev/items">
-									<DevPets />
+								<Route exact path="/devitems">
+									<DevItems />
 								</Route>
-								<Route exact path="/dev/items:crop">
-									<DevPets />
+								<Route exact path="/devitems/:crop">
+									<DevItems />
 								</Route>
 							</Switch>
 						</div>

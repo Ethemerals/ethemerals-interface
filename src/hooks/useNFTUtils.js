@@ -102,6 +102,13 @@ export const useNFTUtils = () => {
 		return { base, large, subclassIcon, preview, inventory, thumbnail };
 	};
 
+	const getEquipmentImages = (baseId) => {
+		let base = `${s3URL}${baseId}_equipment_base.png`;
+		let preview = `${s3URL}${baseId}_equipment_preview.png`;
+		let thumbnail = `${s3URL}${baseId}_equipment_thumbnail.png`;
+		return { base, preview, thumbnail };
+	};
+
 	function parseScore(score) {
 		let scoreInt = parseInt(score);
 		// prettier-ignore
@@ -295,5 +302,5 @@ export const useNFTUtils = () => {
 		return palette;
 	}
 
-	return { getBaseURL, getNFTImages, parseScore, getSubclassPalette, getSubclassIcon, elements, getSubclassBonus, getEquipableTypePalette };
+	return { getBaseURL, getNFTImages, getEquipmentImages, parseScore, getSubclassPalette, getSubclassIcon, elements, getSubclassBonus, getEquipableTypePalette };
 };

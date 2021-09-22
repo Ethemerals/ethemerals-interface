@@ -219,6 +219,7 @@ export const GET_ITEMS_ORDERED = gql`
 		items(first: $first, orderBy: $orderBy, orderDirection: $orderDirection) {
 			id
 			timestamp
+			baseId
 			atk
 			def
 			spd
@@ -234,6 +235,7 @@ export const GET_ITEM = gql`
 		item(id: $id) {
 			id
 			timestamp
+			baseId
 			creator {
 				id
 			}
@@ -264,6 +266,7 @@ export const GET_ITEM_LIGHT = gql`
 	query ($id: ID!) {
 		item(id: $id) {
 			id
+			baseId
 			owner {
 				id
 			}
@@ -283,6 +286,7 @@ export const GET_PETS_ORDERED = gql`
 		pets(first: $first, orderBy: $orderBy, orderDirection: $orderDirection) {
 			id
 			timestamp
+			baseId
 			atk
 			def
 			spd
@@ -298,6 +302,7 @@ export const GET_PET = gql`
 		pet(id: $id) {
 			id
 			timestamp
+			baseId
 			creator {
 				id
 			}
@@ -331,6 +336,7 @@ export const GET_PET_LIGHT = gql`
 			owner {
 				id
 			}
+			baseId
 			edition
 			atk
 			def
