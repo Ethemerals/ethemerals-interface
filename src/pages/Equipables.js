@@ -3,6 +3,7 @@ import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_ITEMS_ORDERED, GET_PETS_ORDERED } from '../queries/Subgraph';
 import EquipablePreviewCard from '../components/EquipablePreviewCard';
 import { useHistory, useParams } from 'react-router-dom';
+import EquipableItemPreviewCard from '../components/EquipableItemPreviewCard';
 
 const maxQuery = 120;
 
@@ -29,7 +30,7 @@ const ItemsMinted = ({ orderDirection }) => {
 		}
 	}, [status, data]);
 
-	return nfts.map((nft, index) => <EquipablePreviewCard key={index} nft={nft} />);
+	return nfts.map((nft, index) => <EquipableItemPreviewCard key={index} nft={nft} />);
 };
 
 const Equipables = () => {

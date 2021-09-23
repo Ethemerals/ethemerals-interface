@@ -102,7 +102,11 @@ export const useNFTUtils = () => {
 		return { base, large, subclassIcon, preview, inventory, thumbnail };
 	};
 
-	const getEquipmentImages = (baseId) => {
+	const getEquipmentImages = (baseId, item = false) => {
+		if (item) {
+			let baseIdOffset = parseInt(baseId) + 10001;
+			baseId = baseIdOffset;
+		}
 		let base = `${s3URL}${baseId}_equipment_base.png`;
 		let preview = `${s3URL}${baseId}_equipment_preview.png`;
 		let thumbnail = `${s3URL}${baseId}_equipment_thumbnail.png`;

@@ -479,9 +479,9 @@ nftMetadata.slimes = [
 ];
 
 nftMetadata.items = [
-	{ id: 1001, name: "Satoshi's Shield Of Anonymity" },
-	{ id: 1002, name: "Elon's Falcon Moon Boots" },
-	{ id: 1003, name: "Hayden's Sword Of The Degenerate" },
+	{ id: 10001, name: "Satoshi's Shield Of Anonymity" },
+	{ id: 10002, name: "Elon's Falcon Moon Boots" },
+	{ id: 10003, name: "Hayden's Sword Of The Degenerate" },
 ];
 
 export default nftMetadata;
