@@ -90,9 +90,6 @@ function App() {
 								<Route exact path="/ethemerals/:sort">
 									<Ethemerals />
 								</Route>
-								<Route exact path="/equipables">
-									<Equipables />
-								</Route>
 								<Route exact path="/equipables/:type">
 									<Equipables />
 								</Route>

@@ -127,23 +127,23 @@ const NFTDetails = () => {
 								<div className="w-48 px-2 uppercase text-lg">{subclass}</div>
 							</div>
 							<div className="flex justify-between">
-								<div className=" w-3/4">
+								<div className="">
 									<div className="flex h-3 items-center mb-1 mt-2 text-sm font-bold">
 										<span className="w-8 text-white">ATK</span>
-										<span style={{ width: `${(nft.atk - getSubclassBonus(subclass)[0]) * 3}px` }} className="h-3 bg-gray-500"></span>
-										<span style={{ width: `${getSubclassBonus(subclass)[0] * 3}px`, backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%, 70%, 1)` }} className="h-3"></span>
+										<span style={{ width: `${(nft.atk - getSubclassBonus(subclass)[0]) * 0.4}px` }} className="h-3 bg-gray-500"></span>
+										<span style={{ width: `${getSubclassBonus(subclass)[0] * 0.4}px`, backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%, 70%, 1)` }} className="h-3"></span>
 										<span className="pl-1 text-white">{nft.atk}</span>
 									</div>
 									<div className="flex h-3 items-center mb-1 text-sm font-bold">
 										<span className="w-8 text-white">DEF</span>
-										<span style={{ width: `${(nft.def - getSubclassBonus(subclass)[1]) * 3}px` }} className="h-3 bg-gray-500"></span>
-										<span style={{ width: `${getSubclassBonus(subclass)[1] * 3}px`, backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%, 70%, 1)` }} className="h-3"></span>
+										<span style={{ width: `${(nft.def - getSubclassBonus(subclass)[1]) * 0.4}px` }} className="h-3 bg-gray-500"></span>
+										<span style={{ width: `${getSubclassBonus(subclass)[1] * 0.4}px`, backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%, 70%, 1)` }} className="h-3"></span>
 										<span className="pl-1 text-white">{nft.def}</span>
 									</div>
 									<div className="flex h-3 items-center mb-1 text-sm font-bold">
 										<span className="w-8 text-white">SPD</span>
-										<span style={{ width: `${(nft.spd - getSubclassBonus(subclass)[2]) * 3}px` }} className="h-3 bg-gray-500"></span>
-										<span style={{ width: `${getSubclassBonus(subclass)[2] * 3}px`, backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%, 70%, 1)` }} className="h-3"></span>
+										<span style={{ width: `${(nft.spd - getSubclassBonus(subclass)[2]) * 0.4}px` }} className="h-3 bg-gray-500"></span>
+										<span style={{ width: `${getSubclassBonus(subclass)[2] * 0.4}px`, backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%, 70%, 1)` }} className="h-3"></span>
 										<span className="pl-1 text-white">{nft.spd}</span>
 									</div>
 									<div className="flex h-3 items-center mb-1 text-sm font-bold">
@@ -151,7 +151,7 @@ const NFTDetails = () => {
 										<span className="pl-1">{parseInt(nft.spd) + parseInt(nft.def) + parseInt(nft.atk)}</span>
 									</div>
 								</div>
-								<div className="text-sm text-right leading-relaxed text-gray-200">
+								<div className="text-sm text-right leading-relaxed text-gray-200 font-bold">
 									<p>Birthed: {dateFormat(birthDate, 'mmm dd yyyy')}</p>
 									<p>Designer: {nft.metadata.artist}</p>
 									<p>Minted By: {shortenAddress(nft.creator.id)}</p>

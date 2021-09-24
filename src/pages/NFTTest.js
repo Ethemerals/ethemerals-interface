@@ -59,25 +59,25 @@ const NFTTest = () => {
 	// const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
 	const [nft, setNFT] = useState({
-		id: '37',
+		id: '41',
 		timestamp: 1632246357,
-		bgId: 12,
+		bgId: 1,
 		edition: 1,
-		score: 889,
-		rewards: 2000,
+		score: 690,
+		rewards: 8810,
 		creator: {
 			id: '0xF8e29F760d92dfd371d864976D7A4729DdD98300',
 		},
 		metadata: {
-			coin: 'BSV',
+			coin: 'ZEC',
 			artist: 'Romi',
 		},
 	});
 	const [ready, setReady] = useState(false);
-	const [cmId, setCmId] = useState(3602);
+	const [cmId, setCmId] = useState(1437);
 	const [birthDate, setBirthDate] = useState(Date.now());
 
-	const [subclass, setSubclass] = useState('Paladin');
+	const [subclass, setSubclass] = useState('Assassin');
 
 	return (
 		<div>

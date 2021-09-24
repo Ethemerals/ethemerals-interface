@@ -182,21 +182,21 @@
 			},
 			{
 				"indexed": false,
-				"internalType": "uint8",
+				"internalType": "uint16",
 				"name": "atk",
-				"type": "uint8"
+				"type": "uint16"
 			},
 			{
 				"indexed": false,
-				"internalType": "uint8",
+				"internalType": "uint16",
 				"name": "def",
-				"type": "uint8"
+				"type": "uint16"
 			},
 			{
 				"indexed": false,
-				"internalType": "uint8",
+				"internalType": "uint16",
 				"name": "spd",
-				"type": "uint8"
+				"type": "uint16"
 			}
 		],
 		"name": "Mint",
@@ -839,19 +839,19 @@
 						"type": "uint32"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "uint16",
 						"name": "atk",
-						"type": "uint8"
+						"type": "uint16"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "uint16",
 						"name": "def",
-						"type": "uint8"
+						"type": "uint16"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "uint16",
 						"name": "spd",
-						"type": "uint8"
+						"type": "uint16"
 					}
 				],
 				"internalType": "struct Ethemerals.Meral",

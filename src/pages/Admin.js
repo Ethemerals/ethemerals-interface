@@ -327,6 +327,28 @@ const Admin = () => {
 		}
 	};
 
+	const onSubmitRedeemPet = async (data) => {
+		if (contractEquipable && readyToTransact()) {
+			setIsConfirmationOpen(true);
+			try {
+				let id = data.redeemPet_id;
+				const gasEstimate = await contractEquipable.estimateGas.redeemPet(id);
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const tx = await contractEquipable.redeemPet(id, { gasLimit });
+				console.log(tx);
+				sendTx(tx.hash, `Redeemed Pet ${id}`, true, ['account', 'account_core']);
+			} catch (error) {
+				setIsErrorOpen(true);
+				setErrorMsg('Transaction rejected from user wallet');
+				console.log(`${error.data} \n${error.message}`);
+			}
+			setIsConfirmationOpen(false);
+		} else {
+			// connect
+			console.log('no wallet');
+		}
+	};
+
 	if (!provider || !contractCore || !accountCore || !contractToken) {
 		return <div>Login</div>;
 	}
@@ -443,6 +465,10 @@ const Admin = () => {
 				</button>
 				<input className="text-black w-96" {...register('setEquipableBaseURI_uri')} />
 				<br></br>
+				<button onClick={handleSubmit(onSubmitRedeemPet)} className="bg-brandColor text-bold px-4 py-2 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+					Redeem Pet
+				</button>
+				<input className="text-black w-24" {...register('redeemPet_id')} />
 				<br></br>
 				<br></br>
 			</div>

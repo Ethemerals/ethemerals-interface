@@ -249,42 +249,42 @@ export const useNFTUtils = () => {
 		let bonus = [0, 0, 0];
 
 		if (subclass === 'Paladin') {
-			bonus = [0, 20, 0];
+			bonus = [0, 200, 0];
 		}
 		if (subclass === 'Knight') {
-			bonus = [5, 15, 0];
+			bonus = [50, 150, 0];
 		}
 		if (subclass === 'Dark Knight') {
-			bonus = [15, 5, 0];
+			bonus = [150, 50, 0];
 		}
 		if (subclass === 'Dragoon') {
-			bonus = [10, 5, 5];
+			bonus = [100, 50, 50];
 		}
 
 		if (subclass === 'Sorcerer') {
-			bonus = [20, 0, 0];
+			bonus = [200, 0, 0];
 		}
 		if (subclass === 'Summoner') {
-			bonus = [10, 10, 0];
+			bonus = [100, 100, 0];
 		}
 		if (subclass === 'Cleric') {
-			bonus = [0, 16, 4];
+			bonus = [0, 160, 40];
 		}
 		if (subclass === 'Druid') {
-			bonus = [7, 6, 7];
+			bonus = [70, 60, 70];
 		}
 
 		if (subclass === 'Ranger') {
-			bonus = [0, 0, 20];
+			bonus = [0, 0, 200];
 		}
 		if (subclass === 'Berserker') {
-			bonus = [10, 0, 10];
+			bonus = [100, 0, 100];
 		}
 		if (subclass === 'Assassin') {
-			bonus = [12, 0, 8];
+			bonus = [120, 0, 80];
 		}
 		if (subclass === 'Monk') {
-			bonus = [4, 8, 8];
+			bonus = [40, 80, 80];
 		}
 
 		return bonus;
