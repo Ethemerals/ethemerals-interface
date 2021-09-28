@@ -225,7 +225,7 @@ const NFTDetails = () => {
 					</div>
 
 					{/* HISTORY */}
-					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md h-64">
+					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md h-56">
 						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">HISTORY</h3>
 						<ul className="text-gray-700 text-sm leading-6">
 							{status === 'success' &&

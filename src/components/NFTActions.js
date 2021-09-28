@@ -9,6 +9,7 @@ import Images from '../constants/Images';
 
 import useUserAccount from '../hooks/useUserAccount';
 import Gift from './modals/actions/Gift';
+import SummonPet from './modals/actions/SummonPet';
 import { shortenAddress } from '../utils';
 
 const NFTActions = ({ nft }) => {
@@ -19,6 +20,7 @@ const NFTActions = ({ nft }) => {
 	const [isOwned, setIsOwned] = useState(false);
 	const [isOwnedWinning, setIsOwnedWinning] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);
+	const [isSummonPetOpen, setIsSummonPetOpen] = useState(false);
 	const [mainLoading, setMainLoading] = useState(false);
 
 	useEffect(() => {
@@ -39,6 +41,12 @@ const NFTActions = ({ nft }) => {
 	const toggleGift = () => {
 		if (isOwned) {
 			setIsGiftOpen(!isGiftOpen);
+		}
+	};
+
+	const toggleSummon = () => {
+		if (isOwned) {
+			setIsSummonPetOpen(!isSummonPetOpen);
 		}
 	};
 
@@ -129,16 +137,6 @@ const NFTActions = ({ nft }) => {
 			)}
 
 			<div
-				onClick={toggleGift}
-				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-green-500 cursor-pointer hover:bg-green-400 transition duration-200' : ' bg-customBlue-pale'}`}
-			>
-				<div className="w-8 h-8 mr-1 relative">
-					<img className="center" width="20px" height="20px" alt="icon gift" src={Images.iconGift} />
-				</div>
-				<p>Gift</p>
-			</div>
-
-			<div
 				onClick={() => {
 					if (isOwned && false) {
 						history.push(`/redemption/${nft.id}`);
@@ -156,6 +154,16 @@ const NFTActions = ({ nft }) => {
 			</div>
 
 			<div
+				onClick={toggleGift}
+				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-green-500 cursor-pointer hover:bg-green-400 transition duration-200' : ' bg-customBlue-pale'}`}
+			>
+				<div className="w-8 h-8 mr-1 relative">
+					<img className="center" width="20px" height="20px" alt="icon gift" src={Images.iconGift} />
+				</div>
+				<p>Gift</p>
+			</div>
+
+			<div
 				onClick={() => {
 					if (isOwned && false) {
 						history.push(`/resurrect/${nft.id}`);
@@ -170,7 +178,18 @@ const NFTActions = ({ nft }) => {
 				<p>Resurrect</p>
 			</div>
 
+			<div
+				onClick={toggleSummon}
+				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-blue-500 cursor-pointer hover:bg-blue-400 transition duration-200' : ' bg-customBlue-pale'}`}
+			>
+				<div className="w-8 h-8 mr-1 relative">
+					<img className="center" width="20px" height="20px" alt="icon gift" src={Images.iconPet} />
+				</div>
+				<p>Summon Pet</p>
+			</div>
+
 			{isGiftOpen && <Gift nft={nft} toggle={toggleGift} />}
+			{isSummonPetOpen && <SummonPet nft={nft} toggle={toggleSummon} />}
 		</div>
 	);
 };

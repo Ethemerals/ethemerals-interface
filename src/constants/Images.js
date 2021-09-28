@@ -15,6 +15,7 @@ import iconDef from '../assets/icon_def.svg';
 import iconSpd from '../assets/icon_spd.svg';
 import mintball from '../assets/mintball.gif';
 import iconPlaytoearn from '../assets/icon_playtoearn.png';
+import iconPet from '../assets/icon_pet.svg';
 import sparkles from '../assets/sparkles.png';
 import iconShield from '../assets/icon_shield.svg';
 import dragon from '../assets/dragon.png';
@@ -42,6 +43,7 @@ const Images = {
 	iconShield,
 	dragon,
 	boots,
+	iconPet,
 };
 
 export default Images;

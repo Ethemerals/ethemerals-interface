@@ -9,26 +9,6 @@ import Images from '../constants/Images';
 
 import nftMetadata from '../constants/NFTMetadata';
 
-// prettier-ignore
-
-const useInterval = (callback, delay) => {
-	const savedCallback = useRef();
-
-	useEffect(() => {
-		savedCallback.current = callback;
-	}, [callback]);
-
-	useEffect(() => {
-		function tick() {
-			savedCallback.current();
-		}
-		if (delay !== null) {
-			let id = setInterval(tick, delay);
-			return () => clearInterval(id);
-		}
-	}, [delay]);
-};
-
 const RankedStars = ({ amount }) => {
 	const starSVG = (
 		<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
