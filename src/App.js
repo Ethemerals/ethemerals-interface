@@ -29,6 +29,8 @@ import Web3ContextProvider from './hooks/Web3Context';
 import TxContextProvider from './hooks/TxContext';
 import Receipt from './components/modals/Receipt';
 import ClaimHighestHonor from './pages/ClaimHighestHonor';
+import Pets from './pages/Pets';
+import Items from './pages/Items';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -94,8 +96,17 @@ function App() {
 								<Route exact path="/ethemerals/:sort">
 									<Ethemerals />
 								</Route>
-								<Route exact path="/equipables/:type">
-									<Equipables />
+								<Route exact path="/pets">
+									<Pets />
+								</Route>
+								<Route exact path="/pets/:sort">
+									<Pets />
+								</Route>
+								<Route exact path="/items">
+									<Items />
+								</Route>
+								<Route exact path="/items/:sort">
+									<Items />
 								</Route>
 								<Route exact path="/equipable/:id">
 									<Equipables />
