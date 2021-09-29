@@ -9,8 +9,8 @@ const MenuItem = ({ to, text }) => (
 );
 
 const MenuItemDisabled = ({ text }) => (
-	<span className="px-4 text-gray-600 hover:text-yellow-400">
-		<span className="cursor-pointer py-2">{text}</span>
+	<span className="px-4 text-gray-600">
+		<span className=" cursor-default py-2">{text}</span>
 	</span>
 );
 
@@ -19,7 +19,8 @@ const Mainmenu = () => {
 		<div className="flex px-2 items-center ml-4 h-10 bg-white rounded-lg text-lg">
 			<MenuItem to="/mint" text="Mint" />
 			<MenuItem to="/ethemerals" text="Ethemerals" />
-			<MenuItem to="/equipables/pets" text="Equipables" />
+			<MenuItem to="/pets" text="Pets" />
+			<MenuItem to="/items" text="Items" />
 			<MenuItemDisabled to="/battle" text="Battle" />
 			{/* <MenuItemDisabled to="/marketplace" text="Marketplace" /> */}
 		</div>

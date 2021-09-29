@@ -57,6 +57,10 @@ function App() {
 								<Route exact path="/opensea/:id">
 									<Opensea />
 								</Route>
+								{/* TODO */}
+								<Route exact path="/opensea_equipables/:id">
+									{/* <Opensea /> */}
+								</Route>
 								<Route exact path="/">
 									<Home />
 								</Route>
@@ -91,6 +95,9 @@ function App() {
 									<Ethemerals />
 								</Route>
 								<Route exact path="/equipables/:type">
+									<Equipables />
+								</Route>
+								<Route exact path="/equipable/:id">
 									<Equipables />
 								</Route>
 								<Route exact path="/ethemeral/:id">

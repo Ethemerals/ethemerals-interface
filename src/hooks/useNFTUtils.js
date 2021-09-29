@@ -291,16 +291,16 @@ export const useNFTUtils = () => {
 	};
 
 	function getEquipableTypePalette(type) {
-		let palette = 'hsla(180,95%,14%,1)';
+		let palette = 'hsla(360,60%,40%,1)';
 
 		if (type === 0) {
-			palette = 'hsla(360,60%,40%,1)';
+			palette = 'hsla(360,80%,50%,1)';
 		}
 		if (type === 1) {
-			palette = 'hsla(220,60%,40%,1)';
+			palette = 'hsla(220,80%,50%,1)';
 		}
 		if (type === 2) {
-			palette = 'hsla(180,60%,40%,1)';
+			palette = 'hsla(180,80%,50%,1)';
 		}
 
 		return palette;

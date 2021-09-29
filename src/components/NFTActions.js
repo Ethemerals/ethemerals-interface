@@ -17,6 +17,8 @@ const NFTActions = ({ nft }) => {
 	const { core } = useCore();
 	const history = useHistory();
 
+	console.log(nft.petRedeemed);
+
 	const [isOwned, setIsOwned] = useState(false);
 	const [isOwnedWinning, setIsOwnedWinning] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);
@@ -45,7 +47,7 @@ const NFTActions = ({ nft }) => {
 	};
 
 	const toggleSummon = () => {
-		if (isOwned) {
+		if (isOwned && !nft.petRedeemed) {
 			setIsSummonPetOpen(!isSummonPetOpen);
 		}
 	};
@@ -180,7 +182,9 @@ const NFTActions = ({ nft }) => {
 
 			<div
 				onClick={toggleSummon}
-				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-blue-500 cursor-pointer hover:bg-blue-400 transition duration-200' : ' bg-customBlue-pale'}`}
+				className={`flex items-center rounded-lg cursor-default ${
+					account && isOwned && !nft.petRedeemed ? 'bg-blue-500 cursor-pointer hover:bg-blue-400 transition duration-200' : ' bg-customBlue-pale'
+				}`}
 			>
 				<div className="w-8 h-8 mr-1 relative">
 					<img className="center" width="20px" height="20px" alt="icon gift" src={Images.iconPet} />

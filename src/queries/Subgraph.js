@@ -59,6 +59,7 @@ export const GET_NFT = gql`
 			def
 			spd
 			bgId
+			petRedeemed
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
 				timestamp
 				win
@@ -142,6 +143,30 @@ export const GET_ACCOUNT = gql`
 					coin
 					mainClass
 					subClass
+				}
+			}
+			pets(orderBy: timestamp, orderDirection: desc) {
+				id
+				baseId
+				timestamp
+				rarity
+				atk
+				def
+				spd
+				metadata {
+					name
+				}
+			}
+			items(orderBy: timestamp, orderDirection: desc) {
+				id
+				baseId
+				timestamp
+				rarity
+				atk
+				def
+				spd
+				metadata {
+					name
 				}
 			}
 		}
