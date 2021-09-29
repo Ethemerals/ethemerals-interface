@@ -456,7 +456,8 @@ nftMetadata.pets = [
 	{ id: 1009, name: 'The Balloon' },
 	{ id: 1010, name: 'Drone of Neo' },
 	{ id: 1011, name: 'Droid of Qtum' },
-	{ id: 1012, name: 'Bunch of Butterflies' },
+	{ id: 1012, name: 'A Butterfly' },
+	{ id: 1013, name: 'The Gecko' },
 ];
 
 nftMetadata.slimes = [
