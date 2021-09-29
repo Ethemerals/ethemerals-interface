@@ -223,6 +223,7 @@ export const GET_ITEMS_ORDERED = gql`
 			atk
 			def
 			spd
+			rarity
 			metadata {
 				name
 			}
@@ -246,6 +247,7 @@ export const GET_ITEM = gql`
 			atk
 			def
 			spd
+			rarity
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
 				timestamp
 				transaction {
@@ -274,6 +276,7 @@ export const GET_ITEM_LIGHT = gql`
 			atk
 			def
 			spd
+			rarity
 			metadata {
 				name
 			}
@@ -290,6 +293,7 @@ export const GET_PETS_ORDERED = gql`
 			atk
 			def
 			spd
+			rarity
 			metadata {
 				name
 			}
@@ -313,6 +317,7 @@ export const GET_PET = gql`
 			atk
 			def
 			spd
+			rarity
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
 				timestamp
 				transaction {
@@ -341,6 +346,7 @@ export const GET_PET_LIGHT = gql`
 			atk
 			def
 			spd
+			rarity
 			metadata {
 				name
 			}
