@@ -20,6 +20,7 @@ import sparkles from '../assets/sparkles.png';
 import iconShield from '../assets/icon_shield.svg';
 import dragon from '../assets/dragon.png';
 import boots from '../assets/boots.png';
+import titleEthem from '../assets/title_ethem.svg';
 
 const Images = {
 	test,
@@ -44,6 +45,7 @@ const Images = {
 	dragon,
 	boots,
 	iconPet,
+	titleEthem,
 };
 
 export default Images;

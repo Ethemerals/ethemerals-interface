@@ -45,7 +45,7 @@
 		background-position: 0 0;
 	}
 	0% {
-		background-position: -3964px -2000px;
+		background-position: -2729px -1506px;
 	}
 }
 
@@ -58,8 +58,8 @@
 		z-index: -100;
 		position: fixed;
 		background-image: url('https://ethemerals-media.s3.amazonaws.com/bg_home.png');
-		-webkit-animation: slide 240s linear infinite;
-		animation: slide 240s linear infinite;
+		-webkit-animation: slide 300s linear infinite;
+		animation: slide 300s linear infinite;
 		background-repeat: repeat;
 	}
 	.page_bg {

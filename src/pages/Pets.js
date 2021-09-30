@@ -61,7 +61,7 @@ const Pets = () => {
 					onClick={() => history.push(`/pets/1`)}
 					className={`${sortBy === 1 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
 				>
-					Recently Minted
+					Token Number
 				</button>
 			</div>
 			<div className="flex flex-wrap mx-auto justify-center">
