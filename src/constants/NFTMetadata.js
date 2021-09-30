@@ -444,20 +444,20 @@ nftMetadata.artist = [
 ];
 
 nftMetadata.pets = [
-	{ id: 1000, name: 'The Doge' },
-	{ id: 1001, name: 'Turtle' },
-	{ id: 1002, name: 'Manta Ray' },
-	{ id: 1003, name: 'Black Dragon' },
-	{ id: 1004, name: 'Meerkat' },
-	{ id: 1005, name: 'Ghost' },
-	{ id: 1006, name: 'Salmon and Rice' },
-	{ id: 1007, name: 'Green Phenix' },
-	{ id: 1008, name: 'Axol' },
-	{ id: 1009, name: 'The Balloon' },
-	{ id: 1010, name: 'Drone of Neo' },
-	{ id: 1011, name: 'Droid of Qtum' },
-	{ id: 1012, name: 'A Butterfly' },
-	{ id: 1013, name: 'The Gecko' },
+	{ id: 33, name: 'The Doge' },
+	{ id: 34, name: 'Turtle' },
+	{ id: 35, name: 'Manta Ray' },
+	{ id: 36, name: 'Black Dragon' },
+	{ id: 37, name: 'Meerkat' },
+	{ id: 38, name: 'Ghost' },
+	{ id: 39, name: 'Salmon and Rice' },
+	{ id: 40, name: 'Green Phenix' },
+	{ id: 41, name: 'Axol' },
+	{ id: 42, name: 'The Balloon' },
+	{ id: 43, name: 'Drone of Neo' },
+	{ id: 44, name: 'Droid of Qtum' },
+	{ id: 45, name: 'A Butterfly' },
+	{ id: 46, name: 'The Gecko' },
 ];
 
 nftMetadata.slimes = [
