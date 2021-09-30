@@ -45,9 +45,9 @@ const Home = () => {
 				let value = await contractCore.mintPrice();
 				value = value.mul(BigNumber.from(amount));
 
-				const gasEstimate = await contractCore.estimateGas.mintEthemeral(address, { value });
+				const gasEstimate = await contractCore.estimateGas.mintMeral(address, { value });
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.mintEthemeral(address, { value, gasLimit });
+				const tx = await contractCore.mintMeral(address, { value, gasLimit });
 				console.log(tx);
 				sendTx(tx.hash, 'Minted an Ethemeral', true, ['account', 'account_core']);
 			} catch (error) {
@@ -71,9 +71,9 @@ const Home = () => {
 				value = value.mul(BigNumber.from(amount));
 				value = value.mul(BigNumber.from(10000).sub(BigNumber.from(1000))).div(BigNumber.from(10000));
 
-				const gasEstimate = await contractCore.estimateGas.mintEthemerals(address, { value });
+				const gasEstimate = await contractCore.estimateGas.mintMerals(address, { value });
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.mintEthemerals(address, { value, gasLimit });
+				const tx = await contractCore.mintMerals(address, { value, gasLimit });
 				console.log(tx);
 				sendTx(tx.hash, 'Minted 3 Ethemerals', true, ['account', 'account_core']);
 			} catch (error) {
