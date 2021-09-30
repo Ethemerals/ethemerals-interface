@@ -130,7 +130,7 @@ const NFTDetails = () => {
 
 				{/* MAIN IMAGE */}
 				<div style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }} className="absolute bg-contain os_nft_details_img"></div>
-				<img style={{ filter: 'brightness(0%) ' }} className="z-10 os_nft_details_img absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
+				<img className="z-10 os_nft_details_img absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
 			</div>
 		</div>
 	);
