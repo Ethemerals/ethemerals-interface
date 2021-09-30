@@ -1,7 +1,7 @@
 const Addresses = {
-	EthemeralLifeForce: '0xd23d07b14c72af87c3d45c85ba1673e70443004a',
-	Ethemerals: '0x3863f282c7655cf1c35d6080d1c560ff48003c9f',
-	Equipables: '0xf0f1c8de5e1d83a1ec82649020e7fe9d37ca7ff1',
+	EthemeralLifeForce: '0x5900f8d3d9fc8425c6dc22b5bda71a1e0e594135',
+	Ethemerals: '0xee8c0131aa6b66a2ce3cad6d2a039c1473a79a6d',
+	Equipables: '0x61493114836bb14dae7a57be93de2eee95327092',
 	EternalBattle: '0x163cb1c87b75fd5b12f6a77bb955dc6cc69cf1d0',
 	priceFeed: '0x1e704437f1323fda08358cedf5a3f9619fa11fc1',
 	admin: '0x67256ab8e993ed8647cbc4723883f4936058dff2',
