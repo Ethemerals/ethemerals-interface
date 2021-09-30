@@ -17,11 +17,13 @@ const MobileNavItems = ({ toggle }) => {
 						Mint
 					</Link>
 				</span>
-				<MenuItem to="/ethemerals/2" text="Ethemerals" />
-				<MenuItem to="/battle/eternal" text="Battle" />
+				<MenuItem to="/ethemerals" text="Ethemerals" />
+				<MenuItem to="/pets" text="Pets" />
+				<MenuItem to="/items" text="Items" />
+				{/* <MenuItem to="/battle/eternal" text="Battle" /> */}
 				<span className="block pt-4 pb-0 border-gray-400">
-					<Link exact="true" to="/marketplace">
-						Marketplace
+					<Link exact="true" to="/">
+						Battle
 					</Link>
 				</span>
 			</div>
