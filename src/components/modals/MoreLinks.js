@@ -86,6 +86,24 @@ const MoreLinks = ({ large, toggle, isLoggedIn, logout }) => {
 
 					<span href="#">About</span>
 				</div>
+				<div className="flex ml-2 text-gray-600 hover:text-gray-900 cursor-pointer w-auto space-x-2 items-center">
+					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+					</svg>
+
+					<a href={Links.PRIVACY} target="blank" rel="noreferrer">
+						<span onClick={toggle}>Privacy</span>
+					</a>
+				</div>
+				<div className="flex ml-2 text-gray-600 hover:text-gray-900 cursor-pointer w-auto space-x-2 items-center">
+					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+					</svg>
+
+					<a href={Links.TERMS} target="blank" rel="noreferrer">
+						<span onClick={toggle}>Ts & Cs</span>
+					</a>
+				</div>
 				<hr className="border-white border-t-2"></hr>
 				<div className="flex ml-2 text-gray-600 hover:text-gray-900 cursor-pointer w-auto space-x-2 items-center pb-2">
 					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
