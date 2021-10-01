@@ -135,9 +135,7 @@ const Home = () => {
 						onClick={() => handleOnSubmitBuy(1)}
 						className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
 					>
-						<p className="">Connect Wallet</p>
-						<p className="text-sm">Mint 1 for 0.04 ETH</p>
-						<p className="text-sm">Mint 3 for 0.108 ETH</p>
+						<p className="">GENESIS SET SOLD OUT</p>
 					</div>
 				)}
 				<div className="mt-20 mb-2 text-gray-600 text-sm">
