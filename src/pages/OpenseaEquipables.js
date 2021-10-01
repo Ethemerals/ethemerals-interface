@@ -101,13 +101,13 @@ const OpenseaEquipable = () => {
 	}
 
 	return (
-		<div className="scrollbar_pad">
+		<>
 			<div className="page_bg"></div>
 			<div>
 				<div
 					// onClick={handleOnClick}
 					style={{ borderColor: getBorderColor(parseInt(nft.rarity)) }}
-					className="w-64 h-96 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg"
+					className="w-64 h-96 absolute border-2 mx-auto "
 				>
 					{/* MAIN IMAGE */}
 					<div className="absolute top-6 left-0">
@@ -141,8 +141,7 @@ const OpenseaEquipable = () => {
 					</div>
 				</div>
 			</div>
-			<p className="p-4 text-black">Watch this space grow and expand!</p>
-		</div>
+		</>
 	);
 };
 
