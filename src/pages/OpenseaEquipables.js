@@ -139,7 +139,7 @@ const OpenseaEquipable = () => {
 					<p className="text-center font-bold text-2xl text-black">{nft.metadata.name}</p>
 				</div>
 			</div>
-			<p className="p-4 text-black">Looks empty? Watch this space grow and expand!</p>
+			<p className="p-4 text-black">Watch this space grow and expand!</p>
 		</div>
 	);
 };
