@@ -16,10 +16,9 @@ import { useTokenContract } from '../hooks/useToken';
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
-const Home = () => {
+const Old = () => {
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
-	const { contractToken } = useTokenContract();
 
 	const address = useAddress();
 	const login = useLogin();
@@ -90,7 +89,7 @@ const Home = () => {
 	};
 
 	const handleOnSubmitBuy = async (amount) => {
-		if (contractCore && core) {
+		if (contractCore) {
 			if (amount > 1) {
 				onSubmitMints();
 			} else {
@@ -111,7 +110,6 @@ const Home = () => {
 				<div className="text-center text-blue-900 mt-10 mb-6">
 					<p className="font-bold text-xl">Genesis Set - (Merals)</p>
 					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex) + 1}`}</p>}
-					<p className="text-sm pt-2 text-gray-500">Minting starts at 4:30 am UTC (I ran out of time to do another countdown)</p>
 				</div>
 
 				{contractCore ? (
@@ -177,4 +175,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default Old;

@@ -31,6 +31,7 @@ import Receipt from './components/modals/Receipt';
 import ClaimHighestHonor from './pages/ClaimHighestHonor';
 import Pets from './pages/Pets';
 import Items from './pages/Items';
+import Old from './pages/Old';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -69,10 +70,13 @@ function App() {
 								<Route exact path="/mint">
 									<Home />
 								</Route>
+								<Route exact path="/oldschool">
+									<Old />
+								</Route>
 								<Route exact path="/admin">
 									<Admin />
 								</Route>
-								<Route exact path="/art">
+								{/* <Route exact path="/art">
 									<Art />
 								</Route>
 								<Route exact path="/battle">
@@ -89,7 +93,7 @@ function App() {
 								</Route>
 								<Route exact path="/dashboard">
 									<Dashboard />
-								</Route>
+								</Route> */}
 								<Route exact path="/ethemerals">
 									<Ethemerals />
 								</Route>
@@ -114,10 +118,10 @@ function App() {
 								<Route exact path="/ethemeral/:id">
 									<NFTDetails />
 								</Route>
-								<Route exact path="/test">
+								{/* <Route exact path="/test">
 									<NFTTest />
-								</Route>
-								<Route exact path="/resurrect/:id">
+								</Route> */}
+								{/* <Route exact path="/resurrect/:id">
 									<Resurrect />
 								</Route>
 								<Route exact path="/redemption/:id">
@@ -134,8 +138,8 @@ function App() {
 								</Route>
 								<Route exact path="/help">
 									<Help />
-								</Route>
-								<Route exact path="/dev">
+								</Route> */}
+								{/* <Route exact path="/dev">
 									<Dev />
 								</Route>
 								<Route exact path="/dev/:crop">
@@ -146,7 +150,7 @@ function App() {
 								</Route>
 								<Route exact path="/devitems/:crop">
 									<DevItems />
-								</Route>
+								</Route> */}
 							</Switch>
 						</div>
 					</TxContextProvider>

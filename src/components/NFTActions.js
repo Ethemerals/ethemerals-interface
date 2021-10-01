@@ -17,8 +17,6 @@ const NFTActions = ({ nft }) => {
 	const { core } = useCore();
 	const history = useHistory();
 
-	console.log(nft.petRedeemed);
-
 	const [isOwned, setIsOwned] = useState(false);
 	const [isOwnedWinning, setIsOwnedWinning] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);
