@@ -13,7 +13,7 @@ import BattleWilds from './pages/BattleWilds';
 import BattleRoyale from './pages/BattleRoyale';
 import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
-import Equipables from './pages/Equipables';
+import Equipable from './pages/Equipable';
 import NFTDetails from './pages/NFTDetails';
 import Opensea from './pages/Opensea';
 import Resurrect from './pages/Resurrect';
@@ -32,6 +32,7 @@ import ClaimHighestHonor from './pages/ClaimHighestHonor';
 import Pets from './pages/Pets';
 import Items from './pages/Items';
 import Old from './pages/Old';
+import OpenseaEquipables from './pages/OpenseaEquipables';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -60,9 +61,8 @@ function App() {
 								<Route exact path="/opensea/:id">
 									<Opensea />
 								</Route>
-								{/* TODO */}
 								<Route exact path="/opensea_equipables/:id">
-									{/* <Opensea /> */}
+									<OpenseaEquipables />
 								</Route>
 								<Route exact path="/">
 									<Home />
@@ -100,7 +100,7 @@ function App() {
 								<Route exact path="/ethemerals/:sort">
 									<Ethemerals />
 								</Route>
-								{/* <Route exact path="/pets">
+								<Route exact path="/pets">
 									<Pets />
 								</Route>
 								<Route exact path="/pets/:sort">
@@ -111,10 +111,10 @@ function App() {
 								</Route>
 								<Route exact path="/items/:sort">
 									<Items />
-								</Route> */}
-								{/* <Route exact path="/equipable/:id">
-									<Equipables />
-								</Route> */}
+								</Route>
+								<Route exact path="/equipable/:id">
+									<Equipable />
+								</Route>
 								<Route exact path="/ethemeral/:id">
 									<NFTDetails />
 								</Route>

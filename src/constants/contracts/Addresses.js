@@ -4,7 +4,7 @@ const Addresses = {
 	Equipables: '0x61493114836bb14dae7a57be93de2eee95327092',
 	EternalBattle: '0x163cb1c87b75fd5b12f6a77bb955dc6cc69cf1d0',
 	priceFeed: '0x1e704437f1323fda08358cedf5a3f9619fa11fc1',
-	admin: '0x67256ab8e993ed8647cbc4723883f4936058dff2',
+	admin: '0x53Cb67568F2a266847b4F79c0acD922d989146eE',
 };
 
 export default Addresses;

@@ -61,12 +61,12 @@ const Pets = () => {
 					onClick={() => history.push(`/pets/1`)}
 					className={`${sortBy === 1 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
 				>
-					Token Number
+					Minted
 				</button>
 			</div>
 			<div className="flex flex-wrap mx-auto justify-center">
-				{sortBy === 0 && <PetsMinted orderDirection="desc" />}
-				{sortBy === 1 && <PetsRarity orderDirection="desc" />}
+				{sortBy === 0 && <PetsRarity orderDirection="desc" />}
+				{sortBy === 1 && <PetsMinted orderDirection="desc" />}
 			</div>
 			<div className="h-40"></div>
 		</div>

@@ -343,15 +343,6 @@ export const GET_PET = gql`
 			def
 			spd
 			rarity
-			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
-				timestamp
-				transaction {
-					id
-					from
-					to
-				}
-				type
-			}
 			metadata {
 				name
 			}
