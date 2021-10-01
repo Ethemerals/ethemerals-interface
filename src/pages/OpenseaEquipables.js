@@ -103,40 +103,42 @@ const OpenseaEquipable = () => {
 	return (
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
-			<div
-				// onClick={handleOnClick}
-				style={{ borderColor: getBorderColor(parseInt(nft.rarity)) }}
-				className="w-64 h-96 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg"
-			>
-				{/* MAIN IMAGE */}
-				<div className="absolute top-6 left-0">
-					<img className="" src={getEquipmentImages(nft.baseId).preview} alt="" />
-				</div>
-				{/* TOP BAR */}
-				<div className="flex p-1 absolute">
-					<RankedStars amount={parseInt(nft.rarity)} />
-				</div>
-				{/* BOTTOM BAR */}
-				{/* style={{ backgroundColor: getEquipableTypePalette(equipableType) }} */}
-				<div className="w-full h-20 bottom-0 absolute overflow-hidden">
-					<div className="w-full flex items-center mb-4">
-						<span style={{ backgroundColor: getTypePallet(equipableType) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
-							#{nft.id.padStart(4, '0')}
-						</span>
-						<div className="flex-grow"></div>
-						<span className="text-xs font-bold white">STATS:</span>
-						<span style={{ backgroundColor: 'hsla(350,40%,60%,1)' }} className="px-1 mx-1 text-sm font-bold rounded text-white">
-							{nft.atk}
-						</span>
-						<span style={{ backgroundColor: 'hsla(250,40%,60%,1)' }} className="px-1 text-sm font-bold rounded text-white">
-							{nft.def}
-						</span>
-						<span style={{ backgroundColor: 'hsla(180,40%,60%,1)' }} className="px-1 mx-1 text-sm font-bold rounded text-white">
-							{nft.spd}
-						</span>
+			<div>
+				<div
+					// onClick={handleOnClick}
+					style={{ borderColor: getBorderColor(parseInt(nft.rarity)) }}
+					className="w-64 h-96 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg"
+				>
+					{/* MAIN IMAGE */}
+					<div className="absolute top-6 left-0">
+						<img className="" src={getEquipmentImages(nft.baseId).preview} alt="" />
 					</div>
+					{/* TOP BAR */}
+					<div className="flex p-1 absolute">
+						<RankedStars amount={parseInt(nft.rarity)} />
+					</div>
+					{/* BOTTOM BAR */}
+					{/* style={{ backgroundColor: getEquipableTypePalette(equipableType) }} */}
+					<div className="w-full h-20 bottom-0 absolute overflow-hidden">
+						<div className="w-full flex items-center mb-4">
+							<span style={{ backgroundColor: getTypePallet(equipableType) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
+								#{nft.id.padStart(4, '0')}
+							</span>
+							<div className="flex-grow"></div>
+							<span className="text-xs font-bold white">STATS:</span>
+							<span style={{ backgroundColor: 'hsla(350,40%,60%,1)' }} className="px-1 mx-1 text-sm font-bold rounded text-white">
+								{nft.atk}
+							</span>
+							<span style={{ backgroundColor: 'hsla(250,40%,60%,1)' }} className="px-1 text-sm font-bold rounded text-white">
+								{nft.def}
+							</span>
+							<span style={{ backgroundColor: 'hsla(180,40%,60%,1)' }} className="px-1 mx-1 text-sm font-bold rounded text-white">
+								{nft.spd}
+							</span>
+						</div>
 
-					<p className="text-center font-bold text-2xl text-black">{nft.metadata.name}</p>
+						<p className="text-center font-bold text-2xl text-black">{nft.metadata.name}</p>
+					</div>
 				</div>
 			</div>
 			<p className="p-4 text-black">Watch this space grow and expand!</p>
