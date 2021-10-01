@@ -113,8 +113,10 @@ const Home = () => {
 					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex) + 1}`}</p>}
 					<p className="text-sm pt-2 text-gray-500">Minting starts at 4:30 am UTC (I ran out of time to do another countdown)</p>
 				</div>
-
-				{contractCore ? (
+				<div className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 ">
+					<p className="">GENESIS SET SOLD OUT</p>
+				</div>
+				{/* {contractCore ? (
 					<div>
 						<div
 							onClick={() => handleOnSubmitBuy(1)}
@@ -137,7 +139,7 @@ const Home = () => {
 					>
 						<p className="">GENESIS SET SOLD OUT</p>
 					</div>
-				)}
+				)} */}
 				<div className="mt-20 mb-2 text-gray-600 text-sm">
 					<h3 className="font-bold">What are Ethemerals?</h3>
 					<p className="my-2">Ethemerals are unique and dynamic NFT Collectables. Born into the Ethereum Blockchain</p>
