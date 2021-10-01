@@ -187,7 +187,7 @@ const NFTActions = ({ nft }) => {
 				<div className="w-8 h-8 mr-1 relative">
 					<img className="center" width="20px" height="20px" alt="icon gift" src={Images.iconPet} />
 				</div>
-				<p>Summon Pet</p>
+				{nft && !nft.petRedeemed ? <p>Summon Pet</p> : <p className="text-red-500">Pet Redeemed</p>}
 			</div>
 
 			{isGiftOpen && <Gift nft={nft} toggle={toggleGift} />}
