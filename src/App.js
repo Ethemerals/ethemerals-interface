@@ -100,7 +100,7 @@ function App() {
 								<Route exact path="/ethemerals/:sort">
 									<Ethemerals />
 								</Route>
-								<Route exact path="/pets">
+								{/* <Route exact path="/pets">
 									<Pets />
 								</Route>
 								<Route exact path="/pets/:sort">
@@ -111,10 +111,10 @@ function App() {
 								</Route>
 								<Route exact path="/items/:sort">
 									<Items />
-								</Route>
-								<Route exact path="/equipable/:id">
+								</Route> */}
+								{/* <Route exact path="/equipable/:id">
 									<Equipables />
-								</Route>
+								</Route> */}
 								<Route exact path="/ethemeral/:id">
 									<NFTDetails />
 								</Route>
