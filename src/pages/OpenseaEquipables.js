@@ -103,11 +103,11 @@ const OpenseaEquipable = () => {
 	return (
 		<>
 			<div className="page_bg"></div>
-			<div>
+			<div className="w-64 h-96 absolute mx-auto ">
 				<div
 					// onClick={handleOnClick}
 					style={{ borderColor: getBorderColor(parseInt(nft.rarity)) }}
-					className="w-64 h-96 absolute border-2 mx-auto "
+					className="w-64 h-96 border-2 rounded  mx-auto "
 				>
 					{/* MAIN IMAGE */}
 					<div className="absolute top-6 left-0">
