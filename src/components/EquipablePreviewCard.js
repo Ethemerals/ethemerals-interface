@@ -47,6 +47,9 @@ const EquipablePreviewCard = ({ nft }) => {
 	};
 
 	const getBorderColor = (rank) => {
+		if (rank === 6) {
+			return 'hsla(290, 100%, 50%, 1)';
+		}
 		if (rank === 5) {
 			return 'hsla(280, 40%, 60%, 1)';
 		}
