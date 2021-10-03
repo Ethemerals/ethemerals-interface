@@ -16,6 +16,7 @@ const Links = {
 	OPENSEAS: 'https://opensea.io/assets',
 	TERMS: 'https://www.ethemerals.com/terms',
 	PRIVACY: 'https://www.ethemerals.com/privacy',
+	OPENSEAS_COLLECTION: 'https://opensea.io/collection/ethemerals-merals',
 };
 
 export default Links;

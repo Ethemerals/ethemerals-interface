@@ -130,7 +130,7 @@ const Navbar = () => {
 					</div>
 				</nav>
 			</animated.header>
-			<header className="top-0 left-0 right-0 z-50 fixed mx-auto w-full sm:hidden">
+			<header className="top-0 left-0 right-0 z-50 mx-auto w-full sm:hidden">
 				<nav>
 					{/* <!-- mobile menu --> */}
 					{/* <!-- mobile button goes here --> */}

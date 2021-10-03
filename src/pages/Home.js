@@ -112,9 +112,10 @@ const Home = () => {
 					<p className="font-bold text-xl">Genesis Set - (Merals)</p>
 					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex) + 1}`}</p>}
 				</div>
-				<div className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 ">
+				<div className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 rounded-lg font-bold text-2xl bg-gray-400">
 					<p className="">GENESIS SET SOLD OUT</p>
 				</div>
+
 				{/* {contractCore ? (
 					<div>
 						<div
@@ -139,6 +140,16 @@ const Home = () => {
 						<p className="">GENESIS SET SOLD OUT</p>
 					</div>
 				)} */}
+
+				<a
+					href={Links.OPENSEAS_COLLECTION}
+					target="_blank"
+					rel="noreferrer"
+					className="flex justify-center shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
+				>
+					<span className="">PURCHASE ON OPENSEA.IO</span>
+				</a>
+
 				<div className="mt-20 mb-2 text-gray-600 text-sm">
 					<h3 className="font-bold">What are Ethemerals?</h3>
 					<p className="my-2">Ethemerals are unique and dynamic NFT Collectables. Born into the Ethereum Blockchain</p>
