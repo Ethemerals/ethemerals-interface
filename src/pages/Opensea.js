@@ -103,19 +103,22 @@ const NFTDetails = () => {
 							<div className=" w-3/4 absolute bottom-2">
 								<div className="flex h-4 items-center mb-1 text-lg font-bold">
 									<span className="w-8 mr-3 text-white">ATK</span>
-									<span style={{ width: `${(nft.atk - getSubclassBonus(subclass)[0]) * 0.3}px` }} className="h-4 bg-gray-500"></span>
+									<span style={{ width: `${(nft.atk - getSubclassBonus(subclass)[0] - nft.atkBonus) * 0.3}px` }} className="h-4 bg-gray-500"></span>
+									<span style={{ width: `${nft.atkBonus * 0.3}px` }} className="h-4 bg-gray-400"></span>
 									<span style={{ width: `${getSubclassBonus(subclass)[0] * 0.3}px`, backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%, 70%, 1)` }} className="h-4"></span>
 									<span className="pl-2 text-white">{nft.atk}</span>
 								</div>
 								<div className="flex h-4 items-center mb-1 text-lg font-bold">
 									<span className="w-8 mr-3 text-white">DEF</span>
-									<span style={{ width: `${(nft.def - getSubclassBonus(subclass)[1]) * 0.3}px` }} className="h-4 bg-gray-500"></span>
+									<span style={{ width: `${(nft.def - getSubclassBonus(subclass)[1] - nft.defBonus) * 0.3}px` }} className="h-4 bg-gray-500"></span>
+									<span style={{ width: `${nft.defBonus * 0.3}px` }} className="h-4 bg-gray-400"></span>
 									<span style={{ width: `${getSubclassBonus(subclass)[1] * 0.3}px`, backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%, 70%, 1)` }} className="h-4"></span>
 									<span className="pl-2 text-white">{nft.def}</span>
 								</div>
 								<div className="flex h-4 items-center mb-1 text-lg font-bold">
 									<span className="w-8 mr-3 text-white">SPD</span>
-									<span style={{ width: `${(nft.spd - getSubclassBonus(subclass)[2]) * 0.3}px` }} className="h-4 bg-gray-500"></span>
+									<span style={{ width: `${nft.spd - getSubclassBonus(subclass)[2] - nft.spdBonus * 0.3}px` }} className="h-4 bg-gray-500"></span>
+									<span style={{ width: `${nft.spdBonus * 0.3}px` }} className="h-4 bg-gray-400"></span>
 									<span style={{ width: `${getSubclassBonus(subclass)[2] * 0.3}px`, backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%, 70%, 1)` }} className="h-4"></span>
 									<span className="pl-2 text-white">{nft.spd}</span>
 								</div>

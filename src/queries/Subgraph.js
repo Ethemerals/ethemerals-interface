@@ -58,6 +58,9 @@ export const GET_NFT = gql`
 			atk
 			def
 			spd
+			atkBonus
+			defBonus
+			spdBonus
 			bgId
 			petRedeemed
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
