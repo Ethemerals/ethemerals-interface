@@ -168,9 +168,9 @@ const Home = () => {
 							</svg>
 						</a>
 
-						<a href={Links.LANDING_URL} target="_blank" className="hover:text-gray-500 flex items-center">
+						{/* <a href={Links.LANDING_URL} target="_blank" className="hover:text-gray-500 flex items-center">
 							<span>LANDING PAGE</span>
-						</a>
+						</a> */}
 
 						<a href={Links.TWITTER} target="_blank" className="hover:text-gray-500 flex items-center">
 							<span className="mr-2">TWITTER</span>

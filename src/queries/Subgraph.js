@@ -41,6 +41,27 @@ export const GET_NFTS_ORDERED = gql`
 	}
 `;
 
+export const GET_NFTS_FILTERED = gql`
+	query {
+		ethemerals(where: { edition: 1 }, orderBy: "baseId", orderDirection: "asc") {
+			id
+			timestamp
+			score
+			rewards
+			atk
+			def
+			spd
+			baseId
+			bgId
+			metadata {
+				id
+				coin
+				subClass
+			}
+		}
+	}
+`;
+
 export const GET_NFT = gql`
 	query ($id: ID!) {
 		ethemeral(id: $id) {

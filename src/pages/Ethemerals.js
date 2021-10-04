@@ -1,10 +1,23 @@
 import { useState, useEffect } from 'react';
 import { useGQLQuery } from '../hooks/useGQLQuery';
-import { GET_NFTS_ORDERED } from '../queries/Subgraph';
+import { GET_NFTS_ORDERED, GET_NFTS_FILTERED } from '../queries/Subgraph';
 import NFTPreviewCard from '../components/NFTPreviewCard';
 import { useHistory, useParams } from 'react-router-dom';
 
 const maxQuery = 120;
+
+const NFTMC = ({}) => {
+	const { data, status } = useGQLQuery('nfts_mc', GET_NFTS_FILTERED, { refetchOnMount: false });
+	const [nfts, setNfts] = useState([]);
+
+	useEffect(() => {
+		if (status === 'success' && data && data.ethemerals) {
+			setNfts(data.ethemerals);
+		}
+	}, [status, data]);
+
+	return nfts.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />);
+};
 
 const NFTMinted = ({ orderDirection }) => {
 	const { data, status } = useGQLQuery('nfts_minted', GET_NFTS_ORDERED, { orderBy: 'timestamp', orderDirection: orderDirection, first: maxQuery }, { refetchOnMount: true });
@@ -106,7 +119,7 @@ const Ethemerals = () => {
 					onClick={() => history.push(`/ethemerals/2`)}
 					className={`${sortBy === 2 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
 				>
-					Honor Points
+					MC Rank
 				</button>
 				<button
 					onClick={() => history.push(`/ethemerals/3`)}
@@ -124,7 +137,7 @@ const Ethemerals = () => {
 
 			<div className="flex flex-wrap mx-auto justify-center">
 				{sortBy === 1 && <NFTMinted orderDirection="desc" />}
-				{sortBy === 2 && <NFTScore />}
+				{sortBy === 2 && <NFTMC orderDirection="asc" />}
 				{sortBy === 3 && <NFTRewards />}
 			</div>
 
