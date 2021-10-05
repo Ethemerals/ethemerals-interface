@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useNFTUtils } from '../hooks/useNFTUtils';
 import Images from '../constants/Images';
+import Links from '../constants/Links';
+import Addresses from '../constants/contracts/Addresses';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -44,6 +46,7 @@ const EquipablePreviewCard = ({ nft }) => {
 
 	const handleOnClick = () => {
 		history.push(`/equipable/${nft.id}`);
+		// <a href={openSeaURL} target="blank" rel="noreferrer"></a>
 	};
 
 	const getBorderColor = (rank) => {
@@ -80,6 +83,8 @@ const EquipablePreviewCard = ({ nft }) => {
 		return palette;
 	}
 
+	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.id}`;
+
 	return (
 		<div
 			// onClick={handleOnClick}
@@ -88,7 +93,9 @@ const EquipablePreviewCard = ({ nft }) => {
 		>
 			{/* MAIN IMAGE */}
 			<div className="absolute top-6 left-0">
-				<img className="" src={getEquipmentImages(nft.baseId).preview} alt="" />
+				<a href={openSeaURL} target="blank" rel="noreferrer">
+					<img className="" src={getEquipmentImages(nft.baseId).preview} alt="" />
+				</a>
 			</div>
 			{/* TOP BAR */}
 			<div className="flex p-1 absolute">
