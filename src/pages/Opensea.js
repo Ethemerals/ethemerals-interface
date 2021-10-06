@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 import dateFormat from 'dateformat';
@@ -7,9 +7,6 @@ import { useGQLQuery } from '../hooks/useGQLQuery';
 import { useNFTUtils } from '../hooks/useNFTUtils';
 import Images from '../constants/Images';
 import { GET_NFT } from '../queries/Subgraph';
-
-import { shortenAddress } from '../utils';
-import BackButton from '../components/navigation/BackButton';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -81,11 +78,11 @@ const NFTDetails = () => {
 					</div>
 					<div className="flex items-center justify-end">
 						<p className="font-bold text-right mx-2 text-2xl">{nft.score} HP</p>
-						<img width="24px" height="24px" className="mr-4" src={Images.iconShield} />
+						<img width="24px" height="24px" className="mr-4" src={Images.iconShield} alt="" />
 					</div>
 					<div className="flex items-center justify-end">
 						<p className="font-bold text-right mx-2 text-2xl">{nft.rewards} ELF</p>
-						<img width="22px" height="22px" className="mr-4" src={Images.iconDrain} />
+						<img width="22px" height="22px" className="mr-4" src={Images.iconDrain} alt="" />
 					</div>
 				</div>
 

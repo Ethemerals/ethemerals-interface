@@ -7,31 +7,30 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/navigation/Navbar';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
-import Art from './pages/Art';
-import BattleEternal from './pages/BattleEternal';
-import BattleWilds from './pages/BattleWilds';
-import BattleRoyale from './pages/BattleRoyale';
-import Dashboard from './pages/Dashboard';
+// import Art from './pages/Art';
+// import BattleEternal from './pages/BattleEternal';
+// import BattleWilds from './pages/BattleWilds';
+// import BattleRoyale from './pages/BattleRoyale';
+// import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
 import Equipable from './pages/Equipable';
 import NFTDetails from './pages/NFTDetails';
 import Opensea from './pages/Opensea';
-import Resurrect from './pages/Resurrect';
-import Redemption from './pages/Redemption';
-import Marketplace from './pages/Marketplace';
-import About from './pages/About';
-import Help from './pages/Help';
-import Dev from './pages/Dev';
-import DevItems from './pages/DevItems';
-import NFTTest from './pages/NFTTest';
+// import Resurrect from './pages/Resurrect';
+// import Redemption from './pages/Redemption';
+// import Marketplace from './pages/Marketplace';
+// import About from './pages/About';
+// import Help from './pages/Help';
+// import Dev from './pages/Dev';
+// import DevItems from './pages/DevItems';
+// import NFTTest from './pages/NFTTest';
 
 import Web3ContextProvider from './hooks/Web3Context';
 import TxContextProvider from './hooks/TxContext';
 import Receipt from './components/modals/Receipt';
-import ClaimHighestHonor from './pages/ClaimHighestHonor';
+// import ClaimHighestHonor from './pages/ClaimHighestHonor';
 import Pets from './pages/Pets';
 import Items from './pages/Items';
-import Old from './pages/Old';
 import OpenseaEquipables from './pages/OpenseaEquipables';
 
 const queryClient = new QueryClient({
@@ -69,9 +68,6 @@ function App() {
 								</Route>
 								<Route exact path="/mint">
 									<Home />
-								</Route>
-								<Route exact path="/oldschool">
-									<Old />
 								</Route>
 								<Route exact path="/admin">
 									<Admin />

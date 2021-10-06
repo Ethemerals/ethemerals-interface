@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useGQLQuery } from '../hooks/useGQLQuery';
-import { GET_ITEMS_ORDERED, GET_PETS_ORDERED, GET_PET } from '../queries/Subgraph';
-import EquipablePreviewCard from '../components/EquipablePreviewCard';
+import { GET_PET } from '../queries/Subgraph';
+
 import { useHistory, useParams } from 'react-router-dom';
-import EquipableItemPreviewCard from '../components/EquipableItemPreviewCard';
+
 import { useNFTUtils } from '../hooks/useNFTUtils';
 import BackButton from '../components/navigation/BackButton';
 
@@ -32,7 +32,7 @@ const Equipable = () => {
 	const { id } = useParams();
 	const { data, status } = useGQLQuery(`pet_${id}`, GET_PET, { id: id }, { refetchOnMount: true });
 	const [nft, setNft] = useState(undefined);
-	const { getEquipableTypePalette, getEquipmentImages } = useNFTUtils();
+	const { getEquipmentImages } = useNFTUtils();
 	const history = useHistory();
 	const [equipableType, setEquipableType] = useState(0);
 
@@ -104,7 +104,7 @@ const Equipable = () => {
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
 			<div
-				// onClick={handleOnClick}
+				onClick={handleOnClick}
 				style={{ borderColor: getBorderColor(parseInt(nft.rarity)) }}
 				className="w-64 h-96 m-4 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg"
 			>

@@ -35,15 +35,15 @@ const EquipableItemPreviewCard = ({ nft }) => {
 
 			<div style={{ bottom: '70px' }} className="w-full absolute z-10 flex justify-end right-2 space-x-1">
 				<div className="relative">
-					<img width="30px" height="30px" src={Images.iconAtk} />
+					<img width="30px" height="30px" src={Images.iconAtk} alt="" />
 					<span className="center text font-black">{nft.atk}</span>
 				</div>
 				<div className="relative">
-					<img width="30px" height="30px" src={Images.iconDef} />
+					<img width="30px" height="30px" src={Images.iconDef} alt="" />
 					<span className="center text font-black">{nft.def}</span>
 				</div>
 				<div className="relative">
-					<img width="30px" height="30px" src={Images.iconSpd} />
+					<img width="30px" height="30px" src={Images.iconSpd} alt="" />
 					<span className="center text font-black">{nft.spd}</span>
 				</div>
 			</div>

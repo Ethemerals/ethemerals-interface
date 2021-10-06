@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
+// import { useHistory } from 'react-router';
 import { useNFTUtils } from '../hooks/useNFTUtils';
-import Images from '../constants/Images';
 import Links from '../constants/Links';
 import Addresses from '../constants/contracts/Addresses';
 
@@ -27,8 +26,8 @@ const RankedStars = ({ amount }) => {
 };
 
 const EquipablePreviewCard = ({ nft }) => {
-	const { getEquipableTypePalette, getEquipmentImages } = useNFTUtils();
-	const history = useHistory();
+	const { getEquipmentImages } = useNFTUtils();
+	// const history = useHistory();
 	const [equipableType, setEquipableType] = useState(0);
 
 	useEffect(() => {
@@ -44,10 +43,10 @@ const EquipablePreviewCard = ({ nft }) => {
 		return <p>Loading</p>;
 	}
 
-	const handleOnClick = () => {
-		history.push(`/equipable/${nft.id}`);
-		// <a href={openSeaURL} target="blank" rel="noreferrer"></a>
-	};
+	// const handleOnClick = () => {
+	// 	history.push(`/equipable/${nft.id}`);
+
+	// };
 
 	const getBorderColor = (rank) => {
 		if (rank === 6) {

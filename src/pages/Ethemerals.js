@@ -6,7 +6,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 const maxQuery = 120;
 
-const NFTMC = ({}) => {
+const NFTMC = () => {
 	const { data, status } = useGQLQuery('nfts_mc', GET_NFTS_FILTERED, { refetchOnMount: false });
 	const [nfts, setNfts] = useState([]);
 
@@ -32,37 +32,37 @@ const NFTMinted = ({ orderDirection }) => {
 	return nfts.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />);
 };
 
-const NFTScore = () => {
-	const { data, status } = useGQLQuery('nfts_score', GET_NFTS_ORDERED, { orderBy: 'score', first: maxQuery, orderDirection: 'desc' }, { refetchOnMount: true });
-	const [nfts, setNfts] = useState([]);
-	const [nftsSorted, setNftsSorted] = useState([]);
+// const NFTScore = () => {
+// 	const { data, status } = useGQLQuery('nfts_score', GET_NFTS_ORDERED, { orderBy: 'score', first: maxQuery, orderDirection: 'desc' }, { refetchOnMount: true });
+// 	const [nfts, setNfts] = useState([]);
+// 	const [nftsSorted, setNftsSorted] = useState([]);
 
-	useEffect(() => {
-		if (status === 'success' && data && data.ethemerals) {
-			setNfts(data.ethemerals);
-		}
-	}, [status, data]);
+// 	useEffect(() => {
+// 		if (status === 'success' && data && data.ethemerals) {
+// 			setNfts(data.ethemerals);
+// 		}
+// 	}, [status, data]);
 
-	useEffect(() => {
-		if (nfts && nfts.length > 0) {
-			let nftsToSort = nfts;
-			nftsToSort.sort((a, b) => {
-				const aScore = parseInt(a.score);
-				const bScore = parseInt(b.score);
-				if (aScore - bScore < 0) {
-					return 1;
-				}
-				if (aScore - bScore === 0) {
-					return parseInt(b.timestamp) - parseInt(a.timestamp);
-				}
-				return -1;
-			});
-			setNftsSorted(nftsToSort);
-		}
-	}, [nfts]);
+// 	useEffect(() => {
+// 		if (nfts && nfts.length > 0) {
+// 			let nftsToSort = nfts;
+// 			nftsToSort.sort((a, b) => {
+// 				const aScore = parseInt(a.score);
+// 				const bScore = parseInt(b.score);
+// 				if (aScore - bScore < 0) {
+// 					return 1;
+// 				}
+// 				if (aScore - bScore === 0) {
+// 					return parseInt(b.timestamp) - parseInt(a.timestamp);
+// 				}
+// 				return -1;
+// 			});
+// 			setNftsSorted(nftsToSort);
+// 		}
+// 	}, [nfts]);
 
-	return nftsSorted.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />);
-};
+// 	return nftsSorted.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />);
+// };
 
 const NFTRewards = () => {
 	const { data, status } = useGQLQuery('nfts_rewards', GET_NFTS_ORDERED, { orderBy: 'rewards', first: maxQuery, orderDirection: 'desc' }, { refetchOnMount: true });

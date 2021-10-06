@@ -15,7 +15,7 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed, graphic }) => {
 
 	const [baseName, setBaseName] = useState('');
 	const [quoteName, setQuoteName] = useState('');
-	const [ticker, setTicker] = useState('');
+	// const [ticker, setTicker] = useState('');
 	const [stakedNFTs, setStakedNFTs] = useState([]);
 	const [isLong, setIsLong] = useState(true);
 	const [isCreateStakeOpen, setIsCreateStakeOpen] = useState(false);
@@ -63,7 +63,7 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed, graphic }) => {
 			<div className="my-8">
 				<div style={{ width: '1090px' }} className="mx-auto">
 					<div style={{ width: '1090px', height: '718px' }} className="relative">
-						<img width="1090" height="718" src={graphic} />
+						<img width="1090" height="718" src={graphic} alt="" />
 						<div className="bottom-0 absolute w-full">
 							<div className="flex justify-center space-x-7 items-center">
 								<button onClick={() => handleJoinBattle(true)} className="p-2 my-2 rounded bg-brandColor-purple">

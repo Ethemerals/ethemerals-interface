@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 
 import Links from '../../constants/Links';
 
-const landingURL = Links.LANDING_URL;
 const discordURL = Links.DISCORD_URL;
 
 const MoreLinks = ({ large, toggle, isLoggedIn, logout }) => {

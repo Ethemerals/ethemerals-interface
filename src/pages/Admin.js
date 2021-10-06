@@ -4,7 +4,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { utils } from 'ethers';
 
 import Addresses from '../constants/contracts/Addresses';
-import FunctionTx from '../constants/FunctionTx';
+
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
 import { useWeb3, useAddress, useReadyToTransact } from '../hooks/Web3Context';

@@ -4,8 +4,6 @@ import { useSendTx } from '../../../hooks/TxContext';
 import { useAddress, useReadyToTransact } from '../../../hooks/Web3Context';
 import { useCoreContract } from '../../../hooks/useCore';
 
-import FunctionTx from '../../../constants/FunctionTx';
-
 const SpinnerSVG = () => (
 	<svg className=" animate-spin-slow text-brandColor" width="50" height="50" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<g opacity="1">
@@ -34,10 +32,10 @@ const Gift = ({ toggle, nft }) => {
 				let toAddress = data.address;
 				let id = nft.id;
 				const gasEstimate = await contractCore.estimateGas.transferFrom(address, toAddress, id);
-				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.transferFrom.gasDiv));
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractCore.transferFrom(address, toAddress, id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, FunctionTx.transferFrom.receiptMsg, true, [`nft_${id}`, 'account']);
+				sendTx(tx.hash, 'transfer meral', true, [`nft_${id}`, 'account']);
 			} catch (error) {
 				console.log(`${error.data} \n${error.message}`);
 			}

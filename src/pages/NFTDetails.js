@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 import dateFormat from 'dateformat';
@@ -108,11 +108,11 @@ const NFTDetails = () => {
 						</div>
 						<div className="flex items-center justify-end">
 							<p className="font-bold text-right -mr-1">{nft.score} HP</p>
-							<img width="18px" height="18px" className="mx-2" src={Images.iconShield} />
+							<img width="18px" height="18px" className="mx-2" src={Images.iconShield} alt="" />
 						</div>
 						<div className="flex items-center justify-end">
 							<p className="font-bold text-right">{nft.rewards} ELF</p>
-							<img width="16px" height="16px" className="mx-2" src={Images.iconDrain} />
+							<img width="16px" height="16px" className="mx-2" src={Images.iconDrain} alt="" />
 						</div>
 					</div>
 
@@ -179,12 +179,12 @@ const NFTDetails = () => {
 					{/* EQUIPMENT */}
 					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
 						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">EQUIPMENT</h3>
-						<div className="flex justify-center">
+						{/* <div className="flex justify-center">
 							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
 							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
 							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
 							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 ml-6 bg-customBlue-pale rounded-md border-2 border-white"></div>
-						</div>
+						</div> */}
 					</div>
 
 					{/* ABILITIES */}

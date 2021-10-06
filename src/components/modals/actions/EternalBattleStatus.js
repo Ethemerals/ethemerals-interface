@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import FunctionTx from '../../../constants/FunctionTx';
 import { useSendTx } from '../../../hooks/TxContext';
 import { useWeb3, useReadyToTransact } from '../../../hooks/Web3Context';
 
@@ -91,10 +90,10 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 			try {
 				let id = nft.id;
 				const gasEstimate = await contractBattle.estimateGas.cancelStake(id);
-				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.cancelStake.gasDiv));
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractBattle.cancelStake(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, FunctionTx.cancelStake.receiptMsg, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
+				sendTx(tx.hash, 'cancel stake', true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');
@@ -116,7 +115,7 @@ const EternalBattleStatus = ({ contractPriceFeed, toggle, priceFeed, nft, isOwne
 				let id = nft.id;
 				let userTokenId = userNFTs[mainIndex].id;
 				const gasEstimate = await contractBattle.estimateGas.reviveToken(id, userTokenId, reap);
-				const gasLimit = gasEstimate.add(gasEstimate.div(FunctionTx.cancelStake.gasDiv));
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractBattle.reviveToken(id, userTokenId, reap, { gasLimit });
 				console.log(tx);
 				sendTx(tx.hash, `${reap ? 'Reaped' : 'Revived'} #${id} Ethemeral`, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);

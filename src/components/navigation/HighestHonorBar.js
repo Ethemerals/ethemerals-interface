@@ -58,15 +58,15 @@ const NFTWinnerCard = ({ id }) => {
 					{/* STATS */}
 					<div className="absolute z-10 flex justify-end right-2 bottom-1 space-x-1">
 						<div className="relative">
-							<img width="30px" height="30px" src={Images.iconAtk} />
+							<img width="30px" height="30px" src={Images.iconAtk} alt="" />
 							<span className="center text font-black">{nft.metadata.attack}</span>
 						</div>
 						<div className="relative">
-							<img width="30px" height="30px" src={Images.iconDef} />
+							<img width="30px" height="30px" src={Images.iconDef} alt="" />
 							<span className="center text font-black">{nft.metadata.defence}</span>
 						</div>
 						<div className="relative">
-							<img width="30px" height="30px" src={Images.iconSpd} />
+							<img width="30px" height="30px" src={Images.iconSpd} alt="" />
 							<span className="center text font-black">{nft.metadata.speed}</span>
 						</div>
 					</div>

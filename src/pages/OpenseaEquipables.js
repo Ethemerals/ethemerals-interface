@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useGQLQuery } from '../hooks/useGQLQuery';
-import { GET_ITEMS_ORDERED, GET_PETS_ORDERED, GET_PET } from '../queries/Subgraph';
-import EquipablePreviewCard from '../components/EquipablePreviewCard';
-import { useHistory, useParams } from 'react-router-dom';
-import EquipableItemPreviewCard from '../components/EquipableItemPreviewCard';
+import { GET_PET } from '../queries/Subgraph';
+
+import { useParams } from 'react-router-dom';
 import { useNFTUtils } from '../hooks/useNFTUtils';
 import BackButton from '../components/navigation/BackButton';
 
@@ -32,8 +31,7 @@ const OpenseaEquipable = () => {
 	const { id } = useParams();
 	const { data, status } = useGQLQuery(`pet_${id}`, GET_PET, { id: id }, { refetchOnMount: true });
 	const [nft, setNft] = useState(undefined);
-	const { getEquipableTypePalette, getEquipmentImages } = useNFTUtils();
-	const history = useHistory();
+	const { getEquipmentImages } = useNFTUtils();
 	const [equipableType, setEquipableType] = useState(0);
 
 	useEffect(() => {
@@ -64,10 +62,6 @@ const OpenseaEquipable = () => {
 	if (!nft) {
 		return <p>Loading</p>;
 	}
-
-	const handleOnClick = () => {
-		history.push(`/equipable/${nft.id}`);
-	};
 
 	const getBorderColor = (rank) => {
 		if (rank === 5) {

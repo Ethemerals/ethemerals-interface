@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
-import { shortenAddress, formatETH, formatELF } from '../../utils';
+import { shortenAddress, formatETH } from '../../utils';
 import { useMiningStatus } from '../../hooks/TxContext';
 
 import UserModal from '../modals/UserModal';

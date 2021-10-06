@@ -1,19 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { formatELF } from '../utils';
 import { useNFTUtils } from '../hooks/useNFTUtils';
 import Images from '../constants/Images';
 
-const pentagon = (color) => {
-	return (
-		<svg width="698" height="814" viewBox="0 0 698 814" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path
-				d="M-2.60506e-05 595.969L-9.53045e-06 218.031C-9.08144e-06 207.759 5.42888 198.243 14.2896 193.01L334.206 4.04101C343.338 -1.34702 354.662 -1.34702 363.774 4.04101L683.691 193.01C692.571 198.243 698 207.759 698 218.031L698 595.969C698 606.241 692.571 615.757 683.71 620.99L363.794 809.959C354.662 815.347 343.338 815.347 334.226 809.959L14.3089 620.99C5.42882 615.757 -2.64996e-05 606.241 -2.60506e-05 595.969Z"
-				fill="black"
-			/>
-		</svg>
-	);
-};
 const RankedStars = ({ amount }) => {
 	const starSVG = (
 		<svg width="16" height="16" fill="gold" stroke="goldenRod" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -79,15 +68,15 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 
 			<div style={{ bottom: '64px' }} className="w-full absolute z-10 flex justify-end right-2 space-x-2">
 				<div className="relative">
-					<img width="30px" height="30px" src={Images.iconAtk} />
+					<img width="30px" height="30px" src={Images.iconAtk} alt="" />
 					<span className="center text font-black">{nft.atk}</span>
 				</div>
 				<div className="relative">
-					<img width="30px" height="30px" src={Images.iconDef} />
+					<img width="30px" height="30px" src={Images.iconDef} alt="" />
 					<span className="center text font-black">{nft.def}</span>
 				</div>
 				<div className="relative">
-					<img width="30px" height="30px" src={Images.iconSpd} />
+					<img width="30px" height="30px" src={Images.iconSpd} alt="" />
 					<span className="center text font-black">{nft.spd}</span>
 				</div>
 			</div>

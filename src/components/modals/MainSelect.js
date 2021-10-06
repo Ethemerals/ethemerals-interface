@@ -1,7 +1,5 @@
 import useUserAccount from '../../hooks/useUserAccount';
 
-import { formatELF } from '../../utils';
-
 const UserModal = ({ toggle }) => {
 	const { mainIndex, mutateUser, userNFTs, account } = useUserAccount();
 

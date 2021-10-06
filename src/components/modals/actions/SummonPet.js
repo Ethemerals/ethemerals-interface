@@ -1,11 +1,7 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../hooks/TxContext';
-import { useAddress, useReadyToTransact } from '../../../hooks/Web3Context';
-import { useCoreContract } from '../../../hooks/useCore';
+import { useReadyToTransact } from '../../../hooks/Web3Context';
 import { useEquipableContract } from '../../../hooks/useEquipable';
-
-import FunctionTx from '../../../constants/FunctionTx';
 
 const SpinnerSVG = () => (
 	<svg className=" animate-spin-slow text-brandColor" width="50" height="50" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
