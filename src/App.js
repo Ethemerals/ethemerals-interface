@@ -6,6 +6,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import Navbar from './components/navigation/Navbar';
 import Home from './pages/Home';
+import Mint from './pages/Mint';
 import Admin from './pages/Admin';
 // import Art from './pages/Art';
 // import BattleEternal from './pages/BattleEternal';
@@ -64,10 +65,10 @@ function App() {
 									<OpenseaEquipables />
 								</Route>
 								<Route exact path="/">
-									<Home />
+									<Mint />
 								</Route>
 								<Route exact path="/mint">
-									<Home />
+									<Mint />
 								</Route>
 								<Route exact path="/admin">
 									<Admin />
