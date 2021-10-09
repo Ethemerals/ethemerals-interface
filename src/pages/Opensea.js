@@ -47,10 +47,13 @@ const NFTDetails = () => {
 			setCmId(data.ethemeral.metadata.id);
 			setReady(true);
 		}
+	}, [status, data, nft]);
+
+	useEffect(() => {
 		if (id < 1000) {
 			setSeasonText('Genesis');
 		}
-	}, [status, data, nft]);
+	}, [id]);
 
 	if (!ready || isLoading !== false || status !== 'success' || !nft) {
 		return <div></div>;
