@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
-import dateFormat from 'dateformat';
 
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { useNFTUtils } from '../hooks/useNFTUtils';
@@ -10,7 +9,7 @@ import { GET_NFT } from '../queries/Subgraph';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
-		<svg className="w-12 h-12" fill="white" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+		<svg className="w-8 h-8" fill="white" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 			<path
 				strokeLinecap="round"
 				strokeLinejoin="round"
@@ -32,7 +31,7 @@ const RankedStars = ({ amount }) => {
 };
 
 const NFTDetails = () => {
-	const { getNFTImages, parseScore, elements, getSubclassIcon, getSubclassBonus } = useNFTUtils();
+	const { getNFTImages, parseScore, elements } = useNFTUtils();
 
 	const { id } = useParams();
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
@@ -40,19 +39,21 @@ const NFTDetails = () => {
 	const [nft, setNFT] = useState(undefined);
 	const [ready, setReady] = useState(false);
 	const [cmId, setCmId] = useState(undefined);
-	const [birthDate, setBirthDate] = useState(Date.now());
-
-	const [subclass, setSubclass] = useState('Paladin');
+	const [seasonText, setSeasonText] = useState('');
 
 	useEffect(() => {
 		if (status === 'success' && data && data.ethemeral) {
 			setNFT(data.ethemeral);
 			setCmId(data.ethemeral.metadata.id);
-			setSubclass(data.ethemeral.metadata.subClass);
-			setBirthDate(parseInt(data.ethemeral.timestamp) * 1000);
 			setReady(true);
 		}
 	}, [status, data, nft]);
+
+	useEffect(() => {
+		if (id < 1000) {
+			setSeasonText('Genesis');
+		}
+	}, [id]);
 
 	if (!ready || isLoading !== false || status !== 'success' || !nft) {
 		return <div></div>;
@@ -68,6 +69,9 @@ const NFTDetails = () => {
 					<p className=" mt-16 text-2xl border-b-4 border-white">{nft.edition}/10</p>
 					<p className="text-xl">{nft.metadata.coin}</p>
 					<p className="mt-8 text-xl">{elements[nft.bgId].element}</p>
+					<p className="mt-8 text-xl">
+						<span className="text-sm">SEASON</span> {seasonText}
+					</p>
 					<p className="mt-8 text-4xl">#{nft.id.padStart(4, '0')}</p>
 				</div>
 
@@ -87,9 +91,10 @@ const NFTDetails = () => {
 				</div>
 
 				{/* BOTTOM BAR */}
+
 				<div className="z-20 w-full bottom-0 absolute overflow-hidden">
 					<p className="px-4 font-bold text-7xl uppercase">{nft.metadata.coin}</p>
-					<div style={{ height: '124px' }} className="bg-black pt-3 px-4">
+					{/* <div style={{ height: '124px' }} className="bg-black pt-3 px-4">
 						<div className="flex h-10">
 							<div style={{ backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%,70%,1)` }} className="w-10">
 								<img src={getSubclassIcon(subclass).iconB} alt="subclass icon" />
@@ -125,7 +130,7 @@ const NFTDetails = () => {
 								<p>Designer: {nft.metadata.artist}</p>
 							</div>
 						</div>
-					</div>
+					</div> */}
 				</div>
 
 				{/* MAIN IMAGE */}
