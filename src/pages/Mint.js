@@ -97,6 +97,8 @@ const Mint = () => {
 		}
 	};
 
+	const handleOnSubmitSign = async () => {};
+
 	return (
 		<div className="scrollbar_pad">
 			<div className="bg_home sm:bg-75% lg:bg-50% bg-cover"></div>
@@ -109,6 +111,7 @@ const Mint = () => {
 					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex) + 1}`}</p>}
 				</div>
 				<div className="text-xl text-red-500 text-center">RINKEBY TESTNET</div>
+				<div onClick={() => handleOnSubmitSign()}>Sign message</div>
 
 				{contractCore ? (
 					<div>
