@@ -16,6 +16,7 @@ import Ethemerals from './pages/Ethemerals';
 import Equipable from './pages/Equipable';
 import NFTDetails from './pages/NFTDetails';
 import Opensea from './pages/Opensea';
+import All from './pages/All';
 // import Resurrect from './pages/Resurrect';
 // import Redemption from './pages/Redemption';
 // import Marketplace from './pages/Marketplace';
@@ -71,6 +72,9 @@ function App() {
 								</Route>
 								<Route exact path="/admin">
 									<Admin />
+								</Route>
+								<Route exact path="/all">
+									<All />
 								</Route>
 								{/* <Route exact path="/art">
 									<Art />
