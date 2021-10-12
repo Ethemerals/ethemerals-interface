@@ -8,6 +8,8 @@
 		"axios": "^0.21.1",
 		"bnc-onboard": "^1.25.0",
 		"dateformat": "^4.5.1",
+		"eth-sig-util": "^3.0.1",
+		"ethereumjs-util": "^7.1.2",
 		"ethers": "^5.1.4",
 		"graphql": "^15.5.0",
 		"graphql-request": "^3.4.0",

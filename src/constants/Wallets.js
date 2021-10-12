@@ -10,9 +10,10 @@ export function initOnboard(subscriptions) {
 		dappId: apiKey,
 		hideBranding: true,
 		networkId,
-		darkMode: false,
+		darkMode: true,
 		subscriptions,
 		walletSelect: {
+			description: 'Please select a wallet to connect to Ethemerals:',
 			wallets: [{ walletName: 'metamask' }],
 		},
 		walletCheck: [{ checkName: 'derivationPath' }, { checkName: 'connect' }, { checkName: 'accounts' }],
