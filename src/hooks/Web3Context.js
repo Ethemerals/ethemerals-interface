@@ -10,6 +10,7 @@ const OnboardContext = createContext();
 const AddressContext = createContext();
 const BalanceContext = createContext();
 const LoginContext = createContext();
+
 const ReadyToTransactContext = createContext();
 
 // PROVIDER
@@ -66,7 +67,6 @@ export default function Web3ContextProvider({ children }) {
 			balance: setBalance,
 			wallet: (wallet) => {
 				if (wallet.provider) {
-					// setWallet(wallet);
 					const ethersProvider = new ethers.providers.Web3Provider(wallet.provider);
 					setProvider(ethersProvider);
 				} else {

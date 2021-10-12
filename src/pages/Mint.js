@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { ethers } from 'ethers';
+import { recoverPersonalSignature } from 'eth-sig-util';
 
 import { BigNumber } from '@ethersproject/bignumber';
 
@@ -6,16 +8,20 @@ import Links from '../constants/Links';
 
 import Images from '../constants/Images';
 
-import { useAddress, useLogin, useReadyToTransact } from '../hooks/Web3Context';
+import { useAddress, useLogin, useReadyToTransact, useWeb3 } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
 import { useCore, useCoreContract } from '../hooks/useCore';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
+import getSigner from '../constants/Signer';
+import { shortenAddress } from '../utils';
 
 const Mint = () => {
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
+
+	const provider = useWeb3();
 
 	const address = useAddress();
 	const login = useLogin();
@@ -25,6 +31,7 @@ const Mint = () => {
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
+	const [signedMessage, setSignedMessage] = useState('');
 
 	const toggleConfirmation = () => {
 		setIsConfirmationOpen(!isConfirmationOpen);
@@ -97,6 +104,61 @@ const Mint = () => {
 		}
 	};
 
+	const handleOnSubmitSign = async () => {
+		if (address && window.ethereum) {
+			let exampleMessage = `Hi ${shortenAddress(address)} Please sign this GAS FREE message to prove it is you!`;
+			try {
+				let ethereum = window.ethereum;
+				console.log(ethereum);
+				const msg = `0x${Buffer.from(exampleMessage, 'utf8').toString('hex')}`;
+				const sign = await ethereum.request({
+					method: 'personal_sign',
+					params: [msg, address, 'Example dfdffd'],
+				});
+				setSignedMessage(sign);
+				console.log(sign);
+			} catch (err) {
+				console.log(err);
+			}
+
+			// const signer = getSigner(provider);
+			// console.log(signer);
+			// console.log(provider);
+
+			// const signedMessage = await provider.personalSign('hi');
+			// console.log(signedMessage);
+		}
+	};
+
+	const handleOnSubmitVerify = async () => {
+		if (address && window.ethereum) {
+			let exampleMessage = `Hi ${shortenAddress(address)} Please sign this GAS FREE message to prove it is you!`;
+			try {
+				let ethereum = window.ethereum;
+				console.log(ethereum);
+				const msg = `0x${Buffer.from(exampleMessage, 'utf8').toString('hex')}`;
+				const recoveredAddr = recoverPersonalSignature({
+					data: msg,
+					sig: signedMessage,
+				});
+				if (recoveredAddr === address) {
+					console.log(`SigUtil Successfully verified signer as ${recoveredAddr}`);
+				} else {
+					console.log(`SigUtil Failed to verify signer when comparing ${recoveredAddr} to ${address}`);
+				}
+			} catch (err) {
+				console.log(err);
+			}
+
+			// const signer = getSigner(provider);
+			// console.log(signer);
+			// console.log(provider);
+
+			// const signedMessage = await provider.personalSign('hi');
+			// console.log(signedMessage);
+		}
+	};
+
 	return (
 		<div className="scrollbar_pad">
 			<div className="bg_home sm:bg-75% lg:bg-50% bg-cover"></div>
@@ -109,6 +171,19 @@ const Mint = () => {
 					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex) + 1}`}</p>}
 				</div>
 				<div className="text-xl text-red-500 text-center">RINKEBY TESTNET</div>
+
+				<div
+					onClick={() => handleOnSubmitSign()}
+					className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
+				>
+					<p className="">Sign Message</p>
+				</div>
+				<div
+					onClick={() => handleOnSubmitVerify()}
+					className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
+				>
+					<p className="">Verify Message</p>
+				</div>
 
 				{contractCore ? (
 					<div>
