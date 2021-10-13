@@ -6,13 +6,32 @@ import axios from 'axios';
 
 import { GET_ACCOUNT } from '../queries/Subgraph';
 import { useAddress, useBalance } from '../hooks/Web3Context';
-import { isAddress } from '../utils';
+import { isAddress, shortenAddress } from '../utils';
 import Links from '../constants/Links';
 
+const signMessage = async (address) => {
+	if (address && window.ethereum) {
+		let exampleMessage = `Hi ${shortenAddress(address)} Please sign this GAS FREE message to prove this is you!`;
+		try {
+			let ethereum = window.ethereum;
+			const msg = `0x${Buffer.from(exampleMessage, 'utf8').toString('hex')}`;
+			const sign = await ethereum.request({
+				method: 'personal_sign',
+				params: [msg, address, 'Example dfdffd'],
+			});
+			return sign;
+		} catch (err) {
+			console.log(err);
+		}
+	}
+};
+
 const updateUser = async (userData) => {
+	let signed = await signMessage(userData.address);
+	userData.signed = signed;
 	if (isAddress(userData.address)) {
 		try {
-			const { data } = await axios.post(process.env.REACT_APP_FIREBASE_URL, userData);
+			const { data } = await axios.post(`${process.env.REACT_APP_FIREBASE_URL}/main`, userData);
 			return data;
 		} catch (error) {
 			throw new Error('error');
@@ -25,7 +44,7 @@ const updateUser = async (userData) => {
 const getUser = async (id) => {
 	if (isAddress(id)) {
 		try {
-			const { data } = await axios.get(`${process.env.REACT_APP_FIREBASE_URL}${id}`);
+			const { data } = await axios.get(`${process.env.REACT_APP_FIREBASE_URL}/main/${id}`);
 			if (data.message === 'got entry' || data.message === 'does not exist') {
 				return data;
 			}

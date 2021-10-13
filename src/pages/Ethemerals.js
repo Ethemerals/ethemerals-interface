@@ -84,7 +84,7 @@ const PageNumbers = ({ page, setPage }) => {
 	};
 	// listNumbers, index, activeIndex, handleClick
 	return (
-		<ul class="flex list-none flex-wrap space-x-1">
+		<ul className="flex list-none flex-wrap space-x-1">
 			<ListButton listNumbers={listNumbers} index={0} activeIndex={activeIndex} handleClick={handleClick} />
 			<ListButton listNumbers={listNumbers} index={1} activeIndex={activeIndex} handleClick={handleClick} />
 			<ListButton listNumbers={listNumbers} index={2} activeIndex={activeIndex} handleClick={handleClick} />
