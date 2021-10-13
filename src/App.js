@@ -6,7 +6,6 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import Navbar from './components/navigation/Navbar';
 import Home from './pages/Home';
-import Mint from './pages/Mint';
 import Admin from './pages/Admin';
 // import Art from './pages/Art';
 // import BattleEternal from './pages/BattleEternal';
@@ -14,6 +13,7 @@ import Admin from './pages/Admin';
 // import BattleRoyale from './pages/BattleRoyale';
 // import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
+import EthemeralsMC from './pages/EthemeralsMC';
 import Equipable from './pages/Equipable';
 import NFTDetails from './pages/NFTDetails';
 import Opensea from './pages/Opensea';
@@ -66,10 +66,10 @@ function App() {
 									<OpenseaEquipables />
 								</Route>
 								<Route exact path="/">
-									<Mint />
+									<Home />
 								</Route>
 								<Route exact path="/mint">
-									<Mint />
+									<Home />
 								</Route>
 								<Route exact path="/admin">
 									<Admin />
@@ -98,8 +98,8 @@ function App() {
 								<Route exact path="/ethemerals">
 									<Ethemerals />
 								</Route>
-								<Route exact path="/ethemerals/:sort">
-									<Ethemerals />
+								<Route exact path="/ethemerals/mc">
+									<EthemeralsMC />
 								</Route>
 								<Route exact path="/pets">
 									<Pets />
