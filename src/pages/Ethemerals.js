@@ -52,6 +52,38 @@ const ListButton = ({ listNumbers, index, activeIndex, handleClick }) => (
 	</li>
 );
 
+const PaginationBar = ({ handlePreviousPage, handleNextPage, page, setPage }) => {
+	return (
+		<div className="flex items-center mx-auto text-sm sm:text-base justify-center my-4">
+			<button
+				type="button"
+				onClick={handlePreviousPage}
+				disabled={page === 0}
+				className="cursor-pointer text-gray-50 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none mr-4"
+			>
+				<div className="w-6 h-6">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M15,17h-3l-4-5l4-5h3l-4,5 L15,17z"></path>
+					</svg>
+				</div>
+			</button>
+
+			<PageNumbers page={page} setPage={setPage} />
+			<button
+				type="button"
+				onClick={handleNextPage}
+				disabled={page === 19}
+				className="cursor-pointer text-gray-50 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none ml-4"
+			>
+				<div className="w-6 h-6" style={{ transform: 'rotate(180deg)' }}>
+					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M15,17h-3l-4-5l4-5h3l-4,5 L15,17z"></path>
+					</svg>
+				</div>
+			</button>
+		</div>
+	);
+};
 const PageNumbers = ({ page, setPage }) => {
 	const [listNumbers, setListNumbers] = useState([1, 2, 3, 4, 5]);
 	const [activeIndex, setActiveIndex] = useState(0);
@@ -131,41 +163,17 @@ const Ethemerals = () => {
 				</button>
 			</div>
 
-			<div className="flex items-center mx-auto text-sm sm:text-base justify-center my-4">
-				<button
-					type="button"
-					onClick={handlePreviousPage}
-					disabled={page === 0}
-					className="cursor-pointer text-gray-50 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none mr-4"
-				>
-					<div className="w-6 h-6">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-							<path d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M15,17h-3l-4-5l4-5h3l-4,5 L15,17z"></path>
-						</svg>
-					</div>
-				</button>
+			<PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />
 
-				<PageNumbers page={page} setPage={setPage} />
-				<button
-					type="button"
-					onClick={handleNextPage}
-					disabled={page === 19}
-					className="cursor-pointer text-gray-50 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none ml-4"
-				>
-					<div className="w-6 h-6" style={{ transform: 'rotate(180deg)' }}>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-							<path d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M15,17h-3l-4-5l4-5h3l-4,5 L15,17z"></path>
-						</svg>
-					</div>
-				</button>
-			</div>
-			{/* {isFetching ? <span> Loading...</span> : null} */}
 			{isLoading && aeIsLoading ? (
 				<div className="flex flex-wrap mx-auto justify-center">Loading ...</div>
 			) : isError ? (
 				<div></div>
 			) : (
-				<div className="flex flex-wrap mx-auto justify-center">{data && allColors && data.ethemerals.map((nft, index) => <NFTPreviewCard key={index} nft={nft} color={allColors[nft.id]} />)}</div>
+				<>
+					<div className="flex flex-wrap mx-auto justify-center">{data && allColors && data.ethemerals.map((nft, index) => <NFTPreviewCard key={index} nft={nft} color={allColors[nft.id]} />)}</div>
+					{data && allColors && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
+				</>
 			)}
 
 			<div className="h-40"></div>

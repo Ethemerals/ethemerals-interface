@@ -11,7 +11,7 @@ import Admin from './pages/Admin';
 // import BattleEternal from './pages/BattleEternal';
 // import BattleWilds from './pages/BattleWilds';
 // import BattleRoyale from './pages/BattleRoyale';
-// import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
 import EthemeralsMC from './pages/EthemeralsMC';
 import Equipable from './pages/Equipable';
@@ -87,10 +87,10 @@ function App() {
 								</Route>
 								<Route exact path="/battle/royale">
 									<BattleRoyale />
-								</Route>
+								</Route> */}
 								<Route exact path="/dashboard">
 									<Dashboard />
-								</Route> */}
+								</Route>
 								<Route exact path="/ethemerals">
 									<Ethemerals />
 								</Route>
