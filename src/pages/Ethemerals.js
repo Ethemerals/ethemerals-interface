@@ -165,7 +165,7 @@ const Ethemerals = () => {
 			) : isError ? (
 				<div></div>
 			) : (
-				<div className="flex flex-wrap mx-auto justify-center">{data && allColors && data.ethemerals.map((nft, index) => <NFTPreviewCard key={index} nft={nft} color={allColors[index]} />)}</div>
+				<div className="flex flex-wrap mx-auto justify-center">{data && allColors && data.ethemerals.map((nft, index) => <NFTPreviewCard key={index} nft={nft} color={allColors[nft.id]} />)}</div>
 			)}
 
 			<div className="h-40"></div>

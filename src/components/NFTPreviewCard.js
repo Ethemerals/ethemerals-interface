@@ -58,7 +58,7 @@ const NFTPreviewCard = ({ nft, rewards, color }) => {
 
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
-				<img className="" src={getNFTImages(cmId).colors[color ? color : 0].preview} alt="" />
+				<img className="" src={getNFTImages(cmId).colors[color].preview} alt="" />
 			</div>
 
 			{/* TOP BAR */}

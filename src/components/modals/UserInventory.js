@@ -4,10 +4,12 @@ import useUserAccount from '../../hooks/useUserAccount';
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 import UserInventoryHero from './UserInventoryHero';
 import { useNFTUtils } from '../../hooks/useNFTUtils';
+import { useAllColors } from '../../hooks/useColorTraits';
 
 const NFTLink = (nft, index, toggle, color = 0) => {
 	const { getNFTImages, elements } = useNFTUtils();
-	const bgImg = getNFTImages(nft.metadata.id).colors[0].thumbnail;
+	const bgImg = getNFTImages(nft.metadata.id).colors[color].thumbnail;
+	console.log(bgImg);
 
 	return (
 		<Link key={index} to={`/ethemeral/${nft.id}`}>
@@ -48,6 +50,9 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 	const { account, mainIndex, userNFTs } = useUserAccount();
 	const { accountEternalBattle } = useEternalBattleAccount();
 
+	const { allColors } = useAllColors();
+	const [aeIsLoading, setAeIsLoading] = useState(true);
+
 	const [NFTShortList, setNFTShortList] = useState([]);
 	const [NFTPetShortList, setNFTPetShortList] = useState([]);
 	const [NFTItemShortList, setNFTItemShortList] = useState([]);
@@ -66,6 +71,12 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 			setNFTItemShortList(account.items.slice(0, 10));
 		}
 	}, [account, userNFTs]);
+
+	useEffect(() => {
+		if (allColors && allColors.length > 0) {
+			setAeIsLoading(false);
+		}
+	}, [allColors]);
 
 	useEffect(() => {
 		if (accountEternalBattle && account) {
@@ -121,10 +132,10 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 			</div>
 
 			<div className="p-2 h-full bg-customBlue-pale">
-				{account && selectedTab === 0 && <div className="grid grid-cols-5">{NFTShortList.map((nft, index) => NFTLink(nft, index, toggle))}</div>}
-				{account && selectedTab === 1 && <div className="grid grid-cols-5">{NFTInBattleShortList.map((nft, index) => NFTLink(nft, index, toggle))}</div>}
-				{account && selectedTab === 2 && <div className="grid grid-cols-5">{NFTPetShortList.map((nft, index) => NFTPetLink(nft, index, toggle))}</div>}
-				{account && selectedTab === 3 && <div className="grid grid-cols-5">{NFTItemShortList.map((nft, index) => NFTPetLink(nft, index, toggle, true))}</div>}
+				{account && allColors && selectedTab === 0 && <div className="grid grid-cols-5">{NFTShortList.map((nft, index) => NFTLink(nft, index, toggle, allColors[nft.id]))}</div>}
+				{account && allColors && selectedTab === 1 && <div className="grid grid-cols-5">{NFTInBattleShortList.map((nft, index) => NFTLink(nft, index, toggle, allColors[nft.id]))}</div>}
+				{account && allColors && selectedTab === 2 && <div className="grid grid-cols-5">{NFTPetShortList.map((nft, index) => NFTPetLink(nft, index, toggle))}</div>}
+				{account && allColors && selectedTab === 3 && <div className="grid grid-cols-5">{NFTItemShortList.map((nft, index) => NFTPetLink(nft, index, toggle, true))}</div>}
 			</div>
 		</>
 	);
