@@ -16,7 +16,6 @@ import Ethemerals from './pages/Ethemerals';
 import EthemeralsMC from './pages/EthemeralsMC';
 import Equipable from './pages/Equipable';
 import NFTDetails from './pages/NFTDetails';
-import Opensea from './pages/Opensea';
 import All from './pages/All';
 // import Resurrect from './pages/Resurrect';
 // import Redemption from './pages/Redemption';
@@ -59,9 +58,6 @@ function App() {
 							</Helmet>
 							<ReactQueryDevtools initialIsOpen={false} />
 							<Switch>
-								<Route exact path="/opensea/:id">
-									<Opensea />
-								</Route>
 								<Route exact path="/opensea_equipables/:id">
 									<OpenseaEquipables />
 								</Route>

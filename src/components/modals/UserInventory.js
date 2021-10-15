@@ -5,9 +5,9 @@ import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 import UserInventoryHero from './UserInventoryHero';
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 
-const NFTLink = (nft, index, toggle) => {
+const NFTLink = (nft, index, toggle, color = 0) => {
 	const { getNFTImages, elements } = useNFTUtils();
-	const bgImg = getNFTImages(nft.metadata.id).thumbnail;
+	const bgImg = getNFTImages(nft.metadata.id).colors[0].thumbnail;
 
 	return (
 		<Link key={index} to={`/ethemeral/${nft.id}`}>

@@ -5,11 +5,13 @@ import dateFormat from 'dateformat';
 
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { useNFTUtils } from '../hooks/useNFTUtils';
+import { useMeralColor } from '../hooks/useColorTraits';
 import Images from '../constants/Images';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
 
 import NFTActions from '../components/NFTActions';
+import NFTChooseColorScheme from '../components/NFTChooseColorScheme';
 
 import { shortenAddress } from '../utils';
 import BackButton from '../components/navigation/BackButton';
@@ -55,7 +57,10 @@ const NFTDetails = () => {
 	const { getNFTImages, parseScore, elements, getSubclassIcon, getSubclassBonus } = useNFTUtils();
 
 	const { id } = useParams();
+	const { meralColor } = useMeralColor(id);
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
+
+	const [color, setColor] = useState(0);
 
 	const [nft, setNFT] = useState(undefined);
 	const [ready, setReady] = useState(false);
@@ -73,6 +78,12 @@ const NFTDetails = () => {
 			setReady(true);
 		}
 	}, [status, data, nft]);
+
+	useEffect(() => {
+		if (meralColor && meralColor.current) {
+			setColor(meralColor.current);
+		}
+	}, [meralColor]);
 
 	if (!ready || isLoading !== false || status !== 'success' || !nft) {
 		return (
@@ -165,7 +176,7 @@ const NFTDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }} className="absolute bg-contain nft_details_img"></div>
-					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
+					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).colors[color].large} alt="Ethemeral Full Size" />
 				</div>
 
 				{/* SIDE BAR */}
@@ -178,18 +189,18 @@ const NFTDetails = () => {
 
 					{/* EQUIPMENT */}
 					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
-						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">EQUIPMENT</h3>
-						{/* <div className="flex justify-center">
+						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">COLOR</h3>
+
+						<NFTChooseColorScheme nft={nft} setColor={setColor} />
+						{/* <div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
 							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
 							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
-							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 mr-2 bg-customBlue-pale rounded-md border-2 border-white"></div>
-							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 ml-6 bg-customBlue-pale rounded-md border-2 border-white"></div>
-						</div> */}
+							<div style={{ boxShadow: 'inset 2px 2px 10px hsl(213,30%,60%)' }} className="w-14 h-14 ml-6 bg-customBlue-pale rounded-md border-2 border-white"></div> */}
 					</div>
 
 					{/* ABILITIES */}
 					<div className="h-32 p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
-						<h3 className="font-bold text-xs text-brandColor-purple">ABILITIES</h3>
+						<h3 className="font-bold text-xs text-brandColor-purple">EQUIPMENT</h3>
 					</div>
 
 					{/* STATS */}

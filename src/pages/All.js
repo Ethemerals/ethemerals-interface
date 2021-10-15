@@ -5,7 +5,7 @@ import { GET_NFTS_FILTERED } from '../queries/Subgraph';
 import { useParams } from 'react-router-dom';
 import { useNFTUtils } from '../hooks/useNFTUtils';
 
-const NFTMC = () => {
+const NFTMC = ({ color }) => {
 	const { getNFTImages } = useNFTUtils();
 	const { data, status } = useGQLQuery('nfts_mc', GET_NFTS_FILTERED, { refetchOnMount: false });
 	const [nfts, setNfts] = useState([]);
@@ -20,7 +20,7 @@ const NFTMC = () => {
 		<div className="border-white border">
 			<p className="text-black text-xl px-2 py-1">{nft.metadata.coin}</p>
 			<p className="text-black px-2 py-1">{nft.metadata.subClass}</p>
-			<img style={{ width: '630px', height: '720px' }} className="" src={getNFTImages(nft.metadata.id).large} alt="" />
+			<img style={{ width: '630px', height: '720px' }} className="" src={getNFTImages(nft.metadata.id).colors[0].large} alt="" />
 		</div>
 	));
 };

@@ -104,7 +104,7 @@ const ModalMenuItem = ({ toggle, selected, text }) => {
 	);
 };
 
-const NFTLargeDetail = ({ startingIndex }) => {
+const NFTLargeDetail = ({ startingIndex, color }) => {
 	const { getNFTImages, elements } = useNFTUtils();
 	const { register, watch } = useForm();
 
@@ -200,13 +200,13 @@ const NFTLargeDetail = ({ startingIndex }) => {
 			{/* MAIN IMAGE */}
 			<div className="nft_details_img relative">
 				<div style={{ backgroundImage: `url("${elements[bgChoice].img}")` }} className="absolute bg-contain nft_details_img"></div>
-				<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(metaDataArray[0]).large} alt="Ethemeral Full Size" />
+				<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(metaDataArray[0]).colors[0].large} alt="Ethemeral Full Size" />
 			</div>
 		</div>
 	);
 };
 
-const NFTPreviewCard = ({ startingIndex }) => {
+const NFTPreviewCard = ({ startingIndex, color }) => {
 	const { getNFTImages, getSubclassPalette } = useNFTUtils();
 	let metaDataIndex = startingIndex;
 
@@ -243,7 +243,7 @@ const NFTPreviewCard = ({ startingIndex }) => {
 
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
-				<img className="w-64 h-96 z-0" src={getNFTImages(metaDataArray[0]).preview} alt="" />
+				<img className="w-64 h-96 z-0" src={getNFTImages(metaDataArray[0]).colors[0].preview} alt="" />
 			</div>
 			{/* TOP BAR */}
 			<div className="absolute flex items-center p-1 ">
@@ -274,7 +274,7 @@ const NFTPreviewCard = ({ startingIndex }) => {
 					<p className="text-2xl font-medium">{nftMetadata.coinName[metaDataIndex]}</p>
 					<div className="flex h-6 my-1">
 						<div style={{ backgroundColor: `hsla(${getSubclassPalette(nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]).hue},100%,80%,1)` }} className="w-6">
-							<img src={getNFTImages(metaDataArray[0]).subclassIcon} alt="subclass icon" />
+							<img src={getNFTImages(metaDataArray[0]).colors[0].subclassIcon} alt="subclass icon" />
 						</div>
 						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]}</div>
 					</div>
@@ -284,7 +284,7 @@ const NFTPreviewCard = ({ startingIndex }) => {
 	);
 };
 
-const NFTInventoryHero = ({ startingIndex }) => {
+const NFTInventoryHero = ({ startingIndex, color }) => {
 	const { getNFTImages } = useNFTUtils();
 	let metaDataIndex = startingIndex;
 
@@ -342,7 +342,7 @@ const NFTInventoryHero = ({ startingIndex }) => {
 							{/* MAIN IMAGE */}
 
 							<div className="absolute top-0 left-0 w-full h-28">
-								<img className="" src={getNFTImages(metaDataArray[0]).inventory} alt="" />
+								<img className="" src={getNFTImages(metaDataArray[0]).colors[0].inventory} alt="" />
 							</div>
 						</div>
 					</div>
@@ -379,7 +379,7 @@ const NFTLink = ({ startingIndex }) => {
 	return (
 		<div className="flex w-74 h-74 bg-gray-500 rounded hover:bg-gray-600 m-2 shadow-sm items-baseline relative">
 			<div className="absolute top-0 left-0">
-				<img className="" src={getNFTImages(metaDataArray[0]).thumbnail} alt="" />
+				<img className="" src={getNFTImages(metaDataArray[0]).colors[0].thumbnail} alt="" />
 			</div>
 			<span className="flex-grow h-full"></span>
 			<span className="text-sm font-bold text-gray-400 z-10">#{((metaDataIndex + 1) * 10).toString().padStart(4, '0')}</span>

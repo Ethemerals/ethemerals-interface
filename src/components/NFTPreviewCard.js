@@ -24,7 +24,7 @@ const RankedStars = ({ amount }) => {
 	);
 };
 
-const NFTPreviewCard = ({ nft, rewards }) => {
+const NFTPreviewCard = ({ nft, rewards, color }) => {
 	const { getNFTImages, parseScore, getSubclassIcon, elements } = useNFTUtils();
 	const history = useHistory();
 	const [subclass, setSubclass] = useState(undefined);
@@ -58,7 +58,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
-				<img className="" src={getNFTImages(cmId).preview} alt="" />
+				<img className="" src={getNFTImages(cmId).colors[color ? color : 0].preview} alt="" />
 			</div>
 
 			{/* TOP BAR */}

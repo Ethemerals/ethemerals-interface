@@ -93,13 +93,35 @@ export const useNFTUtils = () => {
 	];
 
 	const getNFTImages = (cmId) => {
-		let base = `${s3URL}${cmId}_base.png`;
-		let large = `${s3URL}${cmId}_large.png`;
-		let preview = `${s3URL}${cmId}_preview.png`;
-		let inventory = `${s3URL}${cmId}_inventory.png`;
-		let thumbnail = `${s3URL}${cmId}_thumbnail.png`;
+		let base = {
+			large: `${s3URL}${cmId}_large.png`,
+			preview: `${s3URL}${cmId}_preview.png`,
+			inventory: `${s3URL}${cmId}_inventory.png`,
+			thumbnail: `${s3URL}${cmId}_thumbnail.png`,
+		};
+		let color2 = {
+			large: `${s3URL}${cmId}_large_2.png`,
+			preview: `${s3URL}${cmId}_preview_2.png`,
+			inventory: `${s3URL}${cmId}_inventory_2.png`,
+			thumbnail: `${s3URL}${cmId}_thumbnail_2.png`,
+		};
+		let color3 = {
+			large: `${s3URL}${cmId}_large_3.png`,
+			preview: `${s3URL}${cmId}_preview_3.png`,
+			inventory: `${s3URL}${cmId}_inventory_3.png`,
+			thumbnail: `${s3URL}${cmId}_thumbnail_3.png`,
+		};
+		let special = {
+			large: `${s3URL}${cmId}_large_special.png`,
+			preview: `${s3URL}${cmId}_preview_special.png`,
+			inventory: `${s3URL}${cmId}_inventory_special.png`,
+			thumbnail: `${s3URL}${cmId}_thumbnail_special.png`,
+		};
+
+		let colors = [base, color2, color3, special];
+
 		let subclassIcon = iconAssassin;
-		return { base, large, subclassIcon, preview, inventory, thumbnail };
+		return { colors, subclassIcon };
 	};
 
 	const getEquipmentImages = (baseId, item = false) => {

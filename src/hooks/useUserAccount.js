@@ -31,7 +31,7 @@ const updateUser = async (userData) => {
 	userData.signed = signed;
 	if (isAddress(userData.address)) {
 		try {
-			const { data } = await axios.post(`${process.env.REACT_APP_FIREBASE_URL}/main`, userData);
+			const { data } = await axios.post(`${process.env.REACT_APP_API_ACCOUNTS}main`, userData);
 			return data;
 		} catch (error) {
 			throw new Error('error');
@@ -44,7 +44,7 @@ const updateUser = async (userData) => {
 const getUser = async (id) => {
 	if (isAddress(id)) {
 		try {
-			const { data } = await axios.get(`${process.env.REACT_APP_FIREBASE_URL}/main/${id}`);
+			const { data } = await axios.get(`${process.env.REACT_APP_API_ACCOUNTS}main/${id}`);
 			if (data.message === 'got entry' || data.message === 'does not exist') {
 				return data;
 			}
