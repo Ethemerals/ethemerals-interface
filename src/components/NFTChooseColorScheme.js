@@ -50,7 +50,6 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 
 	useEffect(() => {
 		setColor(selectedColor);
-		console.log(selectedColor);
 		if (selectedColor !== currentColor) {
 			setSaved(false);
 		}
@@ -62,7 +61,6 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 			setColorNames([meralColor.colors[0].name, meralColor.colors[1].name, meralColor.colors[2].name, meralColor.colors[3].name]);
 			setAllowedColors([meralColor.colors[0].unlocked, meralColor.colors[1].unlocked, meralColor.colors[2].unlocked, meralColor.colors[3].unlocked]);
 			setSelectedColor(meralColor.current);
-			console.log(allowedColors);
 		}
 	}, [meralColor]);
 
