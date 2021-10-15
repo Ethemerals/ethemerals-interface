@@ -51,7 +51,7 @@ const ActionLink = (action) => {
 	);
 };
 
-const NFTTest = () => {
+const NFTTest = ({ color }) => {
 	const { getNFTImages, parseScore, elements, getSubclassIcon, getSubclassBonus } = useNFTUtils();
 
 	// const { id } = useParams();
@@ -159,7 +159,7 @@ const NFTTest = () => {
 
 					{/* MAIN IMAGE */}
 					<div style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }} className="absolute bg-contain nft_details_img"></div>
-					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).large} alt="Ethemeral Full Size" />
+					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).colors[0].large} alt="Ethemeral Full Size" />
 				</div>
 
 				{/* SIDE BAR */}

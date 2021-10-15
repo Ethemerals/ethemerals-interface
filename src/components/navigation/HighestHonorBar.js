@@ -8,7 +8,7 @@ import { useNFTUtils } from '../../hooks/useNFTUtils';
 import Images from '../../constants/Images';
 import { formatELF } from '../../utils';
 
-const NFTWinnerCard = ({ id }) => {
+const NFTWinnerCard = ({ id, color }) => {
 	const { data, status } = useGQLQuery(`nft_winner_${id}`, GET_NFT_LIGHT, { id: id }, { refetchOnMount: true });
 	const { getNFTImages, getSubclassPalette } = useNFTUtils();
 
@@ -39,7 +39,7 @@ const NFTWinnerCard = ({ id }) => {
 
 			{/* MAIN IMAGE */}
 			<div style={{ backgroundColor: `hsla(${getSubclassPalette(subclass).hue},35%,77%,1)` }} className="flex-shrink-0">
-				<img width="74" height="74" src={getNFTImages(cmId).thumbnail} alt="" />
+				<img width="74" height="74" src={getNFTImages(cmId).colors[0].thumbnail} alt="" />
 			</div>
 
 			<div style={{ backgroundColor: `hsla(${getSubclassPalette(subclass).hue},18%,50%,1)` }} className="w-full relative ml-1">
@@ -52,7 +52,7 @@ const NFTWinnerCard = ({ id }) => {
 
 				<div className="flex h-5 absolute bottom-0 w-full">
 					<div style={{ backgroundColor: `hsla(${getSubclassPalette(subclass).hue},100%,80%,1)` }} className="w-5">
-						<img width="20px" height="20px" src={getNFTImages(cmId).subclassIcon} alt="subclass icon" />
+						<img width="20px" height="20px" src={getNFTImages(cmId).colors[0].subclassIcon} alt="subclass icon" />
 					</div>
 					<div className="w-full bg-black pl-2 uppercase text-sm font-bold text-white">{nft.metadata.subClass}</div>
 					{/* STATS */}

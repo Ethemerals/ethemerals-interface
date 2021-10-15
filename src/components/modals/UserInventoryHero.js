@@ -1,4 +1,6 @@
 import { useHistory } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useAllColors } from '../../hooks/useColorTraits';
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 
 const RankedStars = ({ amount }) => {
@@ -27,6 +29,14 @@ const RankedStars = ({ amount }) => {
 const UserInventoryHero = ({ userNFTs, mainIndex, toggle, toggleExtra }) => {
 	const { getNFTImages, parseScore, elements } = useNFTUtils();
 	const history = useHistory();
+	const { allColors } = useAllColors();
+	const [color, setColor] = useState(0);
+
+	useEffect(() => {
+		if (allColors && allColors.length > 0) {
+			setColor(allColors[userNFTs[mainIndex].id]);
+		}
+	}, [allColors]);
 
 	const handleClick = () => {
 		history.push(`/ethemeral/${userNFTs[mainIndex].id}`);
@@ -57,7 +67,7 @@ const UserInventoryHero = ({ userNFTs, mainIndex, toggle, toggleExtra }) => {
 				{/* MAIN IMAGE */}
 
 				<div onClick={handleClick} className="absolute top-0 left-0 w-full h-28">
-					<img className="" src={getNFTImages(userNFTs[mainIndex].metadata.id).inventory} alt="" />
+					<img className="" src={getNFTImages(userNFTs[mainIndex].metadata.id).colors[color].inventory} alt="" />
 				</div>
 			</div>
 			<div className="px-1 font-bold text-sm absolute top-44">

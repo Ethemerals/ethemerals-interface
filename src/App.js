@@ -11,11 +11,11 @@ import Admin from './pages/Admin';
 // import BattleEternal from './pages/BattleEternal';
 // import BattleWilds from './pages/BattleWilds';
 // import BattleRoyale from './pages/BattleRoyale';
-// import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
+import EthemeralsMC from './pages/EthemeralsMC';
 import Equipable from './pages/Equipable';
 import NFTDetails from './pages/NFTDetails';
-import Opensea from './pages/Opensea';
 import All from './pages/All';
 // import Resurrect from './pages/Resurrect';
 // import Redemption from './pages/Redemption';
@@ -58,9 +58,6 @@ function App() {
 							</Helmet>
 							<ReactQueryDevtools initialIsOpen={false} />
 							<Switch>
-								<Route exact path="/opensea/:id">
-									<Opensea />
-								</Route>
 								<Route exact path="/opensea_equipables/:id">
 									<OpenseaEquipables />
 								</Route>
@@ -90,15 +87,15 @@ function App() {
 								</Route>
 								<Route exact path="/battle/royale">
 									<BattleRoyale />
-								</Route>
+								</Route> */}
 								<Route exact path="/dashboard">
 									<Dashboard />
-								</Route> */}
+								</Route>
 								<Route exact path="/ethemerals">
 									<Ethemerals />
 								</Route>
-								<Route exact path="/ethemerals/:sort">
-									<Ethemerals />
+								<Route exact path="/ethemerals/mc">
+									<EthemeralsMC />
 								</Route>
 								<Route exact path="/pets">
 									<Pets />

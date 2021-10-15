@@ -10,10 +10,10 @@ const Links = {
 	TWITTER: 'https://twitter.com/ethemerals',
 	DISCORD: 'https://discord.gg/6uVBgFDtek',
 	MEDIUM: 'https://google.com',
-	OPENSEAS: 'https://opensea.io/assets',
+	OPENSEAS: process.env.REACT_APP_OPENSEAS,
 	TERMS: 'https://www.ethemerals.com/terms',
 	PRIVACY: 'https://www.ethemerals.com/privacy',
-	OPENSEAS_COLLECTION: 'https://opensea.io/collection/ethemerals-merals',
+	OPENSEAS_COLLECTION: `${process.env.REACT_APP_OPENSEAS_URL}/ethemerals-merals`,
 };
 
 export default Links;

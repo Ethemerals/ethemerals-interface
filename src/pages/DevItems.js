@@ -53,7 +53,7 @@ const RankedStarsSmall = ({ amount }) => {
 	);
 };
 
-const NFTLargeDetail = ({ startingIndex }) => {
+const NFTLargeDetail = ({ startingIndex, color }) => {
 	const { getNFTImages, elements } = useNFTUtils();
 
 	const [metaDataIndex, setMetaDataIndex] = useState(undefined);
@@ -92,7 +92,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 				<div style={{ height: '120px' }} className="bg-black w-full px-4 pb-4 pt-2 h">
 					<div className="flex h-8 my-2">
 						<div className="w-8 bg-white">
-							<img src={getNFTImages(metaDataArray[0]).subclassIcon} alt="subclass icon" />
+							<img src={getNFTImages(metaDataArray[0]).colors[0].subclassIcon} alt="subclass icon" />
 						</div>
 						<div className=" w-48 px-2 bg-black uppercase text-lg">{nftMetadata.subclass[metaDataArray[1]][metaDataArray[2]]}</div>
 					</div>
@@ -123,7 +123,7 @@ const NFTLargeDetail = ({ startingIndex }) => {
 			{/* MAIN IMAGE */}
 			<div className="nft_details_img relative">
 				<div className="absolute bg-contain nft_details_img"></div>
-				<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(metaDataArray[0]).large} alt="Ethemeral Full Size" />
+				<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(metaDataArray[0]).colors[0].large} alt="Ethemeral Full Size" />
 			</div>
 		</div>
 	);
