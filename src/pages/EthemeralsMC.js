@@ -3,8 +3,9 @@ import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_NFTS_FILTERED } from '../queries/Subgraph';
 import NFTPreviewCard from '../components/NFTPreviewCard';
 import { useHistory, useParams } from 'react-router-dom';
+import { useAllColors } from '../hooks/useColorTraits';
 
-const NFTMC = () => {
+const NFTMC = ({ allColors }) => {
 	const { data, status } = useGQLQuery('nfts_mc', GET_NFTS_FILTERED, { refetchOnMount: false });
 	const [nfts, setNfts] = useState([]);
 
@@ -14,14 +15,22 @@ const NFTMC = () => {
 		}
 	}, [status, data]);
 
-	return nfts.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />);
+	return nfts.map((nft, index) => <NFTPreviewCard key={index} nft={nft} color={allColors[nft.id]} />);
 };
 
 const EthemeralsMC = () => {
 	const { sort } = useParams();
 	const history = useHistory();
+	const { allColors } = useAllColors();
+	const [aeIsLoading, setAeIsLoading] = useState(true);
 
 	const [sortBy, setSortBy] = useState(2);
+
+	useEffect(() => {
+		if (allColors && allColors.length > 0) {
+			setAeIsLoading(false);
+		}
+	}, [allColors]);
 
 	useEffect(() => {
 		if (sort >= 0 && sort <= 4) {
@@ -50,7 +59,7 @@ const EthemeralsMC = () => {
 			<div style={{ height: '54px' }}></div>
 
 			<div className="flex flex-wrap mx-auto justify-center">
-				<NFTMC orderDirection="asc" />
+				<NFTMC orderDirection="asc" allColors={allColors} />
 			</div>
 
 			<div className="h-40"></div>
