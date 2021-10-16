@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useNFTUtils } from '../hooks/useNFTUtils';
+import { useMeralImagePaths } from '../hooks/useMeralImagePaths';
 import Images from '../constants/Images';
 
 const RankedStars = ({ amount }) => {
@@ -24,10 +25,11 @@ const RankedStars = ({ amount }) => {
 	);
 };
 
-const NFTPreviewCard = ({ nft, rewards, color }) => {
-	const { getNFTImages, parseScore, getSubclassIcon, elements } = useNFTUtils();
+const NFTPreviewCard = ({ nft, rewards }) => {
+	const { parseScore, getSubclassIcon, elements } = useNFTUtils();
 	const history = useHistory();
 	const [subclass, setSubclass] = useState(undefined);
+	const { meralImagePaths } = useMeralImagePaths(nft.id);
 
 	useEffect(() => {
 		if (nft) {
@@ -39,7 +41,9 @@ const NFTPreviewCard = ({ nft, rewards, color }) => {
 		return <p>Loading</p>;
 	}
 
-	const cmId = nft.metadata.id;
+	if (!meralImagePaths) {
+		return <p>Loading</p>;
+	}
 
 	const handleOnClick = () => {
 		history.push(`/ethemeral/${nft.id}`);
@@ -58,7 +62,7 @@ const NFTPreviewCard = ({ nft, rewards, color }) => {
 
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
-				<img className="" src={getNFTImages(cmId).colors[color].preview} alt="" />
+				<img className="" src={meralImagePaths.preview} alt="" />
 			</div>
 
 			{/* TOP BAR */}

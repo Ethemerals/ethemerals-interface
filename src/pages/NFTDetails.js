@@ -15,6 +15,7 @@ import NFTChooseColorScheme from '../components/NFTChooseColorScheme';
 
 import { shortenAddress } from '../utils';
 import BackButton from '../components/navigation/BackButton';
+import { useChooseMeralImagePaths } from '../hooks/useMeralImagePaths';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -54,10 +55,11 @@ const ActionLink = (action) => {
 };
 
 const NFTDetails = () => {
-	const { getNFTImages, parseScore, elements, getSubclassIcon, getSubclassBonus } = useNFTUtils();
+	const { parseScore, elements, getSubclassIcon, getSubclassBonus } = useNFTUtils();
 
 	const { id } = useParams();
 	const { meralColor } = useMeralColor(id);
+	const { chooseMeralImagePath } = useChooseMeralImagePaths();
 	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
 	const [color, setColor] = useState(0);
@@ -176,7 +178,7 @@ const NFTDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }} className="absolute bg-contain nft_details_img"></div>
-					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getNFTImages(cmId).colors[color].large} alt="Ethemeral Full Size" />
+					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={chooseMeralImagePath(nft.id, color).large} alt="Ethemeral Full Size" />
 				</div>
 
 				{/* SIDE BAR */}

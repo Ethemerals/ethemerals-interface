@@ -53,7 +53,7 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 		if (selectedColor !== currentColor) {
 			setSaved(false);
 		}
-	}, [selectedColor]);
+	}, [selectedColor, currentColor, setColor]);
 
 	useEffect(() => {
 		if (meralColor) {

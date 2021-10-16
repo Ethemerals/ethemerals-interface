@@ -4,22 +4,9 @@ import { GET_NFTS_FILTERED } from '../queries/Subgraph';
 import NFTPreviewCard from '../components/NFTPreviewCard';
 import EquipablePreviewCard from '../components/EquipablePreviewCard';
 import { useHistory, useParams } from 'react-router-dom';
-import { useAllColors } from '../hooks/useColorTraits';
+
 import useUserAccount from '../hooks/useUserAccount';
 import { useEternalBattleAccount } from '../hooks/useEternalBattle';
-
-const NFTMC = ({ allColors }) => {
-	const { data, status } = useGQLQuery('nfts_mc', GET_NFTS_FILTERED, { refetchOnMount: false });
-	const [nfts, setNfts] = useState([]);
-
-	useEffect(() => {
-		if (status === 'success' && data && data.ethemerals) {
-			setNfts(data.ethemerals);
-		}
-	}, [status, data]);
-
-	return nfts.map((nft, index) => <NFTPreviewCard key={index} nft={nft} color={allColors[nft.id]} />);
-};
 
 const Dashboard = () => {
 	const { sort } = useParams();
@@ -27,9 +14,6 @@ const Dashboard = () => {
 
 	const { account, mainIndex, userNFTs } = useUserAccount();
 	const { accountEternalBattle } = useEternalBattleAccount();
-
-	const { allColors } = useAllColors();
-	const [aeIsLoading, setAeIsLoading] = useState(true);
 
 	const [merals, setMerals] = useState([]);
 	const [pets, setPets] = useState([]);
@@ -61,12 +45,6 @@ const Dashboard = () => {
 		}
 	}, [accountEternalBattle, account]);
 
-	useEffect(() => {
-		if (allColors && allColors.length > 0) {
-			setAeIsLoading(false);
-		}
-	}, [allColors]);
-
 	return (
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
@@ -89,7 +67,7 @@ const Dashboard = () => {
 
 			<div className="flex flex-wrap mx-auto justify-center">
 				<div className="flex flex-wrap mx-auto justify-center">
-					{selectedTab === 0 && merals && allColors && merals.map((nft, index) => <NFTPreviewCard key={index} nft={nft} color={allColors[nft.id]} />)}
+					{selectedTab === 0 && merals && merals.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />)}
 					{selectedTab === 1 && pets && pets.map((nft, index) => <EquipablePreviewCard key={index} nft={nft} />)}
 				</div>
 			</div>

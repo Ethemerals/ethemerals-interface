@@ -41,15 +41,6 @@ const updateMeralColor = async (meralData) => {
 	}
 };
 
-const getAllColors = async (set) => {
-	try {
-		const { data } = await axios.get(`${process.env.REACT_APP_API_MERALS}allcolors/${set}`);
-		return data;
-	} catch (error) {
-		throw new Error('get allColors error');
-	}
-};
-
 const getMeralColor = async (id) => {
 	try {
 		const { data } = await axios.get(`${process.env.REACT_APP_API_MERALS}colors/${id}`);
@@ -75,22 +66,6 @@ export const refreshMetadata = async (id) => {
 	}
 };
 
-export const useAllColors = (set = 0) => {
-	let [allColors, setAllColors] = useState(undefined);
-	const { isLoading, data } = useQuery(['allColors'], () => getAllColors(set), { refetchOnMount: false });
-
-	useEffect(() => {
-		if (data && !isLoading) {
-			setAllColors(data.data.currentColor);
-		}
-	}, [data]);
-
-	// prettier-ignore
-	return {
-    allColors
-  };
-};
-
 export const useMeralColor = (id) => {
 	let [meralColor, setMeralColor] = useState(undefined);
 	const { isLoading, data } = useQuery([`${id}_colors`], () => getMeralColor(id), { refetchOnMount: true });
@@ -99,7 +74,7 @@ export const useMeralColor = (id) => {
 		if (data && !isLoading) {
 			setMeralColor(data.data);
 		}
-	}, [data]);
+	}, [data, isLoading]);
 
 	// prettier-ignore
 	return {

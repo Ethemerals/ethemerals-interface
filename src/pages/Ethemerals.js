@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import Links from '../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
-import { useAllColors } from '../hooks/useColorTraits';
 
 const GET_NFTS = gql`
 	query ($first: Int!, $skip: Int!) {
@@ -129,18 +128,10 @@ const PageNumbers = ({ page, setPage }) => {
 
 const Ethemerals = () => {
 	const history = useHistory();
-	const { allColors } = useAllColors();
-	const [aeIsLoading, setAeIsLoading] = useState(true);
 
 	const [page, setPage] = useState(0);
 
 	const { isLoading, isError, error, data, isFetching, isPreviousData } = useQuery([`nfts`, page], () => getMerals(page), { keepPreviousData: true }); // TODO
-
-	useEffect(() => {
-		if (allColors && allColors.length > 0) {
-			setAeIsLoading(false);
-		}
-	}, [allColors]);
 
 	const handleNextPage = () => {
 		setPage((old) => old + 1);
@@ -165,14 +156,14 @@ const Ethemerals = () => {
 
 			<PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />
 
-			{isLoading && aeIsLoading ? (
+			{isLoading ? (
 				<div className="flex flex-wrap mx-auto justify-center">Loading ...</div>
 			) : isError ? (
 				<div></div>
 			) : (
 				<>
-					<div className="flex flex-wrap mx-auto justify-center">{data && allColors && data.ethemerals.map((nft, index) => <NFTPreviewCard key={index} nft={nft} color={allColors[nft.id]} />)}</div>
-					{data && allColors && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
+					<div className="flex flex-wrap mx-auto justify-center">{data && data.ethemerals.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />)}</div>
+					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 				</>
 			)}
 
