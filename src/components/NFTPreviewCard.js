@@ -37,12 +37,34 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 		}
 	}, [nft]);
 
-	if (!nft) {
-		return <p>Loading</p>;
-	}
+	if (!nft && !meralImagePaths) {
+		<div className="w-64 h-96 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300">
+			<div className="text-xs font-bold absolute right-0 text-right text-white z-10"></div>
 
-	if (!meralImagePaths) {
-		return <p>Loading</p>;
+			{/* MAIN IMAGE */}
+			<div className="absolute top-0 left-0"></div>
+
+			{/* TOP BAR */}
+			<div className="absolute flex items-center p-1 "></div>
+
+			<div style={{ bottom: '64px' }} className="w-full absolute z-10 flex justify-end right-2 space-x-2">
+				<div className="relative"></div>
+				<div className="relative"></div>
+				<div className="relative"></div>
+			</div>
+
+			{/* BOTTOM BAR */}
+
+			<div className="w-full bottom-0 absolute overflow-hidden">
+				<div className="px-2 py-1">
+					<p className="text-xs text-white"></p>
+					<p className="text-2xl font-medium"></p>
+					<div className="flex h-6 my-1 items-center">
+						<div className="w-full bg-black pl-2 uppercase font-bold text-white"></div>
+					</div>
+				</div>
+			</div>
+		</div>;
 	}
 
 	const handleOnClick = () => {
@@ -61,9 +83,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 			</div>
 
 			{/* MAIN IMAGE */}
-			<div className="absolute top-0 left-0">
-				<img className="" src={meralImagePaths.preview} alt="" />
-			</div>
+			<div className="absolute top-0 left-0">{meralImagePaths && <img className="" src={meralImagePaths.preview} alt="" />}</div>
 
 			{/* TOP BAR */}
 			<div className="absolute flex items-center p-1 ">
