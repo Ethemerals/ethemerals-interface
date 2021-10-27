@@ -1,26 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { usePriceFeedContract, usePriceFeedPrice } from '../hooks/usePriceFeed';
-
 import PriceFeeds from '../constants/PriceFeeds';
-
-import EternalBattleCard from '../components/battle/EternalBattleCard';
 import EternalBattleCardOld from '../components/battle/EternalBattleCardOld';
 
-const battleGraphic1 = 'https://ethemerals-media.s3.amazonaws.com/battlegraphic_1.png';
-
-const priceFeed1 = {
-	pair: 'ETH/USD',
-	id: 0,
-};
 const BattleEternal = () => {
-	const { contractPriceFeed } = usePriceFeedContract();
-	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed1);
-
-	useEffect(() => {
-		console.log(price);
-	}, [price]);
-
 	return (
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
@@ -30,11 +11,8 @@ const BattleEternal = () => {
 				<button className={`bg-indigo-300 py-1 px-2 mx-1 rounded focus:outline-none cursor-default`}>Into The Wilds</button>
 			</div>
 
-			{/* <EternalBattleCard contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[0]} graphic={battleGraphic1} /> */}
-			<EternalBattleCardOld contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[0]} />
-			<EternalBattleCardOld contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[1]} />
-			{/* <EternalBattleCardOld contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[2]} /> */}
-			{/* <EternalBattleCardOld contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[3]} /> */}
+			<EternalBattleCardOld priceFeed={PriceFeeds[0]} />
+			<EternalBattleCardOld priceFeed={PriceFeeds[1]} />
 		</div>
 	);
 };

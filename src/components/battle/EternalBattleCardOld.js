@@ -3,21 +3,21 @@ import { useState, useEffect } from 'react';
 import EternalBattleStake from '../modals/actions/EternalBattleStake';
 import DisallowDelegates from '../modals/actions/DisallowDelegates';
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
-import { usePriceFeedPrice } from '../../hooks/usePriceFeed';
+import { usePriceFeedContract, usePriceFeedPrice } from '../../hooks/usePriceFeed';
 
 import StakedNFT from './StakedNFT';
 import useUserAccount from '../../hooks/useUserAccount';
 
-const EternalBattleCardOld = ({ contractPriceFeed, priceFeed, graphic }) => {
+const EternalBattleCardOld = ({ priceFeed }) => {
+	const { contractPriceFeed } = usePriceFeedContract();
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
+
 	const { accountEternalBattle } = useEternalBattleAccount();
 	const { account } = useUserAccount();
 
-	const [baseName, setBaseName] = useState('');
-	const [quoteName, setQuoteName] = useState('');
-	const [ticker, setTicker] = useState('');
 	const [stakedNFTs, setStakedNFTs] = useState([]);
 	const [isLong, setIsLong] = useState(true);
+
 	const [isCreateStakeOpen, setIsCreateStakeOpen] = useState(false);
 	const [isDisallowDelegatesOpen, setIsDisallowDelegatesOpen] = useState(false);
 
@@ -34,12 +34,6 @@ const EternalBattleCardOld = ({ contractPriceFeed, priceFeed, graphic }) => {
 		}
 		setStakedNFTs(staked);
 	}, [accountEternalBattle, priceFeed.id]);
-
-	useEffect(() => {
-		setBaseName(priceFeed.baseName);
-		setQuoteName(priceFeed.quoteName);
-		setTicker(priceFeed.name);
-	}, [priceFeed]);
 
 	const toggleJoinBattle = () => {
 		setIsCreateStakeOpen(!isCreateStakeOpen);
@@ -61,27 +55,26 @@ const EternalBattleCardOld = ({ contractPriceFeed, priceFeed, graphic }) => {
 	return (
 		<>
 			<div className="flex justify-center">
-				{/* <div style={{backgroundImage: `url(${graphic})`}} className="bg-gray-700 p-4 m-4 w-full max-w-5xl"> */}
 				<div className="bg-gray-700 p-4 m-4 w-full max-w-5xl">
 					<h3>
-						{baseName} vs {quoteName}
+						{priceFeed.baseName} vs {priceFeed.quoteName}
 					</h3>
 
-					<p>{ticker}</p>
+					<p>{priceFeed.ticker}</p>
 					<p>Price: {price}</p>
 					<hr></hr>
 					<div className="grid grid-cols-2 gap-4">
 						<div>
-							{/* <button onClick={() => handleJoinBattle(true)} className="p-2 my-2 rounded bg-brandColor-purple">
-								Join {baseName}
-							</button> */}
+							<button onClick={() => handleJoinBattle(true)} className="p-2 my-2 rounded bg-brandColor-purple">
+								Join {priceFeed.baseName}
+							</button>
 							<h3>Current Fighters</h3>
 							{stakedNFTs.map((nft, index) => nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
 						</div>
 						<div>
-							{/* <button onClick={() => handleJoinBattle(false)} className="p-2 my-2 rounded bg-brandColor-purple">
-								Join {quoteName}
-							</button> */}
+							<button onClick={() => handleJoinBattle(false)} className="p-2 my-2 rounded bg-brandColor-purple">
+								Join {priceFeed.quoteName}
+							</button>
 							<h3>Current Fighters</h3>
 							{stakedNFTs.map((nft, index) => !nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
 						</div>

@@ -89,25 +89,41 @@
 			},
 			{
 				"indexed": false,
-				"internalType": "bool",
-				"name": "reap",
-				"type": "bool"
-			},
-			{
-				"indexed": false,
 				"internalType": "uint256",
 				"name": "reviver",
 				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "reviverOwner",
-				"type": "address"
 			}
 		],
 		"name": "TokenRevived",
 		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "atkDivMod",
+		"outputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function",
+		"constant": true
+	},
+	{
+		"inputs": [],
+		"name": "defDivMod",
+		"outputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function",
+		"constant": true
 	},
 	{
 		"inputs": [
@@ -145,12 +161,12 @@
 	},
 	{
 		"inputs": [],
-		"name": "reviverScorePenalty",
+		"name": "reviverReward",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint32",
 				"name": "",
-				"type": "uint256"
+				"type": "uint32"
 			}
 		],
 		"stateMutability": "view",
@@ -159,26 +175,12 @@
 	},
 	{
 		"inputs": [],
-		"name": "reviverTokenReward",
+		"name": "spdDivMod",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint16",
 				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function",
-		"constant": true
-	},
-	{
-		"inputs": [],
-		"name": "testValue",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"type": "uint16"
 			}
 		],
 		"stateMutability": "view",
@@ -193,14 +195,14 @@
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint8",
 				"name": "_priceFeedId",
-				"type": "uint256"
+				"type": "uint8"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_position",
-				"type": "uint256"
+				"internalType": "uint8",
+				"name": "_positionSize",
+				"type": "uint8"
 			},
 			{
 				"internalType": "bool",
@@ -217,7 +219,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_id",
+				"name": "_tokenId",
 				"type": "uint256"
 			}
 		],
@@ -237,11 +239,6 @@
 				"internalType": "uint256",
 				"name": "_id1",
 				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "reap",
-				"type": "bool"
 			}
 		],
 		"name": "reviveToken",
@@ -265,6 +262,11 @@
 				"type": "uint256"
 			},
 			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
@@ -278,12 +280,12 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "x",
+				"name": "_x",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "y",
+				"name": "_y",
 				"type": "uint256"
 			}
 		],
@@ -303,7 +305,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_id",
+				"name": "_tokenId",
 				"type": "uint256"
 			}
 		],
@@ -317,18 +319,18 @@
 						"type": "address"
 					},
 					{
-						"internalType": "uint256",
+						"internalType": "uint8",
 						"name": "priceFeedId",
-						"type": "uint256"
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "positionSize",
+						"type": "uint8"
 					},
 					{
 						"internalType": "uint256",
 						"name": "startingPrice",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "position",
 						"type": "uint256"
 					},
 					{
@@ -349,8 +351,63 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint8",
+				"name": "_gameIndex",
+				"type": "uint8"
+			}
+		],
+		"name": "getGamePair",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "bool",
+						"name": "active",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint16",
+						"name": "longs",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint16",
+						"name": "shorts",
+						"type": "uint16"
+					}
+				],
+				"internalType": "struct EternalBattle.GamePair",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function",
+		"constant": true
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint8",
+				"name": "_gameIndex",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bool",
+				"name": "_active",
+				"type": "bool"
+			}
+		],
+		"name": "resetGamePair",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
-				"name": "_id",
+				"name": "_tokenId",
 				"type": "uint256"
 			}
 		],
@@ -362,17 +419,35 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_score",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_token",
-				"type": "uint256"
+				"internalType": "uint32",
+				"name": "_reward",
+				"type": "uint32"
 			}
 		],
 		"name": "setReviverRewards",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_atkDivMod",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_defDivMod",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_spdDivMod",
+				"type": "uint16"
+			}
+		],
+		"name": "setStatsDivMod",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -398,7 +473,7 @@
 				"type": "address"
 			}
 		],
-		"name": "setPriceFeed",
+		"name": "setPriceFeedContract",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

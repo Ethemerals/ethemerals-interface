@@ -249,7 +249,7 @@ const NFTDetails = () => {
 									if (index > 6) {
 										return null;
 									}
-									return <li key={action.id}>{ActionLink(action)}</li>;
+									return <li key={index}>{ActionLink(action)}</li>;
 								})}
 						</ul>
 					</div>
