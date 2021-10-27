@@ -31,7 +31,8 @@ const BattleEternal = () => {
 			</div>
 
 			{/* <EternalBattleCard contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[0]} graphic={battleGraphic1} /> */}
-			{/* <EternalBattleCardOld contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[1]} /> */}
+			<EternalBattleCardOld contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[0]} />
+			<EternalBattleCardOld contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[1]} />
 			{/* <EternalBattleCardOld contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[2]} /> */}
 			{/* <EternalBattleCardOld contractPriceFeed={contractPriceFeed} priceFeed={PriceFeeds[3]} /> */}
 		</div>

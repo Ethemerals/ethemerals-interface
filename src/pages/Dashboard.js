@@ -68,7 +68,7 @@ const Dashboard = () => {
 				<div className="flex flex-wrap mx-auto justify-center">
 					{selectedTab === 0 && merals && merals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />)}
 					{selectedTab === 1 && pets && pets.map((nft) => <EquipablePreviewCard key={nft.id} nft={nft} />)}
-					{selectedTab === 2 && merals && merals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />)}
+					{selectedTab === 2 && meralsInBattle && meralsInBattle.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />)}
 				</div>
 			</div>
 

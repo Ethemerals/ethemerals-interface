@@ -14,7 +14,6 @@ const NFTLink = ({ nft, toggle }) => {
 		return null;
 	}
 	const bgImg = meralImagePaths.thumbnail;
-	console.log(nft);
 
 	return (
 		<Link to={`/ethemeral/${nft.id}`}>
@@ -86,7 +85,6 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 				setNFTInBattle(inBattle.length);
 				setNFTInBattleShortList(inBattle.slice(0, 10));
 			}
-			console.log(inBattle);
 		}
 	}, [accountEternalBattle, account]);
 

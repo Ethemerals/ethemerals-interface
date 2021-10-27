@@ -201,12 +201,21 @@ export const GET_ETERNALBATTLE_ACCOUNT = gql`
 	query ($id: ID!) {
 		account(id: $id) {
 			id
-			ethemerals(orderBy: score, orderDirection: desc) {
+			ethemerals(orderBy: timestamp, orderDirection: desc) {
 				id
+				timestamp
 				score
 				rewards
+				atk
+				def
+				spd
+				baseId
+				bgId
 				previousOwner {
 					id
+				}
+				scorecard {
+					battles
 				}
 				metadata {
 					id

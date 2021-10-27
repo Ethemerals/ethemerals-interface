@@ -162,7 +162,7 @@ const Ethemerals = () => {
 				<div></div>
 			) : (
 				<>
-					<div className="flex flex-wrap mx-auto justify-center">{data && data.ethemerals.map((nft) => <NFTPreviewCard key={nft.index} nft={nft} />)}</div>
+					<div className="flex flex-wrap mx-auto justify-center">{data && data.ethemerals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />)}</div>
 					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 				</>
 			)}

@@ -72,16 +72,16 @@ const EternalBattleCardOld = ({ contractPriceFeed, priceFeed, graphic }) => {
 					<hr></hr>
 					<div className="grid grid-cols-2 gap-4">
 						<div>
-							<button onClick={() => handleJoinBattle(true)} className="p-2 my-2 rounded bg-brandColor-purple">
+							{/* <button onClick={() => handleJoinBattle(true)} className="p-2 my-2 rounded bg-brandColor-purple">
 								Join {baseName}
-							</button>
+							</button> */}
 							<h3>Current Fighters</h3>
 							{stakedNFTs.map((nft, index) => nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
 						</div>
 						<div>
-							<button onClick={() => handleJoinBattle(false)} className="p-2 my-2 rounded bg-brandColor-purple">
+							{/* <button onClick={() => handleJoinBattle(false)} className="p-2 my-2 rounded bg-brandColor-purple">
 								Join {quoteName}
-							</button>
+							</button> */}
 							<h3>Current Fighters</h3>
 							{stakedNFTs.map((nft, index) => !nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
 						</div>
