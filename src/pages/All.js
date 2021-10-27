@@ -16,7 +16,7 @@ const NFTMC = ({ color }) => {
 		}
 	}, [status, data]);
 
-	return nfts.map((nft, index) => (
+	return nfts.map((nft) => (
 		<div className="border-white border">
 			<p className="text-black text-xl px-2 py-1">{nft.metadata.coin}</p>
 			<p className="text-black px-2 py-1">{nft.metadata.subClass}</p>

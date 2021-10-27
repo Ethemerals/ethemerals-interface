@@ -231,7 +231,7 @@ const Resurrect = () => {
 				</ul>
 
 				<h4 className="text-xl pt-2">History:</h4>
-				<ul>{status === 'success' && nft && nft.actions.length > 0 && nft.actions.map((action, index) => <li key={index}>{ActionLink(action)}</li>)}</ul>
+				<ul>{status === 'success' && nft && nft.actions.length > 0 && nft.actions.map((action) => <li key={action.id}>{ActionLink(action)}</li>)}</ul>
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Resurrect an Ethemeral from the ashes" />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}

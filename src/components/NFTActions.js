@@ -53,7 +53,7 @@ const NFTActions = ({ nft }) => {
 	useEffect(() => {
 		let owned = false;
 		if (account && account.ethemerals.length > 0) {
-			account.ethemerals.forEach((userNft, index) => {
+			account.ethemerals.forEach((userNft) => {
 				if (userNft.id === nft.id) {
 					owned = true;
 				}

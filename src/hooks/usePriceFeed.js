@@ -9,20 +9,28 @@ import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import Addresses from '../constants/contracts/Addresses';
 
+const getContracts = async (provider, setContractPriceFeed) => {
+	if (provider) {
+		await setContractPriceFeed(new Contract(Addresses.priceFeed, abis.priceFeed, getSigner(provider)));
+		console.log('GOT PRICEFEED CONTRACTS');
+	} else {
+	}
+};
+
 const getPriceAPI = async (id) => {
-	const url = `${process.env.REACT_APP_API_URL}pricefeed/${id}`;
+	const url = `${process.env.REACT_APP_API_MARKETS}pricefeed/${id}`;
 	const { data } = await axios.get(url);
-	if (data.success) {
-		return data.result;
+	if (data.status === 'success') {
+		return data.data.price;
 	} else {
 		return null;
 	}
 };
 
-const getPrice = async (contract, priceFeed) => {
+const getLatestPrice = async (contract, priceFeed) => {
 	if (contract) {
 		try {
-			const price = await contract.getPrice(priceFeed.id);
+			const price = await contract.getLatestPrice(priceFeed.id);
 			return price.toString();
 		} catch (error) {
 			throw new Error('error');
@@ -43,7 +51,7 @@ const getPrice = async (contract, priceFeed) => {
 };
 
 export const usePriceFeedPrice = (contract, priceFeed) => {
-	const { isLoading, data } = useQuery([`priceFeed_${priceFeed.id}`, priceFeed.id], () => getPrice(contract, priceFeed), { refetchInterval: 30000 });
+	const { isLoading, data } = useQuery([`priceFeed_${priceFeed.id}`, priceFeed.id], () => getLatestPrice(contract, priceFeed), { refetchInterval: 30000 });
 
 	const [price, setPriceFeed] = useState(undefined);
 
@@ -54,14 +62,6 @@ export const usePriceFeedPrice = (contract, priceFeed) => {
 	}, [data, isLoading]);
 
 	return { price };
-};
-
-const getContracts = async (provider, setContractPriceFeed) => {
-	if (provider) {
-		await setContractPriceFeed(new Contract(Addresses.priceFeed, abis.priceFeed, getSigner(provider)));
-		console.log('GOT PRICEFEED CONTRACTS');
-	} else {
-	}
 };
 
 export const usePriceFeedContract = () => {

@@ -21,7 +21,7 @@ const Mainmenu = () => {
 			<MenuItem to="/ethemerals" text="Ethemerals" />
 			<MenuItem to="/pets" text="Pets" />
 			<MenuItem to="/items" text="Items" />
-			<MenuItemDisabled to="/battle" text="Battle" />
+			<MenuItem to="/battle" text="Battle" />
 			{/* <MenuItemDisabled to="/marketplace" text="Marketplace" /> */}
 		</div>
 	);

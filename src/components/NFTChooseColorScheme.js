@@ -31,7 +31,7 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 	const [colorNames, setColorNames] = useState(['OG Color', 'Color 2', 'Color 3', 'Color 4']);
 	const [currentColor, setCurrentColor] = useState(0);
 	const [selectedColor, setSelectedColor] = useState(0);
-	const [saved, setSaved] = useState(false);
+	const [saving, setSaving] = useState(false);
 	const [allowedColors, setAllowedColors] = useState([true, false, false, false]);
 
 	const [isOwned, setIsOwned] = useState(false);
@@ -39,7 +39,7 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 	useEffect(() => {
 		let owned = false;
 		if (account && account.ethemerals.length > 0) {
-			account.ethemerals.forEach((userNft, index) => {
+			account.ethemerals.forEach((userNft) => {
 				if (userNft.id === nft.id) {
 					owned = true;
 				}
@@ -50,10 +50,7 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 
 	useEffect(() => {
 		setColor(selectedColor);
-		if (selectedColor !== currentColor) {
-			setSaved(false);
-		}
-	}, [selectedColor, currentColor, setColor]);
+	}, [selectedColor]);
 
 	useEffect(() => {
 		if (meralColor) {
@@ -66,12 +63,12 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 
 	const handleSave = async () => {
 		if (account && isOwned && selectedColor !== currentColor) {
+			setSaving(true);
 			try {
 				await mutateMeralColor.mutateAsync({ address: account.id, selected: selectedColor, tokenId: nft.id });
-				setTimeout(() => queryClient.invalidateQueries(`${nft.id}_colors`), 2000);
+				setTimeout(() => queryClient.invalidateQueries(`${nft.id}_colors`), 3000);
 				setTimeout(() => refreshMetadata(nft.id), 1000);
-
-				setSaved(true);
+				setTimeout(() => setSaving(false), 3000);
 			} catch (error) {
 				console.log(error);
 			}
@@ -95,7 +92,7 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 					className={`flex items-center rounded-lg ${currentColor !== selectedColor ? 'bg-customBlue-pale cursor-pointer hover:bg-blue-400 transition duration-200' : 'text-gray-400'} `}
 				>
 					<div className="w-8 h-8 mr-1 relative"></div>
-					<p>Save Choice</p>
+					<p>{saving ? 'Saving...' : 'Save Choice'}</p>
 				</div>
 			)}
 		</div>

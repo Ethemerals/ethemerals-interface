@@ -16,7 +16,7 @@ const ItemsMinted = ({ orderDirection }) => {
 		}
 	}, [status, data]);
 
-	return nfts.map((nft, index) => <EquipableItemPreviewCard key={index} nft={nft} />);
+	return nfts.map((nft) => <EquipableItemPreviewCard key={nft.id} nft={nft} />);
 };
 
 const ItemsRarity = ({ orderDirection }) => {
@@ -29,7 +29,7 @@ const ItemsRarity = ({ orderDirection }) => {
 		}
 	}, [status, data]);
 
-	return nfts.map((nft, index) => <EquipableItemPreviewCard key={index} nft={nft} />);
+	return nfts.map((nft) => <EquipableItemPreviewCard key={nft.id} nft={nft} />);
 };
 
 const Items = () => {
