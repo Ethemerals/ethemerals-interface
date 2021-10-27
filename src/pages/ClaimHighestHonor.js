@@ -153,7 +153,7 @@ const ClaimHighestHonor = () => {
 				</ul>
 
 				<h4 className="text-xl pt-2">Actions:</h4>
-				<ul>{status === 'success' && nft && nft.actions.length > 0 && nft.actions.map((action, index) => <li key={index}>{ActionLink(action)}</li>)}</ul>
+				<ul>{status === 'success' && nft && nft.actions.length > 0 && nft.actions.map((action) => <li key={action.id}>{ActionLink(action)}</li>)}</ul>
 			</div>
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Draining all Life Force from an Ethemeral!" />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}

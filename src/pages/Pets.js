@@ -16,7 +16,7 @@ const PetsMinted = ({ orderDirection }) => {
 		}
 	}, [status, data]);
 
-	return nfts.map((nft, index) => <EquipablePreviewCard key={index} nft={nft} />);
+	return nfts.map((nft) => <EquipablePreviewCard key={nft.id} nft={nft} />);
 };
 
 const PetsRarity = ({ orderDirection }) => {
@@ -29,7 +29,7 @@ const PetsRarity = ({ orderDirection }) => {
 		}
 	}, [status, data]);
 
-	return nfts.map((nft, index) => <EquipablePreviewCard key={index} nft={nft} />);
+	return nfts.map((nft) => <EquipablePreviewCard key={nft.id} nft={nft} />);
 };
 
 const Pets = () => {

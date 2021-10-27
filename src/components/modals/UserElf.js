@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Images from '../../constants/Images';
-import Links from '../../constants/Links';
 
 import { formatELF, formatETH } from '../../utils';
 import useUserAccount from '../../hooks/useUserAccount';
@@ -74,9 +73,9 @@ const UserELF = () => {
 					{balance && <p className="text-right">{formatETH(balance, 6)} ETH</p>}
 				</div>
 
-				<a href={Links.UNISWAP} target="_blank" rel="noreferrer" className="text-xs sm:text-sm text-gray-200 py-2 absolute bottom-0 hover:text-white">
+				{/* <a href={Links.UNISWAP} target="_blank" rel="noreferrer" className="text-xs sm:text-sm text-gray-200 py-2 absolute bottom-0 hover:text-white">
 					Trade on Uniswap
-				</a>
+				</a> */}
 			</div>
 			<div className="p-4 text-black">
 				<p className="text-lg">Claimable ELF</p>

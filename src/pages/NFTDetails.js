@@ -66,7 +66,6 @@ const NFTDetails = () => {
 
 	const [nft, setNFT] = useState(undefined);
 	const [ready, setReady] = useState(false);
-	const [cmId, setCmId] = useState(undefined);
 	const [birthDate, setBirthDate] = useState(Date.now());
 
 	const [subclass, setSubclass] = useState('Paladin');
@@ -74,7 +73,6 @@ const NFTDetails = () => {
 	useEffect(() => {
 		if (status === 'success' && data && data.ethemeral) {
 			setNFT(data.ethemeral);
-			setCmId(data.ethemeral.metadata.id);
 			setSubclass(data.ethemeral.metadata.subClass);
 			setBirthDate(parseInt(data.ethemeral.timestamp) * 1000);
 			setReady(true);
@@ -251,7 +249,7 @@ const NFTDetails = () => {
 									if (index > 6) {
 										return null;
 									}
-									return <li key={index}>{ActionLink(action)}</li>;
+									return <li key={action.id}>{ActionLink(action)}</li>;
 								})}
 						</ul>
 					</div>

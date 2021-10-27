@@ -14,6 +14,7 @@ const NFTLink = ({ nft, toggle }) => {
 		return null;
 	}
 	const bgImg = meralImagePaths.thumbnail;
+	console.log(nft);
 
 	return (
 		<Link to={`/ethemeral/${nft.id}`}>
@@ -85,6 +86,7 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 				setNFTInBattle(inBattle.length);
 				setNFTInBattleShortList(inBattle.slice(0, 10));
 			}
+			console.log(inBattle);
 		}
 	}, [accountEternalBattle, account]);
 
@@ -129,29 +131,29 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 			<div className="p-2 h-full bg-customBlue-pale">
 				{account && selectedTab === 0 && (
 					<div className="grid grid-cols-5">
-						{NFTShortList.map((nft, index) => (
-							<NFTLink key={index} nft={nft} toggle={toggle} />
+						{NFTShortList.map((nft) => (
+							<NFTLink key={nft.id} nft={nft} toggle={toggle} />
 						))}
 					</div>
 				)}
 				{account && selectedTab === 1 && (
 					<div className="grid grid-cols-5">
-						{NFTInBattleShortList.map((nft, index) => (
-							<NFTLink key={index} nft={nft} toggle={toggle} />
+						{NFTInBattleShortList.map((nft) => (
+							<NFTLink key={nft.id} nft={nft} toggle={toggle} />
 						))}
 					</div>
 				)}
 				{account && selectedTab === 2 && (
 					<div className="grid grid-cols-5">
-						{NFTPetShortList.map((nft, index) => (
-							<NFTPetLink key={index} nft={nft} toggle={toggle} />
+						{NFTPetShortList.map((nft) => (
+							<NFTPetLink key={nft.id} nft={nft} toggle={toggle} />
 						))}
 					</div>
 				)}
 				{account && selectedTab === 3 && (
 					<div className="grid grid-cols-5">
-						{NFTItemShortList.map((nft, index) => (
-							<NFTPetLink key={index} nft={nft} toggle={toggle} item={true} />
+						{NFTItemShortList.map((nft) => (
+							<NFTPetLink key={nft.id} nft={nft} toggle={toggle} item={true} />
 						))}
 					</div>
 				)}

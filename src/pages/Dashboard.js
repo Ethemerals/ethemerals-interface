@@ -1,17 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useGQLQuery } from '../hooks/useGQLQuery';
-import { GET_NFTS_FILTERED } from '../queries/Subgraph';
 import NFTPreviewCard from '../components/NFTPreviewCard';
 import EquipablePreviewCard from '../components/EquipablePreviewCard';
-import { useHistory, useParams } from 'react-router-dom';
 
 import useUserAccount from '../hooks/useUserAccount';
 import { useEternalBattleAccount } from '../hooks/useEternalBattle';
 
 const Dashboard = () => {
-	const { sort } = useParams();
-	const history = useHistory();
-
 	const { account, mainIndex, userNFTs } = useUserAccount();
 	const { accountEternalBattle } = useEternalBattleAccount();
 
@@ -19,8 +13,6 @@ const Dashboard = () => {
 	const [pets, setPets] = useState([]);
 	const [meralsInBattle, setMeralsInBattle] = useState([]);
 	const [selectedTab, setSelectedTab] = useState(0);
-
-	const [sortBy, setSortBy] = useState(2);
 
 	useEffect(() => {
 		if (account && userNFTs.length > 0) {
@@ -49,7 +41,8 @@ const Dashboard = () => {
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
 			<div className="text-sm font-bold text-white sm:hidden mt-4 text-center">SORT BY</div>
-			<div className="flex items-center mx-auto mt-2 sm:mt-10 text-sm sm:text-base justify-center">
+			<div className="w-full mt-2 mb-2 sm:mt-10 text-center font-bold text-xl ">DASHBOARD</div>
+			<div className="flex items-center mx-auto text-sm sm:text-base justify-center">
 				<button
 					onClick={() => setSelectedTab(0)}
 					className={`${selectedTab === 0 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
@@ -62,13 +55,20 @@ const Dashboard = () => {
 				>
 					Pets
 				</button>
+				<button
+					onClick={() => setSelectedTab(2)}
+					className={`${selectedTab === 2 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
+				>
+					In Battle
+				</button>
 			</div>
 			<div style={{ height: '54px' }}></div>
-
+			{/* TODO SHOW MAIN */}
 			<div className="flex flex-wrap mx-auto justify-center">
 				<div className="flex flex-wrap mx-auto justify-center">
-					{selectedTab === 0 && merals && merals.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />)}
-					{selectedTab === 1 && pets && pets.map((nft, index) => <EquipablePreviewCard key={index} nft={nft} />)}
+					{selectedTab === 0 && merals && merals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />)}
+					{selectedTab === 1 && pets && pets.map((nft) => <EquipablePreviewCard key={nft.id} nft={nft} />)}
+					{selectedTab === 2 && merals && merals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />)}
 				</div>
 			</div>
 

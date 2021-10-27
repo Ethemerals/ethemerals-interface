@@ -131,7 +131,7 @@ const Ethemerals = () => {
 
 	const [page, setPage] = useState(0);
 
-	const { isLoading, isError, error, data, isFetching, isPreviousData } = useQuery([`nfts`, page], () => getMerals(page), { keepPreviousData: true }); // TODO
+	const { isLoading, isError, data } = useQuery([`nfts`, page], () => getMerals(page), { keepPreviousData: true }); // TODO
 
 	const handleNextPage = () => {
 		setPage((old) => old + 1);
@@ -162,7 +162,7 @@ const Ethemerals = () => {
 				<div></div>
 			) : (
 				<>
-					<div className="flex flex-wrap mx-auto justify-center">{data && data.ethemerals.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />)}</div>
+					<div className="flex flex-wrap mx-auto justify-center">{data && data.ethemerals.map((nft) => <NFTPreviewCard key={nft.index} nft={nft} />)}</div>
 					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 				</>
 			)}

@@ -14,7 +14,7 @@ const NFTMC = () => {
 		}
 	}, [status, data]);
 
-	return nfts.map((nft, index) => <NFTPreviewCard key={index} nft={nft} />);
+	return nfts.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />);
 };
 
 const EthemeralsMC = () => {

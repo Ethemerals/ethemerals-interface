@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
-import { GraphQLClient } from 'graphql-request';
 
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 
-import { GET_ACCOUNT } from '../queries/Subgraph';
-import { useAddress, useBalance } from '../hooks/Web3Context';
 import { isAddress, shortenAddress } from '../utils';
-import Links from '../constants/Links';
 
 const signMessage = async (address) => {
 	if (address && window.ethereum) {

@@ -84,7 +84,7 @@ const UserAccount = () => {
 			<div className="p-4">
 				<p className="text-lg text-black">Recent Activity</p>
 				<ul className="text-xs sm:text-sm text-blue-500">
-					{status === 'success' && data.account && data.account.actions.length > 0 && data.account.actions.map((action, index) => <li key={index}>{ActionLink(action)}</li>)}
+					{status === 'success' && data.account && data.account.actions.length > 0 && data.account.actions.map((action) => <li key={action.id}>{ActionLink(action)}</li>)}
 				</ul>
 			</div>
 		</>
