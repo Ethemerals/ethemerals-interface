@@ -20,6 +20,15 @@ export const GET_ACCOUNTS = gql`
 	}
 `;
 
+export const GET_DELEGATES = gql`
+	query {
+		delegates {
+			id
+			active
+		}
+	}
+`;
+
 export const GET_NFTS_ORDERED = gql`
 	query ($orderBy: String!, $first: Int!, $orderDirection: String!) {
 		ethemerals(first: $first, orderBy: $orderBy, orderDirection: $orderDirection) {

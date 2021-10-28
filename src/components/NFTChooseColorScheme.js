@@ -50,7 +50,7 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 
 	useEffect(() => {
 		setColor(selectedColor);
-	}, [selectedColor]);
+	}, [selectedColor, setColor]);
 
 	useEffect(() => {
 		if (meralColor) {

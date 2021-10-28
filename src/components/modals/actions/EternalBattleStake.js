@@ -21,21 +21,12 @@ const rangeDefaults = {
 	step: 1,
 };
 
-const getIsApprovedForAll = async (contract, owner, operator, setIsApprovedForAll) => {
-	try {
-		const value = await contract.isApprovedForAll(owner, operator);
-		setIsApprovedForAll(value.toString());
-	} catch (error) {
-		console.log(error);
-	}
-};
-
 const MeralBattleThumbnail = ({ nft }) => {
 	const { elements } = useNFTUtils();
 	const { meralImagePaths } = useMeralImagePaths(nft.id);
 
 	if (!meralImagePaths) {
-		return null;
+		return <div className="flex w-72 h-74 mx-auto relative"></div>;
 	}
 
 	return (
@@ -55,8 +46,6 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
 
-	const [allowDelegates, setAllowDelegates] = useState(false);
-
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
@@ -75,16 +64,6 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 			setEnemyName(long ? priceFeed.quoteSymbol : priceFeed.baseSymbol);
 		}
 	}, [priceFeed, long]);
-
-	useEffect(() => {
-		if (account) {
-			setAllowDelegates(account.allowDelegates);
-		}
-	}, [account]);
-
-	useEffect(() => {
-		console.log(allowDelegates);
-	}, [allowDelegates]);
 
 	useEffect(() => {
 		setPosition(rangeValues[0]);
@@ -130,8 +109,6 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 		}
 	};
 
-	// const onSubmitAllowDelegates
-
 	return (
 		<>
 			<div className="w-full h-full flex justify-center fixed top-0 left-0">
@@ -151,7 +128,7 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 							{priceFeed.ticker}: {(parseFloat(price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces)}
 						</div>
 
-						{account && userNFT && userNFT.score >= 25 && allowDelegates && (
+						{account && userNFT && userNFT.score >= 25 && (
 							<div>
 								<p className="text-sm px-8 my-2">
 									You are about to send <span className="font-bold">{userNFT.metadata.coin}</span> to join <span className="font-bold">{allyName}'s</span> Eternal Battle against
@@ -211,7 +188,7 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 							<>
 								<p className="px-10 mt-10 mb-4">{`You need to have an Ethemeral to join ${allyName}'s Eternal Battle against ${enemyName}`}</p>
 								<Link to="/">
-									<button className="bg-brandColor text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">Mint and Ethemeral</button>
+									<button className="bg-brandColor text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">Mint an Ethemeral</button>
 								</Link>
 							</>
 						)}

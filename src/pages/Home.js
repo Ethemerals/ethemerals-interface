@@ -99,8 +99,8 @@ const Home = () => {
 
 	return (
 		<div className="scrollbar_pad">
-			<div className="bg_home sm:bg-75% lg:bg-50% bg-cover"></div>
-			<div style={{ maxWidth: '500px' }} className="my-8 w-11/12 sm:my-10 sm:w-full mx-auto bg-white p-6 pt-20 pb-10 rounded-lg bg-opacity-80">
+			<div className="page_bg"></div>
+			<div className="my-8 w-full sm:my-10 sm:w-500 mx-auto bg-white p-6 pt-20 pb-10 rounded-lg bg-opacity-80">
 				<div className="flex justify-center">
 					<img width="380" height="146" alt="mintable ethemeral" src={Images.titleEthem} />
 				</div>

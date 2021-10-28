@@ -1,7 +1,7 @@
 import PriceFeeds from '../constants/PriceFeeds';
-import EternalBattleCardOld from '../components/battle/EternalBattleCardOld';
+import EternalBattleCard from '../components/battle/EternalBattleCard';
 
-const BattleEternal = () => {
+const EternalBattle = () => {
 	return (
 		<div className="scrollbar_pad">
 			<div className="page_bg"></div>
@@ -11,10 +11,10 @@ const BattleEternal = () => {
 				<button className={`bg-indigo-300 py-1 px-2 mx-1 rounded focus:outline-none cursor-default`}>Into The Wilds</button>
 			</div>
 
-			<EternalBattleCardOld priceFeed={PriceFeeds[0]} />
-			<EternalBattleCardOld priceFeed={PriceFeeds[1]} />
+			<EternalBattleCard priceFeed={PriceFeeds[0]} />
+			<EternalBattleCard priceFeed={PriceFeeds[1]} />
 		</div>
 	);
 };
 
-export default BattleEternal;
+export default EternalBattle;

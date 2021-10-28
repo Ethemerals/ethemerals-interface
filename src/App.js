@@ -8,7 +8,7 @@ import Navbar from './components/navigation/Navbar';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 // import Art from './pages/Art';
-import BattleEternal from './pages/BattleEternal';
+import EternalBattle from './pages/EternalBattle';
 // import BattleWilds from './pages/BattleWilds';
 // import BattleRoyale from './pages/BattleRoyale';
 import Dashboard from './pages/Dashboard';
@@ -77,7 +77,7 @@ function App() {
 									<Art />
 								</Route> */}
 								<Route exact path="/battle">
-									<BattleEternal />
+									<EternalBattle />
 								</Route>
 								{/* <Route exact path="/battle/eternal">
 									<BattleEternal />

@@ -4,9 +4,10 @@ import EquipablePreviewCard from '../components/EquipablePreviewCard';
 
 import useUserAccount from '../hooks/useUserAccount';
 import { useEternalBattleAccount } from '../hooks/useEternalBattle';
+import Preferences from '../components/Preferences';
 
 const Dashboard = () => {
-	const { account, mainIndex, userNFTs } = useUserAccount();
+	const { account, userNFTs } = useUserAccount();
 	const { accountEternalBattle } = useEternalBattleAccount();
 
 	const [merals, setMerals] = useState([]);
@@ -61,14 +62,23 @@ const Dashboard = () => {
 				>
 					In Battle
 				</button>
+				<div className="w-6"></div>
+				<button
+					onClick={() => setSelectedTab(3)}
+					className={`${selectedTab === 3 ? 'bg-purple-500' : 'bg-purple-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
+				>
+					User Preferences
+				</button>
 			</div>
 			<div style={{ height: '54px' }}></div>
+
 			{/* TODO SHOW MAIN */}
 			<div className="flex flex-wrap mx-auto justify-center">
 				<div className="flex flex-wrap mx-auto justify-center">
 					{selectedTab === 0 && merals && merals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />)}
 					{selectedTab === 1 && pets && pets.map((nft) => <EquipablePreviewCard key={nft.id} nft={nft} />)}
 					{selectedTab === 2 && meralsInBattle && meralsInBattle.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />)}
+					{selectedTab === 3 && <Preferences />}
 				</div>
 			</div>
 

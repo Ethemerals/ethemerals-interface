@@ -1,25 +1,37 @@
 import { useState, useEffect } from 'react';
 
 import EternalBattleStake from '../modals/actions/EternalBattleStake';
-import DisallowDelegates from '../modals/actions/DisallowDelegates';
+import AllowDelegates from '../modals/actions/AllowDelegates';
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
-import { usePriceFeedPrice } from '../../hooks/usePriceFeed';
+import { usePriceFeedContract, usePriceFeedPrice } from '../../hooks/usePriceFeed';
 
 import StakedNFT from './StakedNFT';
 import useUserAccount from '../../hooks/useUserAccount';
+import { useCoreApprovals, useCoreContract } from '../../hooks/useCore';
+import { useAddress } from '../../hooks/Web3Context';
 
-const EternalBattleCard = ({ contractPriceFeed, priceFeed, graphic }) => {
+import Addresses from '../../constants/contracts/Addresses';
+
+const EternalBattleCard = ({ priceFeed }) => {
+	const { contractPriceFeed } = usePriceFeedContract();
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
+
 	const { accountEternalBattle } = useEternalBattleAccount();
 	const { account } = useUserAccount();
+	const { contractCore } = useCoreContract();
 
-	const [baseName, setBaseName] = useState('');
-	const [quoteName, setQuoteName] = useState('');
-	const [ticker, setTicker] = useState('');
+	const address = useAddress();
+	const { EBApproved } = useCoreApprovals(contractCore, address, Addresses.EternalBattle);
+
 	const [stakedNFTs, setStakedNFTs] = useState([]);
 	const [isLong, setIsLong] = useState(true);
+
 	const [isCreateStakeOpen, setIsCreateStakeOpen] = useState(false);
-	const [isDisallowDelegatesOpen, setIsDisallowDelegatesOpen] = useState(false);
+	const [isAllowDelegatesOpen, setIsAllowDelegatesOpen] = useState(false);
+
+	useEffect(() => {
+		console.log(EBApproved);
+	}, [EBApproved]);
 
 	useEffect(() => {
 		const staked = [];
@@ -35,23 +47,22 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed, graphic }) => {
 		setStakedNFTs(staked);
 	}, [accountEternalBattle, priceFeed.id]);
 
-	// useEffect(() => {
-	// 	setBaseName(priceFeed.baseName);
-	// 	setQuoteName(priceFeed.quoteName);
-	// 	setTicker(priceFeed.name);
-	// }, [priceFeed]);
-
 	const toggleJoinBattle = () => {
 		setIsCreateStakeOpen(!isCreateStakeOpen);
 	};
 
-	const toggleDisallowDelegates = () => {
-		setIsDisallowDelegatesOpen(!isDisallowDelegatesOpen);
+	const toggleAllowDelegates = () => {
+		setIsAllowDelegatesOpen(!isAllowDelegatesOpen);
 	};
 
 	const handleJoinBattle = (long) => {
-		if (account && account.disallowDelegates) {
-			toggleDisallowDelegates();
+		if (EBApproved === true) {
+			toggleJoinBattle();
+			setIsLong(long);
+		} else if (account && !account.allowDelegates) {
+			toggleAllowDelegates();
+		} else if (EBApproved === false) {
+			toggleAllowDelegates();
 		} else {
 			toggleJoinBattle();
 			setIsLong(long);
@@ -60,39 +71,35 @@ const EternalBattleCard = ({ contractPriceFeed, priceFeed, graphic }) => {
 
 	return (
 		<>
-			<div className="my-8">
-				<div style={{ width: '1090px' }} className="mx-auto">
-					<div style={{ width: '1090px', height: '718px' }} className="relative">
-						<img width="1090" height="718" src={graphic} alt="" />
-						<div className="bottom-0 absolute w-full">
-							<div className="flex justify-center space-x-7 items-center">
-								{/* <button onClick={() => handleJoinBattle(true)} className="p-2 my-2 rounded bg-brandColor-purple">
-									Join {baseName}
-								</button>
-								<p>Price: {price}</p>
-								<button onClick={() => handleJoinBattle(false)} className="p-2 my-2 rounded bg-brandColor-purple">
-									Join {quoteName}
-								</button> */}
-							</div>
-						</div>
-					</div>
+			<div className="flex justify-center">
+				<div className="bg-gray-700 p-4 m-4 w-full max-w-5xl">
+					<h3>
+						{priceFeed.baseName} vs {priceFeed.quoteName}
+					</h3>
 
-					<div className="px-10 mx-auto">
-						{/* <div className="grid grid-cols-2 gap-4">
-							<div>
-								<h3 className="text-black">Current Fighters</h3>
-								{stakedNFTs.map((nft, index) => nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
-							</div>
-							<div>
-								<h3 className="text-black">Current Fighters</h3>
-								{stakedNFTs.map((nft, index) => !nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
-							</div>
-						</div> */}
+					<p>{priceFeed.ticker}</p>
+					<p>Price: {price}</p>
+					<hr></hr>
+					<div className="grid grid-cols-2 gap-4">
+						<div>
+							<button onClick={() => handleJoinBattle(true)} className="p-2 my-2 rounded bg-brandColor-purple">
+								Join {priceFeed.baseName}
+							</button>
+							<h3>Current Fighters</h3>
+							{stakedNFTs.map((nft, index) => nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
+						</div>
+						<div>
+							<button onClick={() => handleJoinBattle(false)} className="p-2 my-2 rounded bg-brandColor-purple">
+								Join {priceFeed.quoteName}
+							</button>
+							<h3>Current Fighters</h3>
+							{stakedNFTs.map((nft, index) => !nft.actions[0].long && <StakedNFT key={index} nft={nft} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
+						</div>
 					</div>
 				</div>
 			</div>
-			{/* {isDisallowDelegatesOpen && <DisallowDelegates toggle={toggleDisallowDelegates} />} */}
-			{/* {isCreateStakeOpen && <EternalBattleStake contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattle} priceFeed={priceFeed} long={isLong} />} */}
+			{isAllowDelegatesOpen && <AllowDelegates toggle={toggleAllowDelegates} toggleStake={toggleJoinBattle} EBApproved={EBApproved} />}
+			{isCreateStakeOpen && <EternalBattleStake contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattle} priceFeed={priceFeed} long={isLong} />}
 		</>
 	);
 };

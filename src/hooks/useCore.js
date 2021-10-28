@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Contract } from '@ethersproject/contracts';
-
+import { useQuery } from 'react-query';
 import { useGQLQuery } from '../hooks/useGQLQuery';
-import { GET_CORE, GET_CORE_ACCOUNT } from '../queries/Subgraph';
+import { GET_CORE, GET_CORE_ACCOUNT, GET_DELEGATES } from '../queries/Subgraph';
 
 import { useWeb3 } from './Web3Context';
 
@@ -15,6 +15,25 @@ const getContracts = async (provider, setContractCore) => {
 		await setContractCore(new Contract(Addresses.Ethemerals, abis.Ethemerals, getSigner(provider)));
 		console.log('GOT CORE CONTRACT');
 	} else {
+	}
+};
+
+const getIsApprovedForAll = async (contract, _owner, _operator) => {
+	if (contract) {
+		try {
+			let approved = false;
+			const value = await contract.isApprovedForAll(_owner, _operator);
+			if (value.toString() === 'true') {
+				approved = true;
+			}
+			return approved;
+		} catch (error) {
+			console.log(error);
+			throw new Error('error');
+		}
+	} else {
+		console.log('no wallet');
+		throw new Error('error');
 	}
 };
 
@@ -32,21 +51,32 @@ export const useCoreContract = () => {
 
 export const useCore = () => {
 	const { data } = useGQLQuery('core', GET_CORE, { id: Addresses.Ethemerals.toLowerCase() }, { refetchOnMount: true });
-	const [core, setCore] = useState(null);
+	const { data: dataDelegates } = useGQLQuery('delegates_list', GET_DELEGATES, { refetchOnMount: true });
 
+	const [core, setCore] = useState(null);
+	const [delegates, setDelegates] = useState(null);
 	useEffect(() => {
 		if (data && data.core !== null) {
 			setCore(data.core);
 		}
 	}, [data]);
 
+	useEffect(() => {
+		if (dataDelegates && dataDelegates.delegates !== null) {
+			setDelegates(dataDelegates.delegates);
+			console.log('GOT DELEGATES LIST');
+		}
+	}, [dataDelegates]);
+
 	return {
 		core,
+		delegates,
 	};
 };
 
 export const useCoreAccount = () => {
 	const { data } = useGQLQuery('account_core', GET_CORE_ACCOUNT, { id: Addresses.Ethemerals.toLowerCase() }, { refetchOnMount: true });
+
 	const [accountCore, setAccountCore] = useState(null);
 
 	useEffect(() => {
@@ -58,5 +88,21 @@ export const useCoreAccount = () => {
 
 	return {
 		accountCore,
+	};
+};
+
+export const useCoreApprovals = (contractCore, owner, operator) => {
+	const { isLoading, data } = useQuery([`core_approvals`], () => getIsApprovedForAll(contractCore, owner, operator), { enabled: !!owner, refetchInterval: 30000 });
+
+	const [EBApproved, setEBApproved] = useState(null);
+
+	useEffect(() => {
+		if (!isLoading) {
+			setEBApproved(data);
+		}
+	}, [data, isLoading]);
+
+	return {
+		EBApproved,
 	};
 };
