@@ -166,6 +166,9 @@ export const GET_ACCOUNT = gql`
 				atk
 				def
 				spd
+				atkBonus
+				defBonus
+				spdBonus
 				baseId
 				bgId
 				scorecard {

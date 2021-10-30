@@ -21,8 +21,6 @@ const Mint = () => {
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
 
-	const provider = useWeb3();
-
 	const address = useAddress();
 	const login = useLogin();
 	const sendTx = useSendTx();
