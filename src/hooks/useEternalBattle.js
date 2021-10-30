@@ -79,3 +79,41 @@ export const useEternalBattleAccount = () => {
 		accountEternalBattle,
 	};
 };
+
+const calcBps = (_x, _y) => {
+	return _x < _y ? ((_y - _x) * 10000) / _x : ((_x - _y) * 10000) / _y;
+};
+
+let startPrice = 10000000;
+
+let atkDivMod = 1400;
+let defDivMod = 1000;
+let spdDivMod = 200;
+
+export const winCase = (positionSize, percentChange = 0.1, stats) => {
+	// SCORE
+	const change = positionSize * calcBps(startPrice, startPrice * (1 + percentChange));
+	const atkMod = (stats[0] * change) / atkDivMod;
+	const score = (change + atkMod) / 1000;
+
+	// ELF BONUS
+	const rewards = (stats[2] * score) / spdDivMod;
+	return {
+		score: parseInt(score),
+		rewards: parseInt(rewards),
+	};
+};
+
+export const loseCase = (positionSize, percentChange = 0.1, stats) => {
+	// SCORE
+	const change = positionSize * calcBps(startPrice, startPrice * (1 - percentChange));
+	const defMod = (stats[1] * change) / defDivMod;
+	const score = (change - defMod) / 1000;
+
+	// ELF BONUS
+	const rewards = 0;
+	return {
+		score: parseInt(score),
+		rewards: parseInt(rewards),
+	};
+};

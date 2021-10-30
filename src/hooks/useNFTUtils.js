@@ -330,3 +330,48 @@ export const useNFTUtils = () => {
 
 	return { getBaseURL, getNFTImages, getEquipmentImages, parseScore, getSubclassPalette, getSubclassIcon, elements, getSubclassBonus, getEquipableTypePalette };
 };
+
+export const getSubclassBonus = (subclass) => {
+	let bonus = [0, 0, 0];
+
+	if (subclass === 'Paladin') {
+		bonus = [0, 200, 0];
+	}
+	if (subclass === 'Knight') {
+		bonus = [50, 150, 0];
+	}
+	if (subclass === 'Dark Knight') {
+		bonus = [150, 50, 0];
+	}
+	if (subclass === 'Dragoon') {
+		bonus = [100, 50, 50];
+	}
+
+	if (subclass === 'Sorcerer') {
+		bonus = [200, 0, 0];
+	}
+	if (subclass === 'Summoner') {
+		bonus = [100, 100, 0];
+	}
+	if (subclass === 'Cleric') {
+		bonus = [0, 160, 40];
+	}
+	if (subclass === 'Druid') {
+		bonus = [70, 60, 70];
+	}
+
+	if (subclass === 'Ranger') {
+		bonus = [0, 0, 200];
+	}
+	if (subclass === 'Berserker') {
+		bonus = [100, 0, 100];
+	}
+	if (subclass === 'Assassin') {
+		bonus = [120, 0, 80];
+	}
+	if (subclass === 'Monk') {
+		bonus = [40, 80, 80];
+	}
+
+	return bonus;
+};

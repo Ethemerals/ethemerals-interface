@@ -10,13 +10,11 @@ import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
 
 import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import { useNFTUtils, getSubclassBonus } from '../../../hooks/useNFTUtils';
 import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
-import { useEternalBattleContract } from '../../../hooks/useEternalBattle';
+import { useEternalBattleContract, winCase, loseCase } from '../../../hooks/useEternalBattle';
 
 import RankedStars from '../../cards/RankedStars';
-import Images from '../../../constants/Images';
-import UserInventoryHero from '../UserInventoryHero';
 
 const rangeDefaults = {
 	min: 100,
@@ -25,7 +23,7 @@ const rangeDefaults = {
 	step: 1,
 };
 
-const MeralBattleThumbnail = ({ nft }) => {
+const MeralBattleThumbnail = ({ nft, baseStats }) => {
 	const { elements, parseScore } = useNFTUtils();
 	const { meralImagePaths } = useMeralImagePaths(nft.id);
 
@@ -33,13 +31,16 @@ const MeralBattleThumbnail = ({ nft }) => {
 		return <div className="flex w-72 h-74 mx-auto relative"></div>;
 	}
 
-	console.log(nft);
-
 	return (
 		<>
 			<div className="flex-grow relative bg-cover bg-center text-white h-28" style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }}>
+				{/* LEFT BAR */}
+				<div className="left-0 top-0 absolute p-1 text-right z-10 text-sm font-bold">
+					<span>#{nft.id.padStart(4, '0')}</span>
+				</div>
+
 				{/* RIGHT BAR */}
-				<div className="right-0 absolute p-1 text-right text-sm font-bold">
+				<div className="right-0 absolute p-1 text-right z-10 text-sm font-bold">
 					<div className="flex justify-end">
 						<RankedStars amount={parseScore(nft.score)} />
 					</div>
@@ -50,12 +51,19 @@ const MeralBattleThumbnail = ({ nft }) => {
 				{/* BOTTOM BAR */}
 				<div className="px-1 w-full bottom-0 absolute bg-black bg-opacity-70 z-10 flex items-center">
 					<span className="font-bold text-lg uppercase">{nft.metadata.coin}</span>
-					<span className="ml-4 text-sm">BASE STATS:</span>
-					<span className="ml-4 text-sm">{nft.atk - nft.atkBonus}</span>
-					<span className="ml-4 text-sm">{nft.def - nft.defBonus}</span>
-					<span className="ml-4 text-sm">{nft.spd - nft.spdBonus}</span>
 					<span className="flex-grow"></span>
-					<span className="text-lg font-bold">#{nft.id.padStart(4, '0')}</span>
+					<span className="text-xs font-bold">BASE STATS:</span>
+					<div className="ml-2 text-xs font-bold">
+						<span style={{ backgroundColor: 'hsla(0,60%,40%,1)' }} className="text-sm rounded px-1 py-0 ml-1">
+							{baseStats[0]}
+						</span>
+						<span style={{ backgroundColor: 'hsla(230,60%,40%,1)' }} className="text-sm rounded px-1 py-0 ml-1">
+							{baseStats[1]}
+						</span>
+						<span style={{ backgroundColor: 'hsla(180,60%,40%,1)' }} className="text-sm rounded px-1 py-0 ml-1">
+							{baseStats[2]}
+						</span>
+					</div>
 				</div>
 				{/* MAIN IMAGE */}
 
@@ -70,6 +78,7 @@ const MeralBattleThumbnail = ({ nft }) => {
 const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	const { mainIndex, userNFTs, account } = useUserAccount();
 	const { contractBattle } = useEternalBattleContract();
+
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 
 	const sendTx = useSendTx();
@@ -89,6 +98,28 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 
 	const [userNFT, setUserNFT] = useState(undefined);
 
+	const [baseStats, setBaseStats] = useState([0, 0, 0]);
+
+	const [winPreview, setWinPreview] = useState(undefined);
+	const [losePreview, setLosePreview] = useState(undefined);
+
+	useEffect(() => {
+		if (userNFTs && userNFTs.length > 0) {
+			let _userNFT = userNFTs[mainIndex];
+			setUserNFT(_userNFT);
+
+			let statBonus = getSubclassBonus(_userNFT.metadata.subClass);
+			setBaseStats([_userNFT.atk - _userNFT.atkBonus - statBonus[0], _userNFT.atk - _userNFT.atkBonus - statBonus[1], _userNFT.atk - _userNFT.atkBonus - statBonus[2]]);
+		}
+	}, [userNFTs, mainIndex]);
+
+	useEffect(() => {
+		if (position >= 100 && position < 500) {
+			setWinPreview(winCase(position, 0.1, baseStats));
+			setLosePreview(loseCase(position, 0.1, baseStats));
+		}
+	}, [position, baseStats]);
+
 	useEffect(() => {
 		if (priceFeed) {
 			setAllyName(long ? priceFeed.baseSymbol : priceFeed.quoteSymbol);
@@ -99,12 +130,6 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	useEffect(() => {
 		setPosition(rangeValues[0]);
 	}, [rangeValues]);
-
-	useEffect(() => {
-		if (userNFTs && userNFTs.length > 0) {
-			setUserNFT(userNFTs[mainIndex]);
-		}
-	}, [userNFTs, mainIndex]);
 
 	const toggleConfirmation = () => {
 		setIsConfirmationOpen(!isConfirmationOpen);
@@ -144,7 +169,7 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 		<>
 			<div className="w-full h-full flex justify-center fixed top-0 left-0">
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
-				<div className=" w-11/12 max-w-420 h-96 center border-gray-400 rounded overflow-hidden z-30 tracking-wide shadow-xl bg-indigo-100 text-black">
+				<div className=" w-11/12 max-w-420 h-500 center border-gray-400 rounded overflow-hidden z-30 tracking-wide shadow-xl bg-indigo-100 text-black">
 					<div className="flex items-center justify-end">
 						<span onClick={toggle} className="cursor-pointer px-4 py-2 text-gray-900 hover:text-gray-600">
 							<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -157,14 +182,14 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 					<div className="text-center">
 						{account && userNFT && userNFT.score >= 25 && (
 							<div>
-								<MeralBattleThumbnail nft={userNFT} />
-								<p className="text-sm px-8 my-2">
+								<MeralBattleThumbnail nft={userNFT} baseStats={baseStats} />
+								<p className="text-sm px-8 my-6">
 									Send <span className="font-bold">{userNFT.metadata.coin}</span> to join <br></br>
 									<span className="font-bold">{allyName}'s</span> Eternal Battle against
 									<span className="font-bold">{` ${enemyName}!`}</span>
 								</p>
 								<p className="text-sm">
-									{priceFeed.ticker}: {(parseFloat(price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces)}
+									{long ? 'Long' : 'Short'} {priceFeed.ticker} @ {(parseFloat(price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces)}
 								</p>
 								<div className="mt-2">
 									<Range
@@ -196,11 +221,19 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 										)}
 									/>
 
-									<p className="my-1">Position Size: {position} HP</p>
+									<p className="my-1 font-bold">Position Size: {position} HP</p>
 
-									<button onClick={onSubmitStake} className=" bg-brandColor-pale text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+									<button onClick={onSubmitStake} className="mt-4 mb-8 bg-brandColor-pale text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 										Enter the Battle
 									</button>
+									<div className="text-xs">
+										<p>If the price moves 10% in your favour you gain:</p>
+										<p className="text-green-600 font-bold">
+											{winPreview.score} HP and {winPreview.rewards} ELF
+										</p>
+										<p className="mt-2">If the price moves 10% in the other direction you lose:</p>
+										<p className="text-red-600 font-bold">{losePreview.score} HP</p>
+									</div>
 								</div>
 							</div>
 						)}
