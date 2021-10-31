@@ -109,12 +109,12 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 			setUserNFT(_userNFT);
 
 			let statBonus = getSubclassBonus(_userNFT.metadata.subClass);
-			setBaseStats([_userNFT.atk - _userNFT.atkBonus - statBonus[0], _userNFT.atk - _userNFT.atkBonus - statBonus[1], _userNFT.atk - _userNFT.atkBonus - statBonus[2]]);
+			setBaseStats([_userNFT.atk - _userNFT.atkBonus - statBonus[0], _userNFT.def - _userNFT.defBonus - statBonus[1], _userNFT.spd - _userNFT.spdBonus - statBonus[2]]);
 		}
 	}, [userNFTs, mainIndex]);
 
 	useEffect(() => {
-		if (position >= 100 && position < 500) {
+		if (position >= 100 && position <= 500) {
 			setWinPreview(winCase(position, 0.1, baseStats));
 			setLosePreview(loseCase(position, 0.1, baseStats));
 		}
