@@ -78,7 +78,7 @@ const EternalBattleCard = ({ priceFeed }) => {
 					</h3>
 
 					<p>{priceFeed.ticker}</p>
-					<p>Price: {price}</p>
+					<p>Price: {(parseFloat(price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces)}</p>
 					<hr></hr>
 					<div className="grid grid-cols-2 gap-4">
 						<div>

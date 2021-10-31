@@ -183,15 +183,16 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 						{account && userNFT && userNFT.score >= 25 && (
 							<div>
 								<MeralBattleThumbnail nft={userNFT} baseStats={baseStats} />
-								<p className="text-sm px-8 my-6">
-									Send <span className="font-bold">{userNFT.metadata.coin}</span> to join <br></br>
-									<span className="font-bold">{allyName}'s</span> Eternal Battle against
-									<span className="font-bold">{` ${enemyName}!`}</span>
+								<p className="text-sm px-8 my-4">
+									Send your <span className="">{userNFT.metadata.coin}</span> Meral to join <br></br>
+									<span className="">{allyName}'s</span> Eternal Battle against
+									<span className="">{` ${enemyName}!`}</span>
 								</p>
-								<p className="text-sm">
-									{long ? 'Long' : 'Short'} {priceFeed.ticker} @ {(parseFloat(price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces)}
+
+								<p className="text-sm border-t border-white py-4">
+									<span className="font-bold">{long ? 'LONG' : 'SHORT'}</span> {priceFeed.ticker} @ {(parseFloat(price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces)}
 								</p>
-								<div className="mt-2">
+								<div className="">
 									<Range
 										step={rangeDefaults.step}
 										min={rangeDefaults.min}
@@ -221,18 +222,21 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 										)}
 									/>
 
-									<p className="my-1 font-bold">Position Size: {position} HP</p>
+									<p className="my-2 font-bold">Position Size: {position} HP</p>
 
-									<button onClick={onSubmitStake} className="mt-4 mb-8 bg-brandColor-pale text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+									<button onClick={onSubmitStake} className="mt-2 mb-4 bg-brandColor-pale text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 										Enter the Battle
 									</button>
-									<div className="text-xs">
-										<p>If the price moves 10% in your favour you gain:</p>
-										<p className="text-green-600 font-bold">
-											{winPreview.score} HP and {winPreview.rewards} ELF
+									<div className="text-xs text-gray-500 text-left p-2 absolute bottom-0 pb-2 bg-white w-full">
+										<p className="pb-1 font-bold">EXAMPLE OUTCOME WITH STATS MODIFIERS:</p>
+										<p>
+											If {priceFeed.ticker} {long ? 'gains 10% in price' : 'loses 10% in price'} you win:
+											<span className="text-green-600 font-bold">{` ${winPreview.score} HP and ${winPreview.rewards} ELF`}</span>
 										</p>
-										<p className="mt-2">If the price moves 10% in the other direction you lose:</p>
-										<p className="text-red-600 font-bold">{losePreview.score} HP</p>
+										<p>
+											If {priceFeed.ticker} {long ? 'loses 10% in price' : 'gains 10% in price'} you lose:
+											<span className="text-red-600 font-bold">{` ${losePreview.score} HP`}</span>
+										</p>
 									</div>
 								</div>
 							</div>

@@ -93,6 +93,7 @@ let spdDivMod = 200;
 export const winCase = (positionSize, percentChange = 0.1, stats) => {
 	// SCORE
 	const change = positionSize * calcBps(startPrice, startPrice * (1 + percentChange));
+
 	const atkMod = (stats[0] * change) / atkDivMod;
 	const score = (change + atkMod) / 1000;
 
@@ -107,6 +108,7 @@ export const winCase = (positionSize, percentChange = 0.1, stats) => {
 export const loseCase = (positionSize, percentChange = 0.1, stats) => {
 	// SCORE
 	const change = positionSize * calcBps(startPrice, startPrice * (1 - percentChange));
+
 	const defMod = (stats[1] * change) / defDivMod;
 	const score = (change - defMod) / 1000;
 
