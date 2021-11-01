@@ -1,6 +1,6 @@
 import useUserAccount from '../../hooks/useUserAccount';
 
-const UserModal = ({ toggle }) => {
+const MainSelect = ({ toggle }) => {
 	const { mainIndex, mutateUser, userNFTs, account } = useUserAccount();
 
 	const selectMain = (index) => {
@@ -12,9 +12,8 @@ const UserModal = ({ toggle }) => {
 
 	return (
 		<>
-			<div className="w-full h-full flex justify-center fixed top-0 left-0 animate-fadeOnFast">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-30 bg-opacity-40 bg-black"></div>
-				<div className=" w-11/12 max-w-2xl min-w-min center overflow-hidden z-40 shadow-xl rounded">
+			<div className="w-full h-full absolute top-0 animate-fadeOnFast z-40 overflow-visible">
+				<div className="center shadow-xl rounded">
 					<table className=" bg-customBlue-dark text-black mx-auto w-full">
 						<thead>
 							<tr className="text-left border-b border-black text-white">
@@ -57,4 +56,4 @@ const UserModal = ({ toggle }) => {
 	);
 };
 
-export default UserModal;
+export default MainSelect;

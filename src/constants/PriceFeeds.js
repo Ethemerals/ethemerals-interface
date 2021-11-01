@@ -5,9 +5,9 @@ PriceFeeds.push({
 	price: '1',
 	id: 0,
 	baseName: 'Ethereum',
-	quoteName: 'USDT',
+	quoteName: 'USD',
 	baseSymbol: 'ETH',
-	quoteSymbol: 'USDT',
+	quoteSymbol: 'USD',
 	decimals: 8,
 	decimalPlaces: 2,
 });
@@ -17,9 +17,9 @@ PriceFeeds.push({
 	price: '1',
 	id: 1,
 	baseName: 'Bitcoin',
-	quoteName: 'USDT',
+	quoteName: 'USD',
 	baseSymbol: 'BTC',
-	quoteSymbol: 'USDT',
+	quoteSymbol: 'USD',
 	decimals: 8,
 	decimalPlaces: 2,
 });

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import UserAccount from './UserAccount';
 import UserELF from './UserElf';
 import UserInventory from './UserInventory';
-import MainSelect from './MainSelect';
 
 const CloseSVG = () => (
 	<svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
@@ -14,7 +13,7 @@ const CloseSVG = () => (
 
 const ModalMenuItem = ({ toggle, selected, text }) => {
 	return (
-		<span onClick={toggle} className={`"cursor-pointer text-lg px-4 pb-2 py-3 ${selected ? 'text-black bg-blue-100' : ' text-gray-600 hover:text-blue-400 transition duration-300'}`}>
+		<span onClick={toggle} className={`"cursor-pointer text-lg px-4 pb-1 py-3 ${selected ? 'text-black bg-blue-100' : ' text-gray-600 hover:text-blue-400 transition duration-300'}`}>
 			{text}
 		</span>
 	);
@@ -38,9 +37,9 @@ const UserModal = ({ toggle, selected }) => {
 
 	return (
 		<>
-			<div className="w-full h-full flex justify-center fixed top-0 left-0 animate-fadeOnFast">
+			<div className="w-full h-full fixed top-0 left-0 animate-fadeOnFast">
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
-				<div className=" w-11/12 max-w-420 center overflow-hidden z-30 tracking-wide shadow-xl rounded">
+				<div className=" w-11/12 max-w-420 h-420 center z-30 tracking-wide shadow-xl rounded">
 					{/* nav */}
 					<div className="flex items-center bg-white cursor-pointer">
 						<ModalMenuItem toggle={() => toggleTab(0)} selected={selectedTab === 0} toggleExtra={toggleMainSelectModal} text="Inventory" />
@@ -53,21 +52,20 @@ const UserModal = ({ toggle, selected }) => {
 					</div>
 
 					{/* content */}
-					<div className="w-full h-420 bg-blue-100 rounded rounded-t-none overflow-hidden z-30 tracking-wide shadow-xl">
-						{selectedTab === 0 && <UserInventory toggle={toggle} toggleExtra={toggleMainSelectModal} />}
+					<div className="bg-blue-100 h-full overflow-hidden">
+						{selectedTab === 0 && <UserInventory toggle={toggle} />}
 						{selectedTab === 1 && <UserELF />}
 						{selectedTab === 2 && <UserAccount />}
 					</div>
 
 					{/* footer */}
-					<div onClick={toggle} className="py-2 px-4 text-xs sm:text-sm text-blue-700 hover:text-blue-500 absolute bottom-0">
+					<div onClick={toggle} className="px-4 text-xs sm:text-sm text-blue-700 hover:text-blue-500 absolute bg-white w-full">
 						<Link exact="true" to="/dashboard">
 							More? Go to Dashboards
 						</Link>
 					</div>
 				</div>
 			</div>
-			{isMainSelectOpen && <MainSelect toggle={toggleMainSelectModal} />}
 		</>
 	);
 };

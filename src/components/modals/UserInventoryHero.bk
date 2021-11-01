@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
+import NFTInventoryCard from '../NFTInventoryCard';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (

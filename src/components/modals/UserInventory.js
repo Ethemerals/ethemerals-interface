@@ -2,9 +2,12 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useUserAccount from '../../hooks/useUserAccount';
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
-import UserInventoryHero from './UserInventoryHero';
+
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
+import { getSubclassBonus } from '../../hooks/useNFTUtils';
+
+import NFTInventoryCard from '../NFTInventoryCard';
 
 const NFTLink = ({ nft, toggle }) => {
 	const { elements } = useNFTUtils();
@@ -50,9 +53,12 @@ const NFTPetLink = ({ nft, toggle, item = false }) => {
 	);
 };
 
-const UserInventory = ({ toggle, toggleExtra }) => {
+const UserInventory = ({ toggle }) => {
 	const { account, mainIndex, userNFTs } = useUserAccount();
 	const { accountEternalBattle } = useEternalBattleAccount();
+
+	const [userNFT, setUserNFT] = useState(undefined);
+	const [stats, setStats] = useState([0, 0, 0]);
 
 	const [NFTShortList, setNFTShortList] = useState([]);
 	const [NFTPetShortList, setNFTPetShortList] = useState([]);
@@ -71,7 +77,14 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 		if (account && account.items.length > 0) {
 			setNFTItemShortList(account.items.slice(0, 10));
 		}
-	}, [account, userNFTs]);
+		if (userNFTs && userNFTs.length > 0) {
+			let _userNFT = userNFTs[mainIndex];
+			setUserNFT(_userNFT);
+
+			let statBonus = getSubclassBonus(_userNFT.metadata.subClass);
+			setStats([_userNFT.atk, _userNFT.def, _userNFT.spd]);
+		}
+	}, [account, userNFTs, mainIndex]);
 
 	useEffect(() => {
 		if (accountEternalBattle && account) {
@@ -90,11 +103,11 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 
 	return (
 		<>
-			<div className="h-28 m-4">
-				<div className="flex h-28">
-					{userNFTs.length > 0 ? (
-						<UserInventoryHero userNFTs={userNFTs} mainIndex={mainIndex} toggle={toggle} toggleExtra={toggleExtra} />
-					) : (
+			<div className="h-28">
+				{userNFTs.length > 0 && userNFT ? (
+					<NFTInventoryCard nft={userNFT} stats={stats} />
+				) : (
+					<div className="flex h-28">
 						<div className="flex-grow relative overflow-hidden text-center bg-customBlue-dark">
 							<div className="center">
 								<p>None active</p>
@@ -105,8 +118,8 @@ const UserInventory = ({ toggle, toggleExtra }) => {
 								</Link>
 							</div>
 						</div>
-					)}
-				</div>
+					</div>
+				)}
 			</div>
 
 			{/* INVENTORY TABS */}

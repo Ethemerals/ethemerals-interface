@@ -127,6 +127,57 @@
 		-ms-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
 	}
+
+	/* CHART */
+	.chart-card {
+		text-align: center;
+		margin: auto;
+		max-width: 300px;
+		position: relative;
+	}
+
+	.chart-card img {
+		width: 44px;
+		height: 44px;
+	}
+
+	.chart-crypto-price {
+		font-size: 20px;
+		font-weight: 300;
+	}
+
+	.chart-crypto-price span {
+		font-size: 12px;
+		font-weight: 700;
+		position: relative;
+		top: -6px;
+		left: 6px;
+	}
+
+	.chart-crypto-price svg {
+		margin-right: 4px;
+	}
+
+	.chart {
+		position: relative;
+	}
+
+	.chart svg {
+		vertical-align: middle;
+	}
+
+	.chart-loading-container {
+		height: 0;
+		padding-bottom: 50%;
+		width: 100%;
+	}
+
+	.chart-loading-container span {
+		position: absolute;
+		left: 50%;
+		margin-left: -35px;
+		top: 30%;
+	}
 }
 
 .bn-onboard-custom.bn-onboard-modal {

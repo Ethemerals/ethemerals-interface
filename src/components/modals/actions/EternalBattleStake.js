@@ -9,12 +9,11 @@ import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
 
-import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
-import { useNFTUtils, getSubclassBonus } from '../../../hooks/useNFTUtils';
+import { getSubclassBonus } from '../../../hooks/useNFTUtils';
 import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
 import { useEternalBattleContract, winCase, loseCase } from '../../../hooks/useEternalBattle';
 
-import RankedStars from '../../cards/RankedStars';
+import NFTInventoryCard from '../../NFTInventoryCard';
 
 const rangeDefaults = {
 	min: 100,
@@ -23,59 +22,7 @@ const rangeDefaults = {
 	step: 1,
 };
 
-const MeralBattleThumbnail = ({ nft, baseStats }) => {
-	const { elements, parseScore } = useNFTUtils();
-	const { meralImagePaths } = useMeralImagePaths(nft.id);
-
-	if (!meralImagePaths) {
-		return <div className="flex w-72 h-74 mx-auto relative"></div>;
-	}
-
-	return (
-		<>
-			<div className="flex-grow relative bg-cover bg-center text-white h-28" style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }}>
-				{/* LEFT BAR */}
-				<div className="left-0 top-0 absolute p-1 text-right z-10 text-sm font-bold">
-					<span>#{nft.id.padStart(4, '0')}</span>
-				</div>
-
-				{/* RIGHT BAR */}
-				<div className="right-0 absolute p-1 text-right z-10 text-sm font-bold">
-					<div className="flex justify-end">
-						<RankedStars amount={parseScore(nft.score)} />
-					</div>
-					<p>{nft.score} HP</p>
-					<p>{nft.rewards} ELF</p>
-				</div>
-
-				{/* BOTTOM BAR */}
-				<div className="px-1 w-full bottom-0 absolute bg-black bg-opacity-70 z-10 flex items-center">
-					<span className="font-bold text-lg uppercase">{nft.metadata.coin}</span>
-					<span className="flex-grow"></span>
-					<span className="text-xs font-bold">BASE STATS:</span>
-					<div className="ml-2 text-xs font-bold">
-						<span style={{ backgroundColor: 'hsla(0,60%,40%,1)' }} className="text-sm rounded px-1 py-0 ml-1">
-							{baseStats[0]}
-						</span>
-						<span style={{ backgroundColor: 'hsla(230,60%,40%,1)' }} className="text-sm rounded px-1 py-0 ml-1">
-							{baseStats[1]}
-						</span>
-						<span style={{ backgroundColor: 'hsla(180,60%,40%,1)' }} className="text-sm rounded px-1 py-0 ml-1">
-							{baseStats[2]}
-						</span>
-					</div>
-				</div>
-				{/* MAIN IMAGE */}
-
-				<div className="absolute top-0 left-0 w-full h-28">
-					<img className="" src={meralImagePaths.inventory} alt="" />
-				</div>
-			</div>
-		</>
-	);
-};
-
-const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
+const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggleSide }) => {
 	const { mainIndex, userNFTs, account } = useUserAccount();
 	const { contractBattle } = useEternalBattleContract();
 
@@ -167,9 +114,9 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 
 	return (
 		<>
-			<div className="w-full h-full flex justify-center fixed top-0 left-0">
+			<div className="w-full h-full fixed flex justify-center z-20 top-0 left-0">
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
-				<div className=" w-11/12 max-w-420 h-500 center border-gray-400 rounded overflow-hidden z-30 tracking-wide shadow-xl bg-indigo-100 text-black">
+				<div className=" w-11/12 max-w-420 h-500 center border-gray-400 rounded z-30 tracking-wide shadow-xl bg-indigo-100 text-black">
 					<div className="flex items-center justify-end">
 						<span onClick={toggle} className="cursor-pointer px-4 py-2 text-gray-900 hover:text-gray-600">
 							<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -182,15 +129,23 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 					<div className="text-center">
 						{account && userNFT && userNFT.score >= 25 && (
 							<div>
-								<MeralBattleThumbnail nft={userNFT} baseStats={baseStats} />
-								<p className="text-sm px-8 my-4">
+								<NFTInventoryCard nft={userNFT} stats={baseStats} showBase={true} />
+								{/* <p className="text-sm px-8 my-4 text-gray-500">
 									Send your <span className="">{userNFT.metadata.coin}</span> Meral to join <br></br>
 									<span className="">{allyName}'s</span> Eternal Battle against
 									<span className="">{` ${enemyName}!`}</span>
-								</p>
-
-								<p className="text-sm border-t border-white py-4">
-									<span className="font-bold">{long ? 'LONG' : 'SHORT'}</span> {priceFeed.ticker} @ {(parseFloat(price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces)}
+								</p> */}
+								<div className="flex justify-center text-xl w-full mt-6 mb-4">
+									<span onClick={toggleSide} className={`px-4 border-b-4 ${long ? 'border-green-700' : 'cursor-pointer hover:text-blue-500 text-gray-400 transition duration-100'}`}>
+										JOIN {priceFeed.baseSymbol}
+									</span>
+									<span onClick={toggleSide} className={`px-4 border-b-4 ${!long ? 'border-red-700' : 'cursor-pointer hover:text-blue-500 text-gray-400 transition duration-100'}`}>
+										JOIN {priceFeed.quoteSymbol}
+									</span>
+								</div>
+								<p className="text-sm py-4">
+									{long ? <span className="text-green-700 font-bold">LONG</span> : <span className="text-red-700 font-bold">SHORT</span>} {priceFeed.ticker} @{' '}
+									{(parseFloat(price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces)}
 								</p>
 								<div className="">
 									<Range
@@ -222,7 +177,7 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 										)}
 									/>
 
-									<p className="my-2 font-bold">Position Size: {position} HP</p>
+									<p className="my-3 font-bold">Position Size: {position} HP</p>
 
 									<button onClick={onSubmitStake} className="mt-2 mb-4 bg-brandColor-pale text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
 										Enter the Battle
