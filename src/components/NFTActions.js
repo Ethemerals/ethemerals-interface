@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useCore } from '../hooks/useCore';
 
 import Links from '../constants/Links';
 import Addresses from '../constants/contracts/Addresses';
@@ -14,29 +13,20 @@ import { shortenAddress } from '../utils';
 
 const NFTActions = ({ nft }) => {
 	const { account, mutateUser, mainIndex, userNFTs } = useUserAccount();
-	const { core } = useCore();
 	const history = useHistory();
 
 	const [isOwned, setIsOwned] = useState(false);
-	const [isOwnedWinning, setIsOwnedWinning] = useState(false);
+
+	const [isInBattle, setIsInBattle] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);
 	const [isSummonPetOpen, setIsSummonPetOpen] = useState(false);
 	const [mainLoading, setMainLoading] = useState(false);
 
 	useEffect(() => {
-		if (account && core) {
-			if (nft.id === core.winningCoin) {
-				if (account.ethemerals.length > 0) {
-					setIsOwnedWinning(false);
-					account.ethemerals.forEach((userNft) => {
-						if (userNft.id === core.winningCoin) {
-							setIsOwnedWinning(true);
-						}
-					});
-				}
-			}
+		if (nft && nft.owner.id === Addresses.EternalBattle.toLowerCase()) {
+			setIsInBattle(true);
 		}
-	}, [account, core, nft]);
+	}, [nft]);
 
 	const toggleGift = () => {
 		if (isOwned) {
@@ -82,7 +72,14 @@ const NFTActions = ({ nft }) => {
 
 	return (
 		<div className="grid grid-cols-2 gap-2 px-2 text-sm text-white">
-			{account && isOwned && userNFTs[mainIndex] && userNFTs[mainIndex].id === nft.id ? (
+			{isInBattle ? (
+				<div className="flex items-center col-span-2 rounded-lg cursor-default">
+					<div className="w-8 h-8 mr-1 relative">
+						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
+					</div>
+					<p className="text-black">{'IN BATTLE!'}</p>
+				</div>
+			) : account && isOwned && userNFTs[mainIndex] && userNFTs[mainIndex].id === nft.id ? (
 				<div className="flex items-center col-span-2 rounded-lg cursor-default">
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
@@ -101,22 +98,8 @@ const NFTActions = ({ nft }) => {
 				</div>
 			)}
 
-			{isOwnedWinning && (
-				<div
-					onClick={() => {
-						if (isOwned) {
-							history.push(`/claim/${nft.id}`);
-						}
-					}}
-					className="col-span-2 bg-customBlue-pale flex items-center rounded-lg cursor-pointer hover:bg-yellow-400 transition duration-200"
-				>
-					<div className="w-8 h-8 mr-1 relative">
-						<img className="center" width="26px" height="26px" alt="icon drain" src={Images.iconClaim} />
-					</div>
-					<p>Claim the Highest Honor Reward</p>
-				</div>
-			)}
-			{account && isOwned ? (
+			{/* BID OR SELL */}
+			{account && isOwned && (
 				<a href={openSeaURL} target="blank" rel="noreferrer">
 					<div className="flex items-center bg-red-600 rounded-lg cursor-pointer hover:bg-red-400 transition duration-200">
 						<div className="w-8 h-8 mr-1 relative">
@@ -125,9 +108,20 @@ const NFTActions = ({ nft }) => {
 						<p>Sell</p>
 					</div>
 				</a>
-			) : (
+			)}
+			{!isOwned && !isInBattle && (
 				<a href={openSeaURL} target="blank" rel="noreferrer">
 					<div className="flex items-center bg-green-600 rounded-lg cursor-pointer hover:bg-green-400 transition duration-200">
+						<div className="w-8 h-8 mr-1 relative">
+							<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
+						</div>
+						<p>Bid</p>
+					</div>
+				</a>
+			)}
+			{isInBattle && (
+				<a href={openSeaURL} target="blank" rel="noreferrer">
+					<div className="flex items-center bg-customBlue-pale rounded-lg cursor-pointer">
 						<div className="w-8 h-8 mr-1 relative">
 							<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
 						</div>

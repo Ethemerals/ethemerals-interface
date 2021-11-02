@@ -92,7 +92,7 @@ export const useCoreAccount = () => {
 };
 
 export const useCoreApprovals = (contractCore, owner, operator) => {
-	const { isLoading, data } = useQuery([`core_approvals`], () => getIsApprovedForAll(contractCore, owner, operator), { enabled: !!owner, refetchInterval: 30000 });
+	const { isLoading, data } = useQuery([`core_approvals`], () => getIsApprovedForAll(contractCore, owner, operator), { enabled: !!owner && !!contractCore && !!operator, refetchInterval: 30000 });
 
 	const [EBApproved, setEBApproved] = useState(null);
 

@@ -18,7 +18,7 @@ const getContracts = async (provider, setContractPriceFeed) => {
 };
 
 const getPriceAPI = async (id) => {
-	const url = `${process.env.REACT_APP_API_MARKETS}pricefeed/${id}`;
+	const url = `${process.env.REACT_APP_API_MARKETS}pricefeed?id=${id}&network=${process.env.REACT_APP_API_NETWORK}`;
 	const { data } = await axios.get(url);
 	if (data.status === 'success') {
 		return data.data.price;

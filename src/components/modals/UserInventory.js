@@ -81,7 +81,6 @@ const UserInventory = ({ toggle }) => {
 			let _userNFT = userNFTs[mainIndex];
 			setUserNFT(_userNFT);
 
-			let statBonus = getSubclassBonus(_userNFT.metadata.subClass);
 			setStats([_userNFT.atk, _userNFT.def, _userNFT.spd]);
 		}
 	}, [account, userNFTs, mainIndex]);

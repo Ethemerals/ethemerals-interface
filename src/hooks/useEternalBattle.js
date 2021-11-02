@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Contract } from '@ethersproject/contracts';
-
+import axios from 'axios';
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_ETERNALBATTLE_ACCOUNT } from '../queries/Subgraph';
 
@@ -19,28 +19,77 @@ const getContracts = async (provider, setContractBattle) => {
 	}
 };
 
+const getChangeAPI = async (id) => {
+	const url = `${process.env.REACT_APP_API_MARKETS}ebgetchange?id=${id}&network=${process.env.REACT_APP_API_NETWORK}`;
+	const { data } = await axios.get(url);
+	if (data.status === 'success') {
+		return data.data;
+	} else {
+		return null;
+	}
+};
+
+const getStakeAPI = async (id) => {
+	const url = `${process.env.REACT_APP_API_MARKETS}ebgetstake?id=${id}&network=${process.env.REACT_APP_API_NETWORK}`;
+	const { data } = await axios.get(url);
+	if (data.status === 'success') {
+		return data.data;
+	} else {
+		return null;
+	}
+};
+
 const getChange = async (contract, id) => {
 	if (contract) {
 		try {
-			const value = await contract.getChange(id);
-
-			if (value[0].toString() === '0') {
-				return 0;
-			}
-
-			return parseInt(value[0]) * (value[1] ? 1 : -1);
+			let [score, rewards, win] = await contract.getChange(id);
+			return { score: score.toString(), rewards: rewards.toString(), win };
 		} catch (error) {
 			throw new Error('error');
 		}
 	} else {
-		// connect
-		console.log('no wallet');
-		throw new Error('error');
+		try {
+			const { change } = await getChangeAPI(id);
+			let data = { ...change };
+			if (data) {
+				return data;
+			} else {
+				throw new Error('error');
+			}
+		} catch (error) {
+			console.log(error);
+			throw new Error('error');
+		}
 	}
 };
 
-export const useExternalBattleGetChange = (contract, id) => {
-	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(contract, id), { refetchInterval: 30000 });
+const getStake = async (contract, id) => {
+	if (contract) {
+		try {
+			let [owner, priceFeedId, positionSize, startingPrice, long] = await contract.getStake(id);
+			return { owner, priceFeedId, positionSize, startingPrice: startingPrice.toString(), long };
+		} catch (error) {
+			throw new Error('error');
+		}
+	} else {
+		try {
+			const { stake } = await getStakeAPI(id);
+			let data = { ...stake };
+
+			if (data) {
+				return data;
+			} else {
+				throw new Error('error');
+			}
+		} catch (error) {
+			console.log(error);
+			throw new Error('error');
+		}
+	}
+};
+
+export const useEternalBattleGetChange = (contract, id) => {
+	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(contract, id), { enabled: !!id, refetchInterval: 40000 });
 
 	const [scoreChange, setScoreChange] = useState(undefined);
 
@@ -51,6 +100,20 @@ export const useExternalBattleGetChange = (contract, id) => {
 	}, [data, isLoading]);
 
 	return { scoreChange };
+};
+
+export const useEternalBattleGetStake = (contract, id) => {
+	const { isLoading, data } = useQuery([`getStake_${id}`, id], () => getStake(contract, id), { refetchInterval: 40000 });
+
+	const [stake, setStake] = useState(undefined);
+
+	useEffect(() => {
+		if (!isLoading) {
+			setStake(data);
+		}
+	}, [data, isLoading]);
+
+	return { stake };
 };
 
 export const useEternalBattleContract = () => {

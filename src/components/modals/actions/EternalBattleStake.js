@@ -23,7 +23,7 @@ const rangeDefaults = {
 };
 
 const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggleSide }) => {
-	const { mainIndex, userNFTs, account } = useUserAccount();
+	const { mainIndex, userNFTs, account, userIsLoading } = useUserAccount();
 	const { contractBattle } = useEternalBattleContract();
 
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
@@ -127,7 +127,7 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 
 					{/* MAIN */}
 					<div className="text-center">
-						{account && userNFT && userNFT.score >= 25 && (
+						{account && userNFT && (
 							<div>
 								<NFTInventoryCard nft={userNFT} stats={baseStats} showBase={true} />
 								{/* <p className="text-sm px-8 my-4 text-gray-500">
@@ -135,11 +135,11 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 									<span className="">{allyName}'s</span> Eternal Battle against
 									<span className="">{` ${enemyName}!`}</span>
 								</p> */}
-								<div className="flex justify-center text-xl w-full mt-6 mb-4">
-									<span onClick={toggleSide} className={`px-4 border-b-4 ${long ? 'border-green-700' : 'cursor-pointer hover:text-blue-500 text-gray-400 transition duration-100'}`}>
+								<div className="flex justify-center text-xl w-full mt-6">
+									<span onClick={toggleSide} className={`px-4 border-b-4 ${long ? 'border-green-700' : 'cursor-pointer hover:text-green-500 text-gray-400 transition duration-100'}`}>
 										JOIN {priceFeed.baseSymbol}
 									</span>
-									<span onClick={toggleSide} className={`px-4 border-b-4 ${!long ? 'border-red-700' : 'cursor-pointer hover:text-blue-500 text-gray-400 transition duration-100'}`}>
+									<span onClick={toggleSide} className={`px-4 border-b-4 ${!long ? 'border-red-700' : 'cursor-pointer hover:text-red-500 text-gray-400 transition duration-100'}`}>
 										JOIN {priceFeed.quoteSymbol}
 									</span>
 								</div>
@@ -179,8 +179,8 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 
 									<p className="my-3 font-bold">Position Size: {position} HP</p>
 
-									<button onClick={onSubmitStake} className="mt-2 mb-4 bg-brandColor-pale text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-										Enter the Battle
+									<button onClick={onSubmitStake} className="mt-2 mb-4 bg-indigo-700 text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-indigo-400 transition duration-300">
+										JOIN!
 									</button>
 									<div className="text-xs text-gray-500 text-left p-2 absolute bottom-0 pb-2 bg-white w-full">
 										<p className="pb-1 font-bold">EXAMPLE OUTCOME WITH STATS MODIFIERS:</p>
@@ -197,15 +197,7 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 							</div>
 						)}
 
-						{/* NOT ENOUGH SCORE */}
-						{account && userNFT && userNFT.score <= 25 && (
-							<>
-								<p className="mt-4">{userNFT.metadata.coin} needs Honor Points to enter Battle!</p>
-								<button className="bg-brandColor text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">Resurrect Ethemeral</button>
-							</>
-						)}
-
-						{/* NO ACCOUNT */}
+						{/* NO MERALS */}
 						{!userNFT && account && (
 							<>
 								<p className="px-10 mt-10 mb-4">{`You need to have an Ethemeral to join ${allyName}'s Eternal Battle against ${enemyName}`}</p>

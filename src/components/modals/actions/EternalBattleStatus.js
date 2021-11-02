@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSendTx } from '../../../hooks/TxContext';
 import { useWeb3, useReadyToTransact } from '../../../hooks/Web3Context';
 
-import { useEternalBattleContract, useExternalBattleGetChange } from '../../../hooks/useEternalBattle';
+import { useEternalBattleContract, useEternalBattleGetChange } from '../../../hooks/useEternalBattle';
 import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
@@ -12,7 +12,7 @@ import Spinner from '../../Spinner';
 import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
 
 const NFTComputedScore = ({ contract, nft, setScoreChange }) => {
-	const { scoreChange } = useExternalBattleGetChange(contract, nft.id);
+	const { scoreChange } = useEternalBattleGetChange(contract, nft.id);
 
 	useEffect(() => {
 		setScoreChange(scoreChange);

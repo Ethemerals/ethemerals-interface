@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import ChartData from './ChartData';
 
 import EternalBattleStake from '../modals/actions/EternalBattleStake';
 import AllowDelegates from '../modals/actions/AllowDelegates';
-import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 import { usePriceFeedContract } from '../../hooks/usePriceFeed';
 
 import useUserAccount from '../../hooks/useUserAccount';
@@ -86,7 +85,7 @@ const CryptoTracker = ({ priceFeed }) => {
 		}
 	};
 
-	if (isLoading) return null;
+	if (isLoading) return <div className="chart-card bg-white text-black chart-expanded h-500 w-80"></div>;
 
 	const { image, name, market_data: marketData } = data;
 

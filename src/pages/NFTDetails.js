@@ -9,6 +9,7 @@ import { useMeralColor } from '../hooks/useColorTraits';
 import Images from '../constants/Images';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
+import Addresses from '../constants/contracts/Addresses';
 
 import NFTActions from '../components/NFTActions';
 import NFTChooseColorScheme from '../components/NFTChooseColorScheme';
@@ -65,6 +66,7 @@ const NFTDetails = () => {
 	const [color, setColor] = useState(0);
 
 	const [nft, setNFT] = useState(undefined);
+
 	const [ready, setReady] = useState(false);
 	const [birthDate, setBirthDate] = useState(Date.now());
 
