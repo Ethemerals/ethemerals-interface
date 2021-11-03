@@ -2,8 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory, useParams, Link } from 'react-router-dom';
 
-import dateFormat from 'dateformat';
-
+import { format } from 'date-fns';
 import { useNFTUtils } from '../hooks/useNFTUtils';
 import Images from '../constants/Images';
 
@@ -185,7 +184,7 @@ const NFTLargeDetail = ({ startingIndex, color }) => {
 						<span style={{ width: `${metaDataArray[4] * 3}px` }} className="h-3 bg-white opacity-20"></span>
 						<span className="pl-1 text-xs">{metaDataArray[4]}</span>
 						<span className="flex-grow"></span>
-						<span className="flex-none opacity-30 font-normal">Birth: {dateFormat(birthDate, 'mmm dd yyyy')}</span>
+						<span className="flex-none opacity-30 font-normal">Birth: {format(birthDate, 'MMM dd yyyy')}</span>
 					</div>
 					<div className="flex h-3 items-center mb-1 text-sm font-bold">
 						<span className="w-8">SPD</span>

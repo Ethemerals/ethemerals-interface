@@ -11,6 +11,7 @@ import { useCoreApprovals, useCoreContract } from '../../hooks/useCore';
 import { useAddress } from '../../hooks/Web3Context';
 
 import Addresses from '../../constants/contracts/Addresses';
+import ConnectWallet from './modals/ConnectWallet';
 
 const useGetCardData = (cryptoName, options) => {
 	return useQuery(
@@ -51,6 +52,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 
 	const [isCreateStakeOpen, setIsCreateStakeOpen] = useState(false);
 	const [isAllowDelegatesOpen, setIsAllowDelegatesOpen] = useState(false);
+	const [isConnectWalletOpen, setIsConnectWalletOpen] = useState(false);
 
 	const [isLong, setIsLong] = useState(true);
 
@@ -71,17 +73,23 @@ const PairTrackerCard = ({ priceFeed }) => {
 		setIsAllowDelegatesOpen(!isAllowDelegatesOpen);
 	};
 
+	const toggleConnectWallet = () => {
+		setIsConnectWalletOpen(!isConnectWalletOpen);
+	};
+
 	const handleJoinBattle = (long) => {
-		if (EBApproved === true) {
-			toggleJoinBattle();
+		if (!account) {
+			toggleConnectWallet();
+		} else if (EBApproved === true) {
 			setIsLong(long);
+			toggleJoinBattle();
 		} else if (account && !account.allowDelegates) {
 			toggleAllowDelegates();
 		} else if (EBApproved === false) {
 			toggleAllowDelegates();
 		} else {
-			toggleJoinBattle();
 			setIsLong(long);
+			toggleJoinBattle();
 		}
 	};
 
@@ -112,6 +120,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 			</div>
 			{isAllowDelegatesOpen && <AllowDelegates toggle={toggleAllowDelegates} toggleStake={toggleJoinBattle} EBApproved={EBApproved} />}
 			{isCreateStakeOpen && <EternalBattleStake contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattle} priceFeed={priceFeed} long={isLong} toggleSide={toggleLong} />}
+			{isConnectWalletOpen && <ConnectWallet contractPriceFeed={contractPriceFeed} toggle={toggleConnectWallet} priceFeed={priceFeed} long={isLong} toggleSide={toggleLong} />}
 		</>
 	);
 };

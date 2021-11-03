@@ -5,7 +5,6 @@ import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
-import { getSubclassBonus } from '../../hooks/useNFTUtils';
 
 import NFTInventoryCard from '../NFTInventoryCard';
 

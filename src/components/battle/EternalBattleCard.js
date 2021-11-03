@@ -64,22 +64,22 @@ const EternalBattleCard = ({ priceFeed }) => {
 				<div className="w-72 border-white border border-r-0">
 					<h3 className="mx-1 text-black text-xs mb-2">
 						LONGS ({longNFTs && longNFTs.length > 0 && longNFTs.length})
-						<span>{longNFTs && shortNFTs && counterTradeBonus > 1 && longNFTs.length < shortNFTs.length && ` Bonus ELF Mult x${counterTradeBonus}`}</span>
+						<span className="text-brandColor">{longNFTs && shortNFTs && counterTradeBonus > 1 && longNFTs.length < shortNFTs.length && ` - Bonus ELF Multiplier x${counterTradeBonus}`}</span>
 					</h3>
 					{longNFTs &&
 						longNFTs.length > 0 &&
-						longNFTs.map((nft, index) => <StakedNFTCard key={index} nft={nft} contractBattle={contractBattle} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
+						longNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
 				</div>
 
 				<div className="w-72 border-white border border-l-0">
 					<h3 className="mx-1 text-black text-xs mb-2">
 						SHORTS ({shortNFTs && shortNFTs.length > 0 && shortNFTs.length})
-						<span className="text-brandColor">{longNFTs && shortNFTs && counterTradeBonus > 1 && longNFTs.length > shortNFTs.length && ` - Bonus ELF Mult x${counterTradeBonus}`}</span>
+						<span className="text-brandColor">{longNFTs && shortNFTs && counterTradeBonus > 1 && longNFTs.length > shortNFTs.length && ` - Bonus ELF Multiplier x${counterTradeBonus}`}</span>
 					</h3>
 
 					{shortNFTs &&
 						shortNFTs.length > 0 &&
-						shortNFTs.map((nft, index) => <StakedNFTCard key={index} nft={nft} contractBattle={contractBattle} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
+						shortNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
 				</div>
 			</div>
 		</>

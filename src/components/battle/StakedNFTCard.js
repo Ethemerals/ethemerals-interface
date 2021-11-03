@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
+import ReactTooltip from 'react-tooltip';
 import useUserAccount from '../../hooks/useUserAccount';
 import EternalBattleStatus from './modals/EternalBattleStatus';
 
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../hooks/useEternalBattle';
+
+import EBMoreDetails from './modals/EBMoreDetails';
+import EBUnstake from './modals/EBUnstake';
 
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
@@ -11,6 +15,7 @@ import Spinner from '../Spinner';
 import SVGDetail from './svg/SVGDetail';
 import SVGRevive from './svg/SVGRevive';
 import SVGUnstake from './svg/SVGUnstake';
+import EBRevive from './modals/EBRevive';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -24,12 +29,22 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 
 	const [isOwned, setIsOwned] = useState(false);
 	const [isUnstakeOpen, setIsUnstakeOpen] = useState(false);
+	const [isMoreDetailsOpen, setIsMoreDetailsOpen] = useState(false);
+	const [isReviveOpen, setIsReviveOpen] = useState(false);
 
 	const [scoreCalculated, setScoreCalculated] = useState(undefined);
 	const [rewardsCalculated, setRewardsCalculated] = useState(undefined);
 
 	const toggleUnstake = () => {
 		setIsUnstakeOpen(!isUnstakeOpen);
+	};
+
+	const toggleMoreDetails = () => {
+		setIsMoreDetailsOpen(!isMoreDetailsOpen);
+	};
+
+	const toggleRevive = () => {
+		setIsReviveOpen(!isReviveOpen);
 	};
 
 	useEffect(() => {
@@ -64,11 +79,11 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 		<>
 			<div style={{ backgroundColor: elements[nft.bgId].color, width: '280px' }} className="flex h-74 mb-1 mx-1">
 				<div className="relative">
-					<img width="74" height="74" src={bgImg} alt="meral thumbnail" />
+					<img onClick={toggleMoreDetails} className="cursor-pointer" width="74" height="74" src={bgImg} alt="meral thumbnail" />
 					<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-50 w-full absolute bottom-0 text-left">#{nft.id.padStart(4, '0')}</span>
 				</div>
 
-				<div style={{ width: '214px' }} className="bg-white">
+				<div style={{ width: '214px' }} className="bg-gray-50">
 					<h4 style={{ backgroundColor: elements[nft.bgId].color }} className="font-bold text-md uppercase pl-1 overflow-hidden whitespace-nowrap">
 						{nft.metadata.coin}
 					</h4>
@@ -92,35 +107,55 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 								</p>
 							</div>
 						) : (
-							<Spinner />
+							<Spinner color="text-gray-300" size="h-12 w-12" margin="py-2" />
 						)}
 
 						<div className="flex-grow"></div>
 						<div className="flex">
 							{isOwned && (
-								<span className="mr-1 text-indigo-400 hover:text-indigo-600 cursor-pointer transition duration-300">
-									<SVGUnstake />
-								</span>
+								<>
+									<button onClick={toggleUnstake} data-tip data-for="ttUnstake" className="mr-1 text-green-500 hover:text-green-700 cursor-pointer transition duration-300">
+										<SVGUnstake />
+									</button>
+
+									<ReactTooltip id="ttUnstake" type="success" effect="solid">
+										<span>Leave Battle</span>
+									</ReactTooltip>
+								</>
 							)}
 							{!isOwned && (
-								<span className={`text-yellow-400 mr-1 opacity-10 ${scoreCalculated < 25 ? 'opacity-100  hover:text-yellow-600 cursor-pointer transition duration-300' : ''}`}>
-									<SVGRevive />
-								</span>
+								<>
+									<button
+										onClick={toggleRevive}
+										disabled={scoreCalculated > 25}
+										data-tip
+										data-for="ttRevive"
+										className={`text-yellow-400 mr-1 opacity-10 ${scoreCalculated <= 25 ? 'opacity-100  hover:text-yellow-600 cursor-pointer transition duration-300' : ''}`}
+									>
+										<SVGRevive />
+									</button>
+
+									<ReactTooltip id="ttRevive" type="warning" effect="solid">
+										<span>Revive Meral!</span>
+									</ReactTooltip>
+								</>
 							)}
 
-							<span className="text-blue-300 hover:text-blue-500 cursor-pointer transition duration-300">
+							<button onClick={toggleMoreDetails} data-tip data-for="ttDetail" className="text-blue-300 hover:text-blue-500 cursor-pointer transition duration-300">
 								<SVGDetail />
-							</span>
+							</button>
+
+							<ReactTooltip id="ttDetail" type="info" effect="solid">
+								<span>More Details</span>
+							</ReactTooltip>
 						</div>
 					</div>
 				</div>
-				{/* <button onClick={toggleUnstake} className="px-2 text-sm text-right text-gray-300 hover:text-white">
-					{isOwned && <span className="mr-2">✅</span>}
-					status
-				</button> */}
 			</div>
 
-			{isUnstakeOpen && <EternalBattleStatus contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} nft={nft} toggle={toggleUnstake} isOwned={isOwned} />}
+			{isMoreDetailsOpen && <EBMoreDetails nft={nft} toggle={toggleMoreDetails} priceFeed={priceFeed} />}
+			{isUnstakeOpen && <EBUnstake nft={nft} toggle={toggleUnstake} priceFeed={priceFeed} contractBattle={contractBattle} />}
+			{isReviveOpen && <EBRevive nft={nft} toggle={toggleRevive} priceFeed={priceFeed} contractBattle={contractBattle} />}
 		</>
 	);
 };

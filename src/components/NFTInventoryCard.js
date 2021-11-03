@@ -6,7 +6,7 @@ import { useNFTUtils } from '../hooks/useNFTUtils';
 import RankedStars from './cards/RankedStars';
 import MainSelect from './modals/MainSelect';
 
-const NFTInventoryCard = ({ nft, stats, showBase = false }) => {
+const NFTInventoryCard = ({ nft, stats, showBase = false, showChange = true }) => {
 	const { elements, parseScore } = useNFTUtils();
 	const { meralImagePaths } = useMeralImagePaths(nft.id);
 
@@ -59,12 +59,14 @@ const NFTInventoryCard = ({ nft, stats, showBase = false }) => {
 					<img className="" src={meralImagePaths.inventory} alt="" />
 				</div>
 			</div>
-			<div className="font-bold text-xs text-center pt-1">
-				<button onClick={toggleMainSelectModal} className="cursor-pointer hover:text-brandColor-pale text-brandColor transition duration-300">
-					CHANGE ACTIVE MERAL
-				</button>
-			</div>
-			{isMainSelectOpen && <MainSelect toggle={toggleMainSelectModal} />}
+			{showChange && (
+				<div className="font-bold text-xs text-center pt-1">
+					<button onClick={toggleMainSelectModal} className="cursor-pointer hover:text-brandColor-pale text-brandColor transition duration-300">
+						CHANGE ACTIVE MERAL
+					</button>
+				</div>
+			)}
+			{isMainSelectOpen && showChange && <MainSelect toggle={toggleMainSelectModal} />}
 		</>
 	);
 };

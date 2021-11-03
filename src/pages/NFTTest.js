@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 
 import { useParams } from 'react-router-dom';
-import dateFormat from 'dateformat';
+
+import { format } from 'date-fns';
 
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { useNFTUtils } from '../hooks/useNFTUtils';
@@ -149,7 +150,7 @@ const NFTTest = ({ color }) => {
 									</div>
 								</div>
 								<div className="text-sm text-right leading-relaxed text-gray-200">
-									<p>Birthed: {dateFormat(birthDate, 'mmm dd yyyy')}</p>
+									<p>Birthed: {format(birthDate, 'MMM dd yyyy')}</p>
 									<p>Designer: {nft.metadata.artist}</p>
 									<p>Minted By: {shortenAddress(nft.creator.id)}</p>
 								</div>

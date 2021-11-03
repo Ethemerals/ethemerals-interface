@@ -126,6 +126,7 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 					</div>
 
 					{/* MAIN */}
+
 					<div className="text-center">
 						{account && userNFT && (
 							<div>
@@ -203,7 +204,7 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 						)}
 
 						{/* NO ACCOUNT */}
-						{!account && (
+						{/* {!account && (
 							<>
 								<p className="px-10 mt-10 mb-4">Login to your account!</p>
 
@@ -211,7 +212,7 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 									Connect Wallet
 								</button>
 							</>
-						)}
+						)} */}
 					</div>
 				</div>
 			</div>

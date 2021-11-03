@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-
+import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
-import dateFormat from 'dateformat';
 
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { useNFTUtils } from '../hooks/useNFTUtils';
@@ -9,7 +8,6 @@ import { useMeralColor } from '../hooks/useColorTraits';
 import Images from '../constants/Images';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
-import Addresses from '../constants/contracts/Addresses';
 
 import NFTActions from '../components/NFTActions';
 import NFTChooseColorScheme from '../components/NFTChooseColorScheme';
@@ -168,7 +166,7 @@ const NFTDetails = () => {
 									</div>
 								</div>
 								<div className="text-sm text-right leading-relaxed text-gray-200 font-bold">
-									<p>Birthed: {dateFormat(birthDate, 'mmm dd yyyy')}</p>
+									<p>Birthed: {format(birthDate, 'MMM dd yyyy')}</p>
 									<p>Designer: {nft.metadata.artist}</p>
 									<p>Minted By: {shortenAddress(nft.creator.id)}</p>
 								</div>
