@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import ChartData from './ChartData';
 
-import EternalBattleStake from '../modals/actions/EternalBattleStake';
+import EternalBattleStake from './modals/EternalBattleStake';
 import AllowDelegates from '../modals/actions/AllowDelegates';
 import { usePriceFeedContract } from '../../hooks/usePriceFeed';
 
@@ -39,7 +39,7 @@ const formatPlusMinus = (priceChange) => {
 	return <span className={`${isPositive ? 'text-green-600' : 'text-red-600'}`}>{`${isPositive ? '+' : ''}${priceChange.toFixed(2)}%`}</span>;
 };
 
-const CryptoTracker = ({ priceFeed }) => {
+const PairTrackerCard = ({ priceFeed }) => {
 	const cryptoName = priceFeed.baseName.toLowerCase();
 	const { contractPriceFeed } = usePriceFeedContract();
 
@@ -116,4 +116,4 @@ const CryptoTracker = ({ priceFeed }) => {
 	);
 };
 
-export default CryptoTracker;
+export default PairTrackerCard;

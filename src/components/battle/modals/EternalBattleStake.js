@@ -6,8 +6,8 @@ import { useSendTx } from '../../../hooks/TxContext';
 import { useLogin, useReadyToTransact } from '../../../hooks/Web3Context';
 
 import useUserAccount from '../../../hooks/useUserAccount';
-import WaitingConfirmation from '../WaitingConfirmation';
-import ErrorDialogue from '../ErrorDialogue';
+import WaitingConfirmation from '../../modals/WaitingConfirmation';
+import ErrorDialogue from '../../modals/ErrorDialogue';
 
 import { getSubclassBonus } from '../../../hooks/useNFTUtils';
 import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
@@ -23,7 +23,7 @@ const rangeDefaults = {
 };
 
 const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggleSide }) => {
-	const { mainIndex, userNFTs, account, userIsLoading } = useUserAccount();
+	const { mainIndex, userNFTs, account } = useUserAccount();
 	const { contractBattle } = useEternalBattleContract();
 
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
@@ -114,9 +114,9 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 
 	return (
 		<>
-			<div className="w-full h-full fixed flex justify-center z-20 top-0 left-0">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
-				<div className=" w-11/12 max-w-420 h-500 center border-gray-400 rounded z-30 tracking-wide shadow-xl bg-indigo-100 text-black">
+			<div className="w-full h-full fixed flex justify-center z-30 top-0 left-0">
+				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 bg-opacity-50 bg-black"></div>
+				<div className=" w-11/12 max-w-420 h-500 center border-gray-400 rounded tracking-wide shadow-xl bg-indigo-100 text-black">
 					<div className="flex items-center justify-end">
 						<span onClick={toggle} className="cursor-pointer px-4 py-2 text-gray-900 hover:text-gray-600">
 							<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -130,11 +130,6 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 						{account && userNFT && (
 							<div>
 								<NFTInventoryCard nft={userNFT} stats={baseStats} showBase={true} />
-								{/* <p className="text-sm px-8 my-4 text-gray-500">
-									Send your <span className="">{userNFT.metadata.coin}</span> Meral to join <br></br>
-									<span className="">{allyName}'s</span> Eternal Battle against
-									<span className="">{` ${enemyName}!`}</span>
-								</p> */}
 								<div className="flex justify-center text-xl w-full mt-6">
 									<span onClick={toggleSide} className={`px-4 border-b-4 ${long ? 'border-green-700' : 'cursor-pointer hover:text-green-500 text-gray-400 transition duration-100'}`}>
 										JOIN {priceFeed.baseSymbol}

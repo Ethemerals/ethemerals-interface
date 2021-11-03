@@ -1,9 +1,9 @@
 const ErrorDialogue = ({ toggle, message }) => {
 	return (
 		<>
-			<div className="w-full h-full flex justify-center fixed top-0 left-0">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-40 bg-black"></div>
-				<div className=" w-96 h-64 center border-gray-400 bg-opacity-100 rounded-2xl overflow-hidden z-30 tracking-wide shadow-xl bg-white">
+			<div className="w-full h-full flex justify-center fixed top-0 left-0 z-40">
+				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 bg-opacity-40 bg-black"></div>
+				<div className=" w-96 h-64 center border-gray-400 bg-opacity-100 rounded-2xl overflow-hidden tracking-wide shadow-xl bg-white">
 					<div className="flex justify-end">
 						<span onClick={toggle} className="cursor-pointer p-4 text-black hover:text-gray-500">
 							<svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">

@@ -22,6 +22,9 @@ import dragon from '../assets/dragon.png';
 import boots from '../assets/boots.png';
 import titleEthem from '../assets/title_ethem.svg';
 import iconSelected from '../assets/icon_selected.svg';
+import iconDetail from '../assets/battle/icon_detail.svg';
+import iconRevive from '../assets/battle/icon_revive.svg';
+import iconUnstake from '../assets/battle/icon_unstake.svg';
 
 const Images = {
 	test,
@@ -48,6 +51,12 @@ const Images = {
 	iconPet,
 	titleEthem,
 	iconSelected,
+};
+
+export const battleImages = {
+	iconDetail,
+	iconRevive,
+	iconUnstake,
 };
 
 export default Images;

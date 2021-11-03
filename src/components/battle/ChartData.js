@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { VictoryLine, VictoryChart, VictoryAxis, VictoryTooltip, VictoryVoronoiContainer } from 'victory';
 import format from 'date-fns/format';
-import { formatPrice } from './CryptoTracker';
+import { formatPrice } from './PairTrackerCard';
 
 const intervals = [
 	{

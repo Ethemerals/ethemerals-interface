@@ -89,7 +89,7 @@ const Navbar = () => {
 	return (
 		<>
 			{/* <!-- navbar goes here --> */}
-			<animated.header style={navbarTopStyles} className="top-0 left-0 right-0 z-50 fixed">
+			<animated.header style={navbarTopStyles} className="top-0 left-0 right-0 z-30 fixed">
 				<nav className="px-4 py-3">
 					<div className="flex items-center">
 						{/* <!-- logo --> */}
@@ -130,7 +130,7 @@ const Navbar = () => {
 					</div>
 				</nav>
 			</animated.header>
-			<header className="top-0 left-0 right-0 z-50 mx-auto w-full sm:hidden">
+			<header className="top-0 left-0 right-0 z-30 mx-auto w-full sm:hidden">
 				<nav>
 					{/* <!-- mobile menu --> */}
 					{/* <!-- mobile button goes here --> */}

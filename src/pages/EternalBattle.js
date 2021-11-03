@@ -13,6 +13,7 @@ const EternalBattle = () => {
 
 			<EternalBattleCard priceFeed={PriceFeeds[0]} />
 			<EternalBattleCard priceFeed={PriceFeeds[1]} />
+			<div className="h-96"></div>
 		</div>
 	);
 };

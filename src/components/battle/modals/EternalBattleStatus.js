@@ -4,8 +4,8 @@ import { useWeb3, useReadyToTransact } from '../../../hooks/Web3Context';
 
 import { useEternalBattleContract, useEternalBattleGetChange } from '../../../hooks/useEternalBattle';
 import useUserAccount from '../../../hooks/useUserAccount';
-import WaitingConfirmation from '../WaitingConfirmation';
-import ErrorDialogue from '../ErrorDialogue';
+import WaitingConfirmation from '../../modals/WaitingConfirmation';
+import ErrorDialogue from '../../modals/ErrorDialogue';
 
 import Spinner from '../../Spinner';
 
