@@ -29,6 +29,7 @@ import All from './pages/All';
 import Web3ContextProvider from './hooks/Web3Context';
 import TxContextProvider from './hooks/TxContext';
 import Receipt from './components/modals/Receipt';
+import EBContextProvider from './hooks/EternalBattleContext';
 // import ClaimHighestHonor from './pages/ClaimHighestHonor';
 import Pets from './pages/Pets';
 import Items from './pages/Items';
@@ -77,7 +78,9 @@ function App() {
 									<Art />
 								</Route> */}
 								<Route exact path="/battle">
-									<EternalBattle />
+									<EBContextProvider>
+										<EternalBattle />
+									</EBContextProvider>
 								</Route>
 								{/* <Route exact path="/battle/eternal">
 									<BattleEternal />

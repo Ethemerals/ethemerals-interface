@@ -3,6 +3,7 @@ import ReactTooltip from 'react-tooltip';
 import useUserAccount from '../../hooks/useUserAccount';
 
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../hooks/useEternalBattle';
+import { useEBAddScoreContext, useEBNftsRegisterContext } from '../../hooks/EternalBattleContext';
 
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
@@ -15,10 +16,12 @@ import EBDetails from './modals/EBDetails';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
-const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) => {
+const StakedNFTCard = ({ nft, contractBattle, priceFeed, long }) => {
 	const { account } = useUserAccount();
 	const { scoreChange } = useEternalBattleGetChange(contractBattle, nft.id);
 	const { stake } = useEternalBattleGetStake(contractBattle, nft.id);
+	const addScore = useEBAddScoreContext();
+	const registerNFT = useEBNftsRegisterContext();
 
 	const { elements } = useNFTUtils();
 	const { meralImagePaths } = useMeralImagePaths(nft.id);
@@ -43,18 +46,24 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 	}, [account, nft]);
 
 	useEffect(() => {
+		registerNFT(nft);
+	}, [nft]);
+
+	useEffect(() => {
 		if (scoreChange) {
 			let currentScore = parseInt(nft.score);
 			let changeScore = parseInt(scoreChange.score);
 			let resultScore = scoreChange.win ? currentScore + changeScore : currentScore - changeScore;
 			setScoreCalculated(resultScore);
+			// addScore(priceFeed.id, nft, scoreChange.win ? changeScore : -1 * changeScore, long);
+			addScore(priceFeed.id, nft, resultScore, long);
 
 			let currentRewards = parseInt(nft.rewards);
 			let changeRewards = parseInt(scoreChange.rewards);
 			let resultRewards = scoreChange.win ? currentRewards + changeRewards : currentRewards;
 			setRewardsCalculated(resultRewards);
 		}
-	}, [scoreChange, nft]);
+	}, [scoreChange, nft, long, addScore, priceFeed]);
 
 	if (!meralImagePaths) {
 		return null;

@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
 
 import { useEternalBattleAccount, useEternalBattleContract } from '../../hooks/useEternalBattle';
-import { usePriceFeedContract } from '../../hooks/usePriceFeed';
-
+import { useEBScoreContext } from '../../hooks/EternalBattleContext';
 import StakedNFTCard from './StakedNFTCard';
 
 import PairTrackerCard from './PairTrackerCard';
 
 const EternalBattleCard = ({ priceFeed }) => {
-	const { contractPriceFeed } = usePriceFeedContract();
 	const { contractBattle } = useEternalBattleContract();
-
 	const { accountEternalBattle } = useEternalBattleAccount();
+	const allScores = useEBScoreContext();
 
 	const [stakedNFTs, setStakedNFTs] = useState(undefined);
 	const [longNFTs, setLongNFTs] = useState(undefined);
 	const [shortNFTs, setShortNFTs] = useState(undefined);
+
+	const [healthBar, setHealthBar] = useState(undefined);
 
 	const [counterTradeBonus, setCounterTradeBonus] = useState(undefined);
 
@@ -32,6 +32,29 @@ const EternalBattleCard = ({ priceFeed }) => {
 		}
 		setStakedNFTs(staked);
 	}, [accountEternalBattle, priceFeed.id]);
+
+	useEffect(() => {
+		console.log(allScores);
+		if (allScores) {
+			let scores = allScores[priceFeed.id];
+			let longScores = 0;
+			let shortScores = 0;
+			let highestLong = 0;
+			let highestLongId;
+			let highestShort = 0;
+			let highestShortId;
+			for (const key in scores) {
+				if (scores[key].long) {
+					let score = scores[key].score;
+					longScores += score;
+					// if
+				} else {
+					shortScores += scores[key].score;
+				}
+			}
+			console.log(longScores, shortScores);
+		}
+	}, [allScores]);
 
 	useEffect(() => {
 		if (stakedNFTs) {
@@ -63,9 +86,7 @@ const EternalBattleCard = ({ priceFeed }) => {
 						LONGS ({longNFTs && longNFTs.length > 0 && longNFTs.length})
 						<span className="text-brandColor-purple">{longNFTs && shortNFTs && counterTradeBonus > 1 && longNFTs.length < shortNFTs.length && ` - Bonus ELF Multiplier x${counterTradeBonus}`}</span>
 					</h3>
-					{longNFTs &&
-						longNFTs.length > 0 &&
-						longNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
+					{longNFTs && longNFTs.length > 0 && longNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} priceFeed={priceFeed} long={true} />)}
 				</div>
 				<div className="flex-none bg-white">
 					<PairTrackerCard priceFeed={priceFeed} cryptoName={priceFeed.baseName.toLowerCase()} />
@@ -77,9 +98,7 @@ const EternalBattleCard = ({ priceFeed }) => {
 						<span className="text-brandColor-purple">{longNFTs && shortNFTs && counterTradeBonus > 1 && longNFTs.length > shortNFTs.length && ` - Bonus ELF Multiplier x${counterTradeBonus}`}</span>
 					</h3>
 
-					{shortNFTs &&
-						shortNFTs.length > 0 &&
-						shortNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} contractPriceFeed={contractPriceFeed} priceFeed={priceFeed} />)}
+					{shortNFTs && shortNFTs.length > 0 && shortNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} priceFeed={priceFeed} long={false} />)}
 				</div>
 			</div>
 		</>

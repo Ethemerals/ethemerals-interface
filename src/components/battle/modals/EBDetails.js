@@ -202,7 +202,7 @@ const EBDetails = ({ nft, toggle, contractBattle, priceFeed, isOwned }) => {
 													Use your <strong>{reviverNFT.metadata.coin}</strong> Meral to revive her.
 												</p>
 
-												<p className="text-gray-600 text-xs my-2">Your Meral will be steal 500 ELF from {nft.metadata.coin} ... as a reward 🥰</p>
+												<p className="text-gray-600 text-xs my-2">Your Meral will extract 500 ELF from {nft.metadata.coin} ... as a reward 🥰</p>
 											</div>
 
 											{reviverNFT && <MeralThumbnail nft={reviverNFT} />}
