@@ -7,9 +7,8 @@ import Spinner from '../../Spinner';
 import NFTInventoryCard from '../../NFTInventoryCard';
 
 import { useSendTx } from '../../../hooks/TxContext';
-import { useWeb3, useReadyToTransact } from '../../../hooks/Web3Context';
+import { useReadyToTransact } from '../../../hooks/Web3Context';
 
-import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
 import ErrorDialogue from '../../modals/ErrorDialogue';
 

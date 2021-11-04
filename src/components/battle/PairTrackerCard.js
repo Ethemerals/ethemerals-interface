@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import ChartData from './ChartData';
 
-import EternalBattleStake from './modals/EternalBattleStake';
+import EBStake from './modals/EBStake';
 import AllowDelegates from '../modals/actions/AllowDelegates';
 import { usePriceFeedContract } from '../../hooks/usePriceFeed';
 
@@ -104,11 +104,16 @@ const PairTrackerCard = ({ priceFeed }) => {
 					<img className="mx-auto" src={image?.large} alt={`${name} logo`} />
 
 					<h3 className="text-xl ">{priceFeed.ticker}</h3>
-					<p className="mb-4">{name}</p>
+					<p className="mb-4 text-gray-500">{`${priceFeed.baseName} vs ${priceFeed.quoteName}`}</p>
 
-					<button onClick={() => handleJoinBattle(true)} className=" bg-blue-500 px-4 text-xl shadow rounded text-white py-1 hover:bg-blue-400 transition duration-300">
-						JOIN THE BATTLE!
-					</button>
+					<div className="flex items-start justify-center space-x-3">
+						<button onClick={() => handleJoinBattle(true)} className=" bg-gray-600 px-2 shadow text-white py-1 hover:bg-green-600 hover:shadow-lg transition duration-300">
+							JOIN {priceFeed.baseSymbol}
+						</button>
+						<button onClick={() => handleJoinBattle(false)} className=" bg-gray-600 px-2 shadow text-white py-1 hover:bg-red-600 hover:shadow-lg transition duration-300">
+							JOIN {priceFeed.quoteSymbol}
+						</button>
+					</div>
 
 					<h4 className="chart-crypto-price mt-4 mb-8">
 						{formatPrice(marketData?.current_price?.usd)}
@@ -119,7 +124,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 				</div>
 			</div>
 			{isAllowDelegatesOpen && <AllowDelegates toggle={toggleAllowDelegates} toggleStake={toggleJoinBattle} EBApproved={EBApproved} />}
-			{isCreateStakeOpen && <EternalBattleStake contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattle} priceFeed={priceFeed} long={isLong} toggleSide={toggleLong} />}
+			{isCreateStakeOpen && <EBStake contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattle} priceFeed={priceFeed} long={isLong} toggleSide={toggleLong} />}
 			{isConnectWalletOpen && <ConnectWallet contractPriceFeed={contractPriceFeed} toggle={toggleConnectWallet} priceFeed={priceFeed} long={isLong} toggleSide={toggleLong} />}
 		</>
 	);

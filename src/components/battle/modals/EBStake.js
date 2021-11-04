@@ -17,12 +17,12 @@ import NFTInventoryCard from '../../NFTInventoryCard';
 
 const rangeDefaults = {
 	min: 100,
-	max: 250,
+	max: 254,
 	default: 200,
 	step: 1,
 };
 
-const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggleSide }) => {
+const EBStake = ({ contractPriceFeed, toggle, priceFeed, long, toggleSide }) => {
 	const { mainIndex, userNFTs, account } = useUserAccount();
 	const { contractBattle } = useEternalBattleContract();
 
@@ -116,7 +116,7 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 		<>
 			<div className="w-full h-full fixed flex justify-center z-30 top-0 left-0">
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 bg-opacity-50 bg-black"></div>
-				<div className=" w-11/12 max-w-420 h-500 center border-gray-400 rounded tracking-wide shadow-xl bg-indigo-100 text-black">
+				<div className=" w-11/12 max-w-420 h-500 center border-gray-400 rounded tracking-wide shadow-xl bg-gray-50 text-black">
 					<div className="flex items-center justify-end">
 						<span onClick={toggle} className="cursor-pointer px-4 py-2 text-gray-900 hover:text-gray-600">
 							<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -169,16 +169,20 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 											</div>
 										)}
 										renderThumb={({ props }) => (
-											<div {...props} className="w-5 h-5 transform translate-x-10 bg-indigo-700 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" />
+											<div {...props} className="w-5 h-5 transform translate-x-10 bg-blue-700 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" />
 										)}
 									/>
 
 									<p className="my-3 font-bold">Position Size: {position} HP</p>
 
-									<button onClick={onSubmitStake} className="mt-2 mb-4 bg-indigo-700 text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-indigo-400 transition duration-300">
-										JOIN!
+									<button
+										onClick={onSubmitStake}
+										className={`mt-2 mb-4 bg-gray-600 text-white px-4 py-1 m-2 shadow ${long ? 'hover:bg-green-500' : 'hover:bg-red-500'} hover:shadow-lg transition duration-300`}
+									>
+										SEND <strong>{userNFT && userNFT.metadata.coin}</strong> TO BATTLE!
 									</button>
-									<div className="text-xs text-gray-500 text-left p-2 absolute bottom-0 pb-2 bg-white w-full">
+
+									<div className="text-xs text-gray-500 text-left p-2 absolute bottom-0 pb-2 bg-gray-200 w-full">
 										<p className="pb-1 font-bold">EXAMPLE OUTCOME WITH STATS MODIFIERS:</p>
 										<p>
 											If {priceFeed.ticker} {long ? 'gains 10% in price' : 'loses 10% in price'} you win:
@@ -202,17 +206,6 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 								</Link>
 							</>
 						)}
-
-						{/* NO ACCOUNT */}
-						{/* {!account && (
-							<>
-								<p className="px-10 mt-10 mb-4">Login to your account!</p>
-
-								<button onClick={login} className="bg-brandColor text-white text-lg text-bold px-4 py-1 m-2 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
-									Connect Wallet
-								</button>
-							</>
-						)} */}
 					</div>
 				</div>
 			</div>
@@ -222,4 +215,4 @@ const EternalBattleStake = ({ contractPriceFeed, toggle, priceFeed, long, toggle
 	);
 };
 
-export default EternalBattleStake;
+export default EBStake;

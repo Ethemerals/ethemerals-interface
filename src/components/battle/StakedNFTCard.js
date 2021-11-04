@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import useUserAccount from '../../hooks/useUserAccount';
-import EternalBattleStatus from './modals/EternalBattleStatus';
 
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../hooks/useEternalBattle';
 
@@ -77,13 +76,17 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 
 	return (
 		<>
-			<div style={{ backgroundColor: elements[nft.bgId].color, width: '280px' }} className="flex h-74 mb-1 mx-1">
+			<div
+				onClick={toggleMoreDetails}
+				style={{ backgroundColor: elements[nft.bgId].color, width: '280px' }}
+				className="flex h-74 mb-1 mx-1 cursor-pointer hover:shadow-xl  opacity-80 hover:opacity-100 transition duration-300"
+			>
 				<div className="relative">
-					<img onClick={toggleMoreDetails} className="cursor-pointer" width="74" height="74" src={bgImg} alt="meral thumbnail" />
+					<img width="74" height="74" src={bgImg} alt="meral thumbnail" />
 					<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-50 w-full absolute bottom-0 text-left">#{nft.id.padStart(4, '0')}</span>
 				</div>
 
-				<div style={{ width: '214px' }} className="bg-gray-50">
+				<div style={{ width: '214px' }} className="bg-white">
 					<h4 style={{ backgroundColor: elements[nft.bgId].color }} className="font-bold text-md uppercase pl-1 overflow-hidden whitespace-nowrap">
 						{nft.metadata.coin}
 					</h4>
@@ -125,13 +128,7 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 							)}
 							{!isOwned && (
 								<>
-									<button
-										onClick={toggleRevive}
-										disabled={scoreCalculated > 25}
-										data-tip
-										data-for="ttRevive"
-										className={`text-yellow-400 mr-1 opacity-10 ${scoreCalculated <= 25 ? 'opacity-100  hover:text-yellow-600 cursor-pointer transition duration-300' : ''}`}
-									>
+									<button data-tip data-for="ttRevive" className={`text-yellow-500 mr-1 opacity-10 ${scoreCalculated <= 25 ? 'opacity-100 cursor-pointer transition duration-300' : ''}`}>
 										<SVGRevive />
 									</button>
 
@@ -140,14 +137,6 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 									</ReactTooltip>
 								</>
 							)}
-
-							<button onClick={toggleMoreDetails} data-tip data-for="ttDetail" className="text-blue-300 hover:text-blue-500 cursor-pointer transition duration-300">
-								<SVGDetail />
-							</button>
-
-							<ReactTooltip id="ttDetail" type="info" effect="solid">
-								<span>More Details</span>
-							</ReactTooltip>
 						</div>
 					</div>
 				</div>

@@ -12,7 +12,7 @@ const ConnectWallet = ({ toggle }) => {
 		<>
 			<div className="w-full h-full fixed flex justify-center z-30 top-0 left-0">
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 bg-opacity-50 bg-black"></div>
-				<div className=" w-11/12 max-w-420 h-420 center border-gray-400 rounded tracking-wide shadow-xl bg-indigo-100 text-black">
+				<div className=" w-11/12 max-w-420 h-420 center border-gray-400 rounded tracking-wide shadow-xl bg-gray-50 text-black">
 					<div className="flex items-center justify-end">
 						<span onClick={toggle} className="cursor-pointer px-4 py-2 text-gray-900 hover:text-gray-600">
 							<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
