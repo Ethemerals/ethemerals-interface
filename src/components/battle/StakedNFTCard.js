@@ -4,17 +4,14 @@ import useUserAccount from '../../hooks/useUserAccount';
 
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../hooks/useEternalBattle';
 
-import EBMoreDetails from './modals/EBMoreDetails';
-import EBUnstake from './modals/EBUnstake';
-
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
 import Spinner from '../Spinner';
 
-import SVGDetail from './svg/SVGDetail';
 import SVGRevive from './svg/SVGRevive';
 import SVGUnstake from './svg/SVGUnstake';
-import EBRevive from './modals/EBRevive';
+
+import EBDetails from './modals/EBDetails';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -27,23 +24,14 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 	const { meralImagePaths } = useMeralImagePaths(nft.id);
 
 	const [isOwned, setIsOwned] = useState(false);
-	const [isUnstakeOpen, setIsUnstakeOpen] = useState(false);
-	const [isMoreDetailsOpen, setIsMoreDetailsOpen] = useState(false);
-	const [isReviveOpen, setIsReviveOpen] = useState(false);
+
+	const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
 	const [scoreCalculated, setScoreCalculated] = useState(undefined);
 	const [rewardsCalculated, setRewardsCalculated] = useState(undefined);
 
-	const toggleUnstake = () => {
-		setIsUnstakeOpen(!isUnstakeOpen);
-	};
-
-	const toggleMoreDetails = () => {
-		setIsMoreDetailsOpen(!isMoreDetailsOpen);
-	};
-
-	const toggleRevive = () => {
-		setIsReviveOpen(!isReviveOpen);
+	const toggleDetails = () => {
+		setIsDetailsOpen(!isDetailsOpen);
 	};
 
 	useEffect(() => {
@@ -77,12 +65,12 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 	return (
 		<>
 			<div
-				onClick={toggleMoreDetails}
+				onClick={toggleDetails}
 				style={{ backgroundColor: elements[nft.bgId].color, width: '280px' }}
-				className="flex h-74 mb-1 mx-1 cursor-pointer hover:shadow-xl  opacity-80 hover:opacity-100 transition duration-300"
+				className="flex h-74 mb-1 mx-1 cursor-pointer hover:shadow-xl  opacity-90 hover:opacity-100 transition duration-300"
 			>
 				<div className="relative">
-					<img width="74" height="74" src={bgImg} alt="meral thumbnail" />
+					<img width="74" height="74" src={bgImg} alt="" />
 					<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-50 w-full absolute bottom-0 text-left">#{nft.id.padStart(4, '0')}</span>
 				</div>
 
@@ -117,7 +105,7 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 						<div className="flex">
 							{isOwned && (
 								<>
-									<button onClick={toggleUnstake} data-tip data-for="ttUnstake" className="mr-1 text-green-500 hover:text-green-700 cursor-pointer transition duration-300">
+									<button data-tip data-for="ttUnstake" className="mr-1 text-green-500 hover:text-green-700 cursor-pointer transition duration-300">
 										<SVGUnstake />
 									</button>
 
@@ -126,25 +114,22 @@ const StakedNFTCard = ({ nft, contractBattle, contractPriceFeed, priceFeed }) =>
 									</ReactTooltip>
 								</>
 							)}
-							{!isOwned && (
-								<>
-									<button data-tip data-for="ttRevive" className={`text-yellow-500 mr-1 opacity-10 ${scoreCalculated <= 25 ? 'opacity-100 cursor-pointer transition duration-300' : ''}`}>
-										<SVGRevive />
-									</button>
 
-									<ReactTooltip id="ttRevive" type="warning" effect="solid">
-										<span>Revive Meral!</span>
-									</ReactTooltip>
-								</>
-							)}
+							<>
+								<button data-tip data-for="ttRevive" className={`text-yellow-500 mr-1 opacity-10 ${scoreCalculated <= 25 ? 'opacity-100 cursor-pointer transition duration-300' : ''}`}>
+									<SVGRevive />
+								</button>
+
+								<ReactTooltip id="ttRevive" type="warning" effect="solid">
+									<span>Revive Meral!</span>
+								</ReactTooltip>
+							</>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			{isMoreDetailsOpen && <EBMoreDetails nft={nft} toggle={toggleMoreDetails} priceFeed={priceFeed} />}
-			{isUnstakeOpen && <EBUnstake nft={nft} toggle={toggleUnstake} priceFeed={priceFeed} contractBattle={contractBattle} />}
-			{isReviveOpen && <EBRevive nft={nft} toggle={toggleRevive} priceFeed={priceFeed} contractBattle={contractBattle} />}
+			{isDetailsOpen && <EBDetails nft={nft} toggle={toggleDetails} priceFeed={priceFeed} contractBattle={contractBattle} isOwned={isOwned} />}
 		</>
 	);
 };

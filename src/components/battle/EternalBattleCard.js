@@ -57,7 +57,7 @@ const EternalBattleCard = ({ priceFeed }) => {
 
 	return (
 		<>
-			<div className="flex justify-center items-stretch mt-24">
+			<div className="flex justify-center items-stretch mt-40">
 				<div className="w-72 border-white border border-r-0">
 					<h3 className="px-1 text-black text-xs mb-2 w-full bg-green-200 font-bold">
 						LONGS ({longNFTs && longNFTs.length > 0 && longNFTs.length})

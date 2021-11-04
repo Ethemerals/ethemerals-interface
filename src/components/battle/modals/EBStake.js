@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Range, getTrackBackground } from 'react-range';
 
 import { useSendTx } from '../../../hooks/TxContext';
-import { useLogin, useReadyToTransact } from '../../../hooks/Web3Context';
+import { useReadyToTransact } from '../../../hooks/Web3Context';
 
 import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
@@ -30,8 +30,6 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long, toggleSide }) => 
 
 	const sendTx = useSendTx();
 	const readyToTransact = useReadyToTransact();
-
-	const login = useLogin();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
