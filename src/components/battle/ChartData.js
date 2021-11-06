@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { VictoryLine, VictoryChart, VictoryAxis, VictoryTooltip, VictoryVoronoiContainer } from 'victory';
 import format from 'date-fns/format';
-import { formatPrice } from './PairTrackerCard';
+import { formatPrice } from '../../utils';
 
 const intervals = [
 	{
@@ -48,7 +48,7 @@ const ChartData = ({ cryptoName }) => {
 	});
 
 	return (
-		<div className="chart h-72">
+		<div className="chart h-44">
 			<div className="m-0">
 				{intervals.map((interval) => (
 					<button key={interval.value} className={`${dataInterval === interval.value ? 'text-blue-500' : 'text-gray-400 hover:text-blue-400'} px-2`} onClick={() => setDataInterval(interval.value)}>
@@ -62,8 +62,8 @@ const ChartData = ({ cryptoName }) => {
 				</div>
 			) : (
 				<VictoryChart
-					width={320}
-					height={200}
+					width={500}
+					height={300}
 					domainPadding={0}
 					containerComponent={
 						<VictoryVoronoiContainer
@@ -93,7 +93,7 @@ const ChartData = ({ cryptoName }) => {
 							axis: { stroke: 'black', strokeWidth: 1 },
 							tickLabels: {
 								fill: 'black',
-								fontSize: 10,
+								fontSize: 16,
 							},
 						}}
 						tickFormat={(x) => {

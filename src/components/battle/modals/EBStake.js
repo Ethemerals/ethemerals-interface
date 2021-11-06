@@ -129,15 +129,15 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long, toggleSide }) => 
 						{account && userNFT && (
 							<div>
 								<NFTInventoryCard nft={userNFT} stats={baseStats} showBase={true} />
-								<div className="flex justify-center text-xl w-full mt-6">
+								{/* <div className="flex justify-center text-xl w-full mt-6">
 									<span onClick={toggleSide} className={`px-4 border-b-4 ${long ? 'border-green-700' : 'cursor-pointer hover:text-green-500 text-gray-400 transition duration-100'}`}>
 										JOIN {priceFeed.baseSymbol}
 									</span>
 									<span onClick={toggleSide} className={`px-4 border-b-4 ${!long ? 'border-red-700' : 'cursor-pointer hover:text-red-500 text-gray-400 transition duration-100'}`}>
 										JOIN {priceFeed.quoteSymbol}
 									</span>
-								</div>
-								<p className="text-sm py-4">
+								</div> */}
+								<p className="py-6 mt-6 text-xl">
 									{long ? <span className="text-green-700 font-bold">LONG</span> : <span className="text-red-700 font-bold">SHORT</span>} {priceFeed.ticker} @{' '}
 									{(parseFloat(price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces)}
 								</p>
@@ -177,7 +177,7 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long, toggleSide }) => 
 										onClick={onSubmitStake}
 										className={`mt-2 mb-4 bg-gray-600 text-white px-4 py-1 m-2 shadow ${long ? 'hover:bg-green-500' : 'hover:bg-red-500'} hover:shadow-lg transition duration-300`}
 									>
-										SEND <strong>{userNFT && userNFT.metadata.coin}</strong> TO BATTLE!
+										SEND <strong className="uppercase">{userNFT && userNFT.metadata.coin}</strong> TO BATTLE!
 									</button>
 
 									<div className="text-xs text-gray-500 text-left p-2 absolute bottom-0 pb-2 bg-gray-200 w-full">

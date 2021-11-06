@@ -20,7 +20,7 @@ const StakedNFTCard = ({ nft, contractBattle, priceFeed, long }) => {
 	const { account } = useUserAccount();
 	const { scoreChange } = useEternalBattleGetChange(contractBattle, nft.id);
 	const { stake } = useEternalBattleGetStake(contractBattle, nft.id);
-	const addScore = useEBAddScoreContext();
+	const updateScore = useEBAddScoreContext();
 	const registerNFT = useEBNftsRegisterContext();
 
 	const { elements } = useNFTUtils();
@@ -47,23 +47,22 @@ const StakedNFTCard = ({ nft, contractBattle, priceFeed, long }) => {
 
 	useEffect(() => {
 		registerNFT(nft);
-	}, [nft]);
+	}, [nft, registerNFT]);
 
 	useEffect(() => {
-		if (scoreChange) {
+		if (scoreChange && stake) {
 			let currentScore = parseInt(nft.score);
 			let changeScore = parseInt(scoreChange.score);
 			let resultScore = scoreChange.win ? currentScore + changeScore : currentScore - changeScore;
 			setScoreCalculated(resultScore);
-			// addScore(priceFeed.id, nft, scoreChange.win ? changeScore : -1 * changeScore, long);
-			addScore(priceFeed.id, nft, resultScore, long);
+			updateScore(priceFeed.id, nft, currentScore, changeScore, resultScore, scoreChange.win, long, stake.positionSize);
 
 			let currentRewards = parseInt(nft.rewards);
 			let changeRewards = parseInt(scoreChange.rewards);
 			let resultRewards = scoreChange.win ? currentRewards + changeRewards : currentRewards;
 			setRewardsCalculated(resultRewards);
 		}
-	}, [scoreChange, nft, long, addScore, priceFeed]);
+	}, [scoreChange, nft, long, updateScore, priceFeed, stake]);
 
 	if (!meralImagePaths) {
 		return null;

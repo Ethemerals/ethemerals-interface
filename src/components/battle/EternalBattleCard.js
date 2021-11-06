@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 import { useEternalBattleAccount, useEternalBattleContract } from '../../hooks/useEternalBattle';
-import { useEBScoreContext } from '../../hooks/EternalBattleContext';
 import StakedNFTCard from './StakedNFTCard';
 
 import PairTrackerCard from './PairTrackerCard';
@@ -9,13 +8,10 @@ import PairTrackerCard from './PairTrackerCard';
 const EternalBattleCard = ({ priceFeed }) => {
 	const { contractBattle } = useEternalBattleContract();
 	const { accountEternalBattle } = useEternalBattleAccount();
-	const allScores = useEBScoreContext();
 
 	const [stakedNFTs, setStakedNFTs] = useState(undefined);
 	const [longNFTs, setLongNFTs] = useState(undefined);
 	const [shortNFTs, setShortNFTs] = useState(undefined);
-
-	const [healthBar, setHealthBar] = useState(undefined);
 
 	const [counterTradeBonus, setCounterTradeBonus] = useState(undefined);
 
@@ -32,29 +28,6 @@ const EternalBattleCard = ({ priceFeed }) => {
 		}
 		setStakedNFTs(staked);
 	}, [accountEternalBattle, priceFeed.id]);
-
-	useEffect(() => {
-		console.log(allScores);
-		if (allScores) {
-			let scores = allScores[priceFeed.id];
-			let longScores = 0;
-			let shortScores = 0;
-			let highestLong = 0;
-			let highestLongId;
-			let highestShort = 0;
-			let highestShortId;
-			for (const key in scores) {
-				if (scores[key].long) {
-					let score = scores[key].score;
-					longScores += score;
-					// if
-				} else {
-					shortScores += scores[key].score;
-				}
-			}
-			console.log(longScores, shortScores);
-		}
-	}, [allScores]);
 
 	useEffect(() => {
 		if (stakedNFTs) {

@@ -86,3 +86,13 @@ export function formatETH(value, fixedAmount = 3) {
 	const balance = utils.formatEther(value);
 	return parseFloat(balance).toFixed(fixedAmount);
 }
+
+export const formatPrice = (price) => {
+	const formatConfig = new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD',
+		minimumFractionDigits: 2,
+	});
+
+	return formatConfig.format(price);
+};

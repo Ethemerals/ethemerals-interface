@@ -133,6 +133,7 @@
 		text-align: center;
 		margin: auto;
 		max-width: 300px;
+		min-height: 512px;
 		position: relative;
 	}
 
