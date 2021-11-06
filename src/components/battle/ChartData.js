@@ -73,7 +73,8 @@ const ChartData = ({ cryptoName }) => {
 								<VictoryTooltip
 									style={{
 										fill: 'white',
-										fontSize: 12,
+										fontSize: 24,
+										margin: 10,
 									}}
 									flyoutStyle={{
 										fill: 'black',

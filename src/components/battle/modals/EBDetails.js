@@ -18,14 +18,18 @@ import ErrorDialogue from '../../modals/ErrorDialogue';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
-const MeralThumbnail = ({ nft }) => {
+const MeralThumbnail = ({ nft, dead = false }) => {
 	const { meralImagePaths } = useMeralImagePaths(nft.id);
 
 	if (!meralImagePaths) {
 		return null;
 	}
 	const bgImg = meralImagePaths.thumbnail;
-	return <img width="74" height="74" src={bgImg} alt="meral thumbnail" />;
+	if (dead) {
+		return <img style={{ filter: 'brightness(0.7) sepia(80%)', width: '60px', height: '60px' }} src={bgImg} alt="" />;
+	} else {
+		return <img style={{ width: '60px', height: '60px' }} src={bgImg} alt="" />;
+	}
 };
 
 const EBDetails = ({ nft, toggle, contractBattle, priceFeed, isOwned }) => {
@@ -192,11 +196,12 @@ const EBDetails = ({ nft, toggle, contractBattle, priceFeed, isOwned }) => {
 					{dead && !isOwned && (
 						<>
 							<div style={{ borderWidth: '0 0 1px 0' }} className="border-0 border-black w-full"></div>
-							<div className="m-6 text-sm h-36">
+							<div className="m-6 text-sm h-48">
 								{account && userNFTs && userNFTs.length > 0 && reviverNFT ? (
 									<>
 										<div className="flex items-start">
-											<div>
+											{nft && <MeralThumbnail nft={nft} dead={true} />}
+											<div className="px-2">
 												<p>
 													<strong>{nft.metadata.coin}</strong> has collapsed in Battle! <br></br>
 													Use your <strong>{reviverNFT.metadata.coin}</strong> Meral to revive her.
