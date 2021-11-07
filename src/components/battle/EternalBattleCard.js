@@ -36,10 +36,10 @@ const EternalBattleCard = ({ priceFeed }) => {
 			setLongNFTs(longs);
 			let shorts = stakedNFTs.filter((nft) => nft.actions[0].long === false);
 			setShortNFTs(shorts);
-			if (longs.length > shorts.length) {
+			if (shorts.length > 0 && longs.length > shorts.length) {
 				counterTradeBonus = longs.length / shorts.length;
 			}
-			if (shorts.length > longs.length) {
+			if (longs.length > 0 && shorts.length > longs.length) {
 				counterTradeBonus = shorts.length / longs.length;
 			}
 			counterTradeBonus = counterTradeBonus > 5 ? 5 : parseInt(counterTradeBonus);

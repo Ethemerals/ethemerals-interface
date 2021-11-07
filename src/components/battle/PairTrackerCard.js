@@ -36,15 +36,25 @@ const Thumbnail = ({ nft }) => {
 };
 
 const EBHealthBar = ({ data }) => {
-	let longWinner = data.winLongMax > 0 ? data.winLongMax : 0;
-	let shortWinner = data.winShortMax > 0 ? data.winShortMax : 0;
+	let longWinner = data.winLongMax > 0 ? data.winLongMax : 1;
+	let shortWinner = data.winShortMax > 0 ? data.winShortMax : 1;
+
+	// make sure positive
+	longWinner *= 10000;
+	shortWinner *= 10000;
 	let winTotals = longWinner + shortWinner;
+
 	let longWinnerP = parseInt((longWinner / winTotals) * 100);
 	let shortWinnerP = parseInt((shortWinner / winTotals) * 100);
 
-	let longs = data.longsChange > 0 ? data.longsChange : 0;
-	let shorts = data.shortsChange > 0 ? data.shortsChange : 0;
+	let longs = data.longsChange > 0 ? data.longsChange : 1;
+	let shorts = data.shortsChange > 0 ? data.shortsChange : 1;
+
+	// make sure positive
+	longs *= 10000;
+	shorts *= 10000;
 	let totalScores = longs + shorts;
+
 	let longsP = parseInt((longs / totalScores) * 100);
 	let shortsP = parseInt((shorts / totalScores) * 100);
 
@@ -74,7 +84,7 @@ const EBHealthBar = ({ data }) => {
 				<div className="bg-white flex-grow text-white border-blue-200 border">
 					<div className="flex relative">
 						<div className="bg-green-200" style={{ width: `${longWinnerP - 6}%`, height: '36px' }}>
-							<span className="text-indigo-800 text-xs absolute left-0 font-bold pl-1">+{data.winLongMax}</span>
+							<span className="text-indigo-800 text-xs absolute left-0 font-bold pl-1">{data.winLongMax}</span>
 						</div>
 						<div className="bg-pink-200 text-green-200">
 							<svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,12 +92,12 @@ const EBHealthBar = ({ data }) => {
 							</svg>
 						</div>
 						<div className="bg-pink-200" style={{ width: `${shortWinnerP - 6}%`, height: '36px' }}>
-							<span className="text-indigo-800 text-xs absolute right-0 bottom-0 font-bold pr-1">+{data.winShortMax}</span>
+							<span className="text-indigo-800 text-xs absolute right-0 bottom-0 font-bold pr-1">{data.winShortMax}</span>
 						</div>
 					</div>
 					<div className="flex relative">
-						<div className="bg-green-600" style={{ width: `${longsP}%`, height: '4px' }}></div>
-						<div className="bg-pink-600" style={{ width: `${shortsP}%`, height: '4px' }}></div>
+						<div className="bg-green-600" style={{ width: `${longsP}%`, height: '5px' }}></div>
+						<div className="bg-pink-600" style={{ width: `${shortsP}%`, height: '5px' }}></div>
 					</div>
 				</div>
 				<button data-tip data-for={`ttShortWinner${data.winningShortNFT.id}`}>
@@ -234,8 +244,6 @@ const PairTrackerCard = ({ priceFeed }) => {
 
 					<ChartData isExpanded={true} cryptoName={cryptoName} />
 					<div className="h-20"></div>
-
-					{/* <button onClick={handleGetAllScores}>Click</button> */}
 				</div>
 				{healthBar && healthBar.winningLongNFT && healthBar.winningShortNFT && <EBHealthBar data={healthBar} />}
 			</div>

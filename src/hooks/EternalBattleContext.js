@@ -60,9 +60,9 @@ export default function EBContextProvider({ children }) {
 			let shorts = 0;
 			let shortsChange = 0;
 			let winningLongNFT;
-			let winLongMax = 0;
+			let winLongMax = -1000000;
 			let winningShortNFT;
-			let winShortMax = 0;
+			let winShortMax = -1000000;
 			let longPosSize = 0;
 			let shortPosSize = 0;
 

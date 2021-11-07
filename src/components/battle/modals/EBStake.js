@@ -207,7 +207,7 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long, toggleSide }) => 
 					</div>
 				</div>
 			</div>
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={`Send ${userNFT.metadata.coin} to Battle!`} />}
+			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={`Send ${userNFT.metadata.coin} ${priceFeed.id} to Battle!`} />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</>
 	);
