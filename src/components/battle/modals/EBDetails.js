@@ -15,6 +15,8 @@ import { shortenAddress } from '../../../utils';
 import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
 import ErrorDialogue from '../../modals/ErrorDialogue';
+import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
+import { messageDiscord } from '../../../utils/messageDiscord';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -32,10 +34,14 @@ const MeralThumbnail = ({ nft, dead = false }) => {
 	}
 };
 
-const EBDetails = ({ nft, toggle, contractBattle, priceFeed, isOwned }) => {
+const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, isOwned }) => {
 	const { mainIndex, userNFTs, account } = useUserAccount();
 	const { scoreChange } = useEternalBattleGetChange(contractBattle, nft.id);
 	const { stake } = useEternalBattleGetStake(contractBattle, nft.id);
+
+	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
+
+	const [confirmationMsg, setConfirmationMsg] = useState('');
 
 	const { getSubclassBonus } = useNFTUtils();
 
@@ -88,8 +94,50 @@ const EBDetails = ({ nft, toggle, contractBattle, priceFeed, isOwned }) => {
 		setIsErrorOpen(!isErrorOpen);
 	};
 
+	const msgCallbackRevive = async (priceFeed, nft, nftReviver, _price) => {
+		const priceFormated = (parseFloat(stake.startingPrice) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces);
+		const exitPriceFormated = (parseFloat(_price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces);
+		const msgData = {
+			network: process.env.REACT_APP_API_NETWORK,
+			pricefeedId: priceFeed.id,
+			name: nft.metadata.coin,
+			nameReviver: nftReviver.metadata.coin,
+			id: nft.id,
+			idReviver: nftReviver.id,
+			image: `https://ethemerals-media.s3.amazonaws.com/opensea/${nft.id}.png`,
+			long: stake.long,
+			ticker: priceFeed.ticker,
+			price: priceFormated,
+			position: stake.positionSize,
+			exitPrice: exitPriceFormated,
+		};
+		await messageDiscord('reviveebattle', msgData);
+	};
+
+	const msgCallbackUnstake = async (priceFeed, nft, _price) => {
+		const priceFormated = (parseFloat(stake.startingPrice) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces);
+		const exitPriceFormated = (parseFloat(_price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces);
+		const msgData = {
+			network: process.env.REACT_APP_API_NETWORK,
+			pricefeedId: priceFeed.id,
+			name: nft.metadata.coin,
+			id: nft.id,
+			image: `https://ethemerals-media.s3.amazonaws.com/opensea/${nft.id}.png`,
+			long: stake.long,
+			ticker: priceFeed.ticker,
+			price: priceFormated,
+			position: stake.positionSize,
+			exitPrice: exitPriceFormated,
+			scoreChange: scoreChange.score,
+			win: scoreChange.win,
+			elf: scoreChange.win ? `+${scoreChange.rewards}` : '0',
+		};
+		await messageDiscord('leaveebattle', msgData);
+	};
+
 	const onSubmitRevive = async () => {
 		if (contractBattle && readyToTransact()) {
+			setConfirmationMsg(`Revive ${nft.metadata.coin} from Battle!`);
 			setIsConfirmationOpen(true);
 			try {
 				let id = nft.id;
@@ -98,7 +146,7 @@ const EBDetails = ({ nft, toggle, contractBattle, priceFeed, isOwned }) => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractBattle.reviveToken(id, userTokenId, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, `Revived #${id} Ethemeral`, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
+				sendTx(tx.hash, `Revived #${id} Ethemeral`, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core'], true, () => msgCallbackRevive(priceFeed, nft, userNFTs[mainIndex], price));
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');
@@ -114,6 +162,7 @@ const EBDetails = ({ nft, toggle, contractBattle, priceFeed, isOwned }) => {
 
 	const onSubmitUnStake = async () => {
 		if (contractBattle && readyToTransact()) {
+			setConfirmationMsg(`Return ${nft.metadata.coin} from Battle!`);
 			setIsConfirmationOpen(true);
 
 			try {
@@ -122,7 +171,7 @@ const EBDetails = ({ nft, toggle, contractBattle, priceFeed, isOwned }) => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractBattle.cancelStake(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'cancel stake', true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
+				sendTx(tx.hash, 'cancel stake', true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core'], true, () => msgCallbackUnstake(priceFeed, nft, price));
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');
@@ -240,7 +289,7 @@ const EBDetails = ({ nft, toggle, contractBattle, priceFeed, isOwned }) => {
 							{dead && <p className="text-gray-600 text-center text-sm px-4 pb-2">Leave now or risk getting revived by another Meral!</p>}
 							<button
 								onClick={onSubmitUnStake}
-								className="flex justify-center mt-2 mx-auto bg-green-700 text-white text-lg text-bold px-4 py-1 rounded-lg shadow-lg hover:bg-green-500 transition duration-300"
+								className="flex justify-center mt-2 mx-auto bg-green-600 text-white text-lg text-bold px-4 py-1 shadow-md hover:shadow-lg hover:bg-green-500 transition duration-300"
 							>
 								Leave the Battle
 							</button>
@@ -248,7 +297,7 @@ const EBDetails = ({ nft, toggle, contractBattle, priceFeed, isOwned }) => {
 					)}
 				</div>
 			</div>
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={`Revive ${nft.metadata.coin} from Battle!`} />}
+			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={confirmationMsg} />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</>
 	);

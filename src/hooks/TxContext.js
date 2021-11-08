@@ -23,7 +23,7 @@ export default function TxContextProvider({ children }) {
 	const [miningStatus, setMiningStatus] = useState(false);
 	const [receipt, setReceipt] = useState({ status: -1 });
 
-	const sendTx = async (hash, method, shouldInvalidate = false, keys = ['core']) => {
+	const sendTx = async (hash, method, shouldInvalidate = false, keys = ['core'], sendMessage = false, msgCallback) => {
 		setMiningStatus(true);
 		provider.once(hash, (receipt) => {
 			receiptTx(receipt, method);
@@ -32,6 +32,10 @@ export default function TxContextProvider({ children }) {
 				keys.forEach((key) => {
 					setTimeout(() => queryClient.invalidateQueries(key), 5000);
 				});
+			}
+
+			if (sendMessage) {
+				msgCallback();
 			}
 
 			setMiningStatus(false);
