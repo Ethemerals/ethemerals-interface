@@ -77,11 +77,12 @@ function App() {
 								{/* <Route exact path="/art">
 									<Art />
 								</Route> */}
-								<Route exact path="/battle">
-									<EBContextProvider>
+								<EBContextProvider>
+									<Route exact path="/battle">
 										<EternalBattle />
-									</EBContextProvider>
-								</Route>
+									</Route>
+								</EBContextProvider>
+
 								{/* <Route exact path="/battle/eternal">
 									<BattleEternal />
 								</Route>
