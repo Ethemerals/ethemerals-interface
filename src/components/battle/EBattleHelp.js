@@ -19,7 +19,7 @@ const EBattleHelp = () => {
 			<p className="mt-2">
 				Market data is sourced directly onchain from the{' '}
 				<a href="https://data.chain.link/" className="text-blue-600" target="blank" rel="noreferrer">
-					Chailinks Data Feeds.{' '}
+					Chainlinks Data Feeds.{' '}
 				</a>
 				If you have suggested markets, encounter bugs or need general support please shout out in our{' '}
 				<a href={Links.DISCORD} className="text-blue-600" target="blank" rel="noreferrer">
