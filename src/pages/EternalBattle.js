@@ -23,13 +23,13 @@ const EternalBattle = () => {
 
 				<button
 					onClick={() => history.push(`/battle/0`)}
-					className={`${priceFeedId === 0 ? 'bg-blue-500' : 'bg-blue-300 hover:bg-blue-400 transition duration-300'} py-1 px-2 mx-1 focus:outline-none`}
+					className={`${priceFeedId === 0 ? 'bg-blue-900' : 'bg-blue-300 hover:bg-blue-400 transition duration-300'} py-1 px-2 mx-1 focus:outline-none`}
 				>
 					{PriceFeeds[0].ticker}
 				</button>
 				<button
 					onClick={() => history.push(`/battle/1`)}
-					className={`${priceFeedId === 1 ? 'bg-blue-500' : 'bg-blue-300 hover:bg-blue-400 transition duration-300'} py-1 px-2 mx-1 focus:outline-none`}
+					className={`${priceFeedId === 1 ? 'bg-blue-900' : 'bg-blue-300 hover:bg-blue-400 transition duration-300'} py-1 px-2 mx-1 focus:outline-none`}
 				>
 					{PriceFeeds[1].ticker}
 				</button>
