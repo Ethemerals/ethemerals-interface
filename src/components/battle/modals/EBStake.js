@@ -14,7 +14,6 @@ import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
 import { useEternalBattleContract, winCase, loseCase } from '../../../hooks/useEternalBattle';
 
 import NFTInventoryCard from '../../NFTInventoryCard';
-import { messageDiscord } from '../../../utils/messageDiscord';
 
 const rangeDefaults = {
 	min: 100,
@@ -85,22 +84,6 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 		setIsErrorOpen(!isErrorOpen);
 	};
 
-	const msgCallback = async (priceFeed, nft, long, _price, position) => {
-		const priceFormated = (parseFloat(_price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces);
-		const msgData = {
-			network: process.env.REACT_APP_API_NETWORK,
-			pricefeedId: priceFeed.id,
-			name: nft.metadata.coin,
-			id: nft.id,
-			image: `https://ethemerals-media.s3.amazonaws.com/opensea/${nft.id}.png`,
-			long: long,
-			ticker: priceFeed.ticker,
-			price: priceFormated,
-			position: position,
-		};
-		await messageDiscord('enterebattle', msgData);
-	};
-
 	const onSubmitStake = async () => {
 		if (contractBattle && readyToTransact()) {
 			setIsConfirmationOpen(true);
@@ -114,7 +97,7 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 				const tx = await contractBattle.createStake(id, pricefeedId, position, long, { gasLimit });
 				console.log(tx);
 
-				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, 'account', 'account_eternalBattle'], true, () => msgCallback(priceFeed, userNFT, long, price, position));
+				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, 'account', 'account_eternalBattle']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');

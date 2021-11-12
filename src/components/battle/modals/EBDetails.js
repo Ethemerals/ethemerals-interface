@@ -15,8 +15,6 @@ import { shortenAddress } from '../../../utils';
 import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
 import ErrorDialogue from '../../modals/ErrorDialogue';
-import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
-import { messageDiscord } from '../../../utils/messageDiscord';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -38,8 +36,6 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 	const { mainIndex, userNFTs, account } = useUserAccount();
 	const { scoreChange } = useEternalBattleGetChange(contractBattle, nft.id);
 	const { stake } = useEternalBattleGetStake(contractBattle, nft.id);
-
-	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 
 	const [confirmationMsg, setConfirmationMsg] = useState('');
 
@@ -94,47 +90,6 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 		setIsErrorOpen(!isErrorOpen);
 	};
 
-	const msgCallbackRevive = async (priceFeed, nft, nftReviver, _price) => {
-		const priceFormated = (parseFloat(stake.startingPrice) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces);
-		const exitPriceFormated = (parseFloat(_price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces);
-		const msgData = {
-			network: process.env.REACT_APP_API_NETWORK,
-			pricefeedId: priceFeed.id,
-			name: nft.metadata.coin,
-			nameReviver: nftReviver.metadata.coin,
-			id: nft.id,
-			idReviver: nftReviver.id,
-			image: `https://ethemerals-media.s3.amazonaws.com/opensea/${nft.id}.png`,
-			long: stake.long,
-			ticker: priceFeed.ticker,
-			price: priceFormated,
-			position: stake.positionSize,
-			exitPrice: exitPriceFormated,
-		};
-		await messageDiscord('reviveebattle', msgData);
-	};
-
-	const msgCallbackUnstake = async (priceFeed, nft, _price) => {
-		const priceFormated = (parseFloat(stake.startingPrice) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces);
-		const exitPriceFormated = (parseFloat(_price) / 10 ** priceFeed.decimals).toFixed(priceFeed.decimalPlaces);
-		const msgData = {
-			network: process.env.REACT_APP_API_NETWORK,
-			pricefeedId: priceFeed.id,
-			name: nft.metadata.coin,
-			id: nft.id,
-			image: `https://ethemerals-media.s3.amazonaws.com/opensea/${nft.id}.png`,
-			long: stake.long,
-			ticker: priceFeed.ticker,
-			price: priceFormated,
-			position: stake.positionSize,
-			exitPrice: exitPriceFormated,
-			scoreChange: scoreChange.score,
-			win: scoreChange.win,
-			elf: scoreChange.win ? `+${scoreChange.rewards}` : '0',
-		};
-		await messageDiscord('leaveebattle', msgData);
-	};
-
 	const onSubmitRevive = async () => {
 		if (contractBattle && readyToTransact()) {
 			setConfirmationMsg(`Revive ${nft.metadata.coin} from Battle!`);
@@ -146,7 +101,7 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractBattle.reviveToken(id, userTokenId, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, `Revived #${id} Ethemeral`, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core'], true, () => msgCallbackRevive(priceFeed, nft, userNFTs[mainIndex], price));
+				sendTx(tx.hash, `Revived #${id} Ethemeral`, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');
@@ -171,7 +126,7 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractBattle.cancelStake(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'cancel stake', true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core'], true, () => msgCallbackUnstake(priceFeed, nft, price));
+				sendTx(tx.hash, 'cancel stake', true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');
