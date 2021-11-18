@@ -100,7 +100,7 @@ const NFTDetails = () => {
 			<div className="page_bg"></div>
 			<BackButton />
 
-			<div className="nft_details_container flex items-center justify-center mx-auto overflow-hidden">
+			<div className="nft_details_container flex items-center justify-center mx-auto overflow-hidden mt-10 text-white">
 				{/* MAIN CARD */}
 				<div className="nft_details_bg relative">
 					{/* LEFT BAR */}

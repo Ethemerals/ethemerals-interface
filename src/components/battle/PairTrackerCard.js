@@ -122,7 +122,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 	return (
 		<>
 			<div className="chart-card bg-white text-black chart-expanded w-80">
-				<div className="relative pt-4">
+				<div className="pt-4">
 					<img className="mx-auto" src={image?.large} alt={`${name} logo`} />
 
 					<h3 className="text-xl ">{priceFeed.ticker}</h3>

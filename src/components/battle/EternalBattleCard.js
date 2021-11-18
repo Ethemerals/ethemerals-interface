@@ -61,7 +61,7 @@ const EternalBattleCard = ({ priceFeed }) => {
 					</h3>
 					{longNFTs && longNFTs.length > 0 && longNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} priceFeed={priceFeed} long={true} />)}
 				</div>
-				<div className="flex-none bg-white">
+				<div className="bg-white">
 					<PairTrackerCard priceFeed={priceFeed} cryptoName={priceFeed.baseName.toLowerCase()} />
 				</div>
 

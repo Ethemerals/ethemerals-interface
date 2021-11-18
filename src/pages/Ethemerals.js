@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
 import NFTPreviewCard from '../components/NFTPreviewCard';
-import { useHistory } from 'react-router-dom';
 import Links from '../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
+import FilterSearch from '../components/FilterSearch';
+import { metaCoinName } from '../constants/MetadataStats';
+import FilterBar from '../components/FilterBar';
 
 const GET_NFTS = gql`
 	query ($first: Int!, $skip: Int!) {
@@ -58,7 +60,7 @@ const PaginationBar = ({ handlePreviousPage, handleNextPage, page, setPage }) =>
 				type="button"
 				onClick={handlePreviousPage}
 				disabled={page === 0}
-				className="cursor-pointer text-gray-50 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none mr-4"
+				className="cursor-pointer text-indigo-300 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none mr-4"
 			>
 				<div className="w-6 h-6">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
@@ -72,7 +74,7 @@ const PaginationBar = ({ handlePreviousPage, handleNextPage, page, setPage }) =>
 				type="button"
 				onClick={handleNextPage}
 				disabled={page === 19}
-				className="cursor-pointer text-gray-50 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none ml-4"
+				className="cursor-pointer text-indigo-300 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none ml-4"
 			>
 				<div className="w-6 h-6" style={{ transform: 'rotate(180deg)' }}>
 					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
@@ -127,11 +129,25 @@ const PageNumbers = ({ page, setPage }) => {
 };
 
 const Ethemerals = () => {
-	const history = useHistory();
-
 	const [page, setPage] = useState(0);
 
 	const { isLoading, isError, data } = useQuery([`nfts`, page], () => getMerals(page), { keepPreviousData: true }); // TODO
+
+	const [coinData, setCoinData] = useState(undefined);
+
+	const [coinFilterList, setCoinFilterList] = useState([]);
+
+	useEffect(() => {
+		let _coins = [];
+		for (let i = 1; i < metaCoinName.length; i++) {
+			//skip zero
+			_coins.push({
+				id: i,
+				name: metaCoinName[i],
+			});
+		}
+		setCoinData(_coins);
+	}, []);
 
 	const handleNextPage = () => {
 		setPage((old) => old + 1);
@@ -142,32 +158,49 @@ const Ethemerals = () => {
 	};
 
 	return (
-		<div className="scrollbar_pad">
+		<div>
 			<div className="page_bg"></div>
-			<div className="text-sm font-bold text-white sm:hidden mt-4 text-center">SORT BY</div>
-			<div className="flex items-center mx-auto mt-2 sm:mt-10 text-sm sm:text-base justify-center">
-				<button onClick={() => history.push(`/ethemerals`)} className={`bg-indigo-500 py-1 px-2 mx-1 rounded focus:outline-none`}>
-					Minted
-				</button>
-				<button onClick={() => history.push(`/ethemerals/mc`)} className={`bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}>
-					Marketcap Rank
-				</button>
+			{/* MAIN */}
+			<div className="">
+				{/* SIDEBAR */}
+				<aside style={{ minWidth: '288px', width: '288px', backgroundColor: 'hsl(212, 39%, 90%)' }} className="h-screen top-16 fixed border-r border-gray-400 overflow-y-auto">
+					<PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />
+					<div className="pl-4 text-2xl">Filter</div>
+					<div className="">
+						{coinData && <FilterSearch data={coinData} setFilterList={setCoinFilterList} keys={['name', 'email']} filterList={coinFilterList} filterByText="by Coin" />}
+						{/* {coinData && <FilterSearch data={coinData} setFilterList={setElementFilterList} keys={['name', 'email']} filterList={ElementFilterList} filterByText="by Coin" />} */}
+					</div>
+				</aside>
+
+				<main style={{ left: '288px' }} className="mt-20 absolute">
+					<div className="flex lef items-center pl-4 h-8">
+						<FilterBar setFilterList={setCoinFilterList} filterList={coinFilterList} />
+						{/* <FilterBar setFilterList={setElementFilterList} filterList={ElementFilterList} /> */}
+					</div>
+					{/* <div className="text-sm font-bold text-white sm:hidden mt-4 text-center">SORT BY</div> */}
+					{/* <div className="flex items-center mx-auto mt-2 sm:mt-10 text-sm sm:text-base justify-center">
+						<button onClick={() => history.push(`/ethemerals`)} className={`bg-indigo-500 py-1 px-2 mx-1 rounded focus:outline-none`}>
+							Minted
+						</button>
+						<button onClick={() => history.push(`/ethemerals/mc`)} className={`bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}>
+							Marketcap Rank
+						</button>
+					</div> */}
+
+					{/* <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} /> */}
+
+					{isLoading ? (
+						<div className="flex flex-wrap mx-auto justify-center">Loading ...</div>
+					) : isError ? (
+						<div></div>
+					) : (
+						<>
+							<div className="flex flex-wrap mx-auto justify-center">{data && data.ethemerals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />)}</div>
+							{/* {data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />} */}
+						</>
+					)}
+				</main>
 			</div>
-
-			<PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />
-
-			{isLoading ? (
-				<div className="flex flex-wrap mx-auto justify-center">Loading ...</div>
-			) : isError ? (
-				<div></div>
-			) : (
-				<>
-					<div className="flex flex-wrap mx-auto justify-center">{data && data.ethemerals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} />)}</div>
-					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
-				</>
-			)}
-
-			<div className="h-40"></div>
 		</div>
 	);
 };

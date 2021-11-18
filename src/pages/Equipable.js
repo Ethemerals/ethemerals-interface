@@ -101,7 +101,7 @@ const Equipable = () => {
 	}
 
 	return (
-		<div className="scrollbar_pad">
+		<div>
 			<div className="page_bg"></div>
 			<div
 				onClick={handleOnClick}

@@ -70,7 +70,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 				<RankedStars amount={parseScore(nft.score)} />
 			</div>
 
-			<div style={{ bottom: '64px' }} className="w-full absolute z-10 flex justify-end right-2 space-x-2">
+			<div style={{ bottom: '64px' }} className="w-full absolute z-10 flex justify-end right-2 space-x-2 text-white">
 				<div className="relative">
 					<img width="30px" height="30px" src={Images.iconAtk} alt="" />
 					<span className="center text font-black">{nft.atk}</span>
@@ -87,9 +87,9 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 
 			{/* BOTTOM BAR */}
 
-			<div style={{ backgroundColor: elements[nft.bgId].color1 }} className="w-full bottom-0 absolute overflow-hidden">
+			<div style={{ backgroundColor: elements[nft.bgId].color1 }} className="w-full bottom-0 absolute overflow-hidden text-white">
 				<div className="px-2 py-1">
-					<p className="text-xs text-white">
+					<p className="text-xs">
 						#<span className="text-sm font-bold">{nft.id.padStart(4, '0')}</span>
 					</p>
 					<p className="text-2xl font-medium">{nft.metadata.coin}</p>

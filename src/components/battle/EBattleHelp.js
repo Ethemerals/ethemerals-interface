@@ -54,6 +54,7 @@ const EBattleHelp = () => {
 						<li>
 							If your Merals HP while in battle falls below 25. You risk being revived <strong>and losing 500 ELF</strong>
 						</li>
+						<li>When a Meral is revived, her HP gets reset to 100</li>
 					</ul>
 
 					<h3 className="font-bold text-lg mt-6">Counter Trade</h3>

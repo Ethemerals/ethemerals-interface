@@ -14,7 +14,7 @@ const EternalBattle = () => {
 	let priceFeedId = parseInt(id);
 
 	return (
-		<div className="scrollbar_pad">
+		<div className="overscroll-y-auto overflow-scroll">
 			<div className="page_bg"></div>
 			<EBattleHelp />
 
@@ -23,13 +23,13 @@ const EternalBattle = () => {
 
 				<button
 					onClick={() => history.push(`/battle/0`)}
-					className={`${priceFeedId === 0 ? 'bg-blue-900' : 'bg-blue-300 hover:bg-blue-400 transition duration-300'} py-1 px-2 mx-1 focus:outline-none`}
+					className={`${priceFeedId === 0 ? 'bg-blue-900 text-white' : 'bg-blue-300 hover:bg-blue-400 transition duration-300'} py-1 px-2 mx-1 focus:outline-none`}
 				>
 					{PriceFeeds[0].ticker}
 				</button>
 				<button
 					onClick={() => history.push(`/battle/1`)}
-					className={`${priceFeedId === 1 ? 'bg-blue-900' : 'bg-blue-300 hover:bg-blue-400 transition duration-300'} py-1 px-2 mx-1 focus:outline-none`}
+					className={`${priceFeedId === 1 ? 'bg-blue-900 text-white' : 'bg-blue-300 hover:bg-blue-400 transition duration-300'} py-1 px-2 mx-1 focus:outline-none`}
 				>
 					{PriceFeeds[1].ticker}
 				</button>

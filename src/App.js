@@ -1,16 +1,13 @@
 import { Route, Switch } from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { isMobile } from 'react-device-detect';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import Navbar from './components/navigation/Navbar';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
-// import Art from './pages/Art';
+import Art from './pages/Art';
 import EternalBattle from './pages/EternalBattle';
-// import BattleWilds from './pages/BattleWilds';
-// import BattleRoyale from './pages/BattleRoyale';
 import Dashboard from './pages/Dashboard';
 import Ethemerals from './pages/Ethemerals';
 import EthemeralsMC from './pages/EthemeralsMC';
@@ -51,84 +48,74 @@ function App() {
 			<QueryClientProvider client={queryClient}>
 				<Web3ContextProvider>
 					<TxContextProvider>
-						<Navbar />
 						<Receipt />
-						<div className={`text-white pt-8 sm:pt-14 ${isMobile ? 'overflow-hidden' : ''}`}>
-							<Helmet>
-								<title>Ethemerals</title>
-							</Helmet>
-							<ReactQueryDevtools initialIsOpen={false} />
-							<Switch>
-								<Route exact path="/opensea_equipables/:id">
-									<OpenseaEquipables />
-								</Route>
-								<Route exact path="/">
-									<Home />
-								</Route>
-								<Route exact path="/mint">
-									<Home />
-								</Route>
-								<Route exact path="/admin">
-									<Admin />
-								</Route>
-								<Route exact path="/all">
-									<All />
-								</Route>
-								{/* <Route exact path="/art">
-									<Art />
-								</Route> */}
 
-								<Route exact path="/battle/">
-									<EBContextProvider>
-										<EternalBattle />
-									</EBContextProvider>
-								</Route>
-								<Route exact path="/battle/:id">
-									<EBContextProvider>
-										<EternalBattle />
-									</EBContextProvider>
-								</Route>
+						<Helmet>
+							<title>Ethemerals</title>
+						</Helmet>
+						<ReactQueryDevtools initialIsOpen={false} />
 
-								{/* <Route exact path="/battle/eternal">
-									<BattleEternal />
-								</Route>
-								<Route exact path="/battle/wilds">
-									<BattleWilds />
-								</Route>
-								<Route exact path="/battle/royale">
-									<BattleRoyale />
-								</Route> */}
-								<Route exact path="/dashboard">
-									<Dashboard />
-								</Route>
-								<Route exact path="/ethemerals">
-									<Ethemerals />
-								</Route>
-								<Route exact path="/ethemerals/mc">
-									<EthemeralsMC />
-								</Route>
-								<Route exact path="/pets">
-									<Pets />
-								</Route>
-								<Route exact path="/pets/:sort">
-									<Pets />
-								</Route>
-								<Route exact path="/items">
-									<Items />
-								</Route>
-								<Route exact path="/items/:sort">
-									<Items />
-								</Route>
-								<Route exact path="/equipable/:id">
-									<Equipable />
-								</Route>
-								<Route exact path="/ethemeral/:id">
-									<NFTDetails />
-								</Route>
-								{/* <Route exact path="/test">
+						<Switch>
+							<Route exact path="/opensea_equipables/:id">
+								<OpenseaEquipables />
+							</Route>
+							<Route exact path="/">
+								<Home />
+							</Route>
+							<Route exact path="/mint">
+								<Home />
+							</Route>
+							<Route exact path="/admin">
+								<Admin />
+							</Route>
+							<Route exact path="/all">
+								<All />
+							</Route>
+							<Route exact path="/art">
+								<Art />
+							</Route>
+
+							<Route exact path="/battle/">
+								<EBContextProvider>
+									<EternalBattle />
+								</EBContextProvider>
+							</Route>
+							<Route exact path="/battle/:id">
+								<EBContextProvider>
+									<EternalBattle />
+								</EBContextProvider>
+							</Route>
+							<Route exact path="/dashboard">
+								<Dashboard />
+							</Route>
+							<Route exact path="/ethemerals">
+								<Ethemerals />
+							</Route>
+							<Route exact path="/ethemerals/mc">
+								<EthemeralsMC />
+							</Route>
+							<Route exact path="/pets">
+								<Pets />
+							</Route>
+							<Route exact path="/pets/:sort">
+								<Pets />
+							</Route>
+							<Route exact path="/items">
+								<Items />
+							</Route>
+							<Route exact path="/items/:sort">
+								<Items />
+							</Route>
+							<Route exact path="/equipable/:id">
+								<Equipable />
+							</Route>
+							<Route exact path="/ethemeral/:id">
+								<NFTDetails />
+							</Route>
+							{/* <Route exact path="/test">
 									<NFTTest />
 								</Route> */}
-								{/* <Route exact path="/resurrect/:id">
+							{/* <Route exact path="/resurrect/:id">
 									<Resurrect />
 								</Route>
 								<Route exact path="/redemption/:id">
@@ -146,7 +133,7 @@ function App() {
 								<Route exact path="/help">
 									<Help />
 								</Route> */}
-								{/* <Route exact path="/dev">
+							{/* <Route exact path="/dev">
 									<Dev />
 								</Route>
 								<Route exact path="/dev/:crop">
@@ -158,8 +145,8 @@ function App() {
 								<Route exact path="/devitems/:crop">
 									<DevItems />
 								</Route> */}
-							</Switch>
-						</div>
+						</Switch>
+						<Navbar />
 					</TxContextProvider>
 				</Web3ContextProvider>
 			</QueryClientProvider>

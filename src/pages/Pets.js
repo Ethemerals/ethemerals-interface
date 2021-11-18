@@ -45,7 +45,7 @@ const Pets = () => {
 	}, [sort]);
 
 	return (
-		<div className="scrollbar_pad">
+		<div className="pt-8">
 			<div className="page_bg"></div>
 			<div className="text-sm font-bold text-white sm:hidden mt-4 text-center">FILTER</div>
 			<div className="flex items-center mx-auto mt-2 sm:mt-10 text-sm sm:text-base justify-center">
