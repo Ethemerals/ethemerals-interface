@@ -36,7 +36,7 @@
 		@apply text-xl;
 	}
 	body {
-		background: hsla(216, 41%, 79%, 1);
+		background: hsl(212, 39%, 85%);
 	}
 }
 

@@ -15,7 +15,7 @@ const FilterBar = ({ filterList, setFilterList }) => {
 	return (
 		<div className="flex items-center text-black">
 			{filterList.map((filterItem) => (
-				<button key={filterItem} onClick={() => onRemove(filterItem)} className="p-1 mx-1 bg-gray-100 border border-gray-400 rounded-lg cursor-pointer flex hover:shadow-lg">
+				<button key={filterItem} onClick={() => onRemove(filterItem)} className="p-1 mx-1 bg-white border border-gray-400 cursor-pointer flex hover:shadow-lg">
 					<span className="pl-1">{filterItem}</span>
 					<span className="pl-2 text-gray-300 hover:gray-blue-400">
 						<CloseSVG />
