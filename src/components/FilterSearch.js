@@ -27,7 +27,7 @@ const SearchItem = ({ item, filterList, filterByItem }) => {
 
 const SearchList = ({ items, filterList, filterByItem }) => {
 	return (
-		<div className="ml-1 h-64 overflow-y-auto">
+		<div className="ml-1 h-48 overflow-y-auto">
 			{items.map((item) => {
 				let _item = item;
 				if (item && item.item) {
@@ -65,7 +65,7 @@ const FilterSearch = ({ data, setFilterList, filterList, keys, filterByText = ''
 	});
 
 	return (
-		<div className="text-black mx-2 mt-2 ">
+		<div className="text-black mx-2 mt-4 border-white border">
 			<div className="flex p-2 bg-white shadow">
 				<span className="text-gray-400">
 					<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

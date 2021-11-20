@@ -195,9 +195,9 @@ const Merals = ({ order, shouldFilter, filters }) => {
 				<div className="flex py-4 justify-center">Error...</div>
 			) : (
 				<>
-					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
+					{data && data.ethemerals.length > 0 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 					<div className="flex flex-wrap mx-auto justify-center">{data && data.ethemerals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} rewards={order.orderBy === 'rewards'} />)}</div>
-					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
+					{data && data.ethemerals.length > 0 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 				</>
 			)}
 		</div>
