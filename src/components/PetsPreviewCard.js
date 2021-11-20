@@ -87,7 +87,7 @@ const PetsPreviewCard = ({ nft }) => {
 	return (
 		<div
 			// onClick={handleOnClick}
-			style={{ borderColor: getBorderColor(parseInt(nft.rarity)) }}
+			style={{ borderColor: getBorderColor(parseInt(nft.rarity)), backgroundColor: 'hsl(186, 33%, 94%)', minWidth: '256px', maxWidth: '256px', maxHeight: '384px', minHeight: '384px' }}
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg"
 		>
 			{/* MAIN IMAGE */}

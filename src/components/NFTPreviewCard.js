@@ -54,7 +54,7 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 	return (
 		<div
 			onClick={handleOnClick}
-			style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }}
+			style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")`, minWidth: '256px', maxWidth: '256px', maxHeight: '384px', minHeight: '384px' }}
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300"
 		>
 			<div className="text-xs font-bold absolute right-0 text-right text-white z-10">
