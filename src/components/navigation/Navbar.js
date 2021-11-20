@@ -69,14 +69,14 @@ const Navbar = () => {
 		<>
 			{/* <!-- navbar goes here --> */}
 			{!WindowXS && (
-				<header className="top-0 left-0 right-0 z-30 fixed bg-white shadow-md">
-					<nav className="px-4 py-3">
+				<header style={{ boxShadow: '0px 0px 26px hsla(0,0%,50%,0.25)' }} className="top-0 left-0 right-0 z-30 fixed bg-white">
+					<nav className="px-4 py-1">
 						<div className="flex items-center">
 							{/* <!-- logo --> */}
 							<div>
 								<Link to="/">
 									<span className="flex">
-										<img src={Images.avator} alt="brand icon" width="40" height="40" />
+										<img src={Images.ELFLogo} alt="brand icon" width="24" height="24" />
 									</span>
 								</Link>
 							</div>

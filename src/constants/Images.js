@@ -25,6 +25,7 @@ import iconSelected from '../assets/icon_selected.svg';
 import iconDetail from '../assets/battle/icon_detail.svg';
 import iconRevive from '../assets/battle/icon_revive.svg';
 import iconUnstake from '../assets/battle/icon_unstake.svg';
+import ELFLogo from '../assets/ELF_logo_lite.svg';
 
 const Images = {
 	test,
@@ -51,6 +52,7 @@ const Images = {
 	iconPet,
 	titleEthem,
 	iconSelected,
+	ELFLogo,
 };
 
 export const battleImages = {

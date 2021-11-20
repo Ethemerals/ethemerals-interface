@@ -168,7 +168,7 @@ const EthemeralsMerals = () => {
 			{/* MAIN */}
 			<div className="">
 				{/* SIDEBAR */}
-				<aside style={{ minWidth: '256px', width: '256px', backgroundColor: 'hsl(212, 39%, 90%)' }} className="h-screen top-16 fixed border-r border-gray-400 overflow-y-auto">
+				<aside style={{ minWidth: '256px', width: '256px', backgroundColor: 'hsl(212, 39%, 90%)' }} className="h-screen top-12 fixed border-r border-gray-400 overflow-y-auto">
 					<div className="flex mb-8 mt-1">
 						<Link to="/ethemerals/merals">
 							<div className="py-1 px-4 m-4 mr-0 text-lg text-brandColor cursor-pointer bg-white shadow-md">Merals</div>{' '}
@@ -190,7 +190,7 @@ const EthemeralsMerals = () => {
 					</div>
 				</aside>
 
-				<main style={{ left: '256px', width: 'calc(100% - 256px)' }} className="mt-20 py-2 absolute">
+				<main style={{ left: '256px', width: 'calc(100% - 256px)' }} className="mt-16 py-2 absolute">
 					<div className="flex items-center pl-4 h-8">
 						<FilterBar setFilterList={setCoinFilterList} filterList={coinFilterList} />
 						<FilterBar setFilterList={setElementFilterList} filterList={elementFilterList} />

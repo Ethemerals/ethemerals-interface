@@ -31,8 +31,7 @@ const Art = () => {
 	}, []);
 
 	return (
-		<div className="">
-			<div className="page_bg"></div>
+		<div>
 			<div style={{ maxWidth: '864px' }} className="bg-white bg-opacity-40 text-black text-left mx-auto mt-20 p-6">
 				<h1 className=" text-brandColor-purple text-3xl">The Great Art Hunt</h1>
 				<p>
@@ -42,19 +41,6 @@ const Art = () => {
 					</a>
 				</p>
 			</div>
-			{/* SIDEBAR */}
-			{/* <div className="h-screen w-72 fixed border-r border-gray-400 overflow-y-scroll">
-				<div className="">Filter</div>
-				<div className="flex">
-					{coinData && <FilterSearch data={coinData} setFilterList={setCoinFilterList} keys={['name', 'email']} filterList={coinFilterList} filterByText="by Coin" />}
-					{coinData && <FilterSearch data={coinData} setFilterList={setElementFilterList} keys={['name', 'email']} filterList={ElementFilterList} filterByText="by Coin" />}
-				</div>
-			</div>
-
-			<div className="flex items-center">
-				<FilterBar setFilterList={setCoinFilterList} filterList={coinFilterList} />
-				<FilterBar setFilterList={setElementFilterList} filterList={ElementFilterList} />
-			</div> */}
 
 			<div className="h-40"></div>
 		</div>

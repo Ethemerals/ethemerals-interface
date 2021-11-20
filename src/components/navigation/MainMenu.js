@@ -16,7 +16,7 @@ const MenuItem = ({ to, text }) => (
 
 const Mainmenu = () => {
 	return (
-		<div className="flex px-2 items-center ml-4 h-10 bg-white rounded-lg text-lg">
+		<div className="flex px-2 items-center h-10 bg-white rounded-lg text-lg">
 			<MenuItem to="/mint" text="Mint" />
 			<MenuItem to="/ethemerals" text="Ethemerals" />
 			<MenuItem to="/art" text="Art Hunt" />
