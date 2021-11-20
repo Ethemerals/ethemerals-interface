@@ -19,7 +19,6 @@ const Mainmenu = () => {
 		<div className="flex px-2 items-center ml-4 h-10 bg-white rounded-lg text-lg">
 			<MenuItem to="/mint" text="Mint" />
 			<MenuItem to="/ethemerals" text="Ethemerals" />
-			<MenuItem to="/pets" text="Pets" />
 			<MenuItem to="/art" text="Art Hunt" />
 			<MenuItem to="/battle" text="Battle" />
 			{/* <MenuItemDisabled to="/marketplace" text="Marketplace" /> */}

@@ -3,7 +3,7 @@ import HighestHonorBar from '../components/navigation/HighestHonorBar';
 
 const BattleRoyale = () => {
 	return (
-		<div className="scrollbar_pad">
+		<div>
 			<div className="page_bg"></div>
 			<HighestHonorBar />
 			<BattleMenu current="royale" />

@@ -9,8 +9,7 @@ import Admin from './pages/Admin';
 import Art from './pages/Art';
 import EternalBattle from './pages/EternalBattle';
 import Dashboard from './pages/Dashboard';
-import Ethemerals from './pages/Ethemerals';
-import EthemeralsMC from './pages/EthemeralsMC';
+import EthemeralsMerals from './pages/EthemeralsMerals';
 import Equipable from './pages/Equipable';
 import NFTDetails from './pages/NFTDetails';
 import All from './pages/All';
@@ -28,9 +27,9 @@ import TxContextProvider from './hooks/TxContext';
 import Receipt from './components/modals/Receipt';
 import EBContextProvider from './hooks/EternalBattleContext';
 // import ClaimHighestHonor from './pages/ClaimHighestHonor';
-import Pets from './pages/Pets';
 import Items from './pages/Items';
 import OpenseaEquipables from './pages/OpenseaEquipables';
+import EthemeralsPets from './pages/EthemeralsPets';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -89,16 +88,13 @@ function App() {
 								<Dashboard />
 							</Route>
 							<Route exact path="/ethemerals">
-								<Ethemerals />
+								<EthemeralsMerals />
 							</Route>
-							<Route exact path="/ethemerals/mc">
-								<EthemeralsMC />
+							<Route exact path="/ethemerals/merals">
+								<EthemeralsMerals />
 							</Route>
-							<Route exact path="/pets">
-								<Pets />
-							</Route>
-							<Route exact path="/pets/:sort">
-								<Pets />
+							<Route exact path="/ethemerals/pets">
+								<EthemeralsPets />
 							</Route>
 							<Route exact path="/items">
 								<Items />

@@ -37,7 +37,7 @@ const All = () => {
 	}, [sort]);
 
 	return (
-		<div className="scrollbar_pad">
+		<div>
 			<div className="page_bg"></div>
 
 			<div className="flex flex-wrap mx-auto justify-center">{sortBy === 2 && <NFTMC orderDirection="asc" />}</div>

@@ -40,6 +40,12 @@ const SearchList = ({ items, filterList, filterByItem }) => {
 };
 
 const FilterSearch = ({ data, setFilterList, filterList, keys, filterByText = '' }) => {
+	const [expand, setExpand] = useState(false);
+
+	const toggleExpand = () => {
+		setExpand(!expand);
+	};
+
 	const filterByItem = (item, add) => {
 		const _filterList = filterList;
 		if (add) {
@@ -65,16 +71,35 @@ const FilterSearch = ({ data, setFilterList, filterList, keys, filterByText = ''
 	});
 
 	return (
-		<div className="text-black mx-2 mt-4 border-white border">
-			<div className="flex p-2 bg-white shadow">
-				<span className="text-gray-400">
-					<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-					</svg>
+		<div className="text-black">
+			<div onClick={toggleExpand} className="p-2 pl-4 font-bold border border-r-0 border-l-0 border-b-0 border-gray-300 flex items-center cursor-pointer">
+				<span>{filterByText}</span>
+				<span className="flex-grow"></span>
+				<span>
+					{!expand ? (
+						<svg className="w-4 h-4" fill="none" stroke="gray" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+						</svg>
+					) : (
+						<svg className="w-4 h-4" fill="none" stroke="gray" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+						</svg>
+					)}
 				</span>
-				<input className="pl-2 w-44 outline-none" onChange={(e) => search(e.target.value)} value={term} placeholder={`Filter ${filterByText}`} />
 			</div>
-			<SearchList items={result} filterList={filterList} filterByItem={filterByItem} />
+			{expand && (
+				<div className="mx-2">
+					<div className="flex p-2 bg-white shadow">
+						<span className="text-gray-400">
+							<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+							</svg>
+						</span>
+						<input className="pl-2 w-44 outline-none" onChange={(e) => search(e.target.value)} value={term} placeholder="Filter" />
+					</div>
+					<SearchList items={result} filterList={filterList} filterByItem={filterByItem} />
+				</div>
+			)}
 		</div>
 	);
 };

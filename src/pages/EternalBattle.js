@@ -14,7 +14,7 @@ const EternalBattle = () => {
 	let priceFeedId = parseInt(id);
 
 	return (
-		<div className="overscroll-y-auto overflow-scroll">
+		<div className="overscroll-y-auto overflow-scroll scrollbar_pad">
 			<div className="page_bg"></div>
 			<EBattleHelp />
 

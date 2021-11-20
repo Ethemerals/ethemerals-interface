@@ -39,7 +39,7 @@ const Dashboard = () => {
 	}, [accountEternalBattle, account]);
 
 	return (
-		<div className="scrollbar_pad">
+		<div className="mt-20">
 			<div className="page_bg"></div>
 			<div className="text-sm font-bold text-white sm:hidden mt-4 text-center">SORT BY</div>
 			<div className="w-full mt-2 mb-2 sm:mt-10 text-center font-bold text-xl ">DASHBOARD</div>
