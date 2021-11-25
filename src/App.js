@@ -51,7 +51,7 @@ function App() {
 							<Home />
 						</Route>
 						<Route exact path="/mint">
-							<Mint />
+							<Home />
 						</Route>
 						<Route exact path="/admin">
 							<Admin />
