@@ -10,7 +10,11 @@ export const useUser = () => {
 	const address = useMemo(() => user?.attributes.ethAddress, [user]);
 
 	const login = () => {
-		authenticate({ signingMessage: 'Ethemerals Authentication' });
+		if (!user) {
+			authenticate({ signingMessage: 'Ethemerals Authentication' });
+		} else {
+			logout();
+		}
 	};
 
 	return {

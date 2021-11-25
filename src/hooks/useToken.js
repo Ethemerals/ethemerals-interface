@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Contract } from '@ethersproject/contracts';
 
-import { useWeb3 } from './Web3Context';
+import { useWeb3 } from './useWeb3';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
@@ -17,7 +17,7 @@ const getContracts = async (provider, setContractToken) => {
 };
 
 export const useTokenContract = () => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 
 	const [contractToken, setContractToken] = useState(undefined);
 

@@ -48,7 +48,7 @@ const getMeralColor = async (id) => {
 
 export const refreshMetadata = async (id) => {
 	let baseUrl = `https://api.opensea.io/api/v1/asset/${process.env.REACT_APP_ETHEMERALS_ADDRESS}/`;
-	if (process.env.REACT_APP_CHAIN_ID === '4') {
+	if (process.env.REACT_APP_API_NETWORK === '4') {
 		baseUrl = `https://rinkeby-api.opensea.io/api/v1/asset/${process.env.REACT_APP_ETHEMERALS_ADDRESS}/`;
 	}
 

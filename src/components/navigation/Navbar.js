@@ -79,7 +79,6 @@ const Navbar = () => {
 								<div className="w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12">
 									{!isAuthenticated && <ConnectButton login={login} isAuthenticating={isAuthenticating} />}
 									{address && <AccountBar />}
-									{console.log(!isAuthenticating, 'ing')}
 									<MoreLinksButton large={false} toggle={toggleMoreLinks} />
 									{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
 								</div>

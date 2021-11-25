@@ -14,7 +14,6 @@ const Links = {
 	TERMS: 'https://www.ethemerals.com/terms',
 	PRIVACY: 'https://www.ethemerals.com/privacy',
 	OPENSEAS_COLLECTION: `${process.env.REACT_APP_OPENSEAS_URL}/ethemerals-merals`,
-	DISCORD_WEBHOOK_EBATTLE: process.env.REACT_APP_DISCORD_WEBHOOK_EBATTLE,
 };
 
 export default Links;

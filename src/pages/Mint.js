@@ -7,6 +7,7 @@ import Links from '../constants/Links';
 import Images from '../constants/Images';
 
 import { useSendTx } from '../hooks/TxContext';
+
 import { useCore, useCoreContract } from '../hooks/useCore';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
@@ -17,7 +18,7 @@ import { useUser } from '../hooks/useUser';
 const Mint = () => {
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
-	const { address, login } = useUser();
+	const { address, login, user } = useUser();
 
 	const sendTx = useSendTx();
 
@@ -34,6 +35,10 @@ const Mint = () => {
 	};
 
 	const onSubmitMint = async () => {
+		if (!user) {
+			login();
+			return;
+		}
 		if (contractCore) {
 			setIsConfirmationOpen(true);
 			let amount = 1;
@@ -59,6 +64,10 @@ const Mint = () => {
 	};
 
 	const onSubmitMints = async () => {
+		if (!user) {
+			login();
+			return;
+		}
 		if (contractCore) {
 			setIsConfirmationOpen(true);
 			let amount = 3;

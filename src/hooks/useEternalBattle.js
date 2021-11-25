@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_ETERNALBATTLE_ACCOUNT } from '../queries/Subgraph';
 
-import { useWeb3 } from './Web3Context';
+import { useWeb3 } from './useWeb3';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
@@ -39,8 +39,8 @@ const getStakeAPI = async (id) => {
 	}
 };
 
-const getChange = async (contract, id) => {
-	if (contract) {
+const getChange = async (provider, contract, id) => {
+	if (provider && contract) {
 		try {
 			let [score, rewards, win] = await contract.getChange(id);
 			return { score: score.toString(), rewards: rewards.toString(), win };
@@ -63,8 +63,8 @@ const getChange = async (contract, id) => {
 	}
 };
 
-const getStake = async (contract, id) => {
-	if (contract) {
+const getStake = async (provider, contract, id) => {
+	if (provider && contract) {
 		try {
 			let [owner, priceFeedId, positionSize, startingPrice, long] = await contract.getStake(id);
 			return { owner, priceFeedId, positionSize, startingPrice: startingPrice.toString(), long };
@@ -89,7 +89,8 @@ const getStake = async (contract, id) => {
 };
 
 export const useEternalBattleGetChange = (contract, id) => {
-	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(contract, id), { enabled: !!id, refetchInterval: 40000 });
+	const { provider } = useWeb3();
+	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contract, id), { enabled: !!id, refetchInterval: 50000 });
 
 	const [scoreChange, setScoreChange] = useState(undefined);
 
@@ -103,7 +104,8 @@ export const useEternalBattleGetChange = (contract, id) => {
 };
 
 export const useEternalBattleGetStake = (contract, id) => {
-	const { isLoading, data } = useQuery([`getStake_${id}`, id], () => getStake(contract, id), { refetchInterval: 40000 });
+	const { provider } = useWeb3();
+	const { isLoading, data } = useQuery([`getStake_${id}`, id], () => getStake(provider, contract, id), { refetchInterval: 50000 });
 
 	const [stake, setStake] = useState(undefined);
 
@@ -117,7 +119,7 @@ export const useEternalBattleGetStake = (contract, id) => {
 };
 
 export const useEternalBattleContract = () => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 
 	const [contractBattle, setContractBattle] = useState(undefined);
 
@@ -147,6 +149,7 @@ const calcBps = (_x, _y) => {
 	return _x < _y ? ((_y - _x) * 10000) / _x : ((_x - _y) * 10000) / _y;
 };
 
+// CONSTANTS
 let startPrice = 10000000;
 
 let atkDivMod = 1400;

@@ -28,6 +28,7 @@ export const getAccount = async (variables) => {
 const useUserAccount = () => {
 	const { address, balance } = useUser();
 	const { isUserUpdating, user, setUserData } = useMoralis();
+	const [autoTry, setAutoTry] = useState(0);
 
 	const [account, setAccount] = useState(undefined);
 	const [mainIndex, setMainIndex] = useState(undefined);
@@ -68,37 +69,39 @@ const useUserAccount = () => {
 	// SET MAIN
 	useEffect(() => {
 		if (account && user) {
-			if (!isUserUpdating) {
+			if (!isUserUpdating && account.ethemerals.length > 0) {
 				// NEW USER
 				if (!user.attributes.meralMainId) {
-					if (account.ethemerals.length > 0) {
+					setUserData({
+						meralMainId: account.ethemerals[0].id,
+					});
+					console.log('new user');
+				} else {
+					// AUTO MAIN
+
+					let foundNFT = false;
+
+					account.ethemerals.forEach((nft) => {
+						if (nft.id === user.attributes.meralMainId) {
+							foundNFT = true;
+						}
+					});
+
+					if (foundNFT) {
+						setAutoTry(0);
+					}
+
+					if (!foundNFT && autoTry < 5) {
 						setUserData({
 							meralMainId: account.ethemerals[0].id,
 						});
-						console.log('new user');
-					}
-				} else {
-					// AUTO MAIN
-					if (account.ethemerals.length > 0) {
-						let foundNFT = false;
-
-						account.ethemerals.forEach((nft) => {
-							if (nft.id === user.attributes.meralMainId) {
-								foundNFT = true;
-							}
-						});
-
-						if (!foundNFT) {
-							setUserData({
-								meralMainId: account.ethemerals[0].id,
-							});
-							console.log('auto main');
-						}
+						console.log('auto main');
+						setAutoTry((at) => at + 1);
 					}
 				}
 			}
 		}
-	}, [account, isUserUpdating, setUserData, user]);
+	}, [account, isUserUpdating, setUserData, user, autoTry]);
 
 	// prettier-ignore
 	return {

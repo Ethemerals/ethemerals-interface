@@ -47,7 +47,7 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	const [losePreview, setLosePreview] = useState(undefined);
 
 	useEffect(() => {
-		if (userNFTs && userNFTs.length > 0) {
+		if (userNFTs && userNFTs.length > 0 && mainIndex >= 0) {
 			let _userNFT = userNFTs[mainIndex];
 			setUserNFT(_userNFT);
 
@@ -88,7 +88,6 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 			try {
 				let id = userNFT.id;
 				let pricefeedId = priceFeed.id;
-				console.log(id, pricefeedId, position.toString(), long);
 
 				const gasEstimate = await contractBattle.estimateGas.createStake(id, pricefeedId, position.toString(), long);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
@@ -195,7 +194,7 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 						)}
 
 						{/* NO MERALS */}
-						{!userNFT && account && (
+						{(!userNFT || !account) && (
 							<>
 								<p className="px-10 mt-10 mb-4">{`You need to have an Ethemeral to join ${allyName}'s Eternal Battle against ${enemyName}`}</p>
 								<Link to="/">

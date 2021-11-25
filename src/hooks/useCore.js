@@ -4,15 +4,13 @@ import { useQuery } from 'react-query';
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_CORE, GET_CORE_ACCOUNT, GET_DELEGATES } from '../queries/Subgraph';
 
-import { useWeb3 } from './Web3Context';
-import { useMoralis } from 'react-moralis';
+import { useWeb3 } from './useWeb3';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import Addresses from '../constants/contracts/Addresses';
 
 const getContracts = async (provider, setContractCore) => {
-	console.log(provider);
 	if (provider) {
 		await setContractCore(new Contract(Addresses.Ethemerals, abis.Ethemerals, getSigner(provider)));
 		console.log('GOT CORE CONTRACT');
@@ -40,23 +38,13 @@ const getIsApprovedForAll = async (contract, _owner, _operator) => {
 };
 
 export const useCoreContract = () => {
-	const provider = useWeb3();
-	const { web3 } = useMoralis();
+	const { provider } = useWeb3();
 
 	const [contractCore, setContractCore] = useState(undefined);
 
 	useEffect(() => {
 		getContracts(provider, setContractCore);
-		console.log(provider, 'provider');
 	}, [provider]);
-
-	useEffect(() => {
-		console.log(web3.givenProvider, 'web3');
-		console.log(Object.keys(web3), 'web3');
-		if (web3.givenProvider) {
-			getContracts(web3.givenProvider, setContractCore);
-		}
-	}, [web3]);
 
 	return { contractCore };
 };

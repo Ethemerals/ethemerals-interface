@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useArtHunt, useMutateArtHuntAnswer } from '../hooks/useArtHunt';
-import { zeroAddress } from 'ethereumjs-util';
 import { useUser } from '../hooks/useUser';
 
 const SpinnerSVG = () => (
@@ -53,7 +52,7 @@ const Art = () => {
 				</p>
 			</div>
 
-			<form className="p-4">
+			{/* <form className="p-4">
 				<input className="w-10 h-8 p-2 bg-green-100 shadow-inner border border-gray-300 text-black" {...register('answer1')} />
 				<input className="w-10 h-8 p-2 bg-green-100 shadow-inner border border-gray-300 text-black" {...register('answer2')} />
 				<input className="w-10 h-8 p-2 bg-green-100 shadow-inner border border-gray-300 text-black" {...register('answer3')} />
@@ -62,7 +61,7 @@ const Art = () => {
 					Submit
 				</button>
 				<p>{submitting ? 'submitting...' : 'try answer'}</p>
-			</form>
+			</form> */}
 
 			<div className="h-40"></div>
 		</div>

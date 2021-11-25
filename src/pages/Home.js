@@ -8,7 +8,6 @@ import Links from '../constants/Links';
 
 import Images from '../constants/Images';
 
-// import { useAddress, useLogin, useReadyToTransact } from '../hooks/Web3Context';
 // import { useSendTx } from '../hooks/TxContext';
 import { useCore } from '../hooks/useCore';
 

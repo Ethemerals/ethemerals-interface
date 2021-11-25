@@ -41,6 +41,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 
 	const { account } = useUserAccount();
 	const { contractCore } = useCoreContract();
+	const { user } = useUser();
 
 	const getBattleResults = useEBGetBattleResultsContext();
 
@@ -94,7 +95,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 	}, [getBattleResults, priceFeed]);
 
 	const handleJoinBattle = (long) => {
-		if (!account) {
+		if (!user) {
 			toggleConnectWallet();
 		} else if (EBApproved === true) {
 			if (long) {
@@ -104,7 +105,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 			}
 		} else if (account && !account.allowDelegates) {
 			toggleAllowDelegates();
-		} else if (EBApproved === false) {
+		} else if (account && EBApproved === false) {
 			toggleAllowDelegates();
 		} else {
 			if (long) {
