@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSendTx } from '../../../hooks/TxContext';
-import { useReadyToTransact } from '../../../hooks/Web3Context';
+
 import { useEquipableContract } from '../../../hooks/useEquipable';
 
 const SpinnerSVG = () => (
@@ -17,12 +17,11 @@ const SpinnerSVG = () => (
 const SummonPet = ({ toggle, nft }) => {
 	const { contractEquipable } = useEquipableContract();
 	const sendTx = useSendTx();
-	const readyToTransact = useReadyToTransact();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
 	const onSubmitSummon = async () => {
-		if (contractEquipable && readyToTransact()) {
+		if (contractEquipable) {
 			setIsConfirmationOpen(true);
 			try {
 				let id = nft.id;

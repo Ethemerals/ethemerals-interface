@@ -10,9 +10,11 @@ import useUserAccount from '../hooks/useUserAccount';
 import Gift from './modals/actions/Gift';
 import SummonPet from './modals/actions/SummonPet';
 import { shortenAddress } from '../utils';
+import { useMoralis } from 'react-moralis';
 
 const NFTActions = ({ nft }) => {
-	const { account, mutateUser, mainIndex, userNFTs } = useUserAccount();
+	const { account, mainIndex, userNFTs } = useUserAccount();
+	const { user, setUserData, isUserUpdating } = useMoralis();
 	const history = useHistory();
 
 	const [isOwned, setIsOwned] = useState(false);
@@ -20,7 +22,6 @@ const NFTActions = ({ nft }) => {
 	const [isInBattle, setIsInBattle] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);
 	const [isSummonPetOpen, setIsSummonPetOpen] = useState(false);
-	const [mainLoading, setMainLoading] = useState(false);
 
 	useEffect(() => {
 		if (nft && nft.owner.id === Addresses.EternalBattle.toLowerCase()) {
@@ -57,11 +58,11 @@ const NFTActions = ({ nft }) => {
 	}
 
 	const selectMain = async (id) => {
-		setMainLoading(true);
-		if (account && isOwned) {
+		if (user && isOwned) {
 			try {
-				await mutateUser.mutateAsync({ address: account.id, main: id });
-				setMainLoading(false);
+				setUserData({
+					meralMainId: id,
+				});
 			} catch (error) {
 				console.log(error);
 			}
@@ -84,7 +85,7 @@ const NFTActions = ({ nft }) => {
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
-					<p className="text-black">{!mainLoading ? 'Current Main Ethemeral' : 'Loading'}</p>
+					<p className="text-black">{!isUserUpdating ? 'Current Main Ethemeral' : 'Loading'}</p>
 				</div>
 			) : (
 				<div
@@ -94,7 +95,7 @@ const NFTActions = ({ nft }) => {
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
-					{account && isOwned ? <p>{!mainLoading ? 'Select as Main' : 'Loading'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner.id)}</p>}
+					{account && isOwned ? <p>{!isUserUpdating ? 'Select as Main' : 'Loading'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner.id)}</p>}
 				</div>
 			)}
 

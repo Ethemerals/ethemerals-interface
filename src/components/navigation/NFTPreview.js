@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { isAddress } from '../../utils';
+import { useMoralis } from 'react-moralis';
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import useUserAccount from '../../hooks/useUserAccount';
 
@@ -10,27 +9,12 @@ const Spinner = () => (
 	</svg>
 );
 
-const NFTPreview = ({ color }) => {
-	const { mainIndex, userIsLoading, userNFTs, address } = useUserAccount();
+const NFTPreview = () => {
+	const { account, userNFTs, mainIndex } = useUserAccount();
+	const { isUserUpdating, userError, user } = useMoralis();
 	const { getNFTImages } = useNFTUtils();
-	const [mainNFT, setMainNFT] = useState(undefined);
 
-	useEffect(() => {
-		if (userNFTs && userNFTs.length > 0) {
-			setMainNFT(userNFTs[mainIndex]);
-		}
-	}, [userNFTs, mainIndex]);
-
-	if (!isAddress(address)) {
-		return (
-			<span className="flex w-10 h-10 bg-gray-900 rounded-lg mr-2 items-baseline relative cursor-pointer opacity-70 hover:opacity-100">
-				<span className="flex-grow h-full"></span>
-				<span className=" rounded-t-none rounded-lg text-xs font-bold z-10 w-full h-3 text-gray-100 text-right bg-black bg-opacity-50"></span>
-			</span>
-		);
-	}
-
-	if (userIsLoading) {
+	if (isUserUpdating || !user || userError) {
 		return (
 			<span className="flex bg-brandColor rounded-lg items-center h-10 mr-2 cursor-pointer text-xs sm:text-base">
 				<span className="text-white px-2 md:px-3">LOADING</span>
@@ -41,13 +25,15 @@ const NFTPreview = ({ color }) => {
 
 	return (
 		<>
-			{address && mainNFT && userNFTs.length > 0 ? (
+			{user && account && userNFTs.length > 0 ? (
 				<span className="flex w-10 h-10 rounded-lg mr-2 relative cursor-pointer opacity-100 bg-brandColor-purple">
 					<div className="absolute top-0 left-0">
-						{address && mainNFT && userNFTs.length > 0 && <img className="w-10 h-10 z-0 rounded-lg" src={getNFTImages(mainNFT.metadata.id).colors[0].thumbnail} alt="" />}
+						{mainIndex !== undefined && <img className="w-10 h-10 z-0 rounded-lg" src={getNFTImages(userNFTs[mainIndex].metadata.id).colors[0].thumbnail} alt="" />}
 					</div>
 					<div className="flex-grow h-full"></div>
-					<div className="absolute bottom-0 left-0 rounded-t-none rounded-lg text-xs font-bold w-full text-gray-200 text-center bg-black bg-opacity-60">{mainNFT.id.toString().padStart(4, '0')}</div>
+					<div className="absolute bottom-0 left-0 rounded-t-none rounded-lg text-xs font-bold w-full text-gray-200 text-center bg-black bg-opacity-60">
+						{mainIndex !== undefined && userNFTs[mainIndex].id.toString().padStart(4, '0')}
+					</div>
 				</span>
 			) : (
 				<span className="flex w-10 h-10 bg-brandColor rounded-lg mr-2 items-baseline relative cursor-pointer opacity-70">

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Links from '../constants/Links';
 
-import { useAddress, useReadyToTransact } from '../hooks/Web3Context';
 import { useSendTx } from '../hooks/TxContext';
 import { useCore, useCoreContract, useCoreApprovals } from '../hooks/useCore';
 
@@ -11,17 +10,17 @@ import ErrorDialogue from '../components/modals/ErrorDialogue';
 import { shortenAddress } from '../utils';
 import Addresses from '../constants/contracts/Addresses';
 import useUserAccount from '../hooks/useUserAccount';
+import { useUser } from '../hooks/useUser';
 
 const Preferences = () => {
 	const { core, delegates } = useCore();
 	const { contractCore } = useCoreContract();
+	const { address } = useUser();
 
 	const { account } = useUserAccount();
 
-	const address = useAddress();
 	const { EBApproved } = useCoreApprovals(contractCore, address, Addresses.EternalBattle);
 	const sendTx = useSendTx();
-	const readyToTransact = useReadyToTransact();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
@@ -36,7 +35,7 @@ const Preferences = () => {
 	};
 
 	const onSubmitAllowDelegates = async (allow) => {
-		if (contractCore && readyToTransact()) {
+		if (contractCore) {
 			setIsConfirmationOpen(true);
 			try {
 				const gasEstimate = await contractCore.estimateGas.setAllowDelegates(allow);
@@ -57,7 +56,7 @@ const Preferences = () => {
 	};
 
 	const onSubmitApprovedForAll = async (operator, approved) => {
-		if (contractCore && readyToTransact()) {
+		if (contractCore) {
 			setIsConfirmationOpen(true);
 			try {
 				const gasEstimate = await contractCore.estimateGas.setApprovalForAll(operator, approved);

@@ -7,7 +7,8 @@ import Addresses from '../constants/contracts/Addresses';
 
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
-import { useWeb3, useAddress, useReadyToTransact } from '../hooks/Web3Context';
+import { useWeb3 } from '../hooks/Web3Context';
+import { useUser } from '../hooks/useUser';
 import { useSendTx } from '../hooks/TxContext';
 import { useCoreContract, useCore, useCoreAccount } from '../hooks/useCore';
 import { useEquipableContract } from '../hooks/useEquipable';
@@ -78,7 +79,7 @@ const getBalance = async (provider, setContractBalance) => {
 const Admin = () => {
 	const { register, handleSubmit } = useForm();
 
-	const provider = useWeb3();
+	const provider = useWeb3(); //TODO
 	const { core } = useCore();
 	const { accountCore } = useCoreAccount();
 	// const { accountEternalBattle } = useEternalBattleAccount();
@@ -87,9 +88,8 @@ const Admin = () => {
 	const { contractEquipable } = useEquipableContract();
 	// const { contractBattle } = useEternalBattleContract();
 
-	const address = useAddress();
+	const { address } = useUser();
 	const sendTx = useSendTx();
-	const readyToTransact = useReadyToTransact();
 
 	// core contract
 	const [ethemeral, setEthemeral] = useState(undefined);
@@ -123,7 +123,7 @@ const Admin = () => {
 	}, [provider]);
 
 	const onSubmitMint = async () => {
-		if (contractCore && readyToTransact()) {
+		if (contractCore) {
 			setIsConfirmationOpen(true);
 			let amount = 1;
 			try {
@@ -148,7 +148,7 @@ const Admin = () => {
 	};
 
 	const onSubmitMints = async () => {
-		if (contractCore && readyToTransact()) {
+		if (contractCore) {
 			setIsConfirmationOpen(true);
 			let amount = 3;
 			try {
@@ -173,7 +173,7 @@ const Admin = () => {
 	};
 
 	const onSubmitWithdraw = async () => {
-		if (contractCore && readyToTransact()) {
+		if (contractCore) {
 			setIsConfirmationOpen(true);
 			try {
 				const gasEstimate = await contractCore.estimateGas.withdraw(Addresses.admin);
@@ -194,7 +194,7 @@ const Admin = () => {
 	};
 
 	const onSubmitSetMaxAvailableIndex = async (data) => {
-		if (contractCore && readyToTransact()) {
+		if (contractCore) {
 			setIsConfirmationOpen(true);
 			try {
 				let id = data.setAvailableCoin_id;
@@ -216,7 +216,7 @@ const Admin = () => {
 	};
 
 	const onSubmitSetPrice = async (data) => {
-		if (contractCore && readyToTransact()) {
+		if (contractCore) {
 			setIsConfirmationOpen(true);
 			try {
 				let price = utils.parseEther(data.setPrice_price);
@@ -238,7 +238,7 @@ const Admin = () => {
 	};
 
 	const onSubmitAddDelegate = async (data) => {
-		if (contractCore && readyToTransact()) {
+		if (contractCore) {
 			setIsConfirmationOpen(true);
 			try {
 				let delegate = data.addDelegate_delegate;
@@ -261,7 +261,7 @@ const Admin = () => {
 	};
 
 	const onSubmitAddDelegateEquipable = async (data) => {
-		if (contractEquipable && readyToTransact()) {
+		if (contractEquipable) {
 			setIsConfirmationOpen(true);
 			try {
 				let delegate = data.addDelegateEquipable_delegate;
@@ -284,7 +284,7 @@ const Admin = () => {
 	};
 
 	const onSubmitSetBaseURI = async (data) => {
-		if (contractCore && readyToTransact()) {
+		if (contractCore) {
 			setIsConfirmationOpen(true);
 			try {
 				let uri = data.setBaseURI_uri;
@@ -306,7 +306,7 @@ const Admin = () => {
 	};
 
 	const onSubmitSetEquipableBaseURI = async (data) => {
-		if (contractEquipable && readyToTransact()) {
+		if (contractEquipable) {
 			setIsConfirmationOpen(true);
 			try {
 				let uri = data.setEquipableBaseURI_uri;
@@ -328,7 +328,7 @@ const Admin = () => {
 	};
 
 	const onSubmitRedeemPet = async (data) => {
-		if (contractEquipable && readyToTransact()) {
+		if (contractEquipable) {
 			setIsConfirmationOpen(true);
 			try {
 				let id = data.redeemPet_id;

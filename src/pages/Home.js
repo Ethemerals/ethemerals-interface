@@ -1,5 +1,7 @@
 // import { useState } from 'react';
 
+import { useUser } from '../hooks/useUser';
+
 // import { BigNumber } from '@ethersproject/bignumber';
 
 import Links from '../constants/Links';
@@ -15,6 +17,7 @@ import { useCore } from '../hooks/useCore';
 
 const Home = () => {
 	const { core } = useCore();
+	const { login, isAuthenticated, isAuthenticating, authError, logout, user, address, balance } = useUser();
 	// const { contractCore } = useCoreContract();
 
 	// const address = useAddress();

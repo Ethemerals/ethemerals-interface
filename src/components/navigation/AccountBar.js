@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
 import { shortenAddress, formatETH } from '../../utils';
@@ -19,7 +19,7 @@ const Spinner = () => (
 
 const AccountBar = () => {
 	const mining = useMiningStatus();
-	const { address, balance, userData, userIsLoading, mutateUser, account, mainIndex } = useUserAccount();
+	const { address, balance } = useUserAccount();
 
 	const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 	const [selectedUserModal, setSelectedUserModal] = useState(0);
@@ -28,36 +28,6 @@ const AccountBar = () => {
 		setIsUserModalOpen(!isUserModalOpen);
 		setSelectedUserModal(selected);
 	};
-
-	useEffect(() => {
-		if (!mutateUser.isLoading && mutateUser.isIdle) {
-			if (account && !userIsLoading && userData) {
-				// NEW USER
-				if (userData.message === 'does not exist') {
-					if (account.ethemerals.length > 0) {
-						mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
-						console.log('new user');
-					}
-				} else {
-					// AUTO MAIN
-					if (account.ethemerals.length > 0) {
-						let foundNFT = false;
-
-						account.ethemerals.forEach((nft) => {
-							if (nft.id === userData.data.main) {
-								foundNFT = true;
-							}
-						});
-
-						if (!foundNFT) {
-							mutateUser.mutate({ address: account.id, main: account.ethemerals[0].id });
-							console.log('auto main');
-						}
-					}
-				}
-			}
-		}
-	}, [userData, userIsLoading, mutateUser, account, mainIndex]);
 
 	if (!address) {
 		return null;

@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
-
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
-import { useWeb3, useLogin } from '../../hooks/Web3Context';
 import { shortenAddress } from '../../utils';
 import useParseAccountAction from '../../hooks/useParseAccountActions';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
@@ -36,29 +33,14 @@ const ActionLink = (action) => {
 };
 
 const UserAccount = () => {
-	const provider = useWeb3();
-	const login = useLogin();
 	const { address } = useUserAccount();
 	const [copied, copy] = useCopyToClipboard(address);
 
-	const [connection, setConnection] = useState('');
 	const { data, status } = useGQLQuery('account_actions', GET_ACCOUNT_ACTIONS, { id: address }, { enabled: !!address, refetchOnMount: true });
-
-	useEffect(() => {
-		if (provider) {
-			setConnection(provider.connection.url);
-		}
-	}, [provider]);
 
 	return (
 		<>
 			<div className="h-28 px-4 m-4 relative bg-customBlue-dark">
-				<div className="flex items-center justify-between py-2">
-					<p className="text-xs sm:text-sm text-white">Connected with {connection} </p>
-					<button onClick={login} className="text-xs sm:text-sm text-gray-200 px-2 hover:text-white">
-						Change
-					</button>
-				</div>
 				<span className="flex items-center gap-2 text-2xl vertical-center text-white">
 					<Jazzicon diameter={20} seed={jsNumberForAddress(address)} />
 					{shortenAddress(address)}

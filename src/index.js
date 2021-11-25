@@ -5,13 +5,17 @@ import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { MoralisProvider } from 'react-moralis';
+
 const queryClient = new QueryClient();
 
 ReactDOM.render(
 	<React.StrictMode>
 		<Router>
 			<QueryClientProvider client={queryClient}>
-				<App />
+				<MoralisProvider appId={process.env.REACT_APP_MORALIS_APPID} serverUrl={process.env.REACT_APP_MORALIS_SERVERURL}>
+					<App />
+				</MoralisProvider>
 			</QueryClientProvider>
 		</Router>
 	</React.StrictMode>,

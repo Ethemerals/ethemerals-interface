@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Range, getTrackBackground } from 'react-range';
 
 import { useSendTx } from '../../../hooks/TxContext';
-import { useReadyToTransact } from '../../../hooks/Web3Context';
 
 import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
@@ -29,7 +28,6 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	const { price } = usePriceFeedPrice(contractPriceFeed, priceFeed);
 
 	const sendTx = useSendTx();
-	const readyToTransact = useReadyToTransact();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
@@ -85,7 +83,7 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 	};
 
 	const onSubmitStake = async () => {
-		if (contractBattle && readyToTransact()) {
+		if (contractBattle) {
 			setIsConfirmationOpen(true);
 			try {
 				let id = userNFT.id;

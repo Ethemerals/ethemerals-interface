@@ -8,7 +8,6 @@ import { usePriceFeedContract } from '../../hooks/usePriceFeed';
 
 import useUserAccount from '../../hooks/useUserAccount';
 import { useCoreApprovals, useCoreContract } from '../../hooks/useCore';
-import { useAddress } from '../../hooks/Web3Context';
 
 import Addresses from '../../constants/contracts/Addresses';
 import ConnectWallet from './modals/ConnectWallet';
@@ -17,6 +16,7 @@ import { formatPrice } from '../../utils';
 import { useEBGetBattleResultsContext } from '../../hooks/EternalBattleContext';
 
 import EBHealthBar from './EBHealthBar';
+import { useUser } from '../../hooks/useUser';
 
 const useGetCardData = (cryptoName, options) => {
 	return useQuery(
@@ -44,7 +44,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 
 	const getBattleResults = useEBGetBattleResultsContext();
 
-	const address = useAddress();
+	const { address } = useUser();
 	const { EBApproved } = useCoreApprovals(contractCore, address, Addresses.EternalBattle);
 
 	const [isCreateStakeLongOpen, setIsCreateStakeLongOpen] = useState(false);

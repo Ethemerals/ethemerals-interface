@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import MobileMenuItems from './MobileMenuItems';
 import Images from '../../constants/Images';
 
-import { useWeb3, useOnboard, useAddress, useLogin } from '../../hooks/Web3Context';
+import { useUser } from '../../hooks/useUser';
 import useWindowSize from '../../hooks/useWindowSize';
 
 import AccountBar from './AccountBar';
@@ -13,21 +13,8 @@ import MoreLinks from '../modals/MoreLinks';
 import MoreLinksButton from './MoreLinksButton';
 import MainMenu from './MainMenu';
 
-const LoadingAccountSpinner = () => (
-	<span className="text-white font-medium inline-flex items-center tracking-wide px-2">
-		<span className="pl-2 pr-4 py-2">Connecting</span>
-		<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-			<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-			<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-		</svg>
-	</span>
-);
-
 const Navbar = () => {
-	const provider = useWeb3();
-	const onboard = useOnboard();
-	const address = useAddress();
-	const login = useLogin();
+	const { login, isAuthenticated, isAuthenticating, logout, address } = useUser();
 	const windowSize = useWindowSize(898);
 
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -56,15 +43,6 @@ const Navbar = () => {
 		setIsMoreLinksOpen(!isMoreLinksOpen);
 	};
 
-	const logout = async () => {
-		if (onboard) {
-			onboard.walletReset();
-			if (typeof window !== 'undefined') {
-				window.location.reload();
-			}
-		}
-	};
-
 	return (
 		<>
 			{/* <!-- navbar goes here --> */}
@@ -89,8 +67,7 @@ const Navbar = () => {
 							{/* <!-- secondary nav --> MD */}
 							{windowMed && (
 								<div className="flex items-center absolute mr-4 scrollbar_right z-50">
-									{!provider && onboard && <ConnectButton login={login} />}
-									{provider && !address && <LoadingAccountSpinner />}
+									{!isAuthenticated && <ConnectButton login={login} isAuthenticating={isAuthenticating} />}
 									{address && <AccountBar />}
 									<MoreLinksButton large={true} toggle={toggleMoreLinks} />
 									{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
@@ -100,9 +77,9 @@ const Navbar = () => {
 							{/* <!-- secondary nav bottom --> SM */}
 							{!windowMed && (
 								<div className="w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12">
-									{!provider && onboard && <ConnectButton login={login} />}
+									{!isAuthenticated && <ConnectButton login={login} isAuthenticating={isAuthenticating} />}
 									{address && <AccountBar />}
-									{provider && !address && <LoadingAccountSpinner />}
+									{console.log(!isAuthenticating, 'ing')}
 									<MoreLinksButton large={false} toggle={toggleMoreLinks} />
 									{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
 								</div>
@@ -143,9 +120,8 @@ const Navbar = () => {
 					)}
 
 					<div className="w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12 z-50">
-						{!provider && onboard && <ConnectButton login={login} />}
+						{!isAuthenticated && <ConnectButton login={login} isAuthenticating={isAuthenticating} />}
 						{address && <AccountBar />}
-						{provider && !address && <LoadingAccountSpinner />}
 						<MoreLinksButton large={false} toggle={toggleMoreLinks} />
 						{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
 					</div>

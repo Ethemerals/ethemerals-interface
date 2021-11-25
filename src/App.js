@@ -13,23 +13,17 @@ import EthemeralsMerals from './pages/EthemeralsMerals';
 import Equipable from './pages/Equipable';
 import NFTDetails from './pages/NFTDetails';
 import All from './pages/All';
-// import Resurrect from './pages/Resurrect';
-// import Redemption from './pages/Redemption';
-// import Marketplace from './pages/Marketplace';
-// import About from './pages/About';
-// import Help from './pages/Help';
+
 // import Dev from './pages/Dev';
 // import DevItems from './pages/DevItems';
-// import NFTTest from './pages/NFTTest';
 
 import Web3ContextProvider from './hooks/Web3Context';
 import TxContextProvider from './hooks/TxContext';
 import Receipt from './components/modals/Receipt';
 import EBContextProvider from './hooks/EternalBattleContext';
-// import ClaimHighestHonor from './pages/ClaimHighestHonor';
 import Items from './pages/Items';
-import OpenseaEquipables from './pages/OpenseaEquipables';
 import EthemeralsPets from './pages/EthemeralsPets';
+import Mint from './pages/Mint';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -55,14 +49,11 @@ function App() {
 						<ReactQueryDevtools initialIsOpen={false} />
 
 						<Switch>
-							<Route exact path="/opensea_equipables/:id">
-								<OpenseaEquipables />
-							</Route>
 							<Route exact path="/">
 								<Home />
 							</Route>
 							<Route exact path="/mint">
-								<Home />
+								<Mint />
 							</Route>
 							<Route exact path="/admin">
 								<Admin />
@@ -108,27 +99,7 @@ function App() {
 							<Route exact path="/ethemeral/:id">
 								<NFTDetails />
 							</Route>
-							{/* <Route exact path="/test">
-									<NFTTest />
-								</Route> */}
-							{/* <Route exact path="/resurrect/:id">
-									<Resurrect />
-								</Route>
-								<Route exact path="/redemption/:id">
-									<Redemption />
-								</Route>
-								<Route exact path="/claim/:id">
-									<ClaimHighestHonor />
-								</Route>
-								<Route exact path="/marketplace">
-									<Marketplace />
-								</Route>
-								<Route exact path="/about">
-									<About />
-								</Route>
-								<Route exact path="/help">
-									<Help />
-								</Route> */}
+
 							{/* <Route exact path="/dev">
 									<Dev />
 								</Route>

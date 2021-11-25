@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSendTx } from '../../../hooks/TxContext';
-import { useReadyToTransact } from '../../../hooks/Web3Context';
+
 import { useCore, useCoreContract } from '../../../hooks/useCore';
 
 import WaitingConfirmation from '../WaitingConfirmation';
@@ -17,7 +17,6 @@ const AllowDelegates = ({ toggle, toggleStake, EBApproved }) => {
 	const { account } = useUserAccount();
 	const { contractCore } = useCoreContract();
 	const sendTx = useSendTx();
-	const readyToTransact = useReadyToTransact();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
@@ -41,7 +40,7 @@ const AllowDelegates = ({ toggle, toggleStake, EBApproved }) => {
 	};
 
 	const onSubmitAllowDelegates = async (allow) => {
-		if (contractCore && readyToTransact()) {
+		if (contractCore) {
 			setIsConfirmationOpen(true);
 			try {
 				const gasEstimate = await contractCore.estimateGas.setAllowDelegates(allow);

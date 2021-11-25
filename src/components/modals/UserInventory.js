@@ -76,7 +76,7 @@ const UserInventory = ({ toggle }) => {
 		if (account && account.items.length > 0) {
 			setNFTItemShortList(account.items.slice(0, 10));
 		}
-		if (userNFTs && userNFTs.length > 0) {
+		if (userNFTs && userNFTs.length > 0 && mainIndex >= 0) {
 			let _userNFT = userNFTs[mainIndex];
 			setUserNFT(_userNFT);
 

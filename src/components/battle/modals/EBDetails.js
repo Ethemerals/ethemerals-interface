@@ -9,7 +9,6 @@ import NFTInventoryCard from '../../NFTInventoryCard';
 import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
 
 import { useSendTx } from '../../../hooks/TxContext';
-import { useReadyToTransact } from '../../../hooks/Web3Context';
 import { shortenAddress } from '../../../utils';
 
 import useUserAccount from '../../../hooks/useUserAccount';
@@ -48,7 +47,6 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 	const [reviverNFT, setReviverNFT] = useState(undefined);
 
 	const sendTx = useSendTx();
-	const readyToTransact = useReadyToTransact();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const [isErrorOpen, setIsErrorOpen] = useState(false);
@@ -91,7 +89,7 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 	};
 
 	const onSubmitRevive = async () => {
-		if (contractBattle && readyToTransact()) {
+		if (contractBattle) {
 			setConfirmationMsg(`Revive ${nft.metadata.coin} from Battle!`);
 			setIsConfirmationOpen(true);
 			try {
@@ -116,7 +114,7 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 	};
 
 	const onSubmitUnStake = async () => {
-		if (contractBattle && readyToTransact()) {
+		if (contractBattle) {
 			setConfirmationMsg(`Return ${nft.metadata.coin} from Battle!`);
 			setIsConfirmationOpen(true);
 
