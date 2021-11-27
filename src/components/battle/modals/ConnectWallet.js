@@ -1,7 +1,8 @@
-import { useUser } from '../../../hooks/useUser';
+import { useAuthenticating, useLogin } from '../../../hooks/Web3Context';
 
 const ConnectWallet = ({ toggle }) => {
-	const { login } = useUser();
+	const login = useLogin();
+	const isAuthenticating = useAuthenticating();
 
 	const handleLogin = () => {
 		login();

@@ -7,8 +7,6 @@ import Addresses from '../constants/contracts/Addresses';
 
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
-import { useWeb3 } from '../hooks/useWeb3';
-import { useUser } from '../hooks/useUser';
 import { useSendTx } from '../hooks/TxContext';
 import { useCoreContract, useCore, useCoreAccount } from '../hooks/useCore';
 import { useEquipableContract } from '../hooks/useEquipable';
@@ -16,6 +14,8 @@ import { useTokenContract } from '../hooks/useToken';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
+import { useWeb3 } from '../hooks/Web3Context';
+import useUserAccount from '../hooks/useUserAccount';
 
 const getEthemeral = async (contract, id, setEthemeral) => {
 	try {
@@ -79,7 +79,7 @@ const getBalance = async (provider, setContractBalance) => {
 const Admin = () => {
 	const { register, handleSubmit } = useForm();
 
-	const { provider } = useWeb3(); //TODO
+	const provider = useWeb3();
 	const { core } = useCore();
 	const { accountCore } = useCoreAccount();
 	// const { accountEternalBattle } = useEternalBattleAccount();
@@ -88,7 +88,7 @@ const Admin = () => {
 	const { contractEquipable } = useEquipableContract();
 	// const { contractBattle } = useEternalBattleContract();
 
-	const { address } = useUser();
+	const { address } = useUserAccount();
 	const sendTx = useSendTx();
 
 	// core contract

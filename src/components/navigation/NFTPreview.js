@@ -1,6 +1,6 @@
-import { useMoralis } from 'react-moralis';
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import useUserAccount from '../../hooks/useUserAccount';
+import { useAuthenticating } from '../../hooks/Web3Context';
 
 const Spinner = () => (
 	<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -10,11 +10,12 @@ const Spinner = () => (
 );
 
 const NFTPreview = () => {
-	const { account, userNFTs, mainIndex } = useUserAccount();
-	const { isUserUpdating, userError, user } = useMoralis();
+	const { account, userNFTs, mainIndex, userIsLoading, userIsUpdating } = useUserAccount();
+	const { isAuthenticating } = useAuthenticating();
+
 	const { getNFTImages } = useNFTUtils();
 
-	if (isUserUpdating || !user || userError) {
+	if (userNFTs.length > 0 && (isAuthenticating || userIsLoading || userIsUpdating || userNFTs[mainIndex] === undefined)) {
 		return (
 			<span className="flex bg-brandColor rounded-lg items-center h-10 mr-2 cursor-pointer text-xs sm:text-base">
 				<span className="text-white px-2 md:px-3">LOADING</span>
@@ -25,7 +26,7 @@ const NFTPreview = () => {
 
 	return (
 		<>
-			{user && account && userNFTs.length > 0 ? (
+			{account && userNFTs.length > 0 ? (
 				<span className="flex w-10 h-10 rounded-lg mr-2 relative cursor-pointer opacity-100 bg-brandColor-purple">
 					<div className="absolute top-0 left-0">
 						{mainIndex !== undefined && <img className="w-10 h-10 z-0 rounded-lg" src={getNFTImages(userNFTs[mainIndex].metadata.id).colors[0].thumbnail} alt="" />}

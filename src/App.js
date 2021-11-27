@@ -14,6 +14,8 @@ import Equipable from './pages/Equipable';
 import NFTDetails from './pages/NFTDetails';
 import All from './pages/All';
 
+import Web3ContextProvider from './hooks/Web3Context';
+
 // import Dev from './pages/Dev';
 // import DevItems from './pages/DevItems';
 
@@ -38,67 +40,68 @@ function App() {
 	return (
 		<HelmetProvider>
 			<QueryClientProvider client={queryClient}>
-				<TxContextProvider>
-					<Receipt />
+				<Web3ContextProvider>
+					<TxContextProvider>
+						<Receipt />
 
-					<Helmet>
-						<title>Ethemerals</title>
-					</Helmet>
-					<ReactQueryDevtools initialIsOpen={false} />
+						<Helmet>
+							<title>Ethemerals</title>
+						</Helmet>
+						<ReactQueryDevtools initialIsOpen={false} />
 
-					<Switch>
-						<Route exact path="/">
-							<Home />
-						</Route>
-						<Route exact path="/mint">
-							<Home />
-						</Route>
-						<Route exact path="/admin">
-							<Admin />
-						</Route>
-						<Route exact path="/all">
-							<All />
-						</Route>
-						<Route exact path="/art">
-							<Art />
-						</Route>
+						<Switch>
+							<Route exact path="/">
+								<Home />
+							</Route>
+							<Route exact path="/mint">
+								<Mint />
+							</Route>
+							<Route exact path="/admin">
+								<Admin />
+							</Route>
+							<Route exact path="/all">
+								<All />
+							</Route>
+							<Route exact path="/art">
+								<Art />
+							</Route>
 
-						<Route exact path="/battle/">
-							<EBContextProvider>
-								<EternalBattle />
-							</EBContextProvider>
-						</Route>
-						<Route exact path="/battle/:id">
-							<EBContextProvider>
-								<EternalBattle />
-							</EBContextProvider>
-						</Route>
-						<Route exact path="/dashboard">
-							<Dashboard />
-						</Route>
-						<Route exact path="/ethemerals">
-							<EthemeralsMerals />
-						</Route>
-						<Route exact path="/ethemerals/merals">
-							<EthemeralsMerals />
-						</Route>
-						<Route exact path="/ethemerals/pets">
-							<EthemeralsPets />
-						</Route>
-						<Route exact path="/items">
-							<Items />
-						</Route>
-						<Route exact path="/items/:sort">
-							<Items />
-						</Route>
-						<Route exact path="/equipable/:id">
-							<Equipable />
-						</Route>
-						<Route exact path="/ethemeral/:id">
-							<NFTDetails />
-						</Route>
+							<Route exact path="/battle/">
+								<EBContextProvider>
+									<EternalBattle />
+								</EBContextProvider>
+							</Route>
+							<Route exact path="/battle/:id">
+								<EBContextProvider>
+									<EternalBattle />
+								</EBContextProvider>
+							</Route>
+							<Route exact path="/dashboard">
+								<Dashboard />
+							</Route>
+							<Route exact path="/ethemerals">
+								<EthemeralsMerals />
+							</Route>
+							<Route exact path="/ethemerals/merals">
+								<EthemeralsMerals />
+							</Route>
+							<Route exact path="/ethemerals/pets">
+								<EthemeralsPets />
+							</Route>
+							<Route exact path="/items">
+								<Items />
+							</Route>
+							<Route exact path="/items/:sort">
+								<Items />
+							</Route>
+							<Route exact path="/equipable/:id">
+								<Equipable />
+							</Route>
+							<Route exact path="/ethemeral/:id">
+								<NFTDetails />
+							</Route>
 
-						{/* <Route exact path="/dev">
+							{/* <Route exact path="/dev">
 									<Dev />
 								</Route>
 								<Route exact path="/dev/:crop">
@@ -110,9 +113,10 @@ function App() {
 								<Route exact path="/devitems/:crop">
 									<DevItems />
 								</Route> */}
-					</Switch>
-					<Navbar />
-				</TxContextProvider>
+						</Switch>
+						<Navbar />
+					</TxContextProvider>
+				</Web3ContextProvider>
 			</QueryClientProvider>
 		</HelmetProvider>
 	);

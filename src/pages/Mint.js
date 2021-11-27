@@ -13,12 +13,14 @@ import { useCore, useCoreContract } from '../hooks/useCore';
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
-import { useUser } from '../hooks/useUser';
+import { useLogin } from '../hooks/Web3Context';
+import useUserAccount from '../hooks/useUserAccount';
 
 const Mint = () => {
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
-	const { address, login, user } = useUser();
+	const login = useLogin();
+	const { address } = useUserAccount();
 
 	const sendTx = useSendTx();
 
@@ -35,7 +37,7 @@ const Mint = () => {
 	};
 
 	const onSubmitMint = async () => {
-		if (!user) {
+		if (!address) {
 			login();
 			return;
 		}
@@ -64,7 +66,7 @@ const Mint = () => {
 	};
 
 	const onSubmitMints = async () => {
-		if (!user) {
+		if (!address) {
 			login();
 			return;
 		}

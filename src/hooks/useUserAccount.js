@@ -1,14 +1,47 @@
 import { useEffect, useState } from 'react';
 import { GraphQLClient } from 'graphql-request';
 
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import axios from 'axios';
 
 import { GET_ACCOUNT } from '../queries/Subgraph';
-import { useUser } from './useUser';
+
 import { isAddress } from '../utils';
 import Links from '../constants/Links';
+import { useAccessToken, useAddress, useAuthenticated, useWeb3 } from './Web3Context';
 
-import { useMoralis } from 'react-moralis';
+const updateUser = async (userData) => {
+	if (isAddress(userData.address)) {
+		try {
+			const { data } = await axios.post(`${process.env.REACT_APP_API_ACCOUNTS}update`, userData, {
+				headers: { authorization: `Bearer ${userData.accessToken}` },
+			});
+			return data;
+		} catch (error) {
+			throw new Error('error');
+		}
+	} else {
+		return { message: 'address not valid' };
+	}
+};
+
+const getUser = async (id, accessToken) => {
+	if (isAddress(id)) {
+		try {
+			const { data } = await axios.get(`${process.env.REACT_APP_API_ACCOUNTS}user/${id}`, {
+				headers: { authorization: `Bearer ${accessToken}` },
+			});
+			if (data.message === 'got entry') {
+				return data;
+			}
+			throw new Error('error');
+		} catch (error) {
+			throw new Error('error');
+		}
+	} else {
+		return { message: 'address not valid' };
+	}
+};
 
 export const getAccount = async (variables) => {
 	if (isAddress(variables.id)) {
@@ -25,16 +58,38 @@ export const getAccount = async (variables) => {
 	}
 };
 
-const useUserAccount = () => {
-	const { address, balance } = useUser();
-	const { isUserUpdating, user, setUserData } = useMoralis();
-	const [autoTry, setAutoTry] = useState(0);
+const getBalance = async (provider, address) => {
+	try {
+		const value = await provider.getBalance(address);
+		return value.toString();
+	} catch (error) {
+		console.log(error);
+	}
+};
 
+const useUserAccount = () => {
+	const address = useAddress();
+	const provider = useWeb3();
+
+	const isAuthenticated = useAuthenticated();
+	const accessToken = useAccessToken();
+
+	const queryClient = useQueryClient();
+
+	const [balance, setBalance] = useState(null);
 	const [account, setAccount] = useState(undefined);
 	const [mainIndex, setMainIndex] = useState(undefined);
 	const [userNFTs, setUserNFTs] = useState([]);
+	const [user, setUser] = useState(undefined);
+	const [userIsUpdating, setUserIsUpdating] = useState(false);
 
 	const { data, status, loaded } = useQuery(`account`, () => getAccount({ id: address }), { enabled: !!address, refetchOnMount: true }); // TODO
+
+	const userId = data?.account?.id;
+
+	const { isLoading: userIsLoading, data: userData } = useQuery(['user', address], () => getUser(address, accessToken), { enabled: !!userId && !!isAuthenticated && !!accessToken });
+	const { data: userBalance } = useQuery('user_balance', () => getBalance(provider, address), { enabled: !!provider && !!address, refetchOnMount: true });
+	const mutateUser = useMutation(updateUser, { onSuccess: async () => queryClient.invalidateQueries('user') });
 
 	useEffect(() => {
 		if (data && data.account !== null) {
@@ -44,15 +99,30 @@ const useUserAccount = () => {
 		}
 	}, [data]);
 
+	useEffect(() => {
+		if (userBalance) {
+			setBalance(userBalance);
+		}
+	}, [userBalance]);
+
+	useEffect(() => {
+		if (mutateUser.status === 'loading') {
+			setUserIsUpdating(true);
+		} else {
+			setUserIsUpdating(false);
+		}
+	}, [mutateUser]);
+
 	// GET MAIN
 	useEffect(() => {
-		if (user && account && !isUserUpdating) {
+		if (userData && account && !userIsLoading) {
 			let foundNFT = false;
 			// FOUND USER
-			if (user.attributes.meralMainId) {
+			if (userData && userData.data && userData.data.meralMainId) {
+				setUser(userData.data);
 				if (account && account.ethemerals.length > 0) {
 					account.ethemerals.forEach((nft, index) => {
-						if (nft.id === user.attributes.meralMainId) {
+						if (nft.id === userData.data.meralMainId) {
 							setMainIndex(index);
 							foundNFT = true;
 						}
@@ -64,44 +134,46 @@ const useUserAccount = () => {
 				}
 			}
 		}
-	}, [user, account, isUserUpdating]);
+	}, [userData, account, userIsLoading, user]);
 
-	// SET MAIN
 	useEffect(() => {
-		if (account && user) {
-			if (!isUserUpdating && account.ethemerals.length > 0) {
+		if (!mutateUser.isLoading && mutateUser.isIdle) {
+			if (account && !userIsLoading && userData) {
 				// NEW USER
-				if (!user.attributes.meralMainId) {
-					setUserData({
-						meralMainId: account.ethemerals[0].id,
-					});
-					console.log('new user');
+				if (userData.message === 'does not exist') {
+					if (account.ethemerals.length > 0) {
+						mutateUser.mutateAsync({ address: account.id, updates: { meralMainId: account.ethemerals[0].id }, accessToken });
+						console.log('new user');
+					}
 				} else {
 					// AUTO MAIN
+					if (account.ethemerals.length > 0) {
+						let foundNFT = false;
 
-					let foundNFT = false;
-
-					account.ethemerals.forEach((nft) => {
-						if (nft.id === user.attributes.meralMainId) {
-							foundNFT = true;
-						}
-					});
-
-					if (foundNFT) {
-						setAutoTry(0);
-					}
-
-					if (!foundNFT && autoTry < 5) {
-						setUserData({
-							meralMainId: account.ethemerals[0].id,
+						account.ethemerals.forEach((nft) => {
+							if (nft.id === userData.data.meralMainId) {
+								foundNFT = true;
+							}
 						});
-						console.log('auto main');
-						setAutoTry((at) => at + 1);
+
+						if (!foundNFT) {
+							mutateUser.mutateAsync({ address: account.id, updates: { meralMainId: account.ethemerals[0].id }, accessToken });
+							console.log('auto main');
+						}
 					}
 				}
 			}
 		}
-	}, [account, isUserUpdating, setUserData, user, autoTry]);
+	}, [userData, userIsLoading, mutateUser, account, accessToken]);
+
+	const setUserData = async (updates) => {
+		try {
+			await mutateUser.mutateAsync({ address, updates, accessToken });
+			console.log('updated');
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	// prettier-ignore
 	return {
@@ -112,6 +184,10 @@ const useUserAccount = () => {
     status,
     mainIndex,
     userNFTs,
+    user,
+    userIsLoading,
+    userIsUpdating,
+    setUserData
   };
 };
 

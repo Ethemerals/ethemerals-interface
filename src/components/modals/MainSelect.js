@@ -1,15 +1,11 @@
 import useUserAccount from '../../hooks/useUserAccount';
-import { useMoralis } from 'react-moralis';
 
 const MainSelect = ({ toggle }) => {
-	const { mainIndex, userNFTs } = useUserAccount();
-	const { user, setUserData } = useMoralis();
+	const { mainIndex, userNFTs, setUserData } = useUserAccount();
 
-	const selectMain = (index) => {
-		if (user) {
-			setUserData({
-				meralMainId: userNFTs[index].id,
-			});
+	const selectMain = async (index) => {
+		if (userNFTs) {
+			setUserData({ meralMainId: userNFTs[index].id });
 			toggle();
 		}
 	};

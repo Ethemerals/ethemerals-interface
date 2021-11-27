@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import MobileMenuItems from './MobileMenuItems';
 import Images from '../../constants/Images';
 
-import { useUser } from '../../hooks/useUser';
+import { useSigner, useLogin, useAuthenticated } from '../../hooks/Web3Context';
+
 import useWindowSize from '../../hooks/useWindowSize';
 
 import AccountBar from './AccountBar';
@@ -12,9 +13,16 @@ import ConnectButton from './ConnectButton';
 import MoreLinks from '../modals/MoreLinks';
 import MoreLinksButton from './MoreLinksButton';
 import MainMenu from './MainMenu';
+import useUserAccount from '../../hooks/useUserAccount';
 
 const Navbar = () => {
-	const { login, isAuthenticated, isAuthenticating, logout, address } = useUser();
+	const { address } = useUserAccount();
+	const isAuthenticated = useAuthenticated();
+
+	const logout = () => {
+		console.log('logout');
+	};
+
 	const windowSize = useWindowSize(898);
 
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -67,8 +75,8 @@ const Navbar = () => {
 							{/* <!-- secondary nav --> MD */}
 							{windowMed && (
 								<div className="flex items-center absolute mr-4 scrollbar_right z-50">
-									{!isAuthenticated && <ConnectButton login={login} isAuthenticating={isAuthenticating} />}
-									{address && <AccountBar />}
+									{!isAuthenticated && <ConnectButton />}
+									{isAuthenticated && <AccountBar />}
 									<MoreLinksButton large={true} toggle={toggleMoreLinks} />
 									{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
 								</div>
@@ -77,8 +85,8 @@ const Navbar = () => {
 							{/* <!-- secondary nav bottom --> SM */}
 							{!windowMed && (
 								<div className="w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12">
-									{!isAuthenticated && <ConnectButton login={login} isAuthenticating={isAuthenticating} />}
-									{address && <AccountBar />}
+									{!isAuthenticated && <ConnectButton />}
+									{isAuthenticated && <AccountBar />}
 									<MoreLinksButton large={false} toggle={toggleMoreLinks} />
 									{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
 								</div>
@@ -119,7 +127,7 @@ const Navbar = () => {
 					)}
 
 					<div className="w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12 z-50">
-						{!isAuthenticated && <ConnectButton login={login} isAuthenticating={isAuthenticating} />}
+						{!isAuthenticated && <ConnectButton />}
 						{address && <AccountBar />}
 						<MoreLinksButton large={false} toggle={toggleMoreLinks} />
 						{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}

@@ -16,7 +16,6 @@ import { formatPrice } from '../../utils';
 import { useEBGetBattleResultsContext } from '../../hooks/EternalBattleContext';
 
 import EBHealthBar from './EBHealthBar';
-import { useUser } from '../../hooks/useUser';
 
 const useGetCardData = (cryptoName, options) => {
 	return useQuery(
@@ -39,13 +38,11 @@ const PairTrackerCard = ({ priceFeed }) => {
 	const cryptoName = priceFeed.baseName.toLowerCase();
 	const { contractPriceFeed } = usePriceFeedContract();
 
-	const { account } = useUserAccount();
+	const { account, address } = useUserAccount();
 	const { contractCore } = useCoreContract();
-	const { user } = useUser();
 
 	const getBattleResults = useEBGetBattleResultsContext();
 
-	const { address } = useUser();
 	const { EBApproved } = useCoreApprovals(contractCore, address, Addresses.EternalBattle);
 
 	const [isCreateStakeLongOpen, setIsCreateStakeLongOpen] = useState(false);
@@ -95,7 +92,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 	}, [getBattleResults, priceFeed]);
 
 	const handleJoinBattle = (long) => {
-		if (!user) {
+		if (!address) {
 			toggleConnectWallet();
 		} else if (EBApproved === true) {
 			if (long) {

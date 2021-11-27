@@ -3,11 +3,10 @@ import { useQuery } from 'react-query';
 import { Contract } from '@ethersproject/contracts';
 import axios from 'axios';
 
-import { useWeb3 } from './useWeb3';
-
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import Addresses from '../constants/contracts/Addresses';
+import { useWeb3 } from './Web3Context';
 
 const getContracts = async (provider, setContractPriceFeed) => {
 	if (provider) {
@@ -65,7 +64,7 @@ export const usePriceFeedPrice = (contract, priceFeed) => {
 };
 
 export const usePriceFeedContract = () => {
-	const { provider } = useWeb3();
+	const provider = useWeb3();
 
 	const [contractPriceFeed, setContractPriceFeed] = useState(undefined);
 

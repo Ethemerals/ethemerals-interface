@@ -10,14 +10,12 @@ import ErrorDialogue from '../components/modals/ErrorDialogue';
 import { shortenAddress } from '../utils';
 import Addresses from '../constants/contracts/Addresses';
 import useUserAccount from '../hooks/useUserAccount';
-import { useUser } from '../hooks/useUser';
 
 const Preferences = () => {
 	const { core, delegates } = useCore();
 	const { contractCore } = useCoreContract();
-	const { address } = useUser();
 
-	const { account } = useUserAccount();
+	const { account, address } = useUserAccount();
 
 	const { EBApproved } = useCoreApprovals(contractCore, address, Addresses.EternalBattle);
 	const sendTx = useSendTx();

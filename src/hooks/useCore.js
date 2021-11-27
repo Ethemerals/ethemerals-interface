@@ -4,11 +4,10 @@ import { useQuery } from 'react-query';
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_CORE, GET_CORE_ACCOUNT, GET_DELEGATES } from '../queries/Subgraph';
 
-import { useWeb3 } from './useWeb3';
-
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import Addresses from '../constants/contracts/Addresses';
+import { useWeb3 } from './Web3Context';
 
 const getContracts = async (provider, setContractCore) => {
 	if (provider) {
@@ -38,7 +37,7 @@ const getIsApprovedForAll = async (contract, _owner, _operator) => {
 };
 
 export const useCoreContract = () => {
-	const { provider } = useWeb3();
+	const provider = useWeb3();
 
 	const [contractCore, setContractCore] = useState(undefined);
 

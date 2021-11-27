@@ -5,11 +5,10 @@ import axios from 'axios';
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_ETERNALBATTLE_ACCOUNT } from '../queries/Subgraph';
 
-import { useWeb3 } from './useWeb3';
-
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import Addresses from '../constants/contracts/Addresses';
+import { useWeb3 } from './Web3Context';
 
 const getContracts = async (provider, setContractBattle) => {
 	if (provider) {
@@ -89,7 +88,7 @@ const getStake = async (provider, contract, id) => {
 };
 
 export const useEternalBattleGetChange = (contract, id) => {
-	const { provider } = useWeb3();
+	const provider = useWeb3();
 	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contract, id), { enabled: !!id, refetchInterval: 50000 });
 
 	const [scoreChange, setScoreChange] = useState(undefined);
@@ -104,7 +103,7 @@ export const useEternalBattleGetChange = (contract, id) => {
 };
 
 export const useEternalBattleGetStake = (contract, id) => {
-	const { provider } = useWeb3();
+	const provider = useWeb3();
 	const { isLoading, data } = useQuery([`getStake_${id}`, id], () => getStake(provider, contract, id), { refetchInterval: 50000 });
 
 	const [stake, setStake] = useState(undefined);
@@ -119,7 +118,7 @@ export const useEternalBattleGetStake = (contract, id) => {
 };
 
 export const useEternalBattleContract = () => {
-	const { provider } = useWeb3();
+	const provider = useWeb3();
 
 	const [contractBattle, setContractBattle] = useState(undefined);
 

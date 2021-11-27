@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { useWeb3 } from './useWeb3';
+import { useWeb3 } from './Web3Context';
 
 const MiningStatusContext = React.createContext();
 const SendTxContext = React.createContext();
@@ -17,7 +17,7 @@ export function useReceipt() {
 }
 
 export default function TxContextProvider({ children }) {
-	const { provider } = useWeb3();
+	const provider = useWeb3();
 	const queryClient = useQueryClient();
 
 	const [miningStatus, setMiningStatus] = useState(false);
@@ -32,6 +32,7 @@ export default function TxContextProvider({ children }) {
 				keys.forEach((key) => {
 					setTimeout(() => queryClient.invalidateQueries(key), 5000);
 				});
+				setTimeout(() => queryClient.invalidateQueries('user_balance'), 1000);
 			}
 
 			if (sendMessage) {
