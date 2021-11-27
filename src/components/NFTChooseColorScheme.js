@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import Images from '../constants/Images';
-import { useMeralColor, useMutateMeralColor, refreshMetadata } from '../hooks/useColorTraits';
+import { useMeralColor, useUpdateMeralColor, refreshMetadata } from '../hooks/useColorTraits';
 
 import useUserAccount from '../hooks/useUserAccount';
 
@@ -27,7 +27,7 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 	const queryClient = useQueryClient();
 
 	const { meralColor } = useMeralColor(nft.id);
-	const { mutateMeralColor } = useMutateMeralColor();
+	const { setMeralColor } = useUpdateMeralColor();
 	const [colorNames, setColorNames] = useState(['OG Color', 'Color 2', 'Color 3', 'Color 4']);
 	const [currentColor, setCurrentColor] = useState(0);
 	const [selectedColor, setSelectedColor] = useState(0);
@@ -65,7 +65,8 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 		if (account && isOwned && selectedColor !== currentColor) {
 			setSaving(true);
 			try {
-				await mutateMeralColor.mutateAsync({ address: account.id, selected: selectedColor, tokenId: nft.id });
+				// await mutateMeralColor.mutateAsync({ address: account.id, selected: selectedColor, tokenId: nft.id });
+				await setMeralColor(nft.id, selectedColor);
 				setTimeout(() => queryClient.invalidateQueries(`${nft.id}_colors`), 3000);
 				setTimeout(() => refreshMetadata(nft.id), 1000);
 				setTimeout(() => setSaving(false), 3000);

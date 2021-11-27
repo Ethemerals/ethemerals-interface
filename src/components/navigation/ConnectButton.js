@@ -1,4 +1,4 @@
-import { useSigner, useLogin, useAuthenticating } from '../../hooks/Web3Context';
+import { useLogin, useAuthenticating } from '../../hooks/Web3Context';
 
 const ConnectButton = () => {
 	const login = useLogin();

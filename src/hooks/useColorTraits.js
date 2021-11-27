@@ -3,31 +3,16 @@ import { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 
-import { isAddress, shortenAddress } from '../utils';
-
-const signMessage = async (address) => {
-	if (address && window.ethereum) {
-		let exampleMessage = `Hi ${shortenAddress(address)} Please sign this GAS FREE message to prove this is you!`;
-		try {
-			let ethereum = window.ethereum;
-			const msg = `0x${Buffer.from(exampleMessage, 'utf8').toString('hex')}`;
-			const sign = await ethereum.request({
-				method: 'personal_sign',
-				params: [msg, address, 'Example dfdffd'],
-			});
-			return sign;
-		} catch (err) {
-			console.log(err);
-		}
-	}
-};
+import { isAddress } from '../utils';
+import { useAccessToken, useAddress } from './Web3Context';
 
 const updateMeralColor = async (meralData) => {
-	let signed = await signMessage(meralData.address);
-	meralData.signed = signed;
 	if (isAddress(meralData.address)) {
+		meralData.network = parseInt(process.env.REACT_APP_API_NETWORK);
 		try {
-			const { data } = await axios.post(`${process.env.REACT_APP_API_MERALS}colors`, meralData);
+			const { data } = await axios.post(`${process.env.REACT_APP_API_MERALS}colors`, meralData, {
+				headers: { authorization: `Bearer ${meralData.accessToken}` },
+			});
 			return data;
 		} catch (error) {
 			throw new Error('error');
@@ -78,8 +63,20 @@ export const useMeralColor = (id) => {
   };
 };
 
-export const useMutateMeralColor = () => {
+export const useUpdateMeralColor = () => {
+	const address = useAddress();
+	const accessToken = useAccessToken();
+
 	const queryClient = useQueryClient();
 	const mutateMeralColor = useMutation(updateMeralColor, { onSuccess: async () => queryClient.invalidateQueries(['allColors']) });
-	return { mutateMeralColor };
+
+	const setMeralColor = async (tokenId, selected) => {
+		try {
+			await mutateMeralColor.mutateAsync({ address, tokenId, selected, accessToken });
+			console.log('updated');
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	return { mutateMeralColor, setMeralColor };
 };

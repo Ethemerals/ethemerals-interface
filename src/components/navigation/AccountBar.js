@@ -7,7 +7,6 @@ import { useMiningStatus } from '../../hooks/TxContext';
 import UserModal from '../modals/UserModal';
 
 import useUserAccount from '../../hooks/useUserAccount';
-
 import NFTPreview from './NFTPreview';
 
 const Spinner = () => (

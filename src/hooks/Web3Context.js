@@ -3,8 +3,6 @@ import { ethers } from 'ethers';
 
 import axios from 'axios';
 
-import jwt_decode from 'jwt-decode';
-
 // ONBOARD
 // import { initOnboard } from '../constants/Wallets';
 
@@ -12,7 +10,6 @@ import jwt_decode from 'jwt-decode';
 const Web3Context = createContext();
 const SignerContext = createContext();
 const AddressContext = createContext();
-const BalanceContext = createContext();
 const LoginContext = createContext();
 const Authenticated = createContext();
 const Authenticating = createContext();
@@ -63,10 +60,11 @@ const verifyRequest = async (address, signature, nonce) => {
 };
 
 const authRequest = async (address, signer) => {
+	const signingMessage = 'Sign this Message To authenticate and signin. [';
 	try {
 		const url = `${process.env.REACT_APP_API_ACCOUNTS}auth`;
 		const { data } = await axios.get(`${url}?address=${address}`);
-		const signature = await signer.signMessage(`${data.data}`);
+		const signature = await signer.signMessage(`${signingMessage}${data.data}]`);
 		const { authenticated, accessToken } = await verifyRequest(address, signature, data.data);
 		return { accessToken, authenticated };
 	} catch (error) {
