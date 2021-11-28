@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSendTx } from '../../../hooks/TxContext';
+import { useSendTx } from '../../../context/TxContext';
 
 import { useCoreContract } from '../../../hooks/useCore';
 import useUserAccount from '../../../hooks/useUserAccount';

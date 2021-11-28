@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import MobileMenuItems from './MobileMenuItems';
 import Images from '../../constants/Images';
 
-import { useAuthenticated } from '../../hooks/Web3Context';
+import { useAuthenticated } from '../../context/Web3Context';
 
 import useWindowSize from '../../hooks/useWindowSize';
 

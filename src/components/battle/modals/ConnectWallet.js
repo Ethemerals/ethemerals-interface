@@ -1,4 +1,4 @@
-import { useLogin } from '../../../hooks/Web3Context';
+import { useLogin } from '../../../context/Web3Context';
 
 const ConnectWallet = ({ toggle }) => {
 	const login = useLogin();

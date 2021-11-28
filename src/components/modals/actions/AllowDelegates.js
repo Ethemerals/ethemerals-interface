@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useSendTx } from '../../../hooks/TxContext';
+import { useSendTx } from '../../../context/TxContext';
 
 import { useCore, useCoreContract } from '../../../hooks/useCore';
 

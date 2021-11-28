@@ -7,14 +7,14 @@ import Addresses from '../constants/contracts/Addresses';
 
 import { shortenAddress, formatELF, formatETH } from '../utils';
 
-import { useSendTx } from '../hooks/TxContext';
+import { useSendTx } from '../context/TxContext';
 import { useCoreContract, useCore, useCoreAccount } from '../hooks/useCore';
 import { useEquipableContract } from '../hooks/useEquipable';
 import { useTokenContract } from '../hooks/useToken';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
-import { useWeb3 } from '../hooks/Web3Context';
+import { useWeb3 } from '../context/Web3Context';
 import useUserAccount from '../hooks/useUserAccount';
 
 const getEthemeral = async (contract, id, setEthemeral) => {

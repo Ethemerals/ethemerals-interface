@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import { useMeralImagePaths } from '../hooks/useMeralImagePaths';
-import { useNFTUtils } from '../hooks/useNFTUtils';
+import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
+import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
-import RankedStars from './cards/RankedStars';
-import MainSelect from './modals/MainSelect';
+import RankedStars from '../components/RankedStars';
+import MainSelect from '../../modals/MainSelect';
 
 const NFTInventoryCard = ({ nft, stats, showBase = false, showChange = true }) => {
 	const { elements, parseScore } = useNFTUtils();

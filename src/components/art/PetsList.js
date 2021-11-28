@@ -1,29 +1,27 @@
 import { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
-import NFTPreviewCard from '../../components/NFTPreviewCard';
 import Links from '../../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
+import PetDragableCard from './cards/PetDragableCard';
+import useUserAccount from '../../hooks/useUserAccount';
+import { ItemTypes } from './utils/items';
 
 const endpoint = Links.SUBGRAPH_ENDPOINT;
 const graphQLClient = new GraphQLClient(endpoint);
 
 const GET_NFTS = gql`
 	query ($first: Int!, $skip: Int!, $orderBy: String!, $orderDirection: String!) {
-		ethemerals(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+		pets(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
 			id
 			timestamp
-			score
-			rewards
+			baseId
 			atk
 			def
 			spd
-			baseId
-			bgId
+			rarity
 			metadata {
-				id
-				coin
-				subClass
+				name
 			}
 		}
 	}
@@ -32,20 +30,16 @@ const GET_NFTS = gql`
 const getNFTsFiltered = (variables, filters) => {
 	return `
 	query {
-		ethemerals(${variables}, where: ${filters}) {
+		pets(${variables}, where: ${filters}) {
 			id
 			timestamp
-			score
-			rewards
+			baseId
 			atk
 			def
 			spd
-			baseId
-			bgId
+			rarity
 			metadata {
-				id
-				coin
-				subClass
+				name
 			}
 		}
 	}
@@ -62,7 +56,7 @@ const formatFilters = (filters) => {
 	return `{${_filters}}`;
 };
 
-const getMerals = async (page, orderBy, orderDirection, shouldFilter, filters) => {
+const getPets = async (page, orderBy, orderDirection, shouldFilter, filters) => {
 	let amount = 50;
 	try {
 		let fetchData;
@@ -164,16 +158,28 @@ const PageNumbers = ({ page, setPage }) => {
 	);
 };
 
-const Merals = ({ order, shouldFilter, filters }) => {
+const PetsList = ({ order, shouldFilter, filters, allDropped }) => {
 	const [page, setPage] = useState(0);
+	const { account } = useUserAccount();
+	const [userNFTIds, setUserNFTIds] = useState([]);
+
+	useEffect(() => {
+		if (account && account.pets.length > 0) {
+			let _userNFTIds = [];
+			account.pets.forEach((nft) => {
+				_userNFTIds.push(nft.id);
+			});
+			setUserNFTIds(_userNFTIds);
+		}
+	}, [account]);
 
 	useEffect(() => {
 		setPage(0);
 	}, [order, shouldFilter, filters]);
 
 	const { isLoading, isError, data } = useQuery(
-		[`nfts_${order.orderBy}_${order.orderDirection}_${shouldFilter}_${JSON.stringify(filters)}`, page],
-		() => getMerals(page, order.orderBy, order.orderDirection, shouldFilter, filters),
+		[`pets_${order.orderBy}_${order.orderDirection}_${shouldFilter}_${JSON.stringify(filters)}`, page],
+		() => getPets(page, order.orderBy, order.orderDirection, shouldFilter, filters),
 		{
 			keepPreviousData: true,
 		}
@@ -196,12 +202,13 @@ const Merals = ({ order, shouldFilter, filters }) => {
 			) : (
 				<>
 					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
-					<div className="flex flex-wrap mx-auto justify-center">{data && data.ethemerals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} rewards={order.orderBy === 'rewards'} />)}</div>
-					{data && data.ethemerals.length > 49 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
+					<div>{data && data.pets.map((nft) => <PetDragableCard key={nft.id} nft={nft} owned={userNFTIds.indexOf(nft.id) >= 0} dropped={allDropped[ItemTypes.PETS].indexOf(nft.id) >= 0} />)}</div>
+
+					{data && data.pets.length > 49 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 				</>
 			)}
 		</div>
 	);
 };
 
-export default Merals;
+export default PetsList;

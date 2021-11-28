@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Links from '../constants/Links';
-import Addresses from '../constants/contracts/Addresses';
+import Links from '../../../constants/Links';
+import Addresses from '../../../constants/contracts/Addresses';
 
-import Images from '../constants/Images';
+import Images from '../../../constants/Images';
 
-import useUserAccount from '../hooks/useUserAccount';
-import Gift from './modals/actions/Gift';
-import SummonPet from './modals/actions/SummonPet';
-import { shortenAddress } from '../utils';
+import useUserAccount from '../../../hooks/useUserAccount';
+import Gift from '../../modals/actions/Gift';
+import SummonPet from '../../modals/actions/SummonPet';
+import { shortenAddress } from '../../../utils';
 
 const NFTActions = ({ nft }) => {
 	const { account, mainIndex, userNFTs, setUserData, userIsUpdating } = useUserAccount();

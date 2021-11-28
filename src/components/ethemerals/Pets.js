@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import Links from '../../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
-import PetsPreviewCard from '../../components/PetsPreviewCard';
+import PetsPreviewCard from './cards/PetsPreviewCard';
 
 const endpoint = Links.SUBGRAPH_ENDPOINT;
 const graphQLClient = new GraphQLClient(endpoint);

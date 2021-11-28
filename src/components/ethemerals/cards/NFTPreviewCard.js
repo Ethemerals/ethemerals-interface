@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { useNFTUtils } from '../hooks/useNFTUtils';
-import { useMeralImagePaths } from '../hooks/useMeralImagePaths';
-import Images from '../constants/Images';
-import RankedStars from './cards/RankedStars';
+import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
+import Images from '../../../constants/Images';
+import RankedStars from '../components/RankedStars';
 
 const NFTPreviewCard = ({ nft, rewards }) => {
 	const { parseScore, getSubclassIcon, elements } = useNFTUtils();

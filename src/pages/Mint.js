@@ -6,14 +6,14 @@ import Links from '../constants/Links';
 
 import Images from '../constants/Images';
 
-import { useSendTx } from '../hooks/TxContext';
+import { useSendTx } from '../context/TxContext';
 
 import { useCore, useCoreContract } from '../hooks/useCore';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
-import { useLogin } from '../hooks/Web3Context';
+import { useLogin } from '../context/Web3Context';
 import useUserAccount from '../hooks/useUserAccount';
 
 const Mint = () => {

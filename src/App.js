@@ -2,6 +2,8 @@ import { Route, Switch } from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import Navbar from './components/navigation/Navbar';
 import Home from './pages/Home';
@@ -11,20 +13,22 @@ import EternalBattle from './pages/EternalBattle';
 import Dashboard from './pages/Dashboard';
 import EthemeralsMerals from './pages/EthemeralsMerals';
 import Equipable from './pages/Equipable';
-import NFTDetails from './pages/NFTDetails';
+import MeralDetails from './pages/MeralDetails';
 import All from './pages/All';
 
-import Web3ContextProvider from './hooks/Web3Context';
+import Web3ContextProvider from './context/Web3Context';
 
 // import Dev from './pages/Dev';
 // import DevItems from './pages/DevItems';
 
-import TxContextProvider from './hooks/TxContext';
+import TxContextProvider from './context/TxContext';
 import Receipt from './components/modals/Receipt';
-import EBContextProvider from './hooks/EternalBattleContext';
+import EBContextProvider from './context/EternalBattleContext';
 import Items from './pages/Items';
 import EthemeralsPets from './pages/EthemeralsPets';
 import Mint from './pages/Mint';
+import ArtDetails from './pages/ArtDetails';
+import ArtGame from './pages/ArtGame';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -65,7 +69,14 @@ function App() {
 							<Route exact path="/art">
 								<Art />
 							</Route>
-
+							<Route exact path="/art/:id">
+								<ArtDetails />
+							</Route>
+							<Route exact path="/artgame/:id">
+								<DndProvider backend={HTML5Backend}>
+									<ArtGame />
+								</DndProvider>
+							</Route>
 							<Route exact path="/battle/">
 								<EBContextProvider>
 									<EternalBattle />
@@ -98,7 +109,7 @@ function App() {
 								<Equipable />
 							</Route>
 							<Route exact path="/ethemeral/:id">
-								<NFTDetails />
+								<MeralDetails />
 							</Route>
 
 							{/* <Route exact path="/dev">

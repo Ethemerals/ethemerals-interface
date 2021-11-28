@@ -3,7 +3,7 @@ import ReactTooltip from 'react-tooltip';
 import useUserAccount from '../../hooks/useUserAccount';
 
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../hooks/useEternalBattle';
-import { useEBAddScoreContext, useEBNftsRegisterContext } from '../../hooks/EternalBattleContext';
+import { useEBAddScoreContext, useEBNftsRegisterContext } from '../../context/EternalBattleContext';
 
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';

@@ -9,8 +9,8 @@ import Images from '../constants/Images';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
 
-import NFTActions from '../components/NFTActions';
-import NFTChooseColorScheme from '../components/NFTChooseColorScheme';
+import NFTActions from '../components/ethemerals/components/NFTActions';
+import NFTChooseColorScheme from '../components/ethemerals/components/NFTChooseColorScheme';
 
 import { shortenAddress } from '../utils';
 import BackButton from '../components/navigation/BackButton';
@@ -53,7 +53,7 @@ const ActionLink = (action) => {
 	);
 };
 
-const NFTDetails = () => {
+const MeralDetails = () => {
 	const { parseScore, elements, getSubclassIcon, getSubclassBonus } = useNFTUtils();
 
 	const { id } = useParams();
@@ -259,4 +259,4 @@ const NFTDetails = () => {
 	);
 };
 
-export default NFTDetails;
+export default MeralDetails;

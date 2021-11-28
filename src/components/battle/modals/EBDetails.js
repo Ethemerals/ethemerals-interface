@@ -4,11 +4,11 @@ import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../../ho
 
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 import Spinner from '../../Spinner';
-import NFTInventoryCard from '../../NFTInventoryCard';
+import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 
 import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
 
-import { useSendTx } from '../../../hooks/TxContext';
+import { useSendTx } from '../../../context/TxContext';
 import { shortenAddress } from '../../../utils';
 
 import useUserAccount from '../../../hooks/useUserAccount';

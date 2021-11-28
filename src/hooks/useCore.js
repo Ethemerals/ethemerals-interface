@@ -7,7 +7,7 @@ import { GET_CORE, GET_CORE_ACCOUNT, GET_DELEGATES } from '../queries/Subgraph';
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import Addresses from '../constants/contracts/Addresses';
-import { useWeb3 } from './Web3Context';
+import { useWeb3 } from '../context/Web3Context';
 
 const getContracts = async (provider, setContractCore) => {
 	if (provider) {

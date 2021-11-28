@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import NFTPreviewCard from '../components/NFTPreviewCard';
-import EquipablePreviewCard from '../components/EquipablePreviewCard';
+
+import NFTPreviewCard from '../components/ethemerals/cards/NFTPreviewCard';
+import EquipablePreviewCard from '../components/ethemerals/cards/EquipablePreviewCard';
 
 import useUserAccount from '../hooks/useUserAccount';
 import { useEternalBattleAccount } from '../hooks/useEternalBattle';

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Links from '../constants/Links';
 
-import { useSendTx } from '../hooks/TxContext';
+import { useSendTx } from '../context/TxContext';
 import { useCore, useCoreContract, useCoreApprovals } from '../hooks/useCore';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';

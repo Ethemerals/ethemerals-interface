@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Range, getTrackBackground } from 'react-range';
 
-import { useSendTx } from '../../../hooks/TxContext';
+import { useSendTx } from '../../../context/TxContext';
 
 import useUserAccount from '../../../hooks/useUserAccount';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
@@ -12,7 +12,7 @@ import { getSubclassBonus } from '../../../hooks/useNFTUtils';
 import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
 import { useEternalBattleContract, winCase, loseCase } from '../../../hooks/useEternalBattle';
 
-import NFTInventoryCard from '../../NFTInventoryCard';
+import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 
 const rangeDefaults = {
 	min: 100,

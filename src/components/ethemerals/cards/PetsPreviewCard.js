@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 // import { useHistory } from 'react-router';
-import { useNFTUtils } from '../hooks/useNFTUtils';
-import Links from '../constants/Links';
-import Addresses from '../constants/contracts/Addresses';
+import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import Links from '../../../constants/Links';
+import Addresses from '../../../constants/contracts/Addresses';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -25,7 +25,7 @@ const RankedStars = ({ amount }) => {
 	);
 };
 
-const EquipablePreviewCard = ({ nft }) => {
+const PetsPreviewCard = ({ nft }) => {
 	const { getEquipmentImages } = useNFTUtils();
 	// const history = useHistory();
 	const [equipableType, setEquipableType] = useState(0);
@@ -87,7 +87,7 @@ const EquipablePreviewCard = ({ nft }) => {
 	return (
 		<div
 			// onClick={handleOnClick}
-			style={{ borderColor: getBorderColor(parseInt(nft.rarity)) }}
+			style={{ borderColor: getBorderColor(parseInt(nft.rarity)), backgroundColor: 'hsl(186, 33%, 94%)', minWidth: '256px', maxWidth: '256px', maxHeight: '384px', minHeight: '384px' }}
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg"
 		>
 			{/* MAIN IMAGE */}
@@ -127,4 +127,4 @@ const EquipablePreviewCard = ({ nft }) => {
 	);
 };
 
-export default EquipablePreviewCard;
+export default PetsPreviewCard;

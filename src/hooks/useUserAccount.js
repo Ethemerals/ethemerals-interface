@@ -8,7 +8,7 @@ import { GET_ACCOUNT } from '../queries/Subgraph';
 
 import { isAddress } from '../utils';
 import Links from '../constants/Links';
-import { useAccessToken, useAddress, useAuthenticated, useWeb3 } from './Web3Context';
+import { useAccessToken, useAddress, useAuthenticated, useWeb3 } from '../context/Web3Context';
 
 const updateUser = async (userData) => {
 	if (isAddress(userData.address)) {

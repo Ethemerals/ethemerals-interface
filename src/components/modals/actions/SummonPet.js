@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSendTx } from '../../../hooks/TxContext';
+import { useSendTx } from '../../../context/TxContext';
 
 import { useEquipableContract } from '../../../hooks/useEquipable';
 

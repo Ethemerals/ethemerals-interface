@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
 import { shortenAddress, formatETH } from '../../utils';
-import { useMiningStatus } from '../../hooks/TxContext';
+import { useMiningStatus } from '../../context/TxContext';
 
 import UserModal from '../modals/UserModal';
 

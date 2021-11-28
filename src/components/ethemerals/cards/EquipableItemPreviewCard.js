@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { useNFTUtils } from '../hooks/useNFTUtils';
-import Images from '../constants/Images';
+import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import Images from '../../../constants/Images';
 
 const EquipableItemPreviewCard = ({ nft }) => {
 	const { getEquipableTypePalette, getEquipmentImages } = useNFTUtils();

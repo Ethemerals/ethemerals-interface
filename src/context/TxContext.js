@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { useWeb3 } from './Web3Context';
+import { useWeb3 } from '../context/Web3Context';
 
 const MiningStatusContext = React.createContext();
 const SendTxContext = React.createContext();

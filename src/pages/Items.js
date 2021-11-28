@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useGQLQuery } from '../hooks/useGQLQuery';
 import { GET_ITEMS_ORDERED } from '../queries/Subgraph';
 import { useHistory, useParams } from 'react-router-dom';
-import EquipableItemPreviewCard from '../components/EquipableItemPreviewCard';
+import EquipableItemPreviewCard from '../components/ethemerals/cards/EquipableItemPreviewCard';
 
 const maxQuery = 120;
 

@@ -6,7 +6,7 @@ import Links from '../constants/Links';
 
 import Images from '../constants/Images';
 
-// import { useSendTx } from '../hooks/TxContext';
+// import { useSendTx } from '../context/TxContext';
 import { useCore } from '../hooks/useCore';
 
 // import WaitingConfirmation from '../components/modals/WaitingConfirmation';

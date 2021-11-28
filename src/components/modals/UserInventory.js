@@ -6,7 +6,7 @@ import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
 
-import NFTInventoryCard from '../NFTInventoryCard';
+import NFTInventoryCard from '../ethemerals/cards/NFTInventoryCard';
 
 const NFTLink = ({ nft, toggle }) => {
 	const { elements } = useNFTUtils();

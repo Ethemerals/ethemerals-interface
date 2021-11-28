@@ -13,7 +13,7 @@ import Addresses from '../../constants/contracts/Addresses';
 import ConnectWallet from './modals/ConnectWallet';
 
 import { formatPrice } from '../../utils';
-import { useEBGetBattleResultsContext } from '../../hooks/EternalBattleContext';
+import { useEBGetBattleResultsContext } from '../../context/EternalBattleContext';
 
 import EBHealthBar from './EBHealthBar';
 

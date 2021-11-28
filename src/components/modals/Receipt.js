@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTransition, animated } from '@react-spring/web';
-import { useReceipt } from '../../hooks/TxContext';
+import { useReceipt } from '../../context/TxContext';
 
 import Links from '../../constants/Links';
 
