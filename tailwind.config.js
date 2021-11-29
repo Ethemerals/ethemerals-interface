@@ -23,6 +23,9 @@ module.exports = {
 		},
 		extend: {
 			opacity: ['disabled'],
+			opacity: {
+				zero: '0',
+			},
 			spacing: {
 				'10px': '10px',
 				74: '74px',

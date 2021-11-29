@@ -5,8 +5,8 @@ const Art = () => {
 	let featureId = 1;
 
 	return (
-		<div>
-			<div style={{ maxWidth: '864px' }} className="bg-white bg-opacity-40 text-black text-left mx-auto mt-20 p-6">
+		<div className="bg-white">
+			<div style={{ maxWidth: '864px' }} className="bg-white bg-opacity-40 text-black text-left mx-auto pt-24 p-6">
 				<h1 className=" text-brandColor-purple text-3xl">The Great Art Hunt</h1>
 				<p>
 					Coming soon... Meanwhile checkout the{' '}

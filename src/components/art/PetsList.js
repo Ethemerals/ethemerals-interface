@@ -202,7 +202,19 @@ const PetsList = ({ order, shouldFilter, filters, allDropped }) => {
 			) : (
 				<>
 					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
-					<div>{data && data.pets.map((nft) => <PetDragableCard key={nft.id} nft={nft} owned={userNFTIds.indexOf(nft.id) >= 0} dropped={allDropped[ItemTypes.PETS].indexOf(nft.id) >= 0} />)}</div>
+					<div>
+						{data &&
+							data.pets.map((nft) => {
+								let dropped = false;
+								allDropped.forEach((element) => {
+									if (element.id === nft.id) {
+										dropped = true;
+										return;
+									}
+								});
+								return <PetDragableCard key={nft.id} nft={nft} owned={userNFTIds.indexOf(nft.id) >= 0} dropped={dropped} />;
+							})}
+					</div>
 
 					{data && data.pets.length > 49 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 				</>

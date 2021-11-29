@@ -12,6 +12,7 @@ const PetDragableCard = ({ nft, owned, dropped }) => {
 		item: {
 			type: ItemTypes.PETS,
 			id: nft.id,
+			nft: nft,
 		},
 		collect: (monitor) => ({
 			isDragging: !!monitor.isDragging(),

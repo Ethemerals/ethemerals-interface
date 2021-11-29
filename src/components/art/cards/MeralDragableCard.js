@@ -47,6 +47,7 @@ const MeralDragableCard = ({ nft, owned, dropped }) => {
 		item: {
 			type: ItemTypes.MERALS,
 			id: nft.id,
+			nft: nft,
 		},
 		collect: (monitor) => ({
 			isDragging: !!monitor.isDragging(),
@@ -105,7 +106,7 @@ const MeralDragableCard = ({ nft, owned, dropped }) => {
 		<div
 			ref={drag}
 			style={{
-				opacity: isDragging || dropped ? '0.3' : '1',
+				opacity: isDragging ? '0.4' : dropped ? '0.3' : '1',
 				backgroundColor: elements[nft.bgId].color,
 				backgroundImage: `url("${elements[nft.bgId].img}")`,
 				minWidth: '160px',

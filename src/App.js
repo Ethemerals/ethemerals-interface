@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from 'react-dnd-touch-backend';
+import { isMobile } from 'react-device-detect';
 
 import Navbar from './components/navigation/Navbar';
 import Home from './pages/Home';
@@ -73,7 +75,7 @@ function App() {
 								<ArtDetails />
 							</Route>
 							<Route exact path="/artgame/:id">
-								<DndProvider backend={HTML5Backend}>
+								<DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
 									<ArtGame />
 								</DndProvider>
 							</Route>

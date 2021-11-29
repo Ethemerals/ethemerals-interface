@@ -179,7 +179,7 @@ const MeralsList = ({ order, shouldFilter, filters, allDropped }) => {
 		{
 			keepPreviousData: true,
 		}
-	); // TODO
+	);
 
 	const handleNextPage = () => {
 		setPage((old) => old + 1);
@@ -199,7 +199,17 @@ const MeralsList = ({ order, shouldFilter, filters, allDropped }) => {
 				<>
 					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 					<div>
-						{data && data.ethemerals.map((nft) => <MeralDragableCard key={nft.id} nft={nft} owned={userNFTIds.indexOf(nft.id) >= 0} dropped={allDropped[ItemTypes.MERALS].indexOf(nft.id) >= 0} />)}
+						{data &&
+							data.ethemerals.map((nft) => {
+								let dropped = false;
+								allDropped.forEach((element) => {
+									if (element.id === nft.id) {
+										dropped = true;
+										return;
+									}
+								});
+								return <MeralDragableCard key={nft.id} nft={nft} owned={userNFTIds.indexOf(nft.id) >= 0} dropped={dropped} />;
+							})}
 					</div>
 
 					{data && data.ethemerals.length > 49 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}

@@ -94,7 +94,8 @@ for (let i = 0; i < metaPetName.length; i++) {
 const ArtGame = () => {
 	const { id } = useParams();
 
-	const [allDropped, setAllDropped] = useState({ [ItemTypes.PETS]: [], [ItemTypes.MERALS]: [] });
+	const [droppedMerals, setDroppedMerals] = useState([]);
+	const [droppedPets, setDroppedPets] = useState([]);
 
 	const [coinFilterList, setCoinFilterList] = useState([]);
 	const [elementFilterList, setElementFilterList] = useState([]);
@@ -162,16 +163,54 @@ const ArtGame = () => {
 	}, [petNameFilterList]);
 
 	const clearDrops = () => {
-		let empty = { [ItemTypes.PETS]: [], [ItemTypes.MERALS]: [] };
-		console.log(empty, 'clear');
-		setAllDropped(empty);
+		setDroppedMerals([]);
+		setDroppedPets([]);
+	};
+
+	const isDuplicate = (array, item) => {
+		let isDup = false;
+		if (array.length > 0) {
+			array.forEach((element) => {
+				if (element.id === item.id) {
+					isDup = true;
+				}
+			});
+		}
+		return isDup;
+	};
+
+	const handleRemove = (type, id) => {
+		if (type === ItemTypes.MERALS) {
+			let _droppedMerals = droppedMerals.filter((element) => element.id !== id);
+			setDroppedMerals(_droppedMerals);
+		}
+
+		if (type === ItemTypes.PETS) {
+			let _droppedPets = droppedPets.filter((element) => element.id !== id);
+			setDroppedPets(_droppedPets);
+		}
 	};
 
 	const handleDrop = (item) => {
-		let _allDropped = allDropped;
-		let _allDroppedType = _allDropped[item.type];
-		_allDroppedType.push(item.id);
-		setAllDropped({ ...allDropped, [item.type]: [...new Set(_allDroppedType)] });
+		if (item.type === ItemTypes.MERALS) {
+			if (isDuplicate(droppedMerals, item)) {
+				return;
+			}
+
+			setDroppedMerals((prev) => {
+				return [...prev, { nft: item.nft, id: item.id }];
+			});
+		}
+
+		if (item.type === ItemTypes.PETS) {
+			if (isDuplicate(droppedPets, item)) {
+				return;
+			}
+
+			setDroppedPets((prev) => {
+				return [...prev, { nft: item.nft, id: item.id }];
+			});
+		}
 	};
 
 	return (
@@ -215,11 +254,11 @@ const ArtGame = () => {
 					style={{ left: '212px', width: '212px', minWidth: '212px', maxWidth: '212px', backgroundColor: 'hsl(212, 39%, 94%)' }}
 					className="h-screen top-12 fixed border-r border-gray-400 overflow-y-auto pb-20"
 				>
-					{filterTab === 0 && <MeralsList order={order} shouldFilter={shouldFilter} filters={filters} allDropped={allDropped} />}
-					{filterTab === 1 && <PetsList order={order} shouldFilter={petShouldFilter} filters={petFilters} allDropped={allDropped} />}
+					{filterTab === 0 && <MeralsList order={order} shouldFilter={shouldFilter} filters={filters} allDropped={droppedMerals} />}
+					{filterTab === 1 && <PetsList order={order} shouldFilter={petShouldFilter} filters={petFilters} allDropped={droppedPets} />}
 				</div>
 
-				<ArtDrop tokenId={id} allDropped={allDropped} onDrop={(item) => handleDrop(item)} clearDrops={clearDrops} />
+				<ArtDrop tokenId={id} droppedMerals={droppedMerals} droppedPets={droppedPets} onDrop={(item) => handleDrop(item)} clearDrops={clearDrops} handleRemove={handleRemove} />
 			</div>
 		</div>
 	);
