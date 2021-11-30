@@ -5,7 +5,7 @@ import { shortenAddress } from '../../utils';
 import { ItemTypes } from './utils/items';
 import MeralThumbnail from './cards/MeralThumbnail';
 import PetThumbnail from './cards/PetThumbnail';
-import { useArtCheckAnswer, useArtGetWinners } from '../../hooks/useArtHunt';
+import { useArtCheckAnswer, useArtGetWinners, useClaimReward } from '../../hooks/useArtHunt';
 import useUserAccount from '../../hooks/useUserAccount';
 import { useLogin } from '../../context/Web3Context';
 import MeralThumbnailOS from './cards/MeralThumbnailOS';
@@ -22,6 +22,8 @@ const Combos = ({ list, type }) => {
 
 const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, handleRemove }) => {
 	const { checkAnswer, answerIsUpdating } = useArtCheckAnswer();
+	const { claimReward, claimIsUpdating } = useClaimReward();
+
 	const { winners } = useArtGetWinners(tokenId);
 	const login = useLogin();
 	const { account, userNFTs } = useUserAccount();
@@ -30,6 +32,8 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	const [meralCombos, setMeralCombos] = useState(undefined);
 	const [petCombos, setPetCombos] = useState(undefined);
 	const [canClaim, setCanClaim] = useState(false);
+	const [alreadyClaimed, setAlreadyClaimed] = useState(false);
+	const [allClaimed, setAllClaimed] = useState(false);
 
 	const [{ canDrop, isOver }, drop] = useDrop({
 		accept: ItemTypes.CARD,
@@ -39,6 +43,24 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 			canDrop: monitor.canDrop(),
 		}),
 	});
+
+	useEffect(() => {
+		if (winners && account && winners.length > 0) {
+			if (winners.indexOf(account.id) >= 0) {
+				setAlreadyClaimed(true);
+			}
+		}
+	}, [winners, account]);
+
+	useEffect(() => {
+		if (winners && winners.length > 0) {
+			if (winners.indexOf(AddressZero) >= 0) {
+				setAllClaimed(false);
+			} else {
+				setAllClaimed(true);
+			}
+		}
+	}, [winners]);
 
 	const onCheckAnswer = async () => {
 		try {
@@ -92,12 +114,6 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 					hit = true;
 				}
 			}
-			// _owned.forEach((id) => {
-			// 	if (listOfCandiates.indexOf(parseInt(id)) >= 0) {
-			// 		hitCount++;
-			// 		hit = true;
-			// 	}
-			// });
 
 			if (!hit) {
 				// EARLY EXIT
@@ -127,7 +143,19 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	}, [answers, userNFTs, account]);
 
 	const onClaimReward = async () => {
-		console.log('claim reward');
+		if (!alreadyClaimed && !allClaimed) {
+			try {
+				let meralIds = droppedMerals.map((meral) => meral.id);
+				let petsIds = droppedPets.map((pet) => pet.id);
+				let result = await claimReward(meralIds, petsIds, tokenId);
+				if (result) {
+					setAlreadyClaimed(true);
+				}
+				console.log('resulkt', result);
+			} catch (error) {
+				console.log(error);
+			}
+		}
 	};
 
 	const onClearDrops = () => {
@@ -208,14 +236,18 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 						{result && account && canClaim && (
 							<button
 								onClick={onClaimReward}
-								disabled={answerIsUpdating}
+								disabled={claimIsUpdating || alreadyClaimed || allClaimed}
 								className="bg-green-100 w-52 text-bold px-4 py-2 rounded-lg shadow-lg hover:bg-green-200 transition duration-300 flex justify-center items-center"
 							>
-								{answerIsUpdating ? (
+								{claimIsUpdating ? (
 									<svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 										<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
 										<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 									</svg>
+								) : alreadyClaimed ? (
+									'🎉 Claimed 🎉'
+								) : allClaimed ? (
+									'Already Claimed'
 								) : (
 									'Claim Prize!'
 								)}
@@ -266,7 +298,7 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 
 					<div className="text-left px-8 py-10">
 						{/* SHOW WINNERS */}
-						<h3 className="font-bold">Prizes:</h3>
+						<h3 className="font-bold">Winners and Prizes:</h3>
 
 						<h4 className="text-xl">
 							🥇 1st - <span className="text-sm text-gray-600">This Art NFT & 2.5% royalties on sales, bonus 80HP / 900ELF to all Merals involved</span>
