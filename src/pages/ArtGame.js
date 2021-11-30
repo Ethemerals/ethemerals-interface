@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 import 'react-dropdown/style.css';
 import FilterSearch from '../components/FilterSearch';
@@ -10,6 +10,8 @@ import PetsList from '../components/art/PetsList';
 import ArtDrop from '../components/art/ArtDrop';
 import { useParams } from 'react-router';
 import { ItemTypes } from '../components/art/utils/items';
+import FilterStatus from '../components/FilterStatus';
+import useUserAccount from '../hooks/useUserAccount';
 
 const coinData = [];
 for (let i = 0; i < metaCoinName.length; i++) {
@@ -84,6 +86,8 @@ const elementsToIds = (elements) => {
 	return ids;
 };
 
+const statusData = [{ name: 'Owned' }];
+
 const petData = [];
 for (let i = 0; i < metaPetName.length; i++) {
 	petData.push({
@@ -93,10 +97,12 @@ for (let i = 0; i < metaPetName.length; i++) {
 
 const ArtGame = () => {
 	const { id } = useParams();
+	const { address } = useUserAccount();
 
 	const [droppedMerals, setDroppedMerals] = useState([]);
 	const [droppedPets, setDroppedPets] = useState([]);
 
+	const [statusFilterList, setStatusFilterList] = useState([]);
 	const [coinFilterList, setCoinFilterList] = useState([]);
 	const [elementFilterList, setElementFilterList] = useState([]);
 	const [subclassFilterList, setSubclassFilterList] = useState([]);
@@ -126,6 +132,11 @@ const ArtGame = () => {
 			setShouldFilter(true);
 			_filters.bgId_in = elementsToIds(elementFilterList);
 		}
+		if (statusFilterList.length > 0) {
+			setShouldFilter(true);
+			_filters.owner_in = address ? [address.toLowerCase()] : [''];
+			console.log(address);
+		}
 		if (subclassFilterList.length > 0) {
 			setShouldFilter(true);
 			_filters.subClass_in = subclassFilterList;
@@ -148,7 +159,7 @@ const ArtGame = () => {
 		}
 
 		setFilters(_filters);
-	}, [coinFilterList, elementFilterList, subclassFilterList, costumeFilterList, eyeFilterList, hairFilterList, skinFilterList]);
+	}, [statusFilterList, coinFilterList, elementFilterList, subclassFilterList, costumeFilterList, eyeFilterList, hairFilterList, skinFilterList, address]);
 
 	useEffect(() => {
 		setPetShouldFilter(false);
@@ -157,10 +168,15 @@ const ArtGame = () => {
 			setPetShouldFilter(true);
 			_filters.name_in = petNameFilterList;
 		}
+		if (statusFilterList.length > 0) {
+			setPetShouldFilter(true);
+			_filters.owner_in = address ? [address.toLowerCase()] : [''];
+			console.log(address);
+		}
 		// console.log(nameFilterList);
 
 		setPetFilters(_filters);
-	}, [petNameFilterList]);
+	}, [statusFilterList, petNameFilterList, address]);
 
 	const clearDrops = () => {
 		setDroppedMerals([]);
@@ -234,8 +250,10 @@ const ArtGame = () => {
 						</div>
 					</div>
 					<div className="pl-4 mb-2 text-sm">FILTER</div>
+
 					{filterTab === 0 && (
-						<div className="">
+						<div>
+							{statusData && <FilterStatus data={statusData} setFilterList={setStatusFilterList} filterList={statusFilterList} filterByText="Status" />}
 							{coinData && <FilterSearch data={coinData} setFilterList={setCoinFilterList} keys={['name']} filterList={coinFilterList} filterByText="Coin" />}
 							{elementsData && <FilterSearch data={elementsData} setFilterList={setElementFilterList} keys={['name']} filterList={elementFilterList} filterByText="Element" />}
 							{subclassData && <FilterSearch data={subclassData} setFilterList={setSubclassFilterList} keys={['name']} filterList={subclassFilterList} filterByText="Subclass" />}
@@ -246,7 +264,10 @@ const ArtGame = () => {
 						</div>
 					)}
 					{filterTab === 1 && (
-						<div className="">{petData && <FilterSearch data={petData} setFilterList={setPetNameFilterList} keys={['name']} filterList={petNameFilterList} filterByText="Pet Type" />}</div>
+						<div>
+							{statusData && <FilterStatus data={statusData} setFilterList={setStatusFilterList} filterList={statusFilterList} filterByText="Status" />}
+							{petData && <FilterSearch data={petData} setFilterList={setPetNameFilterList} keys={['name']} filterList={petNameFilterList} filterByText="Pet Type" />}
+						</div>
 					)}
 				</aside>
 

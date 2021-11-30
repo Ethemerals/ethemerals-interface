@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../utils/items';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';

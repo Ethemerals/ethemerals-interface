@@ -65,7 +65,6 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 		if (account && isOwned && selectedColor !== currentColor) {
 			setSaving(true);
 			try {
-				// await mutateMeralColor.mutateAsync({ address: account.id, selected: selectedColor, tokenId: nft.id });
 				await setMeralColor(nft.id, selectedColor);
 				setTimeout(() => queryClient.invalidateQueries(`${nft.id}_colors`), 3000);
 				setTimeout(() => refreshMetadata(nft.id), 1000);

@@ -5,63 +5,64 @@ import axios from 'axios';
 
 import { isAddress, shortenAddress } from '../utils';
 
-const signMessage = async (address) => {
-	if (address && window.ethereum) {
-		let exampleMessage = `Hi ${shortenAddress(address)} Please sign this GAS FREE message to prove this is you!`;
-		try {
-			let ethereum = window.ethereum;
-			const msg = `0x${Buffer.from(exampleMessage, 'utf8').toString('hex')}`;
-			const sign = await ethereum.request({
-				method: 'personal_sign',
-				params: [msg, address, 'Example dfdffd'],
-			});
-			return sign;
-		} catch (err) {
-			console.log(err);
-		}
-	}
-};
-
-const submitArtHuntAnswer = async (artHuntData) => {
-	if (artHuntData.address) {
-		let signed = await signMessage(artHuntData.address);
-		artHuntData.signed = signed;
-	}
-
+const getWinners = async (id) => {
 	try {
-		const { data } = await axios.post(`${process.env.REACT_APP_API_ART}answers`, artHuntData);
-		return data;
-	} catch (error) {
-		throw new Error('error');
-	}
-};
-
-const getArtHunt = async (id) => {
-	try {
-		const { data } = await axios.get(`${process.env.REACT_APP_API_ART}tokens/${id}`);
+		const url = `${process.env.REACT_APP_API_ART}getwinners?id=${id}&network=${process.env.REACT_APP_API_NETWORK}`;
+		const { data } = await axios.get(url);
 		return data;
 	} catch (error) {
 		throw new Error('get artHunt error');
 	}
 };
 
-export const useArtHunt = (id) => {
-	let [artHunt, setArtHunt] = useState(undefined);
-	const { isLoading, data } = useQuery([`${id}_artHunt`], () => getArtHunt(id), { refetchOnMount: true });
+const submitCheckAnswer = async (answerData) => {
+	try {
+		const { data } = await axios.post(`${process.env.REACT_APP_API_ART}checkanswer`, answerData);
+		return data;
+	} catch (error) {
+		throw new Error('get artHunt error');
+	}
+};
+
+export const useArtGetWinners = (id) => {
+	let [winners, setWinners] = useState(undefined);
+	const { isLoading, data } = useQuery([`${id}_arthunter_winners`], () => getWinners(id), { refetchOnMount: true });
 
 	useEffect(() => {
 		if (data && !isLoading) {
-			setArtHunt(data.data);
+			setWinners(data.data);
 		}
 	}, [data, isLoading]);
 
 	// prettier-ignore
 	return {
-    artHunt
+    winners
   };
 };
 
-export const useMutateArtHuntAnswer = () => {
-	const mutateArtHuntAnswer = useMutation(submitArtHuntAnswer);
-	return { mutateArtHuntAnswer };
+export const useArtCheckAnswer = () => {
+	let [answerIsUpdating, setAnswerIsUpdating] = useState(false);
+	const mutateCheckAnswer = useMutation(submitCheckAnswer);
+
+	useEffect(() => {
+		if (mutateCheckAnswer.status === 'loading') {
+			setAnswerIsUpdating(true);
+		} else {
+			setAnswerIsUpdating(false);
+		}
+	}, [mutateCheckAnswer]);
+
+	const checkAnswer = async (meralsIds, petsIds, tokenId) => {
+		try {
+			const result = await mutateCheckAnswer.mutateAsync({ meralsIds, petsIds, tokenId, network: process.env.REACT_APP_API_NETWORK });
+			return result;
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	return {
+		checkAnswer,
+		answerIsUpdating,
+	};
 };

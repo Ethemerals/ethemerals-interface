@@ -7,7 +7,6 @@ const ArtGallery = () => {
 			art gallery
 			<div className="flex flex-wrap mx-auto justify-center">
 				{arts.map((art) => {
-					console.log(art.id);
 					return <ArtCard key={art.id} tokenId={art.id} />;
 				})}
 			</div>
