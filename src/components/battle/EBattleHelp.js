@@ -7,7 +7,7 @@ const EBattleHelp = () => {
 	const [expanded, setExpanded] = useState(false);
 
 	return (
-		<div style={{ maxWidth: '864px' }} className="bg-white bg-opacity-40 text-black text-left mx-auto mt-20 p-6">
+		<div style={{ maxWidth: '864px' }} className=" text-black text-left mx-auto mt-20 p-6">
 			<h1 className=" text-brandColor-purple text-3xl">The Eternal Battle</h1>
 			<p>
 				Welcome to the first of many battle / gamified staking contract! <span className="text-xs font-bold text-brandColor">(Due to HIGH GAS! Future development will be on Layer2)</span>

@@ -18,8 +18,7 @@ const MobileNavItems = ({ toggle }) => {
 					</Link>
 				</span>
 				<MenuItem to="/ethemerals" text="Ethemerals" />
-				<MenuItem to="/pets" text="Pets" />
-				<MenuItem to="/items" text="Items" />
+				<MenuItem to="/art" text="Art Hunt" />
 				{/* <MenuItem to="/battle/eternal" text="Battle" /> */}
 				<span className="block pt-4 pb-0 border-gray-400">
 					<Link exact="true" to="/battle">

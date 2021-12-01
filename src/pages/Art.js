@@ -1,21 +1,16 @@
+import ArrivingSoon from '../components/art/ArrivingSoon';
 import ArtFeature from '../components/art/ArtFeature';
 import ArtGallery from '../components/art/ArtGallery';
 
 const Art = () => {
-	let featureId = 1;
+	let featureId = process.env.REACT_APP_ART_FEATURE;
 
 	return (
 		<div className="bg-white">
-			<div style={{ maxWidth: '864px' }} className="bg-white bg-opacity-40 text-black text-left mx-auto pt-24 p-6">
-				<h1 className=" text-brandColor-purple text-3xl">The Great Art Hunt</h1>
-				<p>
-					Coming soon... Meanwhile checkout the{' '}
-					<a href="https://medium.com/@ethemerals/ethemerals-the-great-art-hunt-5f44a3579325" className="text-blue-600" target="blank" rel="noreferrer">
-						medium post
-					</a>
-				</p>
+			<div className=" h-3/5">
+				<ArtFeature tokenId={featureId} />
 			</div>
-			<ArtFeature tokenId={featureId} />
+			<ArrivingSoon />
 			<ArtGallery />
 
 			<div className="h-40"></div>

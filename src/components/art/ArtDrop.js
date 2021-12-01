@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import { AddressZero } from '@ethersproject/constants';
 import { shortenAddress } from '../../utils';
@@ -10,6 +10,10 @@ import useUserAccount from '../../hooks/useUserAccount';
 import { useLogin } from '../../context/Web3Context';
 import MeralThumbnailOS from './cards/MeralThumbnailOS';
 import PetThumbnailOS from './cards/PetThumbnailOS';
+
+import 'photoswipe/dist/photoswipe.css';
+import 'photoswipe/dist/default-skin/default-skin.css';
+import { Gallery, Item } from 'react-photoswipe-gallery';
 
 const Combos = ({ list, type }) => {
 	return (
@@ -171,11 +175,47 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 		backgroundColor = 'hsl(160, 10%, 95%)';
 	}
 
+	const html = `
+  <div class="w-4/5 mx-auto mt-12" style="
+    color: white;
+    display: flex;
+    place-content: center;
+    flex-direction: column;
+    max-height: 90%;
+    max-width: 90%
+    text-align: center;
+  ">
+    <img src="https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg" alt="game art" />
+  </div>
+  `;
+
 	return (
 		<main ref={drop} style={{ left: '424px', width: 'calc(100% - 424px)', minWidth: '512px' }} className="mt-12 absolute pb-44">
 			<div>
-				<div>
-					<div className="w-11/12 h-96 bg-gray-300 mx-auto my-11 text-center pt-44">THE REVEALED ARTWORK</div>
+				<div style={{ maxWidth: '800px' }} className="w-4/5 mx-auto mt-12">
+					<Gallery
+						options={{
+							getThumbBoundsFn: undefined,
+							showHideOpacity: false,
+							shareButtons: [
+								{ id: 'twitter', label: 'Tweet', url: 'https://twitter.com/intent/tweet?text={{text}}&url={{url}}' },
+								{ id: 'pinterest', label: 'Pin it', url: 'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}' },
+							],
+						}}
+					>
+						<Item html={html}>
+							{({ open }) => (
+								<div
+									onClick={(e) => {
+										e.preventDefault();
+										open();
+									}}
+								>
+									<img src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`} alt="game art" />
+								</div>
+							)}
+						</Item>
+					</Gallery>
 				</div>
 
 				<div style={{ backgroundColor }} className="w-full relative">
