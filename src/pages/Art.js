@@ -4,7 +4,7 @@ import ArtGallery from '../components/art/ArtGallery';
 
 const Art = () => {
 	let featureId = process.env.REACT_APP_ART_FEATURE;
-	featureId = 2;
+	// featureId = 2;
 
 	return (
 		<div className="bg-white">
