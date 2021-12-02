@@ -4,12 +4,11 @@ import ArtGallery from '../components/art/ArtGallery';
 
 const Art = () => {
 	let featureId = process.env.REACT_APP_ART_FEATURE;
+	featureId = 2;
 
 	return (
 		<div className="bg-white">
-			<div className=" h-3/5">
-				<ArtFeature tokenId={featureId} />
-			</div>
+			<ArtFeature tokenId={featureId} />
 			<ArrivingSoon />
 			<ArtGallery />
 

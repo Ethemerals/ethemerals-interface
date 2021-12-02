@@ -16,8 +16,17 @@ const getWinners = async (id) => {
 	}
 };
 
+const getArt = async (id) => {
+	try {
+		const url = `${process.env.REACT_APP_API_ART}getart?id=${id}&network=${process.env.REACT_APP_API_NETWORK}`;
+		const { data } = await axios.get(url);
+		return data;
+	} catch (error) {
+		throw new Error('get artHunt error');
+	}
+};
+
 const submitCheckAnswer = async (answerData) => {
-	// meralsIds, petsIds, tokenId, address, network
 	try {
 		const { data } = await axios.post(`${process.env.REACT_APP_API_ART}checkanswer`, answerData);
 		return data;
@@ -43,7 +52,7 @@ const submitClaimReward = async (answerData) => {
 
 export const useArtGetWinners = (id) => {
 	let [winners, setWinners] = useState(undefined);
-	const { isLoading, data } = useQuery([`arthunter_winners`], () => getWinners(id), { refetchOnMount: true });
+	const { isLoading, data } = useQuery([`arthunter_winners`, id], () => getWinners(id), { refetchOnMount: true });
 
 	useEffect(() => {
 		if (data && !isLoading) {
@@ -53,7 +62,25 @@ export const useArtGetWinners = (id) => {
 
 	// prettier-ignore
 	return {
-    winners
+    winners,
+    isLoading
+  };
+};
+
+export const useArtGetArt = (id) => {
+	let [artData, setArtData] = useState(undefined);
+	const { isLoading, data } = useQuery([`arthunter_art`, id], () => getArt(id), { refetchOnMount: true });
+
+	useEffect(() => {
+		if (data && !isLoading) {
+			setArtData(data.data);
+		}
+	}, [data, isLoading]);
+
+	// prettier-ignore
+	return {
+    artData,
+    isLoading
   };
 };
 

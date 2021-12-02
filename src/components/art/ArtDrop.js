@@ -176,17 +176,13 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	}
 
 	const html = `
-  <div class="w-4/5 mx-auto mt-12" style="
-    color: white;
-    display: flex;
-    place-content: center;
-    flex-direction: column;
-    max-height: 90%;
-    max-width: 90%
-    text-align: center;
-  ">
-    <img src="https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg" alt="game art" />
-  </div>
+<div class="center">
+    <img style="
+    width: auto;
+    height: 96vh;
+    object-fit:contain;"
+    src="https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg" alt="game art" />
+</div>
   `;
 
 	return (
@@ -211,7 +207,11 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 										open();
 									}}
 								>
-									<img src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`} alt="game art" />
+									<img
+										style={{ margin: 'auto', width: 'auto', height: '60vh', maxHeight: '60vh', objectFit: 'contain' }}
+										src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`}
+										alt="game art"
+									/>
 								</div>
 							)}
 						</Item>
@@ -340,7 +340,7 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 						{/* SHOW WINNERS */}
 						<h3 className="font-bold">Winners and Prizes:</h3>
 
-						<h4 className="text-xl">
+						<h4 className="text-2xl">
 							🥇 1st - <span className="text-sm text-gray-600">This Art NFT & 2.5% royalties on sales, bonus 80HP / 900ELF to all Merals involved</span>
 						</h4>
 						<p className="pb-4 text-xl"> {winners && winners.length === 3 && <span>{winners[0] === AddressZero ? 'Unclaimed' : shortenAddress(winners[0])}</span>}</p>
