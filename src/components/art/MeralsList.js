@@ -78,10 +78,35 @@ const ListButton = ({ listNumbers, index, activeIndex, handleClick }) => (
 	</li>
 );
 
-const PaginationBar = ({ page, setPage }) => {
+const PaginationBar = ({ handlePreviousPage, handleNextPage, page, setPage }) => {
 	return (
 		<div className="flex items-center mx-auto text-sm sm:text-base justify-center my-4">
+			<button
+				type="button"
+				onClick={handlePreviousPage}
+				disabled={page === 0}
+				className="cursor-pointer text-blue-300 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none mr-2"
+			>
+				<div className="w-5 h-5">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M15,17h-3l-4-5l4-5h3l-4,5 L15,17z"></path>
+					</svg>
+				</div>
+			</button>
+
 			<PageNumbers page={page} setPage={setPage} />
+			<button
+				type="button"
+				onClick={handleNextPage}
+				disabled={page === 19}
+				className="cursor-pointer text-blue-300 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none ml-2"
+			>
+				<div className="w-5 h-5" style={{ transform: 'rotate(180deg)' }}>
+					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M15,17h-3l-4-5l4-5h3l-4,5 L15,17z"></path>
+					</svg>
+				</div>
+			</button>
 		</div>
 	);
 };
@@ -156,6 +181,14 @@ const MeralsList = ({ order, shouldFilter, filters, allDropped }) => {
 		}
 	);
 
+	const handleNextPage = () => {
+		setPage((old) => old + 1);
+	};
+
+	const handlePreviousPage = () => {
+		setPage((old) => Math.max(old - 1, 0));
+	};
+
 	return (
 		<div>
 			{isLoading ? (
@@ -164,7 +197,7 @@ const MeralsList = ({ order, shouldFilter, filters, allDropped }) => {
 				<div className="flex py-4 justify-center">Error...</div>
 			) : (
 				<>
-					{data && <PaginationBar page={page} setPage={setPage} />}
+					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 					<div>
 						{data &&
 							data.ethemerals.map((nft) => {
@@ -179,7 +212,7 @@ const MeralsList = ({ order, shouldFilter, filters, allDropped }) => {
 							})}
 					</div>
 
-					{data && data.ethemerals.length > 49 && <PaginationBar page={page} setPage={setPage} />}
+					{data && data.ethemerals.length > 49 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 				</>
 			)}
 		</div>

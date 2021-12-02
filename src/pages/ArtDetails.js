@@ -64,7 +64,7 @@ const ArtDetails = () => {
 	const html = `
   <div class="center">
   <img style="
-  width: auto;
+  max-width: 96vw;
   height: 96vh;
   object-fit:contain;"
   src="https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg" alt="game art" />
@@ -136,23 +136,42 @@ const ArtDetails = () => {
 									{allClaimed ? 'Already Claimed' : 'Claim artwork'}
 								</button>
 							</div>
-							<div className="text-left px-8 py-10">
+							<div className="text-left py-10">
 								{/* SHOW WINNERS */}
-								<h3 className="font-bold">Winners and Prizes:</h3>
+								<h3 className="font-bold py-2">WINNERS</h3>
 
 								<h4 className="text-2xl">
-									🥇 1st - <span className="text-sm text-gray-600">This Art NFT & 2.5% royalties on sales, bonus 80HP / 900ELF to all Merals involved</span>
+									🥇 1st
+									<span className="text-sm text-gray-500 font-bold">{` `}to claim</span>
 								</h4>
-								<p className="pb-4 text-xl"> {winners && winners.length === 3 && <span>{winners[0] === AddressZero ? 'Unclaimed' : shortenAddress(winners[0])}</span>}</p>
+								<div className="sm:px-10">
+									<p className="text-xl pb-2"> {winners && winners.length === 3 && <span>{winners[0] === AddressZero ? 'Unclaimed' : shortenAddress(winners[0])}</span>}</p>
+									<p className="text-sm text-gray-600 pb-8">
+										<strong>Prize</strong> - This Art NFT & 2.5% royalties on sales, bonus 80HP / 900ELF to all Merals involved
+									</p>
+								</div>
 
 								<h4 className="text-2xl">
-									🥈 2nd - <span className="text-sm text-gray-600">Bonus 50HP / 680ELF to all Merals involved</span>
+									🥈 2nd
+									<span className="text-sm text-gray-500 font-bold">{` `}to claim</span>
 								</h4>
-								<p className="pb-4 text-xl"> {winners && winners.length === 3 && <span>{winners[1] === AddressZero ? 'Unclaimed' : shortenAddress(winners[1])}</span>}</p>
+								<div className="sm:px-10">
+									<p className="text-xl pb-2"> {winners && winners.length === 3 && <span>{winners[1] === AddressZero ? 'Unclaimed' : shortenAddress(winners[1])}</span>}</p>
+									<p className="text-sm text-gray-600 pb-8">
+										<strong>Prize</strong> - Bonus 50HP / 680ELF to all Merals involved
+									</p>
+								</div>
+
 								<h4 className="text-2xl">
-									🥉 3rd - <span className="text-sm text-gray-600">Bonus 25HP / 260ELF to all Merals involved</span>
+									🥉 3rd
+									<span className="text-sm text-gray-500 font-bold">{` `}to claim</span>
 								</h4>
-								<p className="pb-4 text-xl"> {winners && winners.length === 3 && <span>{winners[2] === AddressZero ? 'Unclaimed' : shortenAddress(winners[2])}</span>}</p>
+								<div className="sm:px-10">
+									<p className="text-xl pb-2"> {winners && winners.length === 3 && <span>{winners[2] === AddressZero ? 'Unclaimed' : shortenAddress(winners[2])}</span>}</p>
+									<p className="text-sm text-gray-600 pb-8">
+										<strong>Prize</strong> - Bonus 25HP / 260ELF to all Merals involved
+									</p>
+								</div>
 							</div>
 						</div>
 					</>

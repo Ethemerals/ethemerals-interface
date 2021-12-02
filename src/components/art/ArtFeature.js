@@ -18,21 +18,16 @@ const CollectionDetail = ({ collection, tokenId }) => {
 const ArtFeature = ({ tokenId }) => {
 	// GET ARTDATA
 	const { artData } = useArtGetArt(tokenId);
-	const [isClaimed, setIsClaimed] = useState(false);
-	const [claimDate, setClaimDate] = useState('');
+
 	const [title, setTitle] = useState('');
-	const [desc, setDesc] = useState('');
+
 	const history = useHistory();
 
 	useEffect(() => {
 		if (artData && artData.claimed !== null) {
-			setIsClaimed(true);
-			setClaimDate(artData.claimed);
 			setTitle(artData.title);
-			setDesc(artData.desc);
 		} else {
 			setTitle('Title Revealed once Claimed...');
-			setDesc('Description will be revealed once the artwork has been claimed...');
 		}
 	}, [artData]);
 
