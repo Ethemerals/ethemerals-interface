@@ -122,6 +122,10 @@ const ArtGame = () => {
 	const order = { orderBy: 'timestamp', orderDirection: 'asc' };
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
+	useEffect(() => {
 		setShouldFilter(false);
 		let _filters = {};
 		if (coinFilterList.length > 0) {

@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { AddressZero } from '@ethersproject/constants';
+
 import { shortenAddress } from '../../utils';
 import { ItemTypes } from './utils/items';
 import MeralThumbnail from './cards/MeralThumbnail';
 import PetThumbnail from './cards/PetThumbnail';
-import { useArtCheckAnswer, useArtGetWinners, useClaimReward } from '../../hooks/useArtHunt';
+import { useArtCheckAnswer, useArtGetArt, useClaimGiveaway, useClaimReward } from '../../hooks/useArtHunt';
 import useUserAccount from '../../hooks/useUserAccount';
-import { useLogin } from '../../context/Web3Context';
+import { useAuthenticating, useLogin } from '../../context/Web3Context';
 import MeralThumbnailOS from './cards/MeralThumbnailOS';
 import PetThumbnailOS from './cards/PetThumbnailOS';
 
 import 'photoswipe/dist/photoswipe.css';
 import 'photoswipe/dist/default-skin/default-skin.css';
 import { Gallery, Item } from 'react-photoswipe-gallery';
+import WinningModal from './modals/WinningModal';
 
 const Combos = ({ list, type }) => {
 	return (
@@ -25,10 +27,13 @@ const Combos = ({ list, type }) => {
 };
 
 const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, handleRemove }) => {
+	const isAuthenticating = useAuthenticating();
 	const { checkAnswer, answerIsUpdating } = useArtCheckAnswer();
 	const { claimReward, claimIsUpdating } = useClaimReward();
+	const { claimGiveaway, claimGiveawayIsUpdating } = useClaimGiveaway();
 
-	const { winners } = useArtGetWinners(tokenId);
+	const { artData } = useArtGetArt(tokenId);
+	const [winners, setWinners] = useState(undefined);
 	const login = useLogin();
 	const { account, userNFTs } = useUserAccount();
 	const [result, setResult] = useState(undefined);
@@ -38,6 +43,15 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	const [canClaim, setCanClaim] = useState(false);
 	const [alreadyClaimed, setAlreadyClaimed] = useState(false);
 	const [allClaimed, setAllClaimed] = useState(false);
+
+	const [canGiveaway, setCanGiveaway] = useState(false);
+	const [giveawayWinner, setGiveawayWinner] = useState(undefined);
+
+	const [showWinningModal, setShowWinningModal] = useState(false);
+
+	const toggleWinningModal = () => {
+		setShowWinningModal(!showWinningModal);
+	};
 
 	const [{ canDrop, isOver }, drop] = useDrop({
 		accept: ItemTypes.CARD,
@@ -49,22 +63,27 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	});
 
 	useEffect(() => {
-		if (winners && account && winners.length > 0) {
-			if (winners.indexOf(account.id) >= 0) {
-				setAlreadyClaimed(true);
+		if (artData && artData.giveaway) {
+			setGiveawayWinner(artData.giveaway);
+			if (artData.giveaway === AddressZero) {
+				setCanGiveaway(true);
 			}
 		}
-	}, [winners, account]);
 
-	useEffect(() => {
-		if (winners && winners.length > 0) {
-			if (winners.indexOf(AddressZero) >= 0) {
+		if (artData && artData.winners && artData.winners.length > 0) {
+			setWinners(artData.winners);
+			if (artData.winners.indexOf(AddressZero) >= 0) {
 				setAllClaimed(false);
 			} else {
 				setAllClaimed(true);
 			}
 		}
-	}, [winners]);
+		if (artData && artData.winners && account && artData.winners.length > 0) {
+			if (artData.winners.indexOf(account.id) >= 0) {
+				setAlreadyClaimed(true);
+			}
+		}
+	}, [artData, account]);
 
 	const onCheckAnswer = async () => {
 		try {
@@ -154,6 +173,24 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 				let result = await claimReward(meralIds, petsIds, tokenId);
 				if (result) {
 					setAlreadyClaimed(true);
+					setShowWinningModal(true);
+				}
+				console.log('resulkt', result);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	};
+
+	const onClaimGiveaway = async () => {
+		if (canGiveaway) {
+			try {
+				let meralIds = droppedMerals.map((meral) => meral.id);
+				let petsIds = droppedPets.map((pet) => pet.id);
+				let result = await claimGiveaway(meralIds, petsIds, tokenId);
+				if (result) {
+					setCanGiveaway(false);
+					setShowWinningModal(true);
 				}
 				console.log('resulkt', result);
 			} catch (error) {
@@ -220,7 +257,10 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 
 				<div style={{ backgroundColor }} className="w-full relative">
 					{droppedPets.length === 0 && droppedMerals.length === 0 && !isOver && !canDrop && (
-						<p className="absolute text-center text-5xl mx-auto w-full mt-7 font-light text-gray-200">DRAG CARDS HERE</p>
+						<div className="absolute text-center mx-auto w-full mt-7 text-gray-200">
+							<p className="text-gray-400 pb-2">Solve the puzzle by dragging all the Merals (and maybe pets) into this box.</p>
+							<p className="text-5xl">DRAG CARDS HERE</p>
+						</div>
 					)}
 					<div ref={drop} style={{ height: '128px' }} className="flex space-x-2 justify-center pt-7 overflow-hidden">
 						{droppedMerals.map((item) => (
@@ -236,7 +276,7 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 					</div>
 
 					{/* ANSWER FIELD */}
-					<div className="text-center h-10">
+					<div className="text-center h-16">
 						{result === false && (
 							<p>
 								<span className="text-red-600 font-bold">WRONG!{` `}</span>
@@ -247,7 +287,14 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 							<>
 								<p>
 									<span className="text-green-600 font-bold">CORRECT!{` `}</span>
-									<span className="text-sm">You can claim the rewards if you hold any of the NFT combination</span>
+									<span className="text-sm">
+										You can claim the rewards if you hold any of the NFT combination{' '}
+										{canGiveaway && !canClaim && (
+											<>
+												OR claim a <strong>free random Meral!</strong>
+											</>
+										)}
+									</span>
 								</p>
 							</>
 						)}
@@ -279,7 +326,7 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 								disabled={claimIsUpdating || alreadyClaimed || allClaimed}
 								className="bg-green-100 w-52 text-bold px-4 py-2 rounded-lg shadow-lg hover:bg-green-200 transition duration-300 flex justify-center items-center"
 							>
-								{claimIsUpdating ? (
+								{claimIsUpdating || isAuthenticating ? (
 									<svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 										<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
 										<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -295,9 +342,34 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 						)}
 
 						{/* RIGHT AND LOGGED IN BUT CANT CLAIM */}
-						{result && account && !canClaim && (
-							<button disabled className="bg-gray-100 w-52 text-bold px-4 py-2 rounded-lg shadow-lg ">
-								<span>You Dont Hold Enough!</span>
+						{result && account && !canClaim && !canGiveaway && (
+							<button disabled className="bg-gray-100 w-52 text-bold px-4 py-2 rounded-lg shadow-lg flex justify-center items-center">
+								{isAuthenticating ? (
+									<svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+										<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+										<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+									</svg>
+								) : (
+									<span>You Dont Hold Enough!</span>
+								)}
+							</button>
+						)}
+
+						{/* RIGHT AND LOGGED IN BUT CANT CLAIM AND NOT WHALE */}
+						{result && account && !canClaim && canGiveaway && (
+							<button
+								onClick={onClaimGiveaway}
+								disabled={claimGiveawayIsUpdating}
+								className="bg-green-100 w-52 text-bold px-4 py-2 rounded-lg shadow-lg hover:bg-green-200 transition duration-300 flex justify-center items-center"
+							>
+								{isAuthenticating || claimGiveawayIsUpdating ? (
+									<svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+										<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+										<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+									</svg>
+								) : (
+									<span>Claim Giveaway Meral!</span>
+								)}
 							</button>
 						)}
 
@@ -313,68 +385,89 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 						</button>
 					</div>
 
-					{/* SHOW CANDIATES */}
-					{result === true && (
-						<div className="text-left px-8">
-							<h3 className="font-bold">
-								Requirements: <span className="font-normal">(one from each row)</span>
-							</h3>
-							{meralCombos && (
-								<>
-									{meralCombos.map((merals, index) => (
-										<Combos key={index} list={merals} type={ItemTypes.MERALS} />
-									))}
-								</>
-							)}
-							{petCombos && (
-								<>
-									{petCombos.map((pets, index) => (
-										<Combos key={index} list={pets} type={ItemTypes.PETS} />
-									))}
-								</>
-							)}
-						</div>
-					)}
+					<div>
+						{/* SHOW CANDIATES */}
+						{result === true && (
+							<div className="text-left px-8 py-4">
+								<h3 className="font-bold">
+									Art NFT claim requirements: <span className="font-normal">(your wallet needs at least one from each row)</span>
+								</h3>
+								{meralCombos && (
+									<>
+										{meralCombos.map((merals, index) => (
+											<Combos key={index} list={merals} type={ItemTypes.MERALS} />
+										))}
+									</>
+								)}
+								{petCombos && (
+									<>
+										{petCombos.map((pets, index) => (
+											<Combos key={index} list={pets} type={ItemTypes.PETS} />
+										))}
+									</>
+								)}
+							</div>
+						)}
 
-					<div className="text-left px-6">
-						{/* SHOW WINNERS */}
-						<h3 className="font-bold py-2">WINNERS</h3>
+						<div>
+							<div className="text-left px-6 py-4">
+								{/* SHOW WINNERS */}
+								<h3 className="font-bold py-2">HONORARY GIVEAWAY</h3>
+								<h4 className="text-2xl">
+									<span className="text-xl">🎁</span> 1st
+									<span className="text-sm text-gray-500 font-bold">{` `}to claim</span>
+								</h4>
+								<div className="sm:px-10">
+									<p className="text-xl pb-2"> {giveawayWinner && <span>{giveawayWinner === AddressZero ? 'Unclaimed' : shortenAddress(giveawayWinner)}</span>}</p>
+									<p className="text-sm text-gray-600 pb-8">
+										<strong>Prize</strong> - Solve the puzzle and win a random Meral from the treasury
+									</p>
+								</div>
+							</div>
 
-						<h4 className="text-2xl">
-							🥇 1st
-							<span className="text-sm text-gray-500 font-bold">{` `}to claim</span>
-						</h4>
-						<div className="sm:px-10">
-							<p className="text-xl pb-2"> {winners && winners.length === 3 && <span>{winners[0] === AddressZero ? 'Unclaimed' : shortenAddress(winners[0])}</span>}</p>
-							<p className="text-sm text-gray-600 pb-8">
-								<strong>Prize</strong> - This Art NFT & 2.5% royalties on sales, bonus 80HP / 900ELF to all Merals involved
-							</p>
-						</div>
+							<div className="text-left px-6">
+								{/* SHOW WINNERS */}
+								<h3 className="font-bold py-2">CORRECT MERAL HOLDERS</h3>
 
-						<h4 className="text-2xl">
-							🥈 2nd
-							<span className="text-sm text-gray-500 font-bold">{` `}to claim</span>
-						</h4>
-						<div className="sm:px-10">
-							<p className="text-xl pb-2"> {winners && winners.length === 3 && <span>{winners[1] === AddressZero ? 'Unclaimed' : shortenAddress(winners[1])}</span>}</p>
-							<p className="text-sm text-gray-600 pb-8">
-								<strong>Prize</strong> - Bonus 50HP / 680ELF to all Merals involved
-							</p>
-						</div>
+								<h4 className="text-2xl">
+									🥇 1st
+									<span className="text-sm text-gray-500 font-bold">{` `}to claim</span>
+								</h4>
+								<div className="sm:px-10">
+									<p className="text-xl pb-2"> {winners && winners.length === 3 && <span>{winners[0] === AddressZero ? 'Unclaimed' : shortenAddress(winners[0])}</span>}</p>
+									<p className="text-sm text-gray-600 pb-8">
+										<strong>Prize</strong> - This Art NFT & 2.5% royalties on sales, bonus 80HP / 900ELF to all Merals involved
+									</p>
+								</div>
 
-						<h4 className="text-2xl">
-							🥉 3rd
-							<span className="text-sm text-gray-500 font-bold">{` `}to claim</span>
-						</h4>
-						<div className="sm:px-10">
-							<p className="text-xl pb-2"> {winners && winners.length === 3 && <span>{winners[2] === AddressZero ? 'Unclaimed' : shortenAddress(winners[2])}</span>}</p>
-							<p className="text-sm text-gray-600 pb-8">
-								<strong>Prize</strong> - Bonus 25HP / 260ELF to all Merals involved
-							</p>
+								<h4 className="text-2xl">
+									🥈 2nd
+									<span className="text-sm text-gray-500 font-bold">{` `}to claim</span>
+								</h4>
+								<div className="sm:px-10">
+									<p className="text-xl pb-2"> {winners && winners.length === 3 && <span>{winners[1] === AddressZero ? 'Unclaimed' : shortenAddress(winners[1])}</span>}</p>
+									<p className="text-sm text-gray-600 pb-8">
+										<strong>Prize</strong> - Bonus 50HP / 680ELF to all Merals involved
+									</p>
+								</div>
+
+								<h4 className="text-2xl">
+									🥉 3rd
+									<span className="text-sm text-gray-500 font-bold">{` `}to claim</span>
+								</h4>
+								<div className="sm:px-10">
+									<p className="text-xl pb-2"> {winners && winners.length === 3 && <span>{winners[2] === AddressZero ? 'Unclaimed' : shortenAddress(winners[2])}</span>}</p>
+									<p className="text-sm text-gray-600 pb-8">
+										<strong>Prize</strong> - Bonus 25HP / 260ELF to all Merals involved
+									</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			{showWinningModal && <WinningModal toggle={toggleWinningModal} />}
 		</main>
 	);
 };

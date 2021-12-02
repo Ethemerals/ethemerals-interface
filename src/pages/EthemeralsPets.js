@@ -33,6 +33,10 @@ const EthemeralsPets = () => {
 	const [filters, setFilters] = useState({});
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
+	useEffect(() => {
 		setShouldFilter(false);
 		let _filters = {};
 		if (nameFilterList.length > 0) {

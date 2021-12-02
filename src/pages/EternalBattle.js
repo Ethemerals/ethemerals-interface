@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import PriceFeeds from '../constants/PriceFeeds';
@@ -12,6 +13,10 @@ const EternalBattle = () => {
 	const history = useHistory();
 
 	let priceFeedId = parseInt(id);
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	return (
 		<div className="overscroll-y-auto overflow-scroll scrollbar_pad">

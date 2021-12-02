@@ -19,7 +19,7 @@ const GET_PET = gql`
 `;
 
 const PetThumbnailOS = ({ id }) => {
-	const { data, status, isLoading } = useGQLQuery(`nft_art_answer_${id}`, GET_PET, { id: id }, { refetchOnMount: false });
+	const { data, status, isLoading } = useGQLQuery(`nft_art_answer_pet_${id}`, GET_PET, { id: id }, { refetchOnMount: false });
 	const { getEquipmentImages } = useNFTUtils();
 	const address = useAddress();
 
@@ -41,7 +41,7 @@ const PetThumbnailOS = ({ id }) => {
 	}, [nft, address, owned]);
 
 	if (isLoading || !nft) {
-		return <div style={{ width: '70px', height: '70px' }} className="relative"></div>;
+		return <div style={{ minWidth: '64px', minHeight: '60px', width: '64px', height: '64px' }} className="relative"></div>;
 	}
 
 	const bgImg = getEquipmentImages(nft.baseId).thumbnail;
@@ -49,7 +49,7 @@ const PetThumbnailOS = ({ id }) => {
 
 	return (
 		<div
-			style={{ width: '64px', height: '64px', backgroundColor: 'hsl(186, 33%, 94%)', borderWidth: '3px', borderColor: owned ? 'hsl(150, 100%, 40%)' : 'white' }}
+			style={{ minWidth: '64px', minHeight: '60px', width: '64px', height: '64px', backgroundColor: 'hsl(186, 33%, 94%)', borderWidth: '3px', borderColor: owned ? 'hsl(150, 100%, 40%)' : 'white' }}
 			className="relative cursor-pointer shadow hover:opacity-80 hover:shadow-lg rounded-lg overflow-hidden"
 		>
 			<a href={openSeaURL} target="blank" rel="noreferrer">

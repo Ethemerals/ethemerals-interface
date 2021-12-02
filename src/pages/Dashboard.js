@@ -17,6 +17,10 @@ const Dashboard = () => {
 	const [selectedTab, setSelectedTab] = useState(0);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
+	useEffect(() => {
 		if (account && userNFTs.length > 0) {
 			setMerals(userNFTs);
 		}

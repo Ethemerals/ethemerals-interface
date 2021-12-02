@@ -6,16 +6,6 @@ import axios from 'axios';
 import { isAddress } from '../utils';
 import { useAccessToken, useAddress } from '../context/Web3Context';
 
-const getWinners = async (id) => {
-	try {
-		const url = `${process.env.REACT_APP_API_ART}getwinners?id=${id}&network=${process.env.REACT_APP_API_NETWORK}`;
-		const { data } = await axios.get(url);
-		return data;
-	} catch (error) {
-		throw new Error('get artHunt error');
-	}
-};
-
 const getArt = async (id) => {
 	try {
 		const url = `${process.env.REACT_APP_API_ART}getart?id=${id}&network=${process.env.REACT_APP_API_NETWORK}`;
@@ -50,21 +40,19 @@ const submitClaimReward = async (answerData) => {
 	}
 };
 
-export const useArtGetWinners = (id) => {
-	let [winners, setWinners] = useState(undefined);
-	const { isLoading, data } = useQuery([`arthunter_winners`, id], () => getWinners(id), { refetchOnMount: true });
-
-	useEffect(() => {
-		if (data && !isLoading) {
-			setWinners(data.data);
+const submitClaimGiveaway = async (answerData) => {
+	if (isAddress(answerData.address)) {
+		try {
+			const { data } = await axios.post(`${process.env.REACT_APP_API_ART}claimgiveaway`, answerData, {
+				headers: { authorization: `Bearer ${answerData.accessToken}` },
+			});
+			return data;
+		} catch (error) {
+			throw new Error('get artHunt error');
 		}
-	}, [data, isLoading]);
-
-	// prettier-ignore
-	return {
-    winners,
-    isLoading
-  };
+	} else {
+		throw new Error('get artHunt error');
+	}
 };
 
 export const useArtGetArt = (id) => {
@@ -117,7 +105,7 @@ export const useClaimReward = () => {
 	const queryClient = useQueryClient();
 
 	let [claimIsUpdating, setClaimIsUpdating] = useState(false);
-	const mutateClaimReward = useMutation(submitClaimReward, { onSuccess: async () => queryClient.invalidateQueries(['arthunter_winners']) });
+	const mutateClaimReward = useMutation(submitClaimReward, { onSuccess: async () => queryClient.invalidateQueries(['arthunter_art']) });
 
 	useEffect(() => {
 		if (mutateClaimReward.status === 'loading') {
@@ -139,5 +127,36 @@ export const useClaimReward = () => {
 	return {
 		claimReward,
 		claimIsUpdating,
+	};
+};
+
+export const useClaimGiveaway = () => {
+	const address = useAddress();
+	const accessToken = useAccessToken();
+	const queryClient = useQueryClient();
+
+	let [claimGiveawayIsUpdating, setClaimIsUpdating] = useState(false);
+	const mutateClaimGiveaway = useMutation(submitClaimGiveaway, { onSuccess: async () => queryClient.invalidateQueries(['arthunter_art']) });
+
+	useEffect(() => {
+		if (mutateClaimGiveaway.status === 'loading') {
+			setClaimIsUpdating(true);
+		} else {
+			setClaimIsUpdating(false);
+		}
+	}, [mutateClaimGiveaway]);
+
+	const claimGiveaway = async (meralsIds, petsIds, tokenId) => {
+		try {
+			const result = await mutateClaimGiveaway.mutateAsync({ meralsIds, petsIds, tokenId, address, accessToken, network: process.env.REACT_APP_API_NETWORK });
+			return result;
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	return {
+		claimGiveaway,
+		claimGiveawayIsUpdating,
 	};
 };

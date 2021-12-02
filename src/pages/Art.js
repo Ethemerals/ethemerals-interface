@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import ArrivingSoon from '../components/art/ArrivingSoon';
 import ArtFeature from '../components/art/ArtFeature';
 import ArtGallery from '../components/art/ArtGallery';
@@ -5,6 +6,10 @@ import ArtGallery from '../components/art/ArtGallery';
 const Art = () => {
 	let featureId = process.env.REACT_APP_ART_FEATURE;
 	// featureId = 2;
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	return (
 		<div className="bg-white">

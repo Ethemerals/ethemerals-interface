@@ -20,7 +20,7 @@ const GET_NFT = gql`
 `;
 
 const MeralThumbnailOS = ({ id }) => {
-	const { data, status, isLoading } = useGQLQuery(`nft_art_answer_${id}`, GET_NFT, { id: id }, { refetchOnMount: false });
+	const { data, status, isLoading } = useGQLQuery(`nft_art_answer_meral_${id}`, GET_NFT, { id: id }, { refetchOnMount: false });
 	const address = useAddress();
 
 	const { meralImagePaths } = useMeralImagePaths(id);
@@ -43,14 +43,22 @@ const MeralThumbnailOS = ({ id }) => {
 	}, [nft, address, owned]);
 
 	if (!meralImagePaths || isLoading || !nft) {
-		return <div style={{ width: '70px', height: '70px' }} className="relative"></div>;
+		return <div style={{ minWidth: '64px', minHeight: '60px', width: '64px', height: '64px' }} className="relative"></div>;
 	}
 
 	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Ethemerals}/${nft.id}`;
 
 	return (
 		<div
-			style={{ width: '64px', height: '60px', backgroundColor: elements[nft.bgId].color, borderWidth: '3px', borderColor: owned ? 'hsl(150, 100%, 40%)' : 'white' }}
+			style={{
+				minWidth: '64px',
+				minHeight: '60px',
+				width: '64px',
+				height: '60px',
+				backgroundColor: elements[nft.bgId].color,
+				borderWidth: '3px',
+				borderColor: owned ? 'hsl(150, 100%, 40%)' : 'white',
+			}}
 			className="relative cursor-pointer shadow hover:opacity-80 hover:shadow-lg rounded-lg overflow-hidden"
 		>
 			<a href={openSeaURL} target="blank" rel="noreferrer">

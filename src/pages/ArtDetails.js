@@ -33,6 +33,10 @@ const ArtDetails = () => {
 	const history = useHistory();
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
+	useEffect(() => {
 		if (artData && artData.claimed !== null) {
 			setIsClaimed(true);
 			setClaimDate(artData.claimed);
@@ -70,6 +74,8 @@ const ArtDetails = () => {
   src="https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg" alt="game art" />
 </div>
   `;
+
+	// const openSeaURL = `${Links.OPENSEAS}/${Addresses.Ethemerals}/${nft.id}`;
 
 	return (
 		<div className="w-full">
