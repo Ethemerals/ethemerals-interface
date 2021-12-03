@@ -85,9 +85,9 @@ const ArtDetails = () => {
 	const [desc, setDesc] = useState('');
 	const history = useHistory();
 
-	// useEffect(() => {
-	// 	window.scrollTo(0, 0);
-	// }, []);
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	useEffect(() => {
 		if (artData && artData.releaseDate) {
