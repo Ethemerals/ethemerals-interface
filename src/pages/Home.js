@@ -152,7 +152,7 @@ const Home = () => {
 					<p className="my-2">Ethemerals are unique and dynamic NFT Collectables. Born into the Ethereum Blockchain</p>
 					<p className="my-2">There will only ever be 8400 Ethemerals. Released in Sets over a 4 year period.</p>
 					<p className="my-2">
-						This Genesis Set contains 100 unique character designs, with 10 editions each. Each single token minted starts with a base score (hp) and ELF. The minting process also generates random
+						This Genesis Set contains 100 unique character designs, with 10 editions each. Each single token minted starts with a base score (HP) and ELF. The minting process also generates random
 						stats (attack, defence, speed) to be used in potential future gameplay.
 					</p>
 					<p className="mt-6 mb-4"> For further information:</p>

@@ -258,7 +258,7 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 				<div style={{ backgroundColor }} className="w-full relative">
 					{droppedPets.length === 0 && droppedMerals.length === 0 && !isOver && !canDrop && (
 						<div className="absolute text-center mx-auto w-full mt-7 text-gray-200">
-							<p className="text-gray-400 pb-2">Solve the puzzle by dragging all the Merals (and maybe pets) into this box.</p>
+							<p className="text-gray-400 pb-2">Solve the puzzle by dragging the correct Meral cards (and maybe pets) into this box.</p>
 							<p className="text-5xl">DRAG CARDS HERE</p>
 						</div>
 					)}
