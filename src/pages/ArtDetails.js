@@ -63,10 +63,11 @@ const Details = ({ tokenId }) => {
 const CollectionDetail = ({ collection, tokenId, releaseDate }) => {
 	if (collection === 0) {
 		return (
-			<div className="text-gray-500 text-sm">
-				<p>Collection - The Kingdom of the Ethemerals World Building</p>
-				<p>Item #{tokenId} Single Edition</p>
-				{releaseDate && <p>Released: {format(releaseDate, 'MMM dd yyyy')}</p>}
+			<div className="text-gray-400 text-sm">
+				<p className="text-gray-600"> Collection - The Kingdom of the Ethemerals World Building</p>
+				<p className="text-gray-600">
+					Item #{tokenId} Single Edition. {releaseDate && <span>Released: {format(releaseDate, 'MMM dd yyyy')}</span>}
+				</p>
 			</div>
 		);
 	} else {
@@ -93,7 +94,7 @@ const ArtDetails = () => {
 		if (artData && artData.releaseDate) {
 			setReleaseDate(artData.releaseDate);
 		}
-		if (artData && artData.claimed !== null) {
+		if (artData && artData.giveaway !== AddressZero) {
 			setTitle(artData.title);
 			setDesc(artData.desc);
 		} else {
@@ -164,7 +165,7 @@ const ArtDetails = () => {
 				</div>
 
 				<p className="mt-4 text-gray-500 bg-gray-50 hover:shadow-lg transition duration-300 cursor-pointer w-9 mx-auto flex justify-center hover:bg-blue-100 rounded-xl">
-					<Link to="desc_container" spy={true} smooth={true} duration={1000}>
+					<Link to="desc_container" spy={true} smooth={true} duration={1000} offset={-200}>
 						<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
 						</svg>

@@ -112,7 +112,7 @@ const Home = () => {
 					<p className="font-bold text-xl">Genesis Set</p>
 					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex) + 1}`}</p>}
 				</div>
-				<div className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 rounded-lg font-bold text-2xl bg-gray-400">
+				<div className="text-gray-500 text-center mx-auto border-2 border-gray-200 shadow-md sm:mx-8 mt-8 py-2 px-4 rounded-lg font-bold text-2xl bg-gray-50">
 					<p className="">GENESIS SET SOLD OUT</p>
 				</div>
 
@@ -150,7 +150,7 @@ const Home = () => {
 					<span className="">PURCHASE ON OPENSEA.IO</span>
 				</a>
 
-				<div className="mt-10 mb-2 text-gray-600 text-sm">
+				<div className="mt-10 mb-2 text-gray-900 text-sm">
 					<h3 className="font-bold mb-4 text-center text-brandColor">Season 2 planned release in Feb 2022</h3>
 					<div className="bg-white p-4 bg-opacity-80">
 						<h3 className="font-bold">What are Ethemerals?</h3>

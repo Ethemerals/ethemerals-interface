@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-
+import { AddressZero } from '@ethersproject/constants';
 import { useArtGetArt } from '../../hooks/useArtHunt';
 
 const CollectionDetail = ({ collection, tokenId }) => {
 	if (collection === 0) {
 		return (
 			<>
-				<p className="text-gray-400 text-sm">Kingdom of the Ethemerals - World Building Collection</p>
+				<p className="text-gray-600 text-sm">Kingdom of the Ethemerals - World Building Collection</p>
 				<p className="text-gray-400 text-sm">Item #{tokenId} Single Edition</p>
 			</>
 		);
@@ -24,7 +24,8 @@ const ArtFeature = ({ tokenId }) => {
 	const history = useHistory();
 
 	useEffect(() => {
-		if (artData && artData.claimed !== null) {
+		// console.log(artData.giveaway);
+		if (artData && artData.giveaway !== AddressZero) {
 			setTitle(artData.title);
 		} else {
 			setTitle('Title Revealed once Claimed...');
@@ -50,7 +51,7 @@ const ArtFeature = ({ tokenId }) => {
 					/>
 				</div>
 
-				{artData && (
+				{artData && artData.giveaway && (
 					<div className="mx-auto mt-4 md:mt-0 w-4/5 relative">
 						<CollectionDetail collection={artData.collection} tokenId={tokenId} />
 						<h1 className="text-3xl md:text-5xl pt-4">{title}</h1>
