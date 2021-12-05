@@ -40,8 +40,7 @@ export const refreshMetadata = async (id) => {
 
 	try {
 		// update image
-		const updateResponse = await axios.get(`${apiBaseUrl}image/${id}`);
-		console.log(updateResponse);
+		await axios.get(`${apiBaseUrl}image/${id}`);
 		const response = await axios.get(`${baseUrl}${id}/?force_update=true`);
 		if (response.data) {
 			return { success: true, data: response.data };
