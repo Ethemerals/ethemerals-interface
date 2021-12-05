@@ -36,8 +36,12 @@ export const refreshMetadata = async (id) => {
 	if (process.env.REACT_APP_API_NETWORK === '4') {
 		baseUrl = `https://rinkeby-api.opensea.io/api/v1/asset/${process.env.REACT_APP_ETHEMERALS_ADDRESS}/`;
 	}
+	let apiBaseUrl = `${process.env.REACT_APP_API_URL}`;
 
 	try {
+		// update image
+		const updateResponse = await axios.get(`${apiBaseUrl}image/${id}`);
+		console.log(updateResponse);
 		const response = await axios.get(`${baseUrl}${id}/?force_update=true`);
 		if (response.data) {
 			return { success: true, data: response.data };
