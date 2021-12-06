@@ -15,6 +15,7 @@ import { Gallery, Item } from 'react-photoswipe-gallery';
 const Details = ({ tokenId }) => {
 	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Art}/${tokenId}`;
 	const etherscanURL = `${Links.ETHERSCAN_URL}token/${Addresses.Art}?a=${tokenId}`;
+
 	return (
 		<div className="w-64">
 			<a href={openSeaURL} target="blank" rel="noreferrer">
@@ -77,6 +78,8 @@ const CollectionDetail = ({ collection, tokenId, releaseDate }) => {
 
 const ArtDetails = () => {
 	const { id: tokenId } = useParams();
+	const now = Date.now();
+	const [released, setReleased] = useState(false);
 	// GET ARTDATA
 	const { artData } = useArtGetArt(tokenId);
 	const [allClaimed, setAllClaimed] = useState(false);
@@ -85,6 +88,14 @@ const ArtDetails = () => {
 	const [title, setTitle] = useState('');
 	const [desc, setDesc] = useState('');
 	const history = useHistory();
+
+	useEffect(() => {
+		if (artData) {
+			if (artData.releaseDate <= now) {
+				setReleased(true);
+			}
+		}
+	}, [artData, now]);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -134,34 +145,41 @@ const ArtDetails = () => {
 		<div className="w-full">
 			<div className="py-20 h-full bg-gray-100">
 				<div className="flex justify-center mx-auto">
-					<Gallery
-						options={{
-							getThumbBoundsFn: undefined,
-							showHideOpacity: false,
-							shareButtons: [
-								{ id: 'twitter', label: 'Tweet', url: 'https://twitter.com/intent/tweet?text={{text}}&url={{url}}' },
-								{ id: 'pinterest', label: 'Pin it', url: 'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}' },
-							],
-						}}
-					>
-						<Item html={html}>
-							{({ open }) => (
-								<div
-									onClick={(e) => {
-										e.preventDefault();
-										open();
-									}}
-								>
-									<img
-										style={{ width: 'auto', height: '86vh', maxHeight: '86vh', objectFit: 'contain' }}
-										className="cursor-pointer mx-auto"
-										src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`}
-										alt="Feature art"
-									/>
-								</div>
-							)}
-						</Item>
-					</Gallery>
+					{artData && released && (
+						<Gallery
+							options={{
+								getThumbBoundsFn: undefined,
+								showHideOpacity: false,
+								shareButtons: [
+									{ id: 'twitter', label: 'Tweet', url: 'https://twitter.com/intent/tweet?text={{text}}&url={{url}}' },
+									{ id: 'pinterest', label: 'Pin it', url: 'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}' },
+								],
+							}}
+						>
+							<Item html={html}>
+								{({ open }) => (
+									<div
+										onClick={(e) => {
+											e.preventDefault();
+											open();
+										}}
+									>
+										<img
+											style={{ width: 'auto', height: '86vh', maxHeight: '86vh', objectFit: 'contain' }}
+											className="cursor-pointer mx-auto"
+											src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`}
+											alt="Feature art"
+										/>
+									</div>
+								)}
+							</Item>
+						</Gallery>
+					)}
+					{artData && !released && (
+						<div className="w-600 h-600 bg-gray-50 ">
+							<p className="pt-48 text-gray-300 text-center">NOT YET RELEASED</p>
+						</div>
+					)}
 				</div>
 
 				<p className="mt-4 text-gray-500 bg-gray-50 hover:shadow-lg transition duration-300 cursor-pointer w-9 mx-auto flex justify-center hover:bg-blue-100 rounded-xl">

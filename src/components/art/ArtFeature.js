@@ -17,6 +17,9 @@ const CollectionDetail = ({ collection, tokenId }) => {
 };
 const ArtFeature = ({ tokenId }) => {
 	// GET ARTDATA
+	const now = Date.now();
+	const [released, setReleased] = useState(false);
+
 	const { artData } = useArtGetArt(tokenId);
 
 	const [title, setTitle] = useState('');
@@ -24,7 +27,14 @@ const ArtFeature = ({ tokenId }) => {
 	const history = useHistory();
 
 	useEffect(() => {
-		// console.log(artData.giveaway);
+		if (artData) {
+			if (artData.releaseDate <= now) {
+				setReleased(true);
+			}
+		}
+	}, [artData, now]);
+
+	useEffect(() => {
 		if (artData && artData.giveaway !== AddressZero) {
 			setTitle(artData.title);
 		} else {
@@ -43,12 +53,19 @@ const ArtFeature = ({ tokenId }) => {
 		<div>
 			<div className="py-20 block md:grid md:grid-cols-2 md:py-24 md:w-11/12 md:mx-auto items-center">
 				<div onClick={handleOnClick} className="flex">
-					<img
-						style={{ width: 'auto', height: '70vh', maxHeight: '70vh', objectFit: 'contain' }}
-						className="cursor-pointer mx-auto"
-						src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`}
-						alt="Feature art"
-					/>
+					{artData && released && (
+						<img
+							style={{ width: 'auto', height: '70vh', maxHeight: '70vh', objectFit: 'contain' }}
+							className="cursor-pointer mx-auto"
+							src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`}
+							alt="Feature art"
+						/>
+					)}
+					{artData && !released && (
+						<div className="w-full h-600 bg-gray-50 ">
+							<p className="pt-48 text-gray-300 text-center">NOT YET RELEASED</p>
+						</div>
+					)}
 				</div>
 
 				{artData && artData.giveaway && (

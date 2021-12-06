@@ -1,21 +1,21 @@
 import { useEffect } from 'react';
-import ArrivingSoon from '../components/art/ArrivingSoon';
 import ArtFeature from '../components/art/ArtFeature';
-import ArtGallery from '../components/art/ArtGallery';
+import Gallery from '../components/art/Gallery';
+import Upcoming from '../components/art/Upcoming';
 
 const Art = () => {
 	let featureId = process.env.REACT_APP_ART_FEATURE;
-	// featureId = 2;
+	// featureId = 1;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
 
 	return (
-		<div className="bg-white">
+		<div className="bg-white mx-2 md:mx-20">
 			<ArtFeature tokenId={featureId} />
-			<ArrivingSoon />
-			<ArtGallery />
+			<Upcoming />
+			<Gallery />
 
 			<div className="h-40"></div>
 		</div>

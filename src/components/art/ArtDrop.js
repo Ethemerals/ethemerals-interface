@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { AddressZero } from '@ethersproject/constants';
-
+import Countdown from 'react-countdown';
+import format from 'date-fns/format';
 import { shortenAddress } from '../../utils';
 import { ItemTypes } from './utils/items';
 import MeralThumbnail from './cards/MeralThumbnail';
@@ -27,6 +28,9 @@ const Combos = ({ list, type }) => {
 };
 
 const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, handleRemove }) => {
+	const now = Date.now();
+	const [released, setReleased] = useState(false);
+
 	const isAuthenticating = useAuthenticating();
 	const { checkAnswer, answerIsUpdating } = useArtCheckAnswer();
 	const { claimReward, claimIsUpdating } = useClaimReward();
@@ -61,6 +65,14 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 			canDrop: monitor.canDrop(),
 		}),
 	});
+
+	useEffect(() => {
+		if (artData) {
+			if (artData.releaseDate <= now) {
+				setReleased(true);
+			}
+		}
+	}, [artData, now]);
 
 	useEffect(() => {
 		if (artData && artData.giveaway) {
@@ -226,33 +238,45 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 		<main ref={drop} style={{ left: '424px', width: 'calc(100% - 424px)', minWidth: '512px' }} className="mt-12 absolute pb-44">
 			<div>
 				<div style={{ maxWidth: '800px' }} className="w-4/5 mx-auto mt-12">
-					<Gallery
-						options={{
-							getThumbBoundsFn: undefined,
-							showHideOpacity: false,
-							shareButtons: [
-								{ id: 'twitter', label: 'Tweet', url: 'https://twitter.com/intent/tweet?text={{text}}&url={{url}}' },
-								{ id: 'pinterest', label: 'Pin it', url: 'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}' },
-							],
-						}}
-					>
-						<Item html={html}>
-							{({ open }) => (
-								<div
-									onClick={(e) => {
-										e.preventDefault();
-										open();
-									}}
-								>
-									<img
-										style={{ margin: 'auto', width: 'auto', height: '60vh', maxHeight: '60vh', objectFit: 'contain' }}
-										src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`}
-										alt="game art"
-									/>
-								</div>
-							)}
-						</Item>
-					</Gallery>
+					{artData && released && (
+						<Gallery
+							options={{
+								getThumbBoundsFn: undefined,
+								showHideOpacity: false,
+								shareButtons: [
+									{ id: 'twitter', label: 'Tweet', url: 'https://twitter.com/intent/tweet?text={{text}}&url={{url}}' },
+									{ id: 'pinterest', label: 'Pin it', url: 'http://www.pinterest.com/pin/create/button/?url={{url}}&media={{image_url}}&description={{text}}' },
+								],
+							}}
+						>
+							<Item html={html}>
+								{({ open }) => (
+									<div
+										onClick={(e) => {
+											e.preventDefault();
+											open();
+										}}
+									>
+										<img
+											style={{ margin: 'auto', width: 'auto', height: '60vh', maxHeight: '60vh', objectFit: 'contain' }}
+											src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`}
+											alt="game art"
+										/>
+									</div>
+								)}
+							</Item>
+						</Gallery>
+					)}
+					{artData && !released && (
+						<div className="w-600 h-600 bg-gray-50 mx-auto">
+							<p className="pt-48 text-gray-300 text-center">NOT YET RELEASED</p>
+							<div className="mt-6 text-center">
+								<p className="text-3xl">
+									<Countdown date={artData.releaseDate} onComplete={() => setReleased(true)}></Countdown>
+								</p>
+							</div>
+						</div>
+					)}
 				</div>
 
 				<div style={{ backgroundColor }} className="w-full relative">
