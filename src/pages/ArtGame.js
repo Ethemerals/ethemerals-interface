@@ -139,7 +139,6 @@ const ArtGame = () => {
 		if (statusFilterList.length > 0) {
 			setShouldFilter(true);
 			_filters.owner_in = address ? [address.toLowerCase()] : [''];
-			console.log(address);
 		}
 		if (subclassFilterList.length > 0) {
 			setShouldFilter(true);
@@ -175,9 +174,7 @@ const ArtGame = () => {
 		if (statusFilterList.length > 0) {
 			setPetShouldFilter(true);
 			_filters.owner_in = address ? [address.toLowerCase()] : [''];
-			console.log(address);
 		}
-		// console.log(nameFilterList);
 
 		setPetFilters(_filters);
 	}, [statusFilterList, petNameFilterList, address]);

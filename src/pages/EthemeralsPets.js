@@ -43,7 +43,6 @@ const EthemeralsPets = () => {
 			setShouldFilter(true);
 			_filters.name_in = nameFilterList;
 		}
-		// console.log(nameFilterList);
 
 		setFilters(_filters);
 	}, [nameFilterList]);

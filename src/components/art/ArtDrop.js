@@ -171,7 +171,6 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 			}
 
 			if (meralResult && petResult) {
-				console.log('can claim');
 				setCanClaim(true);
 			}
 		}
@@ -187,7 +186,6 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 					setAlreadyClaimed(true);
 					setShowWinningModal(true);
 				}
-				console.log('resulkt', result);
 			} catch (error) {
 				console.log(error);
 			}
@@ -204,7 +202,6 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 					setCanGiveaway(false);
 					setShowWinningModal(true);
 				}
-				console.log('resulkt', result);
 			} catch (error) {
 				console.log(error);
 			}

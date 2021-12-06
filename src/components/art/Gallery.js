@@ -5,12 +5,6 @@ import { useArtGetArtsPast } from '../../hooks/useArtHunt';
 const Gallery = () => {
 	const { artData, isLoading } = useArtGetArtsPast();
 
-	useEffect(() => {
-		if (!isLoading) {
-			console.log(artData);
-		}
-	}, [artData, isLoading]);
-
 	return (
 		<div style={{ minHeight: '256px' }} className="w-full h-96 m-4 mb-24">
 			<h1 className="text-2xl border-gray-100 border-b-2 pb-4">Gallery</h1>
