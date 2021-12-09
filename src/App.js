@@ -62,6 +62,9 @@ function App() {
 							<Route exact path="/mint">
 								<Home />
 							</Route>
+							<Route exact path="/rinkeby">
+								<Mint />
+							</Route>
 							<Route exact path="/admin">
 								<Admin />
 							</Route>

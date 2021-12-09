@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { AddressZero } from '@ethersproject/constants';
 import { useArtGetArt } from '../../hooks/useArtHunt';
-
+import Spinner from '../../components/Spinner';
 const CollectionDetail = ({ collection, tokenId }) => {
 	if (collection === 0) {
 		return (
@@ -48,6 +48,20 @@ const ArtFeature = ({ tokenId }) => {
 	const handleOnClickGame = () => {
 		history.push(`/artgame/${tokenId}`);
 	};
+
+	if (!artData) {
+		return (
+			<div>
+				<div className="py-20 block md:py-24 md:w-11/12 md:mx-auto items-center">
+					<div onClick={handleOnClick} className="flex">
+						<div className="w-full h-600 flex justify-center">
+							<Spinner size="h-16 w-16" margin="my-44" color="text-gray-200" />
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div>
