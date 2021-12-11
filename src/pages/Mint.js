@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { BigNumber } from '@ethersproject/bignumber';
 
-import Links from '../constants/Links';
+import { Links } from '../constants/Links';
 
 import Images from '../constants/Images';
 

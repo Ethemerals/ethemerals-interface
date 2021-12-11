@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import Links from '../../constants/Links';
+import { Links } from '../../constants/Links';
 
 const discordURL = Links.DISCORD_URL;
 

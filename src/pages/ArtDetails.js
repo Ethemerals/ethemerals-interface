@@ -5,8 +5,8 @@ import { Link } from 'react-scroll';
 import { AddressZero } from '@ethersproject/constants';
 import { useArtGetArt } from '../hooks/useArtHunt';
 import { shortenAddress } from '../utils';
-import Addresses from '../constants/contracts/Addresses';
-import Links from '../constants/Links';
+import { Addresses } from '../constants/contracts/Addresses';
+import { Links } from '../constants/Links';
 
 import 'photoswipe/dist/photoswipe.css';
 import 'photoswipe/dist/default-skin/default-skin.css';

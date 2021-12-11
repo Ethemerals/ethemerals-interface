@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 import { useGQLQuery } from '../../../hooks/useGQLQuery';
-import Links from '../../../constants/Links';
+import { Links } from '../../../constants/Links';
 import gql from 'graphql-tag';
 import { useAddress } from '../../../context/Web3Context';
-import Addresses from '../../../constants/contracts/Addresses';
+import { Addresses } from '../../../constants/contracts/Addresses';
 
 const GET_PET = gql`
 	query ($id: ID!) {

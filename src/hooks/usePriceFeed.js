@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
-import Addresses from '../constants/contracts/Addresses';
+import { Addresses } from '../constants/contracts/Addresses';
 import { useWeb3 } from '../context/Web3Context';
 
 const getContracts = async (provider, setContractPriceFeed) => {
@@ -17,7 +17,7 @@ const getContracts = async (provider, setContractPriceFeed) => {
 };
 
 const getPriceAPI = async (id) => {
-	const url = `${process.env.REACT_APP_API_MARKETS}pricefeed?id=${id}&network=${process.env.REACT_APP_API_NETWORK}`;
+	const url = `${process.env.REACT_APP_API_MARKETS}pricefeed?id=${id}&network=${process.env.REACT_APP_NETWORK}`;
 	const { data } = await axios.get(url);
 	if (data.status === 'success') {
 		return data.data.price;

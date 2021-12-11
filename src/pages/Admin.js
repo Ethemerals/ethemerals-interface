@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { BigNumber } from '@ethersproject/bignumber';
 import { utils } from 'ethers';
 
-import Addresses from '../constants/contracts/Addresses';
+import { Addresses } from '../constants/contracts/Addresses';
 
 import { shortenAddress, formatELF, formatETH } from '../utils';
 

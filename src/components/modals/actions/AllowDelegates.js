@@ -8,9 +8,6 @@ import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
 import useUserAccount from '../../../hooks/useUserAccount';
 
-import Addresses from '../../../constants/contracts/Addresses';
-import { shortenAddress } from '../../../utils';
-import Links from '../../../constants/Links';
 import ParseDelegates from '../../art/delegates/ParseDelegates';
 
 const AllowDelegates = ({ toggle, toggleStake, EBApproved }) => {
@@ -91,7 +88,7 @@ const AllowDelegates = ({ toggle, toggleStake, EBApproved }) => {
 						)}
 
 						<h3 className="mt-8">List of Ecosystem Contracts (Delegates)</h3>
-						<div className="py-2 mb-4">{delegates && delegates.map((delegate) => <ParseDelegates delegate={delegate} />)}</div>
+						<div className="py-2 mb-4">{delegates && delegates.map((delegate, index) => <ParseDelegates key={index} delegate={delegate} />)}</div>
 
 						<hr></hr>
 						<p className="px-4 pb-10">

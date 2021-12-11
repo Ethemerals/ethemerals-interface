@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTransition, animated } from '@react-spring/web';
 import { useReceipt } from '../../context/TxContext';
 
-import Links from '../../constants/Links';
+import { Links } from '../../constants/Links';
 
 const etherscanURL = Links.ETHERSCAN_URL;
 

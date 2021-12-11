@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Links from '../constants/Links';
+import { Links } from '../constants/Links';
 
 import { useSendTx } from '../context/TxContext';
 import { useCore, useCoreContract, useCoreApprovals } from '../hooks/useCore';
@@ -8,7 +8,7 @@ import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 import { shortenAddress } from '../utils';
-import Addresses from '../constants/contracts/Addresses';
+import { Addresses } from '../constants/contracts/Addresses';
 import useUserAccount from '../hooks/useUserAccount';
 import ParseDelegates from './art/delegates/ParseDelegates';
 
@@ -110,7 +110,7 @@ const Preferences = () => {
 				)}
 
 				<h3 className="font-bold mt-8">List of Ecosystem Contracts (Delegates)</h3>
-				<div className="py-2 px-8 mb-4">{delegates && delegates.map((delegate) => <ParseDelegates delegate={delegate} />)}</div>
+				<div className="py-2 px-8 mb-4">{delegates && delegates.map((delegate) => <ParseDelegates key={delegate.id} delegate={delegate} />)}</div>
 
 				<hr></hr>
 				<p className="mt-8 mb-6">

@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { GraphQLClient } from 'graphql-request';
-import Links from '../constants/Links';
+import { Links } from '../constants/Links';
 
 export const useGQLQuery = (key, query, variables, config = {}) => {
 	// let endpoint = 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals';

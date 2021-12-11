@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Links from '../../../constants/Links';
-import Addresses from '../../../constants/contracts/Addresses';
+import { Links } from '../../../constants/Links';
+import { Addresses } from '../../../constants/contracts/Addresses';
 
 import Images from '../../../constants/Images';
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Links from '../../constants/Links';
+import { Links } from '../../constants/Links';
 
 import BattleHelpStats from '../../assets/battle/ebattle_help_stats.png';
 

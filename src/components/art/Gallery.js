@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
 import ArtCardPast from './cards/ArtCardPast';
 import { useArtGetArtsPast } from '../../hooks/useArtHunt';
 
 const Gallery = () => {
-	const { artData, isLoading } = useArtGetArtsPast();
+	const { artData } = useArtGetArtsPast();
 
 	return (
 		<div style={{ minHeight: '256px' }} className="w-full h-96 m-4 mb-24">

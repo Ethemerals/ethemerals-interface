@@ -1,6 +1,4 @@
 import { useHistory } from 'react-router';
-import Countdown from 'react-countdown';
-import format from 'date-fns/format';
 
 const ArtCardPast = ({ art }) => {
 	const history = useHistory();

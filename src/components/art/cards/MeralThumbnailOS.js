@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
 import { useGQLQuery } from '../../../hooks/useGQLQuery';
-import Links from '../../../constants/Links';
-import Addresses from '../../../constants/contracts/Addresses';
+import { Links } from '../../../constants/Links';
+import { Addresses } from '../../../constants/contracts/Addresses';
 import gql from 'graphql-tag';
 import { useAddress } from '../../../context/Web3Context';
 

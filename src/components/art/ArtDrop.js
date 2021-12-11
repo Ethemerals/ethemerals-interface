@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { AddressZero } from '@ethersproject/constants';
 import Countdown from 'react-countdown';
-import format from 'date-fns/format';
 import { shortenAddress } from '../../utils';
 import { ItemTypes } from './utils/items';
 import MeralThumbnail from './cards/MeralThumbnail';

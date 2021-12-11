@@ -1,5 +1,5 @@
-import Links from '../constants/Links';
-import Addresses from '../constants/contracts/Addresses';
+import { Links } from '../constants/Links';
+import { Addresses } from '../constants/contracts/Addresses';
 import { shortenAddress } from '../utils';
 
 const useParseAction = (action) => {

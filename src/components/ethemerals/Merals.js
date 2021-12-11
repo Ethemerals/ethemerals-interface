@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
 import NFTPreviewCard from './cards/NFTPreviewCard';
-import Links from '../../constants/Links';
+import { Links } from '../../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
 

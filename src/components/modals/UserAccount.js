@@ -5,7 +5,7 @@ import useParseAccountAction from '../../hooks/useParseAccountActions';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
 import useUserAccount from '../../hooks/useUserAccount';
 
-import Links from '../../constants/Links';
+import { Links } from '../../constants/Links';
 
 import { useGQLQuery } from '../../hooks/useGQLQuery';
 import { GET_ACCOUNT_ACTIONS } from '../../queries/Subgraph';

@@ -9,7 +9,7 @@ import { usePriceFeedContract } from '../../hooks/usePriceFeed';
 import useUserAccount from '../../hooks/useUserAccount';
 import { useCoreApprovals, useCoreContract } from '../../hooks/useCore';
 
-import Addresses from '../../constants/contracts/Addresses';
+import { Addresses } from '../../constants/contracts/Addresses';
 import ConnectWallet from './modals/ConnectWallet';
 
 import { formatPrice } from '../../utils';

@@ -1,5 +1,5 @@
-import Links from '../constants/Links';
-import Addresses from '../constants/contracts/Addresses';
+import { Links } from '../constants/Links';
+import { Addresses } from '../constants/contracts/Addresses';
 import { shortenAddress } from '../utils';
 
 // Default
@@ -40,14 +40,16 @@ const useParseAccountAction = (action) => {
 			actionString = `Received ELF from ${shortenAddress(action.transaction.from)} 🔥`;
 			break;
 		case 'Send': // ACCOUNT SEND TOKEN
-			if (!action.ethemeral !== null && action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Sent Ethemeral #${action.ethemeral.id} to Eternal Battle ⚔️`;
-			} else {
-				actionString = `Sent Ethemeral #${action.ethemeral.id} to ${shortenAddress(action.transaction.to)} 🎁`;
+			if (action.ethemeral) {
+				if (action.ethemeral !== null && action.transaction.to === Addresses.EternalBattle) {
+					actionString = `Sent Ethemeral #${action.ethemeral.id} to Eternal Battle ⚔️`;
+				} else {
+					actionString = `Sent Ethemeral #${action.ethemeral.id} to ${shortenAddress(action.transaction.to)} 🎁`;
+				}
 			}
 			break;
 		case 'Receive': // ACCOUNT RECEIVED TOKEN // New Minted if from == self
-			if (action.ethemeral !== null) {
+			if (action.ethemeral) {
 				if (action.transaction.from === action.account.id) {
 					actionString = `Minted Ethemeral #${action.ethemeral.id}. Congratulations! ❤️‍🔥`;
 				} else {

@@ -8,7 +8,7 @@ import { useAccessToken, useAddress } from '../context/Web3Context';
 
 const updateMeralColor = async (meralData) => {
 	if (isAddress(meralData.address)) {
-		meralData.network = parseInt(process.env.REACT_APP_API_NETWORK);
+		meralData.network = parseInt(process.env.REACT_APP_NETWORK);
 		try {
 			const { data } = await axios.post(`${process.env.REACT_APP_API_MERALS}colors`, meralData, {
 				headers: { authorization: `Bearer ${meralData.accessToken}` },
@@ -33,7 +33,7 @@ const getMeralColor = async (id) => {
 
 export const refreshMetadata = async (id) => {
 	let baseUrl = `https://api.opensea.io/api/v1/asset/${process.env.REACT_APP_ETHEMERALS_ADDRESS}/`;
-	if (process.env.REACT_APP_API_NETWORK === '4') {
+	if (process.env.REACT_APP_NETWORK === '4') {
 		baseUrl = `https://rinkeby-api.opensea.io/api/v1/asset/${process.env.REACT_APP_ETHEMERALS_ADDRESS}/`;
 	}
 	let apiBaseUrl = `${process.env.REACT_APP_API_URL}`;

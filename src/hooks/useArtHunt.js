@@ -8,7 +8,7 @@ import { useAccessToken, useAddress } from '../context/Web3Context';
 
 const getArt = async (id) => {
 	try {
-		const url = `${process.env.REACT_APP_API_ART}getart?id=${id}&network=${process.env.REACT_APP_API_NETWORK}`;
+		const url = `${process.env.REACT_APP_API_ART}getart?id=${id}&network=${process.env.REACT_APP_NETWORK}`;
 		const { data } = await axios.get(url);
 		return data;
 	} catch (error) {
@@ -18,7 +18,7 @@ const getArt = async (id) => {
 
 const getArtsFuture = async () => {
 	try {
-		const url = `${process.env.REACT_APP_API_ART}getarts/upcoming?network=${process.env.REACT_APP_API_NETWORK}`;
+		const url = `${process.env.REACT_APP_API_ART}getarts/upcoming?network=${process.env.REACT_APP_NETWORK}`;
 		const { data } = await axios.get(url);
 		return data;
 	} catch (error) {
@@ -28,7 +28,7 @@ const getArtsFuture = async () => {
 
 const getArtsPast = async () => {
 	try {
-		const url = `${process.env.REACT_APP_API_ART}getarts/past?network=${process.env.REACT_APP_API_NETWORK}`;
+		const url = `${process.env.REACT_APP_API_ART}getarts/past?network=${process.env.REACT_APP_NETWORK}`;
 		const { data } = await axios.get(url);
 		return data;
 	} catch (error) {
@@ -140,7 +140,7 @@ export const useArtCheckAnswer = () => {
 
 	const checkAnswer = async (meralsIds, petsIds, tokenId) => {
 		try {
-			const result = await mutateCheckAnswer.mutateAsync({ meralsIds, petsIds, tokenId, network: process.env.REACT_APP_API_NETWORK });
+			const result = await mutateCheckAnswer.mutateAsync({ meralsIds, petsIds, tokenId, network: process.env.REACT_APP_NETWORK });
 			return result;
 		} catch (error) {
 			console.log(error);
@@ -171,7 +171,7 @@ export const useClaimReward = () => {
 
 	const claimReward = async (meralsIds, petsIds, tokenId) => {
 		try {
-			const result = await mutateClaimReward.mutateAsync({ meralsIds, petsIds, tokenId, address, accessToken, network: process.env.REACT_APP_API_NETWORK });
+			const result = await mutateClaimReward.mutateAsync({ meralsIds, petsIds, tokenId, address, accessToken, network: process.env.REACT_APP_NETWORK });
 			return result;
 		} catch (error) {
 			console.log(error);
@@ -202,7 +202,7 @@ export const useClaimGiveaway = () => {
 
 	const claimGiveaway = async (meralsIds, petsIds, tokenId) => {
 		try {
-			const result = await mutateClaimGiveaway.mutateAsync({ meralsIds, petsIds, tokenId, address, accessToken, network: process.env.REACT_APP_API_NETWORK });
+			const result = await mutateClaimGiveaway.mutateAsync({ meralsIds, petsIds, tokenId, address, accessToken, network: process.env.REACT_APP_NETWORK });
 			return result;
 		} catch (error) {
 			console.log(error);

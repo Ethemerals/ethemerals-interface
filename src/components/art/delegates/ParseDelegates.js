@@ -1,6 +1,6 @@
-import Addresses from '../../../constants/contracts/Addresses';
+import { Addresses } from '../../../constants/contracts/Addresses';
 import { shortenAddress } from '../../../utils';
-import Links from '../../../constants/Links';
+import { Links } from '../../../constants/Links';
 
 const ParseDelegates = ({ delegate }) => {
 	if (!delegate.active) {
