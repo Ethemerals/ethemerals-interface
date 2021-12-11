@@ -98,7 +98,11 @@ const AllowDelegates = ({ toggle, toggleStake, EBApproved }) => {
 										return (
 											<div key={delegate.id} className="px-2 py-1 text-center bg-white mb-2">
 												<p>
-													{shortenAddress(delegate.id)} <span>{delegate.id.toLowerCase() === Addresses.EternalBattle.toLowerCase() && '- Eternal Battle Contract'}</span>
+													{shortenAddress(delegate.id)}{' '}
+													<span>
+														{delegate.id.toLowerCase() === Addresses.EternalBattle.toLowerCase() && '- Eternal Battle Contract'}
+														{delegate.id.toLowerCase() === Addresses.changeScoreAndRewards.toLowerCase() && '- HP and ELF Rewarder'}
+													</span>
 												</p>
 												<a href={etherscanLink} target="_blank" rel="noreferrer" className="text-xs justify-center flex items-center text-blue-600 hover:text-blue-400">
 													View verified contract on etherscan
