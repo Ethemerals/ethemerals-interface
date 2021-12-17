@@ -14,8 +14,8 @@ const Art = () => {
 	return (
 		<div className="bg-white mx-2 md:mx-20">
 			<ArtFeature tokenId={featureId} />
-			<Upcoming />
 			<Gallery />
+			<Upcoming />
 
 			<div className="h-40"></div>
 		</div>

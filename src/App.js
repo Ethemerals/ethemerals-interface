@@ -17,6 +17,7 @@ import EthemeralsMerals from './pages/EthemeralsMerals';
 import Equipable from './pages/Equipable';
 import MeralDetails from './pages/MeralDetails';
 import All from './pages/All';
+import EnterTheWilds from './pages/EnterTheWilds';
 
 import Web3ContextProvider from './context/Web3Context';
 
@@ -91,6 +92,9 @@ function App() {
 								<EBContextProvider>
 									<EternalBattle />
 								</EBContextProvider>
+							</Route>
+							<Route exact path="/wilds/">
+								<EnterTheWilds />
 							</Route>
 							<Route exact path="/dashboard">
 								<Dashboard />
