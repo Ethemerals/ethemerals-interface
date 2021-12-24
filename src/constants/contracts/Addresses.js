@@ -22,6 +22,7 @@ const getAddresses = () => {
 			EternalBattle: '0x883170aAcEB39a23642f5aAaab083F5684D3fFB1',
 			priceFeed: '0xfacC389A4777D0Cda098C0f2Af4e6deDD1Ddf1f4',
 			changeScoreAndRewards: '0x074350b6490D86BDCC11b1278D6f8D41c69126e3',
+			wilds: '0xBaFE3711886F335f02E71096f0723d658E04Ce0C',
 		};
 	}
 };
