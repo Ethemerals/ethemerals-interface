@@ -30,7 +30,8 @@ export default function TxContextProvider({ children }) {
 
 			if (shouldInvalidate) {
 				keys.forEach((key) => {
-					setTimeout(() => queryClient.invalidateQueries(key), 5000);
+					setTimeout(() => queryClient.invalidateQueries(key), 7000);
+					console.log(key);
 				});
 				setTimeout(() => queryClient.invalidateQueries('user_balance'), 1000);
 			}

@@ -1,0 +1,1046 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "meralAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_adminActions",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_staking",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_actions",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "tokenId",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "deathId",
+				"type": "uint16"
+			}
+		],
+		"name": "DeathKissed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "landId",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "tokenId",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "change",
+				"type": "uint256"
+			}
+		],
+		"name": "LCPChange",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "id",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "baseDefence",
+				"type": "uint16"
+			}
+		],
+		"name": "LandChange",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "toTokenId",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "fromTokenId",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint8",
+				"name": "actionType",
+				"type": "uint8"
+			}
+		],
+		"name": "RaidAction",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "id",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint8",
+				"name": "RaidStatus",
+				"type": "uint8"
+			}
+		],
+		"name": "RaidStatusChange",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "landId",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "tokenId",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint8",
+				"name": "stakeAction",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "meral",
+				"type": "bool"
+			}
+		],
+		"name": "Staked",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "tokenId",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "swapperId",
+				"type": "uint16"
+			}
+		],
+		"name": "Swapped",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "tokenId",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "rewards",
+				"type": "uint32"
+			}
+		],
+		"name": "Unstaked",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "actions",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint8",
+				"name": "id",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "lootCost",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "petCost",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8[]",
+				"name": "lootDrops",
+				"type": "uint8[]"
+			},
+			{
+				"internalType": "uint8[]",
+				"name": "petDrops",
+				"type": "uint8[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_remainingELFx",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_emissionRate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_baseDefence",
+				"type": "uint16"
+			}
+		],
+		"name": "addLand",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "admin",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "adminActions",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "start",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "end",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "def",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "baseDefence",
+				"type": "uint16"
+			}
+		],
+		"name": "calculateChange",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_tokenId",
+				"type": "uint16"
+			}
+		],
+		"name": "calculateDamage",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "atk",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "def",
+				"type": "uint16"
+			}
+		],
+		"name": "calculateDarkMagicDamage",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "atk",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "def",
+				"type": "uint16"
+			}
+		],
+		"name": "calculateDefendedDamage",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "def",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "spd",
+				"type": "uint16"
+			}
+		],
+		"name": "calculateLightMagicDamage",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "atk",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint256",
+				"name": "def",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "spd",
+				"type": "uint256"
+			}
+		],
+		"name": "calculateSpdDamage",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_tokenId",
+				"type": "uint16"
+			}
+		],
+		"name": "calculateStamina",
+		"outputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_tokenId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_deathId",
+				"type": "uint16"
+			}
+		],
+		"name": "deathKiss",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_landId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_remainingELFx",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_emissionRate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_initBaseDefence",
+				"type": "uint16"
+			},
+			{
+				"internalType": "enum Wilds.RaidStatus",
+				"name": "_raidStatus",
+				"type": "uint8"
+			}
+		],
+		"name": "editLand",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_landId",
+				"type": "uint16"
+			}
+		],
+		"name": "emergencyUnstake",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_landId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_tokenId",
+				"type": "uint16"
+			}
+		],
+		"name": "getLCP",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_landId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "enum Wilds.StakeAction",
+				"name": "_action",
+				"type": "uint8"
+			}
+		],
+		"name": "getSlots",
+		"outputs": [
+			{
+				"internalType": "uint16[]",
+				"name": "",
+				"type": "uint16[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_landId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getStakeEvent",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint16",
+						"name": "baseDefence",
+						"type": "uint16"
+					}
+				],
+				"internalType": "struct Wilds.StakeEvent",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
+			}
+		],
+		"name": "landPlots",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "remainingELFx",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "emissionRate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastRaid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "initBaseDefence",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "baseDefence",
+				"type": "uint16"
+			},
+			{
+				"internalType": "enum Wilds.RaidStatus",
+				"name": "raidStatus",
+				"type": "uint8"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint8",
+						"name": "cost",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "drop1",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "drop2",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "drop3",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct Wilds.ItemPool",
+				"name": "lootPool",
+				"type": "tuple"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint8",
+						"name": "cost",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "drop1",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "drop2",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "drop3",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct Wilds.ItemPool",
+				"name": "petPool",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "",
+				"type": "bytes"
+			}
+		],
+		"name": "onERC721Received",
+		"outputs": [
+			{
+				"internalType": "bytes4",
+				"name": "",
+				"type": "bytes4"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "paused",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "toTokenId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "fromTokenId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint8",
+				"name": "actionType",
+				"type": "uint8"
+			}
+		],
+		"name": "raidAction",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "num",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "inMax",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "outMin",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "outMax",
+				"type": "uint256"
+			}
+		],
+		"name": "safeScale",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_staking",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_actions",
+				"type": "address"
+			}
+		],
+		"name": "setAddresses",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_admin",
+				"type": "address"
+			}
+		],
+		"name": "setAdmin",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "_paused",
+				"type": "bool"
+			}
+		],
+		"name": "setPaused",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint8[]",
+				"name": "_staminaCosts",
+				"type": "uint8[]"
+			}
+		],
+		"name": "setStaminas",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_landId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_tokenId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "enum Wilds.StakeAction",
+				"name": "_action",
+				"type": "uint8"
+			}
+		],
+		"name": "stake",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "stakeEvents",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "baseDefence",
+				"type": "uint16"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
+			}
+		],
+		"name": "stakes",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastAction",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "entryPointer",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "damage",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "health",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "stamina",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "landId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "enum Wilds.StakeAction",
+				"name": "stakeAction",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "staking",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "staminaCosts",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_tokenId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_swapperId",
+				"type": "uint16"
+			}
+		],
+		"name": "swapDefenders",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_tokenId",
+				"type": "uint16"
+			}
+		],
+		"name": "unstake",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

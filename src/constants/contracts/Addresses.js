@@ -10,6 +10,7 @@ const getAddresses = () => {
 			EternalBattle: '0x169310e61e71ef5834ce5466c7155d8a90d15f1e',
 			priceFeed: '0x04302ef1c51dff4625cdec79f4400342ad27f559',
 			changeScoreAndRewards: '0x304287ace2c677d9051ada34e87f1b4495e5c35c',
+			Wilds: '0xCfaD3968888E8663E42622d4aFc897a9a6eA4fa5',
 		};
 	}
 
@@ -22,7 +23,7 @@ const getAddresses = () => {
 			EternalBattle: '0x883170aAcEB39a23642f5aAaab083F5684D3fFB1',
 			priceFeed: '0xfacC389A4777D0Cda098C0f2Af4e6deDD1Ddf1f4',
 			changeScoreAndRewards: '0x074350b6490D86BDCC11b1278D6f8D41c69126e3',
-			wilds: '0xBaFE3711886F335f02E71096f0723d658E04Ce0C',
+			Wilds: '0xCfaD3968888E8663E42622d4aFc897a9a6eA4fa5',
 		};
 	}
 };

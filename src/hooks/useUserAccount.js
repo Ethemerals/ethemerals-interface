@@ -87,7 +87,7 @@ const useUserAccount = () => {
 
 	const userId = data?.account?.id;
 
-	const { isLoading: userIsLoading, data: userData } = useQuery(['user', address], () => getUser(address, accessToken), { enabled: !!userId && !!isAuthenticated && !!accessToken });
+	const { isLoading: userIsLoading, data: userData } = useQuery(`user_${address}`, () => getUser(address, accessToken), { enabled: !!userId && !!isAuthenticated && !!accessToken });
 	const { data: userBalance } = useQuery('user_balance', () => getBalance(provider, address), { enabled: !!provider && !!address, refetchOnMount: true });
 	const mutateUser = useMutation(updateUser, { onSuccess: async () => queryClient.invalidateQueries('user') });
 
@@ -134,7 +134,7 @@ const useUserAccount = () => {
 				}
 			}
 		}
-	}, [userData, account, userIsLoading, user]);
+	}, [userData, account, userIsLoading, user, address]);
 
 	useEffect(() => {
 		if (!mutateUser.isLoading && mutateUser.isIdle) {
