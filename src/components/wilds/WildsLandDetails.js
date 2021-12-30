@@ -7,7 +7,7 @@ import WildsStake from './actions/WildsStake';
 import WildsUnstake from './actions/WildsUnstake';
 import WildsRaidActions from './actions/WildsRaidActions';
 import StakedWildsCard from './cards/stakedWildsCard';
-import { useWildsContract } from '../../hooks/useWilds';
+import { useWildsContract, wildsParseInitValues } from '../../hooks/useWilds';
 
 const worldMap = 'https://ethemerals-media.s3.amazonaws.com/wilds/worldmap.png';
 
@@ -18,11 +18,7 @@ const WildsLandDetails = () => {
 	const [land, setLand] = useState(undefined);
 	const { contractWilds } = useWildsContract();
 
-	const [landStats, setLandStats] = useState(undefined);
-	const [defenders, setDefenders] = useState(undefined);
-	const [looters, setLooters] = useState(undefined);
-	const [birthers, setBirthers] = useState(undefined);
-	const [attackers, setAttackers] = useState(undefined);
+	const [landParsed, setLandParsed] = useState(undefined);
 	const [LCPs, setLCPs] = useState(undefined);
 
 	useEffect(() => {
@@ -33,43 +29,9 @@ const WildsLandDetails = () => {
 
 	useEffect(() => {
 		if (land) {
-			let _landStats = {
-				id: land.id,
-				raidStatus: land.raidStatus,
-				remaining: land.remainingELFx ? land.remainingELFx : 0, // TODO hardcode graph
-				rate: land.emissionRate ? land.emissionRate : 0, // TODO hardcode graph
-				lastEvent: land.lastEvent,
-				lastRaid: land.lastRaid,
-				baseDefence: land.baseDefence,
-			};
-			setLandStats(_landStats);
-		}
-		if (land && land.wildStakes.length > 0) {
-			let _defenders = [];
-			let _looters = [];
-			let _birthers = [];
-			let _attackers = [];
-			land.wildStakes.forEach((stake) => {
-				if (stake.stakeType === '1') {
-					_defenders.push(stake);
-				}
-				if (stake.stakeType === '2') {
-					_looters.push(stake);
-				}
-				if (stake.stakeType === '3') {
-					_birthers.push(stake);
-				}
-				if (stake.stakeType === '4') {
-					_attackers.push(stake);
-				}
-			});
-			setDefenders(_defenders);
-			setLooters(_looters);
-			setBirthers(_birthers);
-			setAttackers(_attackers);
-		}
-		if (land && land.lcp.length > 0) {
+			const _land = wildsParseInitValues(land);
 			setLCPs(land.lcp);
+			setLandParsed(_land);
 		}
 	}, [land]);
 
@@ -77,12 +39,12 @@ const WildsLandDetails = () => {
 		<div style={{ backgroundImage: `url(${worldMap})` }} className="h-screen w-full bg-center object-none fixed overflow-y-auto px-4">
 			<div className="bg-gray-200 bg-opacity-80 p-4 pb-20 border-4 border-white mt-16 mb-4 w-96">
 				<h1>Wilds: {landId}</h1>
-				{landStats && (
+				{landParsed && (
 					<div>
-						<p>Remaining ELFx: {landStats.remaining}</p>
-						<p>ELFx emmision rate: {landStats.rate} per hour</p>
-						<p>Base Defence: {landStats.baseDefence}</p>
-						<p>Raid Status: {landStats.raidStatus}</p>
+						<p>Remaining ELFx: {landParsed.remaining}</p>
+						<p>ELFx emmision rate: {landParsed.rate} per hour</p>
+						<p>Base Defence: {landParsed.baseDefence}</p>
+						<p>Raid Status: {landParsed.raidStatus}</p>
 					</div>
 				)}
 
@@ -105,25 +67,27 @@ const WildsLandDetails = () => {
 			<div className="flex pb-96 space-x-4">
 				<div className="bg-gray-200 bg-opacity-80 p-4 pb-20 border-4 border-white w-96">
 					<h4 className="font-bold text-xl">Defenders:</h4>
-					{defenders && defenders.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={1} raidStatus={land.raidStatus} />)}
+					{landParsed &&
+						landParsed.defenders.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={1} raidStatus={land.raidStatus} />)}
 					{land && <WildsRaidActions contractWilds={contractWilds} landId={landId} />}
 				</div>
 
 				<div className="bg-gray-200 bg-opacity-80 p-4 pb-20 border-4 border-white w-96">
 					<h4 className="font-bold text-xl">Attackers:</h4>
-					{attackers && attackers.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={4} raidStatus={land.raidStatus} />)}
+					{landParsed &&
+						landParsed.attackers.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={4} raidStatus={land.raidStatus} />)}
 					<h4>Raid Actions</h4>
 					{land && <WildsRaidActions contractWilds={contractWilds} landId={landId} />}
 				</div>
 
 				<div className="bg-gray-200 bg-opacity-80 p-4 pb-20 border-4 border-white w-96">
 					<h4 className="font-bold text-xl">Looters:</h4>
-					{looters && looters.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={2} raidStatus={land.raidStatus} />)}
+					{landParsed && landParsed.looters.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={2} raidStatus={land.raidStatus} />)}
 				</div>
 
 				<div className="bg-gray-200 bg-opacity-80 p-4 pb-20 border-4 border-white w-96">
 					<h4 className="font-bold text-xl">Birthers:</h4>
-					{birthers && birthers.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={3} raidStatus={land.raidStatus} />)}
+					{landParsed && landParsed.birthers.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={3} raidStatus={land.raidStatus} />)}
 				</div>
 			</div>
 		</div>

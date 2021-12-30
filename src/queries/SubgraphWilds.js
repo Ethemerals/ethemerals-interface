@@ -32,19 +32,9 @@ export const GET_LANDS = gql`
 			timestamp
 			raidStatus
 			remainingELFx
-			emissionRate
-			lastEvent
-			lastRaid
-			baseDefence
 			wildStakes(where: { active: true }, orderBy: "startedAt", orderDirection: "asc") {
 				id
-				damage
-				health
 				stakeType
-			}
-			lcp(first: 10, orderBy: "points", orderDirection: "desc") {
-				id
-				points
 			}
 		}
 	}
