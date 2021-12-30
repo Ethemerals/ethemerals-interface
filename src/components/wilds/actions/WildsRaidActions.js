@@ -73,7 +73,7 @@ const WildsRaidActions = ({ contractWilds, landId, tokenId }) => {
 
 	return (
 		<>
-			<div className="flex items-center p-4">
+			<div className="flex items-center py-2">
 				<div>
 					to:
 					<input className="w-16 h-8 p-2 bg-green-100 shadow-inner border border-gray-300 text-black" {...register('toTokenId')} />
@@ -83,7 +83,7 @@ const WildsRaidActions = ({ contractWilds, landId, tokenId }) => {
 					<input className="w-16 h-8 p-2 bg-green-100 shadow-inner border border-gray-300 text-black" {...register('fromTokenId')} />
 				</div>
 			</div>
-			<div className="flex space-x-2 items-center text-sm">
+			<div className="text-sm">
 				<button onClick={handleSubmit(onSubmitRaidAction_ATK)} className=" bg-gray-600 px-2 shadow text-white py-1 hover:bg-green-600 hover:shadow-lg transition duration-300">
 					Attack Single
 				</button>

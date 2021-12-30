@@ -59,8 +59,8 @@ const WildsStake = ({ contractWilds, landId }) => {
 
 	return (
 		<>
-			<h4>Land Actions:</h4>
-			<div className="flex space-x-3">
+			<h4 className="font-bold">Land Actions:</h4>
+			<div className="flex space-x-3 text-sm">
 				<button onClick={() => handleStake(1)} className=" bg-gray-600 px-2 shadow text-white py-1 hover:bg-green-600 hover:shadow-lg transition duration-300">
 					SETUP CAMP
 				</button>
