@@ -8,8 +8,23 @@ import WildsUnstake from './actions/WildsUnstake';
 import WildsRaidActions from './actions/WildsRaidActions';
 import StakedWildsCard from './cards/stakedWildsCard';
 import { useWildsContract, wildsParseInitValues } from '../../hooks/useWilds';
+import EmptyWildsCard from './cards/emptyWildsCard';
 
 const worldMap = 'https://ethemerals-media.s3.amazonaws.com/wilds/worldmap.png';
+
+const Slots = ({ slots, land, contractWilds }) => {
+	let empties = Array(5 - slots.length);
+	return (
+		<>
+			{slots.map((nft) => (
+				<StakedWildsCard key={nft.id} landId={land.id} tokenId={nft.id} contractWilds={contractWilds} stakeAction={4} raidStatus={land.raidStatus} />
+			))}
+			{Array.apply(null, empties).map((slot, index) => (
+				<EmptyWildsCard key={index} />
+			))}
+		</>
+	);
+};
 
 const WildsLandDetails = () => {
 	const { id } = useParams();
@@ -67,27 +82,26 @@ const WildsLandDetails = () => {
 			<div className="flex pb-96 space-x-4">
 				<div className="bg-gray-200 bg-opacity-80 p-4 pb-20 border-4 border-white w-96">
 					<h4 className="font-bold text-xl">Defenders:</h4>
-					{landParsed &&
-						landParsed.defenders.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={1} raidStatus={land.raidStatus} />)}
-					{land && <WildsRaidActions contractWilds={contractWilds} landId={landId} />}
+					{landParsed && <Slots slots={landParsed.defenders} land={landParsed} contractWilds={contractWilds} />}
+					<h4>Raid Actions</h4>
+					{landParsed && <WildsRaidActions contractWilds={contractWilds} land={landParsed} />}
 				</div>
 
 				<div className="bg-gray-200 bg-opacity-80 p-4 pb-20 border-4 border-white w-96">
 					<h4 className="font-bold text-xl">Attackers:</h4>
-					{landParsed &&
-						landParsed.attackers.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={4} raidStatus={land.raidStatus} />)}
+					{landParsed && <Slots slots={landParsed.attackers} land={landParsed} contractWilds={contractWilds} />}
 					<h4>Raid Actions</h4>
-					{land && <WildsRaidActions contractWilds={contractWilds} landId={landId} />}
+					{landParsed && <WildsRaidActions contractWilds={contractWilds} land={landParsed} />}
 				</div>
 
 				<div className="bg-gray-200 bg-opacity-80 p-4 pb-20 border-4 border-white w-96">
 					<h4 className="font-bold text-xl">Looters:</h4>
-					{landParsed && landParsed.looters.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={2} raidStatus={land.raidStatus} />)}
+					{landParsed && <Slots slots={landParsed.looters} land={landParsed} contractWilds={contractWilds} />}
 				</div>
 
 				<div className="bg-gray-200 bg-opacity-80 p-4 pb-20 border-4 border-white w-96">
 					<h4 className="font-bold text-xl">Birthers:</h4>
-					{landParsed && landParsed.birthers.map((nft) => <StakedWildsCard key={nft.id} landId={landId} tokenId={nft.id} contractWilds={contractWilds} stakeAction={3} raidStatus={land.raidStatus} />)}
+					{landParsed && <Slots slots={landParsed.birthers} land={landParsed} contractWilds={contractWilds} />}
 				</div>
 			</div>
 		</div>

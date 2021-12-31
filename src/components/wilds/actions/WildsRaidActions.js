@@ -57,7 +57,7 @@ const WildsRaidActions = ({ contractWilds, landId, tokenId }) => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractWilds.raidAction(to, from, actionType, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'raid action', true, [`calculateStamina_${from}`, `calculateDamage_${to}`, `calculateDamage_${from}`, 'account', 'user', `land_${landId}`]);
+				sendTx(tx.hash, 'raid action', true, [`calculateStamina_${from}`, `calculateDamage_${to}`, `calculateDamage_${from}`, 'account', 'user', `land_${landId}`, 'lands']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');

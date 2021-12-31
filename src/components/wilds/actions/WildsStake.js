@@ -43,7 +43,7 @@ const WildsStake = ({ contractWilds, landId }) => {
 				const tx = await contractWilds.stake(landId, id, stakeAction, { gasLimit });
 				console.log(tx);
 
-				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, 'account', 'user', `land_${landId}`]);
+				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, 'account', 'user', `land_${landId}`, 'lands']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');

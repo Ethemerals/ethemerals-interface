@@ -46,7 +46,7 @@ const WildsRevive = ({ contractWilds, landId, tokenId, canKiss }) => {
 				const tx = await contractWilds.deathKiss(id, deathId, { gasLimit });
 				console.log(tx);
 
-				sendTx(tx.hash, 'death kiss', true, [`land_${landId}`, `nft_${id}`, `nft_${deathId}`, 'account', 'user']);
+				sendTx(tx.hash, 'death kiss', true, [`land_${landId}`, `nft_${id}`, `nft_${deathId}`, 'account', 'lands']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');
