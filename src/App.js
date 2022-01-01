@@ -19,6 +19,7 @@ import MeralDetails from './pages/MeralDetails';
 import All from './pages/All';
 import Wilds from './pages/Wilds.js';
 import WildsLandDetails from './components/wilds/WildsLandDetails';
+import WildsHub from './components/wilds/WildsHub';
 
 import Web3ContextProvider from './context/Web3Context';
 
@@ -99,6 +100,9 @@ function App() {
 							</Route>
 							<Route exact path="/wilds/:id">
 								<WildsLandDetails />
+							</Route>
+							<Route exact path="/wildshub">
+								<WildsHub />
 							</Route>
 							<Route exact path="/dashboard">
 								<Dashboard />

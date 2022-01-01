@@ -10,7 +10,8 @@ const getAddresses = () => {
 			EternalBattle: '0x169310e61e71ef5834ce5466c7155d8a90d15f1e',
 			priceFeed: '0x04302ef1c51dff4625cdec79f4400342ad27f559',
 			changeScoreAndRewards: '0x304287ace2c677d9051ada34e87f1b4495e5c35c',
-			Wilds: '0xCfaD3968888E8663E42622d4aFc897a9a6eA4fa5',
+			Wilds: '0x53779baa1887663e8Ff6B2DaAdFbC5c8Ea8C6E53',
+			Onsen: '0x0cA1c36D48C1f8fcd4ce6E7EB9d1316B5B8E657a',
 		};
 	}
 
@@ -23,7 +24,8 @@ const getAddresses = () => {
 			EternalBattle: '0x883170aAcEB39a23642f5aAaab083F5684D3fFB1',
 			priceFeed: '0xfacC389A4777D0Cda098C0f2Af4e6deDD1Ddf1f4',
 			changeScoreAndRewards: '0x074350b6490D86BDCC11b1278D6f8D41c69126e3',
-			Wilds: '0xCfaD3968888E8663E42622d4aFc897a9a6eA4fa5',
+			Wilds: '0x53779baa1887663e8Ff6B2DaAdFbC5c8Ea8C6E53',
+			Onsen: '0x0cA1c36D48C1f8fcd4ce6E7EB9d1316B5B8E657a',
 		};
 	}
 };

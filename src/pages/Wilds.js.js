@@ -26,6 +26,20 @@ const LandCards = ({ land }) => {
 	);
 };
 
+const LandHub = () => {
+	const history = useHistory();
+
+	const handleOnClick = () => {
+		history.push(`/wildshub`);
+	};
+
+	return (
+		<div onClick={handleOnClick} className="bg-gray-200 w-96 bg-opacity-80 m-2 p-4 pb-20 border-4 border-white cursor-pointer hover:bg-opacity-100 mx-auto">
+			<p>Home Hub</p>
+		</div>
+	);
+};
+
 const Wilds = () => {
 	const [lands, setLands] = useState(undefined);
 	const [landsParsed, setLandsParsed] = useState(undefined);
@@ -50,6 +64,7 @@ const Wilds = () => {
 	return (
 		<div style={{ backgroundImage: `url(${worldMap})` }} className="h-screen w-full pt-20 bg-center object-none fixed overflow-y-auto">
 			<h1 className="text-white p-4">ALPHA VERSION</h1>
+			<LandHub />
 			<div className="flex flex-wrap justify-center">{landsParsed && landsParsed.map((land) => <LandCards key={land.id} land={land} />)}</div>
 			<div className="h-40"></div>
 		</div>

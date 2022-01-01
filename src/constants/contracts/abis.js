@@ -4,6 +4,7 @@ import EthemeralLifeForceAbi from './EthemeralLifeForce.json';
 import EternalBattleAbi from './EternalBattle.json';
 import PriceFeedProviderAbi from './PriceFeedProvider.json';
 import WildsAbi from './Wilds.json';
+import OnsenAbi from './Onsen.json';
 
 const abis = {
 	Ethemerals: EthemeralsAbi,
@@ -12,6 +13,7 @@ const abis = {
 	EternalBattle: EternalBattleAbi,
 	priceFeed: PriceFeedProviderAbi,
 	Wilds: WildsAbi,
+	Onsen: OnsenAbi,
 };
 
 export default abis;

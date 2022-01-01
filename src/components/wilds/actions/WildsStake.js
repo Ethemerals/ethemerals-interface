@@ -32,7 +32,6 @@ const WildsStake = ({ contractWilds, landId }) => {
 	};
 
 	const handleStake = async (stakeAction) => {
-		console.log(stakeAction);
 		if (contractWilds) {
 			setIsConfirmationOpen(true);
 			try {
