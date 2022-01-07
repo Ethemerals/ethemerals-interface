@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Contract } from '@ethersproject/contracts';
 import { useQuery } from 'react-query';
-import { useGQLQuery } from '../hooks/useGQLQuery';
+import { useGQLQuery } from './useGQLQuery';
 import { GET_CORE, GET_CORE_ACCOUNT, GET_DELEGATES } from '../queries/Subgraph';
+import { GET_ESCROWL1_ACCOUNT } from '../queries/SubgraphEscrow';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
@@ -29,19 +30,17 @@ export const useEscrowL1Contract = () => {
 	return { contractEscrowL1 };
 };
 
-export const useCoreAccount = () => {
-	const { data } = useGQLQuery('account_core', GET_CORE_ACCOUNT, { id: Addresses.Ethemerals.toLowerCase() }, { refetchOnMount: true });
-
-	const [accountCore, setAccountCore] = useState(null);
+export const useEscrowL1Account = () => {
+	const { data } = useGQLQuery('account_escrow_l1', GET_ESCROWL1_ACCOUNT, { id: Addresses.EscrowL1.toLowerCase() }, { refetchOnMount: true });
+	const [accountEscrowL1, setAccount] = useState(null);
 
 	useEffect(() => {
 		if (data && data.account !== null) {
-			setAccountCore(data.account);
-			console.log('GOT ACCOUNT CORE');
+			setAccount(data.account);
 		}
 	}, [data]);
 
 	return {
-		accountCore,
+		accountEscrowL1,
 	};
 };

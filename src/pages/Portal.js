@@ -16,6 +16,7 @@ import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 import { useLogin } from '../context/Web3Context';
 import useUserAccount from '../hooks/useUserAccount';
+import PortalCard from '../components/portal/PortalCard';
 
 const Portal = () => {
 	const { mainIndex, userNFTs, account } = useUserAccount();
@@ -56,7 +57,7 @@ const Portal = () => {
 				const tx = await contractEscrowL1.deposit(id, { gasLimit });
 				console.log(tx);
 
-				sendTx(tx.hash, 'enter portal', true, ['account', `nft_${id}`]);
+				sendTx(tx.hash, 'enter portal', true, ['account', `nft_${id}`, 'account_escrow_l1']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('Transfer transaction rejected from user wallet');
@@ -91,6 +92,7 @@ const Portal = () => {
 					</div>
 				)}
 			</div>
+			<PortalCard />
 			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Enter The portal to Polygon" />}
 			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</div>

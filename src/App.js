@@ -64,7 +64,7 @@ function App() {
 								<Home />
 							</Route>
 							<Route exact path="/mint">
-								<Home />
+								<Mint />
 							</Route>
 							<Route exact path="/rinkeby">
 								<Mint />
