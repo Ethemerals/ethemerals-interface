@@ -17,7 +17,8 @@ import EthemeralsMerals from './pages/EthemeralsMerals';
 import Equipable from './pages/Equipable';
 import MeralDetails from './pages/MeralDetails';
 import All from './pages/All';
-import Wilds from './pages/Wilds.js';
+import Wilds from './pages/Wilds';
+import Portal from './pages/Portal';
 import WildsLandDetails from './components/wilds/WildsLandDetails';
 import WildsHub from './components/wilds/WildsHub';
 
@@ -103,6 +104,9 @@ function App() {
 							</Route>
 							<Route exact path="/wildshub">
 								<WildsHub />
+							</Route>
+							<Route exact path="/portal">
+								<Portal />
 							</Route>
 							<Route exact path="/dashboard">
 								<Dashboard />
