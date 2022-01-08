@@ -9,14 +9,15 @@ import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 import { shortenAddress } from '../utils';
 import { Addresses } from '../constants/contracts/Addresses';
-import useUserAccount from '../hooks/useUserAccount';
+
 import ParseDelegates from './art/delegates/ParseDelegates';
+import { useUser } from '../hooks/useUser';
 
 const Preferences = () => {
 	const { core, delegates } = useCore();
 	const { contractCore } = useCoreContract();
 
-	const { account, address } = useUserAccount();
+	const { account, address } = useUser();
 
 	const { EBApproved } = useCoreApprovals(contractCore, address, Addresses.EternalBattle);
 	const sendTx = useSendTx();

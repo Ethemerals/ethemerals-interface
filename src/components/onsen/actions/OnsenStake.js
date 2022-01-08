@@ -5,10 +5,11 @@ import ErrorDialogue from '../../modals/ErrorDialogue';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
 
 import SVGUnstake from '../svg/SVGUnstake';
-import useUserAccount from '../../../hooks/useUserAccount';
+
+import { useUserAccount } from '../../../hooks/useUser';
 
 const OnsenStake = ({ contractOnsen }) => {
-	const { mainIndex, userNFTs, account } = useUserAccount();
+	const { mainIndex, userNFTs } = useUserAccount();
 
 	const sendTx = useSendTx();
 

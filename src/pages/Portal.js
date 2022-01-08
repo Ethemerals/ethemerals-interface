@@ -1,21 +1,15 @@
 import { useState, useEffect } from 'react';
 
-import { BigNumber } from '@ethersproject/bignumber';
-
-import { Links } from '../constants/Links';
-
-import Images from '../constants/Images';
-
 import { useSendTx } from '../context/TxContext';
 
-import { useCore, useCoreContract } from '../hooks/useCore';
 import { useEscrowL1Contract } from '../hooks/useEscrowL1';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 import { useLogin } from '../context/Web3Context';
-import useUserAccount from '../hooks/useUserAccount';
+
+import { useUserAccount } from '../hooks/useUser';
 import PortalCard from '../components/portal/PortalCard';
 
 const Portal = () => {

@@ -3,12 +3,14 @@ import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { shortenAddress } from '../../utils';
 import useParseAccountAction from '../../hooks/useParseAccountActions';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
-import useUserAccount from '../../hooks/useUserAccount';
+
+import { useUserAccount } from '../../hooks/useUser';
 
 import { Links } from '../../constants/Links';
 
 import { useGQLQuery } from '../../hooks/useGQLQuery';
 import { GET_ACCOUNT_ACTIONS } from '../../queries/Subgraph';
+import { useUser } from '../../hooks/useUser';
 
 const ExternalLinkSVG = () => (
 	<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,7 +35,7 @@ const ActionLink = (action) => {
 };
 
 const UserAccount = () => {
-	const { address } = useUserAccount();
+	const { address } = useUser();
 	const [copied, copy] = useCopyToClipboard(address);
 
 	const { data, status } = useGQLQuery('account_actions', GET_ACCOUNT_ACTIONS, { id: address }, { enabled: !!address, refetchOnMount: true });

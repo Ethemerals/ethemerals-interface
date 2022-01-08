@@ -7,7 +7,7 @@ import WaitingConfirmation from '../../modals/WaitingConfirmation';
 
 import SVGUnstake from '../svg/SVGUnstake';
 import SVGRevive from '../svg/SVGRevive';
-import useUserAccount from '../../../hooks/useUserAccount';
+import { useUserAccount } from '../../../hooks/useUser';
 
 const WildsRevive = ({ contractWilds, landId, tokenId, canKiss }) => {
 	const { mainIndex, userNFTs, account } = useUserAccount();

@@ -6,8 +6,8 @@ import { useMiningStatus } from '../../context/TxContext';
 
 import UserModal from '../modals/UserModal';
 
-import useUserAccount from '../../hooks/useUserAccount';
 import NFTPreview from './NFTPreview';
+import { useUser } from '../../hooks/useUser';
 
 const Spinner = () => (
 	<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -18,7 +18,7 @@ const Spinner = () => (
 
 const AccountBar = () => {
 	const mining = useMiningStatus();
-	const { address, balance } = useUserAccount();
+	const { address, balance } = useUser();
 
 	const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 	const [selectedUserModal, setSelectedUserModal] = useState(0);

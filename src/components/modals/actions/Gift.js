@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../context/TxContext';
 
 import { useCoreContract } from '../../../hooks/useCore';
-import useUserAccount from '../../../hooks/useUserAccount';
+import { useUserAccount } from '../../../hooks/useUser';
 
 const SpinnerSVG = () => (
 	<svg className=" animate-spin-slow text-brandColor" width="50" height="50" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">

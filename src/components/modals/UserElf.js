@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import Images from '../../constants/Images';
 
 import { formatELF, formatETH } from '../../utils';
-import useUserAccount from '../../hooks/useUserAccount';
+
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
+import { useUser, useUserAccount } from '../../hooks/useUser';
 
 const UserELF = () => {
-	const { account, balance } = useUserAccount();
+	const { account } = useUserAccount();
+	const { balance } = useUser();
+
 	const { accountEternalBattle } = useEternalBattleAccount();
 
 	const [userNFTs, setUserNFTs] = useState(undefined);

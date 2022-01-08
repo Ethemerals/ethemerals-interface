@@ -1,6 +1,5 @@
 import { useNFTUtils } from '../../hooks/useNFTUtils';
-import useUserAccount from '../../hooks/useUserAccount';
-import { useAuthenticating } from '../../context/Web3Context';
+import { useUser, useUserAccount } from '../../hooks/useUser';
 
 const Spinner = () => (
 	<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -10,12 +9,12 @@ const Spinner = () => (
 );
 
 const NFTPreview = () => {
-	const { account, userNFTs, mainIndex, userIsLoading, userIsUpdating } = useUserAccount();
-	const { isAuthenticating } = useAuthenticating();
+	const { account, userNFTs, mainIndex } = useUserAccount();
+	const { isAuthenticating, user } = useUser();
 
 	const { getNFTImages } = useNFTUtils();
 
-	if (userNFTs.length > 0 && (isAuthenticating || userIsLoading || userIsUpdating || userNFTs[mainIndex] === undefined)) {
+	if (userNFTs.length > 0 && (isAuthenticating || !user)) {
 		return (
 			<span className="flex bg-brandColor rounded-lg items-center h-10 mr-2 cursor-pointer text-xs sm:text-base">
 				<span className="text-white px-2 md:px-3">LOADING</span>

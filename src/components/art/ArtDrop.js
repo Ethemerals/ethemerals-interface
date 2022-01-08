@@ -7,7 +7,7 @@ import { ItemTypes } from './utils/items';
 import MeralThumbnail from './cards/MeralThumbnail';
 import PetThumbnail from './cards/PetThumbnail';
 import { useArtCheckAnswer, useArtGetArt, useClaimGiveaway, useClaimReward } from '../../hooks/useArtHunt';
-import useUserAccount from '../../hooks/useUserAccount';
+
 import { useAuthenticating, useLogin } from '../../context/Web3Context';
 import MeralThumbnailOS from './cards/MeralThumbnailOS';
 import PetThumbnailOS from './cards/PetThumbnailOS';
@@ -16,6 +16,7 @@ import 'photoswipe/dist/photoswipe.css';
 import 'photoswipe/dist/default-skin/default-skin.css';
 import { Gallery, Item } from 'react-photoswipe-gallery';
 import WinningModal from './modals/WinningModal';
+import { useUser, useUserAccount } from '../../hooks/useUser';
 
 const Combos = ({ list, type }) => {
 	return (

@@ -4,7 +4,7 @@ import { Range, getTrackBackground } from 'react-range';
 
 import { useSendTx } from '../../../context/TxContext';
 
-import useUserAccount from '../../../hooks/useUserAccount';
+import { useUserAccount } from '../../../hooks/useUser';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
 import ErrorDialogue from '../../modals/ErrorDialogue';
 

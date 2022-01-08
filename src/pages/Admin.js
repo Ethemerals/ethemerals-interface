@@ -15,7 +15,8 @@ import { useTokenContract } from '../hooks/useToken';
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 import { useWeb3 } from '../context/Web3Context';
-import useUserAccount from '../hooks/useUserAccount';
+
+import { useUserAccount } from '../hooks/useUser';
 
 const getEthemeral = async (contract, id, setEthemeral) => {
 	try {

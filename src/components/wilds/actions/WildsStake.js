@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSendTx } from '../../../context/TxContext';
-import useUserAccount from '../../../hooks/useUserAccount';
-import { useWildsContract } from '../../../hooks/useWilds';
+
+import { useUserAccount } from '../../../hooks/useUser';
+
 import ErrorDialogue from '../../modals/ErrorDialogue';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
 

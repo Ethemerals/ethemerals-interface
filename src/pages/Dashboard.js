@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import NFTPreviewCard from '../components/ethemerals/cards/NFTPreviewCard';
 import EquipablePreviewCard from '../components/ethemerals/cards/EquipablePreviewCard';
 
-import useUserAccount from '../hooks/useUserAccount';
+import { useUserAccount } from '../hooks/useUser';
 import { useEternalBattleAccount } from '../hooks/useEternalBattle';
 import Preferences from '../components/Preferences';
 

@@ -11,7 +11,7 @@ import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
 import { useSendTx } from '../../../context/TxContext';
 import { shortenAddress } from '../../../utils';
 
-import useUserAccount from '../../../hooks/useUserAccount';
+import { useUserAccount } from '../../../hooks/useUser';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
 import ErrorDialogue from '../../modals/ErrorDialogue';
 

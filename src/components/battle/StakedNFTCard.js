@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
-import useUserAccount from '../../hooks/useUserAccount';
 
+import { useUserAccount } from '../../hooks/useUser';
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../hooks/useEternalBattle';
 import { useEBAddScoreContext, useEBNftsRegisterContext } from '../../context/EternalBattleContext';
 

@@ -1,21 +1,3 @@
-import { useState, useEffect } from 'react';
-import ReactTooltip from 'react-tooltip';
-import useUserAccount from '../../../hooks/useUserAccount';
-
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
-
-import Spinner from '../../Spinner';
-import SVGRevive from '../svg/SVGRevive';
-import SVGUnstake from '../svg/SVGUnstake';
-
-import { useWildsNFTStats } from '../../../hooks/useWilds';
-import { useMeralColor } from '../../../hooks/useColorTraits';
-import { useMeralImagePaths, useChooseMeralImagePaths } from '../../../hooks/useMeralImagePaths';
-import { GET_NFT_WILDS } from '../../../queries/SubgraphWilds';
-import { useGQLQuery } from '../../../hooks/useGQLQuery';
-import WildsUnstake from '../actions/WildsUnstake';
-import WildsRevive from '../actions/WildsRevive';
-
 const EmptyWildsCard = ({ stakeType }) => {
 	return (
 		<>

@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import MobileMenuItems from './MobileMenuItems';
 import Images from '../../constants/Images';
 
-import { useAuthenticated } from '../../context/Web3Context';
-
 import useWindowSize from '../../hooks/useWindowSize';
 
 import AccountBar from './AccountBar';
@@ -13,15 +11,11 @@ import ConnectButton from './ConnectButton';
 import MoreLinks from '../modals/MoreLinks';
 import MoreLinksButton from './MoreLinksButton';
 import MainMenu from './MainMenu';
-import useUserAccount from '../../hooks/useUserAccount';
+
+import { useUser } from '../../hooks/useUser';
 
 const Navbar = () => {
-	const { address } = useUserAccount();
-	const isAuthenticated = useAuthenticated();
-
-	const logout = () => {
-		console.log('logout');
-	};
+	const { address, isAuthenticated, logout } = useUser();
 
 	const windowSize = useWindowSize(898);
 
@@ -78,7 +72,7 @@ const Navbar = () => {
 									{!isAuthenticated && <ConnectButton />}
 									{isAuthenticated && <AccountBar />}
 									<MoreLinksButton large={true} toggle={toggleMoreLinks} />
-									{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
+									{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} logout={logout} />}
 								</div>
 							)}
 
@@ -88,7 +82,7 @@ const Navbar = () => {
 									{!isAuthenticated && <ConnectButton />}
 									{isAuthenticated && <AccountBar />}
 									<MoreLinksButton large={false} toggle={toggleMoreLinks} />
-									{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
+									{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} logout={logout} />}
 								</div>
 							)}
 						</div>
@@ -130,7 +124,7 @@ const Navbar = () => {
 						{!isAuthenticated && <ConnectButton />}
 						{address && <AccountBar />}
 						<MoreLinksButton large={false} toggle={toggleMoreLinks} />
-						{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} isLoggedIn={address} logout={logout} />}
+						{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} logout={logout} />}
 					</div>
 				</>
 			)}

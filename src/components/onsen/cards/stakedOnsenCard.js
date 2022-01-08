@@ -4,7 +4,8 @@ import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
 import { getOnsenChange } from '../../../hooks/useOnsen';
-import useUserAccount from '../../../hooks/useUserAccount';
+
+import { useUserAccount } from '../../../hooks/useUser';
 
 import Spinner from '../../Spinner';
 import OnsenUnstake from '../actions/OnsenUnstake';

@@ -6,7 +6,7 @@ import EBStake from './modals/EBStake';
 import AllowDelegates from '../modals/actions/AllowDelegates';
 import { usePriceFeedContract } from '../../hooks/usePriceFeed';
 
-import useUserAccount from '../../hooks/useUserAccount';
+import { useUserAccount } from '../../hooks/useUser';
 import { useCoreApprovals, useCoreContract } from '../../hooks/useCore';
 
 import { Addresses } from '../../constants/contracts/Addresses';

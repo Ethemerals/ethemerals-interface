@@ -4,8 +4,7 @@ import { Links } from '../../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
 import PetDragableCard from './cards/PetDragableCard';
-import useUserAccount from '../../hooks/useUserAccount';
-
+import { useUserAccount } from '../../hooks/useUser';
 const endpoint = Links.SUBGRAPH_ENDPOINT;
 const graphQLClient = new GraphQLClient(endpoint);
 

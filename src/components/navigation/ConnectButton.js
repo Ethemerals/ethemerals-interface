@@ -1,12 +1,12 @@
-import { useLogin, useAuthenticating } from '../../context/Web3Context';
+import { useMoralis } from 'react-moralis';
+import { useUser } from '../../hooks/useUser';
 
 const ConnectButton = () => {
-	const login = useLogin();
-	const isAuthenticating = useAuthenticating();
+	const { login, isUnauthenticated } = useUser();
 
 	return (
 		<button className="h-10 w-48 px-6 mx-2 text-lg bg-brandColor hover:bg-yellow-400 text-white rounded-lg transition duration-300 flex items-center justify-center" onClick={login}>
-			{!isAuthenticating ? (
+			{isUnauthenticated ? (
 				<span>Connect Wallet</span>
 			) : (
 				<>

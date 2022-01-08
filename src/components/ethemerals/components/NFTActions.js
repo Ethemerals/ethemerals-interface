@@ -6,13 +6,14 @@ import { Addresses } from '../../../constants/contracts/Addresses';
 
 import Images from '../../../constants/Images';
 
-import useUserAccount from '../../../hooks/useUserAccount';
+import { useUser, useUserAccount } from '../../../hooks/useUser';
 import Gift from '../../modals/actions/Gift';
 import SummonPet from '../../modals/actions/SummonPet';
 import { shortenAddress } from '../../../utils';
 
 const NFTActions = ({ nft }) => {
-	const { account, mainIndex, userNFTs, setUserData, userIsUpdating } = useUserAccount();
+	const { account, mainIndex, userNFTs } = useUserAccount();
+	const { setUserData, isUserUpdating } = useUser();
 	const history = useHistory();
 
 	const [isOwned, setIsOwned] = useState(false);
@@ -83,7 +84,7 @@ const NFTActions = ({ nft }) => {
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
-					<p className="text-black">{!userIsUpdating ? 'Current Main Ethemeral' : 'Updating'}</p>
+					<p className="text-black">{!isUserUpdating ? 'Current Main Ethemeral' : 'Updating'}</p>
 				</div>
 			) : (
 				<div
@@ -93,7 +94,7 @@ const NFTActions = ({ nft }) => {
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
-					{account && isOwned ? <p>{!userIsUpdating ? 'Select as Main' : 'Updating'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner.id)}</p>}
+					{account && isOwned ? <p>{!isUserUpdating ? 'Select as Main' : 'Updating'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner.id)}</p>}
 				</div>
 			)}
 

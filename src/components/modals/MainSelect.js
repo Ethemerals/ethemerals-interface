@@ -1,10 +1,11 @@
-import useUserAccount from '../../hooks/useUserAccount';
+import { useUser, useUserAccount } from '../../hooks/useUser';
 
 const MainSelect = ({ toggle }) => {
-	const { mainIndex, userNFTs, setUserData } = useUserAccount();
+	const { mainIndex, userNFTs } = useUserAccount();
+	const { setUserData, user } = useUser();
 
 	const selectMain = async (index) => {
-		if (userNFTs) {
+		if (userNFTs && user) {
 			setUserData({ meralMainId: userNFTs[index].id });
 			toggle();
 		}

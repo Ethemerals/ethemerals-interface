@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import useUserAccount from '../../hooks/useUserAccount';
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
 
 import NFTInventoryCard from '../ethemerals/cards/NFTInventoryCard';
+import { useUserAccount } from '../../hooks/useUser';
 
 const NFTLink = ({ nft, toggle }) => {
 	const { elements } = useNFTUtils();
@@ -54,6 +54,7 @@ const NFTPetLink = ({ nft, toggle, item = false }) => {
 
 const UserInventory = ({ toggle }) => {
 	const { account, mainIndex, userNFTs } = useUserAccount();
+
 	const { accountEternalBattle } = useEternalBattleAccount();
 
 	const [userNFT, setUserNFT] = useState(undefined);

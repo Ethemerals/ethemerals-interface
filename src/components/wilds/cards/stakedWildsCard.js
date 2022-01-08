@@ -1,27 +1,20 @@
 import { useState, useEffect } from 'react';
-import ReactTooltip from 'react-tooltip';
-import useUserAccount from '../../../hooks/useUserAccount';
+
+import { useUserAccount } from '../../../hooks/useUser';
 
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
-import Spinner from '../../Spinner';
-import SVGRevive from '../svg/SVGRevive';
-import SVGUnstake from '../svg/SVGUnstake';
-
 import { useWildsNFTStats } from '../../../hooks/useWilds';
-import { useMeralColor } from '../../../hooks/useColorTraits';
-import { useMeralImagePaths, useChooseMeralImagePaths } from '../../../hooks/useMeralImagePaths';
+
+import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
 import { GET_NFT_WILDS } from '../../../queries/SubgraphWilds';
 import { useGQLQuery } from '../../../hooks/useGQLQuery';
 import WildsUnstake from '../actions/WildsUnstake';
 import WildsRevive from '../actions/WildsRevive';
 
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
-
 const StakedWildsCard = ({ landId, tokenId, contractWilds, stakeAction, raidStatus }) => {
-	const { parseScore, elements, getSubclassIcon, getSubclassBonus } = useNFTUtils();
-	const { meralColor } = useMeralColor(tokenId);
-	const { chooseMeralImagePath } = useChooseMeralImagePaths();
+	const { elements } = useNFTUtils();
+
 	const { meralImagePaths } = useMeralImagePaths(tokenId);
 
 	const { account } = useUserAccount();
@@ -30,8 +23,6 @@ const StakedWildsCard = ({ landId, tokenId, contractWilds, stakeAction, raidStat
 	const [isOwned, setIsOwned] = useState(false);
 	const [nft, setNft] = useState(undefined);
 	const [nftLiveStats, setNftLiveStats] = useState(undefined);
-	const [scoreCalculated, setScoreCalculated] = useState(undefined);
-	const [rewardsCalculated, setRewardsCalculated] = useState(undefined);
 
 	const { data, status, isLoading } = useGQLQuery(`nft_${tokenId}`, GET_NFT_WILDS, { id: tokenId }, { refetchOnMount: true });
 

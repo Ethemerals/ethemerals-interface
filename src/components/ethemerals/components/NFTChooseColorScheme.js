@@ -3,7 +3,7 @@ import { useQueryClient } from 'react-query';
 import Images from '../../../constants/Images';
 import { useMeralColor, useUpdateMeralColor, refreshMetadata } from '../../../hooks/useColorTraits';
 
-import useUserAccount from '../../../hooks/useUserAccount';
+import { useUserAccount } from '../../../hooks/useUser';
 
 const ColorChoice = ({ account, isOwned, colorNames, selectedColor, index, allowedColors, setSelected }) => {
 	const handleClick = () => {

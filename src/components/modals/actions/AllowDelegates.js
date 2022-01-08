@@ -6,7 +6,7 @@ import { useCore, useCoreContract } from '../../../hooks/useCore';
 
 import WaitingConfirmation from '../WaitingConfirmation';
 import ErrorDialogue from '../ErrorDialogue';
-import useUserAccount from '../../../hooks/useUserAccount';
+import { useUserAccount } from '../../../hooks/useUser';
 
 import ParseDelegates from '../../art/delegates/ParseDelegates';
 

@@ -14,7 +14,8 @@ import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 import { useLogin } from '../context/Web3Context';
-import useUserAccount from '../hooks/useUserAccount';
+
+import { useUserAccount } from '../hooks/useUser';
 
 const Mint = () => {
 	const { core } = useCore();

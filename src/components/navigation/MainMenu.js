@@ -8,12 +8,6 @@ const MenuItem = ({ to, text }) => (
 	</span>
 );
 
-// const MenuItemDisabled = ({ text }) => (
-// 	<span className="px-4 text-gray-600">
-// 		<span className=" cursor-default py-2">{text}</span>
-// 	</span>
-// );
-
 const Mainmenu = () => {
 	return (
 		<div className="flex px-2 items-center h-10 bg-white rounded-lg text-lg">

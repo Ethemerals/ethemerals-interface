@@ -11,7 +11,8 @@ import ArtDrop from '../components/art/ArtDrop';
 import { useParams } from 'react-router';
 import { ItemTypes } from '../components/art/utils/items';
 import FilterStatus from '../components/FilterStatus';
-import useUserAccount from '../hooks/useUserAccount';
+
+import { useUserAccount } from '../hooks/useUser';
 
 const coinData = [];
 for (let i = 0; i < metaCoinName.length; i++) {
