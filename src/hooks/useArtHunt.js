@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 
 import { isAddress } from '../utils';
-import { useAccessToken, useAddress } from '../context/Web3Context';
+import { useUser } from './useUser';
 
 const getArt = async (id) => {
 	try {
@@ -48,9 +48,7 @@ const submitCheckAnswer = async (answerData) => {
 const submitClaimReward = async (answerData) => {
 	if (isAddress(answerData.address)) {
 		try {
-			const { data } = await axios.post(`${process.env.REACT_APP_API_ART}claimreward`, answerData, {
-				headers: { authorization: `Bearer ${answerData.accessToken}` },
-			});
+			const { data } = await axios.post(`${process.env.REACT_APP_API_ART}claimreward`, answerData);
 			return data;
 		} catch (error) {
 			throw new Error('get artHunt error');
@@ -63,9 +61,7 @@ const submitClaimReward = async (answerData) => {
 const submitClaimGiveaway = async (answerData) => {
 	if (isAddress(answerData.address)) {
 		try {
-			const { data } = await axios.post(`${process.env.REACT_APP_API_ART}claimgiveaway`, answerData, {
-				headers: { authorization: `Bearer ${answerData.accessToken}` },
-			});
+			const { data } = await axios.post(`${process.env.REACT_APP_API_ART}claimgiveaway`, answerData);
 			return data;
 		} catch (error) {
 			throw new Error('get artHunt error');
@@ -154,8 +150,7 @@ export const useArtCheckAnswer = () => {
 };
 
 export const useClaimReward = () => {
-	const address = useAddress();
-	const accessToken = useAccessToken();
+	const { address } = useUser();
 	const queryClient = useQueryClient();
 
 	let [claimIsUpdating, setClaimIsUpdating] = useState(false);
@@ -171,7 +166,7 @@ export const useClaimReward = () => {
 
 	const claimReward = async (meralsIds, petsIds, tokenId) => {
 		try {
-			const result = await mutateClaimReward.mutateAsync({ meralsIds, petsIds, tokenId, address, accessToken, network: process.env.REACT_APP_NETWORK });
+			const result = await mutateClaimReward.mutateAsync({ meralsIds, petsIds, tokenId, address, network: process.env.REACT_APP_NETWORK });
 			return result;
 		} catch (error) {
 			console.log(error);
@@ -185,8 +180,7 @@ export const useClaimReward = () => {
 };
 
 export const useClaimGiveaway = () => {
-	const address = useAddress();
-	const accessToken = useAccessToken();
+	const { address } = useUser();
 	const queryClient = useQueryClient();
 
 	let [claimGiveawayIsUpdating, setClaimIsUpdating] = useState(false);
@@ -202,7 +196,7 @@ export const useClaimGiveaway = () => {
 
 	const claimGiveaway = async (meralsIds, petsIds, tokenId) => {
 		try {
-			const result = await mutateClaimGiveaway.mutateAsync({ meralsIds, petsIds, tokenId, address, accessToken, network: process.env.REACT_APP_NETWORK });
+			const result = await mutateClaimGiveaway.mutateAsync({ meralsIds, petsIds, tokenId, address, network: process.env.REACT_APP_NETWORK });
 			return result;
 		} catch (error) {
 			console.log(error);

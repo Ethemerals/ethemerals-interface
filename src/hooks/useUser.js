@@ -1,6 +1,5 @@
 import { useMemo, useEffect, useState } from 'react';
-import { useMoralis } from 'react-moralis';
-import { useNativeBalance } from 'react-moralis';
+import { useMoralis, useWeb3ExecuteFunction } from 'react-moralis';
 
 import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
@@ -10,9 +9,12 @@ import { GET_ACCOUNT } from '../queries/Subgraph';
 import { isAddress } from '../utils';
 import { Links } from '../constants/Links';
 
+import abis from '../constants/contracts/abis';
+import { Addresses } from '../constants/contracts/Addresses';
+import { useCoreContract } from './useCore';
+
 export const useUser = () => {
 	const { authenticate, isAuthenticated, isAuthenticating, isUnauthenticated, authError, logout, user, setUserData, isUserUpdating } = useMoralis();
-	const { data: balance } = useNativeBalance();
 
 	const address = useMemo(() => user?.attributes.ethAddress, [user]);
 
@@ -35,14 +37,13 @@ export const useUser = () => {
 		setUserData,
 		isUserUpdating,
 		address,
-		balance: balance ? balance.balance : null,
 	};
 };
 
 const getAccount = async (variables) => {
 	if (isAddress(variables.id)) {
 		try {
-			const endpoint = Links.SUBGRAPH_ENDPOINT;
+			const endpoint = Links.SUBGRAPH_ENDPOINT_L1;
 			const graphQLClient = new GraphQLClient(endpoint);
 			const fetchData = await graphQLClient.request(GET_ACCOUNT, variables);
 			return fetchData;
@@ -55,7 +56,7 @@ const getAccount = async (variables) => {
 };
 
 export const useUserAccount = () => {
-	const { address, balance } = useUser();
+	const { address } = useUser();
 	const { isUserUpdating, user, setUserData } = useMoralis();
 	const [autoTry, setAutoTry] = useState(0);
 
@@ -135,11 +136,75 @@ export const useUserAccount = () => {
 	// prettier-ignore
 	return {
     address,
-    balance,
     account,
     loaded,
     status,
     mainIndex,
     userNFTs,
   };
+};
+
+const getIsApprovedForAll = async (contract, _owner, _operator) => {
+	if (contract) {
+		try {
+			let approved = false;
+			const value = await contract.isApprovedForAll(_owner, _operator);
+			if (value.toString() === 'true') {
+				approved = true;
+			}
+			return approved;
+		} catch (error) {
+			console.log(error);
+			throw new Error('error');
+		}
+	} else {
+		console.log('no wallet');
+		throw new Error('error');
+	}
+};
+
+export const useEternalBattleApproval = () => {
+	const { address: owner } = useUser();
+	const operator = Addresses.EternalBattle;
+	const { contractCore } = useCoreContract();
+	const [isApproved, setIsApproved] = useState(null);
+	const { isLoading, data } = useQuery([`eternalBattle_approvals`], () => getIsApprovedForAll(contractCore, owner, operator), {
+		enabled: !!owner && !!contractCore && !!operator,
+		refetchInterval: 30000,
+	});
+
+	useEffect(() => {
+		if (!isLoading) {
+			setIsApproved(data);
+		}
+	}, [data, isLoading]);
+
+	return {
+		isApproved,
+		data,
+		isLoading,
+	};
+};
+
+export const useEscrowL1Approval = () => {
+	const { address: owner } = useUser();
+	const operator = Addresses.EscrowL1;
+	const { contractCore } = useCoreContract();
+	const [isApproved, setIsApproved] = useState(null);
+	const { isLoading, data } = useQuery([`eternalBattle_approvals`], () => getIsApprovedForAll(contractCore, owner, operator), {
+		enabled: !!owner && !!contractCore && !!operator,
+		refetchInterval: 30000,
+	});
+
+	useEffect(() => {
+		if (!isLoading) {
+			setIsApproved(data);
+		}
+	}, [data, isLoading]);
+
+	return {
+		isApproved,
+		data,
+		isLoading,
+	};
 };

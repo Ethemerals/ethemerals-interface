@@ -8,7 +8,7 @@ import { useWildsNFTStats } from '../../../hooks/useWilds';
 
 import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
 import { GET_NFT_WILDS } from '../../../queries/SubgraphWilds';
-import { useGQLQuery } from '../../../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../../../hooks/useGQLQuery';
 import WildsUnstake from '../actions/WildsUnstake';
 import WildsRevive from '../actions/WildsRevive';
 
@@ -24,7 +24,7 @@ const StakedWildsCard = ({ landId, tokenId, contractWilds, stakeAction, raidStat
 	const [nft, setNft] = useState(undefined);
 	const [nftLiveStats, setNftLiveStats] = useState(undefined);
 
-	const { data, status, isLoading } = useGQLQuery(`nft_${tokenId}`, GET_NFT_WILDS, { id: tokenId }, { refetchOnMount: true });
+	const { data, status, isLoading } = useGQLQueryL1(`nft_${tokenId}`, GET_NFT_WILDS, { id: tokenId }, { refetchOnMount: true });
 
 	const canLeave = (stakeAction === 1 || stakeAction === 4) && raidStatus !== '2';
 

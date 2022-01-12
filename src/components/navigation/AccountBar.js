@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
 import { shortenAddress, formatETH } from '../../utils';
@@ -8,6 +8,7 @@ import UserModal from '../modals/UserModal';
 
 import NFTPreview from './NFTPreview';
 import { useUser } from '../../hooks/useUser';
+import { useNativeBalance } from 'react-moralis';
 
 const Spinner = () => (
 	<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -18,7 +19,8 @@ const Spinner = () => (
 
 const AccountBar = () => {
 	const mining = useMiningStatus();
-	const { address, balance } = useUser();
+	const { address } = useUser();
+	const { data: balance } = useNativeBalance();
 
 	const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 	const [selectedUserModal, setSelectedUserModal] = useState(0);
@@ -43,7 +45,7 @@ const AccountBar = () => {
 					className="px-2 w-28 whitespace-nowrap cursor-pointer h-full flex items-center justify-end rounded-lg rounded-r-none hover:bg-gradient-to-r from-brandColor-pale overflow-hidden"
 					onClick={() => toggleUserModal(1)}
 				>
-					{balance && <span>{formatETH(balance)} ETH</span>}
+					{balance && <span>{balance.formatted}</span>}
 					{/* {account && <span>{formatELF(account.elfBalance)} ELF</span>} */}
 					{/* TODO, animated ELF ticker */}
 				</span>

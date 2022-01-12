@@ -4,11 +4,9 @@ import { shortenAddress } from '../../utils';
 import useParseAccountAction from '../../hooks/useParseAccountActions';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
 
-import { useUserAccount } from '../../hooks/useUser';
-
 import { Links } from '../../constants/Links';
 
-import { useGQLQuery } from '../../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../../hooks/useGQLQuery';
 import { GET_ACCOUNT_ACTIONS } from '../../queries/Subgraph';
 import { useUser } from '../../hooks/useUser';
 
@@ -38,7 +36,7 @@ const UserAccount = () => {
 	const { address } = useUser();
 	const [copied, copy] = useCopyToClipboard(address);
 
-	const { data, status } = useGQLQuery('account_actions', GET_ACCOUNT_ACTIONS, { id: address }, { enabled: !!address, refetchOnMount: true });
+	const { data, status } = useGQLQueryL1('account_actions', GET_ACCOUNT_ACTIONS, { id: address }, { enabled: !!address, refetchOnMount: true });
 
 	return (
 		<>

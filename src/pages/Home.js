@@ -1,10 +1,27 @@
 import { useEffect } from 'react';
-import { useMoralis } from 'react-moralis';
+import { useMoralis, useWeb3ExecuteFunction } from 'react-moralis';
 import Chains from '../components/chains/Chains';
 import { useUser, useUserAccount } from '../hooks/useUser';
+import { useWeb3 } from '../hooks/useWeb3';
+import { useEternalBattleApproval } from '../hooks/useUser';
+import abis from '../constants/contracts/abis';
+import { Addresses } from '../constants/contracts/Addresses';
+import { useMeralGlobal } from '../hooks/useMeralImagePaths';
 
 const Home = () => {
-	const { isAuthenticated, login, logout, user } = useUser();
+	const { isApproved } = useEternalBattleApproval();
+	const { isAuthenticated, login, logout, user, address } = useUser();
+	const { meralGlobal, meralGlobalIsLoading } = useMeralGlobal();
+
+	useEffect(() => {
+		console.log(isApproved);
+	}, [isApproved]);
+
+	useEffect(() => {
+		if (meralGlobal) {
+			console.log(meralGlobal.getGen1Colors());
+		}
+	}, [meralGlobal]);
 
 	return (
 		<div>
@@ -25,7 +42,9 @@ const Home = () => {
 						<button onClick={logout}>Logout</button>
 					</div>
 				)}
+
 				<Chains />
+
 				{/* <UserInfo /> */}
 			</div>
 		</div>

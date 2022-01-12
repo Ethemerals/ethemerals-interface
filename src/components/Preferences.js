@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Links } from '../constants/Links';
 
 import { useSendTx } from '../context/TxContext';
-import { useCore, useCoreContract, useCoreApprovals } from '../hooks/useCore';
+import { useCore, useCoreContract } from '../hooks/useCore';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
@@ -11,15 +11,14 @@ import { shortenAddress } from '../utils';
 import { Addresses } from '../constants/contracts/Addresses';
 
 import ParseDelegates from './art/delegates/ParseDelegates';
-import { useUser } from '../hooks/useUser';
+import { useEternalBattleApproval, useUserAccount } from '../hooks/useUser';
 
 const Preferences = () => {
 	const { core, delegates } = useCore();
 	const { contractCore } = useCoreContract();
+	const { isApproved } = useEternalBattleApproval();
+	const { account } = useUserAccount();
 
-	const { account, address } = useUser();
-
-	const { EBApproved } = useCoreApprovals(contractCore, address, Addresses.EternalBattle);
 	const sendTx = useSendTx();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -92,7 +91,7 @@ const Preferences = () => {
 					<strong>Status: {account && account.allowDelegates ? <span className="text-green-700">Approved</span> : <span className="text-red-700">Not Approved</span>}</strong>
 				</p>
 
-				{contractCore && account && !account.allowDelegates && (
+				{account && !account.allowDelegates && (
 					<div
 						onClick={() => onSubmitAllowDelegates(true)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-2 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
@@ -101,7 +100,7 @@ const Preferences = () => {
 					</div>
 				)}
 
-				{contractCore && account && account.allowDelegates && (
+				{account && account.allowDelegates && (
 					<div
 						onClick={() => onSubmitAllowDelegates(false)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
@@ -121,9 +120,9 @@ const Preferences = () => {
 
 				{/* ETERNAL BATTLE APPROVALS */}
 				<p className=" text-center">
-					<strong>Eternal Battle: {EBApproved === true ? <span className="text-green-700">Approved</span> : <span className="text-red-700">Not Approved</span>}</strong>
+					<strong>Eternal Battle: {isApproved === true ? <span className="text-green-700">Approved</span> : <span className="text-red-700">Not Approved</span>}</strong>
 				</p>
-				{core && EBApproved === false && (
+				{core && isApproved === false && (
 					<div
 						onClick={() => onSubmitApprovedForAll(Addresses.EternalBattle, true)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-2 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
@@ -132,7 +131,7 @@ const Preferences = () => {
 					</div>
 				)}
 
-				{core && EBApproved === true && account && !account.allowDelegates && (
+				{isApproved === true && account && !account.allowDelegates && (
 					<div
 						onClick={() => onSubmitApprovedForAll(Addresses.EternalBattle, false)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-2 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "

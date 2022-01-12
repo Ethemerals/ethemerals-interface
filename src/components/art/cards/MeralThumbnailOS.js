@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
-import { useGQLQuery } from '../../../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../../../hooks/useGQLQuery';
 import { Links } from '../../../constants/Links';
 import { Addresses } from '../../../constants/contracts/Addresses';
 import gql from 'graphql-tag';
-import { useAddress } from '../../../context/Web3Context';
+
+import { useUser } from '../../../hooks/useUser';
 
 const GET_NFT = gql`
 	query ($id: ID!) {
@@ -20,8 +21,8 @@ const GET_NFT = gql`
 `;
 
 const MeralThumbnailOS = ({ id }) => {
-	const { data, status, isLoading } = useGQLQuery(`nft_art_answer_meral_${id}`, GET_NFT, { id: id }, { refetchOnMount: false });
-	const address = useAddress();
+	const { data, status, isLoading } = useGQLQueryL1(`nft_art_answer_meral_${id}`, GET_NFT, { id: id }, { refetchOnMount: false });
+	const { address } = useUser();
 
 	const { meralImagePaths } = useMeralImagePaths(id);
 	const { elements } = useNFTUtils();

@@ -13,15 +13,13 @@ import { useCore, useCoreContract } from '../hooks/useCore';
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
-import { useLogin } from '../context/Web3Context';
-
-import { useUserAccount } from '../hooks/useUser';
+import { useUser } from '../hooks/useUser';
 
 const Mint = () => {
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
-	const login = useLogin();
-	const { address } = useUserAccount();
+
+	const { login, address } = useUser();
 
 	const sendTx = useSendTx();
 

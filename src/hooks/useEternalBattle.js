@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Contract } from '@ethersproject/contracts';
 import axios from 'axios';
-import { useGQLQuery } from '../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../hooks/useGQLQuery';
 import { GET_ETERNALBATTLE_ACCOUNT } from '../queries/Subgraph';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
-import { useWeb3 } from '../context/Web3Context';
+import { useWeb3 } from './useWeb3';
 
 const getContracts = async (provider, setContractBattle) => {
 	if (provider) {
@@ -88,7 +88,7 @@ const getStake = async (provider, contract, id) => {
 };
 
 export const useEternalBattleGetChange = (contract, id) => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contract, id), { enabled: !!id, refetchInterval: 50000 });
 
 	const [scoreChange, setScoreChange] = useState(undefined);
@@ -103,7 +103,7 @@ export const useEternalBattleGetChange = (contract, id) => {
 };
 
 export const useEternalBattleGetStake = (contract, id) => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 	const { isLoading, data } = useQuery([`getStake_${id}`, id], () => getStake(provider, contract, id), { refetchInterval: 50000 });
 
 	const [stake, setStake] = useState(undefined);
@@ -118,7 +118,7 @@ export const useEternalBattleGetStake = (contract, id) => {
 };
 
 export const useEternalBattleContract = () => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 
 	const [contractBattle, setContractBattle] = useState(undefined);
 
@@ -130,7 +130,7 @@ export const useEternalBattleContract = () => {
 };
 
 export const useEternalBattleAccount = () => {
-	const { data } = useGQLQuery('account_eternalBattle', GET_ETERNALBATTLE_ACCOUNT, { id: Addresses.EternalBattle.toLowerCase() }, { refetchOnMount: true });
+	const { data } = useGQLQueryL1('account_eternalBattle', GET_ETERNALBATTLE_ACCOUNT, { id: Addresses.EternalBattle.toLowerCase() }, { refetchOnMount: true });
 	const [accountEternalBattle, setAccountEternalBattle] = useState(null);
 
 	useEffect(() => {

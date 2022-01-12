@@ -5,7 +5,18 @@ import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
 import Images from '../../../constants/Images';
 import RankedStars from '../components/RankedStars';
 
-const NFTPreviewCard = ({ nft, rewards }) => {
+const SpinnerSVG = () => (
+	<svg className=" animate-spin-slow text-white opacity-20" width="60" height="60" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<g opacity="1">
+			<path
+				d="M152 304C68.0527 304 0 235.947 0 152C0 68.0527 68.0527 0 152 0L152 10.6431C73.9306 10.6431 10.6429 73.9308 10.6429 152C10.6429 230.069 73.9306 293.357 152 293.357C230.069 293.357 293.357 230.069 293.357 152L304 152C304 235.947 235.947 304 152 304Z"
+				fill="currentColor"
+			/>
+		</g>
+	</svg>
+);
+
+const NFTPreviewCard = ({ nft, rewards, isFetching }) => {
 	const { parseScore, getSubclassIcon, elements } = useNFTUtils();
 	const history = useHistory();
 	const [subclass, setSubclass] = useState(undefined);
@@ -17,34 +28,16 @@ const NFTPreviewCard = ({ nft, rewards }) => {
 		}
 	}, [nft]);
 
-	if (!nft && !meralImagePaths) {
-		<div className="w-64 h-96 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300">
-			<div className="text-xs font-bold absolute right-0 text-right text-white z-10"></div>
-
-			{/* MAIN IMAGE */}
-			<div className="absolute top-0 left-0"></div>
-
-			{/* TOP BAR */}
-			<div className="absolute flex items-center p-1 "></div>
-
-			<div style={{ bottom: '64px' }} className="w-full absolute z-10 flex justify-end right-2 space-x-2">
-				<div className="relative"></div>
-				<div className="relative"></div>
-				<div className="relative"></div>
-			</div>
-
-			{/* BOTTOM BAR */}
-
-			<div className="w-full bottom-0 absolute overflow-hidden">
-				<div className="px-2 py-1">
-					<p className="text-xs text-white"></p>
-					<p className="text-2xl font-medium"></p>
-					<div className="flex h-6 my-1 items-center">
-						<div className="w-full bg-black pl-2 uppercase font-bold text-white"></div>
-					</div>
+	if (isFetching) {
+		return (
+			<div style={{ backgroundColor: elements[4].color }} className="w-64 h-96 m-4 cursor-pointer bg-cover relative bg-gray-500">
+				<div className="abosulte center">
+					<SpinnerSVG />
 				</div>
+
+				{/* BOTTOM BAR */}
 			</div>
-		</div>;
+		);
 	}
 
 	const handleOnClick = () => {

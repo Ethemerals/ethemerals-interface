@@ -5,7 +5,8 @@ import { Contract } from '@ethersproject/contracts';
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
-import { useWeb3 } from '../context/Web3Context';
+
+import { useWeb3 } from './useWeb3';
 
 const getContracts = async (provider, setContractToken) => {
 	if (provider) {
@@ -16,7 +17,7 @@ const getContracts = async (provider, setContractToken) => {
 };
 
 export const useTokenContract = () => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 
 	const [contractToken, setContractToken] = useState(undefined);
 

@@ -4,7 +4,8 @@ import { Contract } from '@ethersproject/contracts';
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
-import { useWeb3 } from '../context/Web3Context';
+
+import { useWeb3 } from './useWeb3';
 
 const getContracts = async (provider, setContractEquipable) => {
 	if (provider) {
@@ -15,7 +16,7 @@ const getContracts = async (provider, setContractEquipable) => {
 };
 
 export const useEquipableContract = () => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 
 	const [contractEquipable, setContractEquipable] = useState(undefined);
 

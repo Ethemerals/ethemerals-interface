@@ -14,8 +14,8 @@ import { useTokenContract } from '../hooks/useToken';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
-import { useWeb3 } from '../context/Web3Context';
 
+import { useWeb3 } from '../hooks/useWeb3';
 import { useUserAccount } from '../hooks/useUser';
 
 const getEthemeral = async (contract, id, setEthemeral) => {
@@ -80,7 +80,7 @@ const getBalance = async (provider, setContractBalance) => {
 const Admin = () => {
 	const { register, handleSubmit } = useForm();
 
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 	const { core } = useCore();
 	const { accountCore } = useCoreAccount();
 	// const { accountEternalBattle } = useEternalBattleAccount();

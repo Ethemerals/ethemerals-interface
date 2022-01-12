@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useGQLQuery } from '../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../hooks/useGQLQuery';
 import { GET_NFTS_FILTERED } from '../queries/Subgraph';
 
 import { useParams } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { useNFTUtils } from '../hooks/useNFTUtils';
 
 const NFTMC = ({ color }) => {
 	const { getNFTImages } = useNFTUtils();
-	const { data, status } = useGQLQuery('nfts_mc', GET_NFTS_FILTERED, { refetchOnMount: false });
+	const { data, status } = useGQLQueryL1('nfts_mc', GET_NFTS_FILTERED, { refetchOnMount: false });
 	const [nfts, setNfts] = useState([]);
 
 	useEffect(() => {

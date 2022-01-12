@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Contract } from '@ethersproject/contracts';
 import { useQuery } from 'react-query';
-import { useGQLQuery } from '../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../hooks/useGQLQuery';
 import { GET_CORE, GET_CORE_ACCOUNT, GET_DELEGATES } from '../queries/Subgraph';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
-import { useWeb3 } from '../context/Web3Context';
+import { useWeb3 } from './useWeb3';
 
 const getContracts = async (provider, setContractCore) => {
 	if (provider) {
@@ -22,6 +22,7 @@ const getIsApprovedForAll = async (contract, _owner, _operator) => {
 		try {
 			let approved = false;
 			const value = await contract.isApprovedForAll(_owner, _operator);
+			console.log(value);
 			if (value.toString() === 'true') {
 				approved = true;
 			}
@@ -37,7 +38,7 @@ const getIsApprovedForAll = async (contract, _owner, _operator) => {
 };
 
 export const useCoreContract = () => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 
 	const [contractCore, setContractCore] = useState(undefined);
 
@@ -49,8 +50,8 @@ export const useCoreContract = () => {
 };
 
 export const useCore = () => {
-	const { data } = useGQLQuery('core', GET_CORE, { id: Addresses.Ethemerals.toLowerCase() }, { refetchOnMount: true });
-	const { data: dataDelegates } = useGQLQuery('delegates_list', GET_DELEGATES, { refetchOnMount: true });
+	const { data } = useGQLQueryL1('core', GET_CORE, { id: Addresses.Ethemerals.toLowerCase() }, { refetchOnMount: true });
+	const { data: dataDelegates } = useGQLQueryL1('delegates_list', GET_DELEGATES, { refetchOnMount: true });
 
 	const [core, setCore] = useState(null);
 	const [delegates, setDelegates] = useState(null);
@@ -74,7 +75,7 @@ export const useCore = () => {
 };
 
 export const useCoreAccount = () => {
-	const { data } = useGQLQuery('account_core', GET_CORE_ACCOUNT, { id: Addresses.Ethemerals.toLowerCase() }, { refetchOnMount: true });
+	const { data } = useGQLQueryL1('account_core', GET_CORE_ACCOUNT, { id: Addresses.Ethemerals.toLowerCase() }, { refetchOnMount: true });
 
 	const [accountCore, setAccountCore] = useState(null);
 
@@ -91,6 +92,7 @@ export const useCoreAccount = () => {
 };
 
 export const useCoreApprovals = (contractCore, owner, operator) => {
+	console.log(owner, operator);
 	const { isLoading, data } = useQuery([`core_approvals`], () => getIsApprovedForAll(contractCore, owner, operator), { enabled: !!owner && !!contractCore && !!operator, refetchInterval: 30000 });
 
 	const [EBApproved, setEBApproved] = useState(null);

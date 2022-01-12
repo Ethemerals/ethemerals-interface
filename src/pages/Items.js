@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useGQLQuery } from '../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../hooks/useGQLQuery';
 import { GET_ITEMS_ORDERED } from '../queries/Subgraph';
 import { useHistory, useParams } from 'react-router-dom';
 import EquipableItemPreviewCard from '../components/ethemerals/cards/EquipableItemPreviewCard';
@@ -7,7 +7,7 @@ import EquipableItemPreviewCard from '../components/ethemerals/cards/EquipableIt
 const maxQuery = 120;
 
 const ItemsMinted = ({ orderDirection }) => {
-	const { data, status } = useGQLQuery('items_minted', GET_ITEMS_ORDERED, { orderBy: 'timestamp', orderDirection: orderDirection, first: maxQuery }, { refetchOnMount: true });
+	const { data, status } = useGQLQueryL1('items_minted', GET_ITEMS_ORDERED, { orderBy: 'timestamp', orderDirection: orderDirection, first: maxQuery }, { refetchOnMount: true });
 	const [nfts, setNfts] = useState([]);
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ const ItemsMinted = ({ orderDirection }) => {
 };
 
 const ItemsRarity = ({ orderDirection }) => {
-	const { data, status } = useGQLQuery('items_rarity', GET_ITEMS_ORDERED, { orderBy: 'rarity', orderDirection: orderDirection, first: maxQuery }, { refetchOnMount: true });
+	const { data, status } = useGQLQueryL1('items_rarity', GET_ITEMS_ORDERED, { orderBy: 'rarity', orderDirection: orderDirection, first: maxQuery }, { refetchOnMount: true });
 	const [nfts, setNfts] = useState([]);
 
 	useEffect(() => {

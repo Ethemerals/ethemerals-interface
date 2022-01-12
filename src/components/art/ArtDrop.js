@@ -8,7 +8,6 @@ import MeralThumbnail from './cards/MeralThumbnail';
 import PetThumbnail from './cards/PetThumbnail';
 import { useArtCheckAnswer, useArtGetArt, useClaimGiveaway, useClaimReward } from '../../hooks/useArtHunt';
 
-import { useAuthenticating, useLogin } from '../../context/Web3Context';
 import MeralThumbnailOS from './cards/MeralThumbnailOS';
 import PetThumbnailOS from './cards/PetThumbnailOS';
 
@@ -31,15 +30,15 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	const now = Date.now();
 	const [released, setReleased] = useState(false);
 
-	const isAuthenticating = useAuthenticating();
 	const { checkAnswer, answerIsUpdating } = useArtCheckAnswer();
 	const { claimReward, claimIsUpdating } = useClaimReward();
 	const { claimGiveaway, claimGiveawayIsUpdating } = useClaimGiveaway();
 
 	const { artData } = useArtGetArt(tokenId);
 	const [winners, setWinners] = useState(undefined);
-	const login = useLogin();
+
 	const { account, userNFTs } = useUserAccount();
+	const { login, isAuthenticating } = useUser();
 	const [result, setResult] = useState(undefined);
 	const [answers, setAnswers] = useState({});
 	const [meralCombos, setMeralCombos] = useState(undefined);

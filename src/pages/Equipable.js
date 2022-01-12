@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useGQLQuery } from '../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../hooks/useGQLQuery';
 import { GET_PET } from '../queries/Subgraph';
 
 import { useHistory, useParams } from 'react-router-dom';
@@ -30,7 +30,7 @@ const RankedStars = ({ amount }) => {
 
 const Equipable = () => {
 	const { id } = useParams();
-	const { data, status } = useGQLQuery(`pet_${id}`, GET_PET, { id: id }, { refetchOnMount: true });
+	const { data, status } = useGQLQueryL1(`pet_${id}`, GET_PET, { id: id }, { refetchOnMount: true });
 	const [nft, setNft] = useState(undefined);
 	const { getEquipmentImages } = useNFTUtils();
 	const history = useHistory();

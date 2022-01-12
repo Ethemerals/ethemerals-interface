@@ -5,7 +5,7 @@ import { Links } from '../../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
 
-const endpoint = Links.SUBGRAPH_ENDPOINT;
+const endpoint = Links.SUBGRAPH_ENDPOINT_L1;
 const graphQLClient = new GraphQLClient(endpoint);
 
 const GET_NFTS = gql`
@@ -171,7 +171,7 @@ const Merals = ({ order, shouldFilter, filters }) => {
 		setPage(0);
 	}, [order, shouldFilter, filters]);
 
-	const { isLoading, isError, data } = useQuery(
+	const { isLoading, isFetching, isError, data } = useQuery(
 		[`nfts_${order.orderBy}_${order.orderDirection}_${shouldFilter}_${JSON.stringify(filters)}`, page],
 		() => getMerals(page, order.orderBy, order.orderDirection, shouldFilter, filters),
 		{
@@ -195,9 +195,13 @@ const Merals = ({ order, shouldFilter, filters }) => {
 				<div className="flex py-4 justify-center">Error...</div>
 			) : (
 				<>
-					{data && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
-					<div className="flex flex-wrap mx-auto justify-center">{data && data.ethemerals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} rewards={order.orderBy === 'rewards'} />)}</div>
-					{data && data.ethemerals.length > 49 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
+					{<PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
+					<div className="flex flex-wrap mx-auto justify-center">
+						{data.ethemerals.map((nft) => (
+							<NFTPreviewCard key={nft.id} nft={nft} rewards={order.orderBy === 'rewards'} isFetching={isFetching} />
+						))}
+					</div>
+					{data.ethemerals.length > 49 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 				</>
 			)}
 		</div>

@@ -4,7 +4,7 @@ import { Contract } from '@ethersproject/contracts';
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
-import { useWeb3 } from '../context/Web3Context';
+import { useWeb3 } from './useWeb3';
 import { useQuery } from 'react-query';
 
 const getContracts = async (provider, setContractBattle) => {
@@ -88,7 +88,7 @@ const getLCP = async (provider, contract, landId, tokenId) => {
 };
 
 export const useWildsContract = () => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 
 	const [contractWilds, setContractWilds] = useState(undefined);
 
@@ -100,7 +100,7 @@ export const useWildsContract = () => {
 };
 
 export const useWildsNFTStats = (contract, landId, tokenId) => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 	const { isLoading, data } = useQuery(`calculateDamage_${tokenId}`, () => calculateDamage(provider, contract, tokenId), { refetchInterval: 250000 });
 	const { isLoading: stamIsLoading, data: stamData } = useQuery(`calculateStamina_${tokenId}`, () => calculateStamina(provider, contract, tokenId), { refetchInterval: 250000 });
 	const { isLoading: lcpIsLoading, data: lcpData } = useQuery(`lcp_${landId}_${tokenId}`, () => getLCP(provider, contract, landId, tokenId), { refetchInterval: 250000 });

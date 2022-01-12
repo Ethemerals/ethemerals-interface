@@ -4,10 +4,10 @@ import { Contract } from '@ethersproject/contracts';
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
-import { useWeb3 } from '../context/Web3Context';
-import { useQuery } from 'react-query';
-import { useGQLQuery } from './useGQLQuery';
+
+import { useGQLQueryL1 } from './useGQLQuery';
 import { GET_ONSEN_ACCOUNT } from '../queries/SubgraphWilds';
+import { useWeb3 } from './useWeb3';
 
 const getContracts = async (provider, setContractOnsen) => {
 	if (provider) {
@@ -43,7 +43,7 @@ const calculateChange = async (provider, contract, id) => {
 };
 
 export const useOnsenContract = () => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 
 	const [contractOnsen, setOnsenContract] = useState(undefined);
 
@@ -55,7 +55,7 @@ export const useOnsenContract = () => {
 };
 
 export const useOnsenAccount = () => {
-	const { data } = useGQLQuery('account_onsen', GET_ONSEN_ACCOUNT, { id: Addresses.Onsen.toLowerCase() }, { refetchOnMount: true });
+	const { data } = useGQLQueryL1('account_onsen', GET_ONSEN_ACCOUNT, { id: Addresses.Onsen.toLowerCase() }, { refetchOnMount: true });
 	const [accountOnsen, setAccountOnsen] = useState(null);
 
 	useEffect(() => {
@@ -88,22 +88,3 @@ function safeScale(number, inMax, outMin, outMax) {
 	let scaled = (number * (outMax - outMin)) / inMax + outMin;
 	return scaled > outMax ? outMax : scaled;
 }
-
-// export const useWildsNFTStats = (contract, tokenId) => {
-// 	const provider = useWeb3();
-// 	const { isLoading, data } = useQuery(`calculate_onsenChange_${tokenId}`, () => calculateDamage(provider, contract, tokenId), { refetchInterval: 250000 });
-
-// 	const [change, setChange] = useState(undefined);
-
-// 	useEffect(() => {
-// 		if (!isLoading && data) {
-// 			setDamage(data.damage);
-// 		}
-// 	}, [data, isLoading]);
-
-// 	return { change};
-// };
-
-// HELPERS
-
-// CONSTANTS

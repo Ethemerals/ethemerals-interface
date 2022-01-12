@@ -6,7 +6,7 @@ import axios from 'axios';
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
-import { useWeb3 } from '../context/Web3Context';
+import { useWeb3 } from './useWeb3';
 
 const getContracts = async (provider, setContractPriceFeed) => {
 	if (provider) {
@@ -64,7 +64,7 @@ export const usePriceFeedPrice = (contract, priceFeed) => {
 };
 
 export const usePriceFeedContract = () => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 
 	const [contractPriceFeed, setContractPriceFeed] = useState(undefined);
 

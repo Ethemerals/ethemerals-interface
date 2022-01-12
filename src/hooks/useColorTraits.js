@@ -4,7 +4,8 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 
 import { isAddress } from '../utils';
-import { useAccessToken, useAddress } from '../context/Web3Context';
+import { useAccessToken } from '../context/Web3Context';
+import { useUser } from './useUser';
 
 const updateMeralColor = async (meralData) => {
 	if (isAddress(meralData.address)) {
@@ -68,7 +69,7 @@ export const useMeralColor = (id) => {
 };
 
 export const useUpdateMeralColor = () => {
-	const address = useAddress();
+	const { address } = useUser();
 	const accessToken = useAccessToken();
 
 	const queryClient = useQueryClient();

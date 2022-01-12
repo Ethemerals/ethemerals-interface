@@ -7,14 +7,16 @@ import { useEscrowL1Contract } from '../hooks/useEscrowL1';
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
-import { useLogin } from '../context/Web3Context';
-
-import { useUserAccount } from '../hooks/useUser';
+import { useEscrowL1Approval, useUser, useUserAccount } from '../hooks/useUser';
 import PortalCard from '../components/portal/PortalCard';
+import { useCoreContract } from '../hooks/useCore';
+import { shortenAddress } from '../utils';
 
 const Portal = () => {
 	const { mainIndex, userNFTs, account } = useUserAccount();
-	const login = useLogin();
+	const { isApproved } = useEscrowL1Approval();
+	const { contractCore } = useCoreContract();
+	const { login } = useUser();
 
 	const { contractEscrowL1 } = useEscrowL1Contract();
 
@@ -45,7 +47,6 @@ const Portal = () => {
 			setIsConfirmationOpen(true);
 			try {
 				let id = userNFT.id;
-				console.log(id);
 				const gasEstimate = await contractEscrowL1.estimateGas.deposit(id);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractEscrowL1.deposit(id, { gasLimit });
@@ -65,18 +66,48 @@ const Portal = () => {
 		}
 	};
 
+	const onSubmitAllowDelegates = async (allow = true) => {
+		if (contractCore) {
+			setIsConfirmationOpen(true);
+			try {
+				const gasEstimate = await contractCore.estimateGas.setAllowDelegates(allow);
+				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				const tx = await contractCore.setAllowDelegates(allow, { gasLimit });
+				console.log(tx);
+				sendTx(tx.hash, `${allow ? 'approve delegates' : 'disapprove delegates'}`, true, ['account', 'account_core', 'core_approvals']);
+			} catch (error) {
+				setIsErrorOpen(true);
+				setErrorMsg('approve delegates transaction rejected from user wallet');
+				console.log(`${error.data} \n${error.message}`);
+			}
+			setIsConfirmationOpen(false);
+		} else {
+			// connect
+			console.log('no wallet');
+		}
+	};
+
 	return (
 		<div>
 			<div style={{ maxWidth: '500px' }} className="my-8 w-11/12 sm:my-10 sm:w-full mx-auto bg-white p-6 pt-20 pb-10 rounded-lg bg-opacity-80">
 				<div className="text-xl text-red-500 text-center">RINKEBY TESTNET</div>
 
 				{contractEscrowL1 ? (
-					<div
-						onClick={handleDeposit}
-						className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
-					>
-						<p className="">Enter The Portal</p>
-					</div>
+					isApproved ? (
+						<div
+							onClick={handleDeposit}
+							className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
+						>
+							<p className="">Enter The Portal</p>
+						</div>
+					) : (
+						<div
+							onClick={onSubmitAllowDelegates}
+							className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
+						>
+							<p className="">Approve</p>
+						</div>
+					)
 				) : (
 					<div
 						onClick={login}

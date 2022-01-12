@@ -5,10 +5,11 @@ import { formatELF, formatETH } from '../../utils';
 
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 import { useUser, useUserAccount } from '../../hooks/useUser';
+import { useNativeBalance } from 'react-moralis';
 
 const UserELF = () => {
 	const { account } = useUserAccount();
-	const { balance } = useUser();
+	const { data: balance } = useNativeBalance();
 
 	const { accountEternalBattle } = useEternalBattleAccount();
 
@@ -73,7 +74,7 @@ const UserELF = () => {
 				</div>
 				<div className="flex text-xs sm:text-sm text-white py-2 justify-between">
 					<p>Available</p>
-					{balance && <p className="text-right">{formatETH(balance, 6)} ETH</p>}
+					{balance && <p className="text-right">{balance.formatted}</p>}
 				</div>
 
 				{/* <a href={Links.UNISWAP} target="_blank" rel="noreferrer" className="text-xs sm:text-sm text-gray-200 py-2 absolute bottom-0 hover:text-white">

@@ -5,7 +5,8 @@ const getLinks = () => {
 		LANDING_URL: 'https://www.ethemerals.com',
 		DISCORD_URL: 'https://discord.gg/5GUbsxed6G',
 		ETHERSCAN_URL: 'https://etherscan.io/',
-		SUBGRAPH_ENDPOINT: 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals',
+		SUBGRAPH_ENDPOINT_L1: 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals',
+		SUBGRAPH_ENDPOINT_L2: 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals',
 		UNISWAP: 'https://google.com',
 		APP: 'https://app.ethemerals.com',
 		GITHUB: 'https://github.com/Ethemerals',
@@ -21,7 +22,8 @@ const getLinks = () => {
 
 	if (network === '4') {
 		links.ETHERSCAN_URL = 'https://rinkeby.etherscan.io/';
-		links.SUBGRAPH_ENDPOINT = 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals-rinkeby';
+		links.SUBGRAPH_ENDPOINT_L1 = 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals-rinkeby';
+		links.SUBGRAPH_ENDPOINT_L2 = 'https://api.thegraph.com/subgraphs/name/tyronebach/ethemerals-mumbai';
 		links.OPENSEAS = 'https://testnets.opensea.io/assets';
 		links.OPENSEAS_COLLECTION = 'https://testnets.opensea.io/collection/ethemerals-merals';
 	}

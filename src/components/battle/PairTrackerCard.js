@@ -6,10 +6,9 @@ import EBStake from './modals/EBStake';
 import AllowDelegates from '../modals/actions/AllowDelegates';
 import { usePriceFeedContract } from '../../hooks/usePriceFeed';
 
-import { useUserAccount } from '../../hooks/useUser';
-import { useCoreApprovals, useCoreContract } from '../../hooks/useCore';
+import { useEternalBattleApproval, useUserAccount } from '../../hooks/useUser';
+import { useCoreContract } from '../../hooks/useCore';
 
-import { Addresses } from '../../constants/contracts/Addresses';
 import ConnectWallet from './modals/ConnectWallet';
 
 import { formatPrice } from '../../utils';
@@ -39,11 +38,10 @@ const PairTrackerCard = ({ priceFeed }) => {
 	const { contractPriceFeed } = usePriceFeedContract();
 
 	const { account, address } = useUserAccount();
-	const { contractCore } = useCoreContract();
 
 	const getBattleResults = useEBGetBattleResultsContext();
 
-	const { EBApproved } = useCoreApprovals(contractCore, address, Addresses.EternalBattle);
+	const { isApproved } = useEternalBattleApproval();
 
 	const [isCreateStakeLongOpen, setIsCreateStakeLongOpen] = useState(false);
 	const [isCreateStakeShortOpen, setIsCreateStakeShortOpen] = useState(false);
@@ -94,7 +92,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 	const handleJoinBattle = (long) => {
 		if (!address) {
 			toggleConnectWallet();
-		} else if (EBApproved === true) {
+		} else if (isApproved === true) {
 			if (long) {
 				toggleJoinBattleLong();
 			} else {
@@ -102,7 +100,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 			}
 		} else if (account && !account.allowDelegates) {
 			toggleAllowDelegates();
-		} else if (account && EBApproved === false) {
+		} else if (account && isApproved === false) {
 			toggleAllowDelegates();
 		} else {
 			if (long) {
@@ -145,7 +143,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 				</div>
 				{healthBar && healthBar.winningLongNFT && healthBar.winningShortNFT && <EBHealthBar key={priceFeed.ticker} data={healthBar} />}
 			</div>
-			{isAllowDelegatesOpen && <AllowDelegates toggle={toggleAllowDelegates} toggleStake={toggleJoinBattleLong} EBApproved={EBApproved} />}
+			{isAllowDelegatesOpen && <AllowDelegates toggle={toggleAllowDelegates} toggleStake={toggleJoinBattleLong} />}
 			{isCreateStakeLongOpen && <EBStake key={`${priceFeed.ticker}long`} contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattleLong} priceFeed={priceFeed} long={true} />}
 			{isCreateStakeShortOpen && <EBStake key={`${priceFeed.ticker}short`} contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattleShort} priceFeed={priceFeed} long={false} />}
 			{isConnectWalletOpen && <ConnectWallet contractPriceFeed={contractPriceFeed} toggle={toggleConnectWallet} />}

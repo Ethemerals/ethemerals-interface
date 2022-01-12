@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GET_LAND } from '../../queries/SubgraphWilds';
-import { useGQLQuery } from '../../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../../hooks/useGQLQuery';
 
 import WildsStake from './actions/WildsStake';
 import WildsUnstake from './actions/WildsUnstake';
@@ -29,7 +29,7 @@ const Slots = ({ slots, land, contractWilds }) => {
 const WildsLandDetails = () => {
 	const { id } = useParams();
 	let landId = id;
-	const { data, status } = useGQLQuery(`land_${landId}`, GET_LAND, { id: landId }, { refetchOnMount: true });
+	const { data, status } = useGQLQueryL1(`land_${landId}`, GET_LAND, { id: landId }, { refetchOnMount: true });
 	const [land, setLand] = useState(undefined);
 	const { contractWilds } = useWildsContract();
 

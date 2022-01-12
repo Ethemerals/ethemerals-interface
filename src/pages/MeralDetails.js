@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 
-import { useGQLQuery } from '../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../hooks/useGQLQuery';
 import { useNFTUtils } from '../hooks/useNFTUtils';
 import { useMeralColor } from '../hooks/useColorTraits';
 import Images from '../constants/Images';
@@ -59,7 +59,7 @@ const MeralDetails = () => {
 	const { id } = useParams();
 	const { meralColor } = useMeralColor(id);
 	const { chooseMeralImagePath } = useChooseMeralImagePaths();
-	const { data, status, isLoading } = useGQLQuery(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
+	const { data, status, isLoading } = useGQLQueryL1(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
 	const [color, setColor] = useState(0);
 

@@ -10,7 +10,7 @@ import { useUserAccount } from '../../../hooks/useUser';
 
 import ParseDelegates from '../../art/delegates/ParseDelegates';
 
-const AllowDelegates = ({ toggle, toggleStake, EBApproved }) => {
+const AllowDelegates = ({ toggle, toggleStake }) => {
 	const { delegates } = useCore();
 	const { account } = useUserAccount();
 	const { contractCore } = useCoreContract();
@@ -27,7 +27,7 @@ const AllowDelegates = ({ toggle, toggleStake, EBApproved }) => {
 				toggle();
 			}
 		}
-	}, [account, EBApproved, toggle, toggleStake]);
+	}, [account, toggle, toggleStake]);
 
 	const toggleConfirmation = () => {
 		setIsConfirmationOpen(!isConfirmationOpen);

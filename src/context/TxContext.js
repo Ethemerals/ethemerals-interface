@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { useWeb3 } from '../context/Web3Context';
+
+import { useWeb3 } from '../hooks/useWeb3';
 
 const MiningStatusContext = React.createContext();
 const SendTxContext = React.createContext();
@@ -17,7 +18,7 @@ export function useReceipt() {
 }
 
 export default function TxContextProvider({ children }) {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 	const queryClient = useQueryClient();
 
 	const [miningStatus, setMiningStatus] = useState(false);

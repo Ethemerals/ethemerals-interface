@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
-import { useGQLQuery } from '../../../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../../../hooks/useGQLQuery';
 import { Links } from '../../../constants/Links';
 import gql from 'graphql-tag';
-import { useAddress } from '../../../context/Web3Context';
+
 import { Addresses } from '../../../constants/contracts/Addresses';
+import { useUser } from '../../../hooks/useUser';
 
 const GET_PET = gql`
 	query ($id: ID!) {
@@ -19,9 +20,10 @@ const GET_PET = gql`
 `;
 
 const PetThumbnailOS = ({ id }) => {
-	const { data, status, isLoading } = useGQLQuery(`nft_art_answer_pet_${id}`, GET_PET, { id: id }, { refetchOnMount: false });
+	const { data, status, isLoading } = useGQLQueryL1(`nft_art_answer_pet_${id}`, GET_PET, { id: id }, { refetchOnMount: false });
 	const { getEquipmentImages } = useNFTUtils();
-	const address = useAddress();
+
+	const { address } = useUser();
 
 	const [nft, setNFT] = useState(undefined);
 	const [owned, setOwned] = useState(false);

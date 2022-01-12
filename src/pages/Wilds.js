@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useGQLQuery } from '../hooks/useGQLQuery';
+import { useGQLQueryL1 } from '../hooks/useGQLQuery';
 import { wildsParseInitValues } from '../hooks/useWilds';
 import { GET_LANDS } from '../queries/SubgraphWilds';
 
@@ -43,7 +43,7 @@ const LandHub = () => {
 const Wilds = () => {
 	const [lands, setLands] = useState(undefined);
 	const [landsParsed, setLandsParsed] = useState(undefined);
-	const { data, status, isLoading } = useGQLQuery(`lands`, GET_LANDS, { refetchOnMount: true });
+	const { data, status, isLoading } = useGQLQueryL1(`lands`, GET_LANDS, { refetchOnMount: true });
 
 	useEffect(() => {
 		if (status === 'success' && data && data.wildLands) {

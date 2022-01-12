@@ -5,7 +5,7 @@ import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
 import PetsPreviewCard from './cards/PetsPreviewCard';
 
-const endpoint = Links.SUBGRAPH_ENDPOINT;
+const endpoint = Links.SUBGRAPH_ENDPOINT_L1;
 const graphQLClient = new GraphQLClient(endpoint);
 
 const GET_NFTS = gql`

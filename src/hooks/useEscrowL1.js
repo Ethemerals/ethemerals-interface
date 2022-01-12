@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Contract } from '@ethersproject/contracts';
 import { useQuery } from 'react-query';
-import { useGQLQuery } from './useGQLQuery';
+import { useGQLQueryL1 } from './useGQLQuery';
 import { GET_CORE, GET_CORE_ACCOUNT, GET_DELEGATES } from '../queries/Subgraph';
 import { GET_ESCROWL1_ACCOUNT } from '../queries/SubgraphEscrow';
 
 import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
-import { useWeb3 } from '../context/Web3Context';
+
+import { useWeb3 } from './useWeb3';
 
 const getContracts = async (provider, setContractEscrow) => {
 	if (provider) {
@@ -19,7 +20,7 @@ const getContracts = async (provider, setContractEscrow) => {
 };
 
 export const useEscrowL1Contract = () => {
-	const provider = useWeb3();
+	const { provider } = useWeb3();
 
 	const [contractEscrowL1, setContractEscrow] = useState(undefined);
 
@@ -31,7 +32,7 @@ export const useEscrowL1Contract = () => {
 };
 
 export const useEscrowL1Account = () => {
-	const { data } = useGQLQuery('account_escrow_l1', GET_ESCROWL1_ACCOUNT, { id: Addresses.EscrowL1.toLowerCase() }, { refetchOnMount: true });
+	const { data } = useGQLQueryL1('account_escrow_l1', GET_ESCROWL1_ACCOUNT, { id: Addresses.EscrowL1.toLowerCase() }, { refetchOnMount: true });
 	const [accountEscrowL1, setAccount] = useState(null);
 
 	useEffect(() => {

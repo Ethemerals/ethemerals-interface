@@ -7,7 +7,7 @@ import { useQuery } from 'react-query';
 import MeralDragableCard from './cards/MeralDragableCard';
 import { useUserAccount } from '../../hooks/useUser';
 
-const endpoint = Links.SUBGRAPH_ENDPOINT;
+const endpoint = Links.SUBGRAPH_ENDPOINT_L1;
 const graphQLClient = new GraphQLClient(endpoint);
 
 const GET_NFTS = gql`
