@@ -6,7 +6,7 @@ import { useNFTUtils } from '../../../hooks/useNFTUtils';
 import Spinner from '../../Spinner';
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 
-import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
+import { useMeralImagePaths } from '../../../hooks/useMeralData';
 
 import { useSendTx } from '../../../context/TxContext';
 import { shortenAddress } from '../../../utils';

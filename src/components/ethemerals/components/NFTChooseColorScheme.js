@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import Images from '../../../constants/Images';
-import { useMeralColor, useUpdateMeralColor, refreshMetadata } from '../../../hooks/useColorTraits';
+import { useMeralDataById } from '../../../hooks/useMeralData';
 
 import { useUserAccount } from '../../../hooks/useUser';
+import { useMoralisCloudFunction } from 'react-moralis';
 
 const ColorChoice = ({ account, isOwned, colorNames, selectedColor, index, allowedColors, setSelected }) => {
 	const handleClick = () => {
@@ -26,11 +27,13 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 	const { account } = useUserAccount();
 	const queryClient = useQueryClient();
 
-	const { meralColor } = useMeralColor(nft.id);
-	const { setMeralColor } = useUpdateMeralColor();
 	const [colorNames, setColorNames] = useState(['OG Color', 'Color 2', 'Color 3', 'Color 4']);
 	const [currentColor, setCurrentColor] = useState(0);
 	const [selectedColor, setSelectedColor] = useState(0);
+
+	const { meralData } = useMeralDataById(nft.id);
+	const { fetch } = useMoralisCloudFunction('setColor', { selectedColor, tokenId: nft.id }, { autoFetch: false });
+
 	const [saving, setSaving] = useState(false);
 	const [allowedColors, setAllowedColors] = useState([true, false, false, false]);
 
@@ -53,21 +56,23 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 	}, [selectedColor, setColor]);
 
 	useEffect(() => {
-		if (meralColor) {
-			setCurrentColor(meralColor.current);
-			setColorNames([meralColor.colors[0].name, meralColor.colors[1].name, meralColor.colors[2].name, meralColor.colors[3].name]);
-			setAllowedColors([meralColor.colors[0].unlocked, meralColor.colors[1].unlocked, meralColor.colors[2].unlocked, meralColor.colors[3].unlocked]);
-			setSelectedColor(meralColor.current);
+		if (meralData) {
+			const _current = meralData.getCurrentColor();
+			const _colors = meralData.getColors();
+			setColorNames([_colors[0].name, _colors[1].name, _colors[2].name, _colors[3].name]);
+			setAllowedColors([_colors[0].unlocked, _colors[1].unlocked, _colors[2].unlocked, _colors[3].unlocked]);
+			setCurrentColor(_current);
+			setSelectedColor(_current);
 		}
-	}, [meralColor]);
+	}, [meralData]);
 
 	const handleSave = async () => {
 		if (account && isOwned && selectedColor !== currentColor) {
 			setSaving(true);
 			try {
-				await setMeralColor(nft.id, selectedColor);
-				setTimeout(() => queryClient.invalidateQueries(`${nft.id}_colors`), 3000);
-				setTimeout(() => refreshMetadata(nft.id), 1000);
+				await fetch();
+				setTimeout(() => queryClient.invalidateQueries(`meralData_${nft.id}`, 'meralGlobal'), 3000);
+				// setTimeout(() => refreshMetadata(nft.id), 1000); // TODO
 				setTimeout(() => setSaving(false), 3000);
 			} catch (error) {
 				console.log(error);

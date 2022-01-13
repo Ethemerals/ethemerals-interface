@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
-import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
+import { useMeralImagePaths } from '../../../hooks/useMeralData';
 import Images from '../../../constants/Images';
 import RankedStars from '../components/RankedStars';
 

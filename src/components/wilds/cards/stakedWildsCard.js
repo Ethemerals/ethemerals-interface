@@ -6,7 +6,7 @@ import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
 import { useWildsNFTStats } from '../../../hooks/useWilds';
 
-import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
+import { useMeralImagePaths } from '../../../hooks/useMeralData';
 import { GET_NFT_WILDS } from '../../../queries/SubgraphWilds';
 import { useGQLQueryL1 } from '../../../hooks/useGQLQuery';
 import WildsUnstake from '../actions/WildsUnstake';

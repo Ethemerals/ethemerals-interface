@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
+import { useMeralImagePaths } from '../../../hooks/useMeralData';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
 import RankedStars from '../components/RankedStars';

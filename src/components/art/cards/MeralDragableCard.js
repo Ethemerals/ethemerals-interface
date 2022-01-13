@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../utils/items';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
-import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
+import { useMeralImagePaths } from '../../../hooks/useMeralData';
 
 const idsToElements = (id) => {
 	let element = 'Void';

@@ -2,6 +2,7 @@ const getLinks = () => {
 	const network = process.env.REACT_APP_NETWORK;
 
 	let links = {
+		BUCKET: 'https://ethemerals-media.s3.amazonaws.com/',
 		LANDING_URL: 'https://www.ethemerals.com',
 		DISCORD_URL: 'https://discord.gg/5GUbsxed6G',
 		ETHERSCAN_URL: 'https://etherscan.io/',

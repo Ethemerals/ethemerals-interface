@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { useGQLQueryL1 } from '../hooks/useGQLQuery';
 import { useNFTUtils } from '../hooks/useNFTUtils';
-import { useMeralColor } from '../hooks/useColorTraits';
+
 import Images from '../constants/Images';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
@@ -14,7 +14,7 @@ import NFTChooseColorScheme from '../components/ethemerals/components/NFTChooseC
 
 import { shortenAddress } from '../utils';
 import BackButton from '../components/navigation/BackButton';
-import { useChooseMeralImagePaths } from '../hooks/useMeralImagePaths';
+import { useChooseMeralImagePaths, useMeralDataById } from '../hooks/useMeralData';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -57,7 +57,8 @@ const MeralDetails = () => {
 	const { parseScore, elements, getSubclassIcon, getSubclassBonus } = useNFTUtils();
 
 	const { id } = useParams();
-	const { meralColor } = useMeralColor(id);
+	const { meralData } = useMeralDataById(id);
+
 	const { chooseMeralImagePath } = useChooseMeralImagePaths();
 	const { data, status, isLoading } = useGQLQueryL1(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
@@ -80,10 +81,10 @@ const MeralDetails = () => {
 	}, [status, data, nft]);
 
 	useEffect(() => {
-		if (meralColor && meralColor.current) {
-			setColor(meralColor.current);
+		if (meralData) {
+			setColor(meralData.getCurrentColor());
 		}
-	}, [meralColor]);
+	}, [meralData]);
 
 	if (!ready || isLoading !== false || status !== 'success' || !nft) {
 		return (

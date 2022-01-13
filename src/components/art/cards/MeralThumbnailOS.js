@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
-import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
+import { useMeralImagePaths } from '../../../hooks/useMeralData';
 import { useGQLQueryL1 } from '../../../hooks/useGQLQuery';
 import { Links } from '../../../constants/Links';
 import { Addresses } from '../../../constants/contracts/Addresses';

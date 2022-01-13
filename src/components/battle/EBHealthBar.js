@@ -1,4 +1,4 @@
-import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
+import { useMeralImagePaths } from '../../hooks/useMeralData';
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import ReactTooltip from 'react-tooltip';
 

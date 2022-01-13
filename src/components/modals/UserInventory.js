@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 
 import { useNFTUtils } from '../../hooks/useNFTUtils';
-import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
+import { useMeralImagePaths } from '../../hooks/useMeralData';
 
 import NFTInventoryCard from '../ethemerals/cards/NFTInventoryCard';
 import { useUserAccount } from '../../hooks/useUser';

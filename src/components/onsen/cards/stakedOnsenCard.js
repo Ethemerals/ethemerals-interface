@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
-import { useMeralImagePaths } from '../../../hooks/useMeralImagePaths';
+import { useMeralImagePaths } from '../../../hooks/useMeralData';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
 import { getOnsenChange } from '../../../hooks/useOnsen';

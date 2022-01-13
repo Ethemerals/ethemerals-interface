@@ -1,5 +1,5 @@
 import { useMemo, useEffect, useState } from 'react';
-import { useMoralis, useWeb3ExecuteFunction } from 'react-moralis';
+import { useMoralis } from 'react-moralis';
 
 import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
@@ -9,7 +9,6 @@ import { GET_ACCOUNT } from '../queries/Subgraph';
 import { isAddress } from '../utils';
 import { Links } from '../constants/Links';
 
-import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
 import { useCoreContract } from './useCore';
 

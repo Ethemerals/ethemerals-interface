@@ -6,7 +6,7 @@ import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../hooks
 import { useEBAddScoreContext, useEBNftsRegisterContext } from '../../context/EternalBattleContext';
 
 import { useNFTUtils } from '../../hooks/useNFTUtils';
-import { useMeralImagePaths } from '../../hooks/useMeralImagePaths';
+import { useMeralImagePaths } from '../../hooks/useMeralData';
 import Spinner from '../Spinner';
 
 import SVGRevive from './svg/SVGRevive';
