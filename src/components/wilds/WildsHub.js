@@ -1,14 +1,3 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { GET_LAND } from '../../queries/SubgraphWilds';
-import { useGQLQueryL1 } from '../../hooks/useGQLQuery';
-
-import WildsStake from './actions/WildsStake';
-import WildsUnstake from './actions/WildsUnstake';
-import WildsRaidActions from './actions/WildsRaidActions';
-import StakedWildsCard from './cards/stakedWildsCard';
-import { useWildsContract, wildsParseInitValues } from '../../hooks/useWilds';
-import EmptyWildsCard from './cards/emptyWildsCard';
 import Onsen from '../onsen/Onsen';
 
 const worldMap = 'https://ethemerals-media.s3.amazonaws.com/wilds/worldmap.png';

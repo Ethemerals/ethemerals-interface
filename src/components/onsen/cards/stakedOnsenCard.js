@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import ReactTooltip from 'react-tooltip';
 import { useMeralImagePaths } from '../../../hooks/useMeralData';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
@@ -9,13 +8,6 @@ import { useUserAccount } from '../../../hooks/useUser';
 
 import Spinner from '../../Spinner';
 import OnsenUnstake from '../actions/OnsenUnstake';
-
-// import SVGRevive from './svg/SVGRevive';
-// import SVGUnstake from './svg/SVGUnstake';
-
-// import EBDetails from './modals/EBDetails';
-
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 const StakedOnsenCard = ({ nft, contractOnsen }) => {
 	const { account } = useUserAccount();

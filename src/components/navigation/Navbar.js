@@ -15,13 +15,13 @@ import MainMenu from './MainMenu';
 import { useUser } from '../../hooks/useUser';
 
 const Navbar = () => {
-	const { address, isAuthenticated, logout } = useUser();
+	const { isAuthenticated, logout } = useUser();
 
 	const windowSize = useWindowSize(898);
 
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isMoreLinksOpen, setIsMoreLinksOpen] = useState(false);
-	const [windowMed, setWindowMed] = useState(true);
+	const [windowMed, setWindowMed] = useState(false);
 	const [WindowXS, setWindowXS] = useState(false);
 
 	useEffect(() => {
@@ -67,24 +67,12 @@ const Navbar = () => {
 							</div>
 
 							{/* <!-- secondary nav --> MD */}
-							{windowMed && (
-								<div className="flex items-center absolute mr-4 scrollbar_right z-50">
-									{!isAuthenticated && <ConnectButton />}
-									{isAuthenticated && <AccountBar />}
-									<MoreLinksButton large={true} toggle={toggleMoreLinks} />
-									{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} logout={logout} />}
-								</div>
-							)}
-
-							{/* <!-- secondary nav bottom --> SM */}
-							{!windowMed && (
-								<div className="w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12">
-									{!isAuthenticated && <ConnectButton />}
-									{isAuthenticated && <AccountBar />}
-									<MoreLinksButton large={false} toggle={toggleMoreLinks} />
-									{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} logout={logout} />}
-								</div>
-							)}
+							<div className={`${windowMed ? 'flex items-center absolute mr-4 scrollbar_right z-50' : 'w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12'}`}>
+								{!isAuthenticated && <ConnectButton />}
+								{isAuthenticated && <AccountBar />}
+								<MoreLinksButton large={true} toggle={toggleMoreLinks} />
+								{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} logout={logout} />}
+							</div>
 						</div>
 					</nav>
 				</header>
@@ -122,7 +110,7 @@ const Navbar = () => {
 
 					<div className="w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12 z-50">
 						{!isAuthenticated && <ConnectButton />}
-						{address && <AccountBar />}
+						{isAuthenticated && <AccountBar />}
 						<MoreLinksButton large={false} toggle={toggleMoreLinks} />
 						{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} logout={logout} />}
 					</div>

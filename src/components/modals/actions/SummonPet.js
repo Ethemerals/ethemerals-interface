@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useSendTx } from '../../../context/TxContext';
 
 import { useEquipableContract } from '../../../hooks/useEquipable';
+import { getIdFromType } from '../../../hooks/useMeralUtils';
+import { useUserAccount } from '../../../hooks/useUser';
 
 const SpinnerSVG = () => (
 	<svg className=" animate-spin-slow text-brandColor" width="50" height="50" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,6 +19,7 @@ const SpinnerSVG = () => (
 const SummonPet = ({ toggle, nft }) => {
 	const { contractEquipable } = useEquipableContract();
 	const sendTx = useSendTx();
+	const { address } = useUserAccount();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
@@ -24,12 +27,12 @@ const SummonPet = ({ toggle, nft }) => {
 		if (contractEquipable) {
 			setIsConfirmationOpen(true);
 			try {
-				let id = nft.id;
+				let id = nft.tokenId;
 				const gasEstimate = await contractEquipable.estimateGas.redeemPet(id);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractEquipable.redeemPet(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, `Summoned pet ${id}`, true, [`nft_${id}`, 'account']);
+				sendTx(tx.hash, `Summoned pet ${id}`, true, [`nft_${getIdFromType(1, id)}`, `account_${address}`]);
 			} catch (error) {
 				console.log(`${error.data} \n${error.message}`);
 			}
@@ -55,8 +58,8 @@ const SummonPet = ({ toggle, nft }) => {
 					</div>
 					<div className="text-center px-4">
 						<p className="text-2xl mb-4">{`Summon Pet`} </p>
-						<p className="text-base text-black">{`You are about to Mint #${nft.id.padStart(4, '0')} ${
-							nft.metadata.coin
+						<p className="text-base text-black">{`You are about to Mint #${nft.tokenId.toString().padStart(4, '0')} ${
+							nft.coin
 						}'s Pet. Which most likely be a little worthless slime, but... you never know 😊`}</p>
 
 						{!isConfirmationOpen ? (

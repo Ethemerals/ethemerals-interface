@@ -1,16 +1,14 @@
 import { useMemo, useEffect, useState } from 'react';
 import { useMoralis } from 'react-moralis';
+import Moralis from 'moralis';
 
-import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
 
-import { GET_ACCOUNT } from '../queries/Subgraph';
-
 import { isAddress } from '../utils';
-import { Links } from '../constants/Links';
 
 import { Addresses } from '../constants/contracts/Addresses';
 import { useCoreContract } from './useCore';
+// import { getAccount } from './dataObjects/Account';
 
 export const useUser = () => {
 	const { authenticate, isAuthenticated, isAuthenticating, isUnauthenticated, authError, logout, user, setUserData, isUserUpdating } = useMoralis();
@@ -39,13 +37,11 @@ export const useUser = () => {
 	};
 };
 
-const getAccount = async (variables) => {
-	if (isAddress(variables.id)) {
+const getAccount = async (address) => {
+	if (isAddress(address)) {
 		try {
-			const endpoint = Links.SUBGRAPH_ENDPOINT_L1;
-			const graphQLClient = new GraphQLClient(endpoint);
-			const fetchData = await graphQLClient.request(GET_ACCOUNT, variables);
-			return fetchData;
+			const result = await Moralis.Cloud.run('getAccount', { address });
+			return result;
 		} catch (error) {
 			throw new Error('get account error');
 		}
@@ -63,15 +59,14 @@ export const useUserAccount = () => {
 	const [mainIndex, setMainIndex] = useState(undefined);
 	const [userNFTs, setUserNFTs] = useState([]);
 
-	const { data, status, loaded } = useQuery(`account`, () => getAccount({ id: address }), { enabled: !!address, refetchOnMount: true }); // TODO
+	const { data, isLoading } = useQuery(`account_${address}`, () => getAccount(address), { enabled: !!address, refetchOnMount: false }); // TODO
 
 	useEffect(() => {
-		if (data && data.account !== null) {
-			setAccount(data.account);
-			// LOCAL NFTS
-			setUserNFTs(data.account.ethemerals);
+		if (data && !isLoading) {
+			setAccount(data);
+			setUserNFTs(data.merals);
 		}
-	}, [data]);
+	}, [data, isLoading]);
 
 	// GET MAIN
 	useEffect(() => {
@@ -79,9 +74,9 @@ export const useUserAccount = () => {
 			let foundNFT = false;
 			// FOUND USER
 			if (user.attributes.meralMainId) {
-				if (account && account.ethemerals.length > 0) {
-					account.ethemerals.forEach((nft, index) => {
-						if (nft.id === user.attributes.meralMainId) {
+				if (account && account.merals.length > 0) {
+					account.merals.forEach((nft, index) => {
+						if (nft.meralId === user.attributes.meralMainId) {
 							setMainIndex(index);
 							foundNFT = true;
 						}
@@ -98,11 +93,11 @@ export const useUserAccount = () => {
 	// SET MAIN
 	useEffect(() => {
 		if (account && user) {
-			if (!isUserUpdating && account.ethemerals.length > 0) {
+			if (!isUserUpdating && account.merals.length > 0) {
 				// NEW USER
 				if (!user.attributes.meralMainId) {
 					setUserData({
-						meralMainId: account.ethemerals[0].id,
+						meralMainId: parseInt(account.merals[0].meralId),
 					});
 					console.log('new user');
 				} else {
@@ -110,8 +105,8 @@ export const useUserAccount = () => {
 
 					let foundNFT = false;
 
-					account.ethemerals.forEach((nft) => {
-						if (nft.id === user.attributes.meralMainId) {
+					account.merals.forEach((nft) => {
+						if (nft.meralId === parseInt(user.attributes.meralMainId)) {
 							foundNFT = true;
 						}
 					});
@@ -122,7 +117,7 @@ export const useUserAccount = () => {
 
 					if (!foundNFT && autoTry < 5) {
 						setUserData({
-							meralMainId: account.ethemerals[0].id,
+							meralMainId: parseInt(account.merals[0].meralId),
 						});
 						console.log('auto main');
 						setAutoTry((at) => at + 1);
@@ -136,8 +131,6 @@ export const useUserAccount = () => {
 	return {
     address,
     account,
-    loaded,
-    status,
     mainIndex,
     userNFTs,
   };

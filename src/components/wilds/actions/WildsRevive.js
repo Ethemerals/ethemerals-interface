@@ -1,16 +1,14 @@
 import ReactTooltip from 'react-tooltip';
 import { useState, useEffect } from 'react';
 import { useSendTx } from '../../../context/TxContext';
-import { useWildsContract } from '../../../hooks/useWilds';
 import ErrorDialogue from '../../modals/ErrorDialogue';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
 
-import SVGUnstake from '../svg/SVGUnstake';
 import SVGRevive from '../svg/SVGRevive';
 import { useUserAccount } from '../../../hooks/useUser';
 
 const WildsRevive = ({ contractWilds, landId, tokenId, canKiss }) => {
-	const { mainIndex, userNFTs, account } = useUserAccount();
+	const { mainIndex, userNFTs } = useUserAccount();
 	const sendTx = useSendTx();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);

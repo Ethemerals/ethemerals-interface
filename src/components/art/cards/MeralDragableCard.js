@@ -40,6 +40,7 @@ const idsToElements = (id) => {
 const MeralDragableCard = ({ nft, owned, dropped }) => {
 	const { getSubclassIcon, elements } = useNFTUtils();
 	const [subclass, setSubclass] = useState(undefined);
+	const [subclassInfo, setSubclassInfo] = useState(undefined);
 	const { meralImagePaths } = useMeralImagePaths(nft.id);
 
 	const [{ isDragging }, drag] = useDrag(() => ({

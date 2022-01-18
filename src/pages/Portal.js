@@ -10,10 +10,9 @@ import ErrorDialogue from '../components/modals/ErrorDialogue';
 import { useEscrowL1Approval, useUser, useUserAccount } from '../hooks/useUser';
 import PortalCard from '../components/portal/PortalCard';
 import { useCoreContract } from '../hooks/useCore';
-import { shortenAddress } from '../utils';
 
 const Portal = () => {
-	const { mainIndex, userNFTs, account } = useUserAccount();
+	const { mainIndex, userNFTs } = useUserAccount();
 	const { isApproved } = useEscrowL1Approval();
 	const { contractCore } = useCoreContract();
 	const { login } = useUser();

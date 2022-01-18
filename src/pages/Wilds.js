@@ -43,7 +43,7 @@ const LandHub = () => {
 const Wilds = () => {
 	const [lands, setLands] = useState(undefined);
 	const [landsParsed, setLandsParsed] = useState(undefined);
-	const { data, status, isLoading } = useGQLQueryL1(`lands`, GET_LANDS, { refetchOnMount: true });
+	const { data, status } = useGQLQueryL1(`lands`, GET_LANDS, { refetchOnMount: true });
 
 	useEffect(() => {
 		if (status === 'success' && data && data.wildLands) {

@@ -1,4 +1,3 @@
-import { useMoralis } from 'react-moralis';
 import { useUser } from '../../hooks/useUser';
 
 const ConnectButton = () => {

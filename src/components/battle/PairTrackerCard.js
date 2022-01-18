@@ -7,7 +7,6 @@ import AllowDelegates from '../modals/actions/AllowDelegates';
 import { usePriceFeedContract } from '../../hooks/usePriceFeed';
 
 import { useEternalBattleApproval, useUserAccount } from '../../hooks/useUser';
-import { useCoreContract } from '../../hooks/useCore';
 
 import ConnectWallet from './modals/ConnectWallet';
 

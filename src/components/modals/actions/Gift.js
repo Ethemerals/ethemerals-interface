@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../context/TxContext';
 
 import { useCoreContract } from '../../../hooks/useCore';
+import { getIdFromType } from '../../../hooks/useMeralUtils';
 import { useUserAccount } from '../../../hooks/useUser';
 
 const SpinnerSVG = () => (
@@ -30,12 +31,12 @@ const Gift = ({ toggle, nft }) => {
 			setIsConfirmationOpen(true);
 			try {
 				let toAddress = data.address;
-				let id = nft.id;
+				let id = nft.tokenId;
 				const gasEstimate = await contractCore.estimateGas.transferFrom(address, toAddress, id);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractCore.transferFrom(address, toAddress, id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'transfer meral', true, [`nft_${id}`, 'account']);
+				sendTx(tx.hash, 'transfer meral', true, [`nft_${getIdFromType(1, id)}`, `account_${address}`]);
 			} catch (error) {
 				console.log(`${error.data} \n${error.message}`);
 			}
@@ -61,7 +62,9 @@ const Gift = ({ toggle, nft }) => {
 					</div>
 					<div className="text-center px-4">
 						<p className="text-2xl mb-4">Gift Ethemeral</p>
-						<p className="text-sm text-gray-700">{`You are about to gift #${nft.id.padStart(4, '0')} ${nft.metadata.coin} to another wallet, enter receiver's Ethereum wallet address to continue:`}</p>
+						<p className="text-sm text-gray-700">{`You are about to gift #${nft.tokenId.toString().padStart(4, '0')} ${
+							nft.coin
+						} to another wallet, enter receiver's Ethereum wallet address to continue:`}</p>
 						<form className="p-4">
 							<input className="w-full h-8 p-2 bg-green-100 shadow-inner border border-gray-300 text-black" {...register('address')} />
 							{!isConfirmationOpen ? (

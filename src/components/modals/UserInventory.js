@@ -10,7 +10,7 @@ import { useUserAccount } from '../../hooks/useUser';
 
 const NFTLink = ({ nft, toggle }) => {
 	const { elements } = useNFTUtils();
-	const { meralImagePaths } = useMeralImagePaths(nft.id);
+	const { meralImagePaths } = useMeralImagePaths(nft.tokenId);
 
 	if (!meralImagePaths) {
 		return null;
@@ -18,13 +18,13 @@ const NFTLink = ({ nft, toggle }) => {
 	const bgImg = meralImagePaths.thumbnail;
 
 	return (
-		<Link to={`/ethemeral/${nft.id}`}>
-			<div onClick={toggle} style={{ backgroundColor: elements[nft.bgId].color }} className="flex w-74 h-74 rounded hover:shadow-lg mx-auto my-1 relative">
+		<Link to={`/ethemeral/${nft.tokenId}`}>
+			<div onClick={toggle} style={{ backgroundColor: elements[nft.element].color }} className="flex w-74 h-74 rounded hover:shadow-lg mx-auto my-1 relative">
 				<div className="absolute top-0 left-0">
 					<img className="" src={bgImg} alt="" />
 				</div>
 				<span className="flex-grow h-full"></span>
-				<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-30 w-full absolute bottom-0 text-right">#{nft.id.padStart(4, '0')}</span>
+				<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-30 w-full absolute bottom-0 text-right">#{nft.tokenId.toString().padStart(4, '0')}</span>
 			</div>
 		</Link>
 	);
@@ -55,8 +55,6 @@ const NFTPetLink = ({ nft, toggle, item = false }) => {
 const UserInventory = ({ toggle }) => {
 	const { account, mainIndex, userNFTs } = useUserAccount();
 
-	const { accountEternalBattle } = useEternalBattleAccount();
-
 	const [userNFT, setUserNFT] = useState(undefined);
 	const [stats, setStats] = useState([0, 0, 0]);
 
@@ -85,21 +83,6 @@ const UserInventory = ({ toggle }) => {
 		}
 	}, [account, userNFTs, mainIndex]);
 
-	useEffect(() => {
-		if (accountEternalBattle && account) {
-			let inBattle = [];
-			accountEternalBattle.ethemerals.forEach((nft) => {
-				if (nft.previousOwner.id === account.id) {
-					inBattle.push(nft);
-				}
-			});
-			if (inBattle.length > 0) {
-				setNFTInBattle(inBattle.length);
-				setNFTInBattleShortList(inBattle.slice(0, 10));
-			}
-		}
-	}, [accountEternalBattle, account]);
-
 	return (
 		<>
 			<div className="h-28">
@@ -125,7 +108,7 @@ const UserInventory = ({ toggle }) => {
 			<div className="h-8"></div>
 			<div className="flex pr-2 text-xs font-bold items-center text-customBlue-darker">
 				<p onClick={() => setSelectedTab(0)} className={`${selectedTab === 0 ? 'bg-customBlue-pale' : 'text-gray-400 cursor-pointer hover:text-gray-600'} p-2`}>
-					ETHEMERALS <span>({account ? account.ethemerals.length : 0})</span>
+					ETHEMERALS <span>({account ? account.merals.length : 0})</span>
 				</p>
 				<p onClick={() => setSelectedTab(2)} className={`${selectedTab === 2 ? 'bg-customBlue-pale' : 'text-gray-400 cursor-pointer hover:text-gray-600'} p-2`}>
 					PETS <span>({account ? account.pets.length : 0})</span>
@@ -142,28 +125,28 @@ const UserInventory = ({ toggle }) => {
 				{account && selectedTab === 0 && (
 					<div className="grid grid-cols-5">
 						{NFTShortList.map((nft) => (
-							<NFTLink key={nft.id} nft={nft} toggle={toggle} />
+							<NFTLink key={nft.meralId} nft={nft} toggle={toggle} />
 						))}
 					</div>
 				)}
 				{account && selectedTab === 1 && (
 					<div className="grid grid-cols-5">
 						{NFTInBattleShortList.map((nft) => (
-							<NFTLink key={nft.id} nft={nft} toggle={toggle} />
+							<NFTLink key={nft.meralId} nft={nft} toggle={toggle} />
 						))}
 					</div>
 				)}
 				{account && selectedTab === 2 && (
 					<div className="grid grid-cols-5">
 						{NFTPetShortList.map((nft) => (
-							<NFTPetLink key={nft.id} nft={nft} toggle={toggle} />
+							<NFTPetLink key={nft.meralId} nft={nft} toggle={toggle} />
 						))}
 					</div>
 				)}
 				{account && selectedTab === 3 && (
 					<div className="grid grid-cols-5">
 						{NFTItemShortList.map((nft) => (
-							<NFTPetLink key={nft.id} nft={nft} toggle={toggle} item={true} />
+							<NFTPetLink key={nft.meralId} nft={nft} toggle={toggle} item={true} />
 						))}
 					</div>
 				)}

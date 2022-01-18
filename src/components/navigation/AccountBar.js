@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
-import { shortenAddress, formatETH } from '../../utils';
+import { shortenAddress } from '../../utils';
 import { useMiningStatus } from '../../context/TxContext';
 
 import UserModal from '../modals/UserModal';
 
 import NFTPreview from './NFTPreview';
-import { useUser } from '../../hooks/useUser';
+import { useUser, useUserAccount } from '../../hooks/useUser';
 import { useNativeBalance } from 'react-moralis';
 
 const Spinner = () => (
@@ -20,6 +20,7 @@ const Spinner = () => (
 const AccountBar = () => {
 	const mining = useMiningStatus();
 	const { address } = useUser();
+	const { userNFTs, mainIndex } = useUserAccount();
 	const { data: balance } = useNativeBalance();
 
 	const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -30,14 +31,10 @@ const AccountBar = () => {
 		setSelectedUserModal(selected);
 	};
 
-	if (!address) {
-		return null;
-	}
-
 	return (
 		<>
 			<div onClick={() => toggleUserModal(0)} className="hidden md:flex">
-				<NFTPreview />
+				{userNFTs && userNFTs.length > 0 && mainIndex && <NFTPreview tokenId={userNFTs[mainIndex].tokenId} />}
 			</div>
 
 			<div className=" bg-brandColor flex rounded-lg items-center h-10 text-xs sm:text-base text-white">
@@ -70,7 +67,7 @@ const AccountBar = () => {
 			</div>
 
 			<div onClick={() => toggleUserModal(0)} className="md:hidden flex pl-1">
-				<NFTPreview />
+				{userNFTs && userNFTs.length > 0 && mainIndex && <NFTPreview tokenId={userNFTs[mainIndex].tokenId} />}
 			</div>
 
 			{isUserModalOpen && <UserModal toggle={toggleUserModal} selected={selectedUserModal} />}

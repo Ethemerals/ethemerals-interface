@@ -6,8 +6,6 @@ import useCopyToClipboard from '../../hooks/useCopyToClipboard';
 
 import { Links } from '../../constants/Links';
 
-import { useGQLQueryL1 } from '../../hooks/useGQLQuery';
-import { GET_ACCOUNT_ACTIONS } from '../../queries/Subgraph';
 import { useUser } from '../../hooks/useUser';
 
 const ExternalLinkSVG = () => (
@@ -35,8 +33,6 @@ const ActionLink = (action) => {
 const UserAccount = () => {
 	const { address } = useUser();
 	const [copied, copy] = useCopyToClipboard(address);
-
-	const { data, status } = useGQLQueryL1('account_actions', GET_ACCOUNT_ACTIONS, { id: address }, { enabled: !!address, refetchOnMount: true });
 
 	return (
 		<>
@@ -66,7 +62,7 @@ const UserAccount = () => {
 			<div className="p-4">
 				<p className="text-lg text-black">Recent Activity</p>
 				<ul className="text-xs sm:text-sm text-blue-500">
-					{status === 'success' && data.account && data.account.actions.length > 0 && data.account.actions.map((action) => <li key={action.id}>{ActionLink(action)}</li>)}
+					{/* {status === 'success' && data.account && data.account.actions.length > 0 && data.account.actions.map((action) => <li key={action.id}>{ActionLink(action)}</li>)} */}
 				</ul>
 			</div>
 		</>

@@ -4,7 +4,6 @@ import { GET_LAND } from '../../queries/SubgraphWilds';
 import { useGQLQueryL1 } from '../../hooks/useGQLQuery';
 
 import WildsStake from './actions/WildsStake';
-import WildsUnstake from './actions/WildsUnstake';
 import WildsRaidActions from './actions/WildsRaidActions';
 import StakedWildsCard from './cards/stakedWildsCard';
 import { useWildsContract, wildsParseInitValues } from '../../hooks/useWilds';

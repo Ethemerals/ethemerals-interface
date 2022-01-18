@@ -29,27 +29,6 @@ export const GET_DELEGATES = gql`
 	}
 `;
 
-export const GET_NFTS_ORDERED = gql`
-	query ($orderBy: String!, $first: Int!, $orderDirection: String!) {
-		ethemerals(first: $first, orderBy: $orderBy, orderDirection: $orderDirection) {
-			id
-			timestamp
-			score
-			rewards
-			atk
-			def
-			spd
-			baseId
-			bgId
-			metadata {
-				id
-				coin
-				subClass
-			}
-		}
-	}
-`;
-
 export const GET_NFTS_FILTERED = gql`
 	query {
 		ethemerals(where: { edition: 1 }, orderBy: "baseId", orderDirection: "asc") {
@@ -62,11 +41,8 @@ export const GET_NFTS_FILTERED = gql`
 			spd
 			baseId
 			bgId
-			metadata {
-				id
-				coin
-				subClass
-			}
+			coin
+			subClass
 		}
 	}
 `;
@@ -103,23 +79,9 @@ export const GET_NFT = gql`
 				}
 				type
 			}
-			scorecard {
-				highestScore
-				highestRewards
-				battles
-				wins
-				revived
-				resurrected
-				reaped
-				drained
-			}
-			metadata {
-				id
-				coin
-				artist
-				mainClass
-				subClass
-			}
+			coin
+			mainClass
+			subClass
 		}
 	}
 `;
@@ -139,15 +101,8 @@ export const GET_NFT_LIGHT = gql`
 			spd
 			baseId
 			bgId
-			scorecard {
-				battles
-				wins
-			}
-			metadata {
-				id
-				coin
-				subClass
-			}
+			coin
+			subClass
 		}
 	}
 `;
@@ -171,29 +126,11 @@ export const GET_ACCOUNT = gql`
 				spdBonus
 				baseId
 				bgId
-				scorecard {
-					battles
-				}
-				metadata {
-					id
-					coin
-					mainClass
-					subClass
-				}
+				coin
+				mainClass
+				subClass
 			}
 			pets(orderBy: timestamp, orderDirection: desc) {
-				id
-				baseId
-				timestamp
-				rarity
-				atk
-				def
-				spd
-				metadata {
-					name
-				}
-			}
-			items(orderBy: timestamp, orderDirection: desc) {
 				id
 				baseId
 				timestamp
@@ -229,15 +166,10 @@ export const GET_ETERNALBATTLE_ACCOUNT = gql`
 				previousOwner {
 					id
 				}
-				scorecard {
-					battles
-				}
-				metadata {
-					id
-					coin
-					mainClass
-					subClass
-				}
+				coin
+				mainClass
+				subClass
+
 				actions(first: 1, orderBy: timestamp, orderDirection: desc, where: { staked: true }) {
 					timestamp
 					priceFeed
@@ -266,9 +198,6 @@ export const GET_ACCOUNT_ACTIONS = gql`
 				pet {
 					id
 				}
-				item {
-					id
-				}
 				transaction {
 					id
 					from
@@ -283,76 +212,6 @@ export const GET_CORE_ACCOUNT = gql`
 	query ($id: ID!) {
 		account(id: $id) {
 			elfBalance
-		}
-	}
-`;
-
-export const GET_ITEMS_ORDERED = gql`
-	query ($orderBy: String!, $first: Int!, $orderDirection: String!) {
-		items(first: $first, orderBy: $orderBy, orderDirection: $orderDirection) {
-			id
-			timestamp
-			baseId
-			atk
-			def
-			spd
-			rarity
-			metadata {
-				name
-			}
-		}
-	}
-`;
-
-export const GET_ITEM = gql`
-	query ($id: ID!) {
-		item(id: $id) {
-			id
-			timestamp
-			baseId
-			creator {
-				id
-			}
-			owner {
-				id
-			}
-			edition
-			atk
-			def
-			spd
-			rarity
-			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
-				timestamp
-				transaction {
-					id
-					from
-					to
-				}
-				type
-			}
-			metadata {
-				name
-			}
-		}
-	}
-`;
-
-export const GET_ITEM_LIGHT = gql`
-	query ($id: ID!) {
-		item(id: $id) {
-			id
-			baseId
-			owner {
-				id
-			}
-			edition
-			atk
-			def
-			spd
-			rarity
-			metadata {
-				name
-			}
 		}
 	}
 `;

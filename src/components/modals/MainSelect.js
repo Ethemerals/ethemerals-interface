@@ -6,7 +6,7 @@ const MainSelect = ({ toggle }) => {
 
 	const selectMain = async (index) => {
 		if (userNFTs && user) {
-			setUserData({ meralMainId: userNFTs[index].id });
+			setUserData({ meralMainId: userNFTs[index].meralId });
 			toggle();
 		}
 	};
@@ -22,7 +22,6 @@ const MainSelect = ({ toggle }) => {
 								<th className="px-2 py-1 text-sm font-normal">Name</th>
 								<th className="px-2 py-1 text-sm font-normal">Subclass</th>
 								<th className="px-2 py-1 text-sm font-normal">ATK/DEF/SPD</th>
-								<th className="px-2 py-1 text-sm font-normal">Battles</th>
 								<th className="px-2 py-1 text-sm font-normal">ELF</th>
 								<th className="px-2 py-1 text-sm font-normal">HP</th>
 							</tr>
@@ -39,13 +38,13 @@ const MainSelect = ({ toggle }) => {
 										onClick={() => selectMain(index)}
 										className={`border-b border-gray-200 text-left ${currentMain === index ? ' bg-pink-300' : ' bg-blue-100 hover:bg-white'} cursor-pointer`}
 									>
-										<th className="px-2 py-1 text-sm">{nft.id.padStart(4, '0')}</th>
-										<th className="px-2 py-1 text-sm">{nft.metadata.coin.slice(0, 30)}</th>
-										<th className="px-2 py-1 text-sm">{nft.metadata.subClass}</th>
+										<th className="px-2 py-1 text-sm">{nft.tokenId.toString().padStart(4, '0')}</th>
+										<th className="px-2 py-1 text-sm">{nft.coin.slice(0, 30)}</th>
+										<th className="px-2 py-1 text-sm">{nft.subClass}</th>
 										<th className="px-2 py-1 text-sm">{`${nft.atk}/${nft.def}/${nft.spd}`}</th>
-										<th className="px-2 py-1 text-sm">{nft.scorecard.battles}</th>
-										<th className="px-2 py-1 text-sm">{nft.rewards}</th>
-										<th className="px-2 py-1 text-sm">{nft.score}</th>
+										{/* <th className="px-2 py-1 text-sm">{nft.scorecard.battles}</th> */}
+										<th className="px-2 py-1 text-sm">{nft.elf}</th>
+										<th className="px-2 py-1 text-sm">{nft.hp}</th>
 									</tr>
 								);
 							})}

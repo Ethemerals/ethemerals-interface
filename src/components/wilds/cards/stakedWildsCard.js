@@ -24,7 +24,7 @@ const StakedWildsCard = ({ landId, tokenId, contractWilds, stakeAction, raidStat
 	const [nft, setNft] = useState(undefined);
 	const [nftLiveStats, setNftLiveStats] = useState(undefined);
 
-	const { data, status, isLoading } = useGQLQueryL1(`nft_${tokenId}`, GET_NFT_WILDS, { id: tokenId }, { refetchOnMount: true });
+	const { data, status } = useGQLQueryL1(`nft_${tokenId}`, GET_NFT_WILDS, { id: tokenId }, { refetchOnMount: true });
 
 	const canLeave = (stakeAction === 1 || stakeAction === 4) && raidStatus !== '2';
 

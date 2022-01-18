@@ -59,10 +59,6 @@ import wind6 from '../assets/backgrounds/wind/6.jpg';
 const s3URL = 'https://ethemerals-media.s3.amazonaws.com/';
 
 export const useNFTUtils = () => {
-	const getBaseURL = (cmId) => {
-		return `${s3URL}${cmId}_base.png`;
-	};
-
 	// 25
 	const elements = [
 		{ element: 'Void R1', img: void1, color: 'hsl(0, 0%, 17%)', color1: 'hsl(0, 0%, 17%, 0.8)' },
@@ -222,96 +218,6 @@ export const useNFTUtils = () => {
 		return { icon, palette, iconB };
 	}
 
-	function getSubclassPalette(subclass) {
-		let palette = { base: 'hsla(194,0%,90%,1)' };
-
-		if (subclass === 'Paladin') {
-			palette.hue = 194;
-		}
-		if (subclass === 'Knight') {
-			palette.hue = 205;
-		}
-		if (subclass === 'Dark Knight') {
-			palette.hue = 220;
-		}
-		if (subclass === 'Dragoon') {
-			palette.hue = 235;
-		}
-
-		if (subclass === 'Sorcerer') {
-			palette.hue = 277;
-		}
-		if (subclass === 'Summoner') {
-			palette.hue = 295;
-		}
-		if (subclass === 'Cleric') {
-			palette.hue = 317;
-		}
-		if (subclass === 'Druid') {
-			palette.hue = 338;
-		}
-
-		if (subclass === 'Ranger') {
-			palette.hue = 115;
-		}
-		if (subclass === 'Berserker') {
-			palette.hue = 133;
-		}
-		if (subclass === 'Assassin') {
-			palette.hue = 155;
-		}
-		if (subclass === 'Monk') {
-			palette.hue = 176;
-		}
-
-		return palette;
-	}
-
-	const getSubclassBonus = (subclass) => {
-		let bonus = [0, 0, 0];
-
-		if (subclass === 'Paladin') {
-			bonus = [0, 200, 0];
-		}
-		if (subclass === 'Knight') {
-			bonus = [50, 150, 0];
-		}
-		if (subclass === 'Dark Knight') {
-			bonus = [150, 50, 0];
-		}
-		if (subclass === 'Dragoon') {
-			bonus = [100, 50, 50];
-		}
-
-		if (subclass === 'Sorcerer') {
-			bonus = [200, 0, 0];
-		}
-		if (subclass === 'Summoner') {
-			bonus = [100, 100, 0];
-		}
-		if (subclass === 'Cleric') {
-			bonus = [0, 160, 40];
-		}
-		if (subclass === 'Druid') {
-			bonus = [70, 60, 70];
-		}
-
-		if (subclass === 'Ranger') {
-			bonus = [0, 0, 200];
-		}
-		if (subclass === 'Berserker') {
-			bonus = [100, 0, 100];
-		}
-		if (subclass === 'Assassin') {
-			bonus = [120, 0, 80];
-		}
-		if (subclass === 'Monk') {
-			bonus = [40, 80, 80];
-		}
-
-		return bonus;
-	};
-
 	function getEquipableTypePalette(type) {
 		let palette = 'hsla(360,60%,40%,1)';
 
@@ -328,7 +234,98 @@ export const useNFTUtils = () => {
 		return palette;
 	}
 
-	return { getBaseURL, getNFTImages, getEquipmentImages, parseScore, getSubclassPalette, getSubclassIcon, elements, getSubclassBonus, getEquipableTypePalette };
+	return { getNFTImages, getEquipmentImages, parseScore, getSubclassIcon, elements, getEquipableTypePalette };
+};
+
+export const getSubclassInfo = (subclassInt) => {
+	let subclasses = [
+		{
+			name: 'Paladin',
+			bonus: { atk: 0, def: 200, spd: 0 },
+			icon: iconPaladin,
+			iconB: iconPaladinB,
+			hue: 194,
+		},
+		{
+			name: 'Knight',
+			bonus: { atk: 50, def: 150, spd: 0 },
+			icon: iconDarkKnight,
+			iconB: iconDarkKnightB,
+			hue: 220,
+		},
+		{
+			name: 'Dark Knight',
+			bonus: { atk: 150, def: 50, spd: 0 },
+			icon: iconDarkKnight,
+			iconB: iconDarkKnightB,
+			hue: 220,
+		},
+		{
+			name: 'Dragoon',
+			bonus: { atk: 100, def: 50, spd: 50 },
+			icon: iconDragoon,
+			iconB: iconDragoonB,
+			hue: 235,
+		},
+		{
+			name: 'Sorcerer',
+			bonus: { atk: 200, def: 0, spd: 0 },
+			icon: iconSorcerer,
+			iconB: iconSorcererB,
+			hue: 277,
+		},
+		{
+			name: 'Summoner',
+			bonus: { atk: 100, def: 100, spd: 0 },
+			icon: iconSummoner,
+			iconB: iconSummonerB,
+			hue: 295,
+		},
+		{
+			name: 'Cleric',
+			bonus: { atk: 0, def: 160, spd: 0 },
+			icon: iconCleric,
+			iconB: iconClericB,
+			hue: 317,
+		},
+		{
+			name: 'Druid',
+			bonus: { atk: 70, def: 60, spd: 70 },
+			icon: iconDruid,
+			iconB: iconDruidB,
+			hue: 338,
+		},
+		{
+			name: 'Ranger',
+			bonus: { atk: 0, def: 0, spd: 200 },
+			icon: iconRanger,
+			iconB: iconRangerB,
+			hue: 115,
+		},
+		{
+			name: 'Berserker',
+			bonus: { atk: 0, def: 200, spd: 0 },
+			icon: iconBerserker,
+			iconB: iconBerserkerB,
+			hue: 133,
+		},
+		{
+			name: 'Assassin',
+			bonus: { atk: 120, def: 0, spd: 80 },
+			icon: iconAssassin,
+			iconB: iconAssassinB,
+			hue: 155,
+		},
+		{
+			name: 'Monk',
+			bonus: { atk: 40, def: 80, spd: 80 },
+			icon: iconMonk,
+			iconB: iconMonkB,
+			hue: 176,
+		},
+	];
+
+	return subclasses[subclassInt];
 };
 
 export const getSubclassBonus = (subclass) => {

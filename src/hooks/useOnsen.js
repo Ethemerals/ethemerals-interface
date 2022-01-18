@@ -17,30 +17,30 @@ const getContracts = async (provider, setContractOnsen) => {
 	}
 };
 
-const calculateChange = async (provider, contract, id) => {
-	if (provider && contract) {
-		try {
-			let change = await contract.calculateChange(id);
-			console.log(change);
-			// return { change: change.toString() };
-		} catch (error) {
-			throw new Error('error');
-		}
-	} else {
-		// try {
-		// 	const { change } = await getChangeAPI(id);
-		// 	let data = { ...change };
-		// 	if (data) {
-		// 		return data;
-		// 	} else {
-		// 		throw new Error('error');
-		// 	}
-		// } catch (error) {
-		// 	console.log(error);
-		// 	throw new Error('error');
-		// }
-	}
-};
+// const calculateChange = async (provider, contract, id) => {
+// 	if (provider && contract) {
+// 		try {
+// 			let change = await contract.calculateChange(id);
+// 			console.log(change);
+// 			// return { change: change.toString() };
+// 		} catch (error) {
+// 			throw new Error('error');
+// 		}
+// 	} else {
+// 		// try {
+// 		// 	const { change } = await getChangeAPI(id);
+// 		// 	let data = { ...change };
+// 		// 	if (data) {
+// 		// 		return data;
+// 		// 	} else {
+// 		// 		throw new Error('error');
+// 		// 	}
+// 		// } catch (error) {
+// 		// 	console.log(error);
+// 		// 	throw new Error('error');
+// 		// }
+// 	}
+// };
 
 export const useOnsenContract = () => {
 	const { provider } = useWeb3();

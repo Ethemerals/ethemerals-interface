@@ -1,16 +1,7 @@
-import { useState, useEffect } from 'react';
-import ReactTooltip from 'react-tooltip';
 import { useMeralImagePaths } from '../../../hooks/useMeralData';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
 import Spinner from '../../Spinner';
-
-// import SVGRevive from './svg/SVGRevive';
-// import SVGUnstake from './svg/SVGUnstake';
-
-// import EBDetails from './modals/EBDetails';
-
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 const StakedEscrowL1Card = ({ nft }) => {
 	const { elements } = useNFTUtils();

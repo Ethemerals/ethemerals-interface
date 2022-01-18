@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import TimeAgo from 'react-timeago';
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../../hooks/useEternalBattle';
 
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import { useNFTUtils, getSubclassBonus } from '../../../hooks/useNFTUtils';
 import Spinner from '../../Spinner';
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 
@@ -37,8 +37,6 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 	const { stake } = useEternalBattleGetStake(contractBattle, nft.id);
 
 	const [confirmationMsg, setConfirmationMsg] = useState('');
-
-	const { getSubclassBonus } = useNFTUtils();
 
 	const [scoreCalculated, setScoreCalculated] = useState(undefined);
 	const [rewardsCalculated, setRewardsCalculated] = useState(undefined);

@@ -7,7 +7,7 @@ const BackButton = () => {
 		<button
 			type="button"
 			onClick={() => history.goBack()}
-			className="pl-16 ml-1 py-5 cursor-pointer text-gray-50 flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none"
+			className="pl-8 ml-1 pt-16 cursor-pointer text-white flex items-center hover:text-brandColor-pale transition duration-200 focus:outline-none"
 		>
 			<div className="w-4 h-4">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">

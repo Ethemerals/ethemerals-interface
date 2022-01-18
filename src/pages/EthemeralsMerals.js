@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import FilterSearch from '../components/FilterSearch';
-import { metaCoinName, metaMainclass, metaSubclass, metaCostumes, metaEyeColors, metaHairColors, metaSkinColors } from '../constants/MetadataStats';
+import { metaCoinName, metaSubclass, metaCostumes, metaEyeColors, metaHairColors, metaSkinColors } from '../constants/MetadataStats';
 import FilterBar from '../components/FilterBar';
 import Merals from '../components/ethemerals/Merals';
 
@@ -14,13 +14,6 @@ const coinData = [];
 for (let i = 0; i < metaCoinName.length; i++) {
 	coinData.push({
 		name: metaCoinName[i],
-	});
-}
-
-const mainclassData = [];
-for (let i = 0; i < metaMainclass.length; i++) {
-	mainclassData.push({
-		name: metaMainclass[i],
 	});
 }
 
@@ -65,19 +58,19 @@ const elementsToIds = (elements) => {
 	let ids = [];
 	elements.forEach((element) => {
 		if (element === 'Void') {
-			ids = ids.concat(['0', '1', '2', '3', '4']);
+			ids = ids.concat([0, 1, 2, 3, 4]);
 		}
 		if (element === 'Earth') {
-			ids = ids.concat(['5', '6', '7', '8', '9']);
+			ids = ids.concat([5, 6, 7, 8, 9]);
 		}
 		if (element === 'Fire') {
-			ids = ids.concat(['10', '11', '12', '13']);
+			ids = ids.concat([10, 11, 12, 13]);
 		}
 		if (element === 'Water') {
-			ids = ids.concat(['14', '15', '16', '17', '18']);
+			ids = ids.concat([14, 15, 16, 17, 18]);
 		}
 		if (element === 'Wind') {
-			ids = ids.concat(['19', '20', '21', '22', '23', '24']);
+			ids = ids.concat([19, 20, 21, 22, 23, 24]);
 		}
 	});
 	return ids;
@@ -86,8 +79,9 @@ const elementsToIds = (elements) => {
 const dropdownOptions = [
 	{ value: 'timestamp_asc', label: 'Oldest Mint' },
 	{ value: 'timestamp_desc', label: 'Latest Mint' },
-	{ value: 'score', label: 'Highest HP' },
-	{ value: 'rewards', label: 'Highest ELF' },
+	{ value: 'hp', label: 'Highest HP' },
+	{ value: 'elf', label: 'Highest ELF' },
+	{ value: 'xp', label: 'Highest XP' },
 	{ value: 'atk', label: 'Highest Attack' },
 	{ value: 'def', label: 'Highest Defence' },
 	{ value: 'spd', label: 'Highest Speed' },
@@ -103,7 +97,6 @@ const EthemeralsMerals = () => {
 	const [skinFilterList, setSkinFilterList] = useState([]);
 
 	const [order, setOrder] = useState({ orderBy: 'timestamp', orderDirection: 'asc' });
-	const [shouldFilter, setShouldFilter] = useState(false);
 	const [filters, setFilters] = useState({});
 
 	useEffect(() => {
@@ -111,35 +104,37 @@ const EthemeralsMerals = () => {
 	}, []);
 
 	useEffect(() => {
-		setShouldFilter(false);
 		let _filters = {};
 		if (coinFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.coin_in = coinFilterList;
+			_filters.coin = coinFilterList;
 		}
 		if (elementFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.bgId_in = elementsToIds(elementFilterList);
+			_filters.element = elementsToIds(elementFilterList);
 		}
 		if (subclassFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.subClass_in = subclassFilterList;
+			let subclassFilterListInt = [];
+
+			for (let i = 0; i < subclassFilterList.length; i++) {
+				let subclassString = subclassFilterList[i];
+				let subclassInt = metaSubclass.indexOf(subclassString);
+				if (subclassInt >= 0) {
+					subclassFilterListInt.push(subclassInt);
+				}
+			}
+
+			_filters.subclass = subclassFilterListInt;
 		}
 		if (costumeFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.costume_in = costumeFilterList;
+			_filters.costume = costumeFilterList;
 		}
 		if (eyeFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.eyes_in = eyeFilterList;
+			_filters.eyes = eyeFilterList;
 		}
 		if (hairFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.hair_in = hairFilterList;
+			_filters.hair = hairFilterList;
 		}
 		if (skinFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.skin_in = skinFilterList;
+			_filters.skin = skinFilterList;
 		}
 
 		setFilters(_filters);
@@ -152,11 +147,11 @@ const EthemeralsMerals = () => {
 		_order.orderDirection = 'desc';
 
 		if (sortBy.value === 'timestamp_asc') {
-			_order.orderBy = 'timestamp';
+			_order.orderBy = 'creation_timestamp';
 			_order.orderDirection = 'asc';
 		}
 		if (sortBy.value === 'timestamp_desc') {
-			_order.orderBy = 'timestamp';
+			_order.orderBy = 'creation_timestamp';
 			_order.orderDirection = 'desc';
 		}
 		setOrder({ orderBy: _order.orderBy, orderDirection: _order.orderDirection });
@@ -206,7 +201,7 @@ const EthemeralsMerals = () => {
 						</div>
 					</div>
 
-					<Merals order={order} shouldFilter={shouldFilter} filters={filters} />
+					<Merals order={order} filters={filters} />
 				</main>
 			</div>
 		</div>

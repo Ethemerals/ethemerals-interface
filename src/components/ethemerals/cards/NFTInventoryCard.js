@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { useMeralImagePaths } from '../../../hooks/useMeralData';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
-import RankedStars from '../components/RankedStars';
 import MainSelect from '../../modals/MainSelect';
 
 const NFTInventoryCard = ({ nft, stats, showBase = false, showChange = true }) => {
-	const { elements, parseScore } = useNFTUtils();
-	const { meralImagePaths } = useMeralImagePaths(nft.id);
+	const { elements } = useNFTUtils();
+	let tokenId = nft.tokenId;
+	const { meralImagePaths } = useMeralImagePaths(tokenId);
 
 	const [isMainSelectOpen, setMainSelectOpen] = useState(false);
 	const toggleMainSelectModal = () => {
@@ -21,24 +21,23 @@ const NFTInventoryCard = ({ nft, stats, showBase = false, showChange = true }) =
 
 	return (
 		<>
-			<div className="flex-grow relative bg-cover bg-center text-white h-28" style={{ backgroundColor: elements[nft.bgId].color, backgroundImage: `url("${elements[nft.bgId].img}")` }}>
+			<div className="flex-grow relative bg-cover bg-center text-white h-28" style={{ backgroundColor: elements[nft.element].color, backgroundImage: `url("${elements[nft.element].img}")` }}>
 				{/* LEFT BAR */}
 				<div className="left-0 top-0 absolute p-1 text-right z-10 text-sm font-bold">
-					<span>#{nft.id.padStart(4, '0')}</span>
+					<span>#{tokenId.toString().padStart(4, '0')}</span>
 				</div>
 
 				{/* RIGHT BAR */}
 				<div className="right-0 absolute p-1 text-right z-10 text-sm font-bold">
-					<div className="flex justify-end">
-						<RankedStars amount={parseScore(nft.score)} />
-					</div>
-					<p>{nft.score} HP</p>
-					<p>{nft.rewards} ELF</p>
+					<div className="flex justify-end">{/* <RankedStars amount={parseScore(nft.score)} /> */}</div>
+					<p>{nft.hp} HP</p>
+					<p>{nft.elf} ELF</p>
+					<p>{nft.xp} XP</p>
 				</div>
 
 				{/* BOTTOM BAR */}
 				<div className="px-1 w-full bottom-0 absolute bg-black bg-opacity-70 z-10 flex items-center">
-					<span className="font-bold text-lg uppercase">{nft.metadata.coin}</span>
+					<span className="font-bold text-lg uppercase">{nft.coin}</span>
 					<span className="flex-grow"></span>
 					<span className="text-xs font-bold">{showBase ? 'BASE STATS' : 'STATS'}:</span>
 					<div className="ml-2 text-xs font-bold">

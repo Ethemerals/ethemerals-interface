@@ -1,82 +1,7 @@
 import { useState, useEffect } from 'react';
-import gql from 'graphql-tag';
+import Moralis from 'moralis';
 import NFTPreviewCard from './cards/NFTPreviewCard';
-import { Links } from '../../constants/Links';
-import { GraphQLClient } from 'graphql-request';
 import { useQuery } from 'react-query';
-
-const endpoint = Links.SUBGRAPH_ENDPOINT_L1;
-const graphQLClient = new GraphQLClient(endpoint);
-
-const GET_NFTS = gql`
-	query ($first: Int!, $skip: Int!, $orderBy: String!, $orderDirection: String!) {
-		ethemerals(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-			id
-			timestamp
-			score
-			rewards
-			atk
-			def
-			spd
-			baseId
-			bgId
-			metadata {
-				id
-				coin
-				subClass
-			}
-		}
-	}
-`;
-
-const getNFTsFiltered = (variables, filters) => {
-	return `
-	query {
-		ethemerals(${variables}, where: ${filters}) {
-			id
-			timestamp
-			score
-			rewards
-			atk
-			def
-			spd
-			baseId
-			bgId
-			metadata {
-				id
-				coin
-				subClass
-			}
-		}
-	}
-`;
-};
-
-const formatFilters = (filters) => {
-	let _filters = [];
-
-	for (const key in filters) {
-		_filters.push(`${key}: ${JSON.stringify(filters[key])}`);
-	}
-
-	return `{${_filters}}`;
-};
-
-const getMerals = async (page, orderBy, orderDirection, shouldFilter, filters) => {
-	let amount = 50;
-	try {
-		let fetchData;
-		if (shouldFilter) {
-			const filtersString = formatFilters(filters);
-			fetchData = await graphQLClient.request(getNFTsFiltered(`first: ${amount}, skip: ${page * amount}, orderBy: ${orderBy}, orderDirection: ${orderDirection}`, filtersString));
-		} else {
-			fetchData = await graphQLClient.request(GET_NFTS, { first: amount, skip: page * amount, orderBy, orderDirection });
-		}
-		return fetchData;
-	} catch (error) {
-		throw new Error('get account error');
-	}
-};
 
 const ListButton = ({ listNumbers, index, activeIndex, handleClick }) => (
 	<li
@@ -164,20 +89,29 @@ const PageNumbers = ({ page, setPage }) => {
 	);
 };
 
-const Merals = ({ order, shouldFilter, filters }) => {
+const getMeralsFiltered = async (filters, order, page) => {
+	try {
+		const result = await Moralis.Cloud.run('meralsFiltered', { ...filters, ...order, page });
+		return result;
+	} catch (error) {
+		throw new Error('get account error');
+	}
+};
+
+const Merals = ({ order, filters }) => {
+	const [nfts, setNfts] = useState(undefined);
 	const [page, setPage] = useState(0);
+
+	const { data, isLoading } = useQuery([`meralsFiltered`, filters, order, page], () => getMeralsFiltered(filters, order, page), { refetchOnMount: false, keepPreviousData: true }); // TODO
+	useEffect(() => {
+		if (data && !isLoading) {
+			setNfts(data);
+		}
+	}, [data, isLoading]);
 
 	useEffect(() => {
 		setPage(0);
-	}, [order, shouldFilter, filters]);
-
-	const { isLoading, isFetching, isError, data } = useQuery(
-		[`nfts_${order.orderBy}_${order.orderDirection}_${shouldFilter}_${JSON.stringify(filters)}`, page],
-		() => getMerals(page, order.orderBy, order.orderDirection, shouldFilter, filters),
-		{
-			keepPreviousData: true,
-		}
-	); // TODO
+	}, [order, filters]);
 
 	const handleNextPage = () => {
 		setPage((old) => old + 1);
@@ -191,17 +125,11 @@ const Merals = ({ order, shouldFilter, filters }) => {
 		<div>
 			{isLoading ? (
 				<div className="flex py-4 justify-center">Loading...</div>
-			) : isError ? (
-				<div className="flex py-4 justify-center">Error...</div>
 			) : (
 				<>
-					{<PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
-					<div className="flex flex-wrap mx-auto justify-center">
-						{data.ethemerals.map((nft) => (
-							<NFTPreviewCard key={nft.id} nft={nft} rewards={order.orderBy === 'rewards'} isFetching={isFetching} />
-						))}
-					</div>
-					{data.ethemerals.length > 49 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
+					{<PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}{' '}
+					<div className="flex flex-wrap mx-auto justify-center">{nfts && nfts.map((nft) => <NFTPreviewCard key={nft.meralId} nft={nft} isFetching={isLoading} />)}</div>
+					{nfts && nfts.length > 49 && <PaginationBar handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} setPage={setPage} />}
 				</>
 			)}
 		</div>

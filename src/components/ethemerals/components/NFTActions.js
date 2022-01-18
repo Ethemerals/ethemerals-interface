@@ -23,7 +23,7 @@ const NFTActions = ({ nft }) => {
 	const [isSummonPetOpen, setIsSummonPetOpen] = useState(false);
 
 	useEffect(() => {
-		if (nft && nft.owner.id === Addresses.EternalBattle.toLowerCase()) {
+		if (nft && nft.owner === Addresses.EternalBattle.toLowerCase()) {
 			setIsInBattle(true);
 		}
 	}, [nft]);
@@ -42,9 +42,9 @@ const NFTActions = ({ nft }) => {
 
 	useEffect(() => {
 		let owned = false;
-		if (account && account.ethemerals.length > 0) {
-			account.ethemerals.forEach((userNft) => {
-				if (userNft.id === nft.id) {
+		if (account && account.merals.length > 0) {
+			account.merals.forEach((userNft) => {
+				if (userNft.meralId === nft.meralId) {
 					owned = true;
 				}
 			});
@@ -68,7 +68,7 @@ const NFTActions = ({ nft }) => {
 		}
 	};
 
-	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Ethemerals}/${nft.id}`;
+	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Ethemerals}/${nft.tokenId}`;
 
 	return (
 		<div className="grid grid-cols-2 gap-2 px-2 text-sm text-white">
@@ -79,7 +79,7 @@ const NFTActions = ({ nft }) => {
 					</div>
 					<p className="text-black">{'IN BATTLE!'}</p>
 				</div>
-			) : account && isOwned && userNFTs[mainIndex] && userNFTs[mainIndex].id === nft.id ? (
+			) : account && isOwned && userNFTs[mainIndex] && userNFTs[mainIndex].meralId === nft.meralId ? (
 				<div className="flex items-center col-span-2 rounded-lg cursor-default">
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
@@ -88,13 +88,13 @@ const NFTActions = ({ nft }) => {
 				</div>
 			) : (
 				<div
-					onClick={() => selectMain(nft.id)}
+					onClick={() => selectMain(nft.meralId)}
 					className={`flex items-center col-span-2 rounded-lg cursor-default text-white ${account && isOwned ? 'bg-pink-500 cursor-pointer hover:bg-pink-300 transition duration-200' : ''}`}
 				>
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
-					{account && isOwned ? <p>{!isUserUpdating ? 'Select as Main' : 'Updating'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner.id)}</p>}
+					{account && isOwned ? <p>{!isUserUpdating ? 'Select as Main' : 'Updating'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner)}</p>}
 				</div>
 			)}
 
@@ -133,7 +133,7 @@ const NFTActions = ({ nft }) => {
 			<div
 				onClick={() => {
 					if (isOwned && false) {
-						history.push(`/redemption/${nft.id}`);
+						history.push(`/redemption/${nft.tokenId}`);
 					}
 				}}
 				// TODO
@@ -160,7 +160,7 @@ const NFTActions = ({ nft }) => {
 			<div
 				onClick={() => {
 					if (isOwned && false) {
-						history.push(`/resurrect/${nft.id}`);
+						history.push(`/resurrect/${nft.tokenId}`);
 					}
 				}}
 				// TODO

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import Images from '../../../constants/Images';
-import { useMeralDataById } from '../../../hooks/useMeralData';
+import { useMeralDataByIdType1 } from '../../../hooks/useMeralData';
 
 import { useUserAccount } from '../../../hooks/useUser';
 import { useMoralisCloudFunction } from 'react-moralis';
@@ -23,7 +23,7 @@ const ColorChoice = ({ account, isOwned, colorNames, selectedColor, index, allow
 	);
 };
 
-const NFTChooseColorScheme = ({ nft, setColor }) => {
+const NFTChooseColorScheme = ({ tokenId, setColor }) => {
 	const { account } = useUserAccount();
 	const queryClient = useQueryClient();
 
@@ -31,8 +31,8 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 	const [currentColor, setCurrentColor] = useState(0);
 	const [selectedColor, setSelectedColor] = useState(0);
 
-	const { meralData } = useMeralDataById(nft.id);
-	const { fetch } = useMoralisCloudFunction('setColor', { selectedColor, tokenId: nft.id }, { autoFetch: false });
+	const { meralData } = useMeralDataByIdType1(tokenId);
+	const { fetch } = useMoralisCloudFunction('setColor', { selectedColor, tokenId }, { autoFetch: false });
 
 	const [saving, setSaving] = useState(false);
 	const [allowedColors, setAllowedColors] = useState([true, false, false, false]);
@@ -41,15 +41,15 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 
 	useEffect(() => {
 		let owned = false;
-		if (account && account.ethemerals.length > 0) {
-			account.ethemerals.forEach((userNft) => {
-				if (userNft.id === nft.id) {
+		if (account && account.merals.length > 0) {
+			account.merals.forEach((userNft) => {
+				if (userNft.meralId === meralData.getIds().meralId) {
 					owned = true;
 				}
 			});
 		}
 		setIsOwned(owned);
-	}, [account, nft]);
+	}, [account, meralData]);
 
 	useEffect(() => {
 		setColor(selectedColor);
@@ -71,7 +71,7 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 			setSaving(true);
 			try {
 				await fetch();
-				setTimeout(() => queryClient.invalidateQueries(`meralData_${nft.id}`, 'meralGlobal'), 3000);
+				setTimeout(() => queryClient.invalidateQueries(`meralData_${meralData.getIds().meralId}`, 'meralGlobal'), 3000);
 				// setTimeout(() => refreshMetadata(nft.id), 1000); // TODO
 				setTimeout(() => setSaving(false), 3000);
 			} catch (error) {
@@ -80,7 +80,7 @@ const NFTChooseColorScheme = ({ nft, setColor }) => {
 		}
 	};
 
-	if (!nft) {
+	if (!meralData) {
 		return null;
 	}
 

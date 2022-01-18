@@ -7,7 +7,7 @@ import ErrorDialogue from '../../modals/ErrorDialogue';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
 
 const WildsStake = ({ contractWilds, landId }) => {
-	const { mainIndex, userNFTs, account } = useUserAccount();
+	const { mainIndex, userNFTs } = useUserAccount();
 
 	const sendTx = useSendTx();
 

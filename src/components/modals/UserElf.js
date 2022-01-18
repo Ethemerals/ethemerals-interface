@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import Images from '../../constants/Images';
 
-import { formatELF, formatETH } from '../../utils';
+import { formatELF } from '../../utils';
 
 import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
-import { useUser, useUserAccount } from '../../hooks/useUser';
+import { useUserAccount } from '../../hooks/useUser';
 import { useNativeBalance } from 'react-moralis';
 
 const UserELF = () => {
@@ -19,44 +19,48 @@ const UserELF = () => {
 	const [totalNFTInBattleElf, setTotalNFTinBattleElf] = useState(0);
 
 	useEffect(() => {
-		if (account && account.ethemerals.length > 0) {
-			setUserNFTs(account.ethemerals);
+		if (account && account.merals.length > 0) {
+			setUserNFTs(account.merals);
 		}
 	}, [account]);
 
-	useEffect(() => {
-		if (accountEternalBattle && account) {
-			let nftsInBattle = [];
-			accountEternalBattle.ethemerals.forEach((nft) => {
-				if (nft.previousOwner.id === account.id) {
-					nftsInBattle.push(nft);
-				}
-			});
-			setUserNFTsInBattle(nftsInBattle);
-		}
-	}, [accountEternalBattle, account]);
+	// useEffect(() => {
+	// 	if (accountEternalBattle && account) {
+	// 		let nftsInBattle = [];
+	// 		accountEternalBattle.ethemerals.forEach((nft) => {
+	// 			if (nft.previousOwner.id === account.id) {
+	// 				nftsInBattle.push(nft);
+	// 			}
+	// 		});
+	// 		setUserNFTsInBattle(nftsInBattle);
+	// 	}
+	// }, [accountEternalBattle, account]);
 
 	//57656
 	useEffect(() => {
 		if (userNFTs) {
-			let nftRewards = 0;
+			let nftElf = 0;
 			if (userNFTs.length > 0)
 				userNFTs.forEach((nft) => {
-					nftRewards += parseInt(nft.rewards);
+					if (nft.elf > 0) {
+						nftElf += parseInt(nft.elf);
+					}
 				});
-			setTotalNFTElf(nftRewards);
+			setTotalNFTElf(nftElf);
 		}
 	}, [userNFTs]);
 
 	useEffect(() => {
 		if (userNFTsInBattle) {
-			let nftRewards = 0;
+			let nftElf = 0;
 
 			if (userNFTsInBattle.length > 0)
 				userNFTsInBattle.forEach((nft) => {
-					nftRewards += parseInt(nft.rewards);
+					if (nft.elf > 0) {
+						nftElf += parseInt(nft.elf);
+					}
 				});
-			setTotalNFTinBattleElf(nftRewards);
+			setTotalNFTinBattleElf(nftElf);
 		}
 	}, [userNFTsInBattle]);
 
@@ -76,10 +80,6 @@ const UserELF = () => {
 					<p>Available</p>
 					{balance && <p className="text-right">{balance.formatted}</p>}
 				</div>
-
-				{/* <a href={Links.UNISWAP} target="_blank" rel="noreferrer" className="text-xs sm:text-sm text-gray-200 py-2 absolute bottom-0 hover:text-white">
-					Trade on Uniswap
-				</a> */}
 			</div>
 			<div className="p-4 text-black">
 				<p className="text-lg">Claimable ELF</p>

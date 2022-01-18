@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Contract } from '@ethersproject/contracts';
-import { useQuery } from 'react-query';
 import { useGQLQueryL1 } from './useGQLQuery';
-import { GET_CORE, GET_CORE_ACCOUNT, GET_DELEGATES } from '../queries/Subgraph';
 import { GET_ESCROWL1_ACCOUNT } from '../queries/SubgraphEscrow';
 
 import getSigner from '../constants/Signer';

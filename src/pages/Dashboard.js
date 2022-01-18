@@ -29,19 +29,19 @@ const Dashboard = () => {
 		}
 	}, [account, userNFTs]);
 
-	useEffect(() => {
-		if (accountEternalBattle && account) {
-			let inBattle = [];
-			accountEternalBattle.ethemerals.forEach((nft) => {
-				if (nft.previousOwner.id === account.id) {
-					inBattle.push(nft);
-				}
-			});
-			if (inBattle.length > 0) {
-				setMeralsInBattle(inBattle);
-			}
-		}
-	}, [accountEternalBattle, account]);
+	// useEffect(() => {
+	// 	if (accountEternalBattle && account) {
+	// 		let inBattle = [];
+	// 		accountEternalBattle.ethemerals.forEach((nft) => {
+	// 			if (nft.previousOwner.id === account.id) {
+	// 				inBattle.push(nft);
+	// 			}
+	// 		});
+	// 		if (inBattle.length > 0) {
+	// 			setMeralsInBattle(inBattle);
+	// 		}
+	// 	}
+	// }, [accountEternalBattle, account]);
 
 	return (
 		<div className="mt-20">
@@ -80,7 +80,7 @@ const Dashboard = () => {
 			{/* TODO SHOW MAIN */}
 			<div className="flex flex-wrap mx-auto justify-center">
 				<div className="flex flex-wrap mx-auto justify-center">
-					{selectedTab === 0 && merals.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} isFetching={false} />)}
+					{selectedTab === 0 && merals.map((nft) => <NFTPreviewCard key={nft.meralId} nft={nft} isFetching={false} />)}
 					{selectedTab === 1 && pets && pets.map((nft) => <EquipablePreviewCard key={nft.id} nft={nft} />)}
 					{selectedTab === 2 && meralsInBattle.map((nft) => <NFTPreviewCard key={nft.id} nft={nft} isFetching={false} />)}
 					{selectedTab === 3 && <Preferences />}

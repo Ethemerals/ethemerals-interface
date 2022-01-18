@@ -1,7 +1,6 @@
 import ReactTooltip from 'react-tooltip';
 import { useState } from 'react';
 import { useSendTx } from '../../../context/TxContext';
-import { useWildsContract } from '../../../hooks/useWilds';
 import ErrorDialogue from '../../modals/ErrorDialogue';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
 

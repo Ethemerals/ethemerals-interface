@@ -3,10 +3,9 @@ import { useGQLQueryL1 } from '../hooks/useGQLQuery';
 import { GET_NFTS_FILTERED } from '../queries/Subgraph';
 
 import { useParams } from 'react-router-dom';
-import { useNFTUtils } from '../hooks/useNFTUtils';
+import { getMeralImagesByTokenId } from '../hooks/useMeralData';
 
-const NFTMC = ({ color }) => {
-	const { getNFTImages } = useNFTUtils();
+const NFTMC = () => {
 	const { data, status } = useGQLQueryL1('nfts_mc', GET_NFTS_FILTERED, { refetchOnMount: false });
 	const [nfts, setNfts] = useState([]);
 
@@ -18,9 +17,9 @@ const NFTMC = ({ color }) => {
 
 	return nfts.map((nft) => (
 		<div key={nft.id} className="border-white border">
-			<p className="text-black text-xl px-2 py-1">{nft.metadata.coin}</p>
-			<p className="text-black px-2 py-1">{nft.metadata.subClass}</p>
-			<img width="630" height="720" className="" src={getNFTImages(nft.metadata.id).colors[0].large} alt="" />
+			<p className="text-black text-xl px-2 py-1">{nft.coin}</p>
+			<p className="text-black px-2 py-1">{nft.subClass}</p>
+			<img width="630" height="720" className="" src={getMeralImagesByTokenId(nft.id).large} alt="" />{' '}
 		</div>
 	));
 };

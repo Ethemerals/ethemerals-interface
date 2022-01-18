@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { PolygonLogo, ETHLogo } from './Logos';
 import { useChain, useMoralis } from 'react-moralis';
 
@@ -26,15 +26,15 @@ const networks = [
 ];
 
 function Chains() {
-	const { switchNetwork, chainId, chain } = useChain();
+	const { switchNetwork, chainId } = useChain();
 	const { isAuthenticated } = useMoralis();
-	const [selected, setSelected] = useState({});
+	// const [selected, setSelected] = useState({});
 
-	useEffect(() => {
-		if (!chainId) return null;
-		const newSelected = networks.find((item) => item.key === chainId);
-		setSelected(newSelected);
-	}, [chainId]);
+	// useEffect(() => {
+	// 	if (!chainId) return null;
+	// 	const newSelected = networks.find((item) => item.key === chainId);
+	// 	setSelected(newSelected);
+	// }, [chainId]);
 
 	const handleMenuClick = (network) => {
 		console.log('switch to: ', networks[network].value);

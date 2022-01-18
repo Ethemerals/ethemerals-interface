@@ -1,9 +1,6 @@
-import { useEffect } from 'react';
-import { useMoralisCloudFunction } from 'react-moralis';
 import Chains from '../components/chains/Chains';
-import { useGQLQueryL1 } from '../hooks/useGQLQuery';
+
 import { useUser } from '../hooks/useUser';
-import { GET_TEST } from '../queries/Subgraph';
 
 const Home = () => {
 	const { isAuthenticated, login, logout, user } = useUser();

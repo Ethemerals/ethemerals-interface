@@ -156,7 +156,6 @@ const PageNumbers = ({ page, setPage }) => {
 const MeralsList = ({ order, shouldFilter, filters, allDropped }) => {
 	const [page, setPage] = useState(0);
 	const { userNFTs } = useUserAccount();
-
 	const [userNFTIds, setUserNFTIds] = useState([]);
 
 	useEffect(() => {

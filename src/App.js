@@ -22,13 +22,9 @@ import Portal from './pages/Portal';
 import WildsLandDetails from './components/wilds/WildsLandDetails';
 import WildsHub from './components/wilds/WildsHub';
 
-// import Dev from './pages/Dev';
-// import DevItems from './pages/DevItems';
-
 import TxContextProvider from './context/TxContext';
 import Receipt from './components/modals/Receipt';
 import EBContextProvider from './context/EternalBattleContext';
-import Items from './pages/Items';
 import EthemeralsPets from './pages/EthemeralsPets';
 import Mint from './pages/Mint';
 import ArtDetails from './pages/ArtDetails';
@@ -117,31 +113,12 @@ function App() {
 						<Route exact path="/ethemerals/pets">
 							<EthemeralsPets />
 						</Route>
-						<Route exact path="/items">
-							<Items />
-						</Route>
-						<Route exact path="/items/:sort">
-							<Items />
-						</Route>
 						<Route exact path="/equipable/:id">
 							<Equipable />
 						</Route>
 						<Route exact path="/ethemeral/:id">
 							<MeralDetails />
 						</Route>
-
-						{/* <Route exact path="/dev">
-									<Dev />
-								</Route>
-								<Route exact path="/dev/:crop">
-									<Dev />
-								</Route>
-								<Route exact path="/devitems">
-									<DevItems />
-								</Route>
-								<Route exact path="/devitems/:crop">
-									<DevItems />
-								</Route> */}
 					</Switch>
 					<Navbar />
 				</TxContextProvider>

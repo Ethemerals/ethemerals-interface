@@ -1,10 +1,7 @@
-import ReactTooltip from 'react-tooltip';
 import { useState, useEffect } from 'react';
 import { useSendTx } from '../../../context/TxContext';
 import ErrorDialogue from '../../modals/ErrorDialogue';
 import WaitingConfirmation from '../../modals/WaitingConfirmation';
-
-import SVGUnstake from '../svg/SVGUnstake';
 
 import { useUserAccount } from '../../../hooks/useUser';
 
