@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../utils/items';
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import { useNFTUtils, getSubclassInfo } from '../../../hooks/useNFTUtils';
 import { useMeralImagePaths } from '../../../hooks/useMeralData';
 
 const idsToElements = (id) => {
@@ -38,16 +38,15 @@ const idsToElements = (id) => {
 };
 
 const MeralDragableCard = ({ nft, owned, dropped }) => {
-	const { getSubclassIcon, elements } = useNFTUtils();
-	const [subclass, setSubclass] = useState(undefined);
+	const { elements } = useNFTUtils();
 	const [subclassInfo, setSubclassInfo] = useState(undefined);
-	const { meralImagePaths } = useMeralImagePaths(nft.id);
+	const { meralImagePaths } = useMeralImagePaths(nft.tokenId);
 
 	const [{ isDragging }, drag] = useDrag(() => ({
 		type: ItemTypes.CARD,
 		item: {
 			type: ItemTypes.MERALS,
-			id: nft.id,
+			id: nft.tokenId,
 			nft: nft,
 		},
 		collect: (monitor) => ({
@@ -57,16 +56,15 @@ const MeralDragableCard = ({ nft, owned, dropped }) => {
 
 	useEffect(() => {
 		if (nft) {
-			setSubclass(nft.metadata.subClass);
+			setSubclassInfo(getSubclassInfo(nft.subclass));
 		}
 	}, [nft]);
 
-	if (!nft && !meralImagePaths) {
+	if (!nft || !meralImagePaths || !subclassInfo) {
 		return (
 			<div
 				style={{
-					backgroundColor: elements[nft.bgId].color,
-					backgroundImage: `url("${elements[nft.bgId].img}")`,
+					backgroundColor: elements[4].color,
 					minWidth: '160px',
 					maxWidth: '160px',
 					maxHeight: '212px',
@@ -108,8 +106,8 @@ const MeralDragableCard = ({ nft, owned, dropped }) => {
 			ref={drag}
 			style={{
 				opacity: isDragging ? '0.4' : dropped ? '0.3' : '1',
-				backgroundColor: elements[nft.bgId].color,
-				backgroundImage: `url("${elements[nft.bgId].img}")`,
+				backgroundColor: elements[nft.element].color,
+				backgroundImage: `url("${elements[nft.element].img}")`,
 				minWidth: '160px',
 				maxWidth: '160px',
 				maxHeight: '212px',
@@ -121,9 +119,9 @@ const MeralDragableCard = ({ nft, owned, dropped }) => {
 			<div style={{ minWidth: '160px', maxWidth: '160px', maxHeight: '212px', minHeight: '212px' }} className="overflow-hidden">
 				{meralImagePaths && <img width="160" height="212" className="" src={meralImagePaths.preview} alt="" />}
 			</div>
-			{idsToElements(nft.bgId).element !== 'VOID' && (
-				<div style={{ backgroundColor: idsToElements(nft.bgId).color }} className="right-0 pr-1 pl-2 rounded-l-md mt-1 top-0 absolute overflow-hidden text-white text-xs font-bold">
-					{idsToElements(nft.bgId).element}
+			{idsToElements(nft.element).element !== 'VOID' && (
+				<div style={{ backgroundColor: idsToElements(nft.element).color }} className="right-0 pr-1 pl-2 rounded-l-md mt-1 top-0 absolute overflow-hidden text-white text-xs font-bold">
+					{idsToElements(nft.element).element}
 				</div>
 			)}
 
@@ -134,15 +132,15 @@ const MeralDragableCard = ({ nft, owned, dropped }) => {
 			)}
 
 			{/* BOTTOM BAR */}
-			<div style={{ backgroundColor: elements[nft.bgId].color1 }} className="w-full bottom-0 absolute overflow-hidden text-white">
+			<div style={{ backgroundColor: elements[nft.element].color1 }} className="w-full bottom-0 absolute overflow-hidden text-white">
 				<div className="px-1">
 					<div>
-						#<span className="font-bold">{nft.id.padStart(4, '0')}</span>
+						#<span className="font-bold">{nft.tokenId.toString().padStart(4, '0')}</span>
 					</div>
 
-					<div style={{ backgroundColor: `hsla(${getSubclassIcon(subclass).palette.hue},100%,70%,1)` }} className="flex h-6 my-1 items-center overflow-hidden whitespace-pre">
-						<img style={{ margin: '1px 2px 1px 2px' }} width="20" height="20" src={getSubclassIcon(subclass).icon} alt="subclass icon" />
-						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nft.metadata.coin}</div>
+					<div style={{ backgroundColor: `hsla(${subclassInfo.hue},100%,70%,1)` }} className="flex h-6 my-1 items-center overflow-hidden whitespace-pre">
+						<img style={{ margin: '1px 2px 1px 2px' }} width="20" height="20" src={subclassInfo.icon} alt="subclass icon" />
+						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nft.coin}</div>
 					</div>
 				</div>
 			</div>

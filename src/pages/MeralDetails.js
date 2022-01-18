@@ -44,7 +44,6 @@ const MeralDetails = () => {
 	useEffect(() => {
 		if (meralData) {
 			setReady(true);
-			let _nft = meralData.getMeralDetails();
 			let creationTimestamp = meralData.getCreationTimestamp();
 			if (creationTimestamp) {
 				setBirthdate(creationTimestamp);

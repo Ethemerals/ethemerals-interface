@@ -47,6 +47,15 @@ const getMeralGlobal = async () => {
 	return meralGlobal;
 };
 
+export const getMeralsFiltered = async (filters, order, page, firstEditions = false) => {
+	try {
+		const result = await Moralis.Cloud.run('meralsFiltered', { ...filters, ...order, page, firstEditions });
+		return result;
+	} catch (error) {
+		throw new Error('get account error');
+	}
+};
+
 export const useMeralImagePaths = (tokenId, gen = 0) => {
 	const tokenToRanks = nftMetadata.tokenToRanks;
 	const cmId = nftMetadata.all[tokenToRanks[tokenId][0]][0];

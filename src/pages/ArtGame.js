@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import 'react-dropdown/style.css';
 import FilterSearch from '../components/FilterSearch';
-import { metaCoinName, metaMainclass, metaSubclass, metaCostumes, metaEyeColors, metaHairColors, metaSkinColors } from '../constants/MetadataStats';
+import { metaCoinName, metaSubclass, metaCostumes, metaEyeColors, metaHairColors, metaSkinColors } from '../constants/MetadataStats';
 import { metaPetName } from '../constants/MetadataStats';
 
 import MeralsList from '../components/art/MeralsList';
@@ -18,13 +18,6 @@ const coinData = [];
 for (let i = 0; i < metaCoinName.length; i++) {
 	coinData.push({
 		name: metaCoinName[i],
-	});
-}
-
-const mainclassData = [];
-for (let i = 0; i < metaMainclass.length; i++) {
-	mainclassData.push({
-		name: metaMainclass[i],
 	});
 }
 
@@ -69,19 +62,19 @@ const elementsToIds = (elements) => {
 	let ids = [];
 	elements.forEach((element) => {
 		if (element === 'Void') {
-			ids = ids.concat(['0', '1', '2', '3', '4']);
+			ids = ids.concat([0, 1, 2, 3, 4]);
 		}
 		if (element === 'Earth') {
-			ids = ids.concat(['5', '6', '7', '8', '9']);
+			ids = ids.concat([5, 6, 7, 8, 9]);
 		}
 		if (element === 'Fire') {
-			ids = ids.concat(['10', '11', '12', '13']);
+			ids = ids.concat([10, 11, 12, 13]);
 		}
 		if (element === 'Water') {
-			ids = ids.concat(['14', '15', '16', '17', '18']);
+			ids = ids.concat([14, 15, 16, 17, 18]);
 		}
 		if (element === 'Wind') {
-			ids = ids.concat(['19', '20', '21', '22', '23', '24']);
+			ids = ids.concat([19, 20, 21, 22, 23, 24]);
 		}
 	});
 	return ids;
@@ -116,7 +109,6 @@ const ArtGame = () => {
 	const [petShouldFilter, setPetShouldFilter] = useState(false);
 	const [petFilters, setPetFilters] = useState({});
 
-	const [shouldFilter, setShouldFilter] = useState(false);
 	const [filters, setFilters] = useState({});
 	const [filterTab, setFilterTab] = useState(0);
 
@@ -127,54 +119,57 @@ const ArtGame = () => {
 	}, []);
 
 	useEffect(() => {
-		setShouldFilter(false);
 		let _filters = {};
 		if (coinFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.coin_in = coinFilterList;
+			_filters.coin = coinFilterList;
 		}
 		if (elementFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.bgId_in = elementsToIds(elementFilterList);
-		}
-		if (statusFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.owner_in = address ? [address.toLowerCase()] : [''];
+			_filters.element = elementsToIds(elementFilterList);
 		}
 		if (subclassFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.subClass_in = subclassFilterList;
+			let subclassFilterListInt = [];
+
+			for (let i = 0; i < subclassFilterList.length; i++) {
+				let subclassString = subclassFilterList[i];
+				let subclassInt = metaSubclass.indexOf(subclassString);
+				if (subclassInt >= 0) {
+					subclassFilterListInt.push(subclassInt);
+				}
+			}
+
+			_filters.subclass = subclassFilterListInt;
 		}
 		if (costumeFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.costume_in = costumeFilterList;
+			_filters.costume = costumeFilterList;
+		}
+		if (statusFilterList.length > 0) {
+			if (address) {
+				_filters.owner = address;
+			}
 		}
 		if (eyeFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.eyes_in = eyeFilterList;
+			_filters.eyes = eyeFilterList;
 		}
 		if (hairFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.hair_in = hairFilterList;
+			_filters.hair = hairFilterList;
 		}
 		if (skinFilterList.length > 0) {
-			setShouldFilter(true);
-			_filters.skin_in = skinFilterList;
+			_filters.skin = skinFilterList;
 		}
 
 		setFilters(_filters);
-	}, [statusFilterList, coinFilterList, elementFilterList, subclassFilterList, costumeFilterList, eyeFilterList, hairFilterList, skinFilterList, address]);
+	}, [coinFilterList, statusFilterList, elementFilterList, subclassFilterList, costumeFilterList, eyeFilterList, hairFilterList, skinFilterList, address]);
 
 	useEffect(() => {
 		setPetShouldFilter(false);
 		let _filters = {};
 		if (petNameFilterList.length > 0) {
 			setPetShouldFilter(true);
-			_filters.name_in = petNameFilterList;
+			_filters.name = petNameFilterList;
 		}
 		if (statusFilterList.length > 0) {
 			setPetShouldFilter(true);
-			_filters.owner_in = address ? [address.toLowerCase()] : [''];
+			_filters.owner = address ? [address.toLowerCase()] : [''];
 		}
 
 		setPetFilters(_filters);
@@ -277,7 +272,7 @@ const ArtGame = () => {
 					style={{ left: '212px', width: '212px', minWidth: '212px', maxWidth: '212px', backgroundColor: 'hsl(212, 39%, 94%)' }}
 					className="h-screen top-12 fixed border-r border-gray-400 overflow-y-auto pb-20"
 				>
-					{filterTab === 0 && <MeralsList order={order} shouldFilter={shouldFilter} filters={filters} allDropped={droppedMerals} />}
+					{filterTab === 0 && <MeralsList order={order} filters={filters} allDropped={droppedMerals} />}
 					{filterTab === 1 && <PetsList order={order} shouldFilter={petShouldFilter} filters={petFilters} allDropped={droppedPets} />}
 				</div>
 

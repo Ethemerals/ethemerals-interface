@@ -40,13 +40,13 @@ const NFTPetLink = ({ nft, toggle, item = false }) => {
 	const bgImg = getEquipmentImages(nft.baseId, item).thumbnail;
 
 	return (
-		<Link to={`/equipable/${nft.id}`}>
+		<Link to={`/equipable/${nft.tokenId}`}>
 			<div onClick={toggle} style={{ backgroundColor: getEquipableTypePalette(getType(nft)) }} className="flex w-74 h-74 rounded hover:shadow-lg mx-auto my-1 relative">
 				<div className="absolute top-0 left-0">
 					<img className="" src={bgImg} alt="" />
 				</div>
 				<span className="flex-grow h-full"></span>
-				<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-30 w-full absolute bottom-0 text-right">#{nft.id.padStart(4, '0')}</span>
+				<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-30 w-full absolute bottom-0 text-right">#{nft.tokenId.toString().padStart(4, '0')}</span>
 			</div>
 		</Link>
 	);
@@ -139,14 +139,14 @@ const UserInventory = ({ toggle }) => {
 				{account && selectedTab === 2 && (
 					<div className="grid grid-cols-5">
 						{NFTPetShortList.map((nft) => (
-							<NFTPetLink key={nft.meralId} nft={nft} toggle={toggle} />
+							<NFTPetLink key={nft.tokenId} nft={nft} toggle={toggle} />
 						))}
 					</div>
 				)}
 				{account && selectedTab === 3 && (
 					<div className="grid grid-cols-5">
 						{NFTItemShortList.map((nft) => (
-							<NFTPetLink key={nft.meralId} nft={nft} toggle={toggle} item={true} />
+							<NFTPetLink key={nft.tokenId} nft={nft} toggle={toggle} item={true} />
 						))}
 					</div>
 				)}

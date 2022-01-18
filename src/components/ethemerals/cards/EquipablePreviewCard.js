@@ -28,16 +28,6 @@ const RankedStars = ({ amount }) => {
 const EquipablePreviewCard = ({ nft }) => {
 	const { getEquipmentImages } = useNFTUtils();
 	// const history = useHistory();
-	const [equipableType, setEquipableType] = useState(0);
-
-	useEffect(() => {
-		if (nft) {
-			let stats = [nft.atk, nft.def, nft.spd];
-			const eType = stats.reduce((iMax, x, i, arr) => (x > arr[iMax] ? i : iMax), 0);
-
-			setEquipableType(eType);
-		}
-	}, [nft]);
 
 	if (!nft) {
 		return <p>Loading</p>;
@@ -82,7 +72,7 @@ const EquipablePreviewCard = ({ nft }) => {
 		return palette;
 	}
 
-	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.id}`;
+	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.tokenId}`;
 
 	return (
 		<div
@@ -105,8 +95,8 @@ const EquipablePreviewCard = ({ nft }) => {
 			{/* style={{ backgroundColor: getEquipableTypePalette(equipableType) }} */}
 			<div className="w-full h-20 bottom-0 absolute overflow-hidden">
 				<div className="w-full flex items-center mb-4">
-					<span style={{ backgroundColor: getTypePallet(equipableType) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
-						#{nft.id.padStart(4, '0')}
+					<span style={{ backgroundColor: getTypePallet(nft.mainclass) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
+						#{nft.tokenId.toString().padStart(4, '0')}
 					</span>
 					<div className="flex-grow"></div>
 					<span className="text-xs font-bold white">STATS:</span>
@@ -121,7 +111,7 @@ const EquipablePreviewCard = ({ nft }) => {
 					</span>
 				</div>
 
-				<p className="text-center font-bold text-2xl text-black">{nft.metadata.name}</p>
+				<p className="text-center font-bold text-2xl text-black">{nft.name}</p>
 			</div>
 		</div>
 	);

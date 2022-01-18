@@ -7,9 +7,6 @@ import { metaCoinName, metaSubclass, metaCostumes, metaEyeColors, metaHairColors
 import FilterBar from '../components/FilterBar';
 import Merals from '../components/ethemerals/Merals';
 
-// ethemerals(where: { coin_in: ["Bitcoin"], bgId_in: ["18", "1"]}) {
-// ethemerals(first: 10, skip: 0, orderBy: atk, orderDirection: desc) {
-
 const coinData = [];
 for (let i = 0; i < metaCoinName.length; i++) {
 	coinData.push({

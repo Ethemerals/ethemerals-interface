@@ -22,7 +22,6 @@ const getIsApprovedForAll = async (contract, _owner, _operator) => {
 		try {
 			let approved = false;
 			const value = await contract.isApprovedForAll(_owner, _operator);
-			console.log(value);
 			if (value.toString() === 'true') {
 				approved = true;
 			}

@@ -132,7 +132,7 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 			return true;
 		}
 
-		const _owned = owned.map((nft) => parseInt(nft.id));
+		const _owned = owned.map((nft) => parseInt(nft.tokenId));
 
 		let hitCount = 0;
 		let candiatesCount = 0;
@@ -194,8 +194,8 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	const onClaimGiveaway = async () => {
 		if (canGiveaway) {
 			try {
-				let meralIds = droppedMerals.map((meral) => meral.id);
-				let petsIds = droppedPets.map((pet) => pet.id);
+				let meralIds = droppedMerals.map((meral) => meral.tokenId);
+				let petsIds = droppedPets.map((pet) => pet.tokenId);
 				let result = await claimGiveaway(meralIds, petsIds, tokenId);
 				if (result) {
 					setCanGiveaway(false);

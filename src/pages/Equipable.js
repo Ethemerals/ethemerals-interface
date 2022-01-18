@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useGQLQueryL1 } from '../hooks/useGQLQuery';
-import { GET_PET } from '../queries/Subgraph';
-
 import { useHistory, useParams } from 'react-router-dom';
 
 import { useNFTUtils } from '../hooks/useNFTUtils';
 import BackButton from '../components/navigation/BackButton';
+import { getPetBorderColor, getPetTypePallet, usePetDataById } from '../hooks/usePetData';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -30,83 +28,38 @@ const RankedStars = ({ amount }) => {
 
 const Equipable = () => {
 	const { id } = useParams();
-	const { data, status } = useGQLQueryL1(`pet_${id}`, GET_PET, { id: id }, { refetchOnMount: true });
+	const { petData } = usePetDataById(id);
 	const [nft, setNft] = useState(undefined);
 	const { getEquipmentImages } = useNFTUtils();
 	const history = useHistory();
-	const [equipableType, setEquipableType] = useState(0);
 
 	useEffect(() => {
-		if (status === 'success' && data && data.pet) {
-			setNft(data.pet);
+		if (petData) {
+			setNft(petData);
 		}
-	}, [status, data, nft]);
-
-	useEffect(() => {
-		if (nft) {
-			let stats = [nft.atk, nft.def, nft.spd];
-			const eType = stats.reduce((iMax, x, i, arr) => (x > arr[iMax] ? i : iMax), 0);
-
-			setEquipableType(eType);
-		}
-	}, [nft]);
+	}, [petData]);
 
 	if (!nft) {
 		return (
 			<div>
 				<div className="page_bg"></div>
 				<BackButton />
-				<div className="nft_details_container mx-auto">Loading ...</div>
+				<div className="nft_details_container mx-auto mt-10">Loading ...</div>
 			</div>
 		);
 	}
 
-	if (!nft) {
-		return <p>Loading</p>;
-	}
-
 	const handleOnClick = () => {
-		history.push(`/equipable/${nft.id}`);
+		history.push(`/equipable/${nft.tokenId}`);
 	};
-
-	const getBorderColor = (rank) => {
-		if (rank === 5) {
-			return 'hsla(280, 40%, 60%, 1)';
-		}
-		if (rank === 4) {
-			return 'hsla(24, 40%, 60%, 1)';
-		}
-		if (rank === 3) {
-			return 'hsla(223, 40%, 60%, 1)';
-		}
-		if (rank === 2) {
-			return 'hsla(129, 40%, 60%, 1)';
-		}
-
-		return 'hsla(225, 10%, 60%, 1)';
-	};
-
-	function getTypePallet(type) {
-		let palette;
-		if (type === 0) {
-			palette = 'hsla(360,80%,40%,1)';
-		}
-		if (type === 1) {
-			palette = 'hsla(220,80%,40%,1)';
-		}
-		if (type === 2) {
-			palette = 'hsla(160,80%,40%,1)';
-		}
-		return palette;
-	}
 
 	return (
 		<div>
 			<div className="page_bg"></div>
 			<div
 				onClick={handleOnClick}
-				style={{ borderColor: getBorderColor(parseInt(nft.rarity)) }}
-				className="w-64 h-96 m-4 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg"
+				style={{ borderColor: getPetBorderColor(nft.rarity) }}
+				className="w-64 h-96 m-4 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg mt-36 mx-auto"
 			>
 				{/* MAIN IMAGE */}
 				<div className="absolute top-6 left-0">
@@ -120,8 +73,8 @@ const Equipable = () => {
 				{/* style={{ backgroundColor: getEquipableTypePalette(equipableType) }} */}
 				<div className="w-full h-20 bottom-0 absolute overflow-hidden">
 					<div className="w-full flex items-center mb-4">
-						<span style={{ backgroundColor: getTypePallet(equipableType) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
-							#{nft.id.padStart(4, '0')}
+						<span style={{ backgroundColor: getPetTypePallet(nft.subclass) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
+							#{nft.tokenId.toString().padStart(4, '0')}
 						</span>
 						<div className="flex-grow"></div>
 						<span className="text-xs font-bold white">STATS:</span>
@@ -136,10 +89,10 @@ const Equipable = () => {
 						</span>
 					</div>
 
-					<p className="text-center font-bold text-2xl text-black">{nft.metadata.name}</p>
+					<p className="text-center font-bold text-2xl text-black">{nft.name}</p>
 				</div>
 			</div>
-			<p className="p-4 text-black">Watch this space grow and expand!</p>
+			<p className="p-4 text-black text-center">Watch this space grow and expand!</p>
 		</div>
 	);
 };

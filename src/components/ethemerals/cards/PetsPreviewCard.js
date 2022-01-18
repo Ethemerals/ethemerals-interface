@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
-// import { useHistory } from 'react-router';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 import { Links } from '../../../constants/Links';
 import { Addresses } from '../../../constants/contracts/Addresses';
+import { getPetBorderColor, getPetTypePallet } from '../../../hooks/usePetData';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -27,67 +26,17 @@ const RankedStars = ({ amount }) => {
 
 const PetsPreviewCard = ({ nft }) => {
 	const { getEquipmentImages } = useNFTUtils();
-	// const history = useHistory();
-	const [equipableType, setEquipableType] = useState(0);
-
-	useEffect(() => {
-		if (nft) {
-			let stats = [nft.atk, nft.def, nft.spd];
-			const eType = stats.reduce((iMax, x, i, arr) => (x > arr[iMax] ? i : iMax), 0);
-
-			setEquipableType(eType);
-		}
-	}, [nft]);
 
 	if (!nft) {
 		return <p>Loading</p>;
 	}
 
-	// const handleOnClick = () => {
-	// 	history.push(`/equipable/${nft.id}`);
-
-	// };
-
-	const getBorderColor = (rank) => {
-		if (rank === 6) {
-			return 'hsla(290, 100%, 50%, 1)';
-		}
-		if (rank === 5) {
-			return 'hsla(280, 40%, 60%, 1)';
-		}
-		if (rank === 4) {
-			return 'hsla(24, 40%, 60%, 1)';
-		}
-		if (rank === 3) {
-			return 'hsla(223, 40%, 60%, 1)';
-		}
-		if (rank === 2) {
-			return 'hsla(129, 40%, 60%, 1)';
-		}
-
-		return 'hsla(225, 10%, 60%, 1)';
-	};
-
-	function getTypePallet(type) {
-		let palette;
-		if (type === 0) {
-			palette = 'hsla(360,80%,40%,1)';
-		}
-		if (type === 1) {
-			palette = 'hsla(220,80%,40%,1)';
-		}
-		if (type === 2) {
-			palette = 'hsla(160,80%,40%,1)';
-		}
-		return palette;
-	}
-
-	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.id}`;
+	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.tokenId}`;
 
 	return (
 		<div
 			// onClick={handleOnClick}
-			style={{ borderColor: getBorderColor(parseInt(nft.rarity)), backgroundColor: 'hsl(186, 33%, 94%)', minWidth: '256px', maxWidth: '256px', maxHeight: '384px', minHeight: '384px' }}
+			style={{ borderColor: getPetBorderColor(nft.rarity), backgroundColor: 'hsl(186, 33%, 94%)', minWidth: '256px', maxWidth: '256px', maxHeight: '384px', minHeight: '384px' }}
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg"
 		>
 			{/* MAIN IMAGE */}
@@ -102,11 +51,10 @@ const PetsPreviewCard = ({ nft }) => {
 			</div>
 
 			{/* BOTTOM BAR */}
-			{/* style={{ backgroundColor: getEquipableTypePalette(equipableType) }} */}
 			<div className="w-full h-20 bottom-0 absolute overflow-hidden">
 				<div className="w-full flex items-center mb-4">
-					<span style={{ backgroundColor: getTypePallet(equipableType) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
-						#{nft.id.padStart(4, '0')}
+					<span style={{ backgroundColor: getPetTypePallet(nft.mainclass) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
+						#{nft.tokenId.toString().padStart(4, '0')}
 					</span>
 					<div className="flex-grow"></div>
 					<span className="text-xs font-bold white">STATS:</span>
@@ -121,7 +69,7 @@ const PetsPreviewCard = ({ nft }) => {
 					</span>
 				</div>
 
-				<p className="text-center font-bold text-2xl text-black">{nft.metadata.name}</p>
+				<p className="text-center font-bold text-2xl text-black">{nft.name}</p>
 			</div>
 		</div>
 	);

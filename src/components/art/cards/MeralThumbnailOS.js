@@ -30,8 +30,8 @@ const MeralThumbnailOS = ({ id }) => {
 	const [owned, setOwned] = useState(false);
 
 	useEffect(() => {
-		if (status === 'success' && data && data.ethemeral) {
-			setNFT(data.ethemeral);
+		if (status === 'success' && data && data.meral) {
+			setNFT(data.meral);
 		}
 	}, [status, data, nft]);
 

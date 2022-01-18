@@ -7,9 +7,6 @@ import { metaPetName } from '../constants/MetadataStats';
 import FilterBar from '../components/FilterBar';
 import Pets from '../components/ethemerals/Pets';
 
-// ethemerals(where: { coin_in: ["Bitcoin"], bgId_in: ["18", "1"]}) {
-// ethemerals(first: 10, skip: 0, orderBy: atk, orderDirection: desc) {
-
 const petData = [];
 for (let i = 0; i < metaPetName.length; i++) {
 	petData.push({
@@ -41,7 +38,7 @@ const EthemeralsPets = () => {
 		let _filters = {};
 		if (nameFilterList.length > 0) {
 			setShouldFilter(true);
-			_filters.name_in = nameFilterList;
+			_filters.name = nameFilterList;
 		}
 
 		setFilters(_filters);
@@ -54,11 +51,11 @@ const EthemeralsPets = () => {
 		_order.orderDirection = 'desc';
 
 		if (sortBy.value === 'timestamp_asc') {
-			_order.orderBy = 'timestamp';
+			_order.orderBy = 'creation_timestamp';
 			_order.orderDirection = 'asc';
 		}
 		if (sortBy.value === 'timestamp_desc') {
-			_order.orderBy = 'timestamp';
+			_order.orderBy = 'creation_timestamp';
 			_order.orderDirection = 'desc';
 		}
 		setOrder({ orderBy: _order.orderBy, orderDirection: _order.orderDirection });
