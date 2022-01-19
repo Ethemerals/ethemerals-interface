@@ -3,7 +3,7 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "meralAddress",
+				"name": "_meralManager",
 				"type": "address"
 			}
 		],
@@ -26,9 +26,9 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint16",
-				"name": "_tokenId",
-				"type": "uint16"
+				"internalType": "uint256",
+				"name": "_Id",
+				"type": "uint256"
 			}
 		],
 		"name": "adminUnstake",
@@ -39,22 +39,53 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint16",
-				"name": "_tokenId",
-				"type": "uint16"
+				"internalType": "uint256",
+				"name": "_Id",
+				"type": "uint256"
 			}
 		],
 		"name": "calculateChange",
 		"outputs": [
 			{
 				"internalType": "uint16",
-				"name": "score",
+				"name": "hp",
 				"type": "uint16"
 			},
 			{
 				"internalType": "uint32",
-				"name": "rewards",
+				"name": "xp",
 				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "elf",
+				"type": "uint32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "elfMod",
+		"outputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "hpMod",
+		"outputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
 			}
 		],
 		"stateMutability": "view",
@@ -97,13 +128,31 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_meralManager",
+				"type": "address"
+			}
+		],
+		"name": "setMeralManager",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint16",
-				"name": "_scoreMod",
+				"name": "_hpMod",
 				"type": "uint16"
 			},
 			{
 				"internalType": "uint16",
-				"name": "_rewardsMod",
+				"name": "_xpMod",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_elfMod",
 				"type": "uint16"
 			}
 		],
@@ -115,9 +164,9 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint16",
-				"name": "_tokenId",
-				"type": "uint16"
+				"internalType": "uint256",
+				"name": "_Id",
+				"type": "uint256"
 			}
 		],
 		"name": "stake",
@@ -128,9 +177,9 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint16",
+				"internalType": "uint256",
 				"name": "",
-				"type": "uint16"
+				"type": "uint256"
 			}
 		],
 		"name": "stakes",
@@ -152,14 +201,27 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint16",
-				"name": "_tokenId",
-				"type": "uint16"
+				"internalType": "uint256",
+				"name": "_Id",
+				"type": "uint256"
 			}
 		],
 		"name": "unstake",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "xpMod",
+		"outputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]

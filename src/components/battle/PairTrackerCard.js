@@ -6,7 +6,7 @@ import EBStake from './modals/EBStake';
 import AllowDelegates from '../modals/actions/AllowDelegates';
 import { usePriceFeedContract } from '../../hooks/usePriceFeed';
 
-import { useEternalBattleApproval, useUserAccount } from '../../hooks/useUser';
+import { useUserAccount } from '../../hooks/useUser';
 
 import ConnectWallet from './modals/ConnectWallet';
 
@@ -40,7 +40,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 
 	const getBattleResults = useEBGetBattleResultsContext();
 
-	const { isApproved } = useEternalBattleApproval();
+	const isApproved = false;
 
 	const [isCreateStakeLongOpen, setIsCreateStakeLongOpen] = useState(false);
 	const [isCreateStakeShortOpen, setIsCreateStakeShortOpen] = useState(false);

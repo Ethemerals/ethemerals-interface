@@ -6,20 +6,19 @@ import { useQuery } from 'react-query';
 
 import { isAddress } from '../utils';
 
-import { Addresses } from '../constants/contracts/Addresses';
 import { useCoreContract } from './useCore';
-// import { getAccount } from './dataObjects/Account';
+import { useAddresses } from './useAddresses';
 
 export const useUser = () => {
 	const { authenticate, isAuthenticated, isAuthenticating, isUnauthenticated, authError, logout, user, setUserData, isUserUpdating } = useMoralis();
 
 	const address = useMemo(() => user?.attributes.ethAddress, [user]);
 
-	const login = () => {
+	const login = async () => {
 		if (!user) {
-			authenticate({ signingMessage: 'Ethemerals Authentication' });
+			await authenticate({ signingMessage: 'Sign to Authenticate - Kingdom of the Ethemerals' });
 		} else {
-			logout();
+			// logout();
 		}
 	};
 
@@ -119,6 +118,7 @@ export const useUserAccount = () => {
 						setUserData({
 							meralMainId: parseInt(account.merals[0].meralId),
 						});
+						setMainIndex(0);
 						console.log('auto main');
 						setAutoTry((at) => at + 1);
 					}
@@ -153,50 +153,4 @@ const getIsApprovedForAll = async (contract, _owner, _operator) => {
 		console.log('no wallet');
 		throw new Error('error');
 	}
-};
-
-export const useEternalBattleApproval = () => {
-	const { address: owner } = useUser();
-	const operator = Addresses.EternalBattle;
-	const { contractCore } = useCoreContract();
-	const [isApproved, setIsApproved] = useState(null);
-	const { isLoading, data } = useQuery([`eternalBattle_approvals`], () => getIsApprovedForAll(contractCore, owner, operator), {
-		enabled: !!owner && !!contractCore && !!operator,
-		refetchInterval: 30000,
-	});
-
-	useEffect(() => {
-		if (!isLoading) {
-			setIsApproved(data);
-		}
-	}, [data, isLoading]);
-
-	return {
-		isApproved,
-		data,
-		isLoading,
-	};
-};
-
-export const useEscrowL1Approval = () => {
-	const { address: owner } = useUser();
-	const operator = Addresses.EscrowL1;
-	const { contractCore } = useCoreContract();
-	const [isApproved, setIsApproved] = useState(null);
-	const { isLoading, data } = useQuery([`eternalBattle_approvals`], () => getIsApprovedForAll(contractCore, owner, operator), {
-		enabled: !!owner && !!contractCore && !!operator,
-		refetchInterval: 30000,
-	});
-
-	useEffect(() => {
-		if (!isLoading) {
-			setIsApproved(data);
-		}
-	}, [data, isLoading]);
-
-	return {
-		isApproved,
-		data,
-		isLoading,
-	};
 };

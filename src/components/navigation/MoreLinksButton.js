@@ -1,8 +1,8 @@
 const MoreLinksButton = ({ large, toggle }) => {
 	return (
 		<button
-			className={`w-10 h-10 mx-4 focus:outline-none flex items-center justify-center bg-brandColor-purple hover:bg-yellow-400 text-white rounded-lg transition duration-300 ${
-				large ? 'ml-2' : 'mr-2 right-0 absolute'
+			className={`w-10 h-10 focus:outline-none flex items-center justify-center bg-brandColor-purple hover:bg-yellow-400 text-white rounded transition duration-300 ${
+				large ? 'ml-2' : 'mr-1 right-0 absolute'
 			} `}
 			onClick={toggle}
 		>

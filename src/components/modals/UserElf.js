@@ -22,6 +22,9 @@ const UserELF = () => {
 		if (account && account.merals.length > 0) {
 			setUserNFTs(account.merals);
 		}
+		return () => {
+			setUserNFTs(undefined);
+		};
 	}, [account]);
 
 	// useEffect(() => {
@@ -48,6 +51,9 @@ const UserELF = () => {
 				});
 			setTotalNFTElf(nftElf);
 		}
+		return () => {
+			setTotalNFTElf(undefined);
+		};
 	}, [userNFTs]);
 
 	useEffect(() => {
@@ -62,6 +68,9 @@ const UserELF = () => {
 				});
 			setTotalNFTinBattleElf(nftElf);
 		}
+		return () => {
+			setTotalNFTinBattleElf(undefined);
+		};
 	}, [userNFTsInBattle]);
 
 	return (

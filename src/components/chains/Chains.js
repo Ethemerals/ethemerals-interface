@@ -28,13 +28,6 @@ const networks = [
 function Chains() {
 	const { switchNetwork, chainId } = useChain();
 	const { isAuthenticated } = useMoralis();
-	// const [selected, setSelected] = useState({});
-
-	// useEffect(() => {
-	// 	if (!chainId) return null;
-	// 	const newSelected = networks.find((item) => item.key === chainId);
-	// 	setSelected(newSelected);
-	// }, [chainId]);
 
 	const handleMenuClick = (network) => {
 		console.log('switch to: ', networks[network].value);
@@ -45,6 +38,7 @@ function Chains() {
 
 	return (
 		<div className="flex space-x-3">
+			<PolygonLogo />
 			<button onClick={() => handleMenuClick(0)}>ETH Mainnet</button>
 			<button onClick={() => handleMenuClick(1)}>Rinkeby</button>
 			<button onClick={() => handleMenuClick(2)}>Polygon</button>

@@ -1,5 +1,3 @@
-// let objectId = 'CuxJSsIkrqzFMzANGYhcnsUp';
-
 let objectIDs = {
 	meralGlobal: 'CuxJSsIkrqzFMzANGYhcnsUp',
 };

@@ -8,17 +8,18 @@ import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
 
 import { shortenAddress } from '../utils';
-import { Addresses } from '../constants/contracts/Addresses';
 
 import ParseDelegates from './art/delegates/ParseDelegates';
-import { useEternalBattleApproval, useUserAccount } from '../hooks/useUser';
+import { useUserAccount } from '../hooks/useUser';
+import { useAddresses } from '../hooks/useAddresses';
 
 const Preferences = () => {
+	const { addresses } = useAddresses();
 	const { core, delegates } = useCore();
 	const { contractCore } = useCoreContract();
-	const { isApproved } = useEternalBattleApproval();
 	const { account } = useUserAccount();
 
+	const isApproved = false; // TODO
 	const sendTx = useSendTx();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -124,7 +125,7 @@ const Preferences = () => {
 				</p>
 				{core && isApproved === false && (
 					<div
-						onClick={() => onSubmitApprovedForAll(Addresses.EternalBattle, true)}
+						onClick={() => onSubmitApprovedForAll(addresses.EternalBattle, true)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-2 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
 					>
 						Approve Eternal Battle
@@ -133,7 +134,7 @@ const Preferences = () => {
 
 				{isApproved === true && account && !account.allowDelegates && (
 					<div
-						onClick={() => onSubmitApprovedForAll(Addresses.EternalBattle, false)}
+						onClick={() => onSubmitApprovedForAll(addresses.EternalBattle, false)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-2 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
 					>
 						Disapprove Eternal Battle

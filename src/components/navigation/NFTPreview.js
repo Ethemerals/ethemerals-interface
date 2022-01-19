@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
 import { useMeralImagePaths } from '../../hooks/useMeralData';
-import { useUser } from '../../hooks/useUser';
+import { useUser, useUserAccount } from '../../hooks/useUser';
 
 const Spinner = () => (
 	<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -8,26 +9,40 @@ const Spinner = () => (
 	</svg>
 );
 
-const NFTPreview = ({ tokenId }) => {
-	const { isAuthenticating, isUserUpdating } = useUser();
+const Thumbnail = ({ tokenId }) => {
 	const { meralImagePaths } = useMeralImagePaths(tokenId);
+	return (
+		<span className="flex w-10 h-10 rounded mr-2 relative cursor-pointer opacity-100 bg-brandColor-purple">
+			<div className="absolute top-0 left-0">{meralImagePaths && <img className="w-10 h-10 z-0 rounded" src={meralImagePaths.thumbnail} alt="" />}</div>
+			<div className="flex-grow h-full"></div>
+			<div className="absolute bottom-0 left-0 rounded-t-none rounded text-xs font-bold w-full text-gray-200 text-center bg-black bg-opacity-60">{tokenId.toString().padStart(4, '0')}</div>
+		</span>
+	);
+};
+
+const NFTPreview = () => {
+	const { userNFTs, mainIndex } = useUserAccount();
+	const { isAuthenticating, isUserUpdating } = useUser();
+	const [tokenId, setTokenId] = useState(undefined);
+
+	useEffect(() => {
+		if (userNFTs && mainIndex !== undefined && userNFTs.length > 0) {
+			setTokenId(userNFTs[mainIndex].tokenId);
+		}
+	}, [userNFTs, mainIndex]);
 
 	if (isAuthenticating || isUserUpdating) {
 		return (
-			<span className="flex bg-brandColor rounded-lg items-center h-10 mr-2 cursor-pointer text-xs sm:text-base">
+			<span className="flex bg-brandColor rounded items-center h-10 mr-2 cursor-pointer text-xs sm:text-base">
 				<span className="text-white px-2 md:px-3">LOADING</span>
 				<Spinner />
 			</span>
 		);
 	}
-
-	return (
-		<span className="flex w-10 h-10 rounded-lg mr-2 relative cursor-pointer opacity-100 bg-brandColor-purple">
-			<div className="absolute top-0 left-0">{meralImagePaths && <img className="w-10 h-10 z-0 rounded-lg" src={meralImagePaths.thumbnail} alt="" />}</div>
-			<div className="flex-grow h-full"></div>
-			<div className="absolute bottom-0 left-0 rounded-t-none rounded-lg text-xs font-bold w-full text-gray-200 text-center bg-black bg-opacity-60">{tokenId.toString().padStart(4, '0')}</div>
-		</span>
-	);
+	if (!tokenId) {
+		return null;
+	}
+	return <Thumbnail tokenId={tokenId} />;
 };
 
 export default NFTPreview;

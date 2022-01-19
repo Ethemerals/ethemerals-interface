@@ -9,7 +9,6 @@ import { isMobile } from 'react-device-detect';
 
 import Navbar from './components/navigation/Navbar';
 import Home from './pages/Home';
-import Admin from './pages/Admin';
 import Art from './pages/Art';
 import EternalBattle from './pages/EternalBattle';
 import Dashboard from './pages/Dashboard';
@@ -58,12 +57,6 @@ function App() {
 						</Route>
 						<Route exact path="/mint">
 							<Mint />
-						</Route>
-						<Route exact path="/rinkeby">
-							<Mint />
-						</Route>
-						<Route exact path="/admin">
-							<Admin />
 						</Route>
 						<Route exact path="/all">
 							<All />

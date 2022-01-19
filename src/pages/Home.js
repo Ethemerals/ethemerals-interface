@@ -1,9 +1,16 @@
-import Chains from '../components/chains/Chains';
+import { useEffect } from 'react';
+
+import { useAddresses } from '../hooks/useAddresses';
 
 import { useUser } from '../hooks/useUser';
 
 const Home = () => {
 	const { isAuthenticated, login, logout, user } = useUser();
+	const { addresses } = useAddresses();
+
+	useEffect(() => {
+		console.log(addresses);
+	}, [addresses]);
 
 	return (
 		<div>
@@ -14,6 +21,7 @@ const Home = () => {
 			></div>
 
 			<div className="py-20">
+				test
 				{!isAuthenticated ? (
 					<div>
 						<button onClick={login}>Authenticate</button>
@@ -24,10 +32,6 @@ const Home = () => {
 						<button onClick={logout}>Logout</button>
 					</div>
 				)}
-
-				<Chains />
-
-				{/* <UserInfo /> */}
 			</div>
 		</div>
 	);

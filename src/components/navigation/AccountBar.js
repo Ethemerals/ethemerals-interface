@@ -9,6 +9,7 @@ import UserModal from '../modals/UserModal';
 import NFTPreview from './NFTPreview';
 import { useUser, useUserAccount } from '../../hooks/useUser';
 import { useNativeBalance } from 'react-moralis';
+import NetworksButton from './NetworksButton';
 
 const Spinner = () => (
 	<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -24,6 +25,7 @@ const AccountBar = () => {
 	const { data: balance } = useNativeBalance();
 
 	const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+
 	const [selectedUserModal, setSelectedUserModal] = useState(0);
 
 	const toggleUserModal = (selected) => {
@@ -34,12 +36,14 @@ const AccountBar = () => {
 	return (
 		<>
 			<div onClick={() => toggleUserModal(0)} className="hidden md:flex">
-				{userNFTs && userNFTs.length > 0 && mainIndex && <NFTPreview tokenId={userNFTs[mainIndex].tokenId} />}
+				<NFTPreview />
 			</div>
 
-			<div className=" bg-brandColor flex rounded-lg items-center h-10 text-xs sm:text-base text-white">
+			<NetworksButton />
+			<div className=" bg-brandColor flex rounded items-center h-10 text-xs sm:text-base text-white">
 				<span
-					className="px-2 w-28 whitespace-nowrap cursor-pointer h-full flex items-center justify-end rounded-lg rounded-r-none hover:bg-gradient-to-r from-brandColor-pale overflow-hidden"
+					style={{ maxWidth: '128px' }}
+					className="px-2 whitespace-nowrap cursor-pointer h-full flex items-center justify-end rounded rounded-r-none hover:bg-gradient-to-r from-brandColor-pale overflow-hidden"
 					onClick={() => toggleUserModal(1)}
 				>
 					{balance && <span>{balance.formatted}</span>}
@@ -50,7 +54,7 @@ const AccountBar = () => {
 				<span
 					className={`${
 						mining ? ' bg-yellow-400' : ' bg-brandColor-purple bg-opacity-100 text-white hover:bg-opacity-60 transition duration-300'
-					} flex rounded-lg w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 h-full`}
+					} flex rounded rounded-l-xl w-28 sm:w-36 md:w-40 items-center px-2 md:px-4 h-full`}
 				>
 					{mining ? (
 						<span onClick={() => toggleUserModal(2)} className="cursor-pointer h-full flex items-center tracking-wide">
@@ -64,10 +68,6 @@ const AccountBar = () => {
 						</span>
 					)}
 				</span>
-			</div>
-
-			<div onClick={() => toggleUserModal(0)} className="md:hidden flex pl-1">
-				{userNFTs && userNFTs.length > 0 && mainIndex && <NFTPreview tokenId={userNFTs[mainIndex].tokenId} />}
 			</div>
 
 			{isUserModalOpen && <UserModal toggle={toggleUserModal} selected={selectedUserModal} />}
