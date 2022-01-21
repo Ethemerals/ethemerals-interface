@@ -14,9 +14,9 @@ const Mainmenu = () => {
 			<MenuItem to="/mint" text="Mint" />
 			<MenuItem to="/ethemerals" text="Ethemerals" />
 			<MenuItem to="/art" text="Art Hunt" />
-			{process.env.REACT_APP_NETWORK === '4' && <MenuItem to="/wilds" text="Enter The Wilds" />}
 			{process.env.REACT_APP_NETWORK === '4' && <MenuItem to="/portal" text="Portal" />}
-			<MenuItem to="/battle" text="Market Battle" />
+			{process.env.REACT_APP_NETWORK === '4' && <MenuItem to="/wilds" text="The Wilds" />}
+			{/* <MenuItem to="/battle" text="Market Battle" /> */}
 		</div>
 	);
 };

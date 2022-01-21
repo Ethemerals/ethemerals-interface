@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { useMoralis } from 'react-moralis';
+import { useChain, useMoralis } from 'react-moralis';
 
 export const useWeb3 = () => {
 	const { web3, enableWeb3, isWeb3Enabled } = useMoralis();
+	const { chainId } = useChain();
 	const [provider, setProvider] = useState(null);
 
 	useEffect(() => {
@@ -17,7 +18,7 @@ export const useWeb3 = () => {
 			const ethersProvider = new ethers.providers.Web3Provider(web3.givenProvider);
 			setProvider(ethersProvider);
 		}
-	}, [web3]);
+	}, [web3, chainId]);
 
 	return { provider };
 };

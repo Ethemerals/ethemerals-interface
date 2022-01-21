@@ -21,101 +21,89 @@ import Portal from './pages/Portal';
 import WildsLandDetails from './components/wilds/WildsLandDetails';
 import WildsHub from './components/wilds/WildsHub';
 
-import TxContextProvider from './context/TxContext';
 import Receipt from './components/modals/Receipt';
 import EBContextProvider from './context/EternalBattleContext';
 import EthemeralsPets from './pages/EthemeralsPets';
 import Mint from './pages/Mint';
 import ArtDetails from './pages/ArtDetails';
 import ArtGame from './pages/ArtGame';
-
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			refetchOnWindowFocus: false,
-			refetchOnMount: false,
-			refetchInterval: 240000,
-		},
-	},
-});
+import { registerModals } from './components/niceModals/RegisterModals';
 
 function App() {
+	registerModals();
+
 	return (
 		<HelmetProvider>
-			<QueryClientProvider client={queryClient}>
-				<TxContextProvider>
-					<Receipt />
+			<Receipt />
 
-					<Helmet>
-						<title>Ethemerals</title>
-					</Helmet>
-					<ReactQueryDevtools initialIsOpen={false} />
+			<Helmet>
+				<title>Ethemerals</title>
+			</Helmet>
+			<ReactQueryDevtools initialIsOpen={false} />
 
-					<Switch>
-						<Route exact path="/">
-							<Home />
-						</Route>
-						<Route exact path="/mint">
-							<Mint />
-						</Route>
-						<Route exact path="/all">
-							<All />
-						</Route>
-						<Route exact path="/art">
-							<Art />
-						</Route>
-						<Route exact path="/art/:id">
-							<ArtDetails />
-						</Route>
-						<Route exact path="/artgame/:id">
-							<DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-								<ArtGame />
-							</DndProvider>
-						</Route>
-						<Route exact path="/battle/">
-							<EBContextProvider>
-								<EternalBattle />
-							</EBContextProvider>
-						</Route>
-						<Route exact path="/battle/:id">
-							<EBContextProvider>
-								<EternalBattle />
-							</EBContextProvider>
-						</Route>
-						<Route exact path="/wilds/">
-							<Wilds />
-						</Route>
-						<Route exact path="/wilds/:id">
-							<WildsLandDetails />
-						</Route>
-						<Route exact path="/wildshub">
-							<WildsHub />
-						</Route>
-						<Route exact path="/portal">
-							<Portal />
-						</Route>
-						<Route exact path="/dashboard">
-							<Dashboard />
-						</Route>
-						<Route exact path="/ethemerals">
-							<EthemeralsMerals />
-						</Route>
-						<Route exact path="/ethemerals/merals">
-							<EthemeralsMerals />
-						</Route>
-						<Route exact path="/ethemerals/pets">
-							<EthemeralsPets />
-						</Route>
-						<Route exact path="/equipable/:id">
-							<Equipable />
-						</Route>
-						<Route exact path="/ethemeral/:id">
-							<MeralDetails />
-						</Route>
-					</Switch>
-					<Navbar />
-				</TxContextProvider>
-			</QueryClientProvider>
+			<Switch>
+				<Route exact path="/">
+					<Home />
+				</Route>
+				<Route exact path="/mint">
+					<Mint />
+				</Route>
+				<Route exact path="/all">
+					<All />
+				</Route>
+				<Route exact path="/art">
+					<Art />
+				</Route>
+				<Route exact path="/art/:id">
+					<ArtDetails />
+				</Route>
+				<Route exact path="/artgame/:id">
+					<DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
+						<ArtGame />
+					</DndProvider>
+				</Route>
+				<Route exact path="/battle/">
+					<EBContextProvider>
+						<EternalBattle />
+					</EBContextProvider>
+				</Route>
+				<Route exact path="/battle/:id">
+					<EBContextProvider>
+						<EternalBattle />
+					</EBContextProvider>
+				</Route>
+				<Route exact path="/wilds/">
+					<Wilds />
+				</Route>
+				<Route exact path="/wilds/:id">
+					<WildsLandDetails />
+				</Route>
+				<Route exact path="/wildshub">
+					<WildsHub />
+				</Route>
+				<Route exact path="/portal">
+					<Portal />
+				</Route>
+				<Route exact path="/dashboard">
+					<Dashboard />
+				</Route>
+				<Route exact path="/ethemerals">
+					<EthemeralsMerals />
+				</Route>
+				<Route exact path="/ethemerals/merals">
+					<EthemeralsMerals />
+				</Route>
+				<Route exact path="/ethemerals/pets">
+					<EthemeralsPets />
+				</Route>
+				<Route exact path="/equipable/:id">
+					<Equipable />
+				</Route>
+				<Route exact path="/ethemeral/:id">
+					<MeralDetails />
+				</Route>
+			</Switch>
+			<Navbar />
 		</HelmetProvider>
 	);
 }

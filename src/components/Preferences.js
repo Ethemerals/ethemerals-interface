@@ -11,10 +11,10 @@ import { shortenAddress } from '../utils';
 
 import ParseDelegates from './art/delegates/ParseDelegates';
 import { useUserAccount } from '../hooks/useUser';
-import { useAddresses } from '../hooks/useAddresses';
+
+import { Addresses } from '../constants/contracts/Addresses';
 
 const Preferences = () => {
-	const { addresses } = useAddresses();
 	const { core, delegates } = useCore();
 	const { contractCore } = useCoreContract();
 	const { account } = useUserAccount();
@@ -125,7 +125,7 @@ const Preferences = () => {
 				</p>
 				{core && isApproved === false && (
 					<div
-						onClick={() => onSubmitApprovedForAll(addresses.EternalBattle, true)}
+						onClick={() => onSubmitApprovedForAll(Addresses.EternalBattle, true)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-2 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
 					>
 						Approve Eternal Battle
@@ -134,7 +134,7 @@ const Preferences = () => {
 
 				{isApproved === true && account && !account.allowDelegates && (
 					<div
-						onClick={() => onSubmitApprovedForAll(addresses.EternalBattle, false)}
+						onClick={() => onSubmitApprovedForAll(Addresses.EternalBattle, false)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-2 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
 					>
 						Disapprove Eternal Battle

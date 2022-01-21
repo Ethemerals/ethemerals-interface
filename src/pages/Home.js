@@ -1,16 +1,9 @@
 import { useEffect } from 'react';
 
-import { useAddresses } from '../hooks/useAddresses';
-
 import { useUser } from '../hooks/useUser';
 
 const Home = () => {
 	const { isAuthenticated, login, logout, user } = useUser();
-	const { addresses } = useAddresses();
-
-	useEffect(() => {
-		console.log(addresses);
-	}, [addresses]);
 
 	return (
 		<div>

@@ -1,5 +1,5 @@
 import { Contract } from '@ethersproject/contracts';
-import { isAddress } from '../../utils';
+import { isAddress } from '..';
 import { getSigner } from './getSigner';
 
 export const getContract = async (provider, address, abi, setContract, type) => {
@@ -20,6 +20,8 @@ export const getIsApprovedForAll = async (contract, _owner, _operator) => {
 				approved = true;
 			}
 			return approved;
-		} catch (error) {}
+		} catch (error) {
+			console.log(error);
+		}
 	}
 };

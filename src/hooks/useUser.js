@@ -1,13 +1,9 @@
+import Moralis from 'moralis';
 import { useMemo, useEffect, useState } from 'react';
 import { useMoralis } from 'react-moralis';
-import Moralis from 'moralis';
 
 import { useQuery } from 'react-query';
-
 import { isAddress } from '../utils';
-
-import { useCoreContract } from './useCore';
-import { useAddresses } from './useAddresses';
 
 export const useUser = () => {
 	const { authenticate, isAuthenticated, isAuthenticating, isUnauthenticated, authError, logout, user, setUserData, isUserUpdating } = useMoralis();
@@ -36,10 +32,64 @@ export const useUser = () => {
 	};
 };
 
-const getAccount = async (address) => {
+export const getUserPendingMerals = async (address) => {
 	if (isAddress(address)) {
 		try {
-			const result = await Moralis.Cloud.run('getAccount', { address });
+			const result = await Moralis.Cloud.run('getUserPortalMerals', { address });
+			return result;
+		} catch (error) {
+			throw new Error('get account error');
+		}
+	} else {
+		return { message: 'address not valid' };
+	}
+};
+
+export const useUserPendingMerals = () => {
+	const { address } = useUser();
+	const [pendingNfts, setNfts] = useState(undefined);
+	const { data, isLoading } = useQuery(`getUserPendingMerals`, () => getUserPendingMerals(address), { enabled: !!address, refetchOnMount: true }); // TODO
+
+	useEffect(() => {
+		if (data && !isLoading) {
+			setNfts(data);
+		}
+	}, [data, isLoading]);
+
+	return { pendingNfts };
+};
+
+export const getUserPortalMerals = async (address) => {
+	if (isAddress(address)) {
+		try {
+			const result = await Moralis.Cloud.run('getUserPortalMerals', { address });
+			return result;
+		} catch (error) {
+			throw new Error('get account error');
+		}
+	} else {
+		return { message: 'address not valid' };
+	}
+};
+
+export const useUserProxyMerals = () => {
+	const { address } = useUser();
+	const [proxyNfts, setNfts] = useState(undefined);
+	const { data, isLoading } = useQuery(`getUserProxyMerals`, () => getUserPortalMerals(address), { enabled: !!address, refetchOnMount: true }); // TODO
+
+	useEffect(() => {
+		if (data && !isLoading) {
+			setNfts(data);
+		}
+	}, [data, isLoading]);
+
+	return { proxyNfts };
+};
+
+export const getUserAccount = async (address) => {
+	if (isAddress(address)) {
+		try {
+			const result = await Moralis.Cloud.run('getUserAccount', { address });
 			return result;
 		} catch (error) {
 			throw new Error('get account error');
@@ -58,7 +108,7 @@ export const useUserAccount = () => {
 	const [mainIndex, setMainIndex] = useState(undefined);
 	const [userNFTs, setUserNFTs] = useState([]);
 
-	const { data, isLoading } = useQuery(`account_${address}`, () => getAccount(address), { enabled: !!address, refetchOnMount: false }); // TODO
+	const { data, isLoading } = useQuery(`account_${address}`, () => getUserAccount(address), { enabled: !!address, refetchOnMount: false }); // TODO
 
 	useEffect(() => {
 		if (data && !isLoading) {
@@ -134,23 +184,4 @@ export const useUserAccount = () => {
     mainIndex,
     userNFTs,
   };
-};
-
-const getIsApprovedForAll = async (contract, _owner, _operator) => {
-	if (contract) {
-		try {
-			let approved = false;
-			const value = await contract.isApprovedForAll(_owner, _operator);
-			if (value.toString() === 'true') {
-				approved = true;
-			}
-			return approved;
-		} catch (error) {
-			console.log(error);
-			throw new Error('error');
-		}
-	} else {
-		console.log('no wallet');
-		throw new Error('error');
-	}
 };

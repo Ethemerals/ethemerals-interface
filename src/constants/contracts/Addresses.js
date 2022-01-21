@@ -1,37 +1,32 @@
 const getAddresses = () => {
-	const network = process.env.REACT_APP_NETWORK;
+	const mainnet = process.env.REACT_APP_MAINNET;
 
-	if (network === '1') {
-		return {
-			EthemeralLifeForce: '0x5900f8d3d9fc8425c6dc22b5bda71a1e0e594135',
-			Ethemerals: '0xee8c0131aa6b66a2ce3cad6d2a039c1473a79a6d',
-			Equipables: '0x61493114836bb14dae7a57be93de2eee95327092',
-			Art: '0x612ca32a8B0Fbe1D6738dFd0FA65CF9b3f8DA34D',
-			EternalBattle: '0x169310e61e71ef5834ce5466c7155d8a90d15f1e',
-			priceFeed: '0x04302ef1c51dff4625cdec79f4400342ad27f559',
-			changeScoreAndRewards: '0x304287ace2c677d9051ada34e87f1b4495e5c35c',
-			Wilds: '0x53779baa1887663e8Ff6B2DaAdFbC5c8Ea8C6E53',
-			Onsen: '0x0cA1c36D48C1f8fcd4ce6E7EB9d1316B5B8E657a',
-			EscrowL1: '0x691ac8428BBD2Cf1e9e88Fe11CEE6E3a542Db28B',
-		};
+	let addresses = {
+		Ethemerals: '0xcdb47e685819638668ff736d1a2ae32b68e76ba5',
+		Equipables: '0xc2CD83998D5d76f64830fBd1Df2e8b221C4F31A2',
+		EternalBattle: '0x883170aAcEB39a23642f5aAaab083F5684D3fFB1',
+		priceFeed: '0xfacC389A4777D0Cda098C0f2Af4e6deDD1Ddf1f4',
+		changeScoreAndRewards: '0x304287ace2c677d9051ada34e87f1b4495e5c35c',
+		EscrowL1: '0x52AD83F0aE762622eab23BF9A15508195d404ef5',
+		MeralManager: '0x055F437a439CaEC49De34026e583528aae84d7aF',
+		Onsen: '0xe39d7C3C4Be47C8B08A03FA52683322aF6697FCD',
+		Wilds: '0x53779baa1887663e8Ff6B2DaAdFbC5c8Ea8C6E53',
+	};
+
+	// MAINNETS
+	if (mainnet === '1') {
+		addresses.Ethemerals = '0xee8c0131aa6b66a2ce3cad6d2a039c1473a79a6d';
+		addresses.Equipables = '0x61493114836bb14dae7a57be93de2eee95327092';
+		addresses.EternalBattle = '0x169310e61e71ef5834ce5466c7155d8a90d15f1e';
+		addresses.priceFeed = '0x04302ef1c51dff4625cdec79f4400342ad27f559';
+		addresses.changeScoreAndRewards = '0x304287ace2c677d9051ada34e87f1b4495e5c35c';
+		addresses.EscrowL1 = '0x691ac8428BBD2Cf1e9e88Fe11CEE6E3a542Db28B';
+		addresses.MeralManager = '0x055F437a439CaEC49De34026e583528aae84d7aF';
+		addresses.Onsen = '0x0cA1c36D48C1f8fcd4ce6E7EB9d1316B5B8E657a';
+		addresses.Wilds = '0x53779baa1887663e8Ff6B2DaAdFbC5c8Ea8C6E53';
 	}
 
-	if (network === '4') {
-		return {
-			EthemeralLifeForce: '0x22b56e6687e6b4ea8dd58b468ee3913cfa4185e3',
-			Ethemerals: '0xcdb47e685819638668ff736d1a2ae32b68e76ba5',
-			EthemeralsL2: '0x39E75603BF945E4402421F43C1d6E630E68E0dCA',
-			Equipables: '0xc2CD83998D5d76f64830fBd1Df2e8b221C4F31A2',
-			Art: '0x612ca32a8b0fbe1d6738dfd0fa65cf9b3f8da34d',
-			EternalBattle: '0x883170aAcEB39a23642f5aAaab083F5684D3fFB1',
-			priceFeed: '0xfacC389A4777D0Cda098C0f2Af4e6deDD1Ddf1f4',
-			changeScoreAndRewards: '0x074350b6490D86BDCC11b1278D6f8D41c69126e3',
-			Wilds: '0x53779baa1887663e8Ff6B2DaAdFbC5c8Ea8C6E53',
-			Onsen: '0xe39d7C3C4Be47C8B08A03FA52683322aF6697FCD',
-			EscrowL1: '0x52AD83F0aE762622eab23BF9A15508195d404ef5',
-			MeralManager: '0xCbaAabB391140833419b3Adade77220084b84dB1',
-		};
-	}
+	return { ...addresses };
 };
 
 const Addresses = getAddresses();

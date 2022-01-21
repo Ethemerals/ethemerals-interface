@@ -6,8 +6,9 @@ import { GET_CORE, GET_DELEGATES } from '../queries/Subgraph';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
 import { useWeb3 } from './useWeb3';
-import { useAddresses } from './useAddresses';
-import { getContract } from './getters/getContract';
+
+import { getContract } from '../utils/contracts/getContract';
+import { useChain } from 'react-moralis';
 
 const getIsApprovedForAll = async (contract, _owner, _operator) => {
 	if (contract) {
@@ -30,14 +31,13 @@ const getIsApprovedForAll = async (contract, _owner, _operator) => {
 
 export const useCoreContract = () => {
 	const { provider } = useWeb3();
-	const { addresses } = useAddresses();
-	const address = addresses ? addresses.Ethemerals : undefined;
+	const { chainId } = useChain();
 
 	const [contractCore, setContractCore] = useState(undefined);
 
 	useEffect(() => {
-		getContract(provider, address, abis.Ethemerals, setContractCore, 'CORE');
-	}, [provider, addresses, abis]);
+		getContract(provider, Addresses.Ethemerals, abis.Ethemerals, setContractCore, 'CORE');
+	}, [provider, chainId]);
 
 	return { contractCore };
 };
