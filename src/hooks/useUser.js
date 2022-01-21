@@ -35,7 +35,7 @@ export const useUser = () => {
 export const getUserPendingMerals = async (address) => {
 	if (isAddress(address)) {
 		try {
-			const result = await Moralis.Cloud.run('getUserPortalMerals', { address });
+			const result = await Moralis.Cloud.run('getUserPendingMerals', { address });
 			return result;
 		} catch (error) {
 			throw new Error('get account error');
@@ -62,7 +62,7 @@ export const useUserPendingMerals = () => {
 export const getUserPortalMerals = async (address) => {
 	if (isAddress(address)) {
 		try {
-			const result = await Moralis.Cloud.run('getUserPortalMerals', { address });
+			const result = await Moralis.Cloud.run('getUserProxyMerals', { address });
 			return result;
 		} catch (error) {
 			throw new Error('get account error');
