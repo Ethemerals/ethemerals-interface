@@ -10,7 +10,11 @@ const WildsHub = () => {
 				<h1>Hub</h1>
 			</div>
 			<div className="flex flex-wrap">
-				<div onClick={() => history.push(`/wilds/portal`)} className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">
+				<div
+					style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/wilds/portal.png'" }}
+					onClick={() => history.push(`/wilds/portal`)}
+					className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4 bg-cover"
+				>
 					<h1>Portal</h1>
 				</div>
 				{/* <Onsen /> */}
