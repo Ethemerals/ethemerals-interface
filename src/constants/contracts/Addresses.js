@@ -8,7 +8,7 @@ const getAddresses = () => {
 		priceFeed: '0xfacC389A4777D0Cda098C0f2Af4e6deDD1Ddf1f4',
 		changeScoreAndRewards: '0x304287ace2c677d9051ada34e87f1b4495e5c35c',
 		EscrowL1: '0x52AD83F0aE762622eab23BF9A15508195d404ef5',
-		MeralManager: '0x055F437a439CaEC49De34026e583528aae84d7aF',
+		MeralManager: '0x055f437a439caec49de34026e583528aae84d7af',
 		Onsen: '0xe39d7C3C4Be47C8B08A03FA52683322aF6697FCD',
 		Wilds: '0x53779baa1887663e8Ff6B2DaAdFbC5c8Ea8C6E53',
 	};

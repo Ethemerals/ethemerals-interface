@@ -21,10 +21,11 @@ const WildsOnsen = () => {
 	}, [accountOnsen]);
 
 	return (
-		<div className="bg-gray-200 bg-opacity-80 p-4 pb-20 border-4 border-white mt-16 mb-4 w-96">
+		<div className="bg-gray-200 bg-opacity-80 p-4 border-4 border-white my-4 w-96 h-44 cursor-pointer hover:bg-blue-100">
 			<h1>Onsen</h1>
 			<OnsenStake contractOnsen={contractOnsen} />
-			<h4>Currenty Staked</h4>
+			<p>Under Construction</p>
+			{/* <h4>Currenty Staked</h4> */}
 			{stakedNFT && stakedNFT.length > 0 && stakedNFT.map((nft) => <StakedOnsenCard key={nft.id} nft={nft} contractOnsen={contractOnsen} />)}
 		</div>
 	);

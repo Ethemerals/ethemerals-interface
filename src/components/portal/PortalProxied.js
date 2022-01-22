@@ -9,6 +9,7 @@ const MeralCards = ({ nft }) => {
 
 	return (
 		<div className="w-16 h-16 bg-yellow-50 m-2 border border-black text-xs">
+			<p>Type:{nft.type}</p>
 			<p>token:{nft.tokenId}</p>
 		</div>
 	);
@@ -38,9 +39,9 @@ const PortalProxied = () => {
 
 	return (
 		<div className="bg-gray-200 p-4 pb-20 m-4 w-96">
-			<h1>Polygon</h1>
+			<h1>Polygon Layer</h1>
 			{/* TODO - INFO ABOUT MERALS ON THE OTHER SIDE */}
-			<h4>Latest Merals who made it through</h4>
+			<h4>Latest pMerals:</h4>
 			<div className="flex-wrap flex justify-center overflow-hidden">{nfts && nfts.length > 0 && nfts.map((nft) => <MeralCards key={nft.tokenId} nft={nft} />)}</div>
 		</div>
 	);

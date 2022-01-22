@@ -13,8 +13,7 @@ const PortalMain = () => {
 		<div className="bg-gray-200 p-4 pb-20 m-4 w-96">
 			<h1>Portal</h1>
 			{/* TODO - INFO ABOUT MERALS ON THE OTHER SIDE */}
-			<h4>Latest Merals Who Entered:</h4>
-
+			<h4>Recently Entered:</h4>
 			<MeralListStatic nfts={escrowL1NFTs} />
 		</div>
 	);

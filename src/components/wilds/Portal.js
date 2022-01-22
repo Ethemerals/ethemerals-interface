@@ -5,10 +5,12 @@ import LeavePortalButton from '../portal/buttons/LeavePortalButton';
 import PortalMain from '../portal/PortalMain';
 import PortalBridge from '../portal/PortalBridge';
 import PortalProxied from '../portal/PortalProxied';
+import WorldMapButton from './buttons/WorldMapButton';
+import HubButton from './buttons/HubButton';
 
 const Portal = () => {
 	return (
-		<div className="bg_wilds h-screen w-full pt-20 fixed overflow-y-auto">
+		<div className="bg_wilds_hub h-screen w-full fixed overflow-y-auto px-4">
 			<div className="pt-28 p-4 text-center">
 				<EnterPortalButton />
 				<LeavePortalButton />
@@ -18,6 +20,8 @@ const Portal = () => {
 				<PortalBridge />
 				<PortalProxied />
 			</div>
+			<HubButton />
+			<WorldMapButton />
 		</div>
 	);
 };

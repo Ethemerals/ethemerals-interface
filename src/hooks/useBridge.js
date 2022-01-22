@@ -16,13 +16,10 @@ export const useBridgeCollection = () => {
 	useEffect(() => {
 		if (!loading && !error) {
 			let allLogs = [];
-			value.docs.map((doc) => {
+			value.docs.forEach((doc) => {
 				allLogs.push(doc.data());
-				return null;
 			});
-			// allLogs.sort(function (a, b) {
-			// 	return b.timestamp - a.timestamp;
-			// });
+
 			setLogs(allLogs);
 			setCount(allLogs.length);
 		}

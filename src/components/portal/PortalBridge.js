@@ -1,3 +1,4 @@
+import { AddressZero } from '@ethersproject/constants';
 import { useEffect, useState } from 'react';
 import { useEscrowL1Account } from '../../hooks/useEscrowL1';
 import { useBridgeCollection } from '../../hooks/useBridge';
@@ -37,7 +38,8 @@ const HoldingCards = ({ nft }) => {
 
 	return (
 		<div className="w-16 h-16 bg-yellow-50 m-2 border border-black text-xs">
-			<p>token:{getTokenIdFromId(nft.tokenId)}</p>
+			<p>Type:{nft.type}</p>
+			<p>token:{nft.tokenId}</p>
 		</div>
 	);
 };
@@ -45,29 +47,78 @@ const HoldingCards = ({ nft }) => {
 const PortalBridge = () => {
 	const { bridgeLogsActive, bridgeLogsActiveCount } = useBridgeCollection();
 
-	const [holding, setHolding] = useState([]);
-	const { data, error, isLoading } = useMoralisQuery('EthNFTOwnersPending', (query) => query.equalTo('token_address', Addresses.Ethemerals).descending('block_number'), [], {
-		live: true,
-		onLiveEnter: (entity, all) => [...all, entity],
-		onLiveCreate: (entity, all) => [...all, entity],
-		onLiveDelete: (entity, all) => all.filter((e) => e.id !== entity.id),
-		onLiveLeave: (entity, all) => all.filter((e) => e.id !== entity.id),
-		onLiveUpdate: (entity, all) => all.map((e) => (e.id === entity.id ? entity : e)),
-	});
+	const [meralMint, setMeralMint] = useState([]);
+	const [polyHolding, setPolyHolding] = useState([]);
+	const [pMeralMint, setPMeralMint] = useState([]);
+	const [pMeralBurn, setpMeralBurn] = useState([]);
+
+	const { data: ethData } = useMoralisQuery(
+		'EthNFTTransfers',
+		(query) => query.equalTo('token_address', Addresses.Ethemerals.toLowerCase()).limit(20).equalTo('from_address', AddressZero).equalTo('confirmed', false).descending('block_number'),
+		[],
+		{
+			live: true,
+			onLiveEnter: (entity, all) => [...all, entity],
+			onLiveCreate: (entity, all) => [...all, entity],
+			onLiveDelete: (entity, all) => all.filter((e) => e.id !== entity.id),
+			onLiveLeave: (entity, all) => all.filter((e) => e.id !== entity.id),
+			onLiveUpdate: (entity, all) => all.map((e) => (e.id === entity.id ? entity : e)),
+		}
+	);
+
+	const { data: polyData } = useMoralisQuery(
+		'PolygonNFTTransfers',
+		(query) => query.equalTo('token_address', Addresses.MeralManager.toLowerCase()).limit(20).equalTo('confirmed', false).descending('block_number'),
+		[],
+		{
+			live: true,
+			onLiveEnter: (entity, all) => [...all, entity],
+			onLiveCreate: (entity, all) => [...all, entity],
+			onLiveDelete: (entity, all) => all.filter((e) => e.id !== entity.id),
+			onLiveLeave: (entity, all) => all.filter((e) => e.id !== entity.id),
+			onLiveUpdate: (entity, all) => all.map((e) => (e.id === entity.id ? entity : e)),
+		}
+	);
 
 	useEffect(() => {
-		if (data && data.length > 0) {
-			let _holding = [];
-			data.forEach((token) => {
-				let owner = token.get('owner_of');
+		if (ethData && ethData.length > 0) {
+			let _minting = [];
+			ethData.forEach((token) => {
 				let tokenId = token.get('token_id');
-				_holding.push({ tokenId, owner });
+				_minting.push({ type: 1, tokenId });
 			});
-			setHolding(_holding);
+			setMeralMint(_minting);
 		} else {
-			setHolding([]);
+			setMeralMint([]);
 		}
-	}, [data]);
+	}, [ethData]);
+
+	useEffect(() => {
+		if (polyData && polyData.length > 0) {
+			let _minting = [];
+			let _burning = [];
+			polyData.forEach((token) => {
+				let owner = token.get('owner_of');
+				let from = token.get('from_address');
+				let to = token.get('to_address');
+				let id = token.get('token_id');
+				let type = getTypeFromId(id);
+				let tokenId = getTokenIdFromId(id);
+				let meral = { type, tokenId, owner };
+				if (from === AddressZero) {
+					_minting.push(meral);
+				}
+				if (to === AddressZero) {
+					_burning.push(meral);
+				}
+			});
+			setpMeralBurn(_burning);
+			setPMeralMint(_minting);
+		} else {
+			setpMeralBurn([]);
+			setPMeralMint([]);
+		}
+	}, [polyData]);
 
 	// useEffect(() => {
 	// 	console.log('bridgeLogsActive', bridgeLogsActive);
@@ -77,17 +128,40 @@ const PortalBridge = () => {
 
 	return (
 		<div className="bg-gray-200 p-4 pb-20 m-4 w-96">
-			<h1>Bridge</h1>
+			<h1>Bridge Status</h1>
 			<p>Gateway Processing: {bridgeLogsActiveCount}</p>
-			<div style={{ minHeight: '128px' }} className="flex-wrap flex justify-center">
+			<div style={{ minHeight: '64px' }} className="flex-wrap flex justify-center">
 				{bridgeLogsActive && bridgeLogsActive.length > 0 && bridgeLogsActive.map((log) => <ProcessingCards key={log.timestamp} log={log} />)}
 			</div>
 
-			<div className="pt-24"></div>
-			<p>Merals Currently Transporting: {holding.length}</p>
-			<div style={{ minHeight: '128px' }} className="flex-wrap flex justify-center">
-				{holding && holding.length > 0 && holding.map((nft) => <HoldingCards key={nft.tokenId} nft={nft} />)}
-			</div>
+			{/* {meralMint && meralMint.length > 0 && */}
+
+			{meralMint && meralMint.length > 0 && (
+				<div className=" bg-yellow-100 p-2 my-2">
+					<p>Meral Data Migration: {meralMint.length}</p>
+					<div style={{ minHeight: '64px' }} className="flex-wrap flex justify-center">
+						{meralMint && meralMint.length > 0 && meralMint.map((nft, index) => <HoldingCards key={index} nft={nft} />)}
+					</div>
+				</div>
+			)}
+
+			{pMeralMint && pMeralMint.length > 0 && (
+				<div className=" bg-green-100 p-2 my-2">
+					<p>pMerals In the process of being Born: {pMeralMint.length}</p>
+					<div style={{ minHeight: '64px' }} className="flex-wrap flex justify-center">
+						{pMeralMint && pMeralMint.length > 0 && pMeralMint.map((nft, index) => <HoldingCards key={index} nft={nft} />)}
+					</div>
+				</div>
+			)}
+
+			{pMeralBurn && pMeralBurn.length > 0 && (
+				<div className=" bg-red-100 p-2 my-2">
+					<p>pMerals marked for Burning: {pMeralBurn.length}</p>
+					<div style={{ minHeight: '64px' }} className="flex-wrap flex justify-center">
+						{pMeralBurn && pMeralBurn.length > 0 && pMeralBurn.map((nft, index) => <HoldingCards key={index} nft={nft} />)}
+					</div>
+				</div>
+			)}
 
 			{/* TODO - INFO ABOUT MERALS ON THE OTHER SIDE */}
 			{/* <h4>Pending Transportation</h4>

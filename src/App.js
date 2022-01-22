@@ -82,7 +82,7 @@ function App() {
 					<WildsHub />
 				</Route>
 				<Route exact path="/wilds">
-					<WildsHub />
+					<WildsWorld />
 				</Route>
 				<Route exact path="/wilds/portal">
 					<Portal />

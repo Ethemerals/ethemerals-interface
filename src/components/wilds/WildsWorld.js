@@ -64,8 +64,18 @@ const WildsWorld = () => {
 	return (
 		<div className="bg_wilds h-screen w-full pt-20 fixed overflow-y-auto">
 			<h1 className="text-white p-4">ALPHA VERSION</h1>
+			<div className="flex justify-center">
+				<div className="w-44 h-44 bg-green-100 text-lg p-4 m-2">Land1</div>
+				<div className="w-44 h-44 bg-green-100 text-lg p-4 m-2">Land2</div>
+				<div className="w-44 h-44 bg-green-100 text-lg p-4 m-2">Land3</div>
+			</div>
 			<LandHub />
-			<div className="flex flex-wrap justify-center">{landsParsed && landsParsed.map((land) => <LandCards key={land.id} land={land} />)}</div>
+			<div className="flex justify-center">
+				<div className="w-44 h-44 bg-green-100 text-lg p-4 m-2">Land4</div>
+				<div className="w-44 h-44 bg-green-100 text-lg p-4 m-2">Land5</div>
+				<div className="w-44 h-44 bg-green-100 text-lg p-4 m-2">Land6</div>
+			</div>
+			{/* <div className="flex flex-wrap justify-center">{landsParsed && landsParsed.map((land) => <LandCards key={land.id} land={land} />)}</div> */}
 			<div className="h-40"></div>
 		</div>
 	);
