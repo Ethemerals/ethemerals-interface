@@ -31,7 +31,6 @@ const ActionLink = (action) => {
 
 const MeralDetails = () => {
 	const { elements } = useNFTUtils();
-	console.log('here');
 
 	const { id } = useParams();
 	const { meralData } = useMeralDataByIdType1(id);

@@ -3,7 +3,7 @@ import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const EnterPortalButton = () => {
 	const showModal = () => {
-		NiceModal.show(modalRegistry.enterPortal, { deposit: true });
+		NiceModal.show(modalRegistry.enterPortal);
 	};
 
 	return (

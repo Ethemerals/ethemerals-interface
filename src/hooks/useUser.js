@@ -32,60 +32,6 @@ export const useUser = () => {
 	};
 };
 
-export const getUserPendingMerals = async (address) => {
-	if (isAddress(address)) {
-		try {
-			const result = await Moralis.Cloud.run('getUserPendingMerals', { address });
-			return result;
-		} catch (error) {
-			throw new Error('get account error');
-		}
-	} else {
-		return { message: 'address not valid' };
-	}
-};
-
-export const useUserPendingMerals = () => {
-	const { address } = useUser();
-	const [pendingNfts, setNfts] = useState(undefined);
-	const { data, isLoading } = useQuery(`getUserPendingMerals`, () => getUserPendingMerals(address), { enabled: !!address, refetchOnMount: true }); // TODO
-
-	useEffect(() => {
-		if (data && !isLoading) {
-			setNfts(data);
-		}
-	}, [data, isLoading]);
-
-	return { pendingNfts };
-};
-
-export const getUserPortalMerals = async (address) => {
-	if (isAddress(address)) {
-		try {
-			const result = await Moralis.Cloud.run('getUserProxyMerals', { address });
-			return result;
-		} catch (error) {
-			throw new Error('get account error');
-		}
-	} else {
-		return { message: 'address not valid' };
-	}
-};
-
-export const useUserProxyMerals = () => {
-	const { address } = useUser();
-	const [proxyNfts, setNfts] = useState(undefined);
-	const { data, isLoading } = useQuery(`getUserProxyMerals`, () => getUserPortalMerals(address), { enabled: !!address, refetchOnMount: true }); // TODO
-
-	useEffect(() => {
-		if (data && !isLoading) {
-			setNfts(data);
-		}
-	}, [data, isLoading]);
-
-	return { proxyNfts };
-};
-
 export const getUserAccount = async (address) => {
 	if (isAddress(address)) {
 		try {
@@ -107,13 +53,15 @@ export const useUserAccount = () => {
 	const [account, setAccount] = useState(undefined);
 	const [mainIndex, setMainIndex] = useState(undefined);
 	const [userNFTs, setUserNFTs] = useState([]);
+	const [userProxyNFTs, setUserProxyNFTs] = useState([]);
 
-	const { data, isLoading } = useQuery(`account_${address}`, () => getUserAccount(address), { enabled: !!address, refetchOnMount: false }); // TODO
+	const { data, isLoading } = useQuery(`account_${address}`, () => getUserAccount(address), { enabled: !!address, refetchOnMount: true }); // TODO
 
 	useEffect(() => {
 		if (data && !isLoading) {
 			setAccount(data);
 			setUserNFTs(data.merals);
+			setUserProxyNFTs(data.proxyMerals);
 		}
 	}, [data, isLoading]);
 
@@ -183,5 +131,6 @@ export const useUserAccount = () => {
     account,
     mainIndex,
     userNFTs,
+    userProxyNFTs
   };
 };

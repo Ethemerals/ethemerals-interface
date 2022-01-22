@@ -16,8 +16,8 @@ import EthemeralsMerals from './pages/EthemeralsMerals';
 import Equipable from './pages/Equipable';
 import MeralDetails from './pages/MeralDetails';
 import All from './pages/All';
-import Wilds from './pages/Wilds';
-import Portal from './pages/Portal';
+import WildsWorld from './components/wilds/WildsWorld';
+import Portal from './components/wilds/Portal';
 import WildsLandDetails from './components/wilds/WildsLandDetails';
 import WildsHub from './components/wilds/WildsHub';
 
@@ -72,16 +72,19 @@ function App() {
 						<EternalBattle />
 					</EBContextProvider>
 				</Route>
-				<Route exact path="/wilds/">
-					<Wilds />
+				<Route exact path="/wilds/world">
+					<WildsWorld />
 				</Route>
-				<Route exact path="/wilds/:id">
+				<Route exact path="/wilds/land/:id">
 					<WildsLandDetails />
 				</Route>
-				<Route exact path="/wildshub">
+				<Route exact path="/wilds/hub">
 					<WildsHub />
 				</Route>
-				<Route exact path="/portal">
+				<Route exact path="/wilds">
+					<WildsHub />
+				</Route>
+				<Route exact path="/wilds/portal">
 					<Portal />
 				</Route>
 				<Route exact path="/dashboard">

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useGQLQueryL1 } from '../hooks/useGQLQuery';
-import { wildsParseInitValues } from '../hooks/useWilds';
-import { GET_LANDS } from '../queries/SubgraphWilds';
+import { useGQLQueryL1 } from '../../hooks/useGQLQuery';
+import { wildsParseInitValues } from '../../hooks/useWilds';
+import { GET_LANDS } from '../../queries/SubgraphWilds';
 
 const worldMap = 'https://ethemerals-media.s3.amazonaws.com/wilds/worldmap.png';
 
@@ -30,7 +30,7 @@ const LandHub = () => {
 	const history = useHistory();
 
 	const handleOnClick = () => {
-		history.push(`/wildshub`);
+		history.push(`/wilds/hub`);
 	};
 
 	return (
@@ -40,7 +40,7 @@ const LandHub = () => {
 	);
 };
 
-const Wilds = () => {
+const WildsWorld = () => {
 	const [lands, setLands] = useState(undefined);
 	const [landsParsed, setLandsParsed] = useState(undefined);
 	const { data, status } = useGQLQueryL1(`lands`, GET_LANDS, { refetchOnMount: true });
@@ -62,7 +62,7 @@ const Wilds = () => {
 	}, [lands]);
 
 	return (
-		<div style={{ backgroundImage: `url(${worldMap})` }} className="h-screen w-full pt-20 bg-center object-none fixed overflow-y-auto">
+		<div className="bg_wilds h-screen w-full pt-20 fixed overflow-y-auto">
 			<h1 className="text-white p-4">ALPHA VERSION</h1>
 			<LandHub />
 			<div className="flex flex-wrap justify-center">{landsParsed && landsParsed.map((land) => <LandCards key={land.id} land={land} />)}</div>
@@ -71,4 +71,4 @@ const Wilds = () => {
 	);
 };
 
-export default Wilds;
+export default WildsWorld;
