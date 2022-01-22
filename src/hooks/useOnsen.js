@@ -8,14 +8,10 @@ import { Addresses } from '../constants/contracts/Addresses';
 import { useGQLQueryL1 } from './useGQLQuery';
 import { GET_ONSEN_ACCOUNT } from '../queries/SubgraphWilds';
 import { useWeb3 } from './useWeb3';
-
-const getContracts = async (provider, setContractOnsen) => {
-	if (provider) {
-		await setContractOnsen(new Contract(Addresses.Onsen, abis.Onsen, getSigner(provider)));
-		console.log('GOT ONSEN CONTRACTS');
-	} else {
-	}
-};
+import { useChain } from 'react-moralis';
+import { getContract } from '../utils/contracts/getContract';
+import { getAccount } from '../utils/contracts/getAccount';
+import { useQuery } from 'react-query';
 
 // const calculateChange = async (provider, contract, id) => {
 // 	if (provider && contract) {
@@ -44,28 +40,34 @@ const getContracts = async (provider, setContractOnsen) => {
 
 export const useOnsenContract = () => {
 	const { provider } = useWeb3();
+	const { chainId } = useChain();
 
 	const [contractOnsen, setOnsenContract] = useState(undefined);
 
 	useEffect(() => {
-		getContracts(provider, setOnsenContract);
-	}, [provider]);
+		getContract(provider, Addresses.Onsen.toLowerCase(), abis.Onsen, setOnsenContract, 'ONSEN');
+	}, [provider, chainId]);
 
 	return { contractOnsen };
 };
 
 export const useOnsenAccount = () => {
-	const { data } = useGQLQueryL1('account_onsen', GET_ONSEN_ACCOUNT, { id: Addresses.Onsen.toLowerCase() }, { refetchOnMount: true });
-	const [accountOnsen, setAccountOnsen] = useState(null);
+	const [onsenAccount, setAccount] = useState(undefined);
+	const [onsenNFTs, setNFTs] = useState([]);
+	let address = Addresses.Onsen;
+	const { data, isLoading } = useQuery(`account_${address}`, () => getAccount(address), { enabled: !!address, refetchOnMount: true, refetchInterval: 20000 }); // TODO
 
 	useEffect(() => {
-		if (data && data.account !== null) {
-			setAccountOnsen(data.account);
+		if (data && !isLoading) {
+			setAccount(data);
+			setNFTs(data.pMerals);
+			console.log(data);
 		}
-	}, [data]);
+	}, [data, isLoading]);
 
 	return {
-		accountOnsen,
+		onsenAccount,
+		onsenNFTs,
 	};
 };
 

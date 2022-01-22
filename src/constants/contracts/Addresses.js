@@ -9,7 +9,7 @@ const getAddresses = () => {
 		changeScoreAndRewards: '0x304287ace2c677d9051ada34e87f1b4495e5c35c',
 		EscrowL1: '0x52AD83F0aE762622eab23BF9A15508195d404ef5',
 		MeralManager: '0x055f437a439caec49de34026e583528aae84d7af',
-		Onsen: '0xe39d7C3C4Be47C8B08A03FA52683322aF6697FCD',
+		Onsen: '0xdB405C016322F9BB24ceB8386BcFcA277adf5bCE',
 		Wilds: '0x53779baa1887663e8Ff6B2DaAdFbC5c8Ea8C6E53',
 	};
 
@@ -22,7 +22,7 @@ const getAddresses = () => {
 		addresses.changeScoreAndRewards = '0x304287ace2c677d9051ada34e87f1b4495e5c35c';
 		addresses.EscrowL1 = '0x691ac8428BBD2Cf1e9e88Fe11CEE6E3a542Db28B';
 		addresses.MeralManager = '0x055F437a439CaEC49De34026e583528aae84d7aF';
-		addresses.Onsen = '0x0cA1c36D48C1f8fcd4ce6E7EB9d1316B5B8E657a';
+		addresses.Onsen = '0xdB405C016322F9BB24ceB8386BcFcA277adf5bCE';
 		addresses.Wilds = '0x53779baa1887663e8Ff6B2DaAdFbC5c8Ea8C6E53';
 	}
 

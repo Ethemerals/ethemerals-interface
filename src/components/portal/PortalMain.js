@@ -7,7 +7,7 @@ import { useUserAccount } from '../../hooks/useUser';
 import MeralListStatic from '../niceModals/cards/MeralListStatic';
 const PortalMain = () => {
 	const { escrowL1NFTs, escrowL1Account } = useEscrowL1Account();
-	const { userProxyNFTs } = useUserAccount();
+	const { userPMerals } = useUserAccount();
 
 	return (
 		<div className="bg-gray-200 p-4 pb-20 m-4 w-96">

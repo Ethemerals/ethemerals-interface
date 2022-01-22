@@ -25,8 +25,7 @@ export const useEscrowL1Account = () => {
 	const [escrowL1Account, setAccount] = useState(undefined);
 	const [escrowL1NFTs, setNFTs] = useState([]);
 	let address = Addresses.EscrowL1;
-	console.log(address);
-	const { data, isLoading } = useQuery(`account_${address}`, () => getAccount(address), { enabled: !!address, refetchOnMount: true, refetchInterval: 10000 }); // TODO
+	const { data, isLoading } = useQuery(`account_${address}`, () => getAccount(address), { enabled: !!address, refetchOnMount: true, refetchInterval: 20000 }); // TODO
 
 	useEffect(() => {
 		if (data && !isLoading) {

@@ -18,11 +18,15 @@ const NFTActions = ({ nft }) => {
 
 	const [isOwned, setIsOwned] = useState(false);
 
+	const [isStaked, setIsStaked] = useState(false);
 	const [isInBattle, setIsInBattle] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);
 	const [isSummonPetOpen, setIsSummonPetOpen] = useState(false);
 
 	useEffect(() => {
+		if (nft && nft.owner === Addresses.EscrowL1.toLowerCase()) {
+			setIsStaked(true);
+		}
 		if (nft && nft.owner === Addresses.EternalBattle.toLowerCase()) {
 			setIsInBattle(true);
 		}
@@ -72,12 +76,12 @@ const NFTActions = ({ nft }) => {
 
 	return (
 		<div className="grid grid-cols-2 gap-2 px-2 text-sm text-white">
-			{isInBattle ? (
+			{isStaked || isInBattle ? (
 				<div className="flex items-center col-span-2 rounded-lg cursor-default">
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
-					<p className="text-black">{'IN BATTLE!'}</p>
+					<p className="text-black">{isStaked ? 'Shes In The Poly Portal!' : 'In Battle!'}</p>
 				</div>
 			) : account && isOwned && userNFTs[mainIndex] && userNFTs[mainIndex].meralId === nft.meralId ? (
 				<div className="flex items-center col-span-2 rounded-lg cursor-default">

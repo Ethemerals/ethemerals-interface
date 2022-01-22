@@ -53,7 +53,7 @@ export const useUserAccount = () => {
 	const [account, setAccount] = useState(undefined);
 	const [mainIndex, setMainIndex] = useState(undefined);
 	const [userNFTs, setUserNFTs] = useState([]);
-	const [userProxyNFTs, setUserProxyNFTs] = useState([]);
+	const [userPMerals, setUserPMerals] = useState([]);
 
 	const { data, isLoading } = useQuery(`account_${address}`, () => getUserAccount(address), { enabled: !!address, refetchOnMount: true }); // TODO
 
@@ -61,7 +61,7 @@ export const useUserAccount = () => {
 		if (data && !isLoading) {
 			setAccount(data);
 			setUserNFTs(data.merals);
-			setUserProxyNFTs(data.proxyMerals);
+			setUserPMerals(data.pMerals);
 		}
 	}, [data, isLoading]);
 
@@ -131,6 +131,6 @@ export const useUserAccount = () => {
     account,
     mainIndex,
     userNFTs,
-    userProxyNFTs
+    userPMerals
   };
 };

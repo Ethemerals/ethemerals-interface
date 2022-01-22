@@ -1,19 +1,18 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
-import { useEffect, useState } from 'react';
 import { useChain } from 'react-moralis';
 import { useSendTx } from '../../../context/TxContext';
 
-import { useEscrowL1Contract } from '../../../hooks/useEscrowL1';
-import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralUtils';
+import { useOnsenAccount, useOnsenContract } from '../../../hooks/useOnsen';
 import { useUser, useUserAccount } from '../../../hooks/useUser';
 import { getIsLayer2 } from '../../../utils/contracts/parseChainId';
+import CloseButton from '../../niceModals/buttons/CloseButton';
 import LoginButton from '../../niceModals/cards/LoginButton';
 
 import MeralList from '../../niceModals/cards/MeralList';
 import SwitchNetworks from '../../niceModals/cards/SwitchNetworks';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 
-export default NiceModal.create(() => {
+export default NiceModal.create(({ stake }) => {
 	const modal = useModal();
 
 	const { chainId } = useChain();
@@ -21,29 +20,28 @@ export default NiceModal.create(() => {
 
 	const sendTx = useSendTx();
 	const { userPMerals: nfts } = useUserAccount();
+	const { contractOnsen } = useOnsenContract();
 
-	const { contractEscrowL1 } = useEscrowL1Contract();
 	const { user, address } = useUser();
 
-	const handleWithdraw = async (id) => {
-		if (contractEscrowL1) {
-			toggle();
-			await submitWithdraw(id);
+	const handleStake = async (id) => {
+		if (stake) {
+			console.log('enter', id);
+			await submitStake(id);
+		} else {
+			console.log('leave', id);
 		}
 	};
 
-	const submitWithdraw = async (id) => {
-		if (contractEscrowL1 && nfts) {
-			NiceModal.show(modalRegistry.waitingForSignature, { message: 'Withdrawing Meral From Portal' });
+	const submitStake = async (id) => {
+		if (contractOnsen) {
+			NiceModal.show(modalRegistry.waitingForSignature, { message: 'Sending Meral Into Onsen' });
 			try {
-				let tokenId = getTokenIdFromId(id);
-				let type = getTypeFromId(id);
-				const gasEstimate = await contractEscrowL1.estimateGas.withdraw(type, tokenId);
-
+				const gasEstimate = await contractOnsen.estimateGas.stake(id);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractEscrowL1.withdraw(type, tokenId, { gasLimit });
+				const tx = await contractOnsen.stake(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Leave Portal', true, [`account_${address}`, `account_${contractEscrowL1.address}`, `nft_${id}`]);
+				sendTx(tx.hash, 'Enter Onsen', true, [`account_${address}`, `account_${contractOnsen.address}`, `nft_${id}`]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
@@ -54,7 +52,8 @@ export default NiceModal.create(() => {
 	};
 
 	const selectAndToggle = async (id) => {
-		await handleWithdraw(id);
+		await handleStake(id);
+		toggle();
 	};
 
 	const toggle = async () => {
@@ -65,13 +64,14 @@ export default NiceModal.create(() => {
 		<>
 			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-30"></div>
 			<div
-				style={{ minWidth: '512px', minHeight: '512px', width: '60%', height: '60%' }}
+				style={{ minWidth: '512px', minHeight: '256px', maxWidth: '60%', maxHeight: '60%' }}
 				className="absolute center animate-fadeOnFast z-40 overflow-scroll rounded bg-white border border-gray-600 p-4 shadow-lg"
 			>
+				<CloseButton toggle={toggle} />
 				<h2>Select Your Meral</h2>
 				{!user && <LoginButton />}
-				{isLayer2 && <SwitchNetworks message={'Switch your Network to Ethereum'} />}
-				{!isLayer2 && <MeralList nfts={nfts} select={selectAndToggle} />}
+				{!isLayer2 && <SwitchNetworks message={'Switch your Network to Polygon'} />}
+				{isLayer2 && <MeralList nfts={nfts} select={selectAndToggle} />}
 			</div>
 		</>
 	);

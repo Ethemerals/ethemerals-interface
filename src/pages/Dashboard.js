@@ -8,7 +8,7 @@ import { useEternalBattleAccount } from '../hooks/useEternalBattle';
 import Preferences from '../components/Preferences';
 
 const Dashboard = () => {
-	const { account, userNFTs } = useUserAccount();
+	const { account, userNFTs, userPMerals } = useUserAccount();
 	const { accountEternalBattle } = useEternalBattleAccount();
 
 	const [merals, setMerals] = useState([]);
@@ -22,7 +22,7 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		if (account && userNFTs.length > 0) {
-			setMerals(userNFTs);
+			setMerals([...userPMerals, ...userNFTs]);
 		}
 		if (account && account.pets.length > 0) {
 			setPets(account.pets);
@@ -53,7 +53,7 @@ const Dashboard = () => {
 					onClick={() => setSelectedTab(0)}
 					className={`${selectedTab === 0 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
 				>
-					Merals
+					All Merals
 				</button>
 				<button
 					onClick={() => setSelectedTab(1)}
@@ -65,7 +65,7 @@ const Dashboard = () => {
 					onClick={() => setSelectedTab(2)}
 					className={`${selectedTab === 2 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
 				>
-					In Battle
+					In Portal
 				</button>
 				<div className="w-6"></div>
 				<button
@@ -82,7 +82,7 @@ const Dashboard = () => {
 				<div className="flex flex-wrap mx-auto justify-center">
 					{selectedTab === 0 && merals.map((nft) => <NFTPreviewCard key={nft.meralId} nft={nft} isFetching={false} />)}
 					{selectedTab === 1 && pets && pets.map((nft) => <EquipablePreviewCard key={nft.tokenId} nft={nft} />)}
-					{selectedTab === 2 && meralsInBattle.map((nft) => <NFTPreviewCard key={nft.meralId} nft={nft} isFetching={false} />)}
+					{selectedTab === 2 && userPMerals && userPMerals.map((nft) => <NFTPreviewCard key={nft.meralId} nft={nft} isFetching={false} />)}
 					{selectedTab === 3 && <Preferences />}
 				</div>
 			</div>

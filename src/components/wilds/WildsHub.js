@@ -1,9 +1,16 @@
 import Onsen from '../onsen/Onsen';
+import NiceModal from '@ebay/nice-modal-react';
 import { useHistory } from 'react-router-dom';
 import WorldMapButton from './buttons/WorldMapButton';
+import { modalRegistry } from '../niceModals/RegisterModals';
 
 const WildsHub = () => {
 	const history = useHistory();
+
+	const showOnsenModal = () => {
+		NiceModal.show(modalRegistry.openOnsen);
+	};
+
 	return (
 		<div className="bg_wilds_hub h-screen w-full fixed overflow-y-auto px-4">
 			<div className="text-5xl mt-24 text-white">
@@ -18,9 +25,9 @@ const WildsHub = () => {
 					<h1>Portal</h1>
 				</div>
 				{/* <Onsen /> */}
-				<div className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">
+				<div onClick={showOnsenModal} className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">
 					<h1>Onsen</h1>
-					under construction
+					click me
 				</div>
 				<div className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">
 					<h1>Market</h1>
