@@ -1,7 +1,3 @@
-import { useState, useEffect } from 'react';
-
-import { useEscrowL1Account } from '../../hooks/useEscrowL1';
-
 import { useUser, useUserAccount } from '../../hooks/useUser';
 
 import EnterPortalButton from '../portal/buttons/EnterPortalButton';
@@ -11,8 +7,6 @@ import PortalBridge from '../portal/PortalBridge';
 import PortalProxied from '../portal/PortalProxied';
 
 const Portal = () => {
-	const { mainIndex, userNFTs } = useUserAccount();
-
 	return (
 		<div className="bg_wilds h-screen w-full pt-20 fixed overflow-y-auto">
 			<div className="pt-28 p-4 text-center">
