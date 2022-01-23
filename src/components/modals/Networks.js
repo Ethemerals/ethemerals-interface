@@ -28,7 +28,6 @@ const Networks = ({ toggle, networks }) => {
 
 	return (
 		<>
-			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen "></div>
 			<div className={`rounded mt-2 py-4 w-44 bg-white absolute border-gray-100 border-2 shadow-xl animate-fadeOnFast ${!windowMed ? 'bottom-16' : ''}`}>
 				<button onClick={() => handleMenuClick(0)} className="px-2 h-10 mr-2 focus:outline-none flex items-center justify-center text-black hover:text-blue-600 rounded transition duration-300">
 					<div className="flex items-center ">

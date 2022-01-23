@@ -1,14 +1,14 @@
-import Onsen from '../onsen/Onsen';
 import NiceModal from '@ebay/nice-modal-react';
-import { useHistory } from 'react-router-dom';
 import WorldMapButton from './buttons/WorldMapButton';
 import { modalRegistry } from '../niceModals/RegisterModals';
 
 const WildsHub = () => {
-	const history = useHistory();
-
 	const showOnsenModal = () => {
 		NiceModal.show(modalRegistry.openOnsen);
+	};
+
+	const showPortalModal = () => {
+		NiceModal.show(modalRegistry.openPortal);
 	};
 
 	return (
@@ -19,15 +19,21 @@ const WildsHub = () => {
 			<div className="flex flex-wrap">
 				<div
 					style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/wilds/portal.png'" }}
-					onClick={() => history.push(`/wilds/portal`)}
+					onClick={showPortalModal}
 					className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4 bg-cover"
 				>
 					<h1>Portal</h1>
 				</div>
 				{/* <Onsen /> */}
-				<div onClick={showOnsenModal} className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">
-					<h1>Onsen</h1>
-					click me
+				<div
+					style={{
+						backgroundRepeat: 'no-repeat',
+						backgroundImage: "url('https://static.displate.com/857x1200/displate/2021-02-18/e81f4ff8dedec2a9f86fd0a2fe183c14_83b935a5ee01e62c6e0842d895c3bc26.jpg')",
+					}}
+					onClick={showOnsenModal}
+					className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4 bg-cover"
+				>
+					<h1 className="text-white">Onsen</h1>
 				</div>
 				<div className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">
 					<h1>Market</h1>

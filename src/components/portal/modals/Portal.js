@@ -1,4 +1,5 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import { useEffect } from 'react';
 import { useChain } from 'react-moralis';
 import { useOnsenAccount } from '../../../hooks/useOnsen';
 import { useUser } from '../../../hooks/useUser';
@@ -8,9 +9,13 @@ import LoginButton from '../../niceModals/cards/LoginButton';
 
 import MeralList from '../../niceModals/cards/MeralList';
 import SwitchNetworks from '../../niceModals/cards/SwitchNetworks';
-import EnterOnsenButton from '../buttons/EnterOnsenButton';
-import LeaveOnsenButton from '../buttons/LeaveOnsenButton';
-import MeralOnsenList from '../cards/MeralOnsenList';
+import EnterPortalButton from '../buttons/EnterPortalButton';
+import LeavePortalButton from '../buttons/LeavePortalButton';
+import PortalBridge from '../cards/PortalBridge';
+import PortalMain from '../cards/PortalMain';
+import PortalProxied from '../cards/PortalProxied';
+// import EnterOnsenButton from '../buttons/EnterOnsenButton';
+// import LeaveOnsenButton from '../buttons/LeaveOnsenButton';
 
 export default NiceModal.create(() => {
 	const modal = useModal();
@@ -42,24 +47,28 @@ export default NiceModal.create(() => {
 				<div
 					style={{
 						backgroundRepeat: 'no-repeat',
-						backgroundImage: "url('https://static.displate.com/857x1200/displate/2021-02-18/e81f4ff8dedec2a9f86fd0a2fe183c14_83b935a5ee01e62c6e0842d895c3bc26.jpg')",
+						backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/wilds/portal.jpg')",
 					}}
-					className="w-full h-72 md:h-96 bg-yellow-200 bg-cover bg-center"
+					className="w-full h-24 md:h-44 bg-cover bg-center"
 				></div>
 				{/* CONTENT */}
 				<div className="p-4">
-					<h2>Relax in the Onsen</h2>
+					<h2>Enter The Portal</h2>
 					<div className="py-4">
-						<p>Short description about xp hp and elf</p>
+						<p>Short description about sending Merals into the Eth to Poly portal</p>
 						{!user && <LoginButton />}
-						{!isLayer2 && <SwitchNetworks message={'Switch your Network to Polygon'} />}
+						{isLayer2 && <SwitchNetworks message={'Switch your Network to Ethereum'} />}
 
 						<div className="flex justify-center">
-							<EnterOnsenButton />
-							<LeaveOnsenButton />
+							<EnterPortalButton />
+							<LeavePortalButton />
 						</div>
-						<h2>Merals currently in the Onsen:</h2>
-						<MeralOnsenList nfts={onsenNFTs} select={selectAndToggle} />
+
+						<div className="flex justify-center items-stretch mt-4">
+							<PortalMain />
+							<PortalBridge />
+							<PortalProxied />
+						</div>
 					</div>
 				</div>
 			</div>

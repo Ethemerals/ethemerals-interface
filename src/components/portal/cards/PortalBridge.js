@@ -1,12 +1,11 @@
 import { AddressZero } from '@ethersproject/constants';
 import { useEffect, useState } from 'react';
-import { useEscrowL1Account } from '../../hooks/useEscrowL1';
-import { useBridgeCollection } from '../../hooks/useBridge';
-import { getTokenIdFromId, getTypeFromId } from '../../hooks/useMeralUtils';
-import { useUserAccount } from '../../hooks/useUser';
-import MeralList from '../niceModals/cards/MeralList';
+
+import { useBridgeCollection } from '../../../hooks/useBridge';
+import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralUtils';
+
 import { useMoralisQuery } from 'react-moralis';
-import { Addresses } from '../../constants/contracts/Addresses';
+import { Addresses } from '../../../constants/contracts/Addresses';
 
 const ProcessingCards = ({ log }) => {
 	// "Meral_Mint_Sub"
@@ -127,7 +126,7 @@ const PortalBridge = () => {
 	// }, [bridgeLogsActive, bridgeLogsActiveCount, loadingBridgeLogsActive]);
 
 	return (
-		<div className="bg-gray-200 p-4 pb-20 m-4 w-96">
+		<div className="bg-gray-200 p-4 pb-20 mx-2 w-96">
 			<h1>Bridge Status</h1>
 			<p>Gateway Processing: {bridgeLogsActiveCount}</p>
 			<div style={{ minHeight: '64px' }} className="flex-wrap flex justify-center">

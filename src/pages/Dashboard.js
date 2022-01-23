@@ -27,7 +27,7 @@ const Dashboard = () => {
 		if (account && account.pets.length > 0) {
 			setPets(account.pets);
 		}
-	}, [account, userNFTs]);
+	}, [account, userNFTs, userPMerals]);
 
 	// useEffect(() => {
 	// 	if (accountEternalBattle && account) {

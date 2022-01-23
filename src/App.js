@@ -17,7 +17,6 @@ import Equipable from './pages/Equipable';
 import MeralDetails from './pages/MeralDetails';
 import All from './pages/All';
 import WildsWorld from './components/wilds/WildsWorld';
-import Portal from './components/wilds/Portal';
 import WildsLandDetails from './components/wilds/WildsLandDetails';
 import WildsHub from './components/wilds/WildsHub';
 
@@ -83,9 +82,6 @@ function App() {
 				</Route>
 				<Route exact path="/wilds">
 					<WildsWorld />
-				</Route>
-				<Route exact path="/wilds/portal">
-					<Portal />
 				</Route>
 				<Route exact path="/dashboard">
 					<Dashboard />

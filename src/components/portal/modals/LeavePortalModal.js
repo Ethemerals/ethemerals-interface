@@ -7,6 +7,7 @@ import { useEscrowL1Contract } from '../../../hooks/useEscrowL1';
 import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralUtils';
 import { useUser, useUserAccount } from '../../../hooks/useUser';
 import { getIsLayer2 } from '../../../utils/contracts/parseChainId';
+import CloseButton from '../../niceModals/buttons/CloseButton';
 import LoginButton from '../../niceModals/cards/LoginButton';
 
 import MeralList from '../../niceModals/cards/MeralList';
@@ -63,11 +64,12 @@ export default NiceModal.create(() => {
 
 	return (
 		<>
-			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-30"></div>
+			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-30 z-40"></div>
 			<div
-				style={{ minWidth: '512px', minHeight: '512px', width: '60%', height: '60%' }}
+				style={{ minWidth: '512px', minHeight: '256px', maxWidth: '60%', maxHeight: '60%' }}
 				className="absolute center animate-fadeOnFast z-40 overflow-scroll rounded bg-white border border-gray-600 p-4 shadow-lg"
 			>
+				<CloseButton toggle={toggle} />
 				<h2>Select Your Meral</h2>
 				{!user && <LoginButton />}
 				{isLayer2 && <SwitchNetworks message={'Switch your Network to Ethereum'} />}

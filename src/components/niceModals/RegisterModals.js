@@ -4,9 +4,11 @@ import LeavePortalModal from '../portal/modals/LeavePortalModal';
 import WaitingForSignature from './WaitingForSignature';
 import Onsen from '../onsen/modals/Onsen';
 import EnterOnsenModal from '../onsen/modals/EnterOnsenModal';
+import Portal from '../portal/modals/Portal';
 
 export const modalRegistry = {
 	waitingForSignature: 'waiting-for-signature',
+	openPortal: 'open-portal',
 	enterPortal: 'enter-portal',
 	leavePortal: 'leave-portal',
 	openOnsen: 'open-onsen',
@@ -15,6 +17,7 @@ export const modalRegistry = {
 
 export const registerModals = () => {
 	NiceModal.register(modalRegistry.waitingForSignature, WaitingForSignature);
+	NiceModal.register(modalRegistry.openPortal, Portal);
 	NiceModal.register(modalRegistry.enterPortal, EnterPortalModal);
 	NiceModal.register(modalRegistry.leavePortal, LeavePortalModal);
 	NiceModal.register(modalRegistry.openOnsen, Onsen);

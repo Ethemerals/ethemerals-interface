@@ -26,7 +26,6 @@ export default NiceModal.create(({ message }) => {
 			setProcessing(false);
 			modal.remove();
 		}
-		console.log(mining);
 	}, [mining, processing, modal]);
 
 	const toggle = () => {
