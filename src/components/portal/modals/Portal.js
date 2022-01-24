@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useChain } from 'react-moralis';
 import { useOnsenAccount } from '../../../hooks/useOnsen';
 import { useUser } from '../../../hooks/useUser';
-import { getIsLayer2 } from '../../../utils/contracts/parseChainId';
+import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
 import CloseButton from '../../niceModals/buttons/CloseButton';
 import LoginButton from '../../niceModals/cards/LoginButton';
 
@@ -57,7 +57,7 @@ export default NiceModal.create(() => {
 					<div className="py-4">
 						<p>Short description about sending Merals into the Eth to Poly portal</p>
 						{!user && <LoginButton />}
-						{isLayer2 && <SwitchNetworks message={'Switch your Network to Ethereum'} />}
+						{isLayer2 && <SwitchNetworks message={`Switch your Network to ${getOtherLayerChainName(chainId)}`} />}
 
 						<div className="flex justify-center">
 							<EnterPortalButton />

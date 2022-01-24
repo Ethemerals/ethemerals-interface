@@ -1,23 +1,22 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
+
 import { useChain } from 'react-moralis';
-import { useOnsenAccount } from '../../../hooks/useOnsen';
-import { useUser } from '../../../hooks/useUser';
-import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
-import CloseButton from '../../niceModals/buttons/CloseButton';
-import LoginButton from '../../niceModals/cards/LoginButton';
+import { useUser } from '../../../../hooks/useUser';
+import { StakeAction, useWildsLand } from '../../../../hooks/useWilds';
+import { getIsLayer2, getOtherLayerChainName } from '../../../../utils/contracts/parseChainId';
+import CloseButton from '../../../niceModals/buttons/CloseButton';
+import LoginButton from '../../../niceModals/cards/LoginButton';
+import SwitchNetworks from '../../../niceModals/cards/SwitchNetworks';
+import StakeButton from '../buttons/StakeButton';
+import MeralListWildsLarge from '../cards/MeralListWildsLarge';
 
-import SwitchNetworks from '../../niceModals/cards/SwitchNetworks';
-import EnterOnsenButton from '../buttons/EnterOnsenButton';
-import LeaveOnsenButton from '../buttons/LeaveOnsenButton';
-import MeralListOnsen from '../cards/MeralListOnsen';
-
-export default NiceModal.create(() => {
+export default NiceModal.create(({ landId }) => {
 	const modal = useModal();
 
 	const { chainId } = useChain();
 	let isLayer2 = getIsLayer2(chainId);
 
-	const { onsenNFTs } = useOnsenAccount();
+	const { birthers: nfts } = useWildsLand(landId);
 	const { user } = useUser();
 
 	const toggle = async () => {
@@ -41,24 +40,25 @@ export default NiceModal.create(() => {
 				<div
 					style={{
 						backgroundRepeat: 'no-repeat',
-						backgroundImage: "url('https://static.displate.com/857x1200/displate/2021-02-18/e81f4ff8dedec2a9f86fd0a2fe183c14_83b935a5ee01e62c6e0842d895c3bc26.jpg')",
+						backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/wilds/birth.jpg')",
 					}}
-					className="w-full h-72 md:h-96 bg-yellow-200 bg-cover bg-center"
+					className="w-full h-96 bg-cover bg-center"
 				></div>
 				{/* CONTENT */}
 				<div className="p-4">
-					<h2>Relax in the Onsen</h2>
+					<h2>Birthers Modal</h2>
 					<div className="py-4">
-						<p>Short description about xp hp and elf</p>
+						<p>Short description about merals going and giving birth to slimes etc</p>
+
 						{!user && <LoginButton />}
 						{!isLayer2 && <SwitchNetworks message={`Switch your Network to ${getOtherLayerChainName(chainId)}`} />}
 
 						<div className="flex justify-center">
-							<EnterOnsenButton />
-							<LeaveOnsenButton />
+							<StakeButton landId={landId} stakeAction={StakeAction.BIRTH} />
 						</div>
-						<h2>Merals currently in the Onsen:</h2>
-						<MeralListOnsen nfts={onsenNFTs} select={selectAndToggle} />
+						<h2>Birthers:</h2>
+
+						<MeralListWildsLarge nfts={nfts} select={selectAndToggle} />
 					</div>
 				</div>
 			</div>

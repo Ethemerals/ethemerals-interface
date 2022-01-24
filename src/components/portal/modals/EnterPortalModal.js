@@ -8,7 +8,7 @@ import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralUtils';
 import { useUser, useUserAccount } from '../../../hooks/useUser';
 import { submitApprovedForAll } from '../../../utils/contracts/contractFunctions';
 import { getIsApprovedForAll } from '../../../utils/contracts/getContract';
-import { getIsLayer2 } from '../../../utils/contracts/parseChainId';
+import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
 import CloseButton from '../../niceModals/buttons/CloseButton';
 import LoginButton from '../../niceModals/cards/LoginButton';
 
@@ -79,7 +79,8 @@ export default NiceModal.create(() => {
 				<CloseButton toggle={toggle} />
 				<h2>Select Your Meral</h2>
 				{!user && <LoginButton />}
-				{isLayer2 && <SwitchNetworks message={'Switch your Network to Ethereum'} />}
+				{isLayer2 && <SwitchNetworks message={`Switch your Network to ${getOtherLayerChainName(chainId)}`} />}
+
 				{!isLayer2 && <MeralList nfts={nfts} select={selectAndToggle} />}
 			</div>
 		</>

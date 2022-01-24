@@ -5,8 +5,11 @@ import StakedWildsCard from '../cards/stakedWildsCard';
 
 import EmptyWildsCard from '../cards/emptyWildsCard';
 import WorldMapButton from '../buttons/WorldMapButton';
-import DefendButton from './buttons/DefendButton';
+
 import SlotDetails from './buttons/DetailsButton';
+import { StakeAction, useWildsLand } from '../../../hooks/useWilds';
+import MeralList from '../../niceModals/cards/MeralList';
+import MeralListWilds from './cards/MeralListWilds';
 
 const Slots = ({ slots, land, contractWilds }) => {
 	let empties = Array(5 - slots.length);
@@ -38,6 +41,12 @@ const WildsLand = () => {
 	const { id } = useParams();
 	let landId = id;
 
+	const { wildsLand, defenders, attackers, looters, birthers } = useWildsLand(landId);
+
+	const selectAndToggle = async (id) => {
+		console.log('hi ', id);
+	};
+
 	return (
 		<div className="h-screen w-full fixed overflow-y-scroll">
 			<DevInfo />
@@ -50,20 +59,27 @@ const WildsLand = () => {
 				<div className="flex my-4 space-x-2 justify-center">
 					<div className="bg-white bg-opacity-70 p-4 w-72 h-72">
 						<h2>Looters</h2>
+						<SlotDetails landId={landId} stakeAction={StakeAction.LOOT.type} />
+						<MeralListWilds nfts={looters} select={selectAndToggle} />
 					</div>
+
 					<div className="w-72">
 						<div className="bg-white bg-opacity-70 p-4 w-72 h-72">
 							<h2>Defenders</h2>
-
-							<SlotDetails />
+							<SlotDetails landId={landId} stakeAction={StakeAction.DEFEND.type} />
+							<MeralListWilds nfts={defenders} select={selectAndToggle} />
 						</div>
 						<div className="bg-white bg-opacity-70 p-4 w-72 h-72 my-2">
 							<h2>Attackers</h2>
+							{wildsLand && wildsLand.raidStatus < 0 ? <p>Not Raidable</p> : <SlotDetails landId={landId} stakeAction={StakeAction.ATTACK.type} />}
+							<MeralListWilds nfts={attackers} select={selectAndToggle} />
 						</div>
 					</div>
 
 					<div className="bg-white bg-opacity-70 p-4 w-72 h-72">
 						<h2>Birthers</h2>
+						<SlotDetails landId={landId} stakeAction={StakeAction.BIRTH.type} />
+						<MeralListWilds nfts={birthers} select={selectAndToggle} />
 					</div>
 				</div>
 

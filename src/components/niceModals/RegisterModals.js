@@ -5,7 +5,11 @@ import WaitingForSignature from './WaitingForSignature';
 import Onsen from '../onsen/modals/Onsen';
 import EnterOnsenModal from '../onsen/modals/EnterOnsenModal';
 import Portal from '../portal/modals/Portal';
-import SendDefenderModal from '../wilds/lands/modals/SendDefenderModal';
+import DefendersModal from '../wilds/lands/modals/DefendersModal';
+import AttackersModal from '../wilds/lands/modals/AttackersModal';
+import LootersModal from '../wilds/lands/modals/LootersModal';
+import BirthersModal from '../wilds/lands/modals/BirthersModal';
+import StakeSelectModal from '../wilds/lands/modals/StakeSelectModal';
 
 export const modalRegistry = {
 	waitingForSignature: 'waiting-for-signature',
@@ -14,7 +18,11 @@ export const modalRegistry = {
 	leavePortal: 'leave-portal',
 	openOnsen: 'open-onsen',
 	enterOnsen: 'enter-onsen',
-	sendDefender: 'send-defender',
+	openDefenders: 'open-defenders',
+	openAttackers: 'open-attackers',
+	openLooters: 'open-looters',
+	openBirthers: 'open-birthers',
+	stakeSelect: 'stake-select',
 };
 
 export const registerModals = () => {
@@ -24,5 +32,9 @@ export const registerModals = () => {
 	NiceModal.register(modalRegistry.leavePortal, LeavePortalModal);
 	NiceModal.register(modalRegistry.openOnsen, Onsen);
 	NiceModal.register(modalRegistry.enterOnsen, EnterOnsenModal);
-	NiceModal.register(modalRegistry.sendDefender, SendDefenderModal);
+	NiceModal.register(modalRegistry.openDefenders, DefendersModal);
+	NiceModal.register(modalRegistry.openAttackers, AttackersModal);
+	NiceModal.register(modalRegistry.openLooters, LootersModal);
+	NiceModal.register(modalRegistry.openBirthers, BirthersModal);
+	NiceModal.register(modalRegistry.stakeSelect, StakeSelectModal);
 };

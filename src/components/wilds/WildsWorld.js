@@ -56,7 +56,8 @@ const WildsWorld = () => {
 	return (
 		<div className="bg_wilds h-screen w-full pt-20 fixed overflow-y-auto">
 			<DevInfo />
-			<h1 className="text-white p-4">ALPHA VERSION</h1>
+			<h1 className="text-white px-4">ALPHA VERSION</h1>
+			<p className="text-white px-4">Note: Artwork does not belong to us</p>
 
 			<div className="flex flex-wrap justify-center">{wildsLands && wildsLands.slice(0, 3).map((land) => <LandCards key={land.landId} land={land} />)}</div>
 			<LandHub />

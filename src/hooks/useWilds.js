@@ -93,6 +93,43 @@ export const useWildsContract = () => {
 	return { contractWilds };
 };
 
+export const getWildsLand = async (landId) => {
+	try {
+		const result = await Moralis.Cloud.run('getWildsLand', { landId });
+		return result;
+	} catch (error) {
+		throw new Error('get wildsLand error');
+	}
+};
+
+export const useWildsLand = (landId) => {
+	const [wildsLand, setWildsLand] = useState([]);
+	let [defenders, setDefenders] = useState([]);
+	let [attackers, setAttackers] = useState([]);
+	let [looters, setLooters] = useState([]);
+	let [birthers, setBirthers] = useState([]);
+
+	const { data, isLoading } = useQuery(`getWildsLand_${landId}`, () => getWildsLand(landId), { enabled: !!landId, refetchOnMount: true, refetchInterval: 60000 }); // TODO
+
+	useEffect(() => {
+		if (data && !isLoading) {
+			setWildsLand(data);
+			setDefenders(data.defenders);
+			setAttackers(data.attackers);
+			setLooters(data.looters);
+			setBirthers(data.birthers);
+		}
+	}, [data, isLoading]);
+
+	return {
+		wildsLand,
+		defenders,
+		attackers,
+		looters,
+		birthers,
+	};
+};
+
 export const getWildsLands = async () => {
 	try {
 		const result = await Moralis.Cloud.run('getWildsLands');
@@ -194,3 +231,16 @@ export const wildsParseSlots = (wildStakes) => {
 };
 
 // CONSTANTS
+
+export const StakeAction = {
+	DEFEND: { type: 1, name: 'Defend' },
+	LOOT: { type: 2, name: 'Loot' },
+	BIRTH: { type: 3, name: 'Birth' },
+	ATTACK: { type: 4, name: 'Attack' },
+};
+
+export const RaidStatus = {
+	DEFAULT: 0,
+	RAIDABLE: 1,
+	RAIDING: 2,
+};

@@ -7,14 +7,14 @@ import { useSendTx } from '../../../context/TxContext';
 
 import { useOnsenContract } from '../../../hooks/useOnsen';
 import { useUser, useUserAccount } from '../../../hooks/useUser';
-import { getIsLayer2 } from '../../../utils/contracts/parseChainId';
+import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
 import CloseButton from '../../niceModals/buttons/CloseButton';
 import LoginButton from '../../niceModals/cards/LoginButton';
 
 import MeralList from '../../niceModals/cards/MeralList';
 import SwitchNetworks from '../../niceModals/cards/SwitchNetworks';
 import { modalRegistry } from '../../niceModals/RegisterModals';
-import MeralOnsenList from '../cards/MeralOnsenList';
+import MeralOnsenList from '../cards/MeralListOnsen';
 
 const getUserStakedOnsenMerals = async () => {
 	try {
@@ -112,7 +112,7 @@ export default NiceModal.create(({ stake }) => {
 				<CloseButton toggle={toggle} />
 				<h2>Select Your Meral</h2>
 				{!user && <LoginButton />}
-				{!isLayer2 && <SwitchNetworks message={'Switch your Network to Polygon'} />}
+				{!isLayer2 && <SwitchNetworks message={`Switch your Network to ${getOtherLayerChainName(chainId)}`} />}
 				{isLayer2 && stake && <MeralList nfts={nfts} select={selectAndToggle} />}
 				{isLayer2 && !stake && <MeralOnsenList nfts={stakedMerals} select={selectAndToggle} />}
 			</div>
