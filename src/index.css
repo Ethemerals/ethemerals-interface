@@ -63,7 +63,7 @@
 		background-repeat: repeat;
 	}
 	.bg_wilds {
-		background-image: url('https://ethemerals-media.s3.amazonaws.com/wilds/worldmap.png');
+		background-image: url('https://ethemerals-media.s3.amazonaws.com/wilds/worldmap.jpg');
 		object-fit: none;
 		background-position: center;
 	}
@@ -71,6 +71,9 @@
 		background-image: url('https://cdna.artstation.com/p/assets/images/images/004/524/342/large/ha-ko-world-map8.jpg');
 		object-fit: none;
 		background-position: center;
+	}
+	.bg_wilds_land {
+		background-image: url('https://ethemerals-media.s3.amazonaws.com/wilds/land.jpg');
 	}
 	.page_bg {
 		/* background-image: linear-gradient(to bottom, #5a6571, #4b5665, #3d4759, #30384d, #242a41); */

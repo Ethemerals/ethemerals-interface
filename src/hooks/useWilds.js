@@ -1,19 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Contract } from '@ethersproject/contracts';
-
-import getSigner from '../constants/Signer';
+import Moralis from 'moralis';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
 import { useWeb3 } from './useWeb3';
 import { useQuery } from 'react-query';
-
-const getContracts = async (provider, setContractBattle) => {
-	if (provider) {
-		await setContractBattle(new Contract(Addresses.Wilds, abis.Wilds, getSigner(provider)));
-		console.log('GOT WILDS CONTRACTS');
-	} else {
-	}
-};
+import { getContract } from '../utils/contracts/getContract';
+import { useChain } from 'react-moralis';
+import { getAccount } from '../utils/contracts/getAccount';
 
 const calculateDamage = async (provider, contract, id) => {
 	if (provider && contract) {
@@ -89,14 +82,59 @@ const getLCP = async (provider, contract, landId, tokenId) => {
 
 export const useWildsContract = () => {
 	const { provider } = useWeb3();
+	const { chainId } = useChain();
 
-	const [contractWilds, setContractWilds] = useState(undefined);
+	const [contractWilds, setContract] = useState(undefined);
 
 	useEffect(() => {
-		getContracts(provider, setContractWilds);
-	}, [provider]);
+		getContract(provider, Addresses.Wilds.toLowerCase(), abis.Wilds, setContract, 'WILDS');
+	}, [provider, chainId]);
 
 	return { contractWilds };
+};
+
+export const getWildsLands = async () => {
+	try {
+		const result = await Moralis.Cloud.run('getWildsLands');
+		return result;
+	} catch (error) {
+		throw new Error('get wildsLands error');
+	}
+};
+
+export const useWildsLands = () => {
+	const [wildsLands, setWildsLands] = useState([]);
+
+	const { data, isLoading } = useQuery(`getWildsLands`, () => getWildsLands(), { refetchOnMount: true, refetchInterval: 60000 }); // TODO
+
+	useEffect(() => {
+		if (data && !isLoading) {
+			setWildsLands(data);
+		}
+	}, [data, isLoading]);
+
+	return {
+		wildsLands,
+	};
+};
+
+export const useWildsAccount = () => {
+	const [wildsAccount, setAccount] = useState(undefined);
+	const [wildsNFTs, setNFTs] = useState([]);
+	let address = Addresses.Wilds;
+	const { data, isLoading } = useQuery(`account_${address}`, () => getAccount(address), { enabled: !!address, refetchOnMount: true, refetchInterval: 20000 }); // TODO
+
+	useEffect(() => {
+		if (data && !isLoading) {
+			setAccount(data);
+			setNFTs(data.pMerals);
+		}
+	}, [data, isLoading]);
+
+	return {
+		wildsAccount,
+		wildsNFTs,
+	};
 };
 
 export const useWildsNFTStats = (contract, landId, tokenId) => {
@@ -153,26 +191,6 @@ export const wildsParseSlots = (wildStakes) => {
 	});
 
 	return { defenders, looters, birthers, attackers };
-};
-
-export const wildsParseInitValues = (land) => {
-	const { defenders, looters, birthers, attackers } = wildsParseSlots(land.wildStakes);
-
-	let _landStats = {
-		id: land.id,
-		raidStatus: land.raidStatus,
-		remaining: land.remainingELFx ? land.remainingELFx : 0, // TODO hardcode graph
-		rate: land.emissionRate ? land.emissionRate : 0, // TODO hardcode graph
-		lastEvent: land.lastEvent ? land.lastEvent : null,
-		lastRaid: land.lastRaid ? land.lastRaid : null,
-		baseDefence: land.baseDefence ? land.baseDefence : null,
-		defenders,
-		looters,
-		birthers,
-		attackers,
-	};
-
-	return _landStats;
 };
 
 // CONSTANTS

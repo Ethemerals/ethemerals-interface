@@ -17,8 +17,8 @@ import Equipable from './pages/Equipable';
 import MeralDetails from './pages/MeralDetails';
 import All from './pages/All';
 import WildsWorld from './components/wilds/WildsWorld';
-import WildsLandDetails from './components/wilds/WildsLandDetails';
 import WildsHub from './components/wilds/WildsHub';
+import WildsLand from './components/wilds/lands/WildsLand';
 
 import Receipt from './components/modals/Receipt';
 import EBContextProvider from './context/EternalBattleContext';
@@ -75,7 +75,7 @@ function App() {
 					<WildsWorld />
 				</Route>
 				<Route exact path="/wilds/land/:id">
-					<WildsLandDetails />
+					<WildsLand />
 				</Route>
 				<Route exact path="/wilds/hub">
 					<WildsHub />
