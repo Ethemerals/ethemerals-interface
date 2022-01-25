@@ -1,6 +1,9 @@
 import { getTypeFromId } from '../../../../hooks/useMeralUtils';
+import { useUser } from '../../../../hooks/useUser';
 
 const MeralIcon = ({ nft, select }) => {
+	const { address } = useUser();
+	console.log(address, nft.previousOwner);
 	let type = getTypeFromId(nft.meralId);
 	return (
 		<div onClick={() => select(nft.meralId)} className="w-44 h-72 bg-yellow-50 m-2 border border-black text-xs hover:bg-yellow-400 cursor-pointer">
@@ -14,7 +17,7 @@ const MeralIcon = ({ nft, select }) => {
 			<p>atk {nft.atk}</p>
 			<p>def {nft.def}</p>
 			<p>spd {nft.spd}</p>
-			{type === 1 && <p>{nft.coin}</p>}
+			{type === 1 && <p>{nft.name}</p>}
 		</div>
 	);
 };

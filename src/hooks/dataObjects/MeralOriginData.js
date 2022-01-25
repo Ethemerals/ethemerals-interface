@@ -62,24 +62,63 @@ export const MeralOriginData = Moralis.Object.extend('MeralOriginData', {
 	getMeralName: function () {
 		return this.get('meralName');
 	},
-	getSubclassData: function () {
-		let subclass = this.get('subclass');
-		return getSubclassInfo(subclass);
-	},
-	getPetRedeemed: function () {
-		return this.get('petRedeemed');
-	},
-	getMeralDetails: function () {
-		return { ...this.getIds(), ...this.getClass(), ...this.getStats(), subclassInfo: this.getSubclassData(), owner: this.getOwner(), petRedeemed: this.getPetRedeemed() };
-	},
 });
+
+const parseMerals = async (meralData) => {
+	let subclass = meralData.get('subclass');
+	let name = meralData.get('meralName');
+	let coin = meralData.get('coin');
+
+	if (!name) {
+		name = '';
+	}
+	if (!coin) {
+		coin = '';
+	}
+
+	if (coin && !name) {
+		name = coin;
+	}
+
+	let meral = {
+		edition: meralData.get('edition'),
+		owner: meralData.get('owner'),
+		tokenId: parseInt(meralData.get('tokenId')),
+		meralId: meralData.get('meralId'),
+		type: meralData.get('type'),
+		name: name,
+		coin: coin,
+		hp: meralData.get('hp'),
+		elf: meralData.get('elf'),
+		xp: meralData.get('xp'),
+		atk: meralData.get('atk'),
+		def: meralData.get('def'),
+		spd: meralData.get('spd'),
+		element: meralData.get('element'),
+		cmId: meralData.get('cmId'),
+		previousOwner: meralData.get('previousOwner'),
+		transferTimestamp: meralData.get('transferTimestamp'),
+		mainclass: Math.floor(subclass / 4),
+		subclass: subclass,
+		subclassInfo: getSubclassInfo(subclass),
+		currentColor: meralData.get('currentColor'),
+		petRedeemed: meralData.get('petRedeemed'),
+		colors: meralData.get('colors'),
+		creationTimestamp: meralData.get('creationTimestamp'),
+		artist: meralData.get('artist'),
+		creator: meralData.get('creator'),
+	};
+
+	return meral;
+};
 
 export const getMeralOriginDataById = async (id) => {
 	const query = new Moralis.Query(MeralOriginData);
 	query.equalTo('meralId', parseInt(id));
 	const results = await query.find();
 	if (results.length > 0) {
-		return results[0];
+		let meral = await parseMerals(results[0]);
+		return meral;
 	} else {
 		return null;
 	}
@@ -90,7 +129,8 @@ export const getMeralOriginDataByTokenId = async (type, tokenId) => {
 	query.equalTo('meralId', parseInt(getIdFromType(type, tokenId)));
 	const results = await query.find();
 	if (results.length > 0) {
-		return results[0];
+		let meral = await parseMerals(results[0]);
+		return meral;
 	} else {
 		return null;
 	}

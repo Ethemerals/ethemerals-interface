@@ -77,30 +77,30 @@ export const useMeralImagePaths = (tokenId, gen = 0) => {
 };
 
 export const useMeralDataById = (id) => {
-	const [meralData, setMeralData] = useState(undefined);
+	const [meral, setMeral] = useState(undefined);
 	const { isLoading, data } = useQuery([`meralData_${id}`], () => getMeralOriginDataById(id), { refetchOnMount: false });
 
 	useEffect(() => {
 		if (data && !isLoading) {
-			setMeralData(data);
+			setMeral(data);
 		}
 	}, [data, isLoading]);
 
-	return { meralData };
+	return { meral };
 };
 
 export const useMeralDataByIdType1 = (tokenId) => {
-	const [meralData, setMeralData] = useState(undefined);
+	const [meral, setMeral] = useState(undefined);
 	let type = 1;
 	const { isLoading, data } = useQuery([`meralData_${getIdFromType(type, tokenId)}`], () => getMeralOriginDataByTokenId(type, tokenId), { refetchOnMount: false });
 
 	useEffect(() => {
 		if (data && !isLoading) {
-			setMeralData(data);
+			setMeral(data);
 		}
 	}, [data, isLoading]);
 
-	return { meralData };
+	return { meral };
 };
 
 export const useChooseMeralImagePaths = () => {

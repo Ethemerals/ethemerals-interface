@@ -22,7 +22,7 @@ const MeralIcon = ({ nft, select }) => {
 			<p>
 				ELF: {nft.elf + elf} {elf > 0 && <span className="text-green-700">{` (+${elf})`}</span>}
 			</p>
-			{type === 1 && <p>{nft.coin}</p>}
+			{type === 1 && <p>{nft.name}</p>}
 		</div>
 	);
 };

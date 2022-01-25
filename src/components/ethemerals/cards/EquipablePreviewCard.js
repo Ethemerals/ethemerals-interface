@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-// import { useHistory } from 'react-router';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 import { Links } from '../../../constants/Links';
 import { Addresses } from '../../../constants/contracts/Addresses';

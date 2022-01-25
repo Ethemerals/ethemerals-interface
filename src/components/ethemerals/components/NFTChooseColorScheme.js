@@ -31,7 +31,7 @@ const NFTChooseColorScheme = ({ tokenId, setColor }) => {
 	const [currentColor, setCurrentColor] = useState(0);
 	const [selectedColor, setSelectedColor] = useState(0);
 
-	const { meralData } = useMeralDataByIdType1(tokenId);
+	const { meral } = useMeralDataByIdType1(tokenId);
 	const { fetch } = useMoralisCloudFunction('setColor', { selectedColor, tokenId }, { autoFetch: false });
 
 	const [saving, setSaving] = useState(false);
@@ -43,35 +43,35 @@ const NFTChooseColorScheme = ({ tokenId, setColor }) => {
 		let owned = false;
 		if (account && account.merals.length > 0) {
 			account.merals.forEach((userNft) => {
-				if (userNft.meralId === meralData.getIds().meralId) {
+				if (userNft.meralId === meral.meralId) {
 					owned = true;
 				}
 			});
 		}
 		setIsOwned(owned);
-	}, [account, meralData]);
+	}, [account, meral]);
 
 	useEffect(() => {
 		setColor(selectedColor);
 	}, [selectedColor, setColor]);
 
 	useEffect(() => {
-		if (meralData) {
-			const _current = meralData.getCurrentColor();
-			const _colors = meralData.getColors();
+		if (meral) {
+			const _current = meral.currentColor;
+			const _colors = meral.colors;
 			setColorNames([_colors[0].name, _colors[1].name, _colors[2].name, _colors[3].name]);
 			setAllowedColors([_colors[0].unlocked, _colors[1].unlocked, _colors[2].unlocked, _colors[3].unlocked]);
 			setCurrentColor(_current);
 			setSelectedColor(_current);
 		}
-	}, [meralData]);
+	}, [meral]);
 
 	const handleSave = async () => {
 		if (account && isOwned && selectedColor !== currentColor) {
 			setSaving(true);
 			try {
 				await fetch();
-				setTimeout(() => queryClient.invalidateQueries(`meralData_${meralData.getIds().meralId}`, 'meralGlobal'), 3000);
+				setTimeout(() => queryClient.invalidateQueries(`meralData_${meral.meralId}`, 'meralGlobal'), 3000);
 				// setTimeout(() => refreshMetadata(nft.id), 1000); // TODO
 				setTimeout(() => setSaving(false), 3000);
 			} catch (error) {
@@ -80,7 +80,7 @@ const NFTChooseColorScheme = ({ tokenId, setColor }) => {
 		}
 	};
 
-	if (!meralData) {
+	if (!meral) {
 		return null;
 	}
 

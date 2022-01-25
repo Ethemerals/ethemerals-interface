@@ -39,7 +39,7 @@ const MainSelect = ({ toggle }) => {
 										className={`border-b border-gray-200 text-left ${currentMain === index ? ' bg-pink-300' : ' bg-blue-100 hover:bg-white'} cursor-pointer`}
 									>
 										<th className="px-2 py-1 text-sm">{nft.tokenId.toString().padStart(4, '0')}</th>
-										<th className="px-2 py-1 text-sm">{nft.coin.slice(0, 30)}</th>
+										<th className="px-2 py-1 text-sm">{nft.name.slice(0, 30)}</th>
 										<th className="px-2 py-1 text-sm">{nft.subClass}</th>
 										<th className="px-2 py-1 text-sm">{`${nft.atk}/${nft.def}/${nft.spd}`}</th>
 										{/* <th className="px-2 py-1 text-sm">{nft.scorecard.battles}</th> */}

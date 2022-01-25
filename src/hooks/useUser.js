@@ -92,11 +92,12 @@ export const useUserAccount = () => {
 		if (account && user) {
 			if (!isUserUpdating && account.merals.length > 0) {
 				// NEW USER
-				if (!user.attributes.meralMainId) {
+				if (!user.attributes.meralMainId && autoTry < 10) {
 					setUserData({
 						meralMainId: parseInt(account.merals[0].meralId),
 					});
 					console.log('new user');
+					setAutoTry((at) => at + 1);
 				} else {
 					// AUTO MAIN
 

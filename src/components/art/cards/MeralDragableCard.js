@@ -140,7 +140,7 @@ const MeralDragableCard = ({ nft, owned, dropped }) => {
 
 					<div style={{ backgroundColor: `hsla(${subclassInfo.hue},100%,70%,1)` }} className="flex h-6 my-1 items-center overflow-hidden whitespace-pre">
 						<img style={{ margin: '1px 2px 1px 2px' }} width="20" height="20" src={subclassInfo.icon} alt="subclass icon" />
-						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nft.coin}</div>
+						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nft.name}</div>
 					</div>
 				</div>
 			</div>

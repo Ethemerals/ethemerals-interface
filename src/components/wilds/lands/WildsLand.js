@@ -1,29 +1,10 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import StakedWildsCard from '../cards/stakedWildsCard';
-
-import EmptyWildsCard from '../cards/emptyWildsCard';
 import WorldMapButton from '../buttons/WorldMapButton';
-
 import SlotDetailsButton from './buttons/SlotDetailsButton';
 import { StakeAction, useWildsLand } from '../../../hooks/useWilds';
-import MeralList from '../../niceModals/cards/MeralList';
-import MeralListWilds from './cards/MeralListWilds';
 
-const Slots = ({ slots, land, contractWilds }) => {
-	let empties = Array(5 - slots.length);
-	return (
-		<>
-			{slots.map((nft) => (
-				<StakedWildsCard key={nft.id} landId={land.id} tokenId={nft.id} contractWilds={contractWilds} stakeAction={4} raidStatus={land.raidStatus} />
-			))}
-			{Array.apply(null, empties).map((slot, index) => (
-				<EmptyWildsCard key={index} />
-			))}
-		</>
-	);
-};
+import MeralListWilds from './cards/MeralListWilds';
 
 const DevInfo = () => {
 	return (
@@ -42,7 +23,6 @@ const WildsLand = () => {
 	let landId = id;
 
 	const { wildsLand, defenders, attackers, looters, birthers, isLoading } = useWildsLand(landId);
-	console.log(wildsLand);
 
 	const selectAndToggle = async (id) => {
 		console.log('hi ', id);

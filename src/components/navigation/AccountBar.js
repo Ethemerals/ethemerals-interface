@@ -7,7 +7,7 @@ import { useMiningStatus } from '../../context/TxContext';
 import UserModal from '../modals/UserModal';
 
 import NFTPreview from './NFTPreview';
-import { useUser, useUserAccount } from '../../hooks/useUser';
+import { useUser } from '../../hooks/useUser';
 import { useNativeBalance } from 'react-moralis';
 import NetworksButton from './NetworksButton';
 
@@ -21,7 +21,6 @@ const Spinner = () => (
 const AccountBar = () => {
 	const mining = useMiningStatus();
 	const { address } = useUser();
-	const { userNFTs, mainIndex } = useUserAccount();
 	const { data: balance } = useNativeBalance();
 
 	const [isUserModalOpen, setIsUserModalOpen] = useState(false);

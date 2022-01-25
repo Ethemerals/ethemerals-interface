@@ -1,5 +1,5 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
-import { useEffect, useState } from 'react';
+
 import { useChain } from 'react-moralis';
 import { useSendTx } from '../../../context/TxContext';
 

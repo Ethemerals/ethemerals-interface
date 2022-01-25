@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import TimeAgo from 'react-timeago';
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../../hooks/useEternalBattle';
 
-import { useNFTUtils, getSubclassBonus } from '../../../hooks/useNFTUtils';
+import { getSubclassBonus } from '../../../hooks/useNFTUtils';
 import Spinner from '../../Spinner';
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 

@@ -59,7 +59,7 @@ const SummonPet = ({ toggle, nft }) => {
 					<div className="text-center px-4">
 						<p className="text-2xl mb-4">{`Summon Pet`} </p>
 						<p className="text-base text-black">{`You are about to Mint #${nft.tokenId.toString().padStart(4, '0')} ${
-							nft.coin
+							nft.name
 						}'s Pet. Which most likely be a little worthless slime, but... you never know 😊`}</p>
 
 						{!isConfirmationOpen ? (

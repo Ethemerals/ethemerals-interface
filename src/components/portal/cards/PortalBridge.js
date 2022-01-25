@@ -47,7 +47,6 @@ const PortalBridge = () => {
 	const { bridgeLogsActive, bridgeLogsActiveCount } = useBridgeCollection();
 
 	const [meralMint, setMeralMint] = useState([]);
-	const [polyHolding, setPolyHolding] = useState([]);
 	const [pMeralMint, setPMeralMint] = useState([]);
 	const [pMeralBurn, setpMeralBurn] = useState([]);
 

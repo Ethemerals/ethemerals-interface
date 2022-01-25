@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useGQLQueryL1 } from '../../hooks/useGQLQuery';
 import { useWildsLands } from '../../hooks/useWilds';
-import { GET_LANDS } from '../../queries/SubgraphWilds';
 
 const LandCards = ({ land }) => {
 	const history = useHistory();

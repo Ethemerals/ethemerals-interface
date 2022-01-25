@@ -63,7 +63,7 @@ const Gift = ({ toggle, nft }) => {
 					<div className="text-center px-4">
 						<p className="text-2xl mb-4">Gift Ethemeral</p>
 						<p className="text-sm text-gray-700">{`You are about to gift #${nft.tokenId.toString().padStart(4, '0')} ${
-							nft.coin
+							nft.name
 						} to another wallet, enter receiver's Ethereum wallet address to continue:`}</p>
 						<form className="p-4">
 							<input className="w-full h-8 p-2 bg-green-100 shadow-inner border border-gray-300 text-black" {...register('address')} />

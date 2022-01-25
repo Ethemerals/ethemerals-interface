@@ -6,7 +6,7 @@ import { useNFTUtils } from '../hooks/useNFTUtils';
 
 import Images from '../constants/Images';
 
-import useParseAction from '../hooks/useParseActions';
+// import useParseAction from '../hooks/useParseActions';
 
 import NFTActions from '../components/ethemerals/components/NFTActions';
 import NFTChooseColorScheme from '../components/ethemerals/components/NFTChooseColorScheme';
@@ -15,25 +15,25 @@ import { shortenAddress } from '../utils';
 import BackButton from '../components/navigation/BackButton';
 import { useChooseMeralImagePaths, useMeralDataByIdType1 } from '../hooks/useMeralData';
 
-const ActionLink = (action) => {
-	const [actionString, txLink] = useParseAction(action);
+// const ActionLink = (action) => {
+// 	const [actionString, txLink] = useParseAction(action);
 
-	return (
-		<a href={txLink} target="_blank" rel="noreferrer" className="flex items-center hover:text-blue-400">
-			{actionString}
-			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-				<polyline points="15 3 21 3 21 9"></polyline>
-				<line x1="10" y1="14" x2="21" y2="3"></line>
-			</svg>
-		</a>
-	);
-};
+// 	return (
+// 		<a href={txLink} target="_blank" rel="noreferrer" className="flex items-center hover:text-blue-400">
+// 			{actionString}
+// 			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+// 				<polyline points="15 3 21 3 21 9"></polyline>
+// 				<line x1="10" y1="14" x2="21" y2="3"></line>
+// 			</svg>
+// 		</a>
+// 	);
+// };
 
 const MeralDetails = () => {
 	const { elements } = useNFTUtils();
 
 	const { id } = useParams();
-	const { meralData } = useMeralDataByIdType1(id);
+	const { meral } = useMeralDataByIdType1(id);
 	const { chooseMeralImagePath } = useChooseMeralImagePaths();
 	const [color, setColor] = useState(0);
 	const [birthDate, setBirthdate] = useState(undefined);
@@ -41,16 +41,16 @@ const MeralDetails = () => {
 	const [ready, setReady] = useState(false);
 
 	useEffect(() => {
-		if (meralData) {
+		if (meral) {
 			setReady(true);
-			let creationTimestamp = meralData.getCreationTimestamp();
+			let creationTimestamp = meral.creationTimestamp;
 			if (creationTimestamp) {
 				setBirthdate(creationTimestamp);
 			}
-			setColor(meralData.getCurrentColor());
-			setNFT(meralData.getMeralDetails());
+			setColor(meral.currentColor);
+			setNFT(meral);
 		}
-	}, [meralData]);
+	}, [meral]);
 
 	if (!ready || !nft) {
 		return (
@@ -72,8 +72,8 @@ const MeralDetails = () => {
 					{/* LEFT BAR */}
 					<div className="p-4 w-32 z-20 absolute font-bold text-center">
 						<img className="w-90 h-74 mx-auto" src={Images.logoEthem} alt="logo" />
-						<p className="mt-10 text-lg border-b border-white">{`${meralData.getEdition()}/10`}</p>
-						<p className="text-sm">{nft.coin}</p>
+						<p className="mt-10 text-lg border-b border-white">{`${meral.edition}/10`}</p>
+						<p className="text-sm">{nft.name}</p>
 						<p className="mt-5 text-sm">{elements[nft.element].element}</p>
 						<p className="mt-5 text-3xl">#{nft.tokenId.toString().padStart(4, '0')}</p>
 					</div>
@@ -96,7 +96,7 @@ const MeralDetails = () => {
 
 					{/* BOTTOM BAR */}
 					<div className="z-20 w-full bottom-0 absolute overflow-hidden">
-						<p className="px-4 font-bold text-5xl uppercase">{nft.coin}</p>
+						<p className="px-4 font-bold text-5xl uppercase">{nft.name}</p>
 						<div style={{ height: '124px' }} className="bg-black pt-3 px-4">
 							<div className="flex h-8">
 								<div style={{ backgroundColor: `hsla(${nft.subclassInfo.hue},100%,70%,1)` }} className="w-8">
@@ -131,8 +131,8 @@ const MeralDetails = () => {
 								</div>
 								<div className="text-sm text-right leading-relaxed text-gray-200 font-bold">
 									<p>Birthed: {birthDate && format(birthDate, 'MMM dd yyyy')}</p>
-									<p>Designer: {meralData.getArtist()}</p>
-									<p>Minted By: {shortenAddress(meralData.getCreator())}</p>
+									<p>Designer: {meral.artist}</p>
+									<p>Minted By: {shortenAddress(meral.creator)}</p>
 								</div>
 							</div>
 						</div>

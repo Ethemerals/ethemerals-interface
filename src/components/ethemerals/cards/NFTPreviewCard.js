@@ -82,7 +82,7 @@ const NFTPreviewCard = ({ nft, isFetching }) => {
 					<p className="text-xs">
 						#<span className="text-sm font-bold">{nft.tokenId.toString().padStart(4, '0')}</span>
 					</p>
-					<p className="text-2xl font-medium">{nft.coin}</p>
+					<p className="text-2xl font-medium">{nft.name}</p>
 
 					{subclassInfo && (
 						<div style={{ backgroundColor: `hsla(${subclassInfo.hue},100%,70%,1)` }} className="flex h-6 my-1 items-center">

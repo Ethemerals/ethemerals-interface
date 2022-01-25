@@ -1,5 +1,5 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
-import { useEffect } from 'react';
+
 import { useChain } from 'react-moralis';
 import { useOnsenAccount } from '../../../hooks/useOnsen';
 import { useUser } from '../../../hooks/useUser';
@@ -7,7 +7,6 @@ import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/pa
 import CloseButton from '../../niceModals/buttons/CloseButton';
 import LoginButton from '../../niceModals/cards/LoginButton';
 
-import MeralList from '../../niceModals/cards/MeralList';
 import SwitchNetworks from '../../niceModals/cards/SwitchNetworks';
 import EnterPortalButton from '../buttons/EnterPortalButton';
 import LeavePortalButton from '../buttons/LeavePortalButton';
@@ -23,16 +22,10 @@ export default NiceModal.create(() => {
 	const { chainId } = useChain();
 	let isLayer2 = getIsLayer2(chainId);
 
-	const { onsenNFTs } = useOnsenAccount();
 	const { user } = useUser();
 
 	const toggle = async () => {
 		modal.remove();
-	};
-
-	const selectAndToggle = async (id) => {
-		console.log('hi', id);
-		// TODO
 	};
 
 	return (

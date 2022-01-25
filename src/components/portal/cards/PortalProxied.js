@@ -13,7 +13,7 @@ const getBridgeProxyMerals = async () => {
 };
 
 const PortalProxied = () => {
-	const { data, isLoading } = useQuery('bridgeProxyMerals', () => getBridgeProxyMerals(), { refetchOnMount: true, refetchInterval: 10000 }); // TODO
+	const { data } = useQuery('bridgeProxyMerals', () => getBridgeProxyMerals(), { refetchOnMount: true, refetchInterval: 10000 }); // TODO
 
 	const selectAndToggle = async (id) => {
 		console.log('hi', id);

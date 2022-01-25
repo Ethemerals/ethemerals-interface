@@ -37,7 +37,7 @@ const NFTInventoryCard = ({ nft, stats, showBase = false, showChange = true }) =
 
 				{/* BOTTOM BAR */}
 				<div className="px-1 w-full bottom-0 absolute bg-black bg-opacity-70 z-10 flex items-center">
-					<span className="font-bold text-lg uppercase">{nft.coin}</span>
+					<span className="font-bold text-lg uppercase">{nft.name}</span>
 					<span className="flex-grow"></span>
 					<span className="text-xs font-bold">{showBase ? 'BASE STATS' : 'STATS'}:</span>
 					<div className="ml-2 text-xs font-bold">

@@ -17,9 +17,9 @@ const NFTMC = () => {
 
 	return nfts.map((nft) => (
 		<div key={nft.id} className="border-white border">
-			<p className="text-black text-xl px-2 py-1">{nft.coin}</p>
+			<p className="text-black text-xl px-2 py-1">{nft.name}</p>
 			<p className="text-black px-2 py-1">{nft.subClass}</p>
-			<img width="630" height="720" className="" src={getMeralImagesByTokenId(nft.id).large} alt="" />{' '}
+			<img width="630" height="720" className="" src={getMeralImagesByTokenId(nft.tokenId).large} alt="" />{' '}
 		</div>
 	));
 };
