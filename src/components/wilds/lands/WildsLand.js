@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 import WorldMapButton from '../buttons/WorldMapButton';
+
 import SlotDetailsButton from './buttons/SlotDetailsButton';
 import { StakeAction, useWildsLand } from '../../../hooks/useWilds';
 
@@ -28,7 +29,7 @@ const WildsLand = () => {
 		console.log('hi ', id);
 	};
 
-	if (isLoading) {
+	if (isLoading || !wildsLand) {
 		return (
 			<div className="h-screen w-full fixed overflow-y-scroll">
 				<DevInfo />

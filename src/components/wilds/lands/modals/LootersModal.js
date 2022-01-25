@@ -7,6 +7,7 @@ import { getIsLayer2, getOtherLayerChainName } from '../../../../utils/contracts
 import CloseButton from '../../../niceModals/buttons/CloseButton';
 import LoginButton from '../../../niceModals/cards/LoginButton';
 import SwitchNetworks from '../../../niceModals/cards/SwitchNetworks';
+import { modalRegistry } from '../../../niceModals/RegisterModals';
 import SlotsFullButton from '../buttons/SlotsFullButton';
 import StakeButton from '../buttons/StakeButton';
 import MeralListWildsLarge from '../cards/MeralListWildsLarge';
@@ -27,6 +28,12 @@ export default NiceModal.create(({ landId }) => {
 	const selectAndToggle = async (id) => {
 		console.log('hi', id);
 		// TODO
+	};
+
+	const buttonActions = async (id, type) => {
+		console.log('buttonActions', id, type);
+
+		NiceModal.show(modalRegistry.landUnstake, { landId, stakeAction: StakeAction.LOOT.type, id });
 	};
 
 	return (
@@ -52,7 +59,7 @@ export default NiceModal.create(({ landId }) => {
 						<div>
 							<div className="flex justify-center">{nfts && nfts.length < 5 ? <StakeButton landId={landId} stakeAction={StakeAction.LOOT} /> : <SlotsFullButton />}</div>
 							<h2>Looters:</h2>
-							<MeralListWildsLarge nfts={nfts} select={selectAndToggle} />
+							<MeralListWildsLarge nfts={nfts} select={selectAndToggle} buttonActions={buttonActions} />
 						</div>
 					</div>
 				</div>

@@ -1,6 +1,4 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
-import Moralis from 'moralis';
-import { useState, useEffect } from 'react';
 import { useChain } from 'react-moralis';
 import { useSendTx } from '../../../../context/TxContext';
 
@@ -44,7 +42,6 @@ export default NiceModal.create(({ landId, stakeAction }) => {
 	};
 
 	const selectAndToggle = async (id) => {
-		console.log(typeof landId, id, stakeAction.type);
 		await submitStake(id);
 		toggle();
 	};

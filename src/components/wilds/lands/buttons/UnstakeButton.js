@@ -5,7 +5,7 @@ import { modalRegistry } from '../../../niceModals/RegisterModals';
 
 const StakeButton = ({ landId, stakeAction }) => {
 	const showModal = () => {
-		NiceModal.show(modalRegistry.stakeSelect, { landId, stakeAction });
+		NiceModal.show(modalRegistry.landStakeSelect, { landId, stakeAction });
 	};
 
 	return (

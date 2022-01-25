@@ -93,7 +93,7 @@ export const useWildsContract = () => {
 	return { contractWilds };
 };
 
-export const getWildsLand = async (landId) => {
+const getWildsLand = async (landId) => {
 	try {
 		const result = await Moralis.Cloud.run('getWildsLand', { landId });
 		return result;
@@ -103,7 +103,7 @@ export const getWildsLand = async (landId) => {
 };
 
 export const useWildsLand = (landId) => {
-	const [wildsLand, setWildsLand] = useState([]);
+	const [wildsLand, setWildsLand] = useState(undefined);
 	let [defenders, setDefenders] = useState([]);
 	let [attackers, setAttackers] = useState([]);
 	let [looters, setLooters] = useState([]);

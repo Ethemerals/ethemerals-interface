@@ -10,6 +10,7 @@ import AttackersModal from '../wilds/lands/modals/AttackersModal';
 import LootersModal from '../wilds/lands/modals/LootersModal';
 import BirthersModal from '../wilds/lands/modals/BirthersModal';
 import StakeSelectModal from '../wilds/lands/modals/StakeSelectModal';
+import UnstakeModal from '../wilds/lands/modals/UnstakeModal';
 
 export const modalRegistry = {
 	waitingForSignature: 'waiting-for-signature',
@@ -22,7 +23,8 @@ export const modalRegistry = {
 	openAttackers: 'open-attackers',
 	openLooters: 'open-looters',
 	openBirthers: 'open-birthers',
-	stakeSelect: 'stake-select',
+	landStakeSelect: 'land-stake-select',
+	landUnstake: 'land-unstake',
 };
 
 export const registerModals = () => {
@@ -36,5 +38,6 @@ export const registerModals = () => {
 	NiceModal.register(modalRegistry.openAttackers, AttackersModal);
 	NiceModal.register(modalRegistry.openLooters, LootersModal);
 	NiceModal.register(modalRegistry.openBirthers, BirthersModal);
-	NiceModal.register(modalRegistry.stakeSelect, StakeSelectModal);
+	NiceModal.register(modalRegistry.landStakeSelect, StakeSelectModal);
+	NiceModal.register(modalRegistry.landUnstake, UnstakeModal);
 };
