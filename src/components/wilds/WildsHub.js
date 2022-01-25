@@ -69,6 +69,10 @@ const WildsHub = () => {
 					<h1>Quest Board</h1>
 					under construction
 				</div>
+				<div className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">
+					<h1>Send and Retrieve Merals</h1>
+					Short Cut to maps - under construction
+				</div>
 			</div>
 
 			<WorldMapButton />

@@ -11,6 +11,9 @@ const MeralIcon = ({ nft, select }) => {
 			<p>HP {nft.hp}</p>
 			<p>XP {nft.xp}</p>
 			<p>ELF {nft.elf}</p>
+			<p>atk {nft.atk}</p>
+			<p>def {nft.def}</p>
+			<p>spd {nft.spd}</p>
 			{type === 1 && <p>{nft.coin}</p>}
 		</div>
 	);

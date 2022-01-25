@@ -6,7 +6,7 @@ const SlotDetails = ({ landId, stakeAction }) => {
 	let buttonString = 'Details';
 
 	if (stakeAction === StakeAction.ATTACK.type) {
-		buttonString = 'Enter Raid';
+		buttonString = 'Enter / Start Raid';
 	}
 
 	const showModal = (stakeAction) => {
@@ -28,7 +28,7 @@ const SlotDetails = ({ landId, stakeAction }) => {
 		NiceModal.show(modalRegistry.openDefenders, { landId });
 	};
 	const showAttackersModal = () => {
-		NiceModal.show(modalRegistry.openAttackers, { landId });
+		NiceModal.show(modalRegistry.stakeSelect, { landId, stakeAction });
 	};
 	const showLootersModal = () => {
 		NiceModal.show(modalRegistry.openLooters, { landId });

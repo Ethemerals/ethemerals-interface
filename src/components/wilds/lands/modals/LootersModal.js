@@ -7,6 +7,7 @@ import { getIsLayer2, getOtherLayerChainName } from '../../../../utils/contracts
 import CloseButton from '../../../niceModals/buttons/CloseButton';
 import LoginButton from '../../../niceModals/cards/LoginButton';
 import SwitchNetworks from '../../../niceModals/cards/SwitchNetworks';
+import SlotsFullButton from '../buttons/SlotsFullButton';
 import StakeButton from '../buttons/StakeButton';
 import MeralListWildsLarge from '../cards/MeralListWildsLarge';
 
@@ -16,7 +17,7 @@ export default NiceModal.create(({ landId }) => {
 	const { chainId } = useChain();
 	let isLayer2 = getIsLayer2(chainId);
 
-	const { defenders: nfts } = useWildsLand(landId);
+	const { looters: nfts } = useWildsLand(landId);
 	const { user } = useUser();
 
 	const toggle = async () => {
@@ -49,9 +50,7 @@ export default NiceModal.create(({ landId }) => {
 							{!isLayer2 && <SwitchNetworks message={`Switch your Network to ${getOtherLayerChainName(chainId)}`} />}
 						</div>
 						<div>
-							<div className="flex justify-center">
-								<StakeButton landId={landId} stakeAction={StakeAction.LOOT} />
-							</div>
+							<div className="flex justify-center">{nfts && nfts.length < 5 ? <StakeButton landId={landId} stakeAction={StakeAction.LOOT} /> : <SlotsFullButton />}</div>
 							<h2>Looters:</h2>
 							<MeralListWildsLarge nfts={nfts} select={selectAndToggle} />
 						</div>

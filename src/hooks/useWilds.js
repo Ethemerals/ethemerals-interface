@@ -127,6 +127,7 @@ export const useWildsLand = (landId) => {
 		attackers,
 		looters,
 		birthers,
+		isLoading,
 	};
 };
 
@@ -206,29 +207,6 @@ export const useWildsNFTStats = (contract, landId, tokenId) => {
 };
 
 // HELPERS
-
-export const wildsParseSlots = (wildStakes) => {
-	let defenders = [];
-	let looters = [];
-	let birthers = [];
-	let attackers = [];
-	wildStakes.forEach((stake) => {
-		if (stake.stakeType === '1') {
-			defenders.push(stake);
-		}
-		if (stake.stakeType === '2') {
-			looters.push(stake);
-		}
-		if (stake.stakeType === '3') {
-			birthers.push(stake);
-		}
-		if (stake.stakeType === '4') {
-			attackers.push(stake);
-		}
-	});
-
-	return { defenders, looters, birthers, attackers };
-};
 
 // CONSTANTS
 

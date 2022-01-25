@@ -41,11 +41,32 @@ const WildsLand = () => {
 	const { id } = useParams();
 	let landId = id;
 
-	const { wildsLand, defenders, attackers, looters, birthers } = useWildsLand(landId);
+	const { wildsLand, defenders, attackers, looters, birthers, isLoading } = useWildsLand(landId);
+	console.log(wildsLand);
 
 	const selectAndToggle = async (id) => {
 		console.log('hi ', id);
 	};
+
+	if (isLoading) {
+		return (
+			<div className="h-screen w-full fixed overflow-y-scroll">
+				<DevInfo />
+				<div className="bg_wilds_land bg-center bg-cover h-full p-4">
+					<div className="w-full bg-white bg-opacity-70 py-2 my-10 h-12 flex items-center">
+						<p>Details Bar</p>
+					</div>
+					<h1 className="text-5xl text-white">Wild Land {id}</h1>
+
+					<div className="flex my-4 space-x-2 justify-center">
+						<p>Loading</p>
+					</div>
+
+					<WorldMapButton />
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="h-screen w-full fixed overflow-y-scroll">
@@ -79,15 +100,13 @@ const WildsLand = () => {
 							<MeralListWilds nfts={defenders} select={selectAndToggle} />
 							{wildsLand && <p>Base Defence: {wildsLand.baseDefence}</p>}
 						</div>
-						<div className="bg-white bg-opacity-70 p-4 w-72 h-32 my-2">
-							<h2>Attackers</h2>
-							{wildsLand && wildsLand.raidStatus < 1 ? (
+						<div className="bg-white bg-opacity-70 p-4 w-72 h-32">
+							<h2>Raiders:</h2>
+							{wildsLand && wildsLand.raidStatus < 1 && (
 								<>
 									<p>Not Raidable</p>
 									<p>Simple Info here about needing 5 Defenders before Land is raidable</p>
 								</>
-							) : (
-								<SlotDetailsButton landId={landId} stakeAction={StakeAction.ATTACK.type} />
 							)}
 							<MeralListWilds nfts={attackers} select={selectAndToggle} />
 						</div>

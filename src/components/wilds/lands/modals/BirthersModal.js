@@ -7,6 +7,7 @@ import { getIsLayer2, getOtherLayerChainName } from '../../../../utils/contracts
 import CloseButton from '../../../niceModals/buttons/CloseButton';
 import LoginButton from '../../../niceModals/cards/LoginButton';
 import SwitchNetworks from '../../../niceModals/cards/SwitchNetworks';
+import SlotsFullButton from '../buttons/SlotsFullButton';
 import StakeButton from '../buttons/StakeButton';
 import MeralListWildsLarge from '../cards/MeralListWildsLarge';
 
@@ -53,9 +54,7 @@ export default NiceModal.create(({ landId }) => {
 						{!user && <LoginButton />}
 						{!isLayer2 && <SwitchNetworks message={`Switch your Network to ${getOtherLayerChainName(chainId)}`} />}
 
-						<div className="flex justify-center">
-							<StakeButton landId={landId} stakeAction={StakeAction.BIRTH} />
-						</div>
+						<div className="flex justify-center">{nfts && nfts.length < 5 ? <StakeButton landId={landId} stakeAction={StakeAction.BIRTH} /> : <SlotsFullButton />}</div>
 						<h2>Birthers:</h2>
 
 						<MeralListWildsLarge nfts={nfts} select={selectAndToggle} />
