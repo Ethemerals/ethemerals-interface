@@ -1,5 +1,4 @@
 import NiceModal from '@ebay/nice-modal-react';
-import { StakeAction } from '../../../../hooks/useWilds';
 
 import { modalRegistry } from '../../../niceModals/RegisterModals';
 

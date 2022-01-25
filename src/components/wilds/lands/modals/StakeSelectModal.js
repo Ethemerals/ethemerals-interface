@@ -2,12 +2,10 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import Moralis from 'moralis';
 import { useState, useEffect } from 'react';
 import { useChain } from 'react-moralis';
-import { useQuery } from 'react-query';
 import { useSendTx } from '../../../../context/TxContext';
 
-import { useOnsenContract } from '../../../../hooks/useOnsen';
 import { useUser, useUserAccount } from '../../../../hooks/useUser';
-import { StakeAction, useWildsContract } from '../../../../hooks/useWilds';
+import { useWildsContract } from '../../../../hooks/useWilds';
 import { getIsLayer2, getOtherLayerChainName } from '../../../../utils/contracts/parseChainId';
 import CloseButton from '../../../niceModals/buttons/CloseButton';
 import LoginButton from '../../../niceModals/cards/LoginButton';
@@ -35,7 +33,7 @@ export default NiceModal.create(({ landId, stakeAction }) => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractWilds.stake(landId, id, stakeAction.type, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Enter Land', true, [`account_${address}`, `account_${contractWilds.address}`, `nft_${id}`]);
+				sendTx(tx.hash, 'Enter Land', true, [`account_${address}`, `account_${contractWilds.address}`, `getWildsLand_${landId}`, `nft_${id}`]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);

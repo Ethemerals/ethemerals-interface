@@ -6,7 +6,7 @@ import StakedWildsCard from '../cards/stakedWildsCard';
 import EmptyWildsCard from '../cards/emptyWildsCard';
 import WorldMapButton from '../buttons/WorldMapButton';
 
-import SlotDetails from './buttons/DetailsButton';
+import SlotDetailsButton from './buttons/SlotDetailsButton';
 import { StakeAction, useWildsLand } from '../../../hooks/useWilds';
 import MeralList from '../../niceModals/cards/MeralList';
 import MeralListWilds from './cards/MeralListWilds';
@@ -59,27 +59,53 @@ const WildsLand = () => {
 				<div className="flex my-4 space-x-2 justify-center">
 					<div className="bg-white bg-opacity-70 p-4 w-72 h-72">
 						<h2>Looters</h2>
-						<SlotDetails landId={landId} stakeAction={StakeAction.LOOT.type} />
-						<MeralListWilds nfts={looters} select={selectAndToggle} />
+						{defenders && defenders.length > 0 ? (
+							<>
+								<SlotDetailsButton landId={landId} stakeAction={StakeAction.LOOT.type} />
+								<MeralListWilds nfts={looters} select={selectAndToggle} />
+							</>
+						) : (
+							<>
+								<p>Not Lootable</p>
+								<p>Simple Info here about needing at least 1 Defender before Land is lootable</p>
+							</>
+						)}
 					</div>
 
 					<div className="w-72">
 						<div className="bg-white bg-opacity-70 p-4 w-72 h-72">
 							<h2>Defenders</h2>
-							<SlotDetails landId={landId} stakeAction={StakeAction.DEFEND.type} />
+							<SlotDetailsButton landId={landId} stakeAction={StakeAction.DEFEND.type} />
 							<MeralListWilds nfts={defenders} select={selectAndToggle} />
+							{wildsLand && <p>Base Defence: {wildsLand.baseDefence}</p>}
 						</div>
-						<div className="bg-white bg-opacity-70 p-4 w-72 h-72 my-2">
+						<div className="bg-white bg-opacity-70 p-4 w-72 h-32 my-2">
 							<h2>Attackers</h2>
-							{wildsLand && wildsLand.raidStatus < 0 ? <p>Not Raidable</p> : <SlotDetails landId={landId} stakeAction={StakeAction.ATTACK.type} />}
+							{wildsLand && wildsLand.raidStatus < 1 ? (
+								<>
+									<p>Not Raidable</p>
+									<p>Simple Info here about needing 5 Defenders before Land is raidable</p>
+								</>
+							) : (
+								<SlotDetailsButton landId={landId} stakeAction={StakeAction.ATTACK.type} />
+							)}
 							<MeralListWilds nfts={attackers} select={selectAndToggle} />
 						</div>
 					</div>
 
 					<div className="bg-white bg-opacity-70 p-4 w-72 h-72">
 						<h2>Birthers</h2>
-						<SlotDetails landId={landId} stakeAction={StakeAction.BIRTH.type} />
-						<MeralListWilds nfts={birthers} select={selectAndToggle} />
+						{defenders && defenders.length > 0 ? (
+							<>
+								<SlotDetailsButton landId={landId} stakeAction={StakeAction.BIRTH.type} />
+								<MeralListWilds nfts={birthers} select={selectAndToggle} />
+							</>
+						) : (
+							<>
+								<p>Not Birthable</p>
+								<p>Simple Info here about needing at least 1 Defender before Land is birthable</p>
+							</>
+						)}
 					</div>
 				</div>
 

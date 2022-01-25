@@ -65,19 +65,14 @@ const PortalBridge = () => {
 		}
 	);
 
-	const { data: polyData } = useMoralisQuery(
-		'PolygonNFTTransfers',
-		(query) => query.equalTo('token_address', Addresses.MeralManager.toLowerCase()).limit(20).equalTo('confirmed', false).descending('block_number'),
-		[],
-		{
-			live: true,
-			onLiveEnter: (entity, all) => [...all, entity],
-			onLiveCreate: (entity, all) => [...all, entity],
-			onLiveDelete: (entity, all) => all.filter((e) => e.id !== entity.id),
-			onLiveLeave: (entity, all) => all.filter((e) => e.id !== entity.id),
-			onLiveUpdate: (entity, all) => all.map((e) => (e.id === entity.id ? entity : e)),
-		}
-	);
+	const { data: polyData } = useMoralisQuery('PolyMeralTransfer', (query) => query.limit(20).notEqualTo('confirmed', true).descending('block_number'), [], {
+		live: true,
+		onLiveEnter: (entity, all) => [...all, entity],
+		onLiveCreate: (entity, all) => [...all, entity],
+		onLiveDelete: (entity, all) => all.filter((e) => e.id !== entity.id),
+		onLiveLeave: (entity, all) => all.filter((e) => e.id !== entity.id),
+		onLiveUpdate: (entity, all) => all.map((e) => (e.id === entity.id ? entity : e)),
+	});
 
 	useEffect(() => {
 		if (ethData && ethData.length > 0) {
@@ -90,6 +85,9 @@ const PortalBridge = () => {
 		} else {
 			setMeralMint([]);
 		}
+		return () => {
+			setMeralMint([]);
+		};
 	}, [ethData]);
 
 	useEffect(() => {
@@ -97,13 +95,12 @@ const PortalBridge = () => {
 			let _minting = [];
 			let _burning = [];
 			polyData.forEach((token) => {
-				let owner = token.get('owner_of');
-				let from = token.get('from_address');
-				let to = token.get('to_address');
-				let id = token.get('token_id');
+				let from = token.get('from');
+				let to = token.get('to');
+				let id = token.get('tokenId');
 				let type = getTypeFromId(id);
 				let tokenId = getTokenIdFromId(id);
-				let meral = { type, tokenId, owner };
+				let meral = { type, tokenId };
 				if (from === AddressZero) {
 					_minting.push(meral);
 				}
@@ -117,13 +114,11 @@ const PortalBridge = () => {
 			setpMeralBurn([]);
 			setPMeralMint([]);
 		}
+		return () => {
+			setpMeralBurn([]);
+			setPMeralMint([]);
+		};
 	}, [polyData]);
-
-	// useEffect(() => {
-	// 	console.log('bridgeLogsActive', bridgeLogsActive);
-	// 	console.log('bridgeLogsActiveCount', bridgeLogsActiveCount);
-	// 	console.log('loadingBridgeLogsActive', loadingBridgeLogsActive);
-	// }, [bridgeLogsActive, bridgeLogsActiveCount, loadingBridgeLogsActive]);
 
 	return (
 		<div className="bg-gray-200 p-4 pb-20 mx-2 w-96">

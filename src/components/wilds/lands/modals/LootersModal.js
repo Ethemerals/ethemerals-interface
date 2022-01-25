@@ -32,22 +32,23 @@ export default NiceModal.create(({ landId }) => {
 		<>
 			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-30 z-30"></div>
 			<div
-				style={{ minWidth: '512px', minHeight: '512px', maxWidth: '1024px', maxheight: '80%' }}
+				style={{ minWidth: '512px', minHeight: '512px', maxWidth: '1200px', maxheight: '80%' }}
 				className=" w-4/5 h-5/6 absolute center animate-fadeOnFast z-40 rounded bg-white border border-gray-600 shadow-lg overflow-y-auto"
 			>
 				{/* HEADER */}
 				<CloseButton toggle={toggle} />
 
 				{/* CONTENT */}
-				<div className="flex">
-					<div className="p-4 flex-grow">
+				<div className="w-3/4">
+					<div className="p-4">
 						<h2>Looters Modal</h2>
 						<div className="py-4">
 							<p>Short description about merals going and collecting loot etc</p>
 
 							{!user && <LoginButton />}
 							{!isLayer2 && <SwitchNetworks message={`Switch your Network to ${getOtherLayerChainName(chainId)}`} />}
-
+						</div>
+						<div>
 							<div className="flex justify-center">
 								<StakeButton landId={landId} stakeAction={StakeAction.LOOT} />
 							</div>
@@ -55,15 +56,16 @@ export default NiceModal.create(({ landId }) => {
 							<MeralListWildsLarge nfts={nfts} select={selectAndToggle} />
 						</div>
 					</div>
-
-					<div
-						style={{
-							backgroundRepeat: 'no-repeat',
-							backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/wilds/loot.jpg')",
-						}}
-						className="w-56 h-full bg-yellow-300 flex-none absolute right-0 top-0 bg-cover bg-center"
-					></div>
 				</div>
+
+				{/* SIDEBAR */}
+				<div
+					style={{
+						backgroundRepeat: 'no-repeat',
+						backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/wilds/loot.jpg')",
+					}}
+					className="w-1/4 h-full flex-none absolute right-0 top-0 bg-cover bg-center"
+				></div>
 			</div>
 		</>
 	);

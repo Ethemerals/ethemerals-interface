@@ -44,7 +44,7 @@ export default NiceModal.create(({ landId }) => {
 						backgroundRepeat: 'no-repeat',
 						backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/wilds/defenders.jpg')",
 					}}
-					className="w-full h-44 bg-cover bg-center"
+					className="w-full h-52 bg-cover bg-center"
 				></div>
 				{/* CONTENT */}
 				<div className="p-4">
@@ -59,7 +59,6 @@ export default NiceModal.create(({ landId }) => {
 							<StakeButton landId={landId} stakeAction={StakeAction.DEFEND} />
 						</div>
 						<h2>Defenders:</h2>
-
 						<MeralListWildsLarge nfts={nfts} select={selectAndToggle} />
 					</div>
 				</div>
