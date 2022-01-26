@@ -67,6 +67,7 @@ export default NiceModal.create(({ landId, stakeAction, id }) => {
 			NiceModal.show(modalRegistry.waitingForSignature, { message: `Retrieving Meral from Wilds Land ${landId}` });
 			try {
 				const gasEstimate = await contractWilds.estimateGas.unstake(parseInt(id));
+				console.log('hi');
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractWilds.unstake(parseInt(id), { gasLimit });
 				console.log(tx);

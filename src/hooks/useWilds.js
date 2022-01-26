@@ -7,78 +7,8 @@ import { useQuery } from 'react-query';
 import { getContract } from '../utils/contracts/getContract';
 import { useChain } from 'react-moralis';
 import { getAccount } from '../utils/contracts/getAccount';
-
-const calculateDamage = async (provider, contract, id) => {
-	if (provider && contract) {
-		try {
-			let damage = await contract.calculateDamage(id);
-			return { damage: damage.toString() };
-		} catch (error) {
-			throw new Error('error');
-		}
-	} else {
-		// try {
-		// 	const { change } = await getChangeAPI(id);
-		// 	let data = { ...change };
-		// 	if (data) {
-		// 		return data;
-		// 	} else {
-		// 		throw new Error('error');
-		// 	}
-		// } catch (error) {
-		// 	console.log(error);
-		// 	throw new Error('error');
-		// }
-	}
-};
-
-const calculateStamina = async (provider, contract, id) => {
-	if (provider && contract) {
-		try {
-			let stamina = await contract.calculateStamina(id);
-			return { stamina: stamina.toString() };
-		} catch (error) {
-			throw new Error('error');
-		}
-	} else {
-		// try {
-		// 	const { change } = await getChangeAPI(id);
-		// 	let data = { ...change };
-		// 	if (data) {
-		// 		return data;
-		// 	} else {
-		// 		throw new Error('error');
-		// 	}
-		// } catch (error) {
-		// 	console.log(error);
-		// 	throw new Error('error');
-		// }
-	}
-};
-
-const getLCP = async (provider, contract, landId, tokenId) => {
-	if (provider && contract) {
-		try {
-			let lcp = await contract.getLCP(landId, tokenId);
-			return { lcp: lcp.toString() };
-		} catch (error) {
-			throw new Error('error');
-		}
-	} else {
-		// try {
-		// 	const { change } = await getChangeAPI(id);
-		// 	let data = { ...change };
-		// 	if (data) {
-		// 		return data;
-		// 	} else {
-		// 		throw new Error('error');
-		// 	}
-		// } catch (error) {
-		// 	console.log(error);
-		// 	throw new Error('error');
-		// }
-	}
-};
+import getUnixTime from 'date-fns/getUnixTime';
+import { calculateChange, safeScale } from '../components/wilds/utils';
 
 export const useWildsContract = () => {
 	const { provider } = useWeb3();
@@ -108,6 +38,8 @@ export const useWildsLand = (landId) => {
 	let [attackers, setAttackers] = useState([]);
 	let [looters, setLooters] = useState([]);
 	let [birthers, setBirthers] = useState([]);
+	let [stakes, setStakes] = useState([]);
+	let [stakeEvents, setStakeEvents] = useState([]);
 
 	const { data, isLoading } = useQuery(`getWildsLand_${landId}`, () => getWildsLand(landId), { enabled: !!landId, refetchOnMount: true, refetchInterval: 30000 }); // TODO
 
@@ -118,6 +50,8 @@ export const useWildsLand = (landId) => {
 			setAttackers(data.attackers);
 			setLooters(data.looters);
 			setBirthers(data.birthers);
+			setStakeEvents(data.stakeEvents);
+			setStakes(data.stakes);
 		}
 	}, [data, isLoading]);
 
@@ -128,6 +62,8 @@ export const useWildsLand = (landId) => {
 		looters,
 		birthers,
 		isLoading,
+		stakes,
+		stakeEvents,
 	};
 };
 
@@ -147,7 +83,13 @@ export const useWildsLands = () => {
 
 	useEffect(() => {
 		if (data && !isLoading) {
-			setWildsLands(data);
+			let _lands = [];
+			data.forEach((land) => {
+				if (land.landId !== null) {
+					_lands.push(land);
+				}
+			});
+			setWildsLands(_lands);
 		}
 	}, [data, isLoading]);
 
@@ -175,36 +117,36 @@ export const useWildsAccount = () => {
 	};
 };
 
-export const useWildsNFTStats = (contract, landId, tokenId) => {
-	const { provider } = useWeb3();
-	const { isLoading, data } = useQuery(`calculateDamage_${tokenId}`, () => calculateDamage(provider, contract, tokenId), { refetchInterval: 250000 });
-	const { isLoading: stamIsLoading, data: stamData } = useQuery(`calculateStamina_${tokenId}`, () => calculateStamina(provider, contract, tokenId), { refetchInterval: 250000 });
-	const { isLoading: lcpIsLoading, data: lcpData } = useQuery(`lcp_${landId}_${tokenId}`, () => getLCP(provider, contract, landId, tokenId), { refetchInterval: 250000 });
+// export const useWildsNFTStats = (contract, landId, tokenId) => {
+// 	const { provider } = useWeb3();
+// 	const { isLoading, data } = useQuery(`calculateDamage_${tokenId}`, () => calculateDamage(provider, contract, tokenId), { refetchInterval: 250000 });
+// 	const { isLoading: stamIsLoading, data: stamData } = useQuery(`calculateStamina_${tokenId}`, () => calculateStamina(provider, contract, tokenId), { refetchInterval: 250000 });
+// 	const { isLoading: lcpIsLoading, data: lcpData } = useQuery(`lcp_${landId}_${tokenId}`, () => getLCP(provider, contract, landId, tokenId), { refetchInterval: 250000 });
 
-	const [damage, setDamage] = useState(undefined);
-	const [stamina, setStamina] = useState(undefined);
-	const [lcp, setLcp] = useState(undefined);
+// 	const [damage, setDamage] = useState(undefined);
+// 	const [stamina, setStamina] = useState(undefined);
+// 	const [lcp, setLcp] = useState(undefined);
 
-	useEffect(() => {
-		if (!isLoading && data) {
-			setDamage(data.damage);
-		}
-	}, [data, isLoading]);
+// 	useEffect(() => {
+// 		if (!isLoading && data) {
+// 			setDamage(data.damage);
+// 		}
+// 	}, [data, isLoading]);
 
-	useEffect(() => {
-		if (!stamIsLoading && stamData) {
-			setStamina(stamData.stamina);
-		}
-	}, [stamData, stamIsLoading]);
+// 	useEffect(() => {
+// 		if (!stamIsLoading && stamData) {
+// 			setStamina(stamData.stamina);
+// 		}
+// 	}, [stamData, stamIsLoading]);
 
-	useEffect(() => {
-		if (!lcpIsLoading && lcpData) {
-			setLcp(lcpData.lcp);
-		}
-	}, [lcpData, lcpIsLoading]);
+// 	useEffect(() => {
+// 		if (!lcpIsLoading && lcpData) {
+// 			setLcp(lcpData.lcp);
+// 		}
+// 	}, [lcpData, lcpIsLoading]);
 
-	return { damage, stamina, lcp };
-};
+// 	return { damage, stamina, lcp };
+// };
 
 // HELPERS
 
@@ -221,4 +163,44 @@ export const RaidStatus = {
 	DEFAULT: 0,
 	RAIDABLE: 1,
 	RAIDING: 2,
+};
+
+// CALCULATORS
+
+export const calculateStamina = (meral, lastAction) => {
+	let change = getUnixTime(new Date()) - lastAction;
+	let scaledSpeed = safeScale(meral.spd, 1600, 2, 10);
+	let gain = (change / 3600) * scaledSpeed;
+
+	return gain > meral.stamina ? 0 : meral.stamina - gain;
+};
+
+export const calculateDamage = (meral, stake, stakeEvents, baseDefence) => {
+	let damage = stake.damage;
+
+	// console.log(stake.entryPointer);
+	if (stake.stakeAction == StakeAction.DEFEND.type) {
+		for (let i = stake.entryPointer; i < stakeEvents.length - 1; i++) {
+			let event = stakeEvents[i];
+			damage += calculateChange(event[0], stakeEvents[i + 1][0], meral.def, event[1]);
+		}
+		// FOR VIEW NEED EXTRA NOW PING
+		let lastEvent = stakeEvents[stakeEvents.length - 1];
+		let now = getUnixTime(new Date());
+		damage += calculateChange(lastEvent[0], now, meral.def, baseDefence);
+	}
+
+	if (parseInt(stake.stakeAction) == StakeAction.BIRTH.type) {
+		for (let i = stake.entryPointer; i < stakeEvents.length - 1; i++) {
+			let event = stakeEvents[i];
+			damage += calculateChange(event[0], stakeEvents[i + 1][0], meral.def + meral.spd, event[1]);
+		}
+		// FOR VIEW NEED EXTRA NOW PING
+		let lastEvent = stakeEvents[stakeEvents.length - 1];
+		let now = getUnixTime(new Date());
+		damage += calculateChange(lastEvent[0], now, (meral.def = meral.spd), baseDefence);
+	}
+
+	damage = stake.health >= damage ? 0 : damage - stake.health;
+	return parseInt(damage > meral.hp ? meral.hp : damage);
 };

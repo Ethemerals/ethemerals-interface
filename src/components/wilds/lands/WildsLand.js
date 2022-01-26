@@ -64,7 +64,7 @@ const WildsLand = () => {
 						{defenders && defenders.length > 0 ? (
 							<>
 								<SlotDetailsButton landId={landId} stakeAction={StakeAction.LOOT.type} />
-								<MeralListWilds nfts={looters} select={selectAndToggle} />
+								<MeralListWilds nfts={looters} landId={landId} select={selectAndToggle} />
 							</>
 						) : (
 							<>
@@ -78,7 +78,7 @@ const WildsLand = () => {
 						<div className="bg-white bg-opacity-70 p-4 w-72 h-72">
 							<h2>Defenders</h2>
 							<SlotDetailsButton landId={landId} stakeAction={StakeAction.DEFEND.type} />
-							<MeralListWilds nfts={defenders} select={selectAndToggle} />
+							<MeralListWilds nfts={defenders} landId={landId} select={selectAndToggle} />
 							{wildsLand && <p>Base Defence: {wildsLand.baseDefence}</p>}
 						</div>
 						<div className="bg-white bg-opacity-70 p-4 w-72 h-32">
@@ -89,7 +89,7 @@ const WildsLand = () => {
 									<p>Simple Info here about needing 5 Defenders before Land is raidable</p>
 								</>
 							)}
-							<MeralListWilds nfts={attackers} select={selectAndToggle} />
+							<MeralListWilds nfts={attackers} landId={landId} select={selectAndToggle} />
 						</div>
 					</div>
 
@@ -98,7 +98,7 @@ const WildsLand = () => {
 						{defenders && defenders.length > 0 ? (
 							<>
 								<SlotDetailsButton landId={landId} stakeAction={StakeAction.BIRTH.type} />
-								<MeralListWilds nfts={birthers} select={selectAndToggle} />
+								<MeralListWilds nfts={birthers} landId={landId} select={selectAndToggle} />
 							</>
 						) : (
 							<>

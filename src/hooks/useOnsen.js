@@ -8,6 +8,7 @@ import { useChain } from 'react-moralis';
 import { getContract } from '../utils/contracts/getContract';
 import { getAccount } from '../utils/contracts/getAccount';
 import { useQuery } from 'react-query';
+import { safeScale } from '../components/wilds/utils';
 
 export const useOnsenContract = () => {
 	const { provider } = useWeb3();
@@ -69,8 +70,3 @@ const getHp = (now, start, stat) => {
 const getElf = (now, start) => {
 	return parseInt((now - start) / 10000);
 };
-
-function safeScale(number, inMax, outMin, outMax) {
-	let scaled = (number * (outMax - outMin)) / inMax + outMin;
-	return scaled > outMax ? outMax : scaled;
-}
