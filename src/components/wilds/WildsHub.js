@@ -50,6 +50,10 @@ const WildsHub = () => {
 					under construction
 				</div>
 				<div className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">
+					<h1>Practice Dojo</h1>
+					under construction
+				</div>
+				<div className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">
 					<h1>Evolution Spring</h1>
 					under construction
 				</div>

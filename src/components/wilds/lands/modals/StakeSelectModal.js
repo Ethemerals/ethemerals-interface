@@ -42,6 +42,7 @@ export default NiceModal.create(({ landId, stakeAction }) => {
 	};
 
 	const selectAndToggle = async (id) => {
+		// console.log(id, landId, stakeAction);
 		await submitStake(id);
 		toggle();
 	};

@@ -109,7 +109,7 @@ export const useWildsLand = (landId) => {
 	let [looters, setLooters] = useState([]);
 	let [birthers, setBirthers] = useState([]);
 
-	const { data, isLoading } = useQuery(`getWildsLand_${landId}`, () => getWildsLand(landId), { enabled: !!landId, refetchOnMount: true, refetchInterval: 60000 }); // TODO
+	const { data, isLoading } = useQuery(`getWildsLand_${landId}`, () => getWildsLand(landId), { enabled: !!landId, refetchOnMount: true, refetchInterval: 30000 }); // TODO
 
 	useEffect(() => {
 		if (data && !isLoading) {

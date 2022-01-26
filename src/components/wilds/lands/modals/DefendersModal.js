@@ -2,7 +2,7 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
 import { useChain } from 'react-moralis';
 import { useUser } from '../../../../hooks/useUser';
-import { StakeAction, useWildsLand } from '../../../../hooks/useWilds';
+import { RaidStatus, StakeAction, useWildsLand } from '../../../../hooks/useWilds';
 import { getIsLayer2, getOtherLayerChainName } from '../../../../utils/contracts/parseChainId';
 import CloseButton from '../../../niceModals/buttons/CloseButton';
 import LoginButton from '../../../niceModals/cards/LoginButton';
@@ -12,7 +12,6 @@ import SlotDetailsButton from '../buttons/SlotDetailsButton';
 import SlotsFullButton from '../buttons/SlotsFullButton';
 
 import StakeButton from '../buttons/StakeButton';
-import MeralListWilds from '../cards/MeralListWilds';
 import MeralListWildsLarge from '../cards/MeralListWildsLarge';
 
 export default NiceModal.create(({ landId }) => {
@@ -69,9 +68,25 @@ export default NiceModal.create(({ landId }) => {
 						<h2>Defenders:</h2>
 						<MeralListWildsLarge nfts={nfts} select={selectAndToggle} buttonActions={buttonActions} />
 					</div>
-					<div className="flex justify-center">
-						{wildsLand && wildsLand.raidStatus > 0 && <SlotDetailsButton landId={landId} stakeAction={StakeAction.ATTACK.type} />}
-						<MeralListWildsLarge nfts={attackers} select={selectAndToggle} buttonActions={buttonActions} />
+					<div>
+						{wildsLand && wildsLand.raidStatus === RaidStatus.RAIDING && (
+							<>
+								<div className="text-center">
+									<SlotDetailsButton landId={landId} stakeAction={StakeAction.ATTACK.type} />
+								</div>
+								<h2>Attackers:</h2>
+								<MeralListWildsLarge nfts={attackers} select={selectAndToggle} buttonActions={buttonActions} />
+							</>
+						)}
+					</div>
+					<div>{wildsLand && wildsLand.raidStatus === RaidStatus.DEFAULT && <div className="w-96 h-10 bg-yellow-50 text-center text-2xl">Not Raidable</div>}</div>
+					<div>
+						{wildsLand && wildsLand.raidStatus === RaidStatus.RAIDABLE && (
+							<div className="text-center">
+								<div className="w-96 h-10 bg-yellow-50 text-center text-2xl">Raidable</div>
+								<SlotDetailsButton landId={landId} stakeAction={StakeAction.ATTACK.type} />
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

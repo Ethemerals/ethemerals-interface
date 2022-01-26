@@ -28,7 +28,7 @@ const SlotDetails = ({ landId, stakeAction }) => {
 		NiceModal.show(modalRegistry.openDefenders, { landId });
 	};
 	const showAttackersModal = () => {
-		NiceModal.show(modalRegistry.landStakeSelect, { landId, stakeAction });
+		NiceModal.show(modalRegistry.landStakeSelect, { landId, stakeAction: StakeAction.ATTACK });
 	};
 	const showLootersModal = () => {
 		NiceModal.show(modalRegistry.openLooters, { landId });
