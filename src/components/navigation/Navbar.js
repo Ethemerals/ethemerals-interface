@@ -49,7 +49,7 @@ const Navbar = () => {
 			{/* <!-- navbar goes here --> */}
 			{!WindowXS && (
 				<header style={{ boxShadow: '0px 0px 26px hsla(0,0%,50%,0.25)' }} className="top-0 left-0 right-0 z-30 fixed bg-white">
-					<nav className="px-4 py-1">
+					<nav className="px-4 py-1 h-12">
 						<div className="flex items-center">
 							{/* <!-- logo --> */}
 							<div>
