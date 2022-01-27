@@ -5,8 +5,8 @@ import { modalRegistry } from '../niceModals/RegisterModals';
 const DevInfo = () => {
 	return (
 		<div className="bg-blue-600 bg-opacity-70 text-xs w-96 absolute right-0 top-12 text-white">
-			<p>DEV: At a glance of 3 seconds need to show:</p>
-			<p>- Areas on interest That is selectable</p>
+			<p>DEV: At a glance of 3 seconds we need to show:</p>
+			<p>- Areas on interest that is clickable</p>
 		</div>
 	);
 };
@@ -21,7 +21,7 @@ const WildsHub = () => {
 	};
 
 	return (
-		<div className="bg_wilds_hub h-screen w-full fixed overflow-y-auto px-4">
+		<div className="bg_wilds_hub h-screen w-full fixed overflow-y-auto px-4 bg-cover bg-right">
 			<DevInfo />
 			<div className="mt-24 text-white">
 				<h1 className="text-5xl">Hub</h1>
@@ -62,7 +62,7 @@ const WildsHub = () => {
 					under construction
 				</div>
 				<div className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">
-					<h1>Blacksmith</h1>
+					<h1>Crafting Corner</h1>
 					under construction
 				</div>
 				<div className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4">

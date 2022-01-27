@@ -6,6 +6,7 @@ import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralUtils';
 
 import { useMoralisQuery } from 'react-moralis';
 import { Addresses } from '../../../constants/contracts/Addresses';
+import getUnixTime from 'date-fns/getUnixTime';
 
 const ProcessingCards = ({ log }) => {
 	// "Meral_Mint_Sub"
@@ -24,7 +25,7 @@ const ProcessingCards = ({ log }) => {
 	}
 
 	return (
-		<div className="w-16 h-16 bg-yellow-50 m-2 border border-black text-xs">
+		<div className="w-16 h-16 bg-white m-2 border border-black text-xs">
 			<p>token:{cueData.tokenId}</p>
 			<p>process:</p>
 			<p>{cueData.event}</p>
@@ -36,9 +37,10 @@ const HoldingCards = ({ nft }) => {
 	// "Meral_Mint_Sub"
 
 	return (
-		<div className="w-16 h-16 bg-yellow-50 m-2 border border-black text-xs">
-			<p>Type:{nft.type}</p>
-			<p>token:{nft.tokenId}</p>
+		<div className="w-16 h-16 bg-white m-2 border border-black text-xs">
+			<p>
+				T - {nft.type}/{nft.tokenId}
+			</p>
 		</div>
 	);
 };
@@ -51,8 +53,8 @@ const PortalBridge = () => {
 	const [pMeralBurn, setpMeralBurn] = useState([]);
 
 	const { data: ethData } = useMoralisQuery(
-		'EthNFTTransfers',
-		(query) => query.equalTo('token_address', Addresses.Ethemerals.toLowerCase()).limit(20).equalTo('from_address', AddressZero).equalTo('confirmed', false).descending('block_number'),
+		'MeralTransfer',
+		(query) => query.equalTo('token_address', Addresses.Ethemerals.toLowerCase()).limit(20).equalTo('from_address', AddressZero).notEqualTo('confirmed', true).descending('block_number'),
 		[],
 		{
 			live: true,
@@ -63,15 +65,26 @@ const PortalBridge = () => {
 			onLiveUpdate: (entity, all) => all.map((e) => (e.id === entity.id ? entity : e)),
 		}
 	);
+	// 10 mins, 20mins 20-5 = 15
+	const timeNow = getUnixTime(new Date());
 
-	const { data: polyData } = useMoralisQuery('PolyMeralTransfer', (query) => query.limit(20).notEqualTo('confirmed', true).descending('block_number'), [], {
-		live: true,
-		onLiveEnter: (entity, all) => [...all, entity],
-		onLiveCreate: (entity, all) => [...all, entity],
-		onLiveDelete: (entity, all) => all.filter((e) => e.id !== entity.id),
-		onLiveLeave: (entity, all) => all.filter((e) => e.id !== entity.id),
-		onLiveUpdate: (entity, all) => all.map((e) => (e.id === entity.id ? entity : e)),
-	});
+	const { data: polyData } = useMoralisQuery(
+		'PolygonNFTTransfers',
+		(query) =>
+			query
+				.limit(10)
+				.lessThan('updatedAt', timeNow - 120)
+				.descending('updatedAt'),
+		[],
+		{
+			live: true,
+			onLiveEnter: (entity, all) => [...all, entity],
+			onLiveCreate: (entity, all) => [...all, entity],
+			onLiveDelete: (entity, all) => all.filter((e) => e.id !== entity.id),
+			onLiveLeave: (entity, all) => all.filter((e) => e.id !== entity.id),
+			onLiveUpdate: (entity, all) => all.map((e) => (e.id === entity.id ? entity : e)),
+		}
+	);
 
 	useEffect(() => {
 		if (ethData && ethData.length > 0) {
@@ -94,12 +107,13 @@ const PortalBridge = () => {
 			let _minting = [];
 			let _burning = [];
 			polyData.forEach((token) => {
-				let from = token.get('from');
-				let to = token.get('to');
-				let id = token.get('tokenId');
+				let from = token.get('from_address');
+				let to = token.get('to_address');
+				let id = token.get('token_id');
 				let type = getTypeFromId(id);
 				let tokenId = getTokenIdFromId(id);
 				let meral = { type, tokenId };
+
 				if (from === AddressZero) {
 					_minting.push(meral);
 				}
@@ -110,8 +124,8 @@ const PortalBridge = () => {
 			setpMeralBurn(_burning);
 			setPMeralMint(_minting);
 		} else {
-			setpMeralBurn([]);
-			setPMeralMint([]);
+			// setpMeralBurn([]);
+			// setPMeralMint([]);
 		}
 		return () => {
 			setpMeralBurn([]);
@@ -120,9 +134,10 @@ const PortalBridge = () => {
 	}, [polyData]);
 
 	return (
-		<div className="bg-gray-200 p-4 pb-20 mx-2 w-96">
+		<div className="bg-gray-50 p-4 pb-20 mx-2 w-400 border border-black">
 			<h1>Bridge Status</h1>
-			<p>Gateway Processing: {bridgeLogsActiveCount}</p>
+			<p>Active Relays: 3</p>
+			<p>Processing: {bridgeLogsActiveCount}</p>
 			<div style={{ minHeight: '64px' }} className="flex-wrap flex justify-center">
 				{bridgeLogsActive && bridgeLogsActive.length > 0 && bridgeLogsActive.map((log) => <ProcessingCards key={log.timestamp} log={log} />)}
 			</div>
@@ -139,8 +154,8 @@ const PortalBridge = () => {
 			)}
 
 			{pMeralMint && pMeralMint.length > 0 && (
-				<div className=" bg-green-100 p-2 my-2">
-					<p>pMerals In the process of being Born: {pMeralMint.length}</p>
+				<div className=" bg-green-50 p-2 my-2">
+					<p>pMerals being birthed: {pMeralMint.length}</p>
 					<div style={{ minHeight: '64px' }} className="flex-wrap flex justify-center">
 						{pMeralMint && pMeralMint.length > 0 && pMeralMint.map((nft, index) => <HoldingCards key={index} nft={nft} />)}
 					</div>
@@ -148,13 +163,14 @@ const PortalBridge = () => {
 			)}
 
 			{pMeralBurn && pMeralBurn.length > 0 && (
-				<div className=" bg-red-100 p-2 my-2">
-					<p>pMerals marked for Burning: {pMeralBurn.length}</p>
+				<div className=" bg-red-50 p-2 my-2">
+					<p>pMerals marked for burn: {pMeralBurn.length}</p>
 					<div style={{ minHeight: '64px' }} className="flex-wrap flex justify-center">
 						{pMeralBurn && pMeralBurn.length > 0 && pMeralBurn.map((nft, index) => <HoldingCards key={index} nft={nft} />)}
 					</div>
 				</div>
 			)}
+			<div className=" absolute left-0 top-0 bg-blue-200 px-4">DEV UI</div>
 
 			{/* TODO - INFO ABOUT MERALS ON THE OTHER SIDE */}
 			{/* <h4>Pending Transportation</h4>

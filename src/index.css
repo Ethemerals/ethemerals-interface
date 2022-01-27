@@ -68,9 +68,7 @@
 		background-position: center;
 	}
 	.bg_wilds_hub {
-		background-image: url('https://cdna.artstation.com/p/assets/images/images/004/524/342/large/ha-ko-world-map8.jpg');
-		object-fit: none;
-		background-position: center;
+		background-image: url('https://ethemerals-media.s3.amazonaws.com/wilds/homehub.jpg');
 	}
 	.bg_wilds_land {
 		background-image: url('https://ethemerals-media.s3.amazonaws.com/wilds/land.jpg');

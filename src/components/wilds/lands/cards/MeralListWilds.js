@@ -22,7 +22,7 @@ const MeralIcon = ({ nft, select, landId }) => {
 		return () => {
 			setCurrentDamage(0);
 		};
-	}, [stakes, stakeEvents, landId, wildsLand]);
+	}, [stakes, stakeEvents, wildsLand, nft]);
 
 	return (
 		<div onClick={() => select(nft.meralId)} className="w-16 h-16 bg-yellow-50 m-2 border border-black text-xs hover:bg-yellow-400 cursor-pointer">

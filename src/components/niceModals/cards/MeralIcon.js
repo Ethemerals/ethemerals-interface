@@ -3,7 +3,7 @@ import { getTypeFromId } from '../../../hooks/useMeralUtils';
 const MeralIcon = ({ nft, select }) => {
 	let type = getTypeFromId(nft.meralId);
 	return (
-		<div onClick={() => select(nft.meralId)} className="w-24 h-24 bg-yellow-50 m-2 border border-black text-xs hover:bg-yellow-400 cursor-pointer">
+		<div onClick={() => select(nft.meralId)} className="w-20 h-20 bg-white m-2 border border-black text-xs hover:bg-green-100 cursor-pointer">
 			<p>
 				type:{nft.type} / {nft.tokenId}
 			</p>

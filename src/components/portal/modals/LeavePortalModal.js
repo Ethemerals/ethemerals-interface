@@ -35,7 +35,7 @@ export default NiceModal.create(() => {
 
 	const submitWithdraw = async (id) => {
 		if (contractEscrowL1 && nfts) {
-			NiceModal.show(modalRegistry.waitingForSignature, { message: 'Withdrawing Meral From Portal' });
+			NiceModal.show(modalRegistry.waitingForSignature, { message: 'Withdrawing Meral From Gateway' });
 			try {
 				let tokenId = getTokenIdFromId(id);
 				let type = getTypeFromId(id);
@@ -44,7 +44,7 @@ export default NiceModal.create(() => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractEscrowL1.withdraw(type, tokenId, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Leave Portal', true, [`account_${address}`, `account_${contractEscrowL1.address}`, `nft_${id}`]);
+				sendTx(tx.hash, 'Leave Gateway', true, [`account_${address}`, `account_${contractEscrowL1.address}`, `nft_${id}`]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);

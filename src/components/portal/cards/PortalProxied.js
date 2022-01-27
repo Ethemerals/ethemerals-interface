@@ -21,7 +21,7 @@ const PortalProxied = () => {
 	};
 
 	return (
-		<div className="bg-gray-200 p-4 pb-20 mx-2 w-96">
+		<div className="bg-gray-50 p-4 pb-20 mx-2 w-400 border border-black">
 			<h1>Polygon</h1>
 			<h4>Latest pMerals:</h4>
 
