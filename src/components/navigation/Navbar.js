@@ -48,9 +48,9 @@ const Navbar = () => {
 		<>
 			{/* <!-- navbar goes here --> */}
 			{!WindowXS && (
-				<header style={{ boxShadow: '0px 0px 26px hsla(0,0%,50%,0.25)' }} className="top-0 left-0 right-0 z-30 fixed bg-white h-12">
-					<nav className="px-4 py-1 h-12">
-						<div className="flex items-center">
+				<header style={{ boxShadow: '0px 0px 26px hsla(0,0%,50%,0.25)' }} className="top-0 left-0 right-0 absolute z-30 bg-white h-12">
+					<nav className="px-4 h-12 absolute top-0">
+						<div className="flex items-center h-12">
 							{/* <!-- logo --> */}
 							<div>
 								<Link to="/">
@@ -66,7 +66,7 @@ const Navbar = () => {
 							</div>
 
 							{/* <!-- secondary nav --> MD */}
-							<div className={`${windowMed ? 'flex items-center absolute mr-4 scrollbar_right z-50' : 'w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12'}`}>
+							<div className={`${windowMed ? 'flex items-center absolute mr-4 scrollbar_right z-50' : 'w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white px-2 h-12'}`}>
 								{!isAuthenticated && <ConnectButton />}
 								{isAuthenticated && <AccountBar />}
 								{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} logout={logout} />}
