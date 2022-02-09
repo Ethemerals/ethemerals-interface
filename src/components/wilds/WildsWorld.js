@@ -9,7 +9,7 @@ const LandCards = ({ land }) => {
 	};
 
 	return (
-		<div onClick={handleOnClick} className="bg-gray-200 w-64 bg-opacity-80 m-2 p-4 pb-20 border-4 border-white cursor-pointer hover:bg-opacity-100">
+		<div onClick={handleOnClick} className="bg-gray-200 w-64 bg-opacity-20 m-2 p-4 pb-20 border-4 border-white cursor-pointer hover:bg-opacity-100">
 			<p>Wild Land: {land.landId}</p>
 			{/* <p>Remaining ELFx: {land.remaining}</p> */}
 			<p>Base Defence: {land.baseDefence}</p>
@@ -51,7 +51,7 @@ const WildsWorld = () => {
 	const { wildsLands } = useWildsLands();
 
 	return (
-		<div className="bg_wilds h-screen w-full pt-20 fixed overflow-y-auto">
+		<div className="bg_wilds bg-cover h-screen w-full pt-20 fixed overflow-y-auto">
 			<DevInfo />
 			<h1 className="text-white px-4">ALPHA VERSION</h1>
 			<p className="text-white px-4">Note: Artwork does not belong to us</p>
