@@ -137,7 +137,7 @@ const ArtDetails = () => {
   max-width: 96vw;
   height: 96vh;
   object-fit:contain;"
-  src="https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg" alt="game art" />
+  src="https://ethemerals-media.s3.amazonaws.com/art/${artData && artData.uid}.${artData && artData.type}" alt="game art" />
 </div>
   `;
 
@@ -167,7 +167,7 @@ const ArtDetails = () => {
 										<img
 											style={{ width: 'auto', height: '86vh', maxHeight: '86vh', objectFit: 'contain' }}
 											className="cursor-pointer mx-auto"
-											src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`}
+											src={`https://ethemerals-media.s3.amazonaws.com/art/${artData.uid}.${artData.type}`}
 											alt="Feature art"
 										/>
 									</div>

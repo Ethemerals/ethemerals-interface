@@ -226,7 +226,7 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
     width: 96vw;
     height: 96vh;
     object-fit:contain;"
-    src="https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg" alt="game art" />
+    src="https://ethemerals-media.s3.amazonaws.com/art/${artData && artData.uid}.${artData && artData.type}" alt="game art" />
 </div>
   `;
 
@@ -255,7 +255,7 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 									>
 										<img
 											style={{ margin: 'auto', width: 'auto', height: '60vh', maxHeight: '60vh', objectFit: 'contain' }}
-											src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`}
+											src={`https://ethemerals-media.s3.amazonaws.com/art/${artData.uid}.${artData.type}`}
 											alt="game art"
 										/>
 									</div>

@@ -71,7 +71,7 @@ const ArtFeature = ({ tokenId }) => {
 						<img
 							style={{ width: 'auto', height: '70vh', maxHeight: '70vh', objectFit: 'contain' }}
 							className="cursor-pointer mx-auto"
-							src={`https://ethemerals-media.s3.amazonaws.com/art/${tokenId}.jpg`}
+							src={`https://ethemerals-media.s3.amazonaws.com/art/${artData.uid}.${artData.type}`}
 							alt="Feature art"
 						/>
 					)}

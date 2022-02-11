@@ -6,7 +6,7 @@ const ArtCardPast = ({ art }) => {
 		history.push(`/art/${art.id}`);
 	};
 
-	let imgUrl = `https://ethemerals-media.s3.amazonaws.com/art/${art.id}.jpg`;
+	let imgUrl = `https://ethemerals-media.s3.amazonaws.com/art/${art.uid}.${art.type}`;
 	return (
 		<div onClick={handleOnClick} className="w-64 h-96 bg-gray-50 cursor-pointer mt-8 mx-4 rounded-lg hover:shadow-md overflow-hidden">
 			<div style={{ backgroundImage: `url(${imgUrl})` }} className="w-full h-64 bg-gray-400 bg-cover bg-center"></div>
