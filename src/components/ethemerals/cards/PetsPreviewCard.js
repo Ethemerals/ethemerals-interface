@@ -1,7 +1,7 @@
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 import { Links } from '../../../constants/Links';
 import { Addresses } from '../../../constants/contracts/Addresses';
-import { getPetBorderColor, getPetTypePallet } from '../../../hooks/usePetData';
+import { getPetBorderColor, getPetImages, getPetTypePallet } from '../../../hooks/usePets';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -25,13 +25,11 @@ const RankedStars = ({ amount }) => {
 };
 
 const PetsPreviewCard = ({ nft }) => {
-	const { getEquipmentImages } = useNFTUtils();
-
 	if (!nft) {
 		return <p>Loading</p>;
 	}
 
-	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.tokenId}`;
+	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.id}`;
 
 	return (
 		<div
@@ -42,7 +40,7 @@ const PetsPreviewCard = ({ nft }) => {
 			{/* MAIN IMAGE */}
 			<div className="absolute top-6 left-0">
 				<a href={openSeaURL} target="blank" rel="noreferrer">
-					<img className="" src={getEquipmentImages(nft.baseId).preview} alt="" />
+					<img className="" src={getPetImages(nft.baseId).preview} alt="" />
 				</a>
 			</div>
 			{/* TOP BAR */}
@@ -53,8 +51,8 @@ const PetsPreviewCard = ({ nft }) => {
 			{/* BOTTOM BAR */}
 			<div className="w-full h-20 bottom-0 absolute overflow-hidden">
 				<div className="w-full flex items-center mb-4">
-					<span style={{ backgroundColor: getPetTypePallet(nft.mainclass) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
-						#{nft.tokenId.toString().padStart(4, '0')}
+					<span style={{ backgroundColor: getPetTypePallet(nft) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
+						#{nft.id.toString().padStart(4, '0')}
 					</span>
 					<div className="flex-grow"></div>
 					<span className="text-xs font-bold white">STATS:</span>

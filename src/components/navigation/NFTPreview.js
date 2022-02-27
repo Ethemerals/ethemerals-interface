@@ -21,15 +21,15 @@ const Thumbnail = ({ tokenId }) => {
 };
 
 const NFTPreview = () => {
-	const { userNFTs, mainIndex } = useUserAccount();
+	const { userMerals, mainIndex } = useUserAccount();
 	const { isAuthenticating, isUserUpdating } = useUser();
 	const [tokenId, setTokenId] = useState(undefined);
 
 	useEffect(() => {
-		if (userNFTs && mainIndex !== undefined && userNFTs.length > 0) {
-			setTokenId(userNFTs[mainIndex].tokenId);
+		if (userMerals && mainIndex !== undefined && userMerals.length > 0) {
+			setTokenId(userMerals[mainIndex].tokenId);
 		}
-	}, [userNFTs, mainIndex]);
+	}, [userMerals, mainIndex]);
 
 	if (isAuthenticating || isUserUpdating) {
 		return (

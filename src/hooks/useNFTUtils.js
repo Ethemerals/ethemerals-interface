@@ -55,8 +55,9 @@ import wind3 from '../assets/backgrounds/wind/3.jpg';
 import wind4 from '../assets/backgrounds/wind/4.jpg';
 import wind5 from '../assets/backgrounds/wind/5.jpg';
 import wind6 from '../assets/backgrounds/wind/6.jpg';
+import { Links } from '../constants/Links';
 
-const s3URL = 'https://ethemerals-media.s3.amazonaws.com/';
+const s3URL = Links.BUCKET;
 
 export const useNFTUtils = () => {
 	// 25
@@ -120,121 +121,72 @@ export const useNFTUtils = () => {
 		return { colors, subclassIcon };
 	};
 
-	const getEquipmentImages = (baseId, item = false) => {
-		if (item) {
-			let baseIdOffset = parseInt(baseId) + 10001;
-			baseId = baseIdOffset;
+	return { getNFTImages, elements };
+};
+
+export const elementsToIds = (elements) => {
+	let ids = [];
+	elements.forEach((element) => {
+		if (element === 'Void') {
+			ids = ids.concat(['0', '1', '2', '3', '4']);
 		}
-		let base = `${s3URL}${baseId}_equipment_base.png`;
-		let preview = `${s3URL}${baseId}_equipment_preview.png`;
-		let thumbnail = `${s3URL}${baseId}_equipment_thumbnail.png`;
-		return { base, preview, thumbnail };
-	};
+		if (element === 'Earth') {
+			ids = ids.concat(['5', '6', '7', '8', '9']);
+		}
+		if (element === 'Fire') {
+			ids = ids.concat(['10', '11', '12', '13']);
+		}
+		if (element === 'Water') {
+			ids = ids.concat(['14', '15', '16', '17', '18']);
+		}
+		if (element === 'Wind') {
+			ids = ids.concat(['19', '20', '21', '22', '23', '24']);
+		}
+	});
+	return ids;
+};
 
-	function parseScore(score) {
-		let scoreInt = parseInt(score);
-		// prettier-ignore
-		if(scoreInt >= 980) { return 6}
-		// prettier-ignore
-		if(scoreInt >= 750) { return 5}
-		// prettier-ignore
-		if(scoreInt >= 500) { return 4}
-		// prettier-ignore
-		if(scoreInt >= 300) { return 3}
-		// prettier-ignore
-		if(scoreInt >= 100) { return 2}
-
-		return 1;
-	}
-
-	function getSubclassIcon(subclass) {
-		let icon = iconPaladin;
-		let iconB = iconPaladinB;
-		let palette = { base: 'hsla(194,0%,90%,1)' };
-
+export const subclassesToIds = (subclasses) => {
+	let ids = [];
+	subclasses.forEach((subclass) => {
 		if (subclass === 'Paladin') {
-			icon = iconPaladin;
-			iconB = iconPaladinB;
-			palette.hue = 194;
+			ids.push('0');
 		}
 		if (subclass === 'Knight') {
-			icon = iconKnight;
-			iconB = iconKnightB;
-			palette.hue = 205;
+			ids.push('1');
 		}
 		if (subclass === 'Dark Knight') {
-			icon = iconDarkKnight;
-			iconB = iconDarkKnightB;
-			palette.hue = 220;
+			ids.push('2');
 		}
 		if (subclass === 'Dragoon') {
-			icon = iconDragoon;
-			iconB = iconDragoonB;
-			palette.hue = 235;
+			ids.push('3');
 		}
-
 		if (subclass === 'Sorcerer') {
-			icon = iconSorcerer;
-			iconB = iconSorcererB;
-			palette.hue = 277;
+			ids.push('4');
 		}
 		if (subclass === 'Summoner') {
-			icon = iconSummoner;
-			iconB = iconSummonerB;
-			palette.hue = 295;
+			ids.push('5');
 		}
 		if (subclass === 'Cleric') {
-			icon = iconCleric;
-			iconB = iconClericB;
-			palette.hue = 317;
+			ids.push('6');
 		}
 		if (subclass === 'Druid') {
-			icon = iconDruid;
-			iconB = iconDruidB;
-			palette.hue = 338;
+			ids.push('7');
 		}
-
 		if (subclass === 'Ranger') {
-			icon = iconRanger;
-			iconB = iconRangerB;
-			palette.hue = 115;
+			ids.push('8');
 		}
 		if (subclass === 'Berserker') {
-			icon = iconBerserker;
-			iconB = iconBerserkerB;
-			palette.hue = 133;
+			ids.push('9');
 		}
 		if (subclass === 'Assassin') {
-			icon = iconAssassin;
-			iconB = iconAssassinB;
-			palette.hue = 155;
+			ids.push('10');
 		}
 		if (subclass === 'Monk') {
-			icon = iconMonk;
-			iconB = iconMonkB;
-			palette.hue = 176;
+			ids.push('11');
 		}
-
-		return { icon, palette, iconB };
-	}
-
-	function getEquipableTypePalette(type) {
-		let palette = 'hsla(360,60%,40%,1)';
-
-		if (type === 0) {
-			palette = 'hsla(360,80%,50%,1)';
-		}
-		if (type === 1) {
-			palette = 'hsla(220,80%,50%,1)';
-		}
-		if (type === 2) {
-			palette = 'hsla(180,80%,50%,1)';
-		}
-
-		return palette;
-	}
-
-	return { getNFTImages, getEquipmentImages, parseScore, getSubclassIcon, elements, getEquipableTypePalette };
+	});
+	return ids;
 };
 
 export const getSubclassInfo = (subclassInt) => {

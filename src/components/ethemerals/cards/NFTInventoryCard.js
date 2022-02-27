@@ -1,23 +1,18 @@
 import { useState } from 'react';
 
-import { useMeralImagePaths } from '../../../hooks/useMeralData';
+import { getMeralImages } from '../../../hooks/useMerals';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
 import MainSelect from '../../modals/MainSelect';
 
-const NFTInventoryCard = ({ nft, stats, showBase = false, showChange = true }) => {
+const NFTInventoryCard = ({ nft, showBase = false, showChange = true }) => {
 	const { elements } = useNFTUtils();
-	let tokenId = nft.tokenId;
-	const { meralImagePaths } = useMeralImagePaths(tokenId);
+	let tokenId = nft.id;
 
 	const [isMainSelectOpen, setMainSelectOpen] = useState(false);
 	const toggleMainSelectModal = () => {
 		setMainSelectOpen(!isMainSelectOpen);
 	};
-
-	if (!meralImagePaths) {
-		return <div className="flex w-72 h-74 mx-auto relative"></div>;
-	}
 
 	return (
 		<>
@@ -29,7 +24,6 @@ const NFTInventoryCard = ({ nft, stats, showBase = false, showChange = true }) =
 
 				{/* RIGHT BAR */}
 				<div className="right-0 absolute p-1 text-right z-10 text-sm font-bold">
-					<div className="flex justify-end">{/* <RankedStars amount={parseScore(nft.score)} /> */}</div>
 					<p>{nft.hp} HP</p>
 					<p>{nft.elf} ELF</p>
 					<p>{nft.xp} XP</p>
@@ -42,20 +36,20 @@ const NFTInventoryCard = ({ nft, stats, showBase = false, showChange = true }) =
 					<span className="text-xs font-bold">{showBase ? 'BASE STATS' : 'STATS'}:</span>
 					<div className="ml-2 text-xs font-bold">
 						<span style={{ backgroundColor: 'hsla(0,60%,40%,1)' }} className="text-sm rounded px-1 py-0 ml-1">
-							{stats[0]}
+							{nft.atk}
 						</span>
 						<span style={{ backgroundColor: 'hsla(230,60%,40%,1)' }} className="text-sm rounded px-1 py-0 ml-1">
-							{stats[1]}
+							{nft.def}
 						</span>
 						<span style={{ backgroundColor: 'hsla(180,60%,40%,1)' }} className="text-sm rounded px-1 py-0 ml-1">
-							{stats[2]}
+							{nft.spd}
 						</span>
 					</div>
 				</div>
 				{/* MAIN IMAGE */}
 
 				<div className="absolute top-0 left-0 w-full h-28">
-					<img className="" src={meralImagePaths.inventory} alt="" />
+					<img className="" src={getMeralImages(nft.cmId).inventory} alt="" />
 				</div>
 			</div>
 			{showChange && (

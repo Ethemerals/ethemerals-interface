@@ -1,14 +1,26 @@
 import { useState, useEffect } from 'react';
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import { useGQLQueryL1 } from '../../../hooks/useGQLQuery';
 import { Links } from '../../../constants/Links';
 import { Addresses } from '../../../constants/contracts/Addresses';
+import gql from 'graphql-tag';
 import { useUser } from '../../../hooks/useUser';
-import { usePetDataById } from '../../../hooks/usePetData';
+import { getPetImages } from '../../../hooks/usePets';
+
+const GET_PET = gql`
+	query ($id: ID!) {
+		pet(id: $id) {
+			id
+			tokenId
+			baseId
+			owner {
+				id
+			}
+		}
+	}
+`;
 
 const PetThumbnailOS = ({ id }) => {
-	const { petData, isLoading } = usePetDataById(id);
-
-	const { getEquipmentImages } = useNFTUtils();
+	const { data, status, isLoading } = useGQLQueryL1(`nft_art_answer_pet_${id}`, GET_PET, { id: id }, { refetchOnMount: false });
 
 	const { address } = useUser();
 
@@ -16,24 +28,24 @@ const PetThumbnailOS = ({ id }) => {
 	const [owned, setOwned] = useState(false);
 
 	useEffect(() => {
-		if (petData) {
-			setNFT(nft);
+		if (status === 'success' && data && data.pet) {
+			setNFT(data.pet);
 		}
-	}, [petData, nft]);
+	}, [status, data, nft]);
 
 	useEffect(() => {
 		if (nft && address) {
-			if (nft.owner.toLowerCase() === address.toLowerCase()) {
+			if (nft.owner.id.toLowerCase() === address.toLowerCase()) {
 				setOwned(true);
 			}
 		}
-	}, [nft, address]);
+	}, [nft, address, owned]);
 
 	if (isLoading || !nft) {
 		return <div style={{ minWidth: '64px', minHeight: '60px', width: '64px', height: '64px' }} className="relative"></div>;
 	}
 
-	const bgImg = getEquipmentImages(nft.baseId).thumbnail;
+	const bgImg = getPetImages(nft.baseId).thumbnail;
 	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.tokenId}`;
 
 	return (
@@ -44,7 +56,7 @@ const PetThumbnailOS = ({ id }) => {
 			<a href={openSeaURL} target="blank" rel="noreferrer">
 				<img width="70" height="70" src={bgImg} alt="" />
 			</a>
-			<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-50 w-full absolute bottom-0 text-left">#{nft.tokenId.toString().padStart(4, '0')}</span>
+			<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-50 w-full absolute bottom-0 text-left">#{nft.id.toString().padStart(4, '0')}</span>
 		</div>
 	);
 };

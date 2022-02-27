@@ -29,23 +29,17 @@ export const getMeralImages = (cmId, currentColor = 0) => {
 	return colors;
 };
 
-export const getMeralImagesByTokenId = (tokenId, currentColor = 0) => {
-	const tokenToRanks = nftMetadata.tokenToRanks;
-	const cmId = nftMetadata.all[tokenToRanks[tokenId][0]][0];
-	return getMeralImages(cmId, currentColor);
-};
-
-const getMeralGlobal = async () => {
-	const MeralGlobalObject = Moralis.Object.extend('MeralGlobal', {
-		getGen1Colors: function () {
-			return this.get('gen1');
-		},
-	});
-
-	const query = new Moralis.Query(MeralGlobalObject);
-	const meralGlobal = await query.get(objectIDs.meralGlobal);
-	return meralGlobal;
-};
+const MeralGlobal = Moralis.Object.extend('MeralGlobal', {
+	setGen: function (gen) {
+		this.set('gen', gen);
+	},
+	setColors: function (colors) {
+		this.set('colors', colors);
+	},
+	getColors: function () {
+		return this.get('colors');
+	},
+});
 
 export const getMeralsFiltered = async (filters, order, page, firstEditions = false) => {
 	try {
@@ -56,20 +50,26 @@ export const getMeralsFiltered = async (filters, order, page, firstEditions = fa
 	}
 };
 
-export const useMeralImagePaths = (tokenId, gen = 0) => {
+const getMeralGlobalByGen = async (gen) => {
+	const query = new Moralis.Query(MeralGlobal);
+	query.equalTo('gen', gen);
+	const result = await query.first();
+	return result;
+};
+
+export const useMeralImagePaths = (tokenId, gen = 1, type = 1) => {
 	const tokenToRanks = nftMetadata.tokenToRanks;
 	const cmId = nftMetadata.all[tokenToRanks[tokenId][0]][0];
 
 	const [meralImagePaths, setMeralImagePaths] = useState(getMeralImages(cmId, 0));
-	const { isLoading: meralGlobalIsLoading, data } = useQuery('meralGlobal', () => getMeralGlobal(), { refetchOnMount: false });
+	const { isLoading: meralGlobalIsLoading, data } = useQuery(`meralGlobal${gen}`, () => getMeralGlobalByGen(gen), { refetchOnMount: false });
 
 	useEffect(() => {
 		if (data && !meralGlobalIsLoading) {
 			let currentColors;
-			if (gen === 0 || gen === 1) {
-				currentColors = data.getGen1Colors();
-				setMeralImagePaths(getMeralImages(cmId, currentColors[tokenId]));
-			}
+			currentColors = data.getColors();
+			let index = tokenId - (gen - 1) * 1000 - 1;
+			setMeralImagePaths(getMeralImages(cmId, currentColors[index]));
 		}
 	}, [data, tokenId, meralGlobalIsLoading, cmId, gen]);
 
@@ -78,7 +78,7 @@ export const useMeralImagePaths = (tokenId, gen = 0) => {
 
 export const useMeralDataById = (id) => {
 	const [meral, setMeral] = useState(undefined);
-	const { isLoading, data } = useQuery([`meralData_${id}`], () => getMeralOriginDataById(id), { refetchOnMount: false });
+	const { isLoading, data } = useQuery([`meralDataOld_${id}`], () => getMeralOriginDataById(id), { refetchOnMount: false });
 
 	useEffect(() => {
 		if (data && !isLoading) {
@@ -92,7 +92,7 @@ export const useMeralDataById = (id) => {
 export const useMeralDataByIdType1 = (tokenId) => {
 	const [meral, setMeral] = useState(undefined);
 	let type = 1;
-	const { isLoading, data } = useQuery([`meralData_${getIdFromType(type, tokenId)}`], () => getMeralOriginDataByTokenId(type, tokenId), { refetchOnMount: false });
+	const { isLoading, data } = useQuery([`meralDataOld_${getIdFromType(type, tokenId)}`], () => (type, tokenId), { refetchOnMount: false });
 
 	useEffect(() => {
 		if (data && !isLoading) {
@@ -112,10 +112,4 @@ export const useChooseMeralImagePaths = () => {
 	};
 
 	return { chooseMeralImagePath };
-};
-
-export const combineMeralData = (meralL1, meralL2) => {
-	let meral = { ...meralL1, ...meralL2 };
-	meral.id = meralL1.id;
-	return meral;
 };

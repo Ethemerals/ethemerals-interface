@@ -4,28 +4,91 @@ import { useQuery } from 'react-query';
 import PetDragableCard from './cards/PetDragableCard';
 import { useUserAccount } from '../../hooks/useUser';
 import PaginationBar from '../search/PaginationBar';
-import { getPetsFiltered } from '../../hooks/usePetData';
+import { Links } from '../../constants/Links';
+import { GraphQLClient } from 'graphql-request';
+import gql from 'graphql-tag';
+import { formatFilters } from '../../utils';
 
-const PetsList = ({ order, filters, allDropped }) => {
+const endpoint = Links.SUBGRAPH_ENDPOINT_L1;
+const graphQLClient = new GraphQLClient(endpoint);
+
+const GET_NFTS = gql`
+	query ($first: Int!, $skip: Int!, $orderBy: String!, $orderDirection: String!) {
+		pets(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+			id
+			tokenId
+			timestamp
+			baseId
+			atk
+			def
+			spd
+			rarity
+			name
+		}
+	}
+`;
+
+const getNFTsFiltered = (variables, filters) => {
+	return `
+	query {
+		pets(${variables}, where: ${filters}) {
+			id
+      tokenId
+			timestamp
+			baseId
+			atk
+			def
+			spd
+			rarity
+      name
+		}
+	}
+`;
+};
+
+const getPets = async (page, orderBy, orderDirection, shouldFilter, filters) => {
+	let amount = 50;
+	try {
+		let fetchData;
+		if (shouldFilter) {
+			const filtersString = formatFilters(filters);
+			fetchData = await graphQLClient.request(getNFTsFiltered(`first: ${amount}, skip: ${page * amount}, orderBy: ${orderBy}, orderDirection: ${orderDirection}`, filtersString));
+		} else {
+			fetchData = await graphQLClient.request(GET_NFTS, { first: amount, skip: page * amount, orderBy, orderDirection });
+		}
+		return fetchData;
+	} catch (error) {
+		throw new Error('get account error');
+	}
+};
+
+const PetsList = ({ order, shouldFilter, filters, allDropped }) => {
 	const [nfts, setNfts] = useState(undefined);
 	const [page, setPage] = useState(0);
-	const { account } = useUserAccount();
+	const { userPets } = useUserAccount();
 	const [userNFTIds, setUserNFTIds] = useState([]);
 
 	useEffect(() => {
-		if (account && account.pets.length > 0) {
+		if (userPets && userPets.length > 0) {
 			let _userNFTIds = [];
-			account.pets.forEach((nft) => {
+			userPets.forEach((nft) => {
 				_userNFTIds.push(nft.id);
 			});
 			setUserNFTIds(_userNFTIds);
 		}
-	}, [account]);
+	}, [userPets]);
 
-	const { data, isError, isLoading } = useQuery([`petsFiltered`, filters, order, page], () => getPetsFiltered(filters, order, page), { refetchOnMount: false, keepPreviousData: true }); // TODO
+	const { isLoading, isError, data } = useQuery(
+		[`pets_${order.orderBy}_${order.orderDirection}_${shouldFilter}_${JSON.stringify(filters)}`, page],
+		() => getPets(page, order.orderBy, order.orderDirection, shouldFilter, filters),
+		{
+			keepPreviousData: true,
+		}
+	); // TODO
+
 	useEffect(() => {
 		if (data && !isLoading) {
-			setNfts(data);
+			setNfts(data.pets);
 		}
 	}, [data, isLoading]);
 
@@ -56,7 +119,7 @@ const PetsList = ({ order, filters, allDropped }) => {
 										return;
 									}
 								});
-								return <PetDragableCard key={nft.tokenId} nft={nft} owned={userNFTIds.indexOf(nft.tokenId) >= 0} dropped={dropped} />;
+								return <PetDragableCard key={nft.id} nft={nft} owned={userNFTIds.indexOf(nft.tokenId) >= 0} dropped={dropped} />;
 							})}
 					</div>
 

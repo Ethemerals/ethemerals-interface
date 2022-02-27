@@ -1,12 +1,12 @@
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
 import { shortenAddress } from '../../utils';
-// import useParseAccountAction from '../../hooks/useParseAccountActions';
+import useParseAccountAction from '../../hooks/useParseAccountActions';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
 
 import { Links } from '../../constants/Links';
 
-import { useUser } from '../../hooks/useUser';
+import { useUser, useUserAccount } from '../../hooks/useUser';
 
 const ExternalLinkSVG = () => (
 	<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -16,22 +16,23 @@ const ExternalLinkSVG = () => (
 	</svg>
 );
 
-// const ActionLink = (action) => {
-// 	const [actionString, txLink] = useParseAccountAction(action);
+const ActionLink = (action) => {
+	const [actionString, txLink] = useParseAccountAction(action);
 
-// 	return (
-// 		<a href={txLink} target="_blank" rel="noreferrer" className="flex items-center hover:text-blue-400">
-// 			{actionString}
-// 			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-// 				<polyline points="15 3 21 3 21 9"></polyline>
-// 				<line x1="10" y1="14" x2="21" y2="3"></line>
-// 			</svg>
-// 		</a>
-// 	);
-// };
+	return (
+		<a href={txLink} target="_blank" rel="noreferrer" className="flex items-center hover:text-blue-400">
+			{actionString}
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+				<polyline points="15 3 21 3 21 9"></polyline>
+				<line x1="10" y1="14" x2="21" y2="3"></line>
+			</svg>
+		</a>
+	);
+};
 
 const UserAccount = () => {
 	const { address } = useUser();
+	const { userActions } = useUserAccount();
 	const [copied, copy] = useCopyToClipboard(address);
 
 	return (
@@ -61,9 +62,7 @@ const UserAccount = () => {
 			</div>
 			<div className="p-4">
 				<p className="text-lg text-black">Recent Activity</p>
-				<ul className="text-xs sm:text-sm text-blue-500">
-					{/* {status === 'success' && data.account && data.account.actions.length > 0 && data.account.actions.map((action) => <li key={action.id}>{ActionLink(action)}</li>)} */}
-				</ul>
+				<ul className="text-xs sm:text-sm text-blue-500">{userActions && userActions.length > 0 && userActions.map((action) => <li key={action.id}>{ActionLink(action)}</li>)}</ul>
 			</div>
 		</>
 	);

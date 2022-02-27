@@ -1,78 +1,73 @@
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
-import Images from '../../../constants/Images';
-import { useMeralDataByIdType1 } from '../../../hooks/useMeralData';
-
-import { useUserAccount } from '../../../hooks/useUser';
 import { useMoralisCloudFunction } from 'react-moralis';
 
-const ColorChoice = ({ account, isOwned, colorNames, selectedColor, index, allowedColors, setSelected }) => {
+import Images from '../../../constants/Images';
+import { useUserAccount } from '../../../hooks/useUser';
+import { getGenByTokenId, useMeralDataById, getMeralDataById } from '../../../hooks/useMerals';
+
+const ColorChoice = ({ isOwned, colorNames, selectedColor, index, allowedColors, setSelected }) => {
 	const handleClick = () => {
 		if (allowedColors[index]) {
 			setSelected(index);
 		}
 	};
+
 	return (
 		<div
 			onClick={handleClick}
-			className={`flex items-center rounded-lg cursor-default ${account && isOwned && allowedColors[index] ? 'cursor-pointer hover:text-blue-600 transition duration-200' : 'text-gray-400'}`}
+			className={`flex items-center rounded-lg cursor-default ${isOwned && allowedColors[index] ? 'cursor-pointer hover:text-blue-600 transition duration-200' : 'text-gray-400'}`}
 		>
 			<div className="w-8 h-8 mr-1 relative">{selectedColor === index && <img className="center" width="26px" height="26px" alt="icon main" src={Images.iconSelected} />}</div>
-			<p>{colorNames[index]}</p>
+			{colorNames ? <p>{colorNames[index]}</p> : <p>Loading...</p>}
 		</div>
 	);
 };
 
-const NFTChooseColorScheme = ({ tokenId, setColor }) => {
-	const { account } = useUserAccount();
+const NFTChooseColorScheme = ({ nft, color, setColor, currentColor, meralData }) => {
+	const { address, userMerals } = useUserAccount();
+
 	const queryClient = useQueryClient();
 
-	const [colorNames, setColorNames] = useState(['OG Color', 'Color 2', 'Color 3', 'Color 4']);
-	const [currentColor, setCurrentColor] = useState(0);
-	const [selectedColor, setSelectedColor] = useState(0);
-
-	const { meral } = useMeralDataByIdType1(tokenId);
-	const { fetch } = useMoralisCloudFunction('setColor', { selectedColor, tokenId }, { autoFetch: false });
-
+	const [colorNames, setColorNames] = useState(undefined);
+	const [selectedColor, setSelectedColor] = useState(undefined);
 	const [saving, setSaving] = useState(false);
 	const [allowedColors, setAllowedColors] = useState([true, false, false, false]);
-
 	const [isOwned, setIsOwned] = useState(false);
+
+	const { fetch } = useMoralisCloudFunction('setColor', { selectedColor, tokenId: nft.tokenId }, { autoFetch: false });
 
 	useEffect(() => {
 		let owned = false;
-		if (account && account.merals.length > 0) {
-			account.merals.forEach((userNft) => {
-				if (userNft.meralId === meral.meralId) {
+		if (nft && userMerals && userMerals.length > 0) {
+			userMerals.forEach((userMeral) => {
+				if (userMeral.meralId === nft.meralId) {
 					owned = true;
 				}
 			});
 		}
 		setIsOwned(owned);
-	}, [account, meral]);
+	}, [userMerals, nft]);
 
 	useEffect(() => {
-		setColor(selectedColor);
-	}, [selectedColor, setColor]);
+		if (meralData) {
+			let colorNames = [meralData.get('colorName0'), meralData.get('colorName1'), meralData.get('colorName2'), meralData.get('colorName3')];
+			let colorUnlocked = [meralData.get('colorUnlocked0'), meralData.get('colorUnlocked1'), meralData.get('colorUnlocked2'), meralData.get('colorUnlocked3')];
 
-	useEffect(() => {
-		if (meral) {
-			const _current = meral.currentColor;
-			const _colors = meral.colors;
-			setColorNames([_colors[0].name, _colors[1].name, _colors[2].name, _colors[3].name]);
-			setAllowedColors([_colors[0].unlocked, _colors[1].unlocked, _colors[2].unlocked, _colors[3].unlocked]);
-			setCurrentColor(_current);
-			setSelectedColor(_current);
+			setColorNames(colorNames);
+			setAllowedColors(colorUnlocked);
+			setSelectedColor(color);
 		}
-	}, [meral]);
+	}, [meralData, color]);
 
 	const handleSave = async () => {
-		if (account && isOwned && selectedColor !== currentColor) {
+		if (address && isOwned) {
 			setSaving(true);
 			try {
 				await fetch();
-				setTimeout(() => queryClient.invalidateQueries(`meralData_${meral.meralId}`, 'meralGlobal'), 3000);
-				// setTimeout(() => refreshMetadata(nft.id), 1000); // TODO
+				setTimeout(() => {
+					queryClient.invalidateQueries(`meralData_${nft.meralId}`, `meralGlobal_${getGenByTokenId(nft.tokenId)}`);
+				}, 3000);
 				setTimeout(() => setSaving(false), 3000);
 			} catch (error) {
 				console.log(error);
@@ -80,22 +75,19 @@ const NFTChooseColorScheme = ({ tokenId, setColor }) => {
 		}
 	};
 
-	if (!meral) {
+	if (!meralData) {
 		return null;
 	}
 
 	return (
 		<div className="grid grid-cols-2 gap-2 px-2 text-sm text-black">
-			<ColorChoice account={account} isOwned={isOwned} colorNames={colorNames} selectedColor={selectedColor} index={0} allowedColors={allowedColors} setSelected={setSelectedColor} />
-			<ColorChoice account={account} isOwned={isOwned} colorNames={colorNames} selectedColor={selectedColor} index={2} allowedColors={allowedColors} setSelected={setSelectedColor} />
-			<ColorChoice account={account} isOwned={isOwned} colorNames={colorNames} selectedColor={selectedColor} index={1} allowedColors={allowedColors} setSelected={setSelectedColor} />
-			<ColorChoice account={account} isOwned={isOwned} colorNames={colorNames} selectedColor={selectedColor} index={3} allowedColors={allowedColors} setSelected={setSelectedColor} />
+			<ColorChoice isOwned={isOwned} colorNames={colorNames} selectedColor={selectedColor} index={0} allowedColors={allowedColors} setSelected={setColor} />
+			<ColorChoice isOwned={isOwned} colorNames={colorNames} selectedColor={selectedColor} index={2} allowedColors={allowedColors} setSelected={setColor} />
+			<ColorChoice isOwned={isOwned} colorNames={colorNames} selectedColor={selectedColor} index={1} allowedColors={allowedColors} setSelected={setColor} />
+			<ColorChoice isOwned={isOwned} colorNames={colorNames} selectedColor={selectedColor} index={3} allowedColors={allowedColors} setSelected={setColor} />
 
-			{account && isOwned && (
-				<div
-					onClick={handleSave}
-					className={`flex items-center rounded-lg ${currentColor !== selectedColor ? 'bg-customBlue-pale cursor-pointer hover:bg-blue-400 transition duration-200' : 'text-gray-400'} `}
-				>
+			{address && isOwned && (
+				<div onClick={handleSave} className={`flex items-center rounded-lg ${currentColor !== color ? 'bg-customBlue-pale cursor-pointer hover:bg-blue-400 transition duration-200' : ''}`}>
 					<div className="w-8 h-8 mr-1 relative"></div>
 					<p>{saving ? 'Saving...' : 'Save Choice'}</p>
 				</div>

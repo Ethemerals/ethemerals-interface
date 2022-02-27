@@ -26,13 +26,13 @@ const useParseAction = (action) => {
 			break;
 		case 'Unstaked':
 			actionString = 'Unstaked';
-			if (action.transaction.to === Addresses.EternalBattle) {
+			if (action.transaction.to === Addresses.EternalBattle.toLowerCase()) {
 				actionString = `Retreated from Battle 🛡️`;
 			}
 			break;
 		case 'Staked':
 			actionString = 'Staked';
-			if (action.transaction.to === Addresses.EternalBattle) {
+			if (action.transaction.to === Addresses.EternalBattle.toLowerCase()) {
 				actionString = `Entered the Eternal Battle ⚔️`;
 			}
 			break;
@@ -44,7 +44,7 @@ const useParseAction = (action) => {
 			break;
 		case 'Revived':
 			actionString = 'Revived';
-			if (action.transaction.to === Addresses.EternalBattle) {
+			if (action.transaction.to === Addresses.EternalBattle.toLowerCase()) {
 				actionString = `Revived from the Eternal Battle 💖`;
 			}
 			break;
@@ -53,7 +53,7 @@ const useParseAction = (action) => {
 			break;
 		case 'Reaped':
 			actionString = 'Reaped';
-			if (action.transaction.to === Addresses.EternalBattle) {
+			if (action.transaction.to === Addresses.EternalBattle.toLowerCase()) {
 				actionString = `Reaped from the Battle 💀`;
 			}
 			break;

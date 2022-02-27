@@ -58,7 +58,7 @@ export default NiceModal.create(({ landId, stakeAction, id }) => {
 			if (stakeAction === StakeAction.ATTACK.type) {
 				nfts = wildsLand.attackers;
 			}
-			setMeral(nfts.find((a) => a.meralId == id));
+			setMeral(nfts.find((a) => a.meralId === id));
 		}
 	}, [wildsLand, stakeAction, id]);
 

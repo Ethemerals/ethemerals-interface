@@ -4,7 +4,7 @@ import { useNFTUtils } from '../../../hooks/useNFTUtils';
 import Images from '../../../constants/Images';
 
 const EquipableItemPreviewCard = ({ nft }) => {
-	const { getEquipableTypePalette, getEquipmentImages } = useNFTUtils();
+	const { getPetPalette, getPetImages } = useNFTUtils();
 	const history = useHistory();
 	const [equipableType, setEquipableType] = useState(0);
 
@@ -22,14 +22,14 @@ const EquipableItemPreviewCard = ({ nft }) => {
 	}
 
 	const handleOnClick = () => {
-		history.push(`/equipable/${nft.id}`);
+		history.push(`/pet/${nft.tokenId}`);
 	};
 
 	return (
 		<div onClick={handleOnClick} className="w-64 h-96 bg-blue-500 m-4 cursor-pointer bg-cover relative hover:shadow-2xl hover:border-gray-100 transition duration-300">
 			{/* MAIN IMAGE */}
 			<div className="absolute top-0 left-0">
-				<img className="" src={getEquipmentImages(nft.baseId, true).preview} alt="" />
+				<img className="" src={getPetImages(nft.baseId, true).preview} alt="" />
 			</div>
 			{/* TOP BAR */}
 
@@ -49,7 +49,7 @@ const EquipableItemPreviewCard = ({ nft }) => {
 			</div>
 
 			{/* BOTTOM BAR */}
-			<div style={{ backgroundColor: getEquipableTypePalette(equipableType) }} className="w-full h-24 bottom-0 absolute overflow-hidden">
+			<div style={{ backgroundColor: getPetPalette(equipableType) }} className="w-full h-24 bottom-0 absolute overflow-hidden">
 				<p className="px-2 text-xs text-white bg-black">
 					#<span className="text-sm font-bold">{nft.id.padStart(4, '0')}</span>
 				</p>

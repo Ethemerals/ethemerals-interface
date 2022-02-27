@@ -179,7 +179,7 @@ export const calculateDamage = (meral, stake, stakeEvents, baseDefence) => {
 	let damage = stake.damage;
 
 	// console.log(stake.entryPointer);
-	if (stake.stakeAction == StakeAction.DEFEND.type) {
+	if (stake.stakeAction === StakeAction.DEFEND.type) {
 		for (let i = stake.entryPointer; i < stakeEvents.length - 1; i++) {
 			let event = stakeEvents[i];
 			damage += calculateChange(event[0], stakeEvents[i + 1][0], meral.def, event[1]);
@@ -190,7 +190,7 @@ export const calculateDamage = (meral, stake, stakeEvents, baseDefence) => {
 		damage += calculateChange(lastEvent[0], now, meral.def, baseDefence);
 	}
 
-	if (parseInt(stake.stakeAction) == StakeAction.BIRTH.type) {
+	if (parseInt(stake.stakeAction) === StakeAction.BIRTH.type) {
 		for (let i = stake.entryPointer; i < stakeEvents.length - 1; i++) {
 			let event = stakeEvents[i];
 			damage += calculateChange(event[0], stakeEvents[i + 1][0], meral.def + meral.spd, event[1]);

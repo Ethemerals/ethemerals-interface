@@ -22,6 +22,7 @@ export const getIsApprovedForAll = async (contract, _owner, _operator) => {
 			return approved;
 		} catch (error) {
 			console.log(error);
+			return false;
 		}
 	}
 };

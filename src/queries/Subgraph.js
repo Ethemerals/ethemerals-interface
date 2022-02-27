@@ -11,46 +11,64 @@ export const GET_CORE = gql`
 	}
 `;
 
-export const GET_ACCOUNTS = gql`
+export const GET_DELEGATES = gql`
 	query {
-		accounts {
+		delegates(first: 100, orderBy: timestamp, orderDirection: asc) {
 			id
-			elfBalance
+			timestamp
+			active
 		}
 	}
 `;
 
-export const GET_DELEGATES = gql`
-	query {
-		delegates {
+export const GET_NFTS_ORDERED = gql`
+	query ($orderBy: String!, $first: Int!, $orderDirection: String!) {
+		merals(first: $first, orderBy: $orderBy, orderDirection: $orderDirection) {
 			id
-			active
+			tokenId
+			meralId
+			timestamp
+			hp
+			elf
+			atk
+			def
+			spd
+			cmId
+			element
+			coin
+			name
+			subclass
 		}
 	}
 `;
 
 export const GET_NFTS_FILTERED = gql`
 	query {
-		ethemerals(where: { edition: 1 }, orderBy: "baseId", orderDirection: "asc") {
+		meral(where: { edition: 1 }, orderBy: "baseId", orderDirection: "asc") {
 			id
+			tokenId
+			meralId
 			timestamp
-			score
-			rewards
+			hp
+			elf
 			atk
 			def
 			spd
-			baseId
-			bgId
+			cmId
+			element
 			coin
-			subClass
+			name
+			subclass
 		}
 	}
 `;
 
 export const GET_NFT = gql`
 	query ($id: ID!) {
-		ethemeral(id: $id) {
+		meral(id: $id) {
 			id
+			tokenId
+			meralId
 			timestamp
 			creator {
 				id
@@ -58,16 +76,17 @@ export const GET_NFT = gql`
 			owner {
 				id
 			}
+			cmId
 			edition
-			score
-			rewards
+			hp
+			elf
 			atk
 			def
 			spd
 			atkBonus
 			defBonus
 			spdBonus
-			bgId
+			element
 			petRedeemed
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
 				timestamp
@@ -79,30 +98,49 @@ export const GET_NFT = gql`
 				}
 				type
 			}
+			scorecard {
+				highestScore
+				highestRewards
+				battles
+				wins
+				revived
+				reviver
+				reaped
+				reaper
+			}
 			coin
-			mainClass
-			subClass
+			name
+			subclass
+			mainclass
+			artist
 		}
 	}
 `;
 
 export const GET_NFT_LIGHT = gql`
 	query ($id: ID!) {
-		ethemeral(id: $id) {
+		meral(id: $id) {
 			id
+			tokenId
+			meralId
 			owner {
 				id
 			}
 			edition
-			score
-			rewards
+			hp
+			elf
 			atk
 			def
 			spd
-			baseId
-			bgId
+			cmId
+			element
 			coin
-			subClass
+			name
+			subclass
+			scorecard {
+				battles
+				wins
+			}
 		}
 	}
 `;
@@ -113,34 +151,59 @@ export const GET_ACCOUNT = gql`
 			id
 			elfBalance
 			allowDelegates
-			ethemerals(orderBy: timestamp, orderDirection: desc) {
+			merals(orderBy: timestamp, orderDirection: desc) {
 				id
+				tokenId
+				meralId
 				timestamp
-				score
-				rewards
+				hp
+				elf
 				atk
 				def
 				spd
 				atkBonus
 				defBonus
 				spdBonus
-				baseId
-				bgId
+				cmId
+				element
+				scorecard {
+					battles
+				}
 				coin
-				mainClass
-				subClass
+				name
+				mainclass
+				subclass
 			}
 			pets(orderBy: timestamp, orderDirection: desc) {
 				id
-				baseId
+				tokenId
 				timestamp
+				baseId
 				rarity
 				atk
 				def
 				spd
-				metadata {
-					name
+				name
+			}
+			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
+				id
+				timestamp
+				account {
+					id
 				}
+				meral {
+					tokenId
+					meralId
+				}
+				pet {
+					tokenId
+				}
+				transaction {
+					id
+					to
+					from
+				}
+				type
 			}
 		}
 	}
@@ -150,26 +213,31 @@ export const GET_ETERNALBATTLE_ACCOUNT = gql`
 	query ($id: ID!) {
 		account(id: $id) {
 			id
-			ethemerals(orderBy: timestamp, orderDirection: desc) {
+			merals(orderBy: timestamp, orderDirection: desc) {
 				id
+				tokenId
+				meralId
 				timestamp
-				score
-				rewards
+				hp
+				elf
 				atk
 				def
 				spd
 				atkBonus
 				defBonus
 				spdBonus
-				baseId
-				bgId
+				cmId
+				element
 				previousOwner {
 					id
 				}
+				scorecard {
+					battles
+				}
 				coin
-				mainClass
-				subClass
-
+				name
+				mainclass
+				subclass
 				actions(first: 1, orderBy: timestamp, orderDirection: desc, where: { staked: true }) {
 					timestamp
 					priceFeed
@@ -192,11 +260,12 @@ export const GET_ACCOUNT_ACTIONS = gql`
 				account {
 					id
 				}
-				ethemeral {
-					id
+				meral {
+					tokenId
+					meralId
 				}
 				pet {
-					id
+					tokenId
 				}
 				transaction {
 					id
@@ -220,15 +289,13 @@ export const GET_PETS_ORDERED = gql`
 	query ($orderBy: String!, $first: Int!, $orderDirection: String!) {
 		pets(first: $first, orderBy: $orderBy, orderDirection: $orderDirection) {
 			id
-			timestamp
 			baseId
+			timestamp
 			atk
 			def
 			spd
 			rarity
-			metadata {
-				name
-			}
+			name
 		}
 	}
 `;
@@ -237,8 +304,8 @@ export const GET_PET = gql`
 	query ($id: ID!) {
 		pet(id: $id) {
 			id
-			timestamp
 			baseId
+			timestamp
 			creator {
 				id
 			}
@@ -250,9 +317,7 @@ export const GET_PET = gql`
 			def
 			spd
 			rarity
-			metadata {
-				name
-			}
+			name
 		}
 	}
 `;
@@ -261,18 +326,16 @@ export const GET_PET_LIGHT = gql`
 	query ($id: ID!) {
 		pet(id: $id) {
 			id
+			baseId
 			owner {
 				id
 			}
-			baseId
 			edition
 			atk
 			def
 			spd
 			rarity
-			metadata {
-				name
-			}
+			name
 		}
 	}
 `;

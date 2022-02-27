@@ -40,37 +40,37 @@ const useParseAccountAction = (action) => {
 			actionString = `Received ELF from ${shortenAddress(action.transaction.from)} 🔥`;
 			break;
 		case 'Send': // ACCOUNT SEND TOKEN
-			if (action.ethemeral) {
-				if (action.ethemeral !== null && action.transaction.to === Addresses.EternalBattle) {
-					actionString = `Sent Ethemeral #${action.ethemeral.id} to Eternal Battle ⚔️`;
+			if (action.meral) {
+				if (action.meral !== null && action.transaction.to === Addresses.EternalBattle) {
+					actionString = `Sent Ethemeral #${action.meral.tokenId} to Eternal Battle ⚔️`;
 				} else {
-					actionString = `Sent Ethemeral #${action.ethemeral.id} to ${shortenAddress(action.transaction.to)} 🎁`;
+					actionString = `Sent Ethemeral #${action.meral.tokenId} to ${shortenAddress(action.transaction.to)} 🎁`;
 				}
 			}
 			break;
 		case 'Receive': // ACCOUNT RECEIVED TOKEN // New Minted if from == self
-			if (action.ethemeral) {
+			if (action.meral) {
 				if (action.transaction.from === action.account.id) {
-					actionString = `Minted Ethemeral #${action.ethemeral.id}. Congratulations! ❤️‍🔥`;
+					actionString = `Minted Ethemeral #${action.meral.tokenId}. Congratulations! ❤️‍🔥`;
 				} else {
-					actionString = `Received Ethemeral #${action.ethemeral.id} from ${shortenAddress(action.transaction.from)} 🎁`;
+					actionString = `Received Ethemeral #${action.meral.tokenId} from ${shortenAddress(action.transaction.from)} 🎁`;
 				}
 			}
 			break;
 		case 'Unstaked':
 			actionString = 'Unstaked';
 			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Retrieved Ethemeral #${action.ethemeral.id} from Eternal Battle 🛡️`;
+				actionString = `Retrieved Ethemeral #${action.meral.tokenId} from Eternal Battle 🛡️`;
 			}
 			break;
 		case 'Staked':
 			actionString = 'Staked';
 			break;
 		case 'Resurrection':
-			actionString = `Resurrected Ethemeral #${action.ethemeral.id} 💖`;
+			actionString = `Resurrected Ethemeral #${action.meral.tokenId} 💖`;
 			break;
 		case 'RedeemELF':
-			actionString = `Drained ELF from Ethemeral #${action.ethemeral.id} 💔`;
+			actionString = `Drained ELF from Ethemeral #${action.meral.tokenId} 💔`;
 			break;
 		case 'RedeemHonor':
 			actionString = `Redeemed Highest Honor Fund 🎖️`;
@@ -78,14 +78,14 @@ const useParseAccountAction = (action) => {
 		case 'Revived':
 			actionString = 'Revived';
 			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Ethemeral #${action.ethemeral.id} was revived from Eternal Battle 💖`;
+				actionString = `Ethemeral #${action.meral.tokenId} was revived from Eternal Battle 💖`;
 			}
 			break;
 		case 'Reviver':
-			actionString = `Sent Angel Ethemeral #${action.ethemeral.id} to revive a poor soul! 😇`;
+			actionString = `Sent Angel Ethemeral #${action.meral.tokenId} to revive a poor soul! 😇`;
 			break;
 		case 'Reaper':
-			actionString = `Sent Reaper Ethemeral #${action.ethemeral.id} in for the kill! 💀`;
+			actionString = `Sent Reaper Ethemeral #${action.meral.tokenId} in for the kill! 💀`;
 			break;
 		case 'DelegateChange': // ACCOUNT
 			actionString = `Allow / Disallow Delegates Change 👍`;

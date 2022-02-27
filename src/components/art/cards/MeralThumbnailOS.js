@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNFTUtils } from '../../../hooks/useNFTUtils';
-import { useMeralImagePaths } from '../../../hooks/useMeralData';
+import { getMeralImages } from '../../../hooks/useMerals';
 import { useGQLQueryL1 } from '../../../hooks/useGQLQuery';
 import { Links } from '../../../constants/Links';
 import { Addresses } from '../../../constants/contracts/Addresses';
@@ -10,12 +10,14 @@ import { useUser } from '../../../hooks/useUser';
 
 const GET_NFT = gql`
 	query ($id: ID!) {
-		ethemeral(id: $id) {
+		meral(id: $id) {
 			id
+			cmId
+			tokenId
 			owner {
 				id
 			}
-			bgId
+			element
 		}
 	}
 `;
@@ -24,7 +26,6 @@ const MeralThumbnailOS = ({ id }) => {
 	const { data, status, isLoading } = useGQLQueryL1(`nft_art_answer_meral_${id}`, GET_NFT, { id: id }, { refetchOnMount: false });
 	const { address } = useUser();
 
-	const { meralImagePaths } = useMeralImagePaths(id);
 	const { elements } = useNFTUtils();
 	const [nft, setNFT] = useState(undefined);
 	const [owned, setOwned] = useState(false);
@@ -43,11 +44,11 @@ const MeralThumbnailOS = ({ id }) => {
 		}
 	}, [nft, address, owned]);
 
-	if (!meralImagePaths || isLoading || !nft) {
+	if (isLoading || !nft) {
 		return <div style={{ minWidth: '64px', minHeight: '60px', width: '64px', height: '64px' }} className="relative"></div>;
 	}
 
-	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Ethemerals}/${nft.id}`;
+	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Ethemerals}/${nft.tokenId}`;
 
 	return (
 		<div
@@ -56,16 +57,16 @@ const MeralThumbnailOS = ({ id }) => {
 				minHeight: '60px',
 				width: '64px',
 				height: '60px',
-				backgroundColor: elements[nft.bgId].color,
+				backgroundColor: elements[nft.element].color,
 				borderWidth: '3px',
 				borderColor: owned ? 'hsl(150, 100%, 40%)' : 'white',
 			}}
 			className="relative cursor-pointer shadow hover:opacity-80 hover:shadow-lg rounded-lg overflow-hidden"
 		>
 			<a href={openSeaURL} target="blank" rel="noreferrer">
-				<img width="70" height="70" src={meralImagePaths.thumbnail} alt="" />
+				<img width="70" height="70" src={getMeralImages(nft.cmId, 0).thumbnail} alt="" />
 			</a>
-			<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-50 w-full absolute bottom-0 text-left">#{nft.id.padStart(4, '0')}</span>
+			<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-50 w-full absolute bottom-0 text-left">#{nft.tokenId.padStart(4, '0')}</span>
 		</div>
 	);
 };

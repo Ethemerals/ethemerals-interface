@@ -96,3 +96,15 @@ export const formatPrice = (price) => {
 
 	return formatConfig.format(price);
 };
+
+// FILTERING
+
+export const formatFilters = (filters) => {
+	let _filters = [];
+
+	for (const key in filters) {
+		_filters.push(`${key}: ${JSON.stringify(filters[key])}`);
+	}
+
+	return `{${_filters}}`;
+};

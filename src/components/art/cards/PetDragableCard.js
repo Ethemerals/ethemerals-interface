@@ -1,10 +1,8 @@
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../utils/items';
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
-import { getPetBorderColor, getPetTypePallet } from '../../../hooks/usePetData';
+import { getPetBorderColor, getPetImages, getPetTypePallet } from '../../../hooks/usePets';
 
 const PetDragableCard = ({ nft, owned, dropped }) => {
-	const { getEquipmentImages } = useNFTUtils();
 	const [{ isDragging }, drag] = useDrag(() => ({
 		type: ItemTypes.CARD,
 		item: {
@@ -37,12 +35,12 @@ const PetDragableCard = ({ nft, owned, dropped }) => {
 		>
 			{/* MAIN IMAGE */}
 			<div style={{ minWidth: '160px', maxWidth: '160px', maxHeight: '212px', minHeight: '212px' }} className="absolute top-6 left-0">
-				<img width="160" height="212" className="" src={getEquipmentImages(nft.baseId).preview} alt="" />
+				<img width="160" height="212" className="" src={getPetImages(nft.baseId).preview} alt="" />
 			</div>
 			{/* TOP BAR */}
 			<div className="w-full flex items-center justify-center">
-				<span style={{ backgroundColor: getPetTypePallet(nft.mainclass) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
-					#{nft.tokenId.toString().padStart(4, '0')}
+				<span style={{ backgroundColor: getPetTypePallet(nft) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
+					#{nft.id.toString().padStart(4, '0')}
 				</span>
 				{owned && (
 					<div style={{ backgroundColor: 'hsl(36, 100%, 50%)' }} className="rounded mt-1 px-2 top-4 absolute overflow-hidden text-white text-xs font-bold">

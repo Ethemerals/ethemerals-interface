@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../utils/items';
 import { useNFTUtils, getSubclassInfo } from '../../../hooks/useNFTUtils';
-import { useMeralImagePaths } from '../../../hooks/useMeralData';
+import { getMeralImages } from '../../../hooks/useMerals';
 
 const idsToElements = (id) => {
 	let element = 'Void';
@@ -40,7 +40,6 @@ const idsToElements = (id) => {
 const MeralDragableCard = ({ nft, owned, dropped }) => {
 	const { elements } = useNFTUtils();
 	const [subclassInfo, setSubclassInfo] = useState(undefined);
-	const { meralImagePaths } = useMeralImagePaths(nft.tokenId);
 
 	const [{ isDragging }, drag] = useDrag(() => ({
 		type: ItemTypes.CARD,
@@ -60,7 +59,7 @@ const MeralDragableCard = ({ nft, owned, dropped }) => {
 		}
 	}, [nft]);
 
-	if (!nft || !meralImagePaths || !subclassInfo) {
+	if (!nft || !subclassInfo) {
 		return (
 			<div
 				style={{
@@ -117,7 +116,7 @@ const MeralDragableCard = ({ nft, owned, dropped }) => {
 		>
 			{/* MAIN IMAGE */}
 			<div style={{ minWidth: '160px', maxWidth: '160px', maxHeight: '212px', minHeight: '212px' }} className="overflow-hidden">
-				{meralImagePaths && <img width="160" height="212" className="" src={meralImagePaths.preview} alt="" />}
+				<img width="160" height="212" className="" src={getMeralImages(nft.cmId, 0).preview} alt="" />
 			</div>
 			{idsToElements(nft.element).element !== 'VOID' && (
 				<div style={{ backgroundColor: idsToElements(nft.element).color }} className="right-0 pr-1 pl-2 rounded-l-md mt-1 top-0 absolute overflow-hidden text-white text-xs font-bold">
@@ -140,7 +139,7 @@ const MeralDragableCard = ({ nft, owned, dropped }) => {
 
 					<div style={{ backgroundColor: `hsla(${subclassInfo.hue},100%,70%,1)` }} className="flex h-6 my-1 items-center overflow-hidden whitespace-pre">
 						<img style={{ margin: '1px 2px 1px 2px' }} width="20" height="20" src={subclassInfo.icon} alt="subclass icon" />
-						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nft.name}</div>
+						<div className="w-full bg-black pl-2 uppercase font-bold text-white">{nft.coin}</div>
 					</div>
 				</div>
 			</div>

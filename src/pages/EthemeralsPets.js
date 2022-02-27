@@ -38,7 +38,7 @@ const EthemeralsPets = () => {
 		let _filters = {};
 		if (nameFilterList.length > 0) {
 			setShouldFilter(true);
-			_filters.name = nameFilterList;
+			_filters.name_in = nameFilterList;
 		}
 
 		setFilters(_filters);
@@ -51,11 +51,11 @@ const EthemeralsPets = () => {
 		_order.orderDirection = 'desc';
 
 		if (sortBy.value === 'timestamp_asc') {
-			_order.orderBy = 'creation_timestamp';
+			_order.orderBy = 'timestamp';
 			_order.orderDirection = 'asc';
 		}
 		if (sortBy.value === 'timestamp_desc') {
-			_order.orderBy = 'creation_timestamp';
+			_order.orderBy = 'timestamp';
 			_order.orderDirection = 'desc';
 		}
 		setOrder({ orderBy: _order.orderBy, orderDirection: _order.orderDirection });

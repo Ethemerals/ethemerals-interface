@@ -4,9 +4,7 @@ const MeralIcon = ({ nft, select }) => {
 	let type = getTypeFromId(nft.meralId);
 	return (
 		<div onClick={() => select(nft.meralId)} className="w-20 h-20 bg-white m-2 border border-black text-xs hover:bg-green-100 cursor-pointer">
-			<p>
-				type:{nft.type} / {nft.tokenId}
-			</p>
+			<p>#{nft.meralId}</p>
 
 			<p>HP {nft.hp}</p>
 			<p>XP {nft.xp}</p>

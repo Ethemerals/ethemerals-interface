@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Links } from '../constants/Links';
 
 import { useSendTx } from '../context/TxContext';
-import { useCore, useCoreContract } from '../hooks/useCore';
+import { useCore, useCoreApprovals, useCoreContract, useDelegates } from '../hooks/useCore';
 
 import WaitingConfirmation from '../components/modals/WaitingConfirmation';
 import ErrorDialogue from '../components/modals/ErrorDialogue';
@@ -15,11 +15,12 @@ import { useUserAccount } from '../hooks/useUser';
 import { Addresses } from '../constants/contracts/Addresses';
 
 const Preferences = () => {
-	const { core, delegates } = useCore();
+	const { core } = useCore();
+	const { delegates } = useDelegates();
 	const { contractCore } = useCoreContract();
-	const { account } = useUserAccount();
+	const { account, allowDelegates, address } = useUserAccount();
+	const { isApprovedForAll } = useCoreApprovals(address, Addresses.EternalBattle.toLowerCase());
 
-	const isApproved = false; // TODO
 	const sendTx = useSendTx();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -42,7 +43,7 @@ const Preferences = () => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractCore.setAllowDelegates(allow, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, `${allow ? 'approve delegates' : 'disapprove delegates'}`, true, ['account', 'account_core', 'core_approvals']);
+				sendTx(tx.hash, `${allow ? 'approve delegates' : 'disapprove delegates'}`, true, [`account_${address}_subgraph`, 'account_core', 'core_approvals']);
 			} catch (error) {
 				setIsErrorOpen(true);
 				setErrorMsg('approve delegates transaction rejected from user wallet');
@@ -79,7 +80,7 @@ const Preferences = () => {
 	return (
 		<div>
 			<div className="w-full sm:w-500 p-6 pb-10 rounded bg-gray-100 text-black">
-				<h2 className="font-bold text-xl text-blue-900 mb-6">Approvals</h2>
+				<h2 className="font-bold text-xl text-blue-900 mb-6">Approvals (Ethereum Mainnet)</h2>
 				<p className="mb-4">
 					The Ethemeral core contract has two approval methods for allowing contracts to transfer your NFTs. You will need to approve staking / gamefi contracts before interacting with them.
 				</p>
@@ -89,10 +90,10 @@ const Preferences = () => {
 					Allows ALL vetted Ethemerals ecosystem contracts and future contracts to transfer your NFT
 				</p>
 				<p className="text-center">
-					<strong>Status: {account && account.allowDelegates ? <span className="text-green-700">Approved</span> : <span className="text-red-700">Not Approved</span>}</strong>
+					<strong>Status: {allowDelegates ? <span className="text-green-700">Approved</span> : <span className="text-red-700">Not Approved</span>}</strong>
 				</p>
 
-				{account && !account.allowDelegates && (
+				{!allowDelegates && (
 					<div
 						onClick={() => onSubmitAllowDelegates(true)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-2 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
@@ -101,7 +102,7 @@ const Preferences = () => {
 					</div>
 				)}
 
-				{account && account.allowDelegates && (
+				{allowDelegates && (
 					<div
 						onClick={() => onSubmitAllowDelegates(false)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
@@ -121,9 +122,9 @@ const Preferences = () => {
 
 				{/* ETERNAL BATTLE APPROVALS */}
 				<p className=" text-center">
-					<strong>Eternal Battle: {isApproved === true ? <span className="text-green-700">Approved</span> : <span className="text-red-700">Not Approved</span>}</strong>
+					<strong>Eternal Battle: {isApprovedForAll === true ? <span className="text-green-700">Approved</span> : <span className="text-red-700">Not Approved</span>}</strong>
 				</p>
-				{core && isApproved === false && (
+				{isApprovedForAll === false && (
 					<div
 						onClick={() => onSubmitApprovedForAll(Addresses.EternalBattle, true)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-2 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
@@ -132,7 +133,7 @@ const Preferences = () => {
 					</div>
 				)}
 
-				{isApproved === true && account && !account.allowDelegates && (
+				{isApprovedForAll === true && !allowDelegates && (
 					<div
 						onClick={() => onSubmitApprovedForAll(Addresses.EternalBattle, false)}
 						className="text-center mx-auto shadow-md sm:mx-8 mt-2 py-2 px-4 cursor-pointer rounded-lg font-bold text-lg bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "

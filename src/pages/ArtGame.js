@@ -13,6 +13,7 @@ import { ItemTypes } from '../components/art/utils/items';
 import FilterStatus from '../components/FilterStatus';
 
 import { useUserAccount } from '../hooks/useUser';
+import { elementsToIds, subclassesToIds } from '../hooks/useNFTUtils';
 
 const coinData = [];
 for (let i = 0; i < metaCoinName.length; i++) {
@@ -58,28 +59,6 @@ for (let i = 0; i < metaSkinColors.length; i++) {
 
 const elementsData = [{ name: 'Void' }, { name: 'Earth' }, { name: 'Fire' }, { name: 'Water' }, { name: 'Wind' }];
 
-const elementsToIds = (elements) => {
-	let ids = [];
-	elements.forEach((element) => {
-		if (element === 'Void') {
-			ids = ids.concat([0, 1, 2, 3, 4]);
-		}
-		if (element === 'Earth') {
-			ids = ids.concat([5, 6, 7, 8, 9]);
-		}
-		if (element === 'Fire') {
-			ids = ids.concat([10, 11, 12, 13]);
-		}
-		if (element === 'Water') {
-			ids = ids.concat([14, 15, 16, 17, 18]);
-		}
-		if (element === 'Wind') {
-			ids = ids.concat([19, 20, 21, 22, 23, 24]);
-		}
-	});
-	return ids;
-};
-
 const statusData = [{ name: 'Owned' }];
 
 const petData = [];
@@ -109,6 +88,7 @@ const ArtGame = () => {
 	const [petShouldFilter, setPetShouldFilter] = useState(false);
 	const [petFilters, setPetFilters] = useState({});
 
+	const [shouldFilter, setShouldFilter] = useState(false);
 	const [filters, setFilters] = useState({});
 	const [filterTab, setFilterTab] = useState(0);
 
@@ -119,57 +99,54 @@ const ArtGame = () => {
 	}, []);
 
 	useEffect(() => {
+		setShouldFilter(false);
 		let _filters = {};
 		if (coinFilterList.length > 0) {
-			_filters.coin = coinFilterList;
+			setShouldFilter(true);
+			_filters.coin_in = coinFilterList;
 		}
 		if (elementFilterList.length > 0) {
-			_filters.element = elementsToIds(elementFilterList);
-		}
-		if (subclassFilterList.length > 0) {
-			let subclassFilterListInt = [];
-
-			for (let i = 0; i < subclassFilterList.length; i++) {
-				let subclassString = subclassFilterList[i];
-				let subclassInt = metaSubclass.indexOf(subclassString);
-				if (subclassInt >= 0) {
-					subclassFilterListInt.push(subclassInt);
-				}
-			}
-
-			_filters.subclass = subclassFilterListInt;
-		}
-		if (costumeFilterList.length > 0) {
-			_filters.costume = costumeFilterList;
+			setShouldFilter(true);
+			_filters.element_in = elementsToIds(elementFilterList);
 		}
 		if (statusFilterList.length > 0) {
-			if (address) {
-				_filters.owner = address;
-			}
+			setShouldFilter(true);
+			_filters.owner_in = address ? [address.toLowerCase()] : [''];
+		}
+		if (subclassFilterList.length > 0) {
+			setShouldFilter(true);
+			_filters.subclass_in = subclassesToIds(subclassFilterList);
+		}
+		if (costumeFilterList.length > 0) {
+			setShouldFilter(true);
+			_filters.costume_in = costumeFilterList;
 		}
 		if (eyeFilterList.length > 0) {
-			_filters.eyes = eyeFilterList;
+			setShouldFilter(true);
+			_filters.eyes_in = eyeFilterList;
 		}
 		if (hairFilterList.length > 0) {
-			_filters.hair = hairFilterList;
+			setShouldFilter(true);
+			_filters.hair_in = hairFilterList;
 		}
 		if (skinFilterList.length > 0) {
-			_filters.skin = skinFilterList;
+			setShouldFilter(true);
+			_filters.skin_in = skinFilterList;
 		}
 
 		setFilters(_filters);
-	}, [coinFilterList, statusFilterList, elementFilterList, subclassFilterList, costumeFilterList, eyeFilterList, hairFilterList, skinFilterList, address]);
+	}, [statusFilterList, coinFilterList, elementFilterList, subclassFilterList, costumeFilterList, eyeFilterList, hairFilterList, skinFilterList, address]);
 
 	useEffect(() => {
 		setPetShouldFilter(false);
 		let _filters = {};
 		if (petNameFilterList.length > 0) {
 			setPetShouldFilter(true);
-			_filters.name = petNameFilterList;
+			_filters.name_in = petNameFilterList;
 		}
 		if (statusFilterList.length > 0) {
 			setPetShouldFilter(true);
-			_filters.owner = address ? [address.toLowerCase()] : [''];
+			_filters.owner_in = address ? [address.toLowerCase()] : [''];
 		}
 
 		setPetFilters(_filters);
@@ -272,7 +249,7 @@ const ArtGame = () => {
 					style={{ left: '212px', width: '212px', minWidth: '212px', maxWidth: '212px', backgroundColor: 'hsl(212, 39%, 94%)' }}
 					className="h-screen top-12 fixed border-r border-gray-400 overflow-y-auto pb-20"
 				>
-					{filterTab === 0 && <MeralsList order={order} filters={filters} allDropped={droppedMerals} />}
+					{filterTab === 0 && <MeralsList order={order} shouldFilter={shouldFilter} filters={filters} allDropped={droppedMerals} />}
 					{filterTab === 1 && <PetsList order={order} shouldFilter={petShouldFilter} filters={petFilters} allDropped={droppedPets} />}
 				</div>
 

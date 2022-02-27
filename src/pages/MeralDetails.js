@@ -1,58 +1,67 @@
-import { useEffect, useState } from 'react';
-import { format } from 'date-fns';
-import { useParams } from 'react-router-dom';
-
-import { useNFTUtils } from '../hooks/useNFTUtils';
-
-import Images from '../constants/Images';
-
-// import useParseAction from '../hooks/useParseActions';
-
-import NFTActions from '../components/ethemerals/components/NFTActions';
 import NFTChooseColorScheme from '../components/ethemerals/components/NFTChooseColorScheme';
 
 import { shortenAddress } from '../utils';
 import BackButton from '../components/navigation/BackButton';
-import { useChooseMeralImagePaths, useMeralDataByIdType1 } from '../hooks/useMeralData';
 
-// const ActionLink = (action) => {
-// 	const [actionString, txLink] = useParseAction(action);
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+import { useParams } from 'react-router-dom';
 
-// 	return (
-// 		<a href={txLink} target="_blank" rel="noreferrer" className="flex items-center hover:text-blue-400">
-// 			{actionString}
-// 			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-// 				<polyline points="15 3 21 3 21 9"></polyline>
-// 				<line x1="10" y1="14" x2="21" y2="3"></line>
-// 			</svg>
-// 		</a>
-// 	);
-// };
+import { useGQLQueryL1 } from '../hooks/useGQLQuery';
+import { getSubclassInfo, useNFTUtils } from '../hooks/useNFTUtils';
+import Images from '../constants/Images';
+import { GET_NFT } from '../queries/Subgraph';
+import useParseAction from '../hooks/useParseActions';
+
+import NFTActions from '../components/ethemerals/components/NFTActions';
+
+import { getMeralImages, useMeralDataById } from '../hooks/useMerals';
+import { getIdFromType } from '../hooks/useMeralUtils';
+
+const ActionLink = (action) => {
+	const [actionString, txLink] = useParseAction(action);
+
+	return (
+		<a href={txLink} target="_blank" rel="noreferrer" className="flex items-center hover:text-blue-400">
+			{actionString}
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+				<polyline points="15 3 21 3 21 9"></polyline>
+				<line x1="10" y1="14" x2="21" y2="3"></line>
+			</svg>
+		</a>
+	);
+};
 
 const MeralDetails = () => {
 	const { elements } = useNFTUtils();
-
 	const { id } = useParams();
-	const { meral } = useMeralDataByIdType1(id);
-	const { chooseMeralImagePath } = useChooseMeralImagePaths();
-	const [color, setColor] = useState(0);
+
+	const { meralData, currentColor } = useMeralDataById(getIdFromType(1, id));
+
+	// const { chooseMeralImagePath } = useChooseMeralImagePaths();
+
+	const [color, setColor] = useState(undefined);
 	const [birthDate, setBirthdate] = useState(undefined);
 	const [nft, setNFT] = useState(undefined);
-	const [ready, setReady] = useState(false);
+	const [subclassInfo, setSubclassInfo] = useState(undefined);
+
+	const { data, status, isLoading } = useGQLQueryL1(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
 	useEffect(() => {
-		if (meral) {
-			setReady(true);
-			let creationTimestamp = meral.creationTimestamp;
-			if (creationTimestamp) {
-				setBirthdate(creationTimestamp);
-			}
-			setColor(meral.currentColor);
-			setNFT(meral);
+		if (status === 'success' && data && data.meral) {
+			setNFT(data.meral);
+			setBirthdate(parseInt(data.meral.timestamp) * 1000);
+			setSubclassInfo(getSubclassInfo(data.meral.subclass));
 		}
-	}, [meral]);
+	}, [status, data, nft]);
 
-	if (!ready || !nft) {
+	useEffect(() => {
+		if (currentColor !== undefined) {
+			setColor(currentColor);
+		}
+	}, [currentColor]);
+
+	if (!nft || color === undefined) {
 		return (
 			<div>
 				<div className="page_bg"></div>
@@ -72,7 +81,7 @@ const MeralDetails = () => {
 					{/* LEFT BAR */}
 					<div className="p-4 w-32 z-20 absolute font-bold text-center">
 						<img className="w-90 h-74 mx-auto" src={Images.logoEthem} alt="logo" />
-						<p className="mt-10 text-lg border-b border-white">{`${meral.edition}/10`}</p>
+						<p className="mt-10 text-lg border-b border-white">{`${nft.edition}/10`}</p>
 						<p className="text-sm">{nft.name}</p>
 						<p className="mt-5 text-sm">{elements[nft.element].element}</p>
 						<p className="mt-5 text-3xl">#{nft.tokenId.toString().padStart(4, '0')}</p>
@@ -99,29 +108,29 @@ const MeralDetails = () => {
 						<p className="px-4 font-bold text-5xl uppercase">{nft.name}</p>
 						<div style={{ height: '124px' }} className="bg-black pt-3 px-4">
 							<div className="flex h-8">
-								<div style={{ backgroundColor: `hsla(${nft.subclassInfo.hue},100%,70%,1)` }} className="w-8">
-									<img src={nft.subclassInfo.icon} alt="subclass icon" />
+								<div style={{ backgroundColor: `hsla(${subclassInfo.hue},100%,70%,1)` }} className="w-8">
+									<img src={subclassInfo.icon} alt="subclass icon" />
 								</div>
-								<div className="w-48 px-2 uppercase text-lg">{nft.subclassInfo.name}</div>
+								<div className="w-48 px-2 uppercase text-lg">{subclassInfo.name}</div>
 							</div>
 							<div className="flex justify-between">
 								<div className="">
 									<div className="flex h-3 items-center mb-1 mt-2 text-sm font-bold">
 										<span className="w-8 text-white">ATK</span>
-										<span style={{ width: `${(nft.atk - nft.subclassInfo.bonus.atk) * 0.4}px` }} className="h-3 bg-gray-500"></span>
-										<span style={{ width: `${nft.subclassInfo.bonus.atk * 0.4}px`, backgroundColor: `hsla(${nft.subclassInfo.hue},100%, 70%, 1)` }} className="h-3"></span>
+										<span style={{ width: `${(nft.atk - subclassInfo.bonus.atk) * 0.4}px` }} className="h-3 bg-gray-500"></span>
+										<span style={{ width: `${subclassInfo.bonus.atk * 0.4}px`, backgroundColor: `hsla(${subclassInfo.hue},100%, 70%, 1)` }} className="h-3"></span>
 										<span className="pl-1 text-white">{nft.atk}</span>
 									</div>
 									<div className="flex h-3 items-center mb-1 text-sm font-bold">
 										<span className="w-8 text-white">DEF</span>
-										<span style={{ width: `${(nft.def - nft.subclassInfo.bonus.def) * 0.4}px` }} className="h-3 bg-gray-500"></span>
-										<span style={{ width: `${nft.subclassInfo.bonus.def * 0.4}px`, backgroundColor: `hsla(${nft.subclassInfo.hue},100%, 70%, 1)` }} className="h-3"></span>
+										<span style={{ width: `${(nft.def - subclassInfo.bonus.def) * 0.4}px` }} className="h-3 bg-gray-500"></span>
+										<span style={{ width: `${subclassInfo.bonus.def * 0.4}px`, backgroundColor: `hsla(${subclassInfo.hue},100%, 70%, 1)` }} className="h-3"></span>
 										<span className="pl-1 text-white">{nft.def}</span>
 									</div>
 									<div className="flex h-3 items-center mb-1 text-sm font-bold">
 										<span className="w-8 text-white">SPD</span>
-										<span style={{ width: `${(nft.spd - nft.subclassInfo.bonus.spd) * 0.4}px` }} className="h-3 bg-gray-500"></span>
-										<span style={{ width: `${nft.subclassInfo.bonus.spd * 0.4}px`, backgroundColor: `hsla(${nft.subclassInfo.hue},100%, 70%, 1)` }} className="h-3"></span>
+										<span style={{ width: `${(nft.spd - subclassInfo.bonus.spd) * 0.4}px` }} className="h-3 bg-gray-500"></span>
+										<span style={{ width: `${subclassInfo.bonus.spd * 0.4}px`, backgroundColor: `hsla(${subclassInfo.hue},100%, 70%, 1)` }} className="h-3"></span>
 										<span className="pl-1 text-white">{nft.spd}</span>
 									</div>
 									<div className="flex h-3 items-center mb-1 text-sm font-bold">
@@ -131,8 +140,8 @@ const MeralDetails = () => {
 								</div>
 								<div className="text-sm text-right leading-relaxed text-gray-200 font-bold">
 									<p>Birthed: {birthDate && format(birthDate, 'MMM dd yyyy')}</p>
-									<p>Designer: {meral.artist}</p>
-									<p>Minted By: {shortenAddress(meral.creator)}</p>
+									<p>Designer: {nft.artist}</p>
+									<p>Minted By: {shortenAddress(nft.creator.id)}</p>
 								</div>
 							</div>
 						</div>
@@ -140,7 +149,7 @@ const MeralDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div style={{ backgroundColor: elements[nft.element].color, backgroundImage: `url("${elements[nft.element].img}")` }} className="absolute bg-contain nft_details_img"></div>
-					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={chooseMeralImagePath(nft.tokenId, color).large} alt="Ethemeral Full Size" />
+					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getMeralImages(nft.cmId, color).large} alt="Ethemeral Full Size" />
 				</div>
 
 				{/* SIDE BAR */}
@@ -154,23 +163,52 @@ const MeralDetails = () => {
 					{/* COLOR */}
 					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
 						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">COLOR</h3>
-						<NFTChooseColorScheme tokenId={id} setColor={setColor} />
+						<NFTChooseColorScheme nft={nft} color={color} setColor={setColor} currentColor={currentColor} meralData={meralData} />
 					</div>
 
-					{/* ABILITIES */}
+					{/* EQUIPMENT */}
 					<div className="h-32 p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
 						<h3 className="font-bold text-xs text-brandColor-purple">EQUIPMENT</h3>
 					</div>
 
-					{/* STATS */}
+					{/* RECORD */}
 					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
 						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">RECORD</h3>
-						<div className="text-black text-sm leading-7 grid grid-cols-2 gap-2 mt-1 bg-customBlue-paler rounded-lg"></div>
+						<div className="text-black text-sm leading-7 grid grid-cols-2 gap-2 mt-1 bg-customBlue-paler rounded-lg">
+							<div className="px-3 py-2">
+								<div className="flex justify-between">
+									<span>Battles</span>
+									<span>{nft.scorecard.battles}</span>
+								</div>
+								<div className="flex justify-between">
+									<span>Revived</span>
+									<span>{nft.scorecard.revived}</span>
+								</div>
+								<div className="flex justify-between">
+									<span>Reaped</span>
+									<span>{nft.scorecard.reaped}</span>
+								</div>
+							</div>
+							<div className="px-3 py-2">
+								<div className="flex justify-between">
+									<span>Wins</span>
+									<span>{nft.scorecard.wins}</span>
+								</div>
+								<div className="flex justify-between">
+									<span>Reviver</span>
+									<span>{nft.scorecard.reviver}</span>
+								</div>
+								<div className="flex justify-between">
+									<span>Reaper</span>
+									<span>{nft.scorecard.reaper}</span>
+								</div>
+							</div>
+						</div>
 					</div>
 
 					{/* HISTORY */}
 					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md h-56">
-						{/* <h3 className="font-bold text-xs mb-4 text-brandColor-purple">HISTORY</h3>
+						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">HISTORY</h3>
 						<ul className="text-gray-700 text-sm leading-6">
 							{status === 'success' &&
 								nft &&
@@ -181,10 +219,11 @@ const MeralDetails = () => {
 									}
 									return <li key={index}>{ActionLink(action)}</li>;
 								})}
-						</ul> */}
+						</ul>
 					</div>
 				</div>
 			</div>
+			<div className="h-24"></div>
 		</div>
 	);
 };

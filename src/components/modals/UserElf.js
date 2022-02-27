@@ -8,7 +8,7 @@ import { useUserAccount } from '../../hooks/useUser';
 import { useNativeBalance } from 'react-moralis';
 
 const UserELF = () => {
-	const { account } = useUserAccount();
+	const { account, userMerals } = useUserAccount();
 	const { data: balance } = useNativeBalance();
 
 	const { accountEternalBattle } = useEternalBattleAccount();
@@ -17,15 +17,6 @@ const UserELF = () => {
 	const [userNFTsInBattle, setUserNFTsInBattle] = useState(undefined);
 	const [totalNFTElf, setTotalNFTElf] = useState(0);
 	const [totalNFTInBattleElf, setTotalNFTinBattleElf] = useState(0);
-
-	useEffect(() => {
-		if (account && account.merals.length > 0) {
-			setUserNFTs(account.merals);
-		}
-		return () => {
-			setUserNFTs(undefined);
-		};
-	}, [account]);
 
 	// useEffect(() => {
 	// 	if (accountEternalBattle && account) {
@@ -39,12 +30,11 @@ const UserELF = () => {
 	// 	}
 	// }, [accountEternalBattle, account]);
 
-	//57656
 	useEffect(() => {
-		if (userNFTs) {
+		if (userMerals) {
 			let nftElf = 0;
-			if (userNFTs.length > 0)
-				userNFTs.forEach((nft) => {
+			if (userMerals.length > 0)
+				userMerals.forEach((nft) => {
 					if (nft.elf > 0) {
 						nftElf += parseInt(nft.elf);
 					}
@@ -54,7 +44,7 @@ const UserELF = () => {
 		return () => {
 			setTotalNFTElf(undefined);
 		};
-	}, [userNFTs]);
+	}, [userMerals]);
 
 	useEffect(() => {
 		if (userNFTsInBattle) {

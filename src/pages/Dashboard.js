@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
 
 import NFTPreviewCard from '../components/ethemerals/cards/NFTPreviewCard';
-import EquipablePreviewCard from '../components/ethemerals/cards/EquipablePreviewCard';
 
 import { useUserAccount } from '../hooks/useUser';
 import { useEternalBattleAccount } from '../hooks/useEternalBattle';
 import Preferences from '../components/Preferences';
+import PetsPreviewCard from '../components/ethemerals/cards/PetsPreviewCard';
 
 const Dashboard = () => {
-	const { account, userNFTs, userPMerals } = useUserAccount();
+	const { userMerals, userPMerals, userPets, address } = useUserAccount();
 	const { accountEternalBattle } = useEternalBattleAccount();
 
-	const [merals, setMerals] = useState([]);
-	const [pets, setPets] = useState([]);
 	const [meralsInBattle, setMeralsInBattle] = useState([]);
 	const [selectedTab, setSelectedTab] = useState(0);
 
@@ -21,27 +19,21 @@ const Dashboard = () => {
 	}, []);
 
 	useEffect(() => {
-		if (account && userNFTs.length > 0) {
-			setMerals([...userPMerals, ...userNFTs]);
+		if (accountEternalBattle && address) {
+			let inBattle = [];
+			accountEternalBattle.merals.forEach((nft) => {
+				if (nft.previousOwner.id === address.toLowerCase()) {
+					inBattle.push(nft);
+				}
+			});
+			if (inBattle.length > 0) {
+				setMeralsInBattle(inBattle);
+			}
 		}
-		if (account && account.pets.length > 0) {
-			setPets(account.pets);
-		}
-	}, [account, userNFTs, userPMerals]);
-
-	// useEffect(() => {
-	// 	if (accountEternalBattle && account) {
-	// 		let inBattle = [];
-	// 		accountEternalBattle.ethemerals.forEach((nft) => {
-	// 			if (nft.previousOwner.id === account.id) {
-	// 				inBattle.push(nft);
-	// 			}
-	// 		});
-	// 		if (inBattle.length > 0) {
-	// 			setMeralsInBattle(inBattle);
-	// 		}
-	// 	}
-	// }, [accountEternalBattle, account]);
+		return () => {
+			setMeralsInBattle(undefined);
+		};
+	}, [accountEternalBattle, address]);
 
 	return (
 		<div className="mt-20">
@@ -65,7 +57,7 @@ const Dashboard = () => {
 					onClick={() => setSelectedTab(2)}
 					className={`${selectedTab === 2 ? 'bg-indigo-500' : 'bg-indigo-300 hover:bg-yellow-400 transition duration-300'} py-1 px-2 mx-1 rounded focus:outline-none`}
 				>
-					In Portal
+					In Battle / Staked
 				</button>
 				<div className="w-6"></div>
 				<button
@@ -80,9 +72,9 @@ const Dashboard = () => {
 			{/* TODO SHOW MAIN */}
 			<div className="flex flex-wrap mx-auto justify-center">
 				<div className="flex flex-wrap mx-auto justify-center">
-					{selectedTab === 0 && merals.map((nft) => <NFTPreviewCard key={nft.meralId} nft={nft} isFetching={false} />)}
-					{selectedTab === 1 && pets && pets.map((nft) => <EquipablePreviewCard key={nft.tokenId} nft={nft} />)}
-					{selectedTab === 2 && userPMerals && userPMerals.map((nft) => <NFTPreviewCard key={nft.meralId} nft={nft} isFetching={false} />)}
+					{selectedTab === 0 && userMerals && userMerals.map((nft) => <NFTPreviewCard key={nft.meralId} nft={nft} isFetching={false} />)}
+					{selectedTab === 1 && userPets && userPets.map((nft) => <PetsPreviewCard key={nft.tokenId} nft={nft} />)}
+					{selectedTab === 2 && meralsInBattle && meralsInBattle.map((nft) => <NFTPreviewCard key={nft.meralId} nft={nft} isFetching={false} />)}
 					{selectedTab === 3 && <Preferences />}
 				</div>
 			</div>

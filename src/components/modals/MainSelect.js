@@ -1,12 +1,13 @@
+import { getSubclassInfo } from '../../hooks/useNFTUtils';
 import { useUser, useUserAccount } from '../../hooks/useUser';
 
 const MainSelect = ({ toggle }) => {
-	const { mainIndex, userNFTs } = useUserAccount();
+	const { mainIndex, userMerals } = useUserAccount();
 	const { setUserData, user } = useUser();
 
 	const selectMain = async (index) => {
-		if (userNFTs && user) {
-			setUserData({ meralMainId: userNFTs[index].meralId });
+		if (userMerals && user) {
+			setUserData({ meralMainId: parseInt(userMerals[index].meralId) });
 			toggle();
 		}
 	};
@@ -27,7 +28,7 @@ const MainSelect = ({ toggle }) => {
 							</tr>
 						</thead>
 						<tbody>
-							{userNFTs.map((nft, index) => {
+							{userMerals.map((nft, index) => {
 								let currentMain;
 								if (index === mainIndex) {
 									currentMain = index;
@@ -40,9 +41,8 @@ const MainSelect = ({ toggle }) => {
 									>
 										<th className="px-2 py-1 text-sm">{nft.tokenId.toString().padStart(4, '0')}</th>
 										<th className="px-2 py-1 text-sm">{nft.name.slice(0, 30)}</th>
-										<th className="px-2 py-1 text-sm">{nft.subClass}</th>
+										<th className="px-2 py-1 text-sm">{getSubclassInfo(nft.subclass).name}</th>
 										<th className="px-2 py-1 text-sm">{`${nft.atk}/${nft.def}/${nft.spd}`}</th>
-										{/* <th className="px-2 py-1 text-sm">{nft.scorecard.battles}</th> */}
 										<th className="px-2 py-1 text-sm">{nft.elf}</th>
 										<th className="px-2 py-1 text-sm">{nft.hp}</th>
 									</tr>

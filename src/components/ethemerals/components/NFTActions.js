@@ -12,21 +12,17 @@ import SummonPet from '../../modals/actions/SummonPet';
 import { shortenAddress } from '../../../utils';
 
 const NFTActions = ({ nft }) => {
-	const { account, mainIndex, userNFTs } = useUserAccount();
+	const { account, mainIndex, userMerals } = useUserAccount();
 	const { setUserData, isUserUpdating } = useUser();
 	const history = useHistory();
 
 	const [isOwned, setIsOwned] = useState(false);
 
-	const [isStaked, setIsStaked] = useState(false);
 	const [isInBattle, setIsInBattle] = useState(false);
 	const [isGiftOpen, setIsGiftOpen] = useState(false);
 	const [isSummonPetOpen, setIsSummonPetOpen] = useState(false);
 
 	useEffect(() => {
-		if (nft && nft.owner === Addresses.EscrowL1.toLowerCase()) {
-			setIsStaked(true);
-		}
 		if (nft && nft.owner === Addresses.EternalBattle.toLowerCase()) {
 			setIsInBattle(true);
 		}
@@ -46,15 +42,15 @@ const NFTActions = ({ nft }) => {
 
 	useEffect(() => {
 		let owned = false;
-		if (account && account.merals.length > 0) {
-			account.merals.forEach((userNft) => {
-				if (userNft.meralId === nft.meralId) {
+		if (userMerals && userMerals.length > 0) {
+			userMerals.forEach((meral) => {
+				if (parseInt(meral.meralId) === parseInt(nft.meralId)) {
 					owned = true;
 				}
 			});
 		}
 		setIsOwned(owned);
-	}, [account, nft]);
+	}, [userMerals, nft]);
 
 	if (!nft) {
 		return null;
@@ -64,7 +60,7 @@ const NFTActions = ({ nft }) => {
 		if (account && isOwned) {
 			try {
 				setUserData({
-					meralMainId: id,
+					meralMainId: parseInt(id),
 				});
 			} catch (error) {
 				console.log(error);
@@ -76,14 +72,14 @@ const NFTActions = ({ nft }) => {
 
 	return (
 		<div className="grid grid-cols-2 gap-2 px-2 text-sm text-white">
-			{isStaked || isInBattle ? (
+			{isInBattle ? (
 				<div className="flex items-center col-span-2 rounded-lg cursor-default">
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
-					<p className="text-black">{isStaked ? 'Shes In The Poly Portal!' : 'In Battle!'}</p>
+					<p className="text-black">{'In Battle!'}</p>
 				</div>
-			) : account && isOwned && userNFTs[mainIndex] && userNFTs[mainIndex].meralId === nft.meralId ? (
+			) : account && isOwned && userMerals[mainIndex] && userMerals[mainIndex].meralId === nft.meralId ? (
 				<div className="flex items-center col-span-2 rounded-lg cursor-default">
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
@@ -98,7 +94,7 @@ const NFTActions = ({ nft }) => {
 					<div className="w-8 h-8 mr-1 relative">
 						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
 					</div>
-					{account && isOwned ? <p>{!isUserUpdating ? 'Select as Main' : 'Updating'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner)}</p>}
+					{account && isOwned ? <p>{!isUserUpdating ? 'Select as Main' : 'Updating'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner.id)}</p>}
 				</div>
 			)}
 

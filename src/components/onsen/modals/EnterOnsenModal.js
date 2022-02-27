@@ -16,9 +16,10 @@ import SwitchNetworks from '../../niceModals/cards/SwitchNetworks';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 import MeralOnsenList from '../cards/MeralListOnsen';
 
-const getUserStakedOnsenMerals = async () => {
+const getUserStakedOnsenMerals = async ({ address }) => {
 	try {
-		const result = await Moralis.Cloud.run('getUserStakedOnsenMerals');
+		const result = await Moralis.Cloud.run('getUserStakedOnsenMerals', { address });
+		// const result = await Moralis.Cloud.run('getUserAccount', { address });
 		return result;
 	} catch (error) {
 		throw new Error('get account error');

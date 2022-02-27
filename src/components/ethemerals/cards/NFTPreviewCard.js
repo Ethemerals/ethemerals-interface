@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useNFTUtils, getSubclassInfo } from '../../../hooks/useNFTUtils';
-import { useMeralImagePaths } from '../../../hooks/useMeralData';
+import { getMeralImages, useMeralGlobal } from '../../../hooks/useMerals';
+
 import Images from '../../../constants/Images';
 
 const SpinnerSVG = () => (
@@ -19,7 +20,14 @@ const NFTPreviewCard = ({ nft, isFetching }) => {
 	const { elements } = useNFTUtils();
 	const history = useHistory();
 	const [subclassInfo, setSubclassInfo] = useState(undefined);
-	const { meralImagePaths } = useMeralImagePaths(nft.tokenId);
+	const [color, setColor] = useState(undefined);
+	const { globalColors } = useMeralGlobal(nft.tokenId);
+
+	useEffect(() => {
+		if (globalColors) {
+			setColor(globalColors[nft.tokenId]);
+		}
+	}, [globalColors, nft]);
 
 	useEffect(() => {
 		if (nft) {
@@ -27,7 +35,7 @@ const NFTPreviewCard = ({ nft, isFetching }) => {
 		}
 	}, [nft]);
 
-	if (isFetching || !subclassInfo) {
+	if (isFetching || !subclassInfo || color === undefined) {
 		return (
 			<div style={{ backgroundColor: elements[4].color }} className="w-64 h-96 m-4 cursor-pointer bg-cover relative bg-gray-500">
 				<div className="abosulte center">
@@ -55,7 +63,9 @@ const NFTPreviewCard = ({ nft, isFetching }) => {
 			</div>
 
 			{/* MAIN IMAGE */}
-			<div className="absolute top-0 left-0">{meralImagePaths && <img className="" src={meralImagePaths.preview} alt="" />}</div>
+			<div className="absolute top-0 left-0">
+				<img className="" src={getMeralImages(nft.cmId, color).preview} alt="" />
+			</div>
 
 			{/* TOP BAR */}
 			<div className="absolute flex items-center p-1 "></div>
@@ -82,7 +92,7 @@ const NFTPreviewCard = ({ nft, isFetching }) => {
 					<p className="text-xs">
 						#<span className="text-sm font-bold">{nft.tokenId.toString().padStart(4, '0')}</span>
 					</p>
-					<p className="text-2xl font-medium">{nft.name}</p>
+					<p className="text-2xl font-medium">{nft.name && nft.name.length > 0 ? nft.name : nft.coin}</p>
 
 					{subclassInfo && (
 						<div style={{ backgroundColor: `hsla(${subclassInfo.hue},100%,70%,1)` }} className="flex h-6 my-1 items-center">

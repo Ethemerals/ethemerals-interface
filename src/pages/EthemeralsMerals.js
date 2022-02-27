@@ -6,6 +6,7 @@ import FilterSearch from '../components/FilterSearch';
 import { metaCoinName, metaSubclass, metaCostumes, metaEyeColors, metaHairColors, metaSkinColors } from '../constants/MetadataStats';
 import FilterBar from '../components/FilterBar';
 import Merals from '../components/ethemerals/Merals';
+import { elementsToIds, subclassesToIds } from '../hooks/useNFTUtils';
 
 const coinData = [];
 for (let i = 0; i < metaCoinName.length; i++) {
@@ -51,28 +52,6 @@ for (let i = 0; i < metaSkinColors.length; i++) {
 
 const elementsData = [{ name: 'Void' }, { name: 'Earth' }, { name: 'Fire' }, { name: 'Water' }, { name: 'Wind' }];
 
-const elementsToIds = (elements) => {
-	let ids = [];
-	elements.forEach((element) => {
-		if (element === 'Void') {
-			ids = ids.concat([0, 1, 2, 3, 4]);
-		}
-		if (element === 'Earth') {
-			ids = ids.concat([5, 6, 7, 8, 9]);
-		}
-		if (element === 'Fire') {
-			ids = ids.concat([10, 11, 12, 13]);
-		}
-		if (element === 'Water') {
-			ids = ids.concat([14, 15, 16, 17, 18]);
-		}
-		if (element === 'Wind') {
-			ids = ids.concat([19, 20, 21, 22, 23, 24]);
-		}
-	});
-	return ids;
-};
-
 const dropdownOptions = [
 	{ value: 'timestamp_asc', label: 'Oldest Mint' },
 	{ value: 'timestamp_desc', label: 'Latest Mint' },
@@ -94,6 +73,7 @@ const EthemeralsMerals = () => {
 	const [skinFilterList, setSkinFilterList] = useState([]);
 
 	const [order, setOrder] = useState({ orderBy: 'timestamp', orderDirection: 'asc' });
+	const [shouldFilter, setShouldFilter] = useState(false);
 	const [filters, setFilters] = useState({});
 
 	useEffect(() => {
@@ -101,37 +81,35 @@ const EthemeralsMerals = () => {
 	}, []);
 
 	useEffect(() => {
+		setShouldFilter(false);
 		let _filters = {};
 		if (coinFilterList.length > 0) {
-			_filters.coin = coinFilterList;
+			setShouldFilter(true);
+			_filters.coin_in = coinFilterList;
 		}
 		if (elementFilterList.length > 0) {
-			_filters.element = elementsToIds(elementFilterList);
+			setShouldFilter(true);
+			_filters.element_in = elementsToIds(elementFilterList);
 		}
 		if (subclassFilterList.length > 0) {
-			let subclassFilterListInt = [];
-
-			for (let i = 0; i < subclassFilterList.length; i++) {
-				let subclassString = subclassFilterList[i];
-				let subclassInt = metaSubclass.indexOf(subclassString);
-				if (subclassInt >= 0) {
-					subclassFilterListInt.push(subclassInt);
-				}
-			}
-
-			_filters.subclass = subclassFilterListInt;
+			setShouldFilter(true);
+			_filters.subclass_in = subclassesToIds(subclassFilterList);
 		}
 		if (costumeFilterList.length > 0) {
-			_filters.costume = costumeFilterList;
+			setShouldFilter(true);
+			_filters.costume_in = costumeFilterList;
 		}
 		if (eyeFilterList.length > 0) {
-			_filters.eyes = eyeFilterList;
+			setShouldFilter(true);
+			_filters.eyes_in = eyeFilterList;
 		}
 		if (hairFilterList.length > 0) {
-			_filters.hair = hairFilterList;
+			setShouldFilter(true);
+			_filters.hair_in = hairFilterList;
 		}
 		if (skinFilterList.length > 0) {
-			_filters.skin = skinFilterList;
+			setShouldFilter(true);
+			_filters.skin_in = skinFilterList;
 		}
 
 		setFilters(_filters);
@@ -144,11 +122,11 @@ const EthemeralsMerals = () => {
 		_order.orderDirection = 'desc';
 
 		if (sortBy.value === 'timestamp_asc') {
-			_order.orderBy = 'creation_timestamp';
+			_order.orderBy = 'timestamp';
 			_order.orderDirection = 'asc';
 		}
 		if (sortBy.value === 'timestamp_desc') {
-			_order.orderBy = 'creation_timestamp';
+			_order.orderBy = 'timestamp';
 			_order.orderDirection = 'desc';
 		}
 		setOrder({ orderBy: _order.orderBy, orderDirection: _order.orderDirection });
@@ -198,7 +176,7 @@ const EthemeralsMerals = () => {
 						</div>
 					</div>
 
-					<Merals order={order} filters={filters} />
+					<Merals order={order} shouldFilter={shouldFilter} filters={filters} />
 				</main>
 			</div>
 		</div>

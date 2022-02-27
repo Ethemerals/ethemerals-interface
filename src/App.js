@@ -12,9 +12,8 @@ import Art from './pages/Art';
 import EternalBattle from './pages/EternalBattle';
 import Dashboard from './pages/Dashboard';
 import EthemeralsMerals from './pages/EthemeralsMerals';
-import Equipable from './pages/Equipable';
+import PetDetails from './pages/PetDetails';
 import MeralDetails from './pages/MeralDetails';
-import All from './pages/All';
 import WildsWorld from './components/wilds/WildsWorld';
 import WildsHub from './components/wilds/WildsHub';
 import WildsLand from './components/wilds/lands/WildsLand';
@@ -45,9 +44,6 @@ function App() {
 				</Route>
 				<Route exact path="/mint">
 					<Mint />
-				</Route>
-				<Route exact path="/all">
-					<All />
 				</Route>
 				<Route exact path="/art">
 					<Art />
@@ -94,8 +90,8 @@ function App() {
 				<Route exact path="/ethemerals/pets">
 					<EthemeralsPets />
 				</Route>
-				<Route exact path="/equipable/:id">
-					<Equipable />
+				<Route exact path="/pet/:id">
+					<PetDetails />
 				</Route>
 				<Route exact path="/ethemeral/:id">
 					<MeralDetails />

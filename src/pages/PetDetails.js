@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { useNFTUtils } from '../hooks/useNFTUtils';
 import BackButton from '../components/navigation/BackButton';
-import { getPetBorderColor, getPetTypePallet, usePetDataById } from '../hooks/usePetData';
+import { getPetBorderColor, getPetImages, getPetTypePallet } from '../hooks/usePets';
+import { useGQLQueryL1 } from '../hooks/useGQLQuery';
+import { GET_PET } from '../queries/Subgraph';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -28,16 +29,20 @@ const RankedStars = ({ amount }) => {
 
 const Equipable = () => {
 	const { id } = useParams();
-	const { petData } = usePetDataById(id);
-	const [nft, setNft] = useState(undefined);
-	const { getEquipmentImages } = useNFTUtils();
+	const [nft, setNFT] = useState(undefined);
+
 	const history = useHistory();
 
+	const { data, status, isLoading } = useGQLQueryL1(`pet_${id}`, GET_PET, { id: id }, { refetchOnMount: true });
+
 	useEffect(() => {
-		if (petData) {
-			setNft(petData);
+		if (status === 'success' && data && data.pet && !isLoading) {
+			setNFT(data.pet);
 		}
-	}, [petData]);
+		return () => {
+			setNFT(undefined);
+		};
+	}, [status, data, isLoading]);
 
 	if (!nft) {
 		return (
@@ -50,7 +55,7 @@ const Equipable = () => {
 	}
 
 	const handleOnClick = () => {
-		history.push(`/equipable/${nft.tokenId}`);
+		history.push(`/pet/${nft.tokenId}`);
 	};
 
 	return (
@@ -63,19 +68,19 @@ const Equipable = () => {
 			>
 				{/* MAIN IMAGE */}
 				<div className="absolute top-6 left-0">
-					<img className="" src={getEquipmentImages(nft.baseId).preview} alt="" />
+					<img className="" src={getPetImages(nft.baseId).preview} alt="" />
 				</div>
 				{/* TOP BAR */}
 				<div className="flex p-1 absolute">
 					<RankedStars amount={parseInt(nft.rarity)} />
 				</div>
 				{/* BOTTOM BAR */}
-				{/* style={{ backgroundColor: getEquipableTypePalette(equipableType) }} */}
 				<div className="w-full h-20 bottom-0 absolute overflow-hidden">
 					<div className="w-full flex items-center mb-4">
-						<span style={{ backgroundColor: getPetTypePallet(nft.subclass) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
-							#{nft.tokenId.toString().padStart(4, '0')}
+						<span style={{ backgroundColor: getPetTypePallet(nft) }} className="px-1 mx-1 text-sm font-bold rounded text-white">
+							#{nft.id.toString().padStart(4, '0')}
 						</span>
+
 						<div className="flex-grow"></div>
 						<span className="text-xs font-bold white">STATS:</span>
 						<span style={{ backgroundColor: 'hsla(350,40%,60%,1)' }} className="px-1 mx-1 text-sm font-bold rounded text-white">
