@@ -1,19 +1,14 @@
+import NiceModal from '@ebay/nice-modal-react';
 import { useState, useEffect } from 'react';
 import { useSendTx } from '../../../context/TxContext';
 
 import { useUserAccount } from '../../../hooks/useUser';
-
-import ErrorDialogue from '../../modals/ErrorDialogue';
-import WaitingConfirmation from '../../modals/WaitingConfirmation';
+import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const WildsStake = ({ contractWilds, landId }) => {
 	const { mainIndex, userNFTs } = useUserAccount();
 
 	const sendTx = useSendTx();
-
-	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
 
 	const [userNFT, setUserNFT] = useState(undefined);
 
@@ -24,17 +19,9 @@ const WildsStake = ({ contractWilds, landId }) => {
 		}
 	}, [userNFTs, mainIndex]);
 
-	const toggleConfirmation = () => {
-		setIsConfirmationOpen(!isConfirmationOpen);
-	};
-
-	const toggleError = () => {
-		setIsErrorOpen(!isErrorOpen);
-	};
-
 	const handleStake = async (stakeAction) => {
 		if (contractWilds) {
-			setIsConfirmationOpen(true);
+			NiceModal.show(modalRegistry.waitingForSignature, { message: `Send ${userNFT.metadata.coin} to Battle!` });
 			try {
 				let id = userNFT.id;
 
@@ -45,14 +32,11 @@ const WildsStake = ({ contractWilds, landId }) => {
 
 				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, 'account', 'user', `land_${landId}`, 'lands']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transfer transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
 			setIsConfirmationOpen(false);
-			// toggle();
 		} else {
-			// connect
 			console.log('no wallet');
 		}
 	};
@@ -74,9 +58,6 @@ const WildsStake = ({ contractWilds, landId }) => {
 					RAID
 				</button>
 			</div>
-
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={`Send ${userNFT.metadata.coin} to Battle!`} />}
-			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</>
 	);
 };

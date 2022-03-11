@@ -1,21 +1,14 @@
-import { useState, useEffect } from 'react';
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
+
 import { useChain } from 'react-moralis';
-import { useUser } from '../../hooks/useUser';
-import useWindowSize from '../../hooks/useWindowSize';
 
-const Networks = ({ toggle, networks }) => {
-	const { logout } = useUser();
+export default NiceModal.create(({ networks }) => {
+	const modal = useModal();
 	const { switchNetwork } = useChain();
-	const [windowMed, setWindowMed] = useState(false);
-	const windowSize = useWindowSize(898);
 
-	useEffect(() => {
-		if (windowSize.width >= 898) {
-			setWindowMed(true);
-		} else {
-			setWindowMed(false);
-		}
-	}, [windowSize]);
+	const toggle = async () => {
+		modal.remove();
+	};
 
 	const handleMenuClick = async (network) => {
 		console.log('switch to: ', networks[network].value);
@@ -27,9 +20,10 @@ const Networks = ({ toggle, networks }) => {
 	};
 
 	return (
-		<>
-			<div className={`rounded mt-2 py-4 w-44 bg-white absolute border-gray-100 border-2 shadow-xl animate-fadeOnFast ${!windowMed ? 'bottom-16' : ''}`}>
-				<button onClick={() => handleMenuClick(0)} className="px-2 h-10 mr-2 focus:outline-none flex items-center justify-center text-black hover:text-blue-600 rounded transition duration-300">
+		<div className="w-full h-full fixed top-0 left-0 animate-fadeOnFast z-10">
+			<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
+			<div className="w-44 p-2 py-4 center z-30 tracking-wide shadow-xl rounded bg-white border-2">
+				<button onClick={() => handleMenuClick(0)} className="px-2 h-10 mr-2 z-30 focus:outline-none flex items-center justify-center text-black hover:text-blue-600 rounded transition duration-300">
 					<div className="flex items-center ">
 						{networks[0].icon}
 						<span className="px-2 text-xs font-bold">{networks[0].value}</span>
@@ -59,23 +53,7 @@ const Networks = ({ toggle, networks }) => {
 					</div>
 				</button>
 				<div className="h-6"></div>
-				<hr></hr>
-				<div className="flex ml-2 text-gray-400 text-xs pb-2 pt-1">
-					<button className="pl-1 h-10 mr-2 focus:outline-none flex items-center justify-center text-black hover:text-blue-600 rounded transition duration-300">
-						<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-						</svg>
-
-						<a href="/">
-							<span onClick={logout} className="px-2 text-xs font-bold">
-								Logout
-							</span>
-						</a>
-					</button>
-				</div>
 			</div>
-		</>
+		</div>
 	);
-};
-
-export default Networks;
+});

@@ -62,10 +62,6 @@ const getL1Merals = async (variables) => {
 	}
 };
 
-export const useUserApprovals = () => {
-	const { address } = useUser();
-};
-
 export const useUserAccount = () => {
 	const { address } = useUser();
 	const { isUserUpdating, user, setUserData } = useMoralis();

@@ -201,8 +201,8 @@ export const getSubclassInfo = (subclassInt) => {
 		{
 			name: 'Knight',
 			bonus: { atk: 50, def: 150, spd: 0 },
-			icon: iconDarkKnight,
-			iconB: iconDarkKnightB,
+			icon: iconKnight,
+			iconB: iconKnightB,
 			hue: 220,
 		},
 		{

@@ -1,11 +1,9 @@
-import { useState } from 'react';
+import NiceModal from '@ebay/nice-modal-react';
+
 import { Links } from '../constants/Links';
 
 import { useSendTx } from '../context/TxContext';
-import { useCore, useCoreApprovals, useCoreContract, useDelegates } from '../hooks/useCore';
-
-import WaitingConfirmation from '../components/modals/WaitingConfirmation';
-import ErrorDialogue from '../components/modals/ErrorDialogue';
+import { useCoreApprovals, useCoreContract, useDelegates } from '../hooks/useCore';
 
 import { shortenAddress } from '../utils';
 
@@ -13,31 +11,19 @@ import ParseDelegates from './art/delegates/ParseDelegates';
 import { useUserAccount } from '../hooks/useUser';
 
 import { Addresses } from '../constants/contracts/Addresses';
+import { modalRegistry } from './niceModals/RegisterModals';
 
 const Preferences = () => {
-	const { core } = useCore();
 	const { delegates } = useDelegates();
 	const { contractCore } = useCoreContract();
-	const { account, allowDelegates, address } = useUserAccount();
+	const { allowDelegates, address } = useUserAccount();
 	const { isApprovedForAll } = useCoreApprovals(address, Addresses.EternalBattle.toLowerCase());
 
 	const sendTx = useSendTx();
 
-	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
-
-	const toggleConfirmation = () => {
-		setIsConfirmationOpen(!isConfirmationOpen);
-	};
-
-	const toggleError = () => {
-		setIsErrorOpen(!isErrorOpen);
-	};
-
 	const onSubmitAllowDelegates = async (allow) => {
 		if (contractCore) {
-			setIsConfirmationOpen(true);
+			NiceModal.show(modalRegistry.waitingForSignature, { message: 'Change Allow Delegates' });
 			try {
 				const gasEstimate = await contractCore.estimateGas.setAllowDelegates(allow);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
@@ -45,11 +31,9 @@ const Preferences = () => {
 				console.log(tx);
 				sendTx(tx.hash, `${allow ? 'approve delegates' : 'disapprove delegates'}`, true, [`account_${address}_subgraph`, 'account_core', 'core_approvals']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('approve delegates transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
-			setIsConfirmationOpen(false);
 		} else {
 			// connect
 			console.log('no wallet');
@@ -58,7 +42,7 @@ const Preferences = () => {
 
 	const onSubmitApprovedForAll = async (operator, approved) => {
 		if (contractCore) {
-			setIsConfirmationOpen(true);
+			NiceModal.show(modalRegistry.waitingForSignature, { message: 'Change Approval' });
 			try {
 				const gasEstimate = await contractCore.estimateGas.setApprovalForAll(operator, approved);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
@@ -66,11 +50,9 @@ const Preferences = () => {
 				console.log(tx);
 				sendTx(tx.hash, `${approved ? `approve ${shortenAddress(operator)}` : `disapprove ${shortenAddress(operator)}`}`, true, ['account', 'account_core', 'core_approvals']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('approve delegates transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
-			setIsConfirmationOpen(false);
 		} else {
 			// connect
 			console.log('no wallet');
@@ -162,8 +144,6 @@ const Preferences = () => {
 					</div>
 				</div>
 			</div>
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="" />}
-			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</div>
 	);
 };

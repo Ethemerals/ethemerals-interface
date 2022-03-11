@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
 
-import { useNFTUtils } from '../../hooks/useNFTUtils';
-
-import NFTInventoryCard from '../ethemerals/cards/NFTInventoryCard';
-import { useUserAccount } from '../../hooks/useUser';
-import { getMeralImages, useMeralDataById } from '../../hooks/useMerals';
-import { getIdFromType } from '../../hooks/useMeralUtils';
-import { getPetImages, getPetTypePallet } from '../../hooks/usePets';
+import { useEternalBattleAccount } from '../../../hooks/useEternalBattle';
+import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
+import { useUserAccount } from '../../../hooks/useUser';
+import { getMeralImages, useMeralDataById } from '../../../hooks/useMerals';
+import { getIdFromType } from '../../../hooks/useMeralUtils';
+import { getPetImages, getPetTypePallet } from '../../../hooks/usePets';
 
 const NFTLink = ({ nft, toggle }) => {
 	const { elements } = useNFTUtils();
@@ -39,11 +38,6 @@ const NFTLink = ({ nft, toggle }) => {
 	);
 };
 
-const getType = (nft) => {
-	let stats = [nft.atk, nft.def, nft.spd];
-	return stats.reduce((iMax, x, i, arr) => (x > arr[iMax] ? i : iMax), 0);
-};
-
 const NFTPetLink = ({ nft, toggle }) => {
 	const bgImg = getPetImages(nft.baseId).thumbnail;
 
@@ -61,15 +55,33 @@ const NFTPetLink = ({ nft, toggle }) => {
 };
 
 const UserInventory = ({ toggle }) => {
-	const { mainIndex, userMerals, userPets } = useUserAccount();
-
+	const { mainIndex, userMerals, userPets, address } = useUserAccount();
+	const { accountEternalBattle } = useEternalBattleAccount();
 	const [userMainMeral, serUserMainMeral] = useState(undefined);
 
 	const [meralShortList, setMeralShortList] = useState([]);
 	const [petShortList, setPetShortList] = useState([]);
-	const [NFTInBattle, setNFTInBattle] = useState(0);
+	const [meralsInBattle, setNFTInBattle] = useState(0);
 	const [NFTInBattleShortList, setNFTInBattleShortList] = useState([]);
 	const [selectedTab, setSelectedTab] = useState(0);
+
+	useEffect(() => {
+		if (accountEternalBattle && address) {
+			let nftsInBattle = [];
+			accountEternalBattle.merals.forEach((nft) => {
+				if (nft.previousOwner.id.toLowerCase() === address.toLowerCase()) {
+					nftsInBattle.push(nft);
+				}
+			});
+			if (nftsInBattle.length > 0) {
+				setNFTInBattle(nftsInBattle);
+			}
+
+			if (nftsInBattle.length > 0) {
+				setNFTInBattleShortList(nftsInBattle.slice(0, 10));
+			}
+		}
+	}, [accountEternalBattle, address]);
 
 	useEffect(() => {
 		if (userMerals && userMerals.length > 0) {
@@ -119,7 +131,7 @@ const UserInventory = ({ toggle }) => {
 					PETS <span>({userPets ? userPets.length : 0})</span>
 				</p>
 				<p onClick={() => setSelectedTab(1)} className={`${selectedTab === 1 ? 'bg-customBlue-pale' : 'text-gray-400 cursor-pointer hover:text-gray-600'} p-2`}>
-					IN BATTLE <span>({NFTInBattle})</span>
+					IN BATTLE <span>({meralsInBattle ? meralsInBattle.length : 0})</span>
 				</p>
 			</div>
 

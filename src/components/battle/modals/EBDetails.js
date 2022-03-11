@@ -1,3 +1,4 @@
+import NiceModal from '@ebay/nice-modal-react';
 import { useState, useEffect } from 'react';
 import TimeAgo from 'react-timeago';
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../../hooks/useEternalBattle';
@@ -12,8 +13,7 @@ import { useSendTx } from '../../../context/TxContext';
 import { shortenAddress } from '../../../utils';
 
 import { useUserAccount } from '../../../hooks/useUser';
-import WaitingConfirmation from '../../modals/WaitingConfirmation';
-import ErrorDialogue from '../../modals/ErrorDialogue';
+import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -36,8 +36,6 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 	const { scoreChange } = useEternalBattleGetChange(contractBattle, nft.id);
 	const { stake } = useEternalBattleGetStake(contractBattle, nft.id);
 
-	const [confirmationMsg, setConfirmationMsg] = useState('');
-
 	const [scoreCalculated, setScoreCalculated] = useState(undefined);
 	const [rewardsCalculated, setRewardsCalculated] = useState(undefined);
 	const [dead, setDead] = useState(false);
@@ -46,22 +44,17 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 
 	const sendTx = useSendTx();
 
-	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-
-	const [errorMsg, setErrorMsg] = useState('');
-
-	let statBonus = getSubclassBonus(nft.metadata.subClass);
+	let statBonus = getSubclassBonus(nft.subclass);
 	let baseStats = [nft.atk - nft.atkBonus - statBonus[0], nft.def - nft.defBonus - statBonus[1], nft.spd - nft.spdBonus - statBonus[2]];
 
 	useEffect(() => {
 		if (scoreChange) {
-			let currentScore = parseInt(nft.score);
+			let currentScore = parseInt(nft.hp);
 			let changeScore = parseInt(scoreChange.score);
 			let resultScore = scoreChange.win ? currentScore + changeScore : currentScore - changeScore;
 			setScoreCalculated(resultScore);
 
-			let currentRewards = parseInt(nft.rewards);
+			let currentRewards = parseInt(nft.elf);
 			let changeRewards = parseInt(scoreChange.rewards);
 			let resultRewards = scoreChange.win ? currentRewards + changeRewards : currentRewards;
 			setRewardsCalculated(resultRewards);
@@ -78,18 +71,9 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 		}
 	}, [userNFTs, mainIndex]);
 
-	const toggleConfirmation = () => {
-		setIsConfirmationOpen(!isConfirmationOpen);
-	};
-
-	const toggleError = () => {
-		setIsErrorOpen(!isErrorOpen);
-	};
-
 	const onSubmitRevive = async () => {
 		if (contractBattle) {
-			setConfirmationMsg(`Revive ${nft.metadata.coin} from Battle!`);
-			setIsConfirmationOpen(true);
+			NiceModal.show(modalRegistry.waitingForSignature, { message: `Revive ${nft.coin} from Battle!` });
 			try {
 				let id = nft.id;
 				let userTokenId = userNFTs[mainIndex].id;
@@ -99,23 +83,18 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 				console.log(tx);
 				sendTx(tx.hash, `Revived #${id} Ethemeral`, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transfer transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
-			setIsConfirmationOpen(false);
 			toggle();
 		} else {
-			// connect
 			console.log('no wallet');
 		}
 	};
 
 	const onSubmitUnStake = async () => {
 		if (contractBattle) {
-			setConfirmationMsg(`Return ${nft.metadata.coin} from Battle!`);
-			setIsConfirmationOpen(true);
-
+			NiceModal.show(modalRegistry.waitingForSignature, { message: `Return ${nft.coin} from Battle!` });
 			try {
 				let id = nft.id;
 				const gasEstimate = await contractBattle.estimateGas.cancelStake(id);
@@ -124,14 +103,11 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 				console.log(tx);
 				sendTx(tx.hash, 'cancel stake', true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transfer transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
-			setIsConfirmationOpen(false);
 			toggle();
 		} else {
-			// connect
 			console.log('no wallet');
 		}
 	};
@@ -203,11 +179,11 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 											{nft && <MeralThumbnail nft={nft} dead={true} />}
 											<div className="px-2">
 												<p>
-													<strong>{nft.metadata.coin}</strong> has collapsed in Battle! <br></br>
-													Use your <strong>{reviverNFT.metadata.coin}</strong> Meral to revive her.
+													<strong>{nft.coin}</strong> has collapsed in Battle! <br></br>
+													Use your <strong>{reviverNFT.coin}</strong> Meral to revive her.
 												</p>
 
-												<p className="text-gray-600 text-xs my-2">Your Meral will extract 500 ELF from {nft.metadata.coin} ... as a reward 🥰</p>
+												<p className="text-gray-600 text-xs my-2">Your Meral will extract 500 ELF from {nft.coin} ... as a reward 🥰</p>
 											</div>
 
 											{reviverNFT && <MeralThumbnail nft={reviverNFT} />}
@@ -223,7 +199,7 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 								) : (
 									<>
 										<p>
-											<strong>{nft.metadata.coin}</strong> has collapsed in Battle! <br></br>
+											<strong>{nft.coin}</strong> has collapsed in Battle! <br></br>
 											Use your Meral to Revive her and she will reward the reviver with 500 ELF 🥰
 										</p>
 
@@ -248,8 +224,6 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 					)}
 				</div>
 			</div>
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={confirmationMsg} />}
-			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</>
 	);
 };

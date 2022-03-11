@@ -1,17 +1,23 @@
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { Link } from 'react-router-dom';
 
-import { Links } from '../../constants/Links';
-import { useUser } from '../../hooks/useUser';
+import { Links } from '../../../constants/Links';
+import { useUser } from '../../../hooks/useUser';
 
 const discordURL = Links.DISCORD_URL;
 
-const MoreLinks = ({ large, toggle, logout }) => {
-	const { isAuthenticated } = useUser();
-	const modalTop = 'rounded-lg p-2 py-4 mx-4 top-16 right-0 w-48 bg-blue-100 absolute space-y-4 border-white border-2 shadow-lg animate-fadeOnFast';
-	const modalBottom = 'rounded-lg p-2 py-4 mx-4 bottom-16 right-2 w-48 bg-blue-100 fixed space-y-4 border-white border-2 shadow-lg animate-fadeOnFast';
+export default NiceModal.create(({ large }) => {
+	const modal = useModal();
+	const { isAuthenticated, logout } = useUser();
+	const modalTop = 'rounded p-2 py-4 mx-4 top-16 right-0 w-48 bg-white absolute space-y-4 border-white border-2 shadow-lg animate-fadeOnFast';
+	const modalBottom = 'rounded p-2 py-4 mx-4 bottom-16 right-2 w-48 bg-white fixed space-y-4 border-white border-2 shadow-lg animate-fadeOnFast';
+
+	const toggle = async () => {
+		modal.remove();
+	};
 
 	return (
-		<>
+		<div className="w-full h-full fixed top-0 left-0 animate-fadeOnFast z-10">
 			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-30"></div>
 			<div className={large ? modalTop : modalBottom}>
 				{isAuthenticated ? (
@@ -33,7 +39,7 @@ const MoreLinks = ({ large, toggle, logout }) => {
 								<span onClick={logout}>Logout</span>
 							</a>
 						</div>
-						<hr className="border-white border-t-2"></hr>
+						<hr className="border-gray-200 border-t-2"></hr>
 					</>
 				) : (
 					<>
@@ -49,7 +55,7 @@ const MoreLinks = ({ large, toggle, logout }) => {
 							</svg>
 							<span>Logout</span>
 						</div>
-						<hr className="border-white border-t-2"></hr>
+						<hr className="border-gray-200 border-t-2"></hr>
 					</>
 				)}
 
@@ -105,7 +111,7 @@ const MoreLinks = ({ large, toggle, logout }) => {
 						<span onClick={toggle}>Ts & Cs</span>
 					</a>
 				</div>
-				<hr className="border-white border-t-2"></hr>
+				<hr className="border-gray-200 border-t-2"></hr>
 				<div className="flex ml-2 text-gray-600 hover:text-gray-900 cursor-pointer w-auto space-x-2 items-center pb-2">
 					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 						<path
@@ -120,8 +126,6 @@ const MoreLinks = ({ large, toggle, logout }) => {
 					</Link>
 				</div>
 			</div>
-		</>
+		</div>
 	);
-};
-
-export default MoreLinks;
+});

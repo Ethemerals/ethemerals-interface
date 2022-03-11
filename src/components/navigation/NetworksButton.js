@@ -1,7 +1,8 @@
+import NiceModal from '@ebay/nice-modal-react';
 import { useEffect, useState } from 'react';
 import { useChain } from 'react-moralis';
 import { ETHLogo, PolygonLogo } from '../chains/Logos';
-import Networks from '../modals/Networks';
+import { modalRegistry } from '../niceModals/RegisterModals';
 
 const networks = [
 	{
@@ -28,7 +29,6 @@ const networks = [
 
 const NetworksButton = () => {
 	const { chainId } = useChain();
-	const [isOpen, setIsOpen] = useState(false);
 	const [selected, setSelected] = useState(undefined);
 
 	useEffect(() => {
@@ -37,7 +37,7 @@ const NetworksButton = () => {
 	}, [chainId]);
 
 	const toggle = () => {
-		setIsOpen(!isOpen);
+		NiceModal.show(modalRegistry.chooseNetworks, { networks });
 	};
 
 	if (!chainId || !selected) return null;
@@ -47,20 +47,12 @@ const NetworksButton = () => {
 			<button className="px-2 h-10 mr-2 border shadow-sm focus:outline-none flex items-center justify-center text-black hover:text-blue-900 rounded transition duration-300" onClick={toggle}>
 				<div className="flex items-center ">
 					{selected.icon}
-					<span className="px-2 text-xs font-bold">{selected.value}</span>
+					<span className="px-1 text-xs font-bold">{selected.value}</span>
 				</div>
-				{!isOpen && (
-					<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-						<path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-					</svg>
-				)}
-				{isOpen && (
-					<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-						<path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
-					</svg>
-				)}
+				<svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+					<path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+				</svg>
 			</button>
-			{isOpen && <Networks toggle={toggle} networks={networks} />}
 		</div>
 	);
 };

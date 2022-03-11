@@ -4,7 +4,7 @@ const getLinks = () => {
 	let links = {
 		BUCKET: 'https://ethemerals-media.s3.amazonaws.com/',
 		LANDING_URL: 'https://www.ethemerals.com',
-		DISCORD_URL: 'https://discord.gg/5GUbsxed6G',
+		DISCORD_URL: 'https://discord.gg/cwaYNS9DjG',
 		ETHERSCAN_URL: 'https://etherscan.io/',
 		SUBGRAPH_ENDPOINT_L1: 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals',
 		SUBGRAPH_ENDPOINT_L2: 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals',
@@ -13,7 +13,7 @@ const getLinks = () => {
 		GITHUB: 'https://github.com/Ethemerals',
 		INSTAGRAM: 'https://www.instagram.com/ethemeralsart/',
 		TWITTER: 'https://twitter.com/ethemerals',
-		DISCORD: 'https://discord.gg/6uVBgFDtek',
+		DISCORD: 'https://discord.gg/cwaYNS9DjG',
 		MEDIUM: 'https://medium.com/@ethemerals',
 		OPENSEAS: 'https://opensea.io/assets',
 		TERMS: 'https://www.ethemerals.com/terms',

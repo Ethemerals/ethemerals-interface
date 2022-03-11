@@ -1,12 +1,10 @@
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
-import { shortenAddress } from '../../utils';
-import useParseAccountAction from '../../hooks/useParseAccountActions';
-import useCopyToClipboard from '../../hooks/useCopyToClipboard';
-
-import { Links } from '../../constants/Links';
-
-import { useUser, useUserAccount } from '../../hooks/useUser';
+import useParseAccountAction from '../../../hooks/useParseAccountActions';
+import useCopyToClipboard from '../../../hooks/useCopyToClipboard';
+import { useUser, useUserAccount } from '../../../hooks/useUser';
+import { shortenAddress } from '../../../utils';
+import { Links } from '../../../constants/Links';
 
 const ExternalLinkSVG = () => (
 	<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

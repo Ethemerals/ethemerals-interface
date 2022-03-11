@@ -1,9 +1,12 @@
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
+
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import UserAccount from './UserAccount';
 import UserELF from './UserElf';
 import UserInventory from './UserInventory';
+import { useUser } from '../../../hooks/useUser';
 
 const CloseSVG = () => (
 	<svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
@@ -19,12 +22,18 @@ const ModalMenuItem = ({ toggle, selected, text }) => {
 	);
 };
 
-const UserModal = ({ toggle, selected }) => {
+export default NiceModal.create(({ selected }) => {
+	const modal = useModal();
+	const { logout } = useUser();
 	const [selectedTab, setSelectedTab] = useState(selected);
 	const [isMainSelectOpen, setMainSelectOpen] = useState(false);
 
 	const toggleMainSelectModal = () => {
 		setMainSelectOpen(!isMainSelectOpen);
+	};
+
+	const toggle = async () => {
+		modal.remove();
 	};
 
 	useEffect(() => {
@@ -37,7 +46,7 @@ const UserModal = ({ toggle, selected }) => {
 
 	return (
 		<>
-			<div className="w-full h-full fixed top-0 left-0 animate-fadeOnFast">
+			<div className="w-full h-full fixed top-0 left-0 animate-fadeOnFast z-10">
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
 				<div className=" w-11/12 max-w-420 h-420 center z-30 tracking-wide shadow-xl rounded">
 					{/* nav */}
@@ -59,15 +68,14 @@ const UserModal = ({ toggle, selected }) => {
 					</div>
 
 					{/* footer */}
-					<div onClick={toggle} className="px-4 text-xs sm:text-sm text-blue-700 hover:text-blue-500 absolute bg-white w-full">
+					<div onClick={toggle} className="px-4 py-2 flex justify-between text-xs sm:text-sm text-blue-700 hover:text-blue-500 absolute bg-white w-full">
 						<Link exact="true" to="/dashboard">
 							More? Go to Dashboards
 						</Link>
+						<button onClick={logout}>Logout</button>
 					</div>
 				</div>
 			</div>
 		</>
 	);
-};
-
-export default UserModal;
+});

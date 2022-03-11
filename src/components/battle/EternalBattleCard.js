@@ -18,8 +18,8 @@ const EternalBattleCard = ({ priceFeed }) => {
 	useEffect(() => {
 		const staked = [];
 		if (accountEternalBattle) {
-			if (accountEternalBattle.ethemerals.length > 0) {
-				accountEternalBattle.ethemerals.forEach((nft) => {
+			if (accountEternalBattle.merals.length > 0) {
+				accountEternalBattle.merals.forEach((nft) => {
 					if (nft.actions[0].priceFeed === priceFeed.id.toString()) {
 						staked.push(nft);
 					}

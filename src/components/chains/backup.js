@@ -38,7 +38,7 @@ function Chains() {
 
 	return (
 		<div className="flex space-x-3">
-			<PolygonLogo />
+			{/* <PolygonLogo /> */}
 			<button onClick={() => handleMenuClick(0)}>ETH Mainnet</button>
 			<button onClick={() => handleMenuClick(1)}>Rinkeby</button>
 			<button onClick={() => handleMenuClick(2)}>Polygon</button>

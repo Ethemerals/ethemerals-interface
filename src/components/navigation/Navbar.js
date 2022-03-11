@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { Link } from 'react-router-dom';
 
 import MobileMenuItems from './MobileMenuItems';
@@ -8,18 +9,19 @@ import useWindowSize from '../../hooks/useWindowSize';
 
 import AccountBar from './AccountBar';
 import ConnectButton from './ConnectButton';
-import MoreLinks from '../modals/MoreLinks';
+
 import MainMenu from './MainMenu';
+import MoreLinksButton from './MoreLinksButton';
 
 import { useUser } from '../../hooks/useUser';
 
 const Navbar = () => {
-	const { isAuthenticated, logout } = useUser();
+	const { isAuthenticated } = useUser();
 
 	const windowSize = useWindowSize(898);
 
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-	const [isMoreLinksOpen, setIsMoreLinksOpen] = useState(false);
+
 	const [windowMed, setWindowMed] = useState(false);
 	const [WindowXS, setWindowXS] = useState(false);
 
@@ -38,10 +40,6 @@ const Navbar = () => {
 
 	const toggle = () => {
 		setIsMobileMenuOpen(!isMobileMenuOpen);
-	};
-
-	const toggleMoreLinks = () => {
-		setIsMoreLinksOpen(!isMoreLinksOpen);
 	};
 
 	return (
@@ -66,10 +64,10 @@ const Navbar = () => {
 							</div>
 
 							{/* <!-- secondary nav --> MD */}
-							<div className={`${windowMed ? 'flex items-center absolute mr-4 scrollbar_right z-50' : 'w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white px-2 h-12'}`}>
+							<div className={`${windowMed ? 'flex items-center absolute mr-4 scrollbar_right z-50' : 'w-full flex justify-end items-center mr-6 fixed left-0 bottom-0 bg-white px-2 h-12'}`}>
 								{!isAuthenticated && <ConnectButton />}
 								{isAuthenticated && <AccountBar />}
-								{isMoreLinksOpen && <MoreLinks large={true} toggle={toggleMoreLinks} logout={logout} />}
+								<MoreLinksButton large={windowMed} />
 							</div>
 						</div>
 					</nav>
@@ -87,7 +85,7 @@ const Navbar = () => {
 					<div className="w-full flex items-center mr-6 fixed left-0 bottom-0 bg-white p-2 h-12 z-50">
 						{!isAuthenticated && <ConnectButton />}
 						{isAuthenticated && <AccountBar />}
-						{isMoreLinksOpen && <MoreLinks large={false} toggle={toggleMoreLinks} logout={logout} />}
+						<MoreLinksButton large={false} />
 					</div>
 				</>
 			)}

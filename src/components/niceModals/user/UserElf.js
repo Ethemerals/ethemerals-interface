@@ -1,34 +1,33 @@
 import { useEffect, useState } from 'react';
-import Images from '../../constants/Images';
-
-import { formatELF } from '../../utils';
-
-import { useEternalBattleAccount } from '../../hooks/useEternalBattle';
-import { useUserAccount } from '../../hooks/useUser';
 import { useNativeBalance } from 'react-moralis';
+import Images from '../../../constants/Images';
+import { formatELF } from '../../../utils';
+import { useEternalBattleAccount } from '../../../hooks/useEternalBattle';
+import { useUserAccount } from '../../../hooks/useUser';
 
 const UserELF = () => {
-	const { account, userMerals } = useUserAccount();
+	const { address, userMerals } = useUserAccount();
 	const { data: balance } = useNativeBalance();
 
 	const { accountEternalBattle } = useEternalBattleAccount();
 
-	const [userNFTs, setUserNFTs] = useState(undefined);
 	const [userNFTsInBattle, setUserNFTsInBattle] = useState(undefined);
 	const [totalNFTElf, setTotalNFTElf] = useState(0);
 	const [totalNFTInBattleElf, setTotalNFTinBattleElf] = useState(0);
 
-	// useEffect(() => {
-	// 	if (accountEternalBattle && account) {
-	// 		let nftsInBattle = [];
-	// 		accountEternalBattle.ethemerals.forEach((nft) => {
-	// 			if (nft.previousOwner.id === account.id) {
-	// 				nftsInBattle.push(nft);
-	// 			}
-	// 		});
-	// 		setUserNFTsInBattle(nftsInBattle);
-	// 	}
-	// }, [accountEternalBattle, account]);
+	let elfBalance = 0; // TODO
+
+	useEffect(() => {
+		if (accountEternalBattle && address) {
+			let nftsInBattle = [];
+			accountEternalBattle.merals.forEach((nft) => {
+				if (nft.previousOwner.id.toLowerCase() === address.toLowerCase()) {
+					nftsInBattle.push(nft);
+				}
+			});
+			setUserNFTsInBattle(nftsInBattle);
+		}
+	}, [accountEternalBattle, address]);
 
 	useEffect(() => {
 		if (userMerals) {
@@ -71,7 +70,7 @@ const UserELF = () => {
 						<img width="20" height="20" alt="elf logo" src={Images.logoELF} />
 					</div>
 					<div>
-						<span className="text-2xl text-white">{account && account.elfBalance > 0 ? formatELF(account.elfBalance) : 'ZERO'}</span>
+						<span className="text-2xl text-white">{address && elfBalance > 0 ? formatELF(elfBalance) : 'ZERO'}</span>
 						<span className="text-brandColor text-2xl"> ELF</span>
 					</div>
 				</div>

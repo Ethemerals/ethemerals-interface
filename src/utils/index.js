@@ -105,6 +105,6 @@ export const formatFilters = (filters) => {
 	for (const key in filters) {
 		_filters.push(`${key}: ${JSON.stringify(filters[key])}`);
 	}
-
+	console.log(_filters);
 	return `{${_filters}}`;
 };

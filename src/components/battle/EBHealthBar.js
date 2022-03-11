@@ -12,7 +12,7 @@ const Thumbnail = ({ nft }) => {
 	const bgImg = meralImagePaths.thumbnail;
 
 	return (
-		<div style={{ backgroundColor: elements[nft.bgId].color, width: '42px', height: '42px' }} className="relative">
+		<div style={{ backgroundColor: elements[nft.element].color, width: '42px', height: '42px' }} className="relative">
 			<img style={{ width: '42px', height: '42px' }} src={bgImg} alt="" />
 		</div>
 	);
@@ -53,7 +53,7 @@ const EBHealthBar = ({ data }) => {
 					<div className="font-sans">
 						<p className="mb-4">
 							Winning Long Meral:
-							<span className="uppercase">{` ${data.winningLongNFT.metadata.coin} #${data.winningLongNFT.id.padStart(4, '0')}`}</span>
+							<span className="uppercase">{` ${data.winningLongNFT.coin} #${data.winningLongNFT.id.padStart(4, '0')}`}</span>
 						</p>
 
 						<p>
@@ -91,7 +91,7 @@ const EBHealthBar = ({ data }) => {
 					<div className="font-sans">
 						<p className="mb-4">
 							Winning Short Meral:
-							<span className="uppercase">{` ${data.winningShortNFT.metadata.coin} #${data.winningShortNFT.id.padStart(4, '0')}`}</span>
+							<span className="uppercase">{` ${data.winningShortNFT.coin} #${data.winningShortNFT.id.padStart(4, '0')}`}</span>
 						</p>
 
 						<p>

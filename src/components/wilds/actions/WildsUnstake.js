@@ -1,29 +1,16 @@
+import NiceModal from '@ebay/nice-modal-react';
 import ReactTooltip from 'react-tooltip';
-import { useState } from 'react';
 import { useSendTx } from '../../../context/TxContext';
-import ErrorDialogue from '../../modals/ErrorDialogue';
-import WaitingConfirmation from '../../modals/WaitingConfirmation';
+import { modalRegistry } from '../../niceModals/RegisterModals';
 
 import SVGUnstake from '../svg/SVGUnstake';
 
 const WildsUnstake = ({ contractWilds, landId, tokenId, canLeave }) => {
 	const sendTx = useSendTx();
 
-	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
-
-	const toggleConfirmation = () => {
-		setIsConfirmationOpen(!isConfirmationOpen);
-	};
-
-	const toggleError = () => {
-		setIsErrorOpen(!isErrorOpen);
-	};
-
 	const handleUnstake = async () => {
 		if (contractWilds) {
-			setIsConfirmationOpen(true);
+			NiceModal.show(modalRegistry.waitingForSignature, { message: `Leave ${tokenId} from Battle!` });
 			try {
 				let id = tokenId;
 				const gasEstimate = await contractWilds.estimateGas.unstake(id);
@@ -33,14 +20,10 @@ const WildsUnstake = ({ contractWilds, landId, tokenId, canLeave }) => {
 
 				sendTx(tx.hash, 'leave stake', true, [`land_${landId}`, `nft_${id}`, 'account', 'user', 'lands']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transfer transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
-			setIsConfirmationOpen(false);
-			// toggle();
 		} else {
-			// connect
 			console.log('no wallet');
 		}
 	};
@@ -59,9 +42,6 @@ const WildsUnstake = ({ contractWilds, landId, tokenId, canLeave }) => {
 			<ReactTooltip id="ttUnstake" type="success" effect="solid">
 				<span>Leave Battle</span>
 			</ReactTooltip>
-
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={`Leave ${tokenId} from Battle!`} />}
-			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</div>
 	);
 };

@@ -3,10 +3,10 @@ import { useQuery } from 'react-query';
 import ChartData from './ChartData';
 
 import EBStake from './modals/EBStake';
-import AllowDelegates from '../modals/actions/AllowDelegates';
+import AllowDelegates from '../ethemerals/modals/AllowDelegates';
 import { usePriceFeedContract } from '../../hooks/usePriceFeed';
 
-import { useUserAccount } from '../../hooks/useUser';
+import { useUser, useUserAccount } from '../../hooks/useUser';
 
 import ConnectWallet from './modals/ConnectWallet';
 
@@ -14,6 +14,8 @@ import { formatPrice } from '../../utils';
 import { useEBGetBattleResultsContext } from '../../context/EternalBattleContext';
 
 import EBHealthBar from './EBHealthBar';
+import { Addresses } from '../../constants/contracts/Addresses';
+import { useCoreApprovals } from '../../hooks/useCore';
 
 const useGetCardData = (cryptoName, options) => {
 	return useQuery(
@@ -34,13 +36,13 @@ const formatPlusMinus = (priceChange) => {
 
 const PairTrackerCard = ({ priceFeed }) => {
 	const cryptoName = priceFeed.baseName.toLowerCase();
-	const { contractPriceFeed } = usePriceFeedContract();
 
+	const { isUnauthenticated } = useUser();
+	const { contractPriceFeed } = usePriceFeedContract();
 	const { account, address } = useUserAccount();
+	const { isApprovedForAll } = useCoreApprovals(address, Addresses.EternalBattle.toLowerCase());
 
 	const getBattleResults = useEBGetBattleResultsContext();
-
-	const isApproved = false;
 
 	const [isCreateStakeLongOpen, setIsCreateStakeLongOpen] = useState(false);
 	const [isCreateStakeShortOpen, setIsCreateStakeShortOpen] = useState(false);
@@ -53,6 +55,18 @@ const PairTrackerCard = ({ priceFeed }) => {
 		refetchInterval: 60000,
 		staleTime: 60000,
 	});
+
+	useEffect(() => {
+		if (!isUnauthenticated) {
+			setIsConnectWalletOpen(false);
+		}
+	}, [isUnauthenticated]);
+
+	useEffect(() => {
+		if (isApprovedForAll) {
+			setIsAllowDelegatesOpen(false);
+		}
+	}, [isApprovedForAll]);
 
 	const toggleJoinBattleLong = () => {
 		setIsCreateStakeLongOpen(!isCreateStakeLongOpen);
@@ -91,7 +105,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 	const handleJoinBattle = (long) => {
 		if (!address) {
 			toggleConnectWallet();
-		} else if (isApproved === true) {
+		} else if (isApprovedForAll === true) {
 			if (long) {
 				toggleJoinBattleLong();
 			} else {
@@ -99,7 +113,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 			}
 		} else if (account && !account.allowDelegates) {
 			toggleAllowDelegates();
-		} else if (account && isApproved === false) {
+		} else if (account && isApprovedForAll === false) {
 			toggleAllowDelegates();
 		} else {
 			if (long) {

@@ -112,6 +112,8 @@ const EthemeralsMerals = () => {
 			_filters.skin_in = skinFilterList;
 		}
 
+		_filters.burnt = false;
+
 		setFilters(_filters);
 	}, [coinFilterList, elementFilterList, subclassFilterList, costumeFilterList, eyeFilterList, hairFilterList, skinFilterList]);
 

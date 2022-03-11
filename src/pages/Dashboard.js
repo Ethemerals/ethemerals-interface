@@ -8,7 +8,7 @@ import Preferences from '../components/Preferences';
 import PetsPreviewCard from '../components/ethemerals/cards/PetsPreviewCard';
 
 const Dashboard = () => {
-	const { userMerals, userPMerals, userPets, address } = useUserAccount();
+	const { userMerals, userPets, address } = useUserAccount();
 	const { accountEternalBattle } = useEternalBattleAccount();
 
 	const [meralsInBattle, setMeralsInBattle] = useState([]);

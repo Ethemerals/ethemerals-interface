@@ -1,4 +1,3 @@
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
 import { Links } from '../../../constants/Links';
 import { Addresses } from '../../../constants/contracts/Addresses';
 import { getPetBorderColor, getPetImages, getPetTypePallet } from '../../../hooks/usePets';

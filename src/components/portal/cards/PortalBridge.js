@@ -141,9 +141,7 @@ const PortalBridge = () => {
 			<div style={{ minHeight: '64px' }} className="flex-wrap flex justify-center">
 				{bridgeLogsActive && bridgeLogsActive.length > 0 && bridgeLogsActive.map((log) => <ProcessingCards key={log.timestamp} log={log} />)}
 			</div>
-
 			{/* {meralMint && meralMint.length > 0 && */}
-
 			{meralMint && meralMint.length > 0 && (
 				<div className=" bg-yellow-100 p-2 my-2">
 					<p>Meral Data Migration: {meralMint.length}</p>
@@ -152,7 +150,6 @@ const PortalBridge = () => {
 					</div>
 				</div>
 			)}
-
 			{pMeralMint && pMeralMint.length > 0 && (
 				<div className=" bg-green-50 p-2 my-2">
 					<p>pMerals being birthed: {pMeralMint.length}</p>
@@ -161,7 +158,6 @@ const PortalBridge = () => {
 					</div>
 				</div>
 			)}
-
 			{pMeralBurn && pMeralBurn.length > 0 && (
 				<div className=" bg-red-50 p-2 my-2">
 					<p>pMerals marked for burn: {pMeralBurn.length}</p>
@@ -170,8 +166,6 @@ const PortalBridge = () => {
 					</div>
 				</div>
 			)}
-			<div className=" absolute left-0 top-0 bg-blue-200 px-4">DEV UI</div>
-
 			{/* TODO - INFO ABOUT MERALS ON THE OTHER SIDE */}
 			{/* <h4>Pending Transportation</h4>
 			<MeralList nfts={escrowL1NFTs} />

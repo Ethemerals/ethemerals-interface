@@ -7,7 +7,6 @@ import { useWeb3 } from './useWeb3';
 
 import { getContract, getIsApprovedForAll } from '../utils/contracts/getContract';
 import { useChain } from 'react-moralis';
-import { useUser } from './useUser';
 import { useQuery } from 'react-query';
 
 export const useCoreContract = () => {
@@ -54,7 +53,7 @@ export const useDelegates = () => {
 
 export const useCoreApprovals = (owner, operator) => {
 	const { contractCore } = useCoreContract();
-	const { isLoading, data } = useQuery(`getIsApprovedForAll${operator}`, () => getIsApprovedForAll(contractCore, owner, operator), {
+	const { isLoading, data } = useQuery(`coreGetIsApprovedForAll${operator}`, () => getIsApprovedForAll(contractCore, owner, operator), {
 		enabled: !!contractCore && !!owner && !!operator,
 		refetchInterval: 50000,
 	});

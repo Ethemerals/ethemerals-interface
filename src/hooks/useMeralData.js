@@ -3,11 +3,10 @@ import Moralis from 'moralis';
 import { useQuery } from 'react-query';
 
 import nftMetadata from '../constants/NFTMetadata';
-import { objectIDs } from '../constants/IdsMoralis';
 import { Links } from '../constants/Links';
 
 import { getIdFromType } from './useMeralUtils';
-import { getMeralOriginDataById, getMeralOriginDataByTokenId } from './dataObjects/MeralOriginData';
+import { getMeralOriginDataById } from './dataObjects/MeralOriginData';
 
 export const getMeralImages = (cmId, currentColor = 0) => {
 	let colors = {
@@ -92,7 +91,7 @@ export const useMeralDataById = (id) => {
 export const useMeralDataByIdType1 = (tokenId) => {
 	const [meral, setMeral] = useState(undefined);
 	let type = 1;
-	const { isLoading, data } = useQuery([`meralDataOld_${getIdFromType(type, tokenId)}`], () => (type, tokenId), { refetchOnMount: false });
+	const { isLoading, data } = useQuery([`meralDataOld_${getIdFromType(type, tokenId)}`], { refetchOnMount: false });
 
 	useEffect(() => {
 		if (data && !isLoading) {

@@ -1,24 +1,20 @@
-import { useState, useEffect } from 'react';
+import NiceModal from '@ebay/nice-modal-react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSendTx } from '../../../context/TxContext';
 
-import { useCore, useCoreContract } from '../../../hooks/useCore';
+import { useCoreContract, useDelegates } from '../../../hooks/useCore';
 
-import WaitingConfirmation from '../WaitingConfirmation';
-import ErrorDialogue from '../ErrorDialogue';
 import { useUserAccount } from '../../../hooks/useUser';
 
 import ParseDelegates from '../../art/delegates/ParseDelegates';
+import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const AllowDelegates = ({ toggle, toggleStake }) => {
-	const { delegates } = useCore();
+	const { delegates } = useDelegates();
 	const { account } = useUserAccount();
 	const { contractCore } = useCoreContract();
 	const sendTx = useSendTx();
-
-	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
 
 	useEffect(() => {
 		if (account) {
@@ -29,17 +25,9 @@ const AllowDelegates = ({ toggle, toggleStake }) => {
 		}
 	}, [account, toggle, toggleStake]);
 
-	const toggleConfirmation = () => {
-		setIsConfirmationOpen(!isConfirmationOpen);
-	};
-
-	const toggleError = () => {
-		setIsErrorOpen(!isErrorOpen);
-	};
-
 	const onSubmitAllowDelegates = async (allow) => {
 		if (contractCore) {
-			setIsConfirmationOpen(true);
+			NiceModal.show(modalRegistry.waitingForSignature, { message: `Approve / disapprove Delegates` });
 			try {
 				const gasEstimate = await contractCore.estimateGas.setAllowDelegates(allow);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
@@ -47,13 +35,10 @@ const AllowDelegates = ({ toggle, toggleStake }) => {
 				console.log(tx);
 				sendTx(tx.hash, `${allow ? 'approve delegates' : 'disapprove delegates'}`, true, ['account', 'account_core', 'core_approvals']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('approve delegates transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
-			setIsConfirmationOpen(false);
 		} else {
-			// connect
 			console.log('no wallet');
 		}
 	};
@@ -102,8 +87,6 @@ const AllowDelegates = ({ toggle, toggleStake }) => {
 					</div>
 				</div>
 			</div>
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Approve / disapprove Delegates" />}
-			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</>
 	);
 };

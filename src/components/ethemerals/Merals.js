@@ -11,7 +11,7 @@ const graphQLClient = new GraphQLClient(endpoint);
 
 const GET_NFTS = gql`
 	query ($first: Int!, $skip: Int!, $orderBy: String!, $orderDirection: String!) {
-		merals(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+		merals(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection, where: { burnt: false }) {
 			id
 			tokenId
 			meralId
@@ -61,6 +61,7 @@ const getMerals = async (page, orderBy, orderDirection, shouldFilter, filters) =
 		let fetchData;
 		if (shouldFilter) {
 			const filtersString = formatFilters(filters);
+			console.log(filtersString);
 			fetchData = await graphQLClient.request(getNFTsFiltered(`first: ${amount}, skip: ${page * amount}, orderBy: ${orderBy}, orderDirection: ${orderDirection}`, filtersString));
 		} else {
 			fetchData = await graphQLClient.request(GET_NFTS, { first: amount, skip: page * amount, orderBy, orderDirection });
@@ -80,7 +81,7 @@ const Merals = ({ order, shouldFilter, filters }) => {
 		setPage(0);
 	}, [order, shouldFilter, filters]);
 
-	const { isLoading, isError, data } = useQuery(
+	const { isLoading, data } = useQuery(
 		[`nfts_${order.orderBy}_${order.orderDirection}_${shouldFilter}_${JSON.stringify(filters)}`, page],
 		() => getMerals(page, order.orderBy, order.orderDirection, shouldFilter, filters),
 		{

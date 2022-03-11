@@ -7,8 +7,8 @@ import { Addresses } from '../../../constants/contracts/Addresses';
 import Images from '../../../constants/Images';
 
 import { useUser, useUserAccount } from '../../../hooks/useUser';
-import Gift from '../../modals/actions/Gift';
-import SummonPet from '../../modals/actions/SummonPet';
+import Gift from '../../ethemerals/modals/Gift';
+import SummonPet from '../../ethemerals/modals/SummonPet';
 import { shortenAddress } from '../../../utils';
 
 const NFTActions = ({ nft }) => {
@@ -23,7 +23,8 @@ const NFTActions = ({ nft }) => {
 	const [isSummonPetOpen, setIsSummonPetOpen] = useState(false);
 
 	useEffect(() => {
-		if (nft && nft.owner === Addresses.EternalBattle.toLowerCase()) {
+		if (nft && nft.owner.id === Addresses.EternalBattle.toLowerCase()) {
+			console.log(Addresses.EternalBattle.toLowerCase());
 			setIsInBattle(true);
 		}
 	}, [nft]);
@@ -109,19 +110,9 @@ const NFTActions = ({ nft }) => {
 					</div>
 				</a>
 			)}
-			{!isOwned && !isInBattle && (
+			{!isOwned && (
 				<a href={openSeaURL} target="blank" rel="noreferrer">
 					<div className="flex items-center bg-green-600 rounded-lg cursor-pointer hover:bg-green-400 transition duration-200">
-						<div className="w-8 h-8 mr-1 relative">
-							<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
-						</div>
-						<p>Bid</p>
-					</div>
-				</a>
-			)}
-			{isInBattle && (
-				<a href={openSeaURL} target="blank" rel="noreferrer">
-					<div className="flex items-center bg-customBlue-pale rounded-lg cursor-pointer">
 						<div className="w-8 h-8 mr-1 relative">
 							<img className="center" width="20px" height="20px" alt="icon sell" src={Images.iconSell} />
 						</div>

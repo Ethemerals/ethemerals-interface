@@ -18,7 +18,7 @@ import WildsWorld from './components/wilds/WildsWorld';
 import WildsHub from './components/wilds/WildsHub';
 import WildsLand from './components/wilds/lands/WildsLand';
 
-import Receipt from './components/modals/Receipt';
+import Receipt from './components/Receipt';
 import EBContextProvider from './context/EternalBattleContext';
 import EthemeralsPets from './pages/EthemeralsPets';
 import Mint from './pages/Mint';

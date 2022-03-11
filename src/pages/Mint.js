@@ -1,19 +1,12 @@
-import { useState } from 'react';
-
+import NiceModal from '@ebay/nice-modal-react';
 import { BigNumber } from '@ethersproject/bignumber';
-
 import { Links } from '../constants/Links';
-
 import Images from '../constants/Images';
-
 import { useSendTx } from '../context/TxContext';
-
 import { useCore, useCoreContract } from '../hooks/useCore';
 
-import WaitingConfirmation from '../components/modals/WaitingConfirmation';
-import ErrorDialogue from '../components/modals/ErrorDialogue';
-
 import { useUser } from '../hooks/useUser';
+import { modalRegistry } from '../components/niceModals/RegisterModals';
 
 const Mint = () => {
 	const { core } = useCore();
@@ -23,25 +16,13 @@ const Mint = () => {
 
 	const sendTx = useSendTx();
 
-	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
-
-	const toggleConfirmation = () => {
-		setIsConfirmationOpen(!isConfirmationOpen);
-	};
-
-	const toggleError = () => {
-		setIsErrorOpen(!isErrorOpen);
-	};
-
 	const onSubmitMint = async () => {
 		if (!address) {
 			login();
 			return;
 		}
 		if (contractCore) {
-			setIsConfirmationOpen(true);
+			NiceModal.show(modalRegistry.waitingForSignature, { message: `Mint an Ethemeral, good luck!` });
 			let amount = 1;
 			try {
 				let value = await contractCore.mintPrice();
@@ -53,13 +34,10 @@ const Mint = () => {
 				console.log(tx);
 				sendTx(tx.hash, 'Minted an Ethemeral', true, ['account', 'account_core']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Mint transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
-			setIsConfirmationOpen(false);
 		} else {
-			// connect
 			console.log('no wallet');
 		}
 	};
@@ -70,7 +48,7 @@ const Mint = () => {
 			return;
 		}
 		if (contractCore) {
-			setIsConfirmationOpen(true);
+			NiceModal.show(modalRegistry.waitingForSignature, { message: `Mint 3 Ethemerals, good luck!` });
 			let amount = 3;
 			try {
 				let value = await contractCore.mintPrice();
@@ -83,15 +61,20 @@ const Mint = () => {
 				console.log(tx);
 				sendTx(tx.hash, 'Minted 3 Ethemerals', true, ['account', 'account_core']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Mint transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
-			setIsConfirmationOpen(false);
 		} else {
-			// connect
 			console.log('no wallet');
 		}
+	};
+
+	const onSubmitBurn = async () => {
+		if (!address) {
+			login();
+			return;
+		}
+		NiceModal.show(modalRegistry.burnMeral);
 	};
 
 	const handleOnSubmitBuy = async (amount) => {
@@ -132,6 +115,13 @@ const Mint = () => {
 							className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-600 hover:bg-yellow-400 text-white transition duration-300 "
 						>
 							<p className="">{`Mint 3 for 0.00 ETH`}</p>
+						</div>
+
+						<div
+							onClick={onSubmitBurn}
+							className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-600 hover:bg-yellow-400 text-white transition duration-300 "
+						>
+							<p className="">{`Burn a Meral for a Meral`}</p>
 						</div>
 					</div>
 				) : (
@@ -174,8 +164,6 @@ const Mint = () => {
 					</div>
 				</div>
 			</div>
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message="Mint an Ethemeral/s, good luck!" />}
-			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</div>
 	);
 };

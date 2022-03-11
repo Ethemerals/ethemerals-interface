@@ -51,13 +51,13 @@ const StakedNFTCard = ({ nft, contractBattle, priceFeed, long }) => {
 
 	useEffect(() => {
 		if (scoreChange && stake) {
-			let currentScore = parseInt(nft.score);
+			let currentScore = parseInt(nft.hp);
 			let changeScore = parseInt(scoreChange.score);
 			let resultScore = scoreChange.win ? currentScore + changeScore : currentScore - changeScore;
 			setScoreCalculated(resultScore);
 			updateScore(priceFeed.id, nft, currentScore, changeScore, resultScore, scoreChange.win, long, stake.positionSize);
 
-			let currentRewards = parseInt(nft.rewards);
+			let currentRewards = parseInt(nft.elf);
 			let changeRewards = parseInt(scoreChange.rewards);
 			let resultRewards = scoreChange.win ? currentRewards + changeRewards : currentRewards;
 			setRewardsCalculated(resultRewards);
@@ -74,7 +74,7 @@ const StakedNFTCard = ({ nft, contractBattle, priceFeed, long }) => {
 		<>
 			<div
 				onClick={toggleDetails}
-				style={{ backgroundColor: elements[nft.bgId].color, width: '280px' }}
+				style={{ backgroundColor: elements[nft.element].color, width: '280px' }}
 				className="flex h-74 mb-1 mx-1 cursor-pointer hover:shadow-xl  opacity-90 hover:opacity-100 transition duration-300"
 			>
 				<div className="relative">
@@ -83,8 +83,8 @@ const StakedNFTCard = ({ nft, contractBattle, priceFeed, long }) => {
 				</div>
 
 				<div style={{ width: '214px' }} className="bg-white">
-					<h4 style={{ backgroundColor: elements[nft.bgId].color }} className="font-bold text-md uppercase pl-1 overflow-hidden whitespace-nowrap">
-						{nft.metadata.coin}
+					<h4 style={{ backgroundColor: elements[nft.element].color }} className="font-bold text-md uppercase pl-1 overflow-hidden whitespace-nowrap">
+						{nft.coin}
 					</h4>
 					<div className="text-black w-full px-1 text-xs flex items-end font-bold">
 						{stake && scoreChange ? (

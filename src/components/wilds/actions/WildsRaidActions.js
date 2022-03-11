@@ -1,26 +1,12 @@
-import { useState } from 'react';
+import NiceModal from '@ebay/nice-modal-react';
 import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../context/TxContext';
-
-import ErrorDialogue from '../../modals/ErrorDialogue';
-import WaitingConfirmation from '../../modals/WaitingConfirmation';
+import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const WildsRaidActions = ({ contractWilds, landId, tokenId }) => {
 	const { register, handleSubmit } = useForm();
 
 	const sendTx = useSendTx();
-
-	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
-
-	const toggleConfirmation = () => {
-		setIsConfirmationOpen(!isConfirmationOpen);
-	};
-
-	const toggleError = () => {
-		setIsErrorOpen(!isErrorOpen);
-	};
 
 	// TODO ENUMS
 	const onSubmitRaidAction_ATK = async (data) => {
@@ -50,7 +36,7 @@ const WildsRaidActions = ({ contractWilds, landId, tokenId }) => {
 
 	const handleRaidAction = async (to, from, actionType) => {
 		if (contractWilds) {
-			setIsConfirmationOpen(true);
+			NiceModal.show(modalRegistry.waitingForSignature, { message: `Leave ${tokenId} from Battle!` });
 			try {
 				const gasEstimate = await contractWilds.estimateGas.raidAction(to, from, actionType);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
@@ -58,14 +44,10 @@ const WildsRaidActions = ({ contractWilds, landId, tokenId }) => {
 				console.log(tx);
 				sendTx(tx.hash, 'raid action', true, [`calculateStamina_${from}`, `calculateDamage_${to}`, `calculateDamage_${from}`, 'account', 'user', `land_${landId}`, 'lands']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transfer transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
-			setIsConfirmationOpen(false);
-			// toggle();
 		} else {
-			// connect
 			console.log('no wallet');
 		}
 	};
@@ -108,8 +90,6 @@ const WildsRaidActions = ({ contractWilds, landId, tokenId }) => {
 					Concentrate
 				</button>
 			</div>
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={`Leave ${tokenId} from Battle!`} />}
-			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</>
 	);
 };

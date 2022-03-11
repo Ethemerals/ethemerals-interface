@@ -1,19 +1,15 @@
+import NiceModal from '@ebay/nice-modal-react';
 import ReactTooltip from 'react-tooltip';
 import { useState, useEffect } from 'react';
 import { useSendTx } from '../../../context/TxContext';
-import ErrorDialogue from '../../modals/ErrorDialogue';
-import WaitingConfirmation from '../../modals/WaitingConfirmation';
 
 import SVGRevive from '../svg/SVGRevive';
 import { useUserAccount } from '../../../hooks/useUser';
+import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const WildsRevive = ({ contractWilds, landId, tokenId, canKiss }) => {
 	const { mainIndex, userNFTs } = useUserAccount();
 	const sendTx = useSendTx();
-
-	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
 
 	const [userNFT, setUserNFT] = useState(undefined);
 
@@ -24,17 +20,9 @@ const WildsRevive = ({ contractWilds, landId, tokenId, canKiss }) => {
 		}
 	}, [userNFTs, mainIndex]);
 
-	const toggleConfirmation = () => {
-		setIsConfirmationOpen(!isConfirmationOpen);
-	};
-
-	const toggleError = () => {
-		setIsErrorOpen(!isErrorOpen);
-	};
-
 	const handleDeathKiss = async () => {
 		if (contractWilds) {
-			setIsConfirmationOpen(true);
+			NiceModal.show(modalRegistry.waitingForSignature, { message: `Leave ${tokenId} from Battle!` });
 			try {
 				let id = tokenId;
 				let deathId = userNFT.id;
@@ -46,14 +34,10 @@ const WildsRevive = ({ contractWilds, landId, tokenId, canKiss }) => {
 
 				sendTx(tx.hash, 'death kiss', true, [`land_${landId}`, `nft_${id}`, `nft_${deathId}`, 'account', 'lands']);
 			} catch (error) {
-				setIsErrorOpen(true);
-				setErrorMsg('Transfer transaction rejected from user wallet');
+				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
 			}
-			setIsConfirmationOpen(false);
-			// toggle();
 		} else {
-			// connect
 			console.log('no wallet');
 		}
 	};
@@ -67,9 +51,6 @@ const WildsRevive = ({ contractWilds, landId, tokenId, canKiss }) => {
 			<ReactTooltip id="ttRevive" type="warning" effect="solid">
 				<span>Revive Meral!</span>
 			</ReactTooltip>
-
-			{isConfirmationOpen && <WaitingConfirmation toggle={toggleConfirmation} message={`Leave ${tokenId} from Battle!`} />}
-			{isErrorOpen && <ErrorDialogue toggle={toggleError} message={errorMsg} />}
 		</div>
 	);
 };

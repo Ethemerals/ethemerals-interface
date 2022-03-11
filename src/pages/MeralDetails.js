@@ -38,14 +38,12 @@ const MeralDetails = () => {
 
 	const { meralData, currentColor } = useMeralDataById(getIdFromType(1, id));
 
-	// const { chooseMeralImagePath } = useChooseMeralImagePaths();
-
 	const [color, setColor] = useState(undefined);
 	const [birthDate, setBirthdate] = useState(undefined);
 	const [nft, setNFT] = useState(undefined);
 	const [subclassInfo, setSubclassInfo] = useState(undefined);
 
-	const { data, status, isLoading } = useGQLQueryL1(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
+	const { data, status } = useGQLQueryL1(`nft_${id}`, GET_NFT, { id: id }, { refetchOnMount: true });
 
 	useEffect(() => {
 		if (status === 'success' && data && data.meral) {

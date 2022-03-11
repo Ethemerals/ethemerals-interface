@@ -55,7 +55,7 @@ const Equipable = () => {
 	}
 
 	const handleOnClick = () => {
-		history.push(`/pet/${nft.tokenId}`);
+		history.push(`/pet/${nft.id}`);
 	};
 
 	return (

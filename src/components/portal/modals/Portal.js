@@ -1,7 +1,6 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
 import { useChain } from 'react-moralis';
-import { useOnsenAccount } from '../../../hooks/useOnsen';
 import { useUser } from '../../../hooks/useUser';
 import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
 import CloseButton from '../../niceModals/buttons/CloseButton';
@@ -13,8 +12,6 @@ import LeavePortalButton from '../buttons/LeavePortalButton';
 import PortalBridge from '../cards/PortalBridge';
 import PortalMain from '../cards/PortalMain';
 import PortalProxied from '../cards/PortalProxied';
-// import EnterOnsenButton from '../buttons/EnterOnsenButton';
-// import LeaveOnsenButton from '../buttons/LeaveOnsenButton';
 
 export default NiceModal.create(() => {
 	const modal = useModal();
@@ -40,13 +37,13 @@ export default NiceModal.create(() => {
 				<div
 					style={{
 						backgroundRepeat: 'no-repeat',
-						// backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/wilds/portal.jpg')",
+						backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/wilds/portal.jpg')",
 					}}
 					className="w-full h-24 md:h-16 bg-none bg-center bg-gray-800"
 				></div>
 				{/* CONTENT */}
 				<div className="p-4 py-2">
-					{/* <h2>Enter The Portal</h2> */}
+					<h2>Enter The Portal</h2>
 					<div className="py-2">
 						<p className="py-2">Add description about sending Merals into the Eth to Poly portal</p>
 						{!user && <LoginButton />}

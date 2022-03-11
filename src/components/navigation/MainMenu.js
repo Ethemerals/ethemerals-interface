@@ -10,13 +10,12 @@ const MenuItem = ({ to, text }) => (
 
 const Mainmenu = () => {
 	return (
-		<div className="flex px-2 items-center h-10 bg-white rounded-lg text-lg">
+		<div className="flex px-2 items-center">
 			<MenuItem to="/mint" text="Mint" />
 			<MenuItem to="/ethemerals" text="Ethemerals" />
 			<MenuItem to="/art" text="Art Hunt" />
-			{/* {process.env.REACT_APP_NETWORK === '4' && <MenuItem to="/portal" text="Portal" />} */}
+			<MenuItem to="/battle" text="Eternal Battle" />
 			{process.env.REACT_APP_NETWORK === '4' && <MenuItem to="/wilds" text="The Wilds" />}
-			<MenuItem to="/battle" text="Market Battle" />
 		</div>
 	);
 };

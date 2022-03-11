@@ -1,7 +1,10 @@
-import { getSubclassInfo } from '../../hooks/useNFTUtils';
-import { useUser, useUserAccount } from '../../hooks/useUser';
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
-const MainSelect = ({ toggle }) => {
+import { getSubclassInfo } from '../../../hooks/useNFTUtils';
+import { useUser, useUserAccount } from '../../../hooks/useUser';
+
+export default NiceModal.create(() => {
+	const modal = useModal();
 	const { mainIndex, userMerals } = useUserAccount();
 	const { setUserData, user } = useUser();
 
@@ -10,6 +13,10 @@ const MainSelect = ({ toggle }) => {
 			setUserData({ meralMainId: parseInt(userMerals[index].meralId) });
 			toggle();
 		}
+	};
+
+	const toggle = async () => {
+		modal.remove();
 	};
 
 	return (
@@ -54,6 +61,4 @@ const MainSelect = ({ toggle }) => {
 			</div>
 		</>
 	);
-};
-
-export default MainSelect;
+});

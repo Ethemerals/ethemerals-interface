@@ -32,9 +32,9 @@ const Gift = ({ toggle, nft }) => {
 			try {
 				let toAddress = data.address;
 				let id = nft.tokenId;
-				const gasEstimate = await contractCore.estimateGas.transferFrom(address, toAddress, id);
+				const gasEstimate = await contractCore.estimateGas['safeTransferFrom(address,address,uint256)'](address, toAddress, id);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractCore.transferFrom(address, toAddress, id, { gasLimit });
+				const tx = await contractCore['safeTransferFrom(address,address,uint256)'](address, toAddress, id, { gasLimit });
 				console.log(tx);
 				sendTx(tx.hash, 'transfer meral', true, [`nft_${getIdFromType(1, id)}`, `account_${address}`]);
 			} catch (error) {

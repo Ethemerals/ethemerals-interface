@@ -11,14 +11,30 @@ import LootersModal from '../wilds/lands/modals/LootersModal';
 import BirthersModal from '../wilds/lands/modals/BirthersModal';
 import StakeSelectModal from '../wilds/lands/modals/StakeSelectModal';
 import UnstakeModal from '../wilds/lands/modals/UnstakeModal';
+import UserWallet from './user/UserWallet';
+import ChooseNetworks from './ChooseNetworks';
+import MoreLinks from './navigation/MoreLinks';
+import MainSelect from './user/MainSelect';
+import BurnMeral from './minting/BurnMeral';
 
 export const modalRegistry = {
+	// MINTING
+	burnMeral: 'burn-meral',
+	// NAV
+	moreLinks: 'more-links',
+	// USER
+	userWallet: 'user-wallet',
+	mainSelect: 'main-select',
+	chooseNetworks: 'choose-networks',
 	waitingForSignature: 'waiting-for-signature',
+	// PORTAL
 	openPortal: 'open-portal',
 	enterPortal: 'enter-portal',
 	leavePortal: 'leave-portal',
+	// ONSEN
 	openOnsen: 'open-onsen',
 	enterOnsen: 'enter-onsen',
+	// RAIDING
 	openDefenders: 'open-defenders',
 	openAttackers: 'open-attackers',
 	openLooters: 'open-looters',
@@ -28,12 +44,23 @@ export const modalRegistry = {
 };
 
 export const registerModals = () => {
+	// MINTING
+	NiceModal.register(modalRegistry.burnMeral, BurnMeral);
+	// NAV
+	NiceModal.register(modalRegistry.moreLinks, MoreLinks);
+	// USER
+	NiceModal.register(modalRegistry.mainSelect, MainSelect);
+	NiceModal.register(modalRegistry.userWallet, UserWallet);
+	NiceModal.register(modalRegistry.chooseNetworks, ChooseNetworks);
 	NiceModal.register(modalRegistry.waitingForSignature, WaitingForSignature);
+	// PORTAL
 	NiceModal.register(modalRegistry.openPortal, Portal);
 	NiceModal.register(modalRegistry.enterPortal, EnterPortalModal);
 	NiceModal.register(modalRegistry.leavePortal, LeavePortalModal);
+	// ONSEN
 	NiceModal.register(modalRegistry.openOnsen, Onsen);
 	NiceModal.register(modalRegistry.enterOnsen, EnterOnsenModal);
+	// RAIDING
 	NiceModal.register(modalRegistry.openDefenders, DefendersModal);
 	NiceModal.register(modalRegistry.openAttackers, AttackersModal);
 	NiceModal.register(modalRegistry.openLooters, LootersModal);
