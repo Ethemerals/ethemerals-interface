@@ -5,6 +5,8 @@ import logoELF from '../assets/logo_elf.svg';
 import logoUNI from '../assets/logo_uni.svg';
 import logoEthem from '../assets/logo_ethem.svg';
 import iconWings from '../assets/icon_wings.svg';
+import iconHeart from '../assets/icon_heart.svg';
+import iconStar from '../assets/icon_star.svg';
 import iconGift from '../assets/icon_gift.svg';
 import iconMain from '../assets/icon_main.svg';
 import iconDrain from '../assets/icon_drain.svg';
@@ -53,6 +55,8 @@ const Images = {
 	titleEthem,
 	iconSelected,
 	ELFLogo,
+	iconHeart,
+	iconStar,
 };
 
 export const battleImages = {

@@ -20,6 +20,9 @@ export const GET_CORE = gql`
 			mintPrice
 			maxAvailableIndex
 			ethemeralSupply
+			burnCount
+			burnLimit
+			burnMaxId
 		}
 	}
 `;
@@ -51,6 +54,7 @@ export const GET_NFT = gql`
 			edition
 			hp
 			elf
+			xp
 			atk
 			def
 			spd
@@ -79,6 +83,9 @@ export const GET_NFT = gql`
 				reaped
 				reaper
 			}
+			metadata {
+				editionCount
+			}
 			coin
 			name
 			subclass
@@ -101,6 +108,7 @@ export const GET_ACCOUNT = gql`
 				timestamp
 				hp
 				elf
+				xp
 				atk
 				def
 				spd

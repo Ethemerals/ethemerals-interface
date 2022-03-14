@@ -2,9 +2,10 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
 import { useState, useEffect } from 'react';
 import { Addresses } from '../../../constants/contracts/Addresses';
+import { Links } from '../../../constants/Links';
 
 import { useSendTx } from '../../../context/TxContext';
-import { useCoreContract } from '../../../hooks/useCore';
+import { useCore, useCoreContract } from '../../../hooks/useCore';
 import { getIdFromType } from '../../../hooks/useMeralUtils';
 
 import { useUserAccount } from '../../../hooks/useUser';
@@ -12,14 +13,17 @@ import { useUserAccount } from '../../../hooks/useUser';
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 
-export default NiceModal.create(({}) => {
+export default NiceModal.create(() => {
 	const modal = useModal();
+	const { core } = useCore();
 	const { mainIndex, userMerals, account, address } = useUserAccount();
 	const { contractCore } = useCoreContract();
 
 	const sendTx = useSendTx();
 	const [baseStats, setBaseStats] = useState([0, 0, 0]);
 	const [userNFT, setUserNFT] = useState(undefined);
+
+	const [isBurnable, setIsBurnable] = useState(false);
 
 	useEffect(() => {
 		if (userMerals && userMerals.length > 0 && mainIndex >= 0) {
@@ -28,6 +32,16 @@ export default NiceModal.create(({}) => {
 			setBaseStats([_userNFT.atk, _userNFT.def, _userNFT.spd]);
 		}
 	}, [userMerals, mainIndex]);
+
+	useEffect(() => {
+		if (core && userNFT) {
+			if (core.burnCount < core.burnLimit) {
+				if (userNFT.tokenId <= core.burnMaxId) {
+					setIsBurnable(true);
+				}
+			}
+		}
+	}, [core, userNFT]);
 
 	const toggle = async () => {
 		modal.remove();
@@ -43,7 +57,7 @@ export default NiceModal.create(({}) => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractCore['safeTransferFrom(address,address,uint256)'](address, toAddress, id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'rebirth meral', true, [`nft_${getIdFromType(1, id)}`, `account_${address}`]);
+				sendTx(tx.hash, 'Rebirth meral', true, [`nft_${getIdFromType(1, id)}`, `account_${address}`, 'core']);
 			} catch (error) {
 				console.log(error);
 				NiceModal.remove(modalRegistry.waitingForSignature);
@@ -70,20 +84,39 @@ export default NiceModal.create(({}) => {
 					{/* MAIN */}
 
 					<div className="text-center">
-						{account && userNFT && (
-							<div>
-								<NFTInventoryCard nft={userNFT} stats={baseStats} showBase={false} />
+						<div>
+							{(!userNFT || !account) && (
+								<>
+									<p className="px-10 mt-10 mb-4">You need to have an Ethemeral to reborn</p>
+									<a href={`${Links.OPENSEAS_COLLECTION}`} target="blank" rel="noreferrer">
+										<p className="bg-blue-400 text-white text-lg text-bold px-4 py-1 m-8 mb-16 rounded shadow-lg hover:bg-yellow-400 transition duration-300">Buy Gen1 Merals on Opensea</p>
+									</a>
+								</>
+							)}
 
-								<div className="px-4 pt-12">
-									<p className="my-3">Send your Gen1 Meral to be reborn. You will mint a random Gen2 Meral at zero cost (plus gas)</p>
-									<p className="text-sm pb-2">Warning: Rebirth is not reversable. You will be reducing the Gen1 Meral edition count</p>
+							{account && userNFT && (
+								<>
+									<NFTInventoryCard nft={userNFT} stats={baseStats} showBase={false} />
 
-									<button onClick={onSubmitBurn} className={`mt-2 mb-4 bg-gray-600 text-white px-4 py-1 m-2 shadow hover:shadow-lg transition duration-300`}>
-										REBIRTH <strong className="uppercase">{userNFT && userNFT.coin}</strong>
-									</button>
-								</div>
+									<div className="px-4 pt-6">
+										{isBurnable ? (
+											<button onClick={onSubmitBurn} className={`mt-2 mb-8 bg-brandColor text-white px-4 py-1 m-2 shadow rounded hover:shadow-lg transition duration-300`}>
+												REBIRTH <strong className="uppercase">{userNFT && userNFT.coin}</strong>
+											</button>
+										) : (
+											<button disabled={true} className={`mt-2 mb-8 bg-gray-600 text-white px-4 py-1 m-2 shadow rounded hover:shadow-lg transition duration-300`}>
+												<strong className="uppercase">{userNFT && userNFT.coin} Cannot be Reborn</strong>
+											</button>
+										)}
+									</div>
+								</>
+							)}
+
+							<div className="px-4 border border-gray-200 border-b-0 border-l-0 border-r-0">
+								<p className="my-3 text-sm">Send your Gen1 Meral to be reborn. You will receive a random Gen2 Meral at zero cost (plus gas)</p>
+								<p className="text-sm pb-2 text-red-800">Warning: Rebirth is irreversible</p>
 							</div>
-						)}
+						</div>
 					</div>
 				</div>
 			</div>

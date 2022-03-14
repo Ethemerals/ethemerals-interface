@@ -79,7 +79,7 @@ const MeralDetails = () => {
 					{/* LEFT BAR */}
 					<div className="p-4 w-32 z-20 absolute font-bold text-center">
 						<img className="w-90 h-74 mx-auto" src={Images.logoEthem} alt="logo" />
-						<p className="mt-10 text-lg border-b border-white">{`${nft.edition}/10`}</p>
+						<p className="mt-10 text-lg border-b border-white">{`${nft.edition}/${nft.metadata.editionCount}`}</p>
 						<p className="text-sm">{nft.name}</p>
 						<p className="mt-5 text-sm">{elements[nft.element].element}</p>
 						<p className="mt-5 text-3xl">#{nft.tokenId.toString().padStart(4, '0')}</p>
@@ -89,7 +89,7 @@ const MeralDetails = () => {
 					<div className="mx-2 my-4 w-64 z-20 right-0 absolute border-white border-r">
 						<div className="flex items-center justify-end">
 							<p className="font-bold text-right -mr-1">{nft.hp} HP</p>
-							<img width="18px" height="18px" className="mx-2" src={Images.iconShield} alt="" />
+							<img width="19px" height="19px" className="mx-2" src={Images.iconHeart} alt="" />
 						</div>
 						<div className="flex items-center justify-end">
 							<p className="font-bold text-right ">{nft.elf} ELF</p>
@@ -97,7 +97,7 @@ const MeralDetails = () => {
 						</div>
 						<div className="flex items-center justify-end">
 							<p className="font-bold text-right">{nft.xp} XP</p>
-							<img width="16px" height="16px" className="mx-2" src={Images.iconDrain} alt="" />
+							<img width="19px" height="19px" className="mx-2" src={Images.iconStar} alt="" />
 						</div>
 					</div>
 

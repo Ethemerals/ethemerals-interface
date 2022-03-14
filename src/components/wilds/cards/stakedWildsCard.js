@@ -6,13 +6,14 @@ import { useNFTUtils } from '../../../hooks/useNFTUtils';
 
 import { useWildsNFTStats } from '../../../hooks/useWilds';
 
-import { useMeralImagePaths } from '../../../hooks/useMeralData';
+import { useMeralImagePaths } from '../../../hooks/useMerals';
 import { GET_NFT_WILDS } from '../../../queries/SubgraphWilds';
 import { useGQLQueryL1 } from '../../../hooks/useGQLQuery';
 import WildsUnstake from '../actions/WildsUnstake';
 import WildsRevive from '../actions/WildsRevive';
 
 const StakedWildsCard = ({ landId, tokenId, contractWilds, stakeAction, raidStatus }) => {
+	// REFACTOR
 	const { elements } = useNFTUtils();
 
 	const { meralImagePaths } = useMeralImagePaths(tokenId);

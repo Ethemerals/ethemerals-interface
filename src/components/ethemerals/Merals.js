@@ -61,7 +61,6 @@ const getMerals = async (page, orderBy, orderDirection, shouldFilter, filters) =
 		let fetchData;
 		if (shouldFilter) {
 			const filtersString = formatFilters(filters);
-			console.log(filtersString);
 			fetchData = await graphQLClient.request(getNFTsFiltered(`first: ${amount}, skip: ${page * amount}, orderBy: ${orderBy}, orderDirection: ${orderDirection}`, filtersString));
 		} else {
 			fetchData = await graphQLClient.request(GET_NFTS, { first: amount, skip: page * amount, orderBy, orderDirection });

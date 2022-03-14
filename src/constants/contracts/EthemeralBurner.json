@@ -24,6 +24,25 @@
 		"type": "event"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "burnableLimit",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "maxTokenId",
+				"type": "uint16"
+			}
+		],
+		"name": "PropsChange",
+		"type": "event"
+	},
+	{
 		"inputs": [],
 		"name": "admin",
 		"outputs": [

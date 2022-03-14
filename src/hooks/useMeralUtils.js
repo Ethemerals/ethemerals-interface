@@ -12,3 +12,7 @@ export const getTokenIdFromId = (id) => {
 export const getIdFromType = (type, tokenId) => {
 	return parseInt(parseInt(tokenId) + parseInt(type) * typeMult);
 };
+
+export const getGenByTokenId = (tokenId) => {
+	return Math.ceil(tokenId / 1000);
+};

@@ -28,7 +28,11 @@ export const useCore = () => {
 	const [core, setCore] = useState(null);
 	useEffect(() => {
 		if (data && data.core !== null) {
-			setCore(data.core);
+			let _core = data.core;
+			_core.burnCount = parseInt(_core.burnCount);
+			_core.burnLimit = parseInt(_core.burnLimit);
+			_core.burnMaxId = parseInt(_core.burnMaxId);
+			setCore(_core);
 		}
 	}, [data]);
 

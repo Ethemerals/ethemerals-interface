@@ -17,10 +17,6 @@ const Mint = () => {
 	const sendTx = useSendTx();
 
 	const onSubmitMint = async () => {
-		if (!address) {
-			login();
-			return;
-		}
 		if (contractCore) {
 			NiceModal.show(modalRegistry.waitingForSignature, { message: `Mint an Ethemeral, good luck!` });
 			let amount = 1;
@@ -43,10 +39,6 @@ const Mint = () => {
 	};
 
 	const onSubmitMints = async () => {
-		if (!address) {
-			login();
-			return;
-		}
 		if (contractCore) {
 			NiceModal.show(modalRegistry.waitingForSignature, { message: `Mint 3 Ethemerals, good luck!` });
 			let amount = 3;
@@ -70,15 +62,15 @@ const Mint = () => {
 	};
 
 	const onSubmitBurn = async () => {
-		if (!address) {
+		if (contractCore && address) {
+			NiceModal.show(modalRegistry.burnMeral);
+		} else {
 			login();
-			return;
 		}
-		NiceModal.show(modalRegistry.burnMeral);
 	};
 
 	const handleOnSubmitBuy = async (amount) => {
-		if (contractCore && core) {
+		if (address) {
 			if (amount > 1) {
 				onSubmitMints();
 			} else {
@@ -95,33 +87,41 @@ const Mint = () => {
 				<div className="flex justify-center">
 					<img width="380" height="146" alt="mintable ethemeral" src={Images.titleEthem} />
 				</div>
-				<div className="text-center text-blue-900 mt-10 mb-6">
-					<p className="font-bold text-xl">Genesis Set</p>
-					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex) + 1}`}</p>}
+				<div className="text-center text-blue-900 mt-10 mb-2">
+					<p className="font-bold text-xl">Merals Gen2 Minting Open</p>
+					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex)}`}</p>}
 				</div>
-				<div className="text-xl text-red-500 text-center">RINKEBY TESTNET</div>
+				{/* <div className="text-xl text-red-500 text-center">RINKEBY TESTNET</div> */}
 
 				{contractCore ? (
 					<div>
-						<div
-							onClick={() => handleOnSubmitBuy(1)}
-							className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
-						>
-							<p className="">{`Mint 1 for 0.00 ETH`}</p>
+						<div>
+							<button
+								onClick={() => handleOnSubmitBuy(1)}
+								className="text-center w-96 mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
+							>
+								<p className="">{`Mint 1 for 0.00 ETH`}</p>
+							</button>
+
+							<button
+								onClick={() => handleOnSubmitBuy(3)}
+								className="text-center w-96 mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-600 hover:bg-yellow-400 text-white transition duration-300 "
+							>
+								<p className="">{`Mint 3 for 0.00 ETH`}</p>
+							</button>
 						</div>
 
-						<div
-							onClick={() => handleOnSubmitBuy(3)}
-							className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-600 hover:bg-yellow-400 text-white transition duration-300 "
-						>
-							<p className="">{`Mint 3 for 0.00 ETH`}</p>
-						</div>
-
-						<div
-							onClick={onSubmitBurn}
-							className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-600 hover:bg-yellow-400 text-white transition duration-300 "
-						>
-							<p className="">{`Burn a Meral for a Meral`}</p>
+						<div>
+							<div className="text-center text-blue-900 mt-10 mb-2">
+								<p className="font-bold text-xl">Own a Gen1 Meral?</p>
+								{core && <p className="text-sm">{`Rebirth Spots Used: ${core.burnCount}/${parseInt(core.burnLimit)}`}</p>}
+							</div>
+							<button
+								onClick={onSubmitBurn}
+								className="text-center w-96 mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-brandColor hover:bg-yellow-400 text-white transition duration-300 "
+							>
+								<p className="">{`Rebirth a Meral`}</p>
+							</button>
 						</div>
 					</div>
 				) : (

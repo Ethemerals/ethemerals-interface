@@ -7,7 +7,7 @@ import { getSubclassBonus } from '../../../hooks/useNFTUtils';
 import Spinner from '../../Spinner';
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 
-import { useMeralImagePaths } from '../../../hooks/useMeralData';
+import { useMeralImagePaths } from '../../../hooks/useMerals';
 
 import { useSendTx } from '../../../context/TxContext';
 import { shortenAddress } from '../../../utils';
@@ -18,7 +18,7 @@ import { modalRegistry } from '../../niceModals/RegisterModals';
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 const MeralThumbnail = ({ nft, dead = false }) => {
-	const { meralImagePaths } = useMeralImagePaths(nft.id);
+	const { meralImagePaths } = useMeralImagePaths(nft);
 
 	if (!meralImagePaths) {
 		return null;

@@ -1,10 +1,10 @@
-import { useMeralImagePaths } from '../../hooks/useMeralData';
+import { useMeralImagePaths } from '../../hooks/useMerals';
 import { useNFTUtils } from '../../hooks/useNFTUtils';
 import ReactTooltip from 'react-tooltip';
 
 const Thumbnail = ({ nft }) => {
 	const { elements } = useNFTUtils();
-	const { meralImagePaths } = useMeralImagePaths(nft.id);
+	const { meralImagePaths } = useMeralImagePaths(nft);
 
 	if (!meralImagePaths) {
 		return <div style={{ width: '42px', height: '42px' }} className="bg-white"></div>;

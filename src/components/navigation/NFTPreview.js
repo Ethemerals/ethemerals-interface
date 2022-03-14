@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useMeralImagePaths } from '../../hooks/useMeralData';
+import { useMeralImagePaths } from '../../hooks/useMerals';
 import { useUser, useUserAccount } from '../../hooks/useUser';
 
 const Spinner = () => (
@@ -9,13 +9,13 @@ const Spinner = () => (
 	</svg>
 );
 
-const Thumbnail = ({ tokenId }) => {
-	const { meralImagePaths } = useMeralImagePaths(tokenId);
+const Thumbnail = ({ nft }) => {
+	const { meralImagePaths } = useMeralImagePaths(nft);
 	return (
 		<span className="flex w-10 h-10 rounded mr-2 relative cursor-pointer opacity-100 bg-brandColor-purple">
 			<div className="absolute top-0 left-0">{meralImagePaths && <img className="w-10 h-10 z-0 rounded" src={meralImagePaths.thumbnail} alt="" />}</div>
 			<div className="flex-grow h-full"></div>
-			<div className="absolute bottom-0 left-0 rounded-t-none rounded text-xs font-bold w-full text-gray-200 text-center bg-black bg-opacity-60">{tokenId.toString().padStart(4, '0')}</div>
+			<div className="absolute bottom-0 left-0 rounded-t-none rounded text-xs font-bold w-full text-gray-200 text-center bg-black bg-opacity-60">{nft.tokenId.toString().padStart(4, '0')}</div>
 		</span>
 	);
 };
@@ -24,10 +24,11 @@ const NFTPreview = () => {
 	const { userMerals, mainIndex } = useUserAccount();
 	const { isAuthenticating, isUserUpdating } = useUser();
 	const [tokenId, setTokenId] = useState(undefined);
+	const [nft, setNft] = useState(undefined);
 
 	useEffect(() => {
 		if (userMerals && mainIndex !== undefined && userMerals.length > 0) {
-			setTokenId(userMerals[mainIndex].tokenId);
+			setNft(userMerals[mainIndex]);
 		}
 	}, [userMerals, mainIndex]);
 
@@ -39,10 +40,10 @@ const NFTPreview = () => {
 			</span>
 		);
 	}
-	if (!tokenId) {
+	if (!nft) {
 		return null;
 	}
-	return <Thumbnail tokenId={tokenId} />;
+	return <Thumbnail nft={nft} />;
 };
 
 export default NFTPreview;

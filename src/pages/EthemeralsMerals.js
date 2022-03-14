@@ -140,8 +140,8 @@ const EthemeralsMerals = () => {
 			{/* MAIN */}
 			<div className="">
 				{/* SIDEBAR */}
-				<aside style={{ minWidth: '212px', width: '212px', backgroundColor: 'hsl(212, 39%, 90%)' }} className="h-screen top-12 fixed border-r border-gray-400 overflow-y-auto">
-					<div className="flex mb-8 mt-1">
+				<aside style={{ minWidth: '212px', width: '212px', backgroundColor: 'hsl(212, 39%, 90%)' }} className="h-screen fixed border-r border-gray-400 overflow-y-auto">
+					<div className="flex mb-8 mt-12">
 						<Link to="/ethemerals/merals">
 							<div className="py-1 px-4 m-4 mr-0 text-lg text-brandColor cursor-pointer bg-white shadow-md">Merals</div>{' '}
 						</Link>
@@ -172,7 +172,7 @@ const EthemeralsMerals = () => {
 						<FilterBar setFilterList={setHairFilterList} filterList={hairFilterList} />
 						<FilterBar setFilterList={setSkinFilterList} filterList={skinFilterList} />
 						<div className="flex-grow"></div>
-						<span className="text-white text-xs font-bold px-2">SORT BY:</span>
+						<span className="text-black text-xs font-bold px-2">SORT BY:</span>
 						<div className="mr-4 w-48 shadow-md">
 							<Dropdown options={dropdownOptions} onChange={onSortByChange} value={dropdownOptions[0]} placeholder="Select an option" />
 						</div>
