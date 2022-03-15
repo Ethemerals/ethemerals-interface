@@ -2,7 +2,7 @@ import { AddressZero } from '@ethersproject/constants';
 import { useEffect, useState } from 'react';
 
 import { useBridgeCollection } from '../../../hooks/useBridge';
-import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralUtils';
+import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralsUtils';
 
 import { useMoralisQuery } from 'react-moralis';
 import { Addresses } from '../../../constants/contracts/Addresses';

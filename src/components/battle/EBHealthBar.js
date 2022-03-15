@@ -1,9 +1,9 @@
 import { useMeralImagePaths } from '../../hooks/useMerals';
-import { useNFTUtils } from '../../hooks/useNFTUtils';
+import { useMeralsUtils } from '../../hooks/useMeralsUtils';
 import ReactTooltip from 'react-tooltip';
 
 const Thumbnail = ({ nft }) => {
-	const { elements } = useNFTUtils();
+	const { elements } = useMeralsUtils();
 	const { meralImagePaths } = useMeralImagePaths(nft);
 
 	if (!meralImagePaths) {

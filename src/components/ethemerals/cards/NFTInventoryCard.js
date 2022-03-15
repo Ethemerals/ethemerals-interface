@@ -1,11 +1,11 @@
 import NiceModal from '@ebay/nice-modal-react';
 
 import { getMeralImages } from '../../../hooks/useMerals';
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import { useMeralsUtils } from '../../../hooks/useMeralsUtils';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 
-const NFTInventoryCard = ({ nft, showBase = false, showChange = true }) => {
-	const { elements } = useNFTUtils();
+const NFTInventoryCard = ({ nft, showChange = true }) => {
+	const { elements } = useMeralsUtils();
 	let tokenId = nft.id;
 
 	const showMainSelectModal = () => {
@@ -31,7 +31,7 @@ const NFTInventoryCard = ({ nft, showBase = false, showChange = true }) => {
 				<div className="px-1 w-full bottom-0 absolute bg-black bg-opacity-70 z-10 flex items-center">
 					<span className="font-bold text-lg uppercase">{nft.name}</span>
 					<span className="flex-grow"></span>
-					<span className="text-xs font-bold">{showBase ? 'BASE STATS' : 'STATS'}:</span>
+					<span className="text-xs font-bold">{'STATS'}:</span>
 					<div className="ml-2 text-xs font-bold">
 						<span style={{ backgroundColor: 'hsla(0,60%,40%,1)' }} className="text-sm rounded px-1 py-0 ml-1">
 							{nft.atk}

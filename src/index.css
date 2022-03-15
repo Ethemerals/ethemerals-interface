@@ -75,9 +75,9 @@
 	}
 	.page_bg {
 		/* background-image: linear-gradient(to bottom, #5a6571, #4b5665, #3d4759, #30384d, #242a41); */
-		background: linear-gradient(90deg, hsl(186, 33%, 96%) 0%, hsl(212, 33%, 90%) 100%);
-		background: -moz-linear-gradient(90deg, hsl(186, 33%, 96%) 0%, hsl(212, 33%, 90%) 100%);
-		background: -webkit-linear-gradient(90deg, hsl(186, 33%, 96%) 0%, hsl(212, 33%, 90%) 100%);
+		background: linear-gradient(90deg, hsl(186, 33%, 98%) 0%, hsl(212, 33%, 95%) 100%);
+		background: -moz-linear-gradient(90deg, hsl(186, 33%, 98%) 0%, hsl(212, 33%, 95%) 100%);
+		background: -webkit-linear-gradient(90deg, hsl(186, 33%, 98%) 0%, hsl(212, 33%, 95%) 100%);
 		top: 0px;
 		left: 0px;
 		width: 100%;

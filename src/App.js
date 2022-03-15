@@ -43,7 +43,7 @@ function App() {
 					<Home />
 				</Route>
 				<Route exact path="/mint">
-					<Mint />
+					{parseInt(process.env.REACT_APP_NETWORK) === 1 ? <Home /> : <Mint />}
 				</Route>
 				<Route exact path="/art">
 					<Art />

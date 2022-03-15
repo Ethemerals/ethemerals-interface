@@ -4,7 +4,7 @@ import { useChain } from 'react-moralis';
 import { useSendTx } from '../../../context/TxContext';
 
 import { useEscrowL1Contract } from '../../../hooks/useEscrowL1';
-import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralUtils';
+import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralsUtils';
 import { useUser, useUserAccount } from '../../../hooks/useUser';
 import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
 import CloseButton from '../../niceModals/buttons/CloseButton';

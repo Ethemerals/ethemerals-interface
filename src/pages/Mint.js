@@ -7,8 +7,14 @@ import { useCore, useCoreContract } from '../hooks/useCore';
 
 import { useUser } from '../hooks/useUser';
 import { modalRegistry } from '../components/niceModals/RegisterModals';
+import { useChain } from 'react-moralis';
+import { getIsLayer2, getOtherLayerChainName } from '../utils/contracts/parseChainId';
+import NetworksButton from '../components/navigation/NetworksButton';
 
 const Mint = () => {
+	const { chainId } = useChain();
+	let isLayer2 = getIsLayer2(chainId);
+
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
 
@@ -83,7 +89,11 @@ const Mint = () => {
 
 	return (
 		<div>
-			<div style={{ maxWidth: '500px' }} className="my-8 w-11/12 sm:my-10 sm:w-full mx-auto bg-white p-6 pt-20 pb-10 rounded-lg bg-opacity-80">
+			<div
+				style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/webapp/home_banner.png')", backgroundRepeat: 'no-repeat', height: '495px' }}
+				className="absolute top-2/4 w-full bg-cover bg-center"
+			></div>
+			<div style={{ maxWidth: '500px' }} className="relative my-8 w-11/12 sm:my-10 sm:w-full mx-auto bg-white p-6 pt-20 pb-10 rounded-lg bg-opacity-80">
 				<div className="flex justify-center">
 					<img width="380" height="146" alt="mintable ethemeral" src={Images.titleEthem} />
 				</div>
@@ -91,26 +101,32 @@ const Mint = () => {
 					<p className="font-bold text-xl">Merals Gen2 Minting Open</p>
 					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex)}`}</p>}
 				</div>
-				{/* <div className="text-xl text-red-500 text-center">RINKEBY TESTNET</div> */}
 
 				{contractCore ? (
 					<div>
-						<div>
-							<button
-								onClick={() => handleOnSubmitBuy(1)}
-								className="text-center w-96 mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
-							>
-								<p className="">{`Mint 1 for 0.00 ETH`}</p>
-							</button>
+						{isLayer2 && (
+							<div className="flex items-center space-x-2 mt-4 justify-center border border-gray-200 px-2 py-4">
+								<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
+								<NetworksButton />
+							</div>
+						)}
+						{!isLayer2 && (
+							<div>
+								<button
+									onClick={() => handleOnSubmitBuy(1)}
+									className="text-center w-96 mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
+								>
+									<p className="">{`Mint 1 for 0.00 ETH`}</p>
+								</button>
 
-							<button
-								onClick={() => handleOnSubmitBuy(3)}
-								className="text-center w-96 mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-600 hover:bg-yellow-400 text-white transition duration-300 "
-							>
-								<p className="">{`Mint 3 for 0.00 ETH`}</p>
-							</button>
-						</div>
-
+								<button
+									onClick={() => handleOnSubmitBuy(3)}
+									className="text-center w-96 mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-600 hover:bg-yellow-400 text-white transition duration-300 "
+								>
+									<p className="">{`Mint 3 for 0.00 ETH`}</p>
+								</button>
+							</div>
+						)}
 						<div>
 							<div className="text-center text-blue-900 mt-10 mb-2">
 								<p className="font-bold text-xl">Own a Gen1 Meral?</p>
@@ -129,11 +145,16 @@ const Mint = () => {
 						onClick={() => handleOnSubmitBuy(1)}
 						className="text-center mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-8 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
 					>
-						<p className="">Connect</p>
+						<p className="">
+							<a href="https://metamask.io/" target="blank" rel="noreferrer">
+								Get Metamask
+							</a>
+						</p>
 					</div>
 				)}
 
 				<div className="mt-20 mb-2 text-gray-600 text-sm">
+					<h3 className="font-bold mb-4 text-center text-brandColor">Season 2 planned release in Mar 2022</h3>
 					<h3 className="font-bold">What are Ethemerals?</h3>
 					<p className="my-2">Ethemerals are unique and dynamic NFT Collectables. Born into the Ethereum Blockchain</p>
 					<p className="my-2">There will only ever be 8400 Ethemerals. Released in Sets over a 4 year period.</p>
@@ -150,10 +171,6 @@ const Mint = () => {
 								<path d="M147.881 143.781C147.881 143.781 141.717 136.461 136.58 129.991C159.011 123.693 167.573 109.733 167.573 109.733C160.553 114.33 153.874 117.565 147.881 119.778C139.32 123.353 131.101 125.736 123.053 127.098C106.614 130.162 91.5456 129.311 78.7034 126.928C68.9428 125.055 60.5524 122.331 53.5318 119.607C49.5935 118.075 45.3126 116.203 41.0318 113.82C40.5181 113.478 40.0044 113.308 39.4908 112.968C39.1483 112.798 38.9771 112.628 38.8058 112.457C35.7236 110.755 34.0113 109.563 34.0113 109.563C34.0113 109.563 42.2305 123.182 63.9771 129.651C58.8401 136.12 52.5044 143.781 52.5044 143.781C14.662 142.589 0.278412 117.905 0.278412 117.905C0.278412 63.0888 24.9359 18.6571 24.9359 18.6571C49.5935 0.27159 73.0527 0.782298 73.0527 0.782298L74.7648 2.82513C43.9428 11.6774 29.7305 25.1261 29.7305 25.1261C29.7305 25.1261 33.4976 23.0832 39.8332 20.1893C58.1551 12.1881 72.7098 9.97507 78.7034 9.46434C79.7306 9.2941 80.587 9.12386 81.6141 9.12386C92.0591 7.76199 103.874 7.42152 116.203 8.78338C132.47 10.656 149.936 15.4227 167.744 25.1261C167.744 25.1261 154.217 12.3584 125.107 3.50608L127.504 0.782298C127.504 0.782298 150.963 0.27159 175.621 18.6571C175.621 18.6571 200.278 63.0888 200.278 117.905C200.278 117.905 185.723 142.589 147.881 143.781ZM68.2578 64.2805C58.4976 64.2805 50.7921 72.7921 50.7921 83.1768C50.7921 93.5614 58.6688 102.073 68.2578 102.073C78.0184 102.073 85.7234 93.5614 85.7234 83.1768C85.8948 72.7921 78.0184 64.2805 68.2578 64.2805ZM130.758 64.2805C120.998 64.2805 113.292 72.7921 113.292 83.1768C113.292 93.5614 121.169 102.073 130.758 102.073C140.518 102.073 148.223 93.5614 148.223 83.1768C148.223 72.7921 140.518 64.2805 130.758 64.2805Z" />
 							</svg>
 						</a>
-
-						{/* <a href={Links.LANDING_URL} target="_blank" className="hover:text-gray-500 flex items-center">
-							<span>LANDING PAGE</span>
-						</a> */}
 
 						<a href={Links.TWITTER} target="_blank" rel="noreferrer" className="hover:text-gray-500 flex items-center">
 							<span className="mr-2">TWITTER</span>

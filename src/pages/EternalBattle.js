@@ -4,8 +4,14 @@ import { useHistory, useParams } from 'react-router-dom';
 import PriceFeeds from '../constants/PriceFeeds';
 import EternalBattleCard from '../components/battle/EternalBattleCard';
 import EBattleHelp from '../components/battle/EBattleHelp';
+import { useChain } from 'react-moralis';
+import { getIsLayer2, getOtherLayerChainName } from '../utils/contracts/parseChainId';
+import NetworksButton from '../components/navigation/NetworksButton';
 
 const EternalBattle = () => {
+	const { chainId } = useChain();
+	const isLayer2 = getIsLayer2(chainId);
+
 	let { id } = useParams();
 	if (!id) {
 		id = 0;
@@ -22,6 +28,12 @@ const EternalBattle = () => {
 		<div className="overscroll-y-auto overflow-scroll scrollbar_pad">
 			<div className="page_bg"></div>
 			<EBattleHelp />
+			{isLayer2 && (
+				<div className="flex items-center space-x-2 mt-4 justify-center">
+					<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
+					<NetworksButton />
+				</div>
+			)}
 
 			<div className="flex items-center mx-auto mt-2 sm:mt-20 text-sm sm:text-base justify-center">
 				<span className="text-xs font-bold px-2 text-blue-900">MARKETS</span>

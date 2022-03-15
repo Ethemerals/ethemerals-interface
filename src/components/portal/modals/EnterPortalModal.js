@@ -4,7 +4,7 @@ import { useSendTx } from '../../../context/TxContext';
 
 import { useCoreContract } from '../../../hooks/useCore';
 import { useEscrowL1Contract } from '../../../hooks/useEscrowL1';
-import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralUtils';
+import { getTokenIdFromId, getTypeFromId } from '../../../hooks/useMeralsUtils';
 import { useUser, useUserAccount } from '../../../hooks/useUser';
 import { submitApprovedForAll } from '../../../utils/contracts/contractFunctions';
 import { getIsApprovedForAll } from '../../../utils/contracts/getContract';

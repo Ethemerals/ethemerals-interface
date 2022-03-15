@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { useUserAccount } from '../../../hooks/useUser';
 
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import { useMeralsUtils } from '../../../hooks/useMeralsUtils';
 
 import { useWildsNFTStats } from '../../../hooks/useWilds';
 
@@ -14,7 +14,7 @@ import WildsRevive from '../actions/WildsRevive';
 
 const StakedWildsCard = ({ landId, tokenId, contractWilds, stakeAction, raidStatus }) => {
 	// REFACTOR
-	const { elements } = useNFTUtils();
+	const { elements } = useMeralsUtils();
 
 	const { meralImagePaths } = useMeralImagePaths(tokenId);
 

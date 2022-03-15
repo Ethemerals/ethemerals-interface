@@ -159,11 +159,11 @@ export const winCase = (positionSize, percentChange = 0.1, stats) => {
 	// SCORE
 	const change = positionSize * calcBps(startPrice, startPrice * (1 + percentChange));
 
-	const atkMod = (stats[0] * change) / atkDivMod;
+	const atkMod = (stats.atk * change) / atkDivMod;
 	const score = (change + atkMod) / 1000;
 
 	// ELF BONUS
-	const rewards = (stats[2] * score) / spdDivMod;
+	const rewards = (stats.spd * score) / spdDivMod;
 	return {
 		score: parseInt(score),
 		rewards: parseInt(rewards),
@@ -174,7 +174,7 @@ export const loseCase = (positionSize, percentChange = 0.1, stats) => {
 	// SCORE
 	const change = positionSize * calcBps(startPrice, startPrice * (1 - percentChange));
 
-	const defMod = (stats[1] * change) / defDivMod;
+	const defMod = (stats.def * change) / defDivMod;
 	const score = (change - defMod) / 1000;
 
 	// ELF BONUS

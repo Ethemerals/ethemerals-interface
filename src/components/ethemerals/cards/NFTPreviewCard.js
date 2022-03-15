@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { useNFTUtils, getSubclassInfo } from '../../../hooks/useNFTUtils';
+import { useMeralsUtils, getSubclassInfo } from '../../../hooks/useMeralsUtils';
 import { getMeralImages, useMeralGlobal } from '../../../hooks/useMerals';
 
 import Images from '../../../constants/Images';
@@ -17,7 +17,7 @@ const SpinnerSVG = () => (
 );
 
 const NFTPreviewCard = ({ nft, isFetching }) => {
-	const { elements } = useNFTUtils();
+	const { elements } = useMeralsUtils();
 	const history = useHistory();
 	const [subclassInfo, setSubclassInfo] = useState(undefined);
 	const [color, setColor] = useState(undefined);

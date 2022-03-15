@@ -4,7 +4,7 @@ import { useMoralisCloudFunction } from 'react-moralis';
 
 import Images from '../../../constants/Images';
 import { useUserAccount } from '../../../hooks/useUser';
-import { getGenByTokenId } from '../../../hooks/useMeralUtils';
+import { getGenByTokenId } from '../../../hooks/useMeralsUtils';
 
 const ColorChoice = ({ isOwned, colorNames, selectedColor, index, allowedColors, setSelected }) => {
 	const handleClick = () => {

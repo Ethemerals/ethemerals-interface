@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../context/TxContext';
+import { useChain } from 'react-moralis';
 
 import { useCoreContract } from '../../../hooks/useCore';
-import { getIdFromType } from '../../../hooks/useMeralUtils';
+import { getIdFromType } from '../../../hooks/useMeralsUtils';
 import { useUserAccount } from '../../../hooks/useUser';
+
+import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
+import NetworksButton from '../../navigation/NetworksButton';
 
 const SpinnerSVG = () => (
 	<svg className=" animate-spin-slow text-brandColor" width="50" height="50" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,6 +22,9 @@ const SpinnerSVG = () => (
 );
 
 const Gift = ({ toggle, nft }) => {
+	const { chainId } = useChain();
+	let isLayer2 = getIsLayer2(chainId);
+
 	const { register, handleSubmit } = useForm();
 	const { address } = useUserAccount();
 
@@ -50,8 +57,8 @@ const Gift = ({ toggle, nft }) => {
 
 	return (
 		<>
-			<div className="w-full h-full flex justify-center fixed top-0 left-0 z-20 text-black">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-30 bg-opacity-40 bg-black"></div>
+			<div className="w-full h-full flex justify-center fixed top-0 left-0 z-10 text-black">
+				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-40 bg-black"></div>
 				<div className=" w-11/12 max-w-420 h-96 center border-gray-400 bg-opacity-100 rounded overflow-hidden z-30 tracking-wide shadow-xl bg-white">
 					<div className="flex justify-end">
 						<span onClick={toggle} className="cursor-pointer p-4 text-black hover:text-gray-500">
@@ -65,24 +72,32 @@ const Gift = ({ toggle, nft }) => {
 						<p className="text-sm text-gray-700">{`You are about to gift #${nft.tokenId.toString().padStart(4, '0')} ${
 							nft.name
 						} to another wallet, enter receiver's Ethereum wallet address to continue:`}</p>
-						<form className="p-4">
-							<input className="w-full h-8 p-2 bg-green-100 shadow-inner border border-gray-300 text-black" {...register('address')} />
-							{!isConfirmationOpen ? (
-								<button onClick={handleSubmit(onSubmitGift)} className="bg-yellow-400 text-xl text-bold px-4 py-2 my-10 rounded-lg shadow-lg hover:bg-yellow-300 transition duration-300">
-									Gift
-								</button>
-							) : (
-								<>
-									<div className="mt-6 mb-4 flex justify-center">
-										<SpinnerSVG />
+						<input className="w-full h-8 p-2 bg-green-100 shadow-inner border border-gray-300 text-black" {...register('address')} />
+						{!isConfirmationOpen ? (
+							<>
+								{isLayer2 && (
+									<div className="flex items-center space-x-2 mt-4 justify-center">
+										<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
+										<NetworksButton />
 									</div>
-									<div className="">
-										<p className="text-lg">Waiting for Confirmation</p>
-										<p className="text-sm text-brandColor">Confirm this transaction in your wallet</p>
-									</div>
-								</>
-							)}
-						</form>
+								)}
+								{!isLayer2 && (
+									<button onClick={handleSubmit(onSubmitGift)} className="bg-yellow-400 text-xl text-bold px-4 py-2 my-10 rounded shadow-lg hover:bg-yellow-300 transition duration-300">
+										Gift
+									</button>
+								)}
+							</>
+						) : (
+							<>
+								<div className="mt-6 mb-4 flex justify-center">
+									<SpinnerSVG />
+								</div>
+								<div className="">
+									<p className="text-lg">Waiting for Confirmation</p>
+									<p className="text-sm text-brandColor">Confirm this transaction in your wallet</p>
+								</div>
+							</>
+						)}
 					</div>
 				</div>
 			</div>

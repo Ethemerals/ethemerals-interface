@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import TimeAgo from 'react-timeago';
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../../hooks/useEternalBattle';
 
-import { getSubclassBonus } from '../../../hooks/useNFTUtils';
 import Spinner from '../../Spinner';
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 
@@ -43,9 +42,6 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 	const [reviverNFT, setReviverNFT] = useState(undefined);
 
 	const sendTx = useSendTx();
-
-	let statBonus = getSubclassBonus(nft.subclass);
-	let baseStats = [nft.atk - nft.atkBonus - statBonus[0], nft.def - nft.defBonus - statBonus[1], nft.spd - nft.spdBonus - statBonus[2]];
 
 	useEffect(() => {
 		if (scoreChange) {
@@ -124,7 +120,7 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 							</svg>
 						</span>
 					</div>
-					<NFTInventoryCard nft={nft} stats={baseStats} showBase={true} showChange={false} />
+					<NFTInventoryCard nft={nft} showChange={false} />
 
 					{/* DETAILS */}
 

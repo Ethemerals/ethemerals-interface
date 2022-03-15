@@ -6,7 +6,7 @@ import FilterSearch from '../components/FilterSearch';
 import { metaCoinName, metaSubclass, metaCostumes, metaEyeColors, metaHairColors, metaSkinColors } from '../constants/MetadataStats';
 import FilterBar from '../components/FilterBar';
 import Merals from '../components/ethemerals/Merals';
-import { elementsToIds, subclassesToIds } from '../hooks/useNFTUtils';
+import { elementsToIds, subclassesToIds } from '../hooks/useMeralsUtils';
 
 const coinData = [];
 for (let i = 0; i < metaCoinName.length; i++) {
@@ -140,7 +140,7 @@ const EthemeralsMerals = () => {
 			{/* MAIN */}
 			<div className="">
 				{/* SIDEBAR */}
-				<aside style={{ minWidth: '212px', width: '212px', backgroundColor: 'hsl(212, 39%, 90%)' }} className="h-screen fixed border-r border-gray-400 overflow-y-auto">
+				<aside style={{ minWidth: '212px', width: '212px', backgroundColor: 'hsl(212, 50%, 95%)' }} className="h-screen fixed border-r border-gray-400 overflow-y-auto">
 					<div className="flex mb-8 mt-12">
 						<Link to="/ethemerals/merals">
 							<div className="py-1 px-4 m-4 mr-0 text-lg text-brandColor cursor-pointer bg-white shadow-md">Merals</div>{' '}

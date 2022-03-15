@@ -8,7 +8,7 @@ import { useSendTx } from '../../../context/TxContext';
 
 import { useUserAccount } from '../../../hooks/useUser';
 
-import { getSubclassBonus } from '../../../hooks/useNFTUtils';
+import { getSubclassInfo } from '../../../hooks/useMeralsUtils';
 import { usePriceFeedPrice } from '../../../hooks/usePriceFeed';
 import { useEternalBattleContract, winCase, loseCase } from '../../../hooks/useEternalBattle';
 
@@ -38,7 +38,7 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 
 	const [userNFT, setUserNFT] = useState(undefined);
 
-	const [baseStats, setBaseStats] = useState([0, 0, 0]);
+	const [baseStats, setBaseStats] = useState({ atk: 0, def: 0, spd: 0 });
 
 	const [winPreview, setWinPreview] = useState(undefined);
 	const [losePreview, setLosePreview] = useState(undefined);
@@ -48,8 +48,13 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 			let _userNFT = userMerals[mainIndex];
 			setUserNFT(_userNFT);
 
-			let statBonus = getSubclassBonus(_userNFT.subclass);
-			setBaseStats([_userNFT.atk - _userNFT.atkBonus - statBonus[0], _userNFT.def - _userNFT.defBonus - statBonus[1], _userNFT.spd - _userNFT.spdBonus - statBonus[2]]);
+			let statBonus = getSubclassInfo(_userNFT.subclass).bonus;
+			let baseStats = {
+				atk: _userNFT.atk - _userNFT.atkBonus - statBonus.atk,
+				def: _userNFT.def - _userNFT.defBonus - statBonus.def,
+				spd: _userNFT.spd - _userNFT.spdBonus - statBonus.spd,
+			};
+			setBaseStats(baseStats);
 		}
 	}, [userMerals, mainIndex]);
 
@@ -112,7 +117,7 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 					<div className="text-center">
 						{account && userNFT && (
 							<div>
-								<NFTInventoryCard nft={userNFT} stats={baseStats} showBase={true} />
+								<NFTInventoryCard nft={userNFT} />
 
 								<p className="py-6 mt-6 text-xl">
 									{long ? <span className="text-green-700 font-bold">LONG</span> : <span className="text-red-700 font-bold">SHORT</span>} {priceFeed.ticker} @{' '}

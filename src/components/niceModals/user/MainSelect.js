@@ -1,6 +1,6 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
-import { getSubclassInfo } from '../../../hooks/useNFTUtils';
+import { getSubclassInfo } from '../../../hooks/useMeralsUtils';
 import { useUser, useUserAccount } from '../../../hooks/useUser';
 
 export default NiceModal.create(() => {

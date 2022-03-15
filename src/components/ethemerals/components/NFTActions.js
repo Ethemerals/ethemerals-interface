@@ -24,7 +24,6 @@ const NFTActions = ({ nft }) => {
 
 	useEffect(() => {
 		if (nft && nft.owner.id === Addresses.EternalBattle.toLowerCase()) {
-			console.log(Addresses.EternalBattle.toLowerCase());
 			setIsInBattle(true);
 		}
 	}, [nft]);

@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 
 import { useGQLQueryL1 } from '../hooks/useGQLQuery';
-import { getSubclassInfo, useNFTUtils } from '../hooks/useNFTUtils';
+import { getSubclassInfo, useMeralsUtils } from '../hooks/useMeralsUtils';
 import Images from '../constants/Images';
 import { GET_NFT } from '../queries/Subgraph';
 import useParseAction from '../hooks/useParseActions';
@@ -16,7 +16,7 @@ import useParseAction from '../hooks/useParseActions';
 import NFTActions from '../components/ethemerals/components/NFTActions';
 
 import { getMeralImages, useMeralDataById } from '../hooks/useMerals';
-import { getIdFromType } from '../hooks/useMeralUtils';
+import { getIdFromType } from '../hooks/useMeralsUtils';
 
 const ActionLink = (action) => {
 	const [actionString, txLink] = useParseAction(action);
@@ -33,7 +33,7 @@ const ActionLink = (action) => {
 };
 
 const MeralDetails = () => {
-	const { elements } = useNFTUtils();
+	const { elements } = useMeralsUtils();
 	const { id } = useParams();
 
 	const { meralData, currentColor } = useMeralDataById(getIdFromType(1, id));
@@ -147,7 +147,7 @@ const MeralDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div style={{ backgroundColor: elements[nft.element].color, backgroundImage: `url("${elements[nft.element].img}")` }} className="absolute bg-contain nft_details_img"></div>
-					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getMeralImages(nft.cmId, color).large} alt="Ethemeral Full Size" />
+					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getMeralImages(nft.cmId, color).large} alt="" />
 				</div>
 
 				{/* SIDE BAR */}

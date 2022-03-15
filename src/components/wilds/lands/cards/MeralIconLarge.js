@@ -1,4 +1,4 @@
-import { getTypeFromId } from '../../../../hooks/useMeralUtils';
+import { getTypeFromId } from '../../../../hooks/useMeralsUtils';
 import { useUser } from '../../../../hooks/useUser';
 
 const MeralIconLarge = ({ nft, select, buttonActions }) => {

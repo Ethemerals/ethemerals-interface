@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import { useMeralsUtils } from '../../../hooks/useMeralsUtils';
 import Images from '../../../constants/Images';
 
 const EquipableItemPreviewCard = ({ nft }) => {
-	const { getPetPalette, getPetImages } = useNFTUtils();
+	const { getPetPalette, getPetImages } = useMeralsUtils();
 	const history = useHistory();
 	const [equipableType, setEquipableType] = useState(0);
 

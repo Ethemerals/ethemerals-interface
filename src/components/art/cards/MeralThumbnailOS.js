@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import { useMeralsUtils } from '../../../hooks/useMeralsUtils';
 import { getMeralImages } from '../../../hooks/useMerals';
 import { useGQLQueryL1 } from '../../../hooks/useGQLQuery';
 import { Links } from '../../../constants/Links';
@@ -26,7 +26,7 @@ const MeralThumbnailOS = ({ id }) => {
 	const { data, status, isLoading } = useGQLQueryL1(`nft_art_answer_meral_${id}`, GET_NFT, { id: id }, { refetchOnMount: false });
 	const { address } = useUser();
 
-	const { elements } = useNFTUtils();
+	const { elements } = useMeralsUtils();
 	const [nft, setNFT] = useState(undefined);
 	const [owned, setOwned] = useState(false);
 
@@ -64,7 +64,7 @@ const MeralThumbnailOS = ({ id }) => {
 			className="relative cursor-pointer shadow hover:opacity-80 hover:shadow-lg rounded-lg overflow-hidden"
 		>
 			<a href={openSeaURL} target="blank" rel="noreferrer">
-				<img width="70" height="70" src={getMeralImages(nft.cmId, 0).thumbnail} alt="" />
+				<img width="70" height="70" src={getMeralImages(nft.cmId).thumbnail} alt="" />
 			</a>
 			<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-50 w-full absolute bottom-0 text-left">#{nft.tokenId.padStart(4, '0')}</span>
 		</div>

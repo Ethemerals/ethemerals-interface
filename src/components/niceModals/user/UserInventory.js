@@ -2,15 +2,15 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { useEternalBattleAccount } from '../../../hooks/useEternalBattle';
-import { useNFTUtils } from '../../../hooks/useNFTUtils';
+import { useMeralsUtils } from '../../../hooks/useMeralsUtils';
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 import { useUserAccount } from '../../../hooks/useUser';
 import { getMeralImages, useMeralDataById } from '../../../hooks/useMerals';
-import { getIdFromType } from '../../../hooks/useMeralUtils';
+import { getIdFromType } from '../../../hooks/useMeralsUtils';
 import { getPetImages, getPetTypePallet } from '../../../hooks/usePets';
 
 const NFTLink = ({ nft, toggle }) => {
-	const { elements } = useNFTUtils();
+	const { elements } = useMeralsUtils();
 	let tokenId = nft.id;
 	const [color, setColor] = useState(undefined);
 	const { currentColor } = useMeralDataById(getIdFromType(1, tokenId));

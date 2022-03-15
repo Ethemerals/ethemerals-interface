@@ -5,7 +5,7 @@ import { useUserAccount } from '../../hooks/useUser';
 import { useEternalBattleGetChange, useEternalBattleGetStake } from '../../hooks/useEternalBattle';
 import { useEBAddScoreContext, useEBNftsRegisterContext } from '../../context/EternalBattleContext';
 
-import { useNFTUtils } from '../../hooks/useNFTUtils';
+import { useMeralsUtils } from '../../hooks/useMeralsUtils';
 import { useMeralImagePaths } from '../../hooks/useMerals';
 import Spinner from '../Spinner';
 
@@ -23,7 +23,7 @@ const StakedNFTCard = ({ nft, contractBattle, priceFeed, long }) => {
 	const updateScore = useEBAddScoreContext();
 	const registerNFT = useEBNftsRegisterContext();
 
-	const { elements } = useNFTUtils();
+	const { elements } = useMeralsUtils();
 	const { meralImagePaths } = useMeralImagePaths(nft);
 
 	const [isOwned, setIsOwned] = useState(false);

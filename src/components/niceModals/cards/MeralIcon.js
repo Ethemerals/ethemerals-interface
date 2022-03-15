@@ -1,4 +1,4 @@
-import { getTypeFromId } from '../../../hooks/useMeralUtils';
+import { getTypeFromId } from '../../../hooks/useMeralsUtils';
 
 const MeralIcon = ({ nft, select }) => {
 	let type = getTypeFromId(nft.meralId);

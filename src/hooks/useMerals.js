@@ -3,7 +3,7 @@ import Moralis from 'moralis';
 import { useQuery } from 'react-query';
 
 import { Links } from '../constants/Links';
-import { getGenByTokenId } from './useMeralUtils';
+import { getGenByTokenId } from './useMeralsUtils';
 
 export const getMeralImages = (cmId, currentColor = 0) => {
 	let colors = {
@@ -74,7 +74,7 @@ export const useMeralGlobal = (tokenId) => {
 	return { globalColors };
 };
 
-export const useMeralImagePaths = (nft, type = 1) => {
+export const useMeralImagePaths = (nft) => {
 	const tokenId = nft.tokenId;
 	let cmId = nft.cmId;
 	const gen = getGenByTokenId(tokenId);

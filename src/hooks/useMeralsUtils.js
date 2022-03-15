@@ -1,5 +1,3 @@
-// import iconAssassin from '../assets/icon_assassin.svg';
-
 import iconAssassin from '../assets/subclasses/assassin.png';
 import iconBerserker from '../assets/subclasses/berserker.png';
 import iconCleric from '../assets/subclasses/cleric.png';
@@ -55,11 +53,8 @@ import wind3 from '../assets/backgrounds/wind/3.jpg';
 import wind4 from '../assets/backgrounds/wind/4.jpg';
 import wind5 from '../assets/backgrounds/wind/5.jpg';
 import wind6 from '../assets/backgrounds/wind/6.jpg';
-import { Links } from '../constants/Links';
 
-const s3URL = Links.BUCKET;
-
-export const useNFTUtils = () => {
+export const useMeralsUtils = () => {
 	// 25
 	const elements = [
 		{ element: 'Void R1', img: void1, color: 'hsl(0, 0%, 17%)', color1: 'hsl(0, 0%, 17%, 0.8)' },
@@ -89,39 +84,7 @@ export const useNFTUtils = () => {
 		{ element: 'Wind R6', img: wind6, color: 'hsl(249, 40%, 76%)', color1: 'hsl(249, 40%, 38%, 0.8)' }, // END
 	];
 
-	const getNFTImages = (cmId) => {
-		let base = {
-			large: `${s3URL}${cmId}_large.png`,
-			preview: `${s3URL}${cmId}_preview.png`,
-			inventory: `${s3URL}${cmId}_inventory.png`,
-			thumbnail: `${s3URL}${cmId}_thumbnail.png`,
-		};
-		let color2 = {
-			large: `${s3URL}${cmId}_large_2.png`,
-			preview: `${s3URL}${cmId}_preview_2.png`,
-			inventory: `${s3URL}${cmId}_inventory_2.png`,
-			thumbnail: `${s3URL}${cmId}_thumbnail_2.png`,
-		};
-		let color3 = {
-			large: `${s3URL}${cmId}_large_3.png`,
-			preview: `${s3URL}${cmId}_preview_3.png`,
-			inventory: `${s3URL}${cmId}_inventory_3.png`,
-			thumbnail: `${s3URL}${cmId}_thumbnail_3.png`,
-		};
-		let special = {
-			large: `${s3URL}${cmId}_large_special.png`,
-			preview: `${s3URL}${cmId}_preview_special.png`,
-			inventory: `${s3URL}${cmId}_inventory_special.png`,
-			thumbnail: `${s3URL}${cmId}_thumbnail_special.png`,
-		};
-
-		let colors = [base, color2, color3, special];
-
-		let subclassIcon = iconAssassin;
-		return { colors, subclassIcon };
-	};
-
-	return { getNFTImages, elements };
+	return { elements };
 };
 
 export const elementsToIds = (elements) => {
@@ -323,4 +286,23 @@ export const getSubclassBonus = (subclass) => {
 	}
 
 	return bonus;
+};
+
+// POLY ID
+const typeMult = 100000;
+export const getTypeFromId = (id) => {
+	return parseInt(parseInt(id) / typeMult);
+};
+
+export const getTokenIdFromId = (id) => {
+	let type = getTypeFromId(id);
+	return parseInt(parseInt(id) - parseInt(type) * typeMult);
+};
+
+export const getIdFromType = (type, tokenId) => {
+	return parseInt(parseInt(tokenId) + parseInt(type) * typeMult);
+};
+
+export const getGenByTokenId = (tokenId) => {
+	return Math.ceil(tokenId / 1000);
 };

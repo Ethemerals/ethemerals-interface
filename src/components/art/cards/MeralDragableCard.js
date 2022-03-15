@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../utils/items';
-import { useNFTUtils, getSubclassInfo } from '../../../hooks/useNFTUtils';
+import { useMeralsUtils, getSubclassInfo } from '../../../hooks/useMeralsUtils';
 import { getMeralImages } from '../../../hooks/useMerals';
 
 const idsToElements = (id) => {
@@ -38,7 +38,7 @@ const idsToElements = (id) => {
 };
 
 const MeralDragableCard = ({ nft, owned, dropped }) => {
-	const { elements } = useNFTUtils();
+	const { elements } = useMeralsUtils();
 	const [subclassInfo, setSubclassInfo] = useState(undefined);
 
 	const [{ isDragging }, drag] = useDrag(() => ({

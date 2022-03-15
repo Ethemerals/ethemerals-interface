@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { useSendTx } from '../../../context/TxContext';
+import { useChain } from 'react-moralis';
 
 import { useEquipableContract } from '../../../hooks/useEquipable';
-import { getIdFromType } from '../../../hooks/useMeralUtils';
+import { getIdFromType } from '../../../hooks/useMeralsUtils';
 import { useUserAccount } from '../../../hooks/useUser';
+
+import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
+
+import NetworksButton from '../../navigation/NetworksButton';
 
 const SpinnerSVG = () => (
 	<svg className=" animate-spin-slow text-brandColor" width="50" height="50" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,6 +22,8 @@ const SpinnerSVG = () => (
 );
 
 const SummonPet = ({ toggle, nft }) => {
+	const { chainId } = useChain();
+	let isLayer2 = getIsLayer2(chainId);
 	const { contractEquipable } = useEquipableContract();
 	const sendTx = useSendTx();
 	const { address } = useUserAccount();
@@ -46,9 +53,9 @@ const SummonPet = ({ toggle, nft }) => {
 
 	return (
 		<>
-			<div className="w-full h-full flex justify-center fixed top-0 left-0 z-20 text-black">
-				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-30 bg-opacity-40 bg-black"></div>
-				<div className=" w-11/12 max-w-420 h-96 center border-gray-400 bg-opacity-100 rounded-2xl overflow-hidden z-30 tracking-wide shadow-xl bg-white">
+			<div className="w-full h-full flex justify-center fixed top-0 left-0 z-10 text-black">
+				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-40 bg-black"></div>
+				<div className=" w-11/12 max-w-420 h-96 center border-gray-400 bg-opacity-100 rounded overflow-hidden z-30 tracking-wide shadow-xl bg-white">
 					<div className="flex justify-end">
 						<span onClick={toggle} className="cursor-pointer p-4 text-black hover:text-gray-500">
 							<svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
@@ -68,9 +75,18 @@ const SummonPet = ({ toggle, nft }) => {
 									This action can only happen once, as once the pet is summoned. This Ethemeral can no longer summon another. The Pet belongs to the user who owns this Ethemeral and can be freely
 									traded
 								</p>
-								<button onClick={onSubmitSummon} className="bg-yellow-400 text-xl text-bold px-4 py-2 my-2 rounded-lg shadow-lg hover:bg-yellow-300 transition duration-300">
-									Mint for Free <span className="text-xs">(plus gas)</span>
-								</button>
+
+								{isLayer2 && (
+									<div className="flex items-center space-x-2 mt-4 justify-center">
+										<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
+										<NetworksButton />
+									</div>
+								)}
+								{!isLayer2 && (
+									<button onClick={onSubmitSummon} className="bg-yellow-400 text-xl text-bold px-4 py-2 my-2 rounded-lg shadow-lg hover:bg-yellow-300 transition duration-300">
+										Mint for Free <span className="text-xs">(plus gas)</span>
+									</button>
+								)}
 							</>
 						) : (
 							<>

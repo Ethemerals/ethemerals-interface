@@ -13,7 +13,7 @@ import { ItemTypes } from '../components/art/utils/items';
 import FilterStatus from '../components/FilterStatus';
 
 import { useUserAccount } from '../hooks/useUser';
-import { elementsToIds, subclassesToIds } from '../hooks/useNFTUtils';
+import { elementsToIds, subclassesToIds } from '../hooks/useMeralsUtils';
 
 const coinData = [];
 for (let i = 0; i < metaCoinName.length; i++) {

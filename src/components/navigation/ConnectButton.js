@@ -1,7 +1,19 @@
 import { useUser } from '../../hooks/useUser';
+import { useWeb3 } from '../../hooks/useWeb3';
 
 const ConnectButton = () => {
 	const { login, isUnauthenticated } = useUser();
+	const { provider } = useWeb3();
+
+	if (!provider) {
+		return (
+			<button className="h-10 w-48 px-6 text-lg bg-brandColor hover:bg-yellow-400 text-white rounded-lg transition duration-300 flex items-center justify-center" onClick={login}>
+				<a href="https://metamask.io/" target="blank" rel="noreferrer">
+					Get Metamask
+				</a>
+			</button>
+		);
+	}
 
 	return (
 		<button className="h-10 w-48 px-6 text-lg bg-brandColor hover:bg-yellow-400 text-white rounded-lg transition duration-300 flex items-center justify-center" onClick={login}>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getTypeFromId } from '../../../../hooks/useMeralUtils';
+import { getTypeFromId } from '../../../../hooks/useMeralsUtils';
 import { calculateDamage, useWildsLand } from '../../../../hooks/useWilds';
 
 const MeralIcon = ({ nft, select, landId }) => {

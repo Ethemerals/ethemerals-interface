@@ -1,26 +1,31 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
 import { useState, useEffect } from 'react';
+import { useChain } from 'react-moralis';
 import { Addresses } from '../../../constants/contracts/Addresses';
 import { Links } from '../../../constants/Links';
 
 import { useSendTx } from '../../../context/TxContext';
 import { useCore, useCoreContract } from '../../../hooks/useCore';
-import { getIdFromType } from '../../../hooks/useMeralUtils';
+import { getIdFromType } from '../../../hooks/useMeralsUtils';
 
 import { useUserAccount } from '../../../hooks/useUser';
+import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
 
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
+import NetworksButton from '../../navigation/NetworksButton';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 
 export default NiceModal.create(() => {
+	const { chainId } = useChain();
+	let isLayer2 = getIsLayer2(chainId);
+
 	const modal = useModal();
 	const { core } = useCore();
 	const { mainIndex, userMerals, account, address } = useUserAccount();
 	const { contractCore } = useCoreContract();
 
 	const sendTx = useSendTx();
-	const [baseStats, setBaseStats] = useState([0, 0, 0]);
 	const [userNFT, setUserNFT] = useState(undefined);
 
 	const [isBurnable, setIsBurnable] = useState(false);
@@ -29,7 +34,6 @@ export default NiceModal.create(() => {
 		if (userMerals && userMerals.length > 0 && mainIndex >= 0) {
 			let _userNFT = userMerals[mainIndex];
 			setUserNFT(_userNFT);
-			setBaseStats([_userNFT.atk, _userNFT.def, _userNFT.spd]);
 		}
 	}, [userMerals, mainIndex]);
 
@@ -70,7 +74,7 @@ export default NiceModal.create(() => {
 
 	return (
 		<>
-			<div className="w-full h-full fixed flex justify-center z-30 top-0 left-0">
+			<div className="w-full h-full fixed flex justify-center z-10 top-0 left-0">
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 bg-opacity-50 bg-black"></div>
 				<div className=" w-11/12 max-w-420 h-500 center border-gray-400 rounded tracking-wide shadow-xl bg-gray-50 text-black">
 					<div className="flex items-center justify-end">
@@ -96,17 +100,27 @@ export default NiceModal.create(() => {
 
 							{account && userNFT && (
 								<>
-									<NFTInventoryCard nft={userNFT} stats={baseStats} showBase={false} />
+									<NFTInventoryCard nft={userNFT} />
 
 									<div className="px-4 pt-6">
-										{isBurnable ? (
-											<button onClick={onSubmitBurn} className={`mt-2 mb-8 bg-brandColor text-white px-4 py-1 m-2 shadow rounded hover:shadow-lg transition duration-300`}>
-												REBIRTH <strong className="uppercase">{userNFT && userNFT.coin}</strong>
-											</button>
-										) : (
-											<button disabled={true} className={`mt-2 mb-8 bg-gray-600 text-white px-4 py-1 m-2 shadow rounded hover:shadow-lg transition duration-300`}>
-												<strong className="uppercase">{userNFT && userNFT.coin} Cannot be Reborn</strong>
-											</button>
+										{isLayer2 && (
+											<div className="flex items-center space-x-2 mt-4 mb-10 justify-center">
+												<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
+												<NetworksButton />
+											</div>
+										)}
+										{!isLayer2 && (
+											<>
+												{isBurnable ? (
+													<button onClick={onSubmitBurn} className={`mt-2 mb-8 bg-brandColor text-white px-4 py-1 m-2 shadow rounded hover:shadow-lg transition duration-300`}>
+														REBIRTH <strong className="uppercase">{userNFT && userNFT.coin}</strong>
+													</button>
+												) : (
+													<button disabled={true} className={`mt-2 mb-8 bg-gray-600 text-white px-4 py-1 m-2 shadow rounded hover:shadow-lg transition duration-300`}>
+														<strong className="uppercase">{userNFT && userNFT.coin} Cannot be Reborn</strong>
+													</button>
+												)}
+											</>
 										)}
 									</div>
 								</>
