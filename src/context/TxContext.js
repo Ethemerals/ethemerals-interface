@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useQueryClient } from 'react-query';
+import { refreshMetadata } from '../hooks/useOpensea';
 
 import { useWeb3 } from '../hooks/useWeb3';
 
@@ -24,7 +25,7 @@ export default function TxContextProvider({ children }) {
 	const [miningStatus, setMiningStatus] = useState(false);
 	const [receipt, setReceipt] = useState({ status: -1 });
 
-	const sendTx = async (hash, method, shouldInvalidate = false, keys = ['core'], sendMessage = false, msgCallback) => {
+	const sendTx = async (hash, method, shouldInvalidate = false, keys = ['core'], shouldRefreshMetadata = false, tokenId) => {
 		setMiningStatus(true);
 		provider.once(hash, (receipt) => {
 			receiptTx(receipt, method);
@@ -36,8 +37,12 @@ export default function TxContextProvider({ children }) {
 				setTimeout(() => queryClient.invalidateQueries('user_balance'), 10000);
 			}
 
-			if (sendMessage) {
-				msgCallback();
+			if (shouldRefreshMetadata) {
+				setTimeout(() => {
+					refreshMetadata(tokenId).then(() => {
+						console.log('REFRESHED OPENSEA METADATA');
+					});
+				}, 10000);
 			}
 
 			setMiningStatus(false);

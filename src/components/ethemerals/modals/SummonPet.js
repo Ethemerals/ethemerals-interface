@@ -9,6 +9,7 @@ import { useUserAccount } from '../../../hooks/useUser';
 import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
 
 import NetworksButton from '../../navigation/NetworksButton';
+import { refreshMetadata } from '../../../hooks/useOpensea';
 
 const SpinnerSVG = () => (
 	<svg className=" animate-spin-slow text-brandColor" width="50" height="50" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +40,7 @@ const SummonPet = ({ toggle, nft }) => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractEquipable.redeemPet(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, `Summoned pet ${id}`, true, [`nft_${getIdFromType(1, id)}`, `account_${address}`]);
+				sendTx(tx.hash, `Summoned pet ${id}`, true, [`nft_${id}`, `account_${address}`], true, id);
 			} catch (error) {
 				console.log(`${error.data} \n${error.message}`);
 			}

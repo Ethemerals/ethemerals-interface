@@ -5,6 +5,7 @@ import { useMoralisCloudFunction } from 'react-moralis';
 import Images from '../../../constants/Images';
 import { useUserAccount } from '../../../hooks/useUser';
 import { getGenByTokenId } from '../../../hooks/useMeralsUtils';
+import { refreshMetadata } from '../../../hooks/useOpensea';
 
 const ColorChoice = ({ isOwned, colorNames, selectedColor, index, allowedColors, setSelected }) => {
 	const handleClick = () => {
@@ -28,6 +29,7 @@ const NFTChooseColorScheme = ({ nft, color, setColor, currentColor, meralData })
 	const { address, userMerals } = useUserAccount();
 
 	const queryClient = useQueryClient();
+	const [buttonMsg, setButtonMsg] = useState('Save Choice');
 
 	const [colorNames, setColorNames] = useState(undefined);
 	const [selectedColor, setSelectedColor] = useState(undefined);
@@ -50,6 +52,18 @@ const NFTChooseColorScheme = ({ nft, color, setColor, currentColor, meralData })
 	}, [userMerals, nft]);
 
 	useEffect(() => {
+		if (saving) {
+			setButtonMsg('Saving costume change ...');
+		} else {
+			setButtonMsg('Save Choice');
+		}
+
+		return () => {
+			setButtonMsg('Save Choice');
+		};
+	}, [saving]);
+
+	useEffect(() => {
 		if (meralData) {
 			let colorNames = [meralData.get('colorName0'), meralData.get('colorName1'), meralData.get('colorName2'), meralData.get('colorName3')];
 			let colorUnlocked = [meralData.get('colorUnlocked0'), meralData.get('colorUnlocked1'), meralData.get('colorUnlocked2'), meralData.get('colorUnlocked3')];
@@ -65,7 +79,11 @@ const NFTChooseColorScheme = ({ nft, color, setColor, currentColor, meralData })
 			setSaving(true);
 			try {
 				await fetch();
+				setButtonMsg('Updating Opensea ...');
+				await refreshMetadata(nft.tokenId);
+				setButtonMsg('Done!');
 				setTimeout(() => {
+					setButtonMsg('Save Choice');
 					queryClient.invalidateQueries(`meralData_${nft.meralId}`, `meralGlobal_${getGenByTokenId(nft.tokenId)}`);
 				}, 3000);
 				setTimeout(() => setSaving(false), 3000);
@@ -87,9 +105,9 @@ const NFTChooseColorScheme = ({ nft, color, setColor, currentColor, meralData })
 			<ColorChoice isOwned={isOwned} colorNames={colorNames} selectedColor={selectedColor} index={3} allowedColors={allowedColors} setSelected={setColor} />
 
 			{address && isOwned && (
-				<div onClick={handleSave} className={`flex items-center rounded-lg ${currentColor !== color ? 'bg-customBlue-pale cursor-pointer hover:bg-blue-400 transition duration-200' : ''}`}>
+				<div onClick={handleSave} className={`col-span-2 flex items-center rounded-lg ${currentColor !== color ? 'bg-customBlue-pale cursor-pointer hover:bg-blue-400 transition duration-200' : ''}`}>
 					<div className="w-8 h-8 mr-1 relative"></div>
-					<p>{saving ? 'Saving...' : 'Save Choice'}</p>
+					<p>{buttonMsg}</p>
 				</div>
 			)}
 		</div>
