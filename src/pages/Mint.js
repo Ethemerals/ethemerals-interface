@@ -99,7 +99,7 @@ const Mint = () => {
 				</div>
 				<div className="text-center text-blue-900 mt-10 mb-2">
 					<p className="font-bold text-xl">Merals Gen2 Minting Open</p>
-					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply}/${parseInt(core.maxAvailableIndex)}`}</p>}
+					{core && <p className="text-sm">{`Current Supply: ${core.ethemeralSupply - 1}/${parseInt(core.maxAvailableIndex)}`}</p>}
 				</div>
 
 				{contractCore ? (
