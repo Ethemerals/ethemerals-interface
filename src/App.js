@@ -25,6 +25,7 @@ import Mint from './pages/Mint';
 import ArtDetails from './pages/ArtDetails';
 import ArtGame from './pages/ArtGame';
 import { registerModals } from './components/niceModals/RegisterModals';
+import WildsWorldAlpha from './components/wilds/WildsWorldAlpha';
 
 function App() {
 	registerModals();
@@ -76,7 +77,7 @@ function App() {
 					<WildsHub />
 				</Route>
 				<Route exact path="/wilds">
-					<WildsWorld />
+					{parseInt(process.env.REACT_APP_NETWORK) !== 1 ? <WildsWorld /> : <WildsWorldAlpha />}
 				</Route>
 				<Route exact path="/dashboard">
 					<Dashboard />

@@ -15,7 +15,8 @@ const Mainmenu = () => {
 			<MenuItem to="/ethemerals" text="Ethemerals" />
 			<MenuItem to="/art" text="Art Hunt" />
 			<MenuItem to="/battle" text="Eternal Battle" />
-			{parseInt(process.env.REACT_APP_NETWORK) !== 1 && <MenuItem to="/wilds" text="The Wilds" />}
+			<MenuItem to="/wilds" text="The Wilds" />
+			{/* {parseInt(process.env.REACT_APP_NETWORK) !== 1 && <MenuItem to="/wilds" text="The Wilds" />} */}
 		</div>
 	);
 };
