@@ -178,8 +178,8 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	const onClaimReward = async () => {
 		if (!alreadyClaimed && !allClaimed) {
 			try {
-				let meralIds = droppedMerals.map((meral) => meral.id);
-				let petsIds = droppedPets.map((pet) => pet.id);
+				let meralIds = droppedMerals.map((meral) => parseInt(meral.id));
+				let petsIds = droppedPets.map((pet) => parseInt(pet.id));
 				let result = await claimReward(meralIds, petsIds, tokenId);
 				if (result) {
 					setAlreadyClaimed(true);
@@ -194,8 +194,8 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	const onClaimGiveaway = async () => {
 		if (canGiveaway) {
 			try {
-				let meralIds = droppedMerals.map((meral) => meral.tokenId);
-				let petsIds = droppedPets.map((pet) => pet.tokenId);
+				let meralIds = droppedMerals.map((meral) => parseInt(meral.id));
+				let petsIds = droppedPets.map((pet) => parseInt(pet.id));
 				let result = await claimGiveaway(meralIds, petsIds, tokenId);
 				if (result) {
 					setCanGiveaway(false);
