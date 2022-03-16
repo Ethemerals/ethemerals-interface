@@ -67,10 +67,10 @@ const EthemeralsPets = () => {
 			{/* MAIN */}
 			<div className="">
 				{/* SIDEBAR */}
-				<aside style={{ minWidth: '212px', width: '212px', backgroundColor: 'hsl(212, 39%, 90%)' }} className="h-screen top-12 fixed border-r border-gray-400 overflow-y-auto">
-					<div className="flex mb-8 mt-1">
+				<aside style={{ minWidth: '212px', width: '212px', backgroundColor: 'hsl(212, 50%, 95%)' }} className="h-screen fixed border-r border-gray-400 overflow-y-auto">
+					<div className="flex mb-8 mt-12">
 						<Link to="/ethemerals/merals">
-							<div className="py-1 px-4 m-4 mr-0 text-lg text-gray-600 cursor-pointer bg-white shadow-md hover:text-yellow-500 hover:shadow-lg">Merals</div>
+							<div className="py-1 px-4 m-4 mr-0 text-lg text-gray-600 cursor-pointer bg-white shadow-md hover:text-yellow-500 hover:shadow-lg">Merals</div>{' '}
 						</Link>
 						<Link to="/ethemerals/pets">
 							<div className="py-1 px-4 m-4 ml-2 text-lg text-brandColor cursor-pointer bg-white shadow-md">Pets</div>

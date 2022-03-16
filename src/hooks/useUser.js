@@ -69,7 +69,6 @@ export const useUserAccount = () => {
 
 	const [account, setAccount] = useState(undefined);
 	const [mainIndex, setMainIndex] = useState(undefined);
-	const [userNFTs, setUserNFTs] = useState([]);
 	const [userMerals, setUserMerals] = useState([]);
 	const [userPets, setUserPets] = useState([]);
 	const [userActions, setUserActions] = useState([]);
@@ -82,7 +81,6 @@ export const useUserAccount = () => {
 	useEffect(() => {
 		if (data && !isLoading) {
 			setAccount(data);
-			setUserNFTs(data.merals);
 			setUserPMerals(data.pMerals);
 		}
 	}, [data, isLoading]);
@@ -162,7 +160,6 @@ export const useUserAccount = () => {
     address,
     account,
     mainIndex,
-    userNFTs,
     userPMerals,
     userMerals,
     userPets,

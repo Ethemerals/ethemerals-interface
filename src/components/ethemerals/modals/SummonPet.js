@@ -3,13 +3,11 @@ import { useSendTx } from '../../../context/TxContext';
 import { useChain } from 'react-moralis';
 
 import { useEquipableContract } from '../../../hooks/useEquipable';
-import { getIdFromType } from '../../../hooks/useMeralsUtils';
 import { useUserAccount } from '../../../hooks/useUser';
 
 import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
 
 import NetworksButton from '../../navigation/NetworksButton';
-import { refreshMetadata } from '../../../hooks/useOpensea';
 
 const SpinnerSVG = () => (
 	<svg className=" animate-spin-slow text-brandColor" width="50" height="50" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">

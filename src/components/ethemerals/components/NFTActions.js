@@ -174,6 +174,21 @@ const NFTActions = ({ nft }) => {
 				{nft && !nft.petRedeemed ? <p>Summon Pet</p> : <p className="text-red-500">Pet Redeemed</p>}
 			</div>
 
+			<div
+				onClick={() => {
+					if (isOwned && false) {
+						history.push(`/resurrect/${nft.tokenId}`);
+					}
+				}}
+				// TODO
+				className={`flex items-center rounded-lg cursor-default ${account && isOwned && false ? 'bg-blue-400 cursor-pointer hover:bg-blue-300 transition duration-200' : 'bg-customBlue-pale'}`}
+			>
+				<div className="w-8 h-8 mr-1 relative">
+					<img className="center" width="22px" height="22px" alt="icon wing" src={Images.iconAvatar} />
+				</div>
+				<p>Activate Proxy</p>
+			</div>
+
 			{isGiftOpen && <Gift nft={nft} toggle={toggleGift} />}
 			{isSummonPetOpen && <SummonPet nft={nft} toggle={toggleSummon} />}
 		</div>

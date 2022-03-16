@@ -6,18 +6,18 @@ import { useUserAccount } from '../../../hooks/useUser';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const WildsStake = ({ contractWilds, landId }) => {
-	const { mainIndex, userNFTs } = useUserAccount();
+	const { mainIndex, userMerals } = useUserAccount();
 
 	const sendTx = useSendTx();
 
 	const [userNFT, setUserNFT] = useState(undefined);
 
 	useEffect(() => {
-		if (userNFTs && userNFTs.length > 0 && mainIndex >= 0) {
-			let _userNFT = userNFTs[mainIndex];
+		if (userMerals && userMerals.length > 0 && mainIndex >= 0) {
+			let _userNFT = userMerals[mainIndex];
 			setUserNFT(_userNFT);
 		}
-	}, [userNFTs, mainIndex]);
+	}, [userMerals, mainIndex]);
 
 	const handleStake = async (stakeAction) => {
 		if (contractWilds) {

@@ -23,7 +23,7 @@ export default NiceModal.create(() => {
 	let isLayer2 = getIsLayer2(chainId);
 
 	const sendTx = useSendTx();
-	const { userNFTs: nfts } = useUserAccount();
+	const { userMerals: nfts } = useUserAccount();
 	const { contractCore } = useCoreContract();
 	const { contractEscrowL1 } = useEscrowL1Contract();
 	const { user, address } = useUser();

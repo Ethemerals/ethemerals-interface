@@ -208,7 +208,7 @@ const ArtGame = () => {
 			{/* MAIN */}
 			<div className="">
 				{/* SIDEBAR */}
-				<aside style={{ minWidth: '212px', width: '212px', backgroundColor: 'hsl(212, 39%, 90%)' }} className="h-screen top-12 fixed border-r border-gray-400 overflow-y-auto">
+				<aside style={{ minWidth: '212px', width: '212px', backgroundColor: 'hsl(212, 50%, 95%)' }} className="h-screen top-0 pt-12 fixed border-r border-gray-400 overflow-y-auto">
 					<div className="flex mb-8 mt-1">
 						<div
 							onClick={() => setFilterTab(0)}
@@ -247,7 +247,7 @@ const ArtGame = () => {
 
 				<div
 					style={{ left: '212px', width: '212px', minWidth: '212px', maxWidth: '212px', backgroundColor: 'hsl(212, 39%, 94%)' }}
-					className="h-screen top-12 fixed border-r border-gray-400 overflow-y-auto pb-20"
+					className="h-screen pt-12 fixed border-r border-gray-400 overflow-y-auto pb-20"
 				>
 					{filterTab === 0 && <MeralsList order={order} shouldFilter={shouldFilter} filters={filters} allDropped={droppedMerals} />}
 					{filterTab === 1 && <PetsList order={order} shouldFilter={petShouldFilter} filters={petFilters} allDropped={droppedPets} />}

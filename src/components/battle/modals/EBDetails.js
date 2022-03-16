@@ -31,7 +31,7 @@ const MeralThumbnail = ({ nft, dead = false }) => {
 };
 
 const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, isOwned }) => {
-	const { mainIndex, userNFTs, account } = useUserAccount();
+	const { mainIndex, userMerals, account } = useUserAccount();
 	const { scoreChange } = useEternalBattleGetChange(contractBattle, nft.id);
 	const { stake } = useEternalBattleGetStake(contractBattle, nft.id);
 
@@ -62,17 +62,17 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 	}, [scoreChange, nft]);
 
 	useEffect(() => {
-		if (userNFTs && userNFTs.length > 0) {
-			setReviverNFT(userNFTs[mainIndex]);
+		if (userMerals && userMerals.length > 0) {
+			setReviverNFT(userMerals[mainIndex]);
 		}
-	}, [userNFTs, mainIndex]);
+	}, [userMerals, mainIndex]);
 
 	const onSubmitRevive = async () => {
 		if (contractBattle) {
 			NiceModal.show(modalRegistry.waitingForSignature, { message: `Revive ${nft.coin} from Battle!` });
 			try {
 				let id = nft.id;
-				let userTokenId = userNFTs[mainIndex].id;
+				let userTokenId = userMerals[mainIndex].id;
 				const gasEstimate = await contractBattle.estimateGas.reviveToken(id, userTokenId);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractBattle.reviveToken(id, userTokenId, { gasLimit });
@@ -169,7 +169,7 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 						<>
 							<div style={{ borderWidth: '0 0 1px 0' }} className="border-0 border-black w-full"></div>
 							<div className="m-6 text-sm h-48">
-								{account && userNFTs && userNFTs.length > 0 && reviverNFT ? (
+								{account && userMerals && userMerals.length > 0 && reviverNFT ? (
 									<>
 										<div className="flex items-start">
 											{nft && <MeralThumbnail nft={nft} dead={true} />}

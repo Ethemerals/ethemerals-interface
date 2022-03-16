@@ -37,7 +37,7 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	const { artData } = useArtGetArt(tokenId);
 	const [winners, setWinners] = useState(undefined);
 
-	const { account, userNFTs } = useUserAccount();
+	const { account, userMerals } = useUserAccount();
 	const { login, isAuthenticating } = useUser();
 	const [result, setResult] = useState(undefined);
 	const [answers, setAnswers] = useState({});
@@ -159,11 +159,11 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 	};
 
 	useEffect(() => {
-		if (answers && userNFTs && account) {
+		if (answers && userMerals && account) {
 			let meralResult = false;
 			let petResult = false;
-			if (answers.merals && account && userNFTs) {
-				meralResult = checkOwnership(answers.merals, userNFTs);
+			if (answers.merals && account && userMerals) {
+				meralResult = checkOwnership(answers.merals, userMerals);
 			}
 			if (answers.pets && account) {
 				petResult = checkOwnership(answers.pets, account.pets);
@@ -173,7 +173,7 @@ const ArtDrop = ({ tokenId, onDrop, droppedMerals, droppedPets, clearDrops, hand
 				setCanClaim(true);
 			}
 		}
-	}, [answers, userNFTs, account]);
+	}, [answers, userMerals, account]);
 
 	const onClaimReward = async () => {
 		if (!alreadyClaimed && !allClaimed) {
