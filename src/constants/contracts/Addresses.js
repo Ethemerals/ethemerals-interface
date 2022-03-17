@@ -13,6 +13,7 @@ const getAddresses = () => {
 		Onsen: '0xdB405C016322F9BB24ceB8386BcFcA277adf5bCE',
 		Wilds: '0x7D37289d70E6Ba0907760b6B8fc76C0c987a3efc',
 		BurnAddress: '0x13D8EE49CbA2Eb416584806b8D370Ff432fF5A03',
+		Art: '0x612ca32a8b0fbe1d6738dfd0fa65cf9b3f8da34d',
 	};
 
 	// MAINNETS
