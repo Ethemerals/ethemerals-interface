@@ -8,7 +8,7 @@ const CloseSVG = () => (
 );
 
 const PetThumbnail = ({ nft, item = false, handleRemove }) => {
-	const bgImg = getPetImages(nft.baseId).thumbnail;
+	const bgImg = getPetImages(nft.baseId).preview;
 
 	if (!bgImg) {
 		return (

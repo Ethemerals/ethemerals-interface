@@ -45,7 +45,7 @@ const PetThumbnailOS = ({ id }) => {
 		return <div style={{ minWidth: '64px', minHeight: '60px', width: '64px', height: '64px' }} className="relative"></div>;
 	}
 
-	const bgImg = getPetImages(nft.baseId).thumbnail;
+	const bgImg = getPetImages(nft.baseId).preview; // TODO PET
 	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.tokenId}`;
 
 	return (

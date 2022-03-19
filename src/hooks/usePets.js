@@ -33,10 +33,9 @@ export const getPetTypePallet = (nft) => {
 };
 
 export const getPetImages = (baseId) => {
-	let base = `${Links.BUCKET}${baseId}_equipment_base.png`;
-	let preview = `${Links.BUCKET}${baseId}_equipment_preview.png`;
-	let thumbnail = `${Links.BUCKET}${baseId}_equipment_thumbnail.png`;
-	return { base, preview, thumbnail };
+	let large = `${Links.BUCKET}pets/${baseId}_large.png`;
+	let preview = `${Links.BUCKET}pets/${baseId}_preview.png`;
+	return { large, preview };
 };
 
 export const getType = (nft) => {

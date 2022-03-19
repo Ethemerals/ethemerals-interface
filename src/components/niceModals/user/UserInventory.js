@@ -39,7 +39,7 @@ const NFTLink = ({ nft, toggle }) => {
 };
 
 const NFTPetLink = ({ nft, toggle }) => {
-	const bgImg = getPetImages(nft.baseId).thumbnail;
+	const bgImg = getPetImages(nft.baseId).preview; // TODO PET
 
 	return (
 		<Link to={`/pet/${nft.id}`}>
