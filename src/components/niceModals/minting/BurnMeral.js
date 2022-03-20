@@ -61,7 +61,7 @@ export default NiceModal.create(() => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractCore['safeTransferFrom(address,address,uint256)'](address, toAddress, id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Rebirth meral', true, [`nft_${getIdFromType(1, id)}`, `account_${address}`, 'core']);
+				sendTx(tx.hash, 'Rebirth meral', true, [`nft_${getIdFromType(1, id)}`, `account_${address}`, 'core'], true, id);
 			} catch (error) {
 				console.log(error);
 				NiceModal.remove(modalRegistry.waitingForSignature);
