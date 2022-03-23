@@ -70,7 +70,7 @@ const MeralDetails = () => {
 	}
 
 	return (
-		<div>
+		<div key={nft.tokenId}>
 			<div className="page_bg"></div>
 			<BackButton />
 			<div className="nft_details_container flex items-center justify-center mx-auto overflow-hidden mt-4 text-white">

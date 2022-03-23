@@ -43,7 +43,7 @@ const NFTPetLink = ({ nft, toggle }) => {
 
 	return (
 		<Link to={`/pet/${nft.id}`}>
-			<div onClick={toggle} style={{ backgroundColor: getPetTypePallet(nft) }} className="flex w-74 h-74 rounded hover:shadow-lg mx-auto my-1 relative">
+			<div onClick={toggle} style={{ backgroundColor: getPetTypePallet(nft) }} className="flex w-74 h-74 rounded hover:shadow-lg mx-auto my-1 relative overflow-hidden">
 				<div className="absolute top-0 left-0">
 					<img className="" src={bgImg} alt="" />
 				</div>
@@ -104,7 +104,7 @@ const UserInventory = ({ toggle }) => {
 		<>
 			<div className="h-28">
 				{userMerals && userMainMeral ? (
-					<NFTInventoryCard nft={userMainMeral} />
+					<NFTInventoryCard key={userMainMeral.tokenId} nft={userMainMeral} />
 				) : (
 					<div className="flex h-28">
 						<div className="flex-grow relative overflow-hidden text-center bg-customBlue-dark">

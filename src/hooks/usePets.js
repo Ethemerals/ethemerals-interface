@@ -21,13 +21,13 @@ export const getPetTypePallet = (nft) => {
 	let subclass = getType(nft);
 	let palette;
 	if (subclass === 0) {
-		palette = 'hsla(360,80%,40%,1)';
+		palette = 'hsla(360,50%,70%,1)';
 	}
 	if (subclass === 1) {
-		palette = 'hsla(220,80%,40%,1)';
+		palette = 'hsla(220,50%,70%,1)';
 	}
 	if (subclass === 2) {
-		palette = 'hsla(160,80%,40%,1)';
+		palette = 'hsla(160,50%,70%,1)';
 	}
 	return palette;
 };
