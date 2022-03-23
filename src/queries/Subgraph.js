@@ -13,6 +13,14 @@ export const GET_OWNER = gql`
 	}
 `;
 
+export const GET_COINNAME = gql`
+	query ($id: ID!) {
+		meral(id: $id) {
+			coin
+		}
+	}
+`;
+
 export const GET_CORE = gql`
 	query ($id: ID!) {
 		core(id: $id) {

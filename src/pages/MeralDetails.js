@@ -85,22 +85,6 @@ const MeralDetails = () => {
 						<p className="mt-5 text-3xl">#{nft.tokenId.toString().padStart(4, '0')}</p>
 					</div>
 
-					{/* RIGHT BAR */}
-					<div className="mx-2 my-4 w-64 z-20 right-0 absolute border-white border-r">
-						<div className="flex items-center justify-end">
-							<p className="font-bold text-right -mr-1">{nft.hp} HP</p>
-							<img width="19px" height="19px" className="mx-2" src={Images.iconHeart} alt="" />
-						</div>
-						<div className="flex items-center justify-end">
-							<p className="font-bold text-right ">{nft.elf} ELF</p>
-							<img width="16px" height="16px" className="mx-2" src={Images.iconDrain} alt="" />
-						</div>
-						<div className="flex items-center justify-end">
-							<p className="font-bold text-right">{nft.xp} XP</p>
-							<img width="19px" height="19px" className="mx-2" src={Images.iconStar} alt="" />
-						</div>
-					</div>
-
 					{/* BOTTOM BAR */}
 					<div className="z-20 w-full bottom-0 absolute overflow-hidden">
 						<p className="px-4 font-bold text-5xl uppercase">{nft.name}</p>
@@ -136,12 +120,28 @@ const MeralDetails = () => {
 										<span className="pl-1">{parseInt(nft.spd) + parseInt(nft.def) + parseInt(nft.atk)}</span>
 									</div>
 								</div>
-								<div className="text-sm text-right leading-relaxed text-gray-200 font-bold">
+								{/* <div className="text-sm text-right leading-relaxed text-gray-200 font-bold">
 									<p>Birthed: {birthDate && format(birthDate, 'MMM dd yyyy')}</p>
 									<p>Designer: {nft.artist}</p>
 									<p>Minted By: {shortenAddress(nft.creator.id)}</p>
-								</div>
+								</div> */}
 							</div>
+						</div>
+					</div>
+
+					{/* RIGHT BAR */}
+					<div className="mx-2 my-2 w-64 z-20 right-0 bottom-0 absolute border-white border-r">
+						<div className="flex items-center justify-end">
+							<p className="font-bold text-right -mr-1">{nft.hp} HP</p>
+							<img width="19px" height="19px" className="mx-2" src={Images.iconHeart} alt="" />
+						</div>
+						<div className="flex items-center justify-end">
+							<p className="font-bold text-right ">{nft.elf} ELF</p>
+							<img width="16px" height="16px" className="mx-2" src={Images.iconDrain} alt="" />
+						</div>
+						<div className="flex items-center justify-end">
+							<p className="font-bold text-right">{nft.xp} XP</p>
+							<img width="19px" height="19px" className="mx-2" src={Images.iconStar} alt="" />
 						</div>
 					</div>
 
@@ -160,7 +160,7 @@ const MeralDetails = () => {
 
 					{/* COLOR */}
 					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
-						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">COLOR</h3>
+						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">COSTUME</h3>
 						<NFTChooseColorScheme nft={nft} color={color} setColor={setColor} currentColor={currentColor} meralData={meralData} />
 					</div>
 
@@ -205,7 +205,7 @@ const MeralDetails = () => {
 					</div>
 
 					{/* HISTORY */}
-					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md h-48">
+					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
 						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">HISTORY</h3>
 						<ul className="text-gray-700 text-sm leading-6">
 							{status === 'success' &&

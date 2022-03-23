@@ -289,7 +289,7 @@ export const getSubclassBonus = (subclass) => {
 };
 
 // POLY ID
-const typeMult = 100000;
+const typeMult = 1000000;
 export const getTypeFromId = (id) => {
 	return parseInt(parseInt(id) / typeMult);
 };
