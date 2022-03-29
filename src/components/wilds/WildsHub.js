@@ -16,10 +16,6 @@ const WildsHub = () => {
 		NiceModal.show(modalRegistry.openOnsen);
 	};
 
-	const showPortalModal = () => {
-		NiceModal.show(modalRegistry.openPortal);
-	};
-
 	return (
 		<div className="bg_wilds_hub h-screen w-full fixed overflow-y-auto px-4 bg-cover bg-right">
 			<DevInfo />
@@ -27,13 +23,6 @@ const WildsHub = () => {
 				<h1 className="text-5xl">Hub</h1>
 			</div>
 			<div className="flex flex-wrap justify-center">
-				<div
-					style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/wilds/portal.jpg'" }}
-					onClick={showPortalModal}
-					className="bg-gray-200 bg-opacity-80 p-4 my-4 w-96 h-44 cursor-pointer hover:bg-blue-100 mr-4 bg-none bg-right"
-				>
-					<h1 className="text-white">Portal</h1>
-				</div>
 				{/* <Onsen /> */}
 				<div
 					style={{

@@ -6,6 +6,7 @@ import { useMoralis } from 'react-moralis';
 import { GET_ACCOUNT } from '../queries/Subgraph';
 import { useQuery } from 'react-query';
 import { isAddress } from '../utils';
+import { GET_ACCOUNT_L2 } from '../queries/SubgraphPoly';
 
 export const useUser = () => {
 	const { authenticate, isAuthenticated, isAuthenticating, isUnauthenticated, authError, logout, user, setUserData, isUserUpdating } = useMoralis();
@@ -62,6 +63,21 @@ const getL1Merals = async (variables) => {
 	}
 };
 
+const getL2Merals = async (variables) => {
+	if (isAddress(variables.id)) {
+		try {
+			const endpoint = Links.SUBGRAPH_ENDPOINT_L2;
+			const graphQLClient = new GraphQLClient(endpoint);
+			const fetchData = await graphQLClient.request(GET_ACCOUNT_L2, variables);
+			return fetchData;
+		} catch (error) {
+			throw new Error('get account error');
+		}
+	} else {
+		return { message: 'address not valid' };
+	}
+};
+
 export const useUserAccount = () => {
 	const { address } = useUser();
 	const { isUserUpdating, user, setUserData } = useMoralis();
@@ -77,6 +93,7 @@ export const useUserAccount = () => {
 
 	const { data, isLoading } = useQuery(`account_${address}`, () => getUserAccount(address), { enabled: !!address, refetchOnMount: true }); // TODO
 	const { data: dataSubgraph } = useQuery(`account_${address}_subgraph`, () => getL1Merals({ id: address }), { enabled: !!address, refetchOnMount: true }); // TODO
+	const { data: dataSubgraphL2 } = useQuery(`account_${address}_subgraphL2`, () => getL2Merals({ id: address }), { enabled: !!address, refetchOnMount: true }); // TODO
 
 	useEffect(() => {
 		if (data && !isLoading) {
@@ -93,6 +110,13 @@ export const useUserAccount = () => {
 			setAllowDelegates(dataSubgraph.account.allowDelegates);
 		}
 	}, [dataSubgraph]);
+
+	useEffect(() => {
+		if (dataSubgraphL2 && dataSubgraphL2.account !== null) {
+			setUserPMerals(dataSubgraphL2.account.merals);
+			// setUserActions(dataSubgraphL2.account.actions);
+		}
+	}, [dataSubgraphL2]);
 
 	// GET MAIN
 	useEffect(() => {

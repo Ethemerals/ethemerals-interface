@@ -8,8 +8,7 @@ const getAddresses = () => {
 		EternalBattle: '0x169310e61e71ef5834ce5466c7155d8a90d15f1e',
 		priceFeed: '0x04302ef1c51dff4625cdec79f4400342ad27f559',
 		changeScoreAndRewards: '0x304287ace2c677d9051ada34e87f1b4495e5c35c',
-		EscrowL1: '0x52AD83F0aE762622eab23BF9A15508195d404ef5',
-		MeralManager: '0x055f437a439caec49de34026e583528aae84d7af',
+		MeralManager: '0xfCe623756E1314fbCA91b17A33660958d0BcC5E7',
 		Onsen: '0xdB405C016322F9BB24ceB8386BcFcA277adf5bCE',
 		Wilds: '0x7D37289d70E6Ba0907760b6B8fc76C0c987a3efc',
 		BurnAddress: '0x13D8EE49CbA2Eb416584806b8D370Ff432fF5A03',
@@ -24,8 +23,7 @@ const getAddresses = () => {
 		addresses.EternalBattle = '0x883170aAcEB39a23642f5aAaab083F5684D3fFB1';
 		addresses.priceFeed = '0xfacC389A4777D0Cda098C0f2Af4e6deDD1Ddf1f4';
 		addresses.changeScoreAndRewards = '0x304287ace2c677d9051ada34e87f1b4495e5c35c';
-		addresses.EscrowL1 = '0x691ac8428BBD2Cf1e9e88Fe11CEE6E3a542Db28B';
-		addresses.MeralManager = '0x055F437a439CaEC49De34026e583528aae84d7aF';
+		addresses.MeralManager = '0xfCe623756E1314fbCA91b17A33660958d0BcC5E7';
 		addresses.Onsen = '0xdB405C016322F9BB24ceB8386BcFcA277adf5bCE';
 		addresses.Wilds = '0x7D37289d70E6Ba0907760b6B8fc76C0c987a3efc';
 		addresses.BurnAddress = '0x88329f0ec14ee9a958f0538f78757bc7442cf464';

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { Links } from '../../../constants/Links';
 import { Addresses } from '../../../constants/contracts/Addresses';
@@ -14,7 +13,6 @@ import { shortenAddress } from '../../../utils';
 const NFTActions = ({ nft }) => {
 	const { account, mainIndex, userMerals } = useUserAccount();
 	const { setUserData, isUserUpdating } = useUser();
-	const history = useHistory();
 
 	const [isOwned, setIsOwned] = useState(false);
 
@@ -73,30 +71,42 @@ const NFTActions = ({ nft }) => {
 	return (
 		<div className="grid grid-cols-2 gap-2 px-2 text-sm text-white">
 			{isInBattle ? (
-				<div className="flex items-center col-span-2 rounded-lg cursor-default">
+				<div className="flex items-center rounded-lg cursor-default">
 					<div className="w-8 h-8 mr-1 relative">
-						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
+						<img className="center" width="24px" height="24px" alt="icon main" src={Images.iconMain} />
 					</div>
 					<p className="text-black">{'In Battle!'}</p>
 				</div>
 			) : account && isOwned && userMerals[mainIndex] && userMerals[mainIndex].meralId === nft.meralId ? (
-				<div className="flex items-center col-span-2 rounded-lg cursor-default">
+				<div className="flex items-center rounded-lg cursor-default">
 					<div className="w-8 h-8 mr-1 relative">
-						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
+						<img className="center" width="24px" height="24px" alt="icon main" src={Images.iconMain} />
 					</div>
-					<p className="text-black">{!isUserUpdating ? 'Current Main Ethemeral' : 'Updating'}</p>
+					<p className="text-black">{!isUserUpdating ? 'Current Main' : 'Updating'}</p>
 				</div>
 			) : (
 				<div
 					onClick={() => selectMain(nft.meralId)}
-					className={`flex items-center col-span-2 rounded-lg cursor-default text-white ${account && isOwned ? 'bg-pink-500 cursor-pointer hover:bg-pink-300 transition duration-200' : ''}`}
+					className={`flex items-center rounded-lg cursor-default text-white ${account && isOwned ? 'bg-pink-500 cursor-pointer hover:bg-pink-300 transition duration-200' : ''}`}
 				>
 					<div className="w-8 h-8 mr-1 relative">
-						<img className="center" width="26px" height="26px" alt="icon main" src={Images.iconMain} />
+						<img className="center" width="24px" height="24px" alt="icon main" src={Images.iconMain} />
 					</div>
-					{account && isOwned ? <p>{!isUserUpdating ? 'Select as Main' : 'Updating'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner.id)}</p>}
+					{account && isOwned ? <p>{!isUserUpdating ? 'Select as Main' : 'Updating'}</p> : <p className="text-black">Owner: {shortenAddress(nft.owner.id, 2)}</p>}
 				</div>
 			)}
+
+			<div
+				onClick={toggleSummon}
+				className={`flex items-center rounded-lg cursor-default ${
+					account && isOwned && !nft.petRedeemed ? 'bg-blue-500 cursor-pointer hover:bg-blue-400 transition duration-200' : ' bg-customBlue-pale'
+				}`}
+			>
+				<div className="w-8 h-8 mr-1 relative">
+					<img className="center" width="20px" height="20px" alt="icon gift" src={Images.iconPet} />
+				</div>
+				{nft && !nft.petRedeemed ? <p>Summon Pet</p> : <p className="text-red-500">Pet Redeemed</p>}
+			</div>
 
 			{/* BID OR SELL */}
 			{account && isOwned && (
@@ -121,23 +131,6 @@ const NFTActions = ({ nft }) => {
 			)}
 
 			<div
-				onClick={() => {
-					if (isOwned && false) {
-						history.push(`/redemption/${nft.tokenId}`);
-					}
-				}}
-				// TODO
-				className={`flex items-center rounded-lg cursor-default ${
-					account && isOwned && false ? 'bg-brandColor cursor-pointer hover:bg-brandColor-pale transition duration-200' : ' bg-customBlue-pale'
-				}`}
-			>
-				<div className="w-8 h-8 mr-1 relative">
-					<img className="center" width="20px" height="20px" alt="icon drain" src={Images.iconDrain} />
-				</div>
-				<p>Redeem ELF</p>
-			</div>
-
-			<div
 				onClick={toggleGift}
 				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-green-500 cursor-pointer hover:bg-green-400 transition duration-200' : ' bg-customBlue-pale'}`}
 			>
@@ -145,48 +138,6 @@ const NFTActions = ({ nft }) => {
 					<img className="center" width="20px" height="20px" alt="icon gift" src={Images.iconGift} />
 				</div>
 				<p>Gift</p>
-			</div>
-
-			<div
-				onClick={() => {
-					if (isOwned && false) {
-						history.push(`/resurrect/${nft.tokenId}`);
-					}
-				}}
-				// TODO
-				className={`flex items-center rounded-lg cursor-default ${account && isOwned && false ? 'bg-blue-400 cursor-pointer hover:bg-blue-300 transition duration-200' : 'bg-customBlue-pale'}`}
-			>
-				<div className="w-8 h-8 mr-1 relative">
-					<img className="center" width="26px" height="26px" alt="icon wing" src={Images.iconWings} />
-				</div>
-				<p>Resurrect</p>
-			</div>
-
-			<div
-				onClick={toggleSummon}
-				className={`flex items-center rounded-lg cursor-default ${
-					account && isOwned && !nft.petRedeemed ? 'bg-blue-500 cursor-pointer hover:bg-blue-400 transition duration-200' : ' bg-customBlue-pale'
-				}`}
-			>
-				<div className="w-8 h-8 mr-1 relative">
-					<img className="center" width="20px" height="20px" alt="icon gift" src={Images.iconPet} />
-				</div>
-				{nft && !nft.petRedeemed ? <p>Summon Pet</p> : <p className="text-red-500">Pet Redeemed</p>}
-			</div>
-
-			<div
-				onClick={() => {
-					if (isOwned && false) {
-						history.push(`/resurrect/${nft.tokenId}`);
-					}
-				}}
-				// TODO
-				className={`flex items-center rounded-lg cursor-default ${account && isOwned && false ? 'bg-blue-400 cursor-pointer hover:bg-blue-300 transition duration-200' : 'bg-customBlue-pale'}`}
-			>
-				<div className="w-8 h-8 mr-1 relative">
-					<img className="center" width="22px" height="22px" alt="icon wing" src={Images.iconAvatar} />
-				</div>
-				<p>Activate Proxy</p>
 			</div>
 
 			{isGiftOpen && <Gift nft={nft} toggle={toggleGift} />}

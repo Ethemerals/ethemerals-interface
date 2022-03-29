@@ -1,10 +1,9 @@
 import NiceModal from '@ebay/nice-modal-react';
-import EnterPortalModal from '../portal/modals/EnterPortalModal';
-import LeavePortalModal from '../portal/modals/LeavePortalModal';
+
 import WaitingForSignature from './WaitingForSignature';
 import Onsen from '../onsen/modals/Onsen';
 import EnterOnsenModal from '../onsen/modals/EnterOnsenModal';
-import Portal from '../portal/modals/Portal';
+
 import DefendersModal from '../wilds/lands/modals/DefendersModal';
 import AttackersModal from '../wilds/lands/modals/AttackersModal';
 import LootersModal from '../wilds/lands/modals/LootersModal';
@@ -16,6 +15,7 @@ import ChooseNetworks from './ChooseNetworks';
 import MoreLinks from './navigation/MoreLinks';
 import MainSelect from './user/MainSelect';
 import BurnMeral from './minting/BurnMeral';
+import RegisterMeral from '../proxyMerals/modals/RegisterMeral';
 
 export const modalRegistry = {
 	// MINTING
@@ -27,10 +27,8 @@ export const modalRegistry = {
 	mainSelect: 'main-select',
 	chooseNetworks: 'choose-networks',
 	waitingForSignature: 'waiting-for-signature',
-	// PORTAL
-	openPortal: 'open-portal',
-	enterPortal: 'enter-portal',
-	leavePortal: 'leave-portal',
+	// MERAL MANAGER
+	registerMeral: 'register-meral',
 	// ONSEN
 	openOnsen: 'open-onsen',
 	enterOnsen: 'enter-onsen',
@@ -53,10 +51,8 @@ export const registerModals = () => {
 	NiceModal.register(modalRegistry.userWallet, UserWallet);
 	NiceModal.register(modalRegistry.chooseNetworks, ChooseNetworks);
 	NiceModal.register(modalRegistry.waitingForSignature, WaitingForSignature);
-	// PORTAL
-	NiceModal.register(modalRegistry.openPortal, Portal);
-	NiceModal.register(modalRegistry.enterPortal, EnterPortalModal);
-	NiceModal.register(modalRegistry.leavePortal, LeavePortalModal);
+	// MERAL MANAGER
+	NiceModal.register(modalRegistry.registerMeral, RegisterMeral);
 	// ONSEN
 	NiceModal.register(modalRegistry.openOnsen, Onsen);
 	NiceModal.register(modalRegistry.enterOnsen, EnterOnsenModal);

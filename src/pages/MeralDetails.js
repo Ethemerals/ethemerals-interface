@@ -1,10 +1,8 @@
 import NFTChooseColorScheme from '../components/ethemerals/components/NFTChooseColorScheme';
 
-import { shortenAddress } from '../utils';
 import BackButton from '../components/navigation/BackButton';
 
 import { useEffect, useState } from 'react';
-import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 
 import { useGQLQueryL1 } from '../hooks/useGQLQuery';
@@ -17,6 +15,7 @@ import NFTActions from '../components/ethemerals/components/NFTActions';
 
 import { getMeralImages, useMeralDataById } from '../hooks/useMerals';
 import { getIdFromType } from '../hooks/useMeralsUtils';
+import NFTPolyActions from '../components/ethemerals/components/NFTPolyActions';
 
 const ActionLink = (action) => {
 	const [actionString, txLink] = useParseAction(action);
@@ -39,7 +38,7 @@ const MeralDetails = () => {
 	const { meralData, currentColor } = useMeralDataById(getIdFromType(1, id));
 
 	const [color, setColor] = useState(undefined);
-	const [birthDate, setBirthdate] = useState(undefined);
+
 	const [nft, setNFT] = useState(undefined);
 	const [subclassInfo, setSubclassInfo] = useState(undefined);
 
@@ -48,7 +47,6 @@ const MeralDetails = () => {
 	useEffect(() => {
 		if (status === 'success' && data && data.meral) {
 			setNFT(data.meral);
-			setBirthdate(parseInt(data.meral.timestamp) * 1000);
 			setSubclassInfo(getSubclassInfo(data.meral.subclass));
 		}
 	}, [status, data, nft]);
@@ -73,7 +71,7 @@ const MeralDetails = () => {
 		<div key={nft.tokenId}>
 			<div className="page_bg"></div>
 			<BackButton />
-			<div className="nft_details_container flex items-center justify-center mx-auto overflow-hidden mt-4 text-white">
+			<div className="nft_details_container flex items-center justify-center mx-auto mt-4 text-white">
 				{/* MAIN CARD */}
 				<div className="nft_details_bg relative">
 					{/* LEFT BAR */}
@@ -120,11 +118,6 @@ const MeralDetails = () => {
 										<span className="pl-1">{parseInt(nft.spd) + parseInt(nft.def) + parseInt(nft.atk)}</span>
 									</div>
 								</div>
-								{/* <div className="text-sm text-right leading-relaxed text-gray-200 font-bold">
-									<p>Birthed: {birthDate && format(birthDate, 'MMM dd yyyy')}</p>
-									<p>Designer: {nft.artist}</p>
-									<p>Minted By: {shortenAddress(nft.creator.id)}</p>
-								</div> */}
 							</div>
 						</div>
 					</div>
@@ -154,23 +147,28 @@ const MeralDetails = () => {
 				<div className="nft_details_sidebar text-gray-900">
 					{/* ACTIONS */}
 					<div className="p-4 pt-2 mx-4 bg-blue-100 rounded-xl shadow-md">
-						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">ACTIONS</h3>
+						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">ETHEREUM MAINNET ACTIONS</h3>
 						<NFTActions nft={nft} />
+					</div>
+					{/* EQUIPMENT */}
+					<div className="p-4 pt-2 mx-4 my-2 bg-blue-100 rounded-xl shadow-md">
+						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">POLYGON L2 ACTIONS</h3>
+						<NFTPolyActions nft={nft} />
 					</div>
 
 					{/* COLOR */}
-					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
+					<div className="p-4 pt-2 mx-4 my-2 bg-blue-100 rounded-xl shadow-md">
 						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">COSTUME</h3>
 						<NFTChooseColorScheme nft={nft} color={color} setColor={setColor} currentColor={currentColor} meralData={meralData} />
 					</div>
 
 					{/* EQUIPMENT */}
-					<div className="h-32 p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
+					<div className="h-32 p-4 pt-2 mx-4 my-2 bg-blue-100 rounded-xl shadow-md">
 						<h3 className="font-bold text-xs text-brandColor-purple">EQUIPMENT</h3>
 					</div>
 
 					{/* RECORD */}
-					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
+					<div className="p-4 pt-2 mx-4 my-2 bg-blue-100 rounded-xl shadow-md">
 						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">RECORD</h3>
 						<div className="text-black text-sm leading-7 grid grid-cols-2 gap-2 mt-1 bg-customBlue-paler rounded-lg">
 							<div className="px-3 py-2">
@@ -205,7 +203,7 @@ const MeralDetails = () => {
 					</div>
 
 					{/* HISTORY */}
-					<div className="p-4 pt-2 m-4 bg-blue-100 rounded-xl shadow-md">
+					<div className="p-4 pt-2 mx-4 my-2 mb-20 bg-blue-100 rounded-xl shadow-md">
 						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">HISTORY</h3>
 						<ul className="text-gray-700 text-sm leading-6">
 							{status === 'success' &&
