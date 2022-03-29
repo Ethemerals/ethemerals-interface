@@ -21,7 +21,7 @@ const NFTPreviewCard = ({ nft, isFetching }) => {
 	const history = useHistory();
 	const [subclassInfo, setSubclassInfo] = useState(undefined);
 	const [color, setColor] = useState(undefined);
-	const { globalColors } = useMeralGlobal(nft.tokenId);
+	const { globalColors } = useMeralGlobal(nft.tokenId, nft.type);
 
 	useEffect(() => {
 		if (globalColors) {

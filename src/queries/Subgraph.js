@@ -51,6 +51,7 @@ export const GET_NFT = gql`
 			id
 			tokenId
 			meralId
+			type
 			timestamp
 			creator {
 				id
@@ -113,6 +114,7 @@ export const GET_ACCOUNT = gql`
 				id
 				tokenId
 				meralId
+				type
 				timestamp
 				hp
 				elf
@@ -176,6 +178,7 @@ export const GET_ETERNALBATTLE_ACCOUNT = gql`
 				id
 				tokenId
 				meralId
+				type
 				timestamp
 				hp
 				elf

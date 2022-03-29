@@ -8,6 +8,9 @@ export const GET_NFT_L2 = gql`
 			tokenId
 			meralId
 			timestamp
+			verifiedOwner {
+				id
+			}
 			creator {
 				id
 			}
@@ -122,6 +125,9 @@ export const GET_PENDING_MERALS = gql`
 				type
 				tokenId
 				meralId
+				verifiedOwner {
+					id
+				}
 				timestamp
 				hp
 				elf
@@ -149,6 +155,9 @@ export const GET_PROXY_MERALS = gql`
 				type
 				tokenId
 				meralId
+				verifiedOwner {
+					id
+				}
 				timestamp
 				hp
 				elf

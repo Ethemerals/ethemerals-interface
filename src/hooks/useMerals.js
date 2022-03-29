@@ -33,7 +33,10 @@ export const getMeralDataById = async (meralId) => {
 	return result;
 };
 
-const getMeralGlobalByGen = async (gen) => {
+const getMeralGlobalByGen = async (gen, type) => {
+	if (parseInt(type) !== 1) {
+		return false;
+	}
 	const MeralGlobal = Moralis.Object.extend('MeralGlobal', {
 		getColors: function () {
 			return this.get('colors');
@@ -60,10 +63,10 @@ export const useMeralDataById = (id) => {
 	return { meralData, currentColor };
 };
 
-export const useMeralGlobal = (tokenId) => {
+export const useMeralGlobal = (tokenId, type) => {
 	const gen = getGenByTokenId(tokenId);
 	const [globalColors, setGlobalColors] = useState(undefined);
-	const { isLoading, data } = useQuery(`meralGlobal_${gen}`, () => getMeralGlobalByGen(gen), { refretchOnMount: false });
+	const { isLoading, data } = useQuery(`meralGlobal_${gen}`, () => getMeralGlobalByGen(gen, type), { refretchOnMount: false });
 
 	useEffect(() => {
 		if (data && !isLoading) {
@@ -76,11 +79,12 @@ export const useMeralGlobal = (tokenId) => {
 
 export const useMeralImagePaths = (nft) => {
 	const tokenId = nft.tokenId;
+	console.log(nft.type);
 	let cmId = nft.cmId;
 	const gen = getGenByTokenId(tokenId);
 
 	const [meralImagePaths, setMeralImagePaths] = useState(getMeralImages(cmId, 0));
-	const { isLoading: meralGlobalIsLoading, data } = useQuery(`meralGlobal_${gen}`, () => getMeralGlobalByGen(gen), { refetchOnMount: false });
+	const { isLoading: meralGlobalIsLoading, data } = useQuery(`meralGlobal_${gen}`, () => getMeralGlobalByGen(gen, nft.type), { refetchOnMount: false });
 
 	useEffect(() => {
 		if (data && !meralGlobalIsLoading) {

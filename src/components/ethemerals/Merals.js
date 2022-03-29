@@ -13,6 +13,7 @@ const GET_NFTS = gql`
 	query ($first: Int!, $skip: Int!, $orderBy: String!, $orderDirection: String!) {
 		merals(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection, where: { burnt: false }) {
 			id
+			type
 			tokenId
 			meralId
 			timestamp
@@ -36,6 +37,7 @@ const getNFTsFiltered = (variables, filters) => {
 	query {
 		merals(${variables}, where: ${filters}) {
 			id
+      type
 			tokenId
 			meralId
 			timestamp

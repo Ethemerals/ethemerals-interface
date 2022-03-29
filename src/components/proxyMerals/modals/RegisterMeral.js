@@ -13,7 +13,6 @@ import SwitchNetworks from '../../niceModals/cards/SwitchNetworks';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 
 import MeralList from '../cards/MeralList';
-import MeralMainnetList from '../cards/MeralMainetList';
 
 export default NiceModal.create(() => {
 	const { address } = useUserAccount();
@@ -108,7 +107,7 @@ export default NiceModal.create(() => {
 									{!user && <LoginButton />}
 									{!isLayer2 && <SwitchNetworks message={`Switch your Network to ${getOtherLayerChainName(chainId)}`} />}
 								</div>
-								{isLayer2 && availableMerals && <MeralMainnetList nfts={availableMerals} select={selectAndToggle} />}
+								{isLayer2 && availableMerals && <MeralList nfts={availableMerals} select={selectAndToggle} />}
 							</div>
 							<div className="py-4">
 								<h2>Pending Validation:</h2>
