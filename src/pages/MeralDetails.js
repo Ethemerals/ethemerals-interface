@@ -75,7 +75,7 @@ const MeralDetails = () => {
 				{/* MAIN CARD */}
 				<div className="nft_details_bg relative">
 					{/* LEFT BAR */}
-					<div className="p-4 w-32 z-20 absolute font-bold text-center">
+					<div className="p-4 w-32 z-10 absolute font-bold text-center">
 						<img className="w-90 h-74 mx-auto" src={Images.logoEthem} alt="logo" />
 						<p className="mt-10 text-lg border-b border-white">{`${nft.edition}/${nft.metadata.editionCount}`}</p>
 						<p className="text-sm">{nft.name}</p>
@@ -84,7 +84,7 @@ const MeralDetails = () => {
 					</div>
 
 					{/* BOTTOM BAR */}
-					<div className="z-20 w-full bottom-0 absolute overflow-hidden">
+					<div className="z-10 w-full bottom-0 absolute overflow-hidden">
 						<p className="px-4 font-bold text-5xl uppercase">{nft.name}</p>
 						<div style={{ height: '124px' }} className="bg-black pt-3 px-4">
 							<div className="flex h-8">
@@ -123,7 +123,7 @@ const MeralDetails = () => {
 					</div>
 
 					{/* RIGHT BAR */}
-					<div className="mx-2 my-2 w-64 z-20 right-0 bottom-0 absolute border-white border-r">
+					<div className="mx-2 my-2 w-64 z-10 right-0 bottom-0 absolute border-white border-r">
 						<div className="flex items-center justify-end">
 							<p className="font-bold text-right -mr-1">{nft.hp} HP</p>
 							<img width="19px" height="19px" className="mx-2" src={Images.iconHeart} alt="" />
@@ -140,7 +140,7 @@ const MeralDetails = () => {
 
 					{/* MAIN IMAGE */}
 					<div style={{ backgroundColor: elements[nft.element].color, backgroundImage: `url("${elements[nft.element].img}")` }} className="absolute bg-contain nft_details_img"></div>
-					<img className="z-10 nft_details_img animate-bounceSlow absolute" src={getMeralImages(nft.cmId, color).large} alt="" />
+					<img className="z-0 nft_details_img animate-bounceSlow absolute" src={getMeralImages(nft.cmId, color).large} alt="" />
 				</div>
 
 				{/* SIDE BAR */}

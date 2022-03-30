@@ -1,6 +1,5 @@
-import { Links } from '../../../constants/Links';
-import { Addresses } from '../../../constants/contracts/Addresses';
 import { getPetBorderColor, getPetImages, getPetTypePallet } from '../../../hooks/usePets';
+import { useHistory } from 'react-router-dom';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -24,23 +23,25 @@ const RankedStars = ({ amount }) => {
 };
 
 const PetsPreviewCard = ({ nft }) => {
+	const history = useHistory();
+
 	if (!nft) {
 		return <p>Loading</p>;
 	}
 
-	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.id}`;
+	const handleOnClick = async () => {
+		history.push(`/pet/${nft.id}`);
+	};
 
 	return (
 		<div
-			// onClick={handleOnClick}
+			onClick={handleOnClick}
 			style={{ borderColor: getPetBorderColor(nft.rarity), backgroundColor: 'hsl(186, 33%, 94%)', minWidth: '256px', maxWidth: '256px', maxHeight: '384px', minHeight: '384px' }}
 			className="w-64 h-96 m-4 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg"
 		>
 			{/* MAIN IMAGE */}
 			<div className="absolute top-6 left-0">
-				<a href={openSeaURL} target="blank" rel="noreferrer">
-					<img className="" src={getPetImages(nft.baseId).preview} alt="" />
-				</a>
+				<img className="" src={getPetImages(nft.baseId).preview} alt="" />
 			</div>
 			{/* TOP BAR */}
 			<div className="flex p-1 absolute">

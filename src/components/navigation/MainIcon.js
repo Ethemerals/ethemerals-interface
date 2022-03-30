@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getMeralImages } from '../../hooks/useMerals';
+import { useMeralsUtils } from '../../hooks/useMeralsUtils';
 import { useUser, useUserAccount } from '../../hooks/useUser';
 
 const Spinner = () => (
@@ -10,17 +11,18 @@ const Spinner = () => (
 );
 
 const Thumbnail = ({ nft }) => {
+	const { elements } = useMeralsUtils();
 	return (
-		<span className="flex w-10 h-10 rounded mr-2 relative cursor-pointer opacity-100 bg-brandColor-purple">
+		<span style={{ backgroundColor: elements[nft.element].color }} className="flex w-10 h-10 rounded mr-2 relative cursor-pointer opacity-100">
 			<div className="absolute top-0 left-0">
-				<img className="w-10 h-10 z-0 rounded" src={getMeralImages(nft.cmId).thumbnail} alt="" />
+				<img className="w-10 h-10 z-0 rounded object-cover object-top" src={getMeralImages(nft.cmId).preview} alt="" />
 			</div>
 			<div className="flex-grow h-full"></div>
 		</span>
 	);
 };
 
-const NFTPreview = () => {
+const MainIcon = () => {
 	const { userMerals, mainIndex } = useUserAccount();
 	const { isAuthenticating, isUserUpdating } = useUser();
 	const [nft, setNft] = useState(undefined);
@@ -45,4 +47,4 @@ const NFTPreview = () => {
 	return <Thumbnail nft={nft} />;
 };
 
-export default NFTPreview;
+export default MainIcon;

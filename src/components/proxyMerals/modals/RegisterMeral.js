@@ -6,7 +6,7 @@ import { useMeralManagerContract, useRegisterMerals } from '../../../hooks/useMe
 
 import { useUser, useUserAccount } from '../../../hooks/useUser';
 import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
-import CloseButton from '../../niceModals/buttons/CloseButton';
+// import CloseButton from '../../niceModals/buttons/CloseButton';
 import LoginButton from '../../niceModals/cards/LoginButton';
 
 import SwitchNetworks from '../../niceModals/cards/SwitchNetworks';
@@ -39,7 +39,7 @@ export default NiceModal.create(() => {
 	const submitRegisterMeral = async (id) => {
 		let _meral;
 		availableMerals.forEach((meral) => {
-			if (meral.tokenId === id) {
+			if (meral.meralId === id) {
 				_meral = meral;
 			}
 		});

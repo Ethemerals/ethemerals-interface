@@ -51,6 +51,7 @@ export const GET_NFT = gql`
 			id
 			tokenId
 			meralId
+			proxy
 			type
 			timestamp
 			creator {
@@ -114,6 +115,7 @@ export const GET_ACCOUNT = gql`
 				id
 				tokenId
 				meralId
+				proxy
 				type
 				timestamp
 				hp
@@ -178,6 +180,7 @@ export const GET_ETERNALBATTLE_ACCOUNT = gql`
 				id
 				tokenId
 				meralId
+				proxy
 				type
 				timestamp
 				hp

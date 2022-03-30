@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import BackButton from '../components/navigation/BackButton';
 import { getPetBorderColor, getPetImages, getPetTypePallet } from '../hooks/usePets';
 import { useGQLQueryL1 } from '../hooks/useGQLQuery';
 import { GET_PET } from '../queries/Subgraph';
+import { Links } from '../constants/Links';
+import { Addresses } from '../constants/contracts/Addresses';
 
 const RankedStars = ({ amount }) => {
 	const starSVG = (
@@ -27,11 +29,9 @@ const RankedStars = ({ amount }) => {
 	);
 };
 
-const Equipable = () => {
+const PetDetails = () => {
 	const { id } = useParams();
 	const [nft, setNFT] = useState(undefined);
-
-	const history = useHistory();
 
 	const { data, status, isLoading } = useGQLQueryL1(`pet_${id}`, GET_PET, { id: id }, { refetchOnMount: true });
 
@@ -54,21 +54,17 @@ const Equipable = () => {
 		);
 	}
 
-	const handleOnClick = () => {
-		history.push(`/pet/${nft.id}`);
-	};
+	const openSeaURL = `${Links.OPENSEAS}/${Addresses.Equipables}/${nft.id}`;
 
 	return (
 		<div>
 			<div className="page_bg"></div>
-			<div
-				onClick={handleOnClick}
-				style={{ borderColor: getPetBorderColor(nft.rarity) }}
-				className="w-64 h-96 m-4 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg mt-36 mx-auto"
-			>
+			<div style={{ borderColor: getPetBorderColor(nft.rarity) }} className="w-64 h-96 m-4 cursor-pointer bg-cover relative border-2 hover:shadow-2xl transition duration-300 rounded-lg mt-36 mx-auto">
 				{/* MAIN IMAGE */}
 				<div className="absolute top-6 left-0">
-					<img className="" src={getPetImages(nft.baseId).preview} alt="" />
+					<a href={openSeaURL} target="blank" rel="noreferrer">
+						<img className="" src={getPetImages(nft.baseId).preview} alt="" />
+					</a>
 				</div>
 				{/* TOP BAR */}
 				<div className="flex p-1 absolute">
@@ -102,4 +98,4 @@ const Equipable = () => {
 	);
 };
 
-export default Equipable;
+export default PetDetails;

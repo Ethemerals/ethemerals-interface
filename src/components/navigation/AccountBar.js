@@ -4,10 +4,10 @@ import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { shortenAddress } from '../../utils';
 import { useMiningStatus } from '../../context/TxContext';
 
-import NFTPreview from './NFTPreview';
 import { useUser } from '../../hooks/useUser';
 import NetworksButton from './NetworksButton';
 import { modalRegistry } from '../niceModals/RegisterModals';
+import MainIcon from './MainIcon';
 
 const Spinner = () => (
 	<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -28,7 +28,7 @@ const AccountBar = () => {
 		<>
 			<NetworksButton />
 			<div onClick={() => showUserWallet(0)} className="hidden md:flex">
-				<NFTPreview />
+				<MainIcon />
 			</div>
 
 			<div className=" bg-brandColor flex rounded items-center h-10 text-xs sm:text-base text-white">

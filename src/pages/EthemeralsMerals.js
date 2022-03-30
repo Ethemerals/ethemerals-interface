@@ -73,7 +73,6 @@ const EthemeralsMerals = () => {
 	const [skinFilterList, setSkinFilterList] = useState([]);
 
 	const [order, setOrder] = useState({ orderBy: 'timestamp', orderDirection: 'asc' });
-	const [shouldFilter, setShouldFilter] = useState(false);
 	const [filters, setFilters] = useState({});
 
 	useEffect(() => {
@@ -81,38 +80,31 @@ const EthemeralsMerals = () => {
 	}, []);
 
 	useEffect(() => {
-		setShouldFilter(false);
 		let _filters = {};
 		if (coinFilterList.length > 0) {
-			setShouldFilter(true);
 			_filters.coin_in = coinFilterList;
 		}
 		if (elementFilterList.length > 0) {
-			setShouldFilter(true);
 			_filters.element_in = elementsToIds(elementFilterList);
 		}
 		if (subclassFilterList.length > 0) {
-			setShouldFilter(true);
 			_filters.subclass_in = subclassesToIds(subclassFilterList);
 		}
 		if (costumeFilterList.length > 0) {
-			setShouldFilter(true);
 			_filters.costume_in = costumeFilterList;
 		}
 		if (eyeFilterList.length > 0) {
-			setShouldFilter(true);
 			_filters.eyes_in = eyeFilterList;
 		}
 		if (hairFilterList.length > 0) {
-			setShouldFilter(true);
 			_filters.hair_in = hairFilterList;
 		}
 		if (skinFilterList.length > 0) {
-			setShouldFilter(true);
 			_filters.skin_in = skinFilterList;
 		}
 
 		_filters.burnt = false;
+		_filters.status = '2';
 
 		setFilters(_filters);
 	}, [coinFilterList, elementFilterList, subclassFilterList, costumeFilterList, eyeFilterList, hairFilterList, skinFilterList]);
@@ -178,7 +170,7 @@ const EthemeralsMerals = () => {
 						</div>
 					</div>
 
-					<Merals order={order} shouldFilter={shouldFilter} filters={filters} />
+					<Merals order={order} filters={filters} />
 				</main>
 			</div>
 		</div>

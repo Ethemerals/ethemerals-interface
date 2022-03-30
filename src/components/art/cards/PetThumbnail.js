@@ -19,7 +19,7 @@ const PetThumbnail = ({ nft, item = false, handleRemove }) => {
 	}
 
 	return (
-		<div onClick={handleRemove} style={{ width: '74px', height: '74px', backgroundColor: getPetTypePallet(nft) }} className="relative shadow-md cursor-pointer hover:shadow-lg">
+		<div onClick={handleRemove} style={{ width: '74px', height: '74px', backgroundColor: getPetTypePallet(nft) }} className="relative shadow-md overflow-hidden cursor-pointer hover:shadow-lg">
 			<img width="74" height="74" src={bgImg} alt="" />
 			<span className="text-xs font-bold text-white z-10 bg-black hover:bg-red-700 bg-opacity-50 w-full absolute bottom-0 text-left">
 				#{nft.id.toString().padStart(4, '0')}

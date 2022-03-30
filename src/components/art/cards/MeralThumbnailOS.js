@@ -64,7 +64,7 @@ const MeralThumbnailOS = ({ id }) => {
 			className="relative cursor-pointer shadow hover:opacity-80 hover:shadow-lg rounded-lg overflow-hidden"
 		>
 			<a href={openSeaURL} target="blank" rel="noreferrer">
-				<img width="70" height="70" src={getMeralImages(nft.cmId).thumbnail} alt="" />
+				<img width="70" height="70" src={getMeralImages(nft.cmId).preview} alt="" />
 			</a>
 			<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-50 w-full absolute bottom-0 text-left">#{nft.tokenId.padStart(4, '0')}</span>
 		</div>

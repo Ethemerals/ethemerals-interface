@@ -79,7 +79,6 @@ export const useMeralGlobal = (tokenId, type) => {
 
 export const useMeralImagePaths = (nft) => {
 	const tokenId = nft.tokenId;
-	console.log(nft.type);
 	let cmId = nft.cmId;
 	const gen = getGenByTokenId(tokenId);
 

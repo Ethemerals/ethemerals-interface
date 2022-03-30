@@ -26,6 +26,7 @@ import ArtDetails from './pages/ArtDetails';
 import ArtGame from './pages/ArtGame';
 import { registerModals } from './components/niceModals/RegisterModals';
 import WildsWorldAlpha from './components/wilds/WildsWorldAlpha';
+import EternalBattleMainnet from './pages/EternalBattleMainnet';
 
 function App() {
 	registerModals();
@@ -59,10 +60,20 @@ function App() {
 				</Route>
 				<Route exact path="/battle/">
 					<EBContextProvider>
-						<EternalBattle />
+						<EternalBattleMainnet />
 					</EBContextProvider>
 				</Route>
 				<Route exact path="/battle/:id">
+					<EBContextProvider>
+						<EternalBattleMainnet />
+					</EBContextProvider>
+				</Route>
+				<Route exact path="/battlev2/">
+					<EBContextProvider>
+						<EternalBattle />
+					</EBContextProvider>
+				</Route>
+				<Route exact path="/battlev2/:id">
 					<EBContextProvider>
 						<EternalBattle />
 					</EBContextProvider>

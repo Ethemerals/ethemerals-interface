@@ -1,16 +1,16 @@
 import { Links } from '../constants/Links';
 
 export const getPetBorderColor = (rarity) => {
-	if (rarity === 5) {
+	if (parseInt(rarity) === 5) {
 		return 'hsla(280, 40%, 60%, 1)';
 	}
-	if (rarity === 4) {
+	if (parseInt(rarity) === 4) {
 		return 'hsla(24, 40%, 60%, 1)';
 	}
-	if (rarity === 3) {
+	if (parseInt(rarity) === 3) {
 		return 'hsla(223, 40%, 60%, 1)';
 	}
-	if (rarity === 2) {
+	if (parseInt(rarity) === 2) {
 		return 'hsla(129, 40%, 60%, 1)';
 	}
 

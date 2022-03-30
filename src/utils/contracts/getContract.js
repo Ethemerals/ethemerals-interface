@@ -1,6 +1,7 @@
 import { Contract } from '@ethersproject/contracts';
 import { isAddress } from '..';
 import { getSigner } from './getSigner';
+import { getIsLayer2 } from './parseChainId';
 
 export const getContract = async (provider, address, abi, setContract, type) => {
 	if (provider && isAddress(address)) {
@@ -11,7 +12,11 @@ export const getContract = async (provider, address, abi, setContract, type) => 
 	}
 };
 
-export const getIsApprovedForAll = async (contract, _owner, _operator) => {
+export const getIsApprovedForAll = async (contract, _owner, _operator, chainId) => {
+	let isLayer2 = getIsLayer2(chainId);
+	if (isLayer2) {
+		return false;
+	}
 	if (contract) {
 		try {
 			let approved = false;

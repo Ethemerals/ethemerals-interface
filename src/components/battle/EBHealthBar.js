@@ -9,11 +9,11 @@ const Thumbnail = ({ nft }) => {
 	if (!meralImagePaths) {
 		return <div style={{ width: '42px', height: '42px' }} className="bg-white"></div>;
 	}
-	const bgImg = meralImagePaths.thumbnail;
+	const bgImg = meralImagePaths.preview;
 
 	return (
-		<div style={{ backgroundColor: elements[nft.element].color, width: '42px', height: '42px' }} className="relative">
-			<img style={{ width: '42px', height: '42px' }} src={bgImg} alt="" />
+		<div style={{ backgroundColor: elements[nft.element].color, width: '42px', height: '42px' }} className="relative overflow-hidden">
+			<img style={{ width: '42px', height: '42px', objectFit: 'cover' }} src={bgImg} alt="" />
 		</div>
 	);
 };

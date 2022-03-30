@@ -57,7 +57,9 @@ export const useDelegates = () => {
 
 export const useCoreApprovals = (owner, operator) => {
 	const { contractCore } = useCoreContract();
-	const { isLoading, data } = useQuery(`coreGetIsApprovedForAll${operator}`, () => getIsApprovedForAll(contractCore, owner, operator), {
+	const { chainId } = useChain();
+
+	const { isLoading, data } = useQuery(`coreGetIsApprovedForAll${operator}`, () => getIsApprovedForAll(contractCore, owner, operator, chainId), {
 		enabled: !!contractCore && !!owner && !!operator,
 		refetchInterval: 50000,
 	});

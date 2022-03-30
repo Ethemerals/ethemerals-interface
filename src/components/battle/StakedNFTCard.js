@@ -68,7 +68,7 @@ const StakedNFTCard = ({ nft, contractBattle, priceFeed, long }) => {
 		return null;
 	}
 
-	const bgImg = meralImagePaths.thumbnail;
+	const bgImg = meralImagePaths.preview;
 
 	return (
 		<>
@@ -77,8 +77,8 @@ const StakedNFTCard = ({ nft, contractBattle, priceFeed, long }) => {
 				style={{ backgroundColor: elements[nft.element].color, width: '280px' }}
 				className="flex h-74 mb-1 mx-1 cursor-pointer hover:shadow-xl  opacity-90 hover:opacity-100 transition duration-300"
 			>
-				<div className="relative">
-					<img width="74" height="74" src={bgImg} alt="" />
+				<div className="relative overflow-hidden">
+					<img style={{ objectFit: 'contain' }} width="74" height="74" src={bgImg} alt="" />
 					<span className="text-xs font-bold text-white z-10 bg-black bg-opacity-50 w-full absolute bottom-0 text-left">#{nft.id.padStart(4, '0')}</span>
 				</div>
 

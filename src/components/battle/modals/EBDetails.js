@@ -22,7 +22,7 @@ const MeralThumbnail = ({ nft, dead = false }) => {
 	if (!meralImagePaths) {
 		return null;
 	}
-	const bgImg = meralImagePaths.thumbnail;
+	const bgImg = meralImagePaths.preview;
 	if (dead) {
 		return <img style={{ filter: 'brightness(0.7) sepia(80%)', width: '60px', height: '60px' }} src={bgImg} alt="" />;
 	} else {
