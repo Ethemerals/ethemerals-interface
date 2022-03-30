@@ -18,13 +18,18 @@ const NFTPolyActions = ({ nft }) => {
 
 	useEffect(() => {
 		let owned = false;
-		if (userMerals && userMerals.length > 0) {
-			userMerals.forEach((meral) => {
-				if (parseInt(meral.meralId) === parseInt(nft.meralId)) {
-					owned = true;
-				}
-			});
+
+		// TODO
+		if (parseInt(process.env.REACT_APP_NETWORK) !== 1) {
+			if (userMerals && userMerals.length > 0) {
+				userMerals.forEach((meral) => {
+					if (parseInt(meral.meralId) === parseInt(nft.meralId)) {
+						owned = true;
+					}
+				});
+			}
 		}
+
 		setIsOwned(owned);
 	}, [userMerals, nft]);
 

@@ -30,7 +30,7 @@ const EternalBattleMainnet = () => {
 			<EBattleHelp />
 			{isLayer2 && (
 				<div className="flex items-center space-x-2 mt-4 justify-center">
-					<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
+					<div className="text-red-600 text-2xl">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
 					<NetworksButton />
 				</div>
 			)}

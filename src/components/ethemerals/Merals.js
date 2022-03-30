@@ -58,7 +58,6 @@ const getSyncedMerals = (meralsL1, meralsL2) => {
 	let syncedMerals = [];
 	for (let i = 0; i < meralsL1.length; i++) {
 		let meralL1 = meralsL1[i];
-		meralL1.proxy = false;
 		for (let j = 0; j < meralsL2.length; j++) {
 			let meralL2 = meralsL2[j];
 			if (meralL1.meralId === meralL2.meralId) {
@@ -69,7 +68,6 @@ const getSyncedMerals = (meralsL1, meralsL2) => {
 				meralL1.def = meralL2.def;
 				meralL1.spd = meralL2.spd;
 				meralL1.element = meralL2.element;
-				meralL1.proxy = true;
 			}
 		}
 		syncedMerals.push(meralL1);
