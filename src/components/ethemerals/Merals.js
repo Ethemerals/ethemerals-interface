@@ -12,6 +12,7 @@ const getNFTsFiltered = (variables, filters) => {
 		merals(${variables}, where: ${filters}) {
 			id
       type
+      proxy
 			tokenId
 			meralId
 			timestamp
@@ -32,10 +33,11 @@ const getNFTsFiltered = (variables, filters) => {
 };
 
 const GET_MERALS_BY_ID = gql`
-	query ($first: Int!, $ids: [String]) {
-		merals(first: $first, where: { burnt: false, status: "2", id_in: $ids }) {
+	query ($ids: [String]) {
+		merals(where: { burnt: false, status: "2", id_in: $ids }) {
 			id
 			type
+			proxy
 			tokenId
 			meralId
 			timestamp
@@ -68,6 +70,7 @@ const getSyncedMerals = (meralsL1, meralsL2) => {
 				meralL1.def = meralL2.def;
 				meralL1.spd = meralL2.spd;
 				meralL1.element = meralL2.element;
+				meralL1.proxy = meralL2.proxy;
 			}
 		}
 		syncedMerals.push(meralL1);
@@ -130,7 +133,7 @@ const getMerals = async (page, orderBy, orderDirection, filters) => {
 				});
 			}
 
-			const dataL2 = await graphQLClient2.request(GET_MERALS_BY_ID, { ids: meralIds, first: amount });
+			const dataL2 = await graphQLClient2.request(GET_MERALS_BY_ID, { ids: meralIds });
 			fetchData = getSyncedMerals(dataL1.merals, dataL2.merals);
 		}
 

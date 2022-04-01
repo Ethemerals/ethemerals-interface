@@ -28,13 +28,13 @@ export const GET_NFT_L2 = gql`
 			element
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
 				timestamp
-				win
 				transaction {
 					id
 					from
 					to
 				}
 				type
+				description
 			}
 			scorecard {
 				highestScore
@@ -99,13 +99,6 @@ export const GET_ACCOUNT_L2 = gql`
 				timestamp
 				account {
 					id
-				}
-				meral {
-					tokenId
-					meralId
-				}
-				pet {
-					tokenId
 				}
 				transaction {
 					id

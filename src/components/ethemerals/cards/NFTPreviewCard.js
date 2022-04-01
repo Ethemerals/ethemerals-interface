@@ -60,7 +60,6 @@ const NFTPreviewCard = ({ nft, isFetching }) => {
 			<div className="text-xs font-bold absolute right-0 text-right text-white z-10">
 				<p className=" bg-customBlue-dark rounded-l-md mt-1 px-2">{nft.hp} HP</p>
 				<p className="bg-brandColor rounded-l-md mt-1 px-2">{nft.elf} ELF</p>
-
 				{nft.proxy && (
 					<div className="mt-1 right-2 absolute flex items-center space-x-1">
 						<svg width="18" height="18" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">

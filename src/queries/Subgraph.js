@@ -82,6 +82,7 @@ export const GET_NFT = gql`
 					to
 				}
 				type
+				description
 			}
 			scorecard {
 				highestScore
@@ -153,13 +154,6 @@ export const GET_ACCOUNT = gql`
 				timestamp
 				account {
 					id
-				}
-				meral {
-					tokenId
-					meralId
-				}
-				pet {
-					tokenId
 				}
 				transaction {
 					id

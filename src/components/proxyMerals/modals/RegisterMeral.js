@@ -1,4 +1,5 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import { BigNumber, ethers } from 'ethers';
 import { useChain } from 'react-moralis';
 import { Addresses } from '../../../constants/contracts/Addresses';
 import { useSendTx } from '../../../context/TxContext';
@@ -63,8 +64,13 @@ export default NiceModal.create(() => {
 					_meral.subclass
 				);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
+				// const maxFeePerGas = ethers.utils.formatUnits(30000000000, 'gwei');
+				// const maxPriorityFeePerGas = maxFeePerGas;
+
 				const tx = await contractMeralManager.registerMeral(Addresses.Ethemerals, _meral.tokenId, _meral.hp, _meral.elf, _meral.atk, _meral.def, _meral.spd, _meral.element, _meral.subclass, {
 					gasLimit,
+					maxFeePerGas: BigNumber.from('30000000000'),
+					maxPriorityFeePerGas: BigNumber.from('30000000000'),
 				});
 
 				console.log(tx);

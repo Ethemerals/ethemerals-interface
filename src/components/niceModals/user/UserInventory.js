@@ -67,6 +67,17 @@ const UserInventory = ({ toggle }) => {
 		history.push(`/pet/${id}`);
 	};
 
+	const styleTabActive = {
+		color: '#4682B4',
+		backgroundColor: 'hsla(213, 40%, 80%)',
+		boxShadow: '0px -2px 2px #4682B4',
+	};
+
+	const styleTabInactive = {
+		color: '#73abbf',
+		cursor: 'pointer',
+	};
+
 	return (
 		<>
 			<div className="h-28">
@@ -91,18 +102,18 @@ const UserInventory = ({ toggle }) => {
 			{/* INVENTORY TABS */}
 			<div className="h-8"></div>
 			<div className="flex pr-2 text-xs font-bold items-center text-gray-600">
-				<p onClick={() => setSelectedTab(0)} className={`${selectedTab === 0 ? 'bg-customBlue-pale' : 'text-gray-400 cursor-pointer hover:text-gray-600'} p-2 rounded-t-lg`}>
+				<p style={selectedTab === 0 ? styleTabActive : styleTabInactive} onClick={() => setSelectedTab(0)} className="p-2 rounded-t-lg">
 					ETHEMERALS <span>({userMerals ? userMerals.length : 0})</span>
 				</p>
-				<p onClick={() => setSelectedTab(2)} className={`${selectedTab === 2 ? 'bg-customBlue-pale' : 'text-gray-400 cursor-pointer hover:text-gray-600'} p-2 rounded-t-lg`}>
+				<p style={selectedTab === 2 ? styleTabActive : styleTabInactive} onClick={() => setSelectedTab(2)} className="p-2 rounded-t-lg">
 					PETS <span>({userPets ? userPets.length : 0})</span>
 				</p>
-				<p onClick={() => setSelectedTab(1)} className={`${selectedTab === 1 ? 'bg-customBlue-pale' : 'text-gray-400 cursor-pointer hover:text-gray-600'} p-2 rounded-t-lg`}>
+				<p style={selectedTab === 1 ? styleTabActive : styleTabInactive} onClick={() => setSelectedTab(1)} className="p-2 rounded-t-lg">
 					IN BATTLE <span>({meralsInBattle ? meralsInBattle.length : 0})</span>
 				</p>
 			</div>
 
-			<div className="h-full bg-customBlue-pale pt-6">
+			<div style={{ boxShadow: '0px -2px 2px SteelBlue' }} className="h-full bg-customBlue-pale pt-6">
 				{selectedTab === 0 && (
 					<div className="flex flex-wrap justify-center">
 						{meralShortList.map((nft) => (
