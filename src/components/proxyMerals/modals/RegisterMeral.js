@@ -64,8 +64,6 @@ export default NiceModal.create(() => {
 					_meral.subclass
 				);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				// const maxFeePerGas = ethers.utils.formatUnits(30000000000, 'gwei');
-				// const maxPriorityFeePerGas = maxFeePerGas;
 
 				const tx = await contractMeralManager.registerMeral(Addresses.Ethemerals, _meral.tokenId, _meral.hp, _meral.elf, _meral.atk, _meral.def, _meral.spd, _meral.element, _meral.subclass, {
 					gasLimit,

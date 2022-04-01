@@ -27,6 +27,7 @@ import ArtGame from './pages/ArtGame';
 import { registerModals } from './components/niceModals/RegisterModals';
 import WildsWorldAlpha from './components/wilds/WildsWorldAlpha';
 import EternalBattleMainnet from './pages/EternalBattleMainnet';
+import RegisterMerals from './components/proxyMerals/RegisterMerals';
 
 function App() {
 	registerModals();
@@ -107,6 +108,11 @@ function App() {
 				</Route>
 				<Route exact path="/ethemeral/:id">
 					<MeralDetails />
+				</Route>
+
+				{/* MERALMANAGER */}
+				<Route exact path="/register">
+					<RegisterMerals />
 				</Route>
 			</Switch>
 			<Navbar />

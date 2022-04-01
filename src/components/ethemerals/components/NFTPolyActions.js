@@ -1,5 +1,6 @@
 import NiceModal from '@ebay/nice-modal-react';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Images from '../../../constants/Images';
 
@@ -9,11 +10,12 @@ import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const NFTPolyActions = ({ nft }) => {
 	const { account, userMerals } = useUserAccount();
+	const history = useHistory();
 
 	const [isOwned, setIsOwned] = useState(false);
 
-	const showRegisterModal = () => {
-		NiceModal.show(modalRegistry.registerMeral);
+	const handleOnClick = () => {
+		history.push(`/register`);
 	};
 
 	useEffect(() => {
@@ -41,7 +43,7 @@ const NFTPolyActions = ({ nft }) => {
 		<div className="grid grid-cols-1 gap-2 px-2 text-sm text-white">
 			<button
 				disabled={!isOwned}
-				onClick={showRegisterModal}
+				onClick={handleOnClick}
 				className={`flex items-center rounded-lg cursor-default ${account && isOwned ? 'bg-blue-400 cursor-pointer hover:bg-blue-300 transition duration-200' : 'bg-customBlue-pale'}`}
 			>
 				<div className="w-8 h-8 mr-1 relative">
