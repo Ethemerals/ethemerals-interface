@@ -25,76 +25,72 @@ const useParseAccountAction = (action) => {
 		return ['', ''];
 	}
 
-	let actionString = 'Default Transaction';
+	let words = [];
+	let actionString = '';
 	const txLink = `${Links.ETHERSCAN_URL}tx/${action.transaction.id}`;
+
+	if (action.description) {
+		actionString = action.description;
+
+		const globalRegex = new RegExp(/^0x[a-fA-F0-9]{40}$/);
+		actionString.split(' ').forEach((word) => {
+			if (globalRegex.test(word)) {
+				words.push(shortenAddress(word));
+			} else {
+				words.push(word);
+			}
+		});
+	}
 
 	switch (action.type) {
 		case 'Default':
-			actionString = 'Default Transaction';
+			words = ['Default', 'Transaction'];
 			break;
 		case 'SendELF':
-			actionString = `Sent ELF to ${shortenAddress(action.transaction.to)} 🔥`;
+			words.push('🎁');
 			break;
 		case 'ReceiveELF':
 			// TODO PARSE FROM CONTRACT OR FARM
-			actionString = `Received ELF from ${shortenAddress(action.transaction.from)} 🔥`;
+			words.push('🎁');
 			break;
 		case 'Send': // ACCOUNT SEND TOKEN
-			if (action.meral) {
-				if (action.meral !== null && action.transaction.to === Addresses.EternalBattle) {
-					actionString = `Sent Ethemeral #${action.meral.tokenId} to Eternal Battle ⚔️`;
-				} else {
-					actionString = `Sent Ethemeral #${action.meral.tokenId} to ${shortenAddress(action.transaction.to)} 🎁`;
-				}
-			}
+			words.push('🎁');
 			break;
 		case 'Receive': // ACCOUNT RECEIVED TOKEN // New Minted if from == self
-			if (action.meral) {
-				if (action.transaction.from === action.account.id) {
-					actionString = `Minted Ethemeral #${action.meral.tokenId}. Congratulations! ❤️‍🔥`;
-				} else {
-					actionString = `Received Ethemeral #${action.meral.tokenId} from ${shortenAddress(action.transaction.from)} 🎁`;
-				}
-			}
+			words.push('💖');
 			break;
 		case 'Unstaked':
-			actionString = 'Unstaked';
-			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Retrieved Ethemeral #${action.meral.tokenId} from Eternal Battle 🛡️`;
-			}
+			words.push('🛡️');
 			break;
 		case 'Staked':
-			actionString = 'Staked';
+			words.push('⚔️');
 			break;
 		case 'Resurrection':
-			actionString = `Resurrected Ethemeral #${action.meral.tokenId} 💖`;
+			words.push('💖');
 			break;
 		case 'RedeemELF':
-			actionString = `Drained ELF from Ethemeral #${action.meral.tokenId} 💔`;
+			words.push('💖');
 			break;
 		case 'RedeemHonor':
-			actionString = `Redeemed Highest Honor Fund 🎖️`;
+			words.push('🎖️');
 			break;
 		case 'Revived':
-			actionString = 'Revived';
-			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Ethemeral #${action.meral.tokenId} was revived from Eternal Battle 💖`;
-			}
+			words.push('💖');
 			break;
 		case 'Reviver':
-			actionString = `Sent Angel Ethemeral #${action.meral.tokenId} to revive a poor soul! 😇`;
+			words.push('😇');
 			break;
 		case 'Reaper':
-			actionString = `Sent Reaper Ethemeral #${action.meral.tokenId} in for the kill! 💀`;
+			words.push('💀');
 			break;
 		case 'DelegateChange': // ACCOUNT
-			actionString = `Allow / Disallow Delegates Change 👍`;
+			words.push('👍');
 			break;
 		default:
 			console.log('did not parse action');
 	}
 
-	return [actionString, txLink];
+	return [words.join(' '), txLink];
 };
 
 export default useParseAccountAction;

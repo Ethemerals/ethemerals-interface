@@ -161,6 +161,7 @@ export const GET_ACCOUNT = gql`
 					from
 				}
 				type
+				description
 			}
 		}
 	}

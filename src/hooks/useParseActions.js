@@ -1,5 +1,4 @@
 import { Links } from '../constants/Links';
-import { Addresses } from '../constants/contracts/Addresses';
 import { shortenAddress } from '../utils';
 
 const useParseAction = (action) => {
@@ -7,64 +6,62 @@ const useParseAction = (action) => {
 		return ['', ''];
 	}
 
-	let actionString = 'Default Transaction';
+	let words = [];
+	let actionString = '';
 	const txLink = `${Links.ETHERSCAN_URL}tx/${action.transaction.id}`;
+
+	if (action.description) {
+		actionString = action.description;
+
+		const globalRegex = new RegExp(/^0x[a-fA-F0-9]{40}$/);
+		actionString.split(' ').forEach((word) => {
+			if (globalRegex.test(word)) {
+				words.push(shortenAddress(word));
+			} else {
+				words.push(word);
+			}
+		});
+	}
 
 	switch (action.type) {
 		case 'Default':
-			actionString = 'Default Transaction';
+			words = ['Default', 'Transaction'];
 			break;
 		case 'Transfer':
-			actionString = 'Transfer 🎁';
-			actionString = `Transfered from ${shortenAddress(action.transaction.from)} 🎁`;
-			if (action.transaction.to === Addresses.EternalBattle) {
-				actionString = `Retreated from the Eternal Battle 🛡️`;
-			}
+			words.push('🎁');
 			break;
 		case 'Minted':
-			actionString = `Birthed by ${shortenAddress(action.transaction.from)} 🐣`;
+			words.push('🐣');
 			break;
 		case 'Unstaked':
-			actionString = 'Unstaked';
-			if (action.transaction.to === Addresses.EternalBattle.toLowerCase()) {
-				actionString = `Retreated from Battle 🛡️`;
-			}
+			words.push('🛡️');
 			break;
 		case 'Staked':
-			actionString = 'Staked';
-			if (action.transaction.to === Addresses.EternalBattle.toLowerCase()) {
-				actionString = `Entered the Eternal Battle ⚔️`;
-			}
+			words.push('⚔️');
 			break;
 		case 'Resurrection':
-			actionString = `Resurrected at the altar  💖`;
+			words.push('💖');
 			break;
 		case 'RedeemELF':
-			actionString = `Drained of all Life Force  💔`;
+			words.push('💔');
 			break;
 		case 'Revived':
-			actionString = 'Revived';
-			if (action.transaction.to === Addresses.EternalBattle.toLowerCase()) {
-				actionString = `Revived from the Eternal Battle 💖`;
-			}
+			words.push('💖');
 			break;
 		case 'Reviver':
-			actionString = `Became an Angel, revived a poor soul! 😇`;
+			words.push('😇');
 			break;
 		case 'Reaped':
-			actionString = 'Reaped';
-			if (action.transaction.to === Addresses.EternalBattle.toLowerCase()) {
-				actionString = `Reaped from the Battle 💀`;
-			}
+			words.push('💀');
 			break;
 		case 'Reaper':
-			actionString = `Reaper | stole an Ethemeral! 💀`;
+			words.push('💀');
 			break;
 		default:
 			console.log('did not parse action');
 	}
 
-	return [actionString, txLink];
+	return [words.join(' '), txLink];
 };
 
 export default useParseAction;
