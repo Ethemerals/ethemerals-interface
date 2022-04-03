@@ -72,12 +72,12 @@ const EternalBattleL2 = () => {
 				</div> */}
 
 				<PairTrackerCard priceFeed={priceFeed} cryptoName={priceFeed.baseName.toLowerCase()} />
-				<div className="flex justify-between mt-24 items-start">
-					<div style={{ minHeight: '256px' }} className="text-center w-1/2 border-white border rounded-md mr-4 py-8 bg-white bg-opacity-20">
-						<div className="bg-white mx-24 py-2 rounded"> Join {priceFeed.baseName} In Battle</div>
+				<div className=" grid grid-cols-2 mt-24 items-start">
+					<div style={{ minHeight: '256px' }} className="border-white border rounded-md mr-2 py-8 bg-green-100 bg-opacity-30">
+						<div className="bg-white w-56 mx-auto py-2 rounded text-center shadow-md cursor-pointer hover:bg-blue-200"> Join {priceFeed.baseName} In Battle</div>
 					</div>
-					<div style={{ minHeight: '512px' }} className="text-center w-1/2 border-white border rounded-md ml-4 py-8 bg-white bg-opacity-20">
-						<div className="bg-white mx-24 py-2 rounded"> Join {priceFeed.quoteName} In Battle</div>
+					<div style={{ minHeight: '512px' }} className=" border-white border rounded-md ml-2 py-8 bg-red-100 bg-opacity-30">
+						<div className="bg-white w-56 mx-auto py-2 rounded text-center shadow-md cursor-pointer hover:bg-blue-200"> Join {priceFeed.quoteName} In Battle</div>
 					</div>
 				</div>
 				<div className="h-96"></div>
