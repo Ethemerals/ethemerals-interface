@@ -25,6 +25,7 @@ const getNFTsFiltered = (variables, filters) => {
 			element
 			cmId
 			coin
+      name
 			subclass
 			mainclass
 		}
@@ -50,6 +51,7 @@ const GET_MERALS_BY_ID = gql`
 			element
 			cmId
 			coin
+			name
 			subclass
 			mainclass
 		}

@@ -2,6 +2,7 @@ import EthemeralsAbi from './Ethemerals.json';
 import EthemeralEquipablesAbi from './EthemeralEquipables.json';
 import EthemeralLifeForceAbi from './EthemeralLifeForce.json';
 import EternalBattleAbi from './EternalBattle.json';
+import EternalBattleL2Abi from './EternalBattleL2.json';
 import PriceFeedProviderAbi from './PriceFeedProvider.json';
 import EthemeralBurnerAbi from './EthemeralBurner.json';
 import WildsAbi from './Wilds.json';
@@ -18,6 +19,7 @@ const abis = {
 	Onsen: OnsenAbi,
 	EthemeralBurner: EthemeralBurnerAbi,
 	MeralManager: MeralManagerAbi,
+	EternalBattleL2: EternalBattleL2Abi,
 };
 
 export default abis;

@@ -13,10 +13,9 @@ const Mainmenu = () => {
 		<div className="flex px-2 items-center">
 			<MenuItem to="/mint" text="Mint" />
 			<MenuItem to="/ethemerals" text="Ethemerals" />
-			<MenuItem to="/art" text="Art Hunt" />
-			<MenuItem to="/battle" text="Eternal Battle" />
-			<MenuItem to="/wilds" text="The Wilds" />
-			{/* {parseInt(process.env.REACT_APP_NETWORK) !== 1 && <MenuItem to="/wilds" text="The Wilds" />} */}
+			<MenuItem to="/art" text="Art" />
+			<MenuItem to="/register" text="Portal" />
+			<MenuItem to="/battle/poly" text="Eternal Battle" />
 		</div>
 	);
 };

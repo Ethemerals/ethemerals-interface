@@ -88,10 +88,11 @@ const RegisterMerals = () => {
 
 	const styleBG = {
 		backgroundColor: 'black',
-		backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/webapp/proxy_bg.jpg'",
+		backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/webapp/portal_bg.jpg'",
 		backgroundRepeat: 'no-repeat',
 		backgroundAttachment: 'fixed',
 		backgroundPosition: 'center',
+		backgroundSize: 'cover',
 		position: 'fixed',
 		width: '100vw',
 		height: '100vh',
@@ -99,7 +100,7 @@ const RegisterMerals = () => {
 	};
 
 	return (
-		<div className="">
+		<>
 			<div style={styleBG}></div>
 			<div style={{ minWidth: '512px', maxWidth: '832px' }} className="pt-24 mb-96 w-4/5 mx-auto text-black">
 				<div className="p-4">
@@ -129,7 +130,7 @@ const RegisterMerals = () => {
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

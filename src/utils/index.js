@@ -68,11 +68,11 @@ export function formatETH(value, fixedAmount = 3) {
 	return parseFloat(balance).toFixed(fixedAmount);
 }
 
-export const formatPrice = (price) => {
+export const formatPrice = (price, decimals = 2) => {
 	const formatConfig = new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',
-		minimumFractionDigits: 2,
+		minimumFractionDigits: decimals,
 	});
 
 	return formatConfig.format(price);

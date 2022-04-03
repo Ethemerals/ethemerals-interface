@@ -1,22 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { Contract } from '@ethersproject/contracts';
 import axios from 'axios';
-import { useGQLQueryL1 } from '../hooks/useGQLQuery';
-import { GET_ETERNALBATTLE_ACCOUNT } from '../queries/Subgraph';
+import { useGQLQueryL1 } from './useGQLQuery';
 
-import getSigner from '../constants/Signer';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
 import { useWeb3 } from './useWeb3';
-
-const getContracts = async (provider, setContractBattle) => {
-	if (provider) {
-		await setContractBattle(new Contract(Addresses.EternalBattle, abis.EternalBattle, getSigner(provider)));
-		console.log('GOT BATTLE CONTRACTS');
-	} else {
-	}
-};
+import { getContract } from '../utils/contracts/getContract';
+import { useChain } from 'react-moralis';
+import { GET_EBSTAKES_BY_PRICEFEEDID, GET_EBSTAKES_RECORD_BY_PRICEFEEDID } from '../queries/SubgraphEternalBattle';
 
 const getChangeAPI = async (id) => {
 	const url = `${process.env.REACT_APP_API_MARKETS}ebgetchange?id=${id}&network=${process.env.REACT_APP_NETWORK}`;
@@ -87,7 +79,7 @@ const getStake = async (provider, contract, id) => {
 	}
 };
 
-export const useEternalBattleGetChange = (contract, id) => {
+export const useEternalBattleL1GetChange = (contract, id) => {
 	const { provider } = useWeb3();
 	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contract, id), { enabled: !!id, refetchInterval: 50000 });
 
@@ -102,7 +94,7 @@ export const useEternalBattleGetChange = (contract, id) => {
 	return { scoreChange };
 };
 
-export const useEternalBattleGetStake = (contract, id) => {
+export const useEternalBattleL1GetStake = (contract, id) => {
 	const { provider } = useWeb3();
 	const { isLoading, data } = useQuery([`getStake_${id}`, id], () => getStake(provider, contract, id), { refetchInterval: 50000 });
 
@@ -117,30 +109,46 @@ export const useEternalBattleGetStake = (contract, id) => {
 	return { stake };
 };
 
-export const useEternalBattleContract = () => {
+export const useEternalBattleL1Contract = () => {
 	const { provider } = useWeb3();
+	const { chainId } = useChain();
 
 	const [contractBattle, setContractBattle] = useState(undefined);
 
 	useEffect(() => {
-		getContracts(provider, setContractBattle);
-	}, [provider]);
+		getContract(provider, Addresses.EternalBattleL2.toLowerCase(), abis.EternalBattleL2, setContractBattle, 'ETERNALBATTLEL2');
+	}, [provider, chainId]);
 
 	return { contractBattle };
 };
 
-export const useEternalBattleAccount = () => {
-	const { data } = useGQLQueryL1('account_eternalBattle', GET_ETERNALBATTLE_ACCOUNT, { id: Addresses.EternalBattle.toLowerCase() }, { refetchOnMount: true });
-	const [accountEternalBattle, setAccountEternalBattle] = useState(null);
+export const useEternalBattleStakesActive = (priceFeedId) => {
+	const { data } = useGQLQueryL1(`eternalBattleStakesActive_${priceFeedId}`, GET_EBSTAKES_BY_PRICEFEEDID, { priceFeedId }, { refetchOnMount: true });
+	const [EBStakesActive, setEBStakesaAtive] = useState(null);
 
 	useEffect(() => {
 		if (data && data.account !== null) {
-			setAccountEternalBattle(data.account);
+			setEBStakesaAtive(data.ebstakeActives);
 		}
 	}, [data]);
 
 	return {
-		accountEternalBattle,
+		EBStakesActive,
+	};
+};
+
+export const useEternalBattleStakesRecord = (priceFeedId) => {
+	const { data } = useGQLQueryL1(`eternalBattleStakesRecord_${priceFeedId}`, GET_EBSTAKES_RECORD_BY_PRICEFEEDID, { priceFeedId }, { refetchOnMount: true });
+	const [EBStakesRecord, setEBStakesaRecord] = useState(null);
+
+	useEffect(() => {
+		if (data && data.account !== null) {
+			setEBStakesaRecord(data.ebstakesRecord);
+		}
+	}, [data]);
+
+	return {
+		EBStakesRecord,
 	};
 };
 

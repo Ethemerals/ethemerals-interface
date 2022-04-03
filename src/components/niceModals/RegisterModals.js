@@ -15,7 +15,6 @@ import ChooseNetworks from './ChooseNetworks';
 import MoreLinks from './navigation/MoreLinks';
 import MainSelect from './user/MainSelect';
 import BurnMeral from './minting/BurnMeral';
-import RegisterMeral from '../proxyMerals/modals/RegisterMeral';
 
 export const modalRegistry = {
 	// MINTING
@@ -28,7 +27,7 @@ export const modalRegistry = {
 	chooseNetworks: 'choose-networks',
 	waitingForSignature: 'waiting-for-signature',
 	// MERAL MANAGER
-	registerMeral: 'register-meral',
+
 	// ONSEN
 	openOnsen: 'open-onsen',
 	enterOnsen: 'enter-onsen',
@@ -52,7 +51,7 @@ export const registerModals = () => {
 	NiceModal.register(modalRegistry.chooseNetworks, ChooseNetworks);
 	NiceModal.register(modalRegistry.waitingForSignature, WaitingForSignature);
 	// MERAL MANAGER
-	NiceModal.register(modalRegistry.registerMeral, RegisterMeral);
+
 	// ONSEN
 	NiceModal.register(modalRegistry.openOnsen, Onsen);
 	NiceModal.register(modalRegistry.enterOnsen, EnterOnsenModal);

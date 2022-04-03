@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import { useEternalBattleAccount } from '../../../hooks/useEternalBattle';
+import { useEternalBattleL1Account } from '../../../hooks/useEternalBattleL1';
 import { getTokenIdFromId } from '../../../hooks/useMeralsUtils';
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 import { useUserAccount } from '../../../hooks/useUser';
@@ -13,7 +13,7 @@ const UserInventory = ({ toggle }) => {
 	const history = useHistory();
 
 	const { mainIndex, userMerals, userPets, address } = useUserAccount();
-	const { accountEternalBattle } = useEternalBattleAccount();
+	const { accountEternalBattle } = useEternalBattleL1Account();
 	const [userMainMeral, serUserMainMeral] = useState(undefined);
 
 	const [meralShortList, setMeralShortList] = useState([]);

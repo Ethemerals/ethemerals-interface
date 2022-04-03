@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 
-import { useUserAccount } from '../../hooks/useUser';
-import { useEternalBattleL1GetChange, useEternalBattleL1GetStake } from '../../hooks/useEternalBattleL1';
-import { useEBAddScoreContext, useEBNftsRegisterContext } from '../../context/EternalBattleContext';
+import { useUserAccount } from '../../../hooks/useUser';
+import { useEternalBattleL1GetChange, useEternalBattleL1GetStake } from '../../../hooks/useEternalBattleL1';
+import { useEBAddScoreContext, useEBNftsRegisterContext } from '../../../context/EternalBattleContext';
 
-import { useMeralsUtils } from '../../hooks/useMeralsUtils';
-import { useMeralImagePaths } from '../../hooks/useMerals';
-import Spinner from '../Spinner';
+import { useMeralsUtils } from '../../../hooks/useMeralsUtils';
+import { useMeralImagePaths } from '../../../hooks/useMerals';
+import Spinner from '../../Spinner';
 
-import SVGRevive from './svg/SVGRevive';
-import SVGUnstake from './svg/SVGUnstake';
+import SVGRevive from '../svg/SVGRevive';
+import SVGUnstake from '../svg/SVGUnstake';
 
-import EBDetails from './modals/EBDetails';
+import EBDetails from '../modals/EBDetails';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 

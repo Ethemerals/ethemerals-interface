@@ -10,7 +10,7 @@ const getAddresses = () => {
 		BurnAddress: '0x13D8EE49CbA2Eb416584806b8D370Ff432fF5A03',
 		// BATTLE
 		EternalBattle: '0x169310e61e71ef5834ce5466c7155d8a90d15f1e',
-		EternalBattleV2: '0x0a062800914b868df5836f755bfef04b64ca23c6',
+		EternalBattleL2: '0x0a062800914b868df5836f755bfef04b64ca23c6',
 		priceFeed: '0x04302ef1c51dff4625cdec79f4400342ad27f559',
 		priceFeedV2: '0x04302ef1c51dff4625cdec79f4400342ad27f559',
 		// LAYER 2
@@ -19,7 +19,6 @@ const getAddresses = () => {
 		Wilds: '0x7D37289d70E6Ba0907760b6B8fc76C0c987a3efc',
 	};
 
-	// MAINNETS
 	if (network === 4) {
 		addresses.Ethemerals = '0xcdb47e685819638668ff736d1a2ae32b68e76ba5';
 		addresses.EthemeralBurner = '0x3b3D085078E3dAEad342A89bb2A3C2B45bC18828';
@@ -28,9 +27,9 @@ const getAddresses = () => {
 		addresses.BurnAddress = '0x88329f0ec14ee9a958f0538f78757bc7442cf464';
 		// BATTLE
 		addresses.EternalBattle = '0x883170aAcEB39a23642f5aAaab083F5684D3fFB1';
-		addresses.EternalBattleV2 = '0x0a062800914b868df5836f755bfef04b64ca23c6';
+		addresses.EternalBattleL2 = '0x0a062800914b868df5836f755bfef04b64ca23c6';
 		addresses.priceFeed = '0xfacC389A4777D0Cda098C0f2Af4e6deDD1Ddf1f4';
-		addresses.priceFeedV2 = '0xfacC389A4777D0Cda098C0f2Af4e6deDD1Ddf1f4';
+		addresses.priceFeedL2 = '0x2de7c18b18eaed039806083cc5f8d734a19f872e';
 		// LAYER 2
 		addresses.MeralManager = '0xaa74accf2a56bff87c252592e0409371928d302a';
 		addresses.Onsen = '0xdB405C016322F9BB24ceB8386BcFcA277adf5bCE';

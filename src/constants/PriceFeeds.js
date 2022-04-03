@@ -9,6 +9,7 @@ const PriceFeeds = [
 		quoteSymbol: 'USD',
 		decimals: 8,
 		decimalPlaces: 2,
+		cmId: 1027,
 	},
 	{
 		ticker: 'BTC/USD',
@@ -20,6 +21,7 @@ const PriceFeeds = [
 		quoteSymbol: 'USD',
 		decimals: 8,
 		decimalPlaces: 2,
+		cmId: 1,
 	},
 ];
 

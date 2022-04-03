@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import NFTPreviewCard from '../components/ethemerals/cards/NFTPreviewCard';
 
 import { useUserAccount } from '../hooks/useUser';
-import { useEternalBattleAccount } from '../hooks/useEternalBattle';
+import { useEternalBattleL1Account } from '../hooks/useEternalBattleL1';
 import Preferences from '../components/Preferences';
 import PetsPreviewCard from '../components/ethemerals/cards/PetsPreviewCard';
 
 const Dashboard = () => {
 	const { userMerals, userPets, address } = useUserAccount();
-	const { accountEternalBattle } = useEternalBattleAccount();
+	const { accountEternalBattle } = useEternalBattleL1Account();
 
 	const [meralsInBattle, setMeralsInBattle] = useState([]);
 	const [selectedTab, setSelectedTab] = useState(0);

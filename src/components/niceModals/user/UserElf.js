@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNativeBalance } from 'react-moralis';
 import Images from '../../../constants/Images';
 import { formatELF } from '../../../utils';
-import { useEternalBattleAccount } from '../../../hooks/useEternalBattle';
+import { useEternalBattleL1Account } from '../../../hooks/useEternalBattleL1';
 import { useUserAccount } from '../../../hooks/useUser';
 
 const UserELF = () => {
 	const { address, userMerals } = useUserAccount();
 	const { data: balance } = useNativeBalance();
 
-	const { accountEternalBattle } = useEternalBattleAccount();
+	const { accountEternalBattle } = useEternalBattleL1Account();
 
 	const [userNFTsInBattle, setUserNFTsInBattle] = useState(undefined);
 	const [totalNFTElf, setTotalNFTElf] = useState(0);

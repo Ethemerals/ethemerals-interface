@@ -2,20 +2,20 @@ import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import ChartData from './ChartData';
 
-import EBStake from './modals/EBStake';
-import AllowDelegates from '../ethemerals/modals/AllowDelegates';
-import { usePriceFeedContract } from '../../hooks/usePriceFeed';
+import EBStake from '../modals/EBStake';
+import AllowDelegates from '../../ethemerals/modals/AllowDelegates';
+import { usePriceFeedContract } from '../../../hooks/usePriceFeed';
 
-import { useUser, useUserAccount } from '../../hooks/useUser';
+import { useUser, useUserAccount } from '../../../hooks/useUser';
 
-import ConnectWallet from './modals/ConnectWallet';
+import ConnectWallet from '../modals/ConnectWallet';
 
-import { formatPrice } from '../../utils';
-import { useEBGetBattleResultsContext } from '../../context/EternalBattleContext';
+import { formatPrice } from '../../../utils';
+import { useEBGetBattleResultsContext } from '../../../context/EternalBattleContext';
 
 import EBHealthBar from './EBHealthBar';
-import { Addresses } from '../../constants/contracts/Addresses';
-import { useCoreApprovals } from '../../hooks/useCore';
+import { Addresses } from '../../../constants/contracts/Addresses';
+import { useCoreApprovals } from '../../../hooks/useCore';
 
 const useGetCardData = (cryptoName, options) => {
 	return useQuery(
@@ -126,13 +126,13 @@ const PairTrackerCard = ({ priceFeed }) => {
 
 	if (isLoading) return <div className="chart-card bg-white text-black chart-expanded h-500 w-80"></div>;
 
-	const { image, name, market_data: marketData } = data;
+	const { name, market_data: marketData } = data;
 
 	return (
 		<>
 			<div className="chart-card bg-white text-black chart-expanded w-80">
 				<div className="pt-4">
-					<img className="mx-auto" src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${priceFeed.cmId}.png`} alt={`${name} logo`} />
+					<img className="mx-auto" src={priceFeed.logo} alt={`${name} logo`} />
 
 					<h3 className="text-xl ">{priceFeed.ticker}</h3>
 					<p className="mb-4 text-gray-500">{`${priceFeed.baseName} vs ${priceFeed.quoteName}`}</p>
@@ -152,14 +152,13 @@ const PairTrackerCard = ({ priceFeed }) => {
 					</h4>
 
 					<ChartData isExpanded={true} cryptoName={cryptoName} />
-					<div className="h-20"></div>
 				</div>
 				{healthBar && healthBar.winningLongNFT && healthBar.winningShortNFT && <EBHealthBar key={priceFeed.ticker} data={healthBar} />}
 			</div>
-			{isAllowDelegatesOpen && <AllowDelegates toggle={toggleAllowDelegates} toggleStake={toggleJoinBattleLong} />}
-			{isCreateStakeLongOpen && <EBStake key={`${priceFeed.ticker}long`} contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattleLong} priceFeed={priceFeed} long={true} />}
-			{isCreateStakeShortOpen && <EBStake key={`${priceFeed.ticker}short`} contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattleShort} priceFeed={priceFeed} long={false} />}
-			{isConnectWalletOpen && <ConnectWallet contractPriceFeed={contractPriceFeed} toggle={toggleConnectWallet} />}
+			{/* {isAllowDelegatesOpen && <AllowDelegates toggle={toggleAllowDelegates} toggleStake={toggleJoinBattleLong} />} */}
+			{/* {isCreateStakeLongOpen && <EBStake key={`${priceFeed.ticker}long`} contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattleLong} priceFeed={priceFeed} long={true} />} */}
+			{/* {isCreateStakeShortOpen && <EBStake key={`${priceFeed.ticker}short`} contractPriceFeed={contractPriceFeed} toggle={toggleJoinBattleShort} priceFeed={priceFeed} long={false} />} */}
+			{/* {isConnectWalletOpen && <ConnectWallet contractPriceFeed={contractPriceFeed} toggle={toggleConnectWallet} />} */}
 		</>
 	);
 };

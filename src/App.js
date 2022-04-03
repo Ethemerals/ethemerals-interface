@@ -9,7 +9,6 @@ import { isMobile } from 'react-device-detect';
 import Navbar from './components/navigation/Navbar';
 import Home from './pages/Home';
 import Art from './pages/Art';
-import EternalBattle from './pages/EternalBattle';
 import Dashboard from './pages/Dashboard';
 import EthemeralsMerals from './pages/EthemeralsMerals';
 import PetDetails from './pages/PetDetails';
@@ -26,8 +25,9 @@ import ArtDetails from './pages/ArtDetails';
 import ArtGame from './pages/ArtGame';
 import { registerModals } from './components/niceModals/RegisterModals';
 import WildsWorldAlpha from './components/wilds/WildsWorldAlpha';
-import EternalBattleMainnet from './pages/EternalBattleMainnet';
 import RegisterMerals from './components/proxyMerals/RegisterMerals';
+import EternalBattleL2 from './components/battleL2/EternalBattleL2';
+import EternalBattleL1 from './components/battle/EternalBattleL1';
 
 function App() {
 	registerModals();
@@ -59,24 +59,24 @@ function App() {
 						<ArtGame />
 					</DndProvider>
 				</Route>
-				<Route exact path="/battle/">
+				<Route exact path="/battle/mainnet">
 					<EBContextProvider>
-						<EternalBattleMainnet />
+						<EternalBattleL1 />
 					</EBContextProvider>
 				</Route>
-				<Route exact path="/battle/:id">
+				<Route exact path="/battle/mainnet/:id">
 					<EBContextProvider>
-						<EternalBattleMainnet />
+						<EternalBattleL1 />
 					</EBContextProvider>
 				</Route>
-				<Route exact path="/battlev2/">
+				<Route exact path="/battle/poly">
 					<EBContextProvider>
-						<EternalBattle />
+						<EternalBattleL2 />
 					</EBContextProvider>
 				</Route>
-				<Route exact path="/battlev2/:id">
+				<Route exact path="/battle/poly/:id">
 					<EBContextProvider>
-						<EternalBattle />
+						<EternalBattleL2 />
 					</EBContextProvider>
 				</Route>
 				<Route exact path="/wilds/world">

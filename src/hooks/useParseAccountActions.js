@@ -1,5 +1,4 @@
 import { Links } from '../constants/Links';
-import { Addresses } from '../constants/contracts/Addresses';
 import { shortenAddress } from '../utils';
 
 // Default

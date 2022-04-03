@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import { useEternalBattleL1Account, useEternalBattleL1Contract } from '../../hooks/useEternalBattleL1';
+import { useEternalBattleL1Account, useEternalBattleL1Contract } from '../../../hooks/useEternalBattleL1';
 import StakedNFTCard from './StakedNFTCard';
 
-import PairTrackerCard from './PairTrackerCard';
+import PairTrackerCard from './PriceTrackerCard';
 
 const EternalBattleCard = ({ priceFeed }) => {
 	const { contractBattle } = useEternalBattleL1Contract();
@@ -52,6 +52,12 @@ const EternalBattleCard = ({ priceFeed }) => {
 	}
 
 	return (
+		<div className="">
+			<PairTrackerCard priceFeed={priceFeed} cryptoName={priceFeed.baseName.toLowerCase()} />
+		</div>
+	);
+
+	return (
 		<>
 			<div className="flex justify-center items-stretch mt-8">
 				<div className="w-72 border-white border border-r-0">
@@ -59,7 +65,7 @@ const EternalBattleCard = ({ priceFeed }) => {
 						LONGS ({longNFTs && longNFTs.length > 0 && longNFTs.length})
 						<span className="text-brandColor-purple">{longNFTs && shortNFTs && counterTradeBonus > 1 && longNFTs.length < shortNFTs.length && ` - Bonus ELF Multiplier x${counterTradeBonus}`}</span>
 					</h3>
-					{longNFTs && longNFTs.length > 0 && longNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} priceFeed={priceFeed} long={true} />)}
+					{/* {longNFTs && longNFTs.length > 0 && longNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} priceFeed={priceFeed} long={true} />)} */}
 				</div>
 				<div className="bg-white">
 					<PairTrackerCard priceFeed={priceFeed} cryptoName={priceFeed.baseName.toLowerCase()} />
@@ -71,7 +77,7 @@ const EternalBattleCard = ({ priceFeed }) => {
 						<span className="text-brandColor-purple">{longNFTs && shortNFTs && counterTradeBonus > 1 && longNFTs.length > shortNFTs.length && ` - Bonus ELF Multiplier x${counterTradeBonus}`}</span>
 					</h3>
 
-					{shortNFTs && shortNFTs.length > 0 && shortNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} priceFeed={priceFeed} long={false} />)}
+					{/* {shortNFTs && shortNFTs.length > 0 && shortNFTs.map((nft) => <StakedNFTCard key={nft.id} nft={nft} contractBattle={contractBattle} priceFeed={priceFeed} long={false} />)} */}
 				</div>
 			</div>
 		</>

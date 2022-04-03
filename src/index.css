@@ -37,6 +37,7 @@
 	}
 	body {
 		background: 'white';
+		overflow-y: scroll;
 	}
 }
 
@@ -152,42 +153,16 @@
 		height: 44px;
 	}
 
-	.chart-crypto-price {
-		font-size: 20px;
-		font-weight: 300;
-	}
-
-	.chart-crypto-price span {
-		font-size: 12px;
-		font-weight: 700;
-		position: relative;
-		top: -6px;
-		left: 6px;
-	}
-
-	.chart-crypto-price svg {
-		margin-right: 4px;
-	}
-
 	.chart {
 		position: relative;
+		overflow: hidden;
 	}
 
 	.chart svg {
 		vertical-align: middle;
-	}
-
-	.chart-loading-container {
-		height: 0;
-		padding-bottom: 50%;
-		width: 100%;
-	}
-
-	.chart-loading-container span {
 		position: absolute;
-		left: 50%;
-		margin-left: -35px;
-		top: 30%;
+		-ms-transform: translate(4px, 13px);
+		transform: translate(4px, 13px);
 	}
 }
 

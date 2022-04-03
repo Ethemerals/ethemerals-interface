@@ -22,7 +22,7 @@ export default NiceModal.create(({ networks }) => {
 	return (
 		<div className="w-full h-full absolute top-0 left-0 animate-fadeOnFast z-50">
 			<div onClick={toggle} className="fixed w-full h-full top-0 left-0 z-20 bg-opacity-50 bg-black"></div>
-			<div className="w-64 p-2 py-4 center z-30 tracking-wide shadow-xl rounded bg-white border-2">
+			<div className="w-64 p-2 py-4 fixed center z-30 tracking-wide shadow-xl rounded bg-white border-2">
 				<div className="flex ml-2 text-gray-400 text-xs pb-2 pt-1">
 					<span>Switch Network To:</span>
 				</div>

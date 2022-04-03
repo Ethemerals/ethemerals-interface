@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import PriceFeeds from '../constants/PriceFeeds';
-import EternalBattleCard from '../components/battle/EternalBattleCard';
-import EBattleHelp from '../components/battle/EBattleHelp';
+import PriceFeeds from '../../constants/PriceFeeds';
+import EternalBattleCard from './EternalBattleCard';
+import EBattleHelp from './EBattleHelp';
 import { useChain } from 'react-moralis';
-import { getIsLayer2, getOtherLayerChainName } from '../utils/contracts/parseChainId';
-import NetworksButton from '../components/navigation/NetworksButton';
+import { getIsLayer2, getOtherLayerChainName } from '../../utils/contracts/parseChainId';
+import NetworksButton from '../navigation/NetworksButton';
 
-const EternalBattleMainnet = () => {
+const EternalBattleL1 = () => {
 	const { chainId } = useChain();
 	const isLayer2 = getIsLayer2(chainId);
 
@@ -30,7 +30,7 @@ const EternalBattleMainnet = () => {
 			<EBattleHelp />
 			{isLayer2 && (
 				<div className="flex items-center space-x-2 mt-4 justify-center">
-					<div className="text-red-600 text-2xl">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
+					<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
 					<NetworksButton />
 				</div>
 			)}
@@ -39,13 +39,13 @@ const EternalBattleMainnet = () => {
 				<span className="text-xs font-bold px-2 text-blue-900">MARKETS</span>
 
 				<button
-					onClick={() => history.push(`/battle/0`)}
+					onClick={() => history.push(`/battle/mainnet/0`)}
 					className={`${priceFeedId === 0 ? 'bg-blue-900 text-white' : 'bg-blue-300 hover:bg-blue-400 transition duration-300'} py-1 px-2 mx-1 focus:outline-none`}
 				>
 					{PriceFeeds[0].ticker}
 				</button>
 				<button
-					onClick={() => history.push(`/battle/1`)}
+					onClick={() => history.push(`/battle/mainnet/1`)}
 					className={`${priceFeedId === 1 ? 'bg-blue-900 text-white' : 'bg-blue-300 hover:bg-blue-400 transition duration-300'} py-1 px-2 mx-1 focus:outline-none`}
 				>
 					{PriceFeeds[1].ticker}
@@ -58,4 +58,4 @@ const EternalBattleMainnet = () => {
 	);
 };
 
-export default EternalBattleMainnet;
+export default EternalBattleL1;

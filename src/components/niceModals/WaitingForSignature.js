@@ -36,7 +36,7 @@ export default NiceModal.create(({ message }) => {
 		<>
 			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen"></div>
 
-			<div className=" w-11/12 max-w-420 h-96 center bg-opacity-100 rounded tracking-wide shadow-xl bg-white z-50">
+			<div className=" w-11/12 max-w-420 h-96 fixed center bg-opacity-100 rounded tracking-wide shadow-xl bg-white z-50">
 				<div className="flex justify-end">
 					<span onClick={toggle} className="cursor-pointer p-4 text-black hover:text-gray-500">
 						<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

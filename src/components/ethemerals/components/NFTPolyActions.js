@@ -1,12 +1,9 @@
-import NiceModal from '@ebay/nice-modal-react';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Images from '../../../constants/Images';
 
 import { useUserAccount } from '../../../hooks/useUser';
-
-import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const NFTPolyActions = ({ nft }) => {
 	const { account, userMerals } = useUserAccount();
