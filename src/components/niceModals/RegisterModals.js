@@ -15,6 +15,8 @@ import ChooseNetworks from './ChooseNetworks';
 import MoreLinks from './navigation/MoreLinks';
 import MainSelect from './user/MainSelect';
 import BurnMeral from './minting/BurnMeral';
+import EBChoose from '../battleL2/modals/EBChoose';
+import EBStake from '../battleL2/modals/EBStake';
 
 export const modalRegistry = {
 	// MINTING
@@ -26,6 +28,9 @@ export const modalRegistry = {
 	mainSelect: 'main-select',
 	chooseNetworks: 'choose-networks',
 	waitingForSignature: 'waiting-for-signature',
+	// ETERNAL BATTLE
+	ebChoose: 'enternal-choose-meral',
+	ebStake: 'enternal-stake-meral',
 	// MERAL MANAGER
 
 	// ONSEN
@@ -50,6 +55,9 @@ export const registerModals = () => {
 	NiceModal.register(modalRegistry.userWallet, UserWallet);
 	NiceModal.register(modalRegistry.chooseNetworks, ChooseNetworks);
 	NiceModal.register(modalRegistry.waitingForSignature, WaitingForSignature);
+	// ETERNAL BATTLE
+	NiceModal.register(modalRegistry.ebChoose, EBChoose);
+	NiceModal.register(modalRegistry.ebStake, EBStake);
 	// MERAL MANAGER
 
 	// ONSEN

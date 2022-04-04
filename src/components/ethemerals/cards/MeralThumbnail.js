@@ -37,14 +37,14 @@ const MeralThumbnail = ({ nft, select }) => {
 	});
 
 	const styleTokenId = {
-		right: '-2px',
-		top: '2px',
+		right: '-10px',
+		top: '-6px',
 		color: `hsla(${subclassInfo.hue},100%,40%,1)`,
 	};
 
 	return (
-		<div className="relative">
-			<div onClick={() => select(nft.meralId)} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} className="w-26 h-28 text-xs relative m-2">
+		<div className="w-26 h-28 text-xs relative">
+			<div onClick={() => select(nft.meralId)} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
 				{/* BACK DROP */}
 				<div style={{ backgroundColor: `hsla(${subclassInfo.hue},100%,70%,1)` }} className="w-26 h-28 shadow-md hover:shadow-lg cursor-pointer rounded-lg">
 					<div style={{ width: '100px', height: '104px', left: '2px', top: '2px' }} className="overflow-hidden absolute rounded-lg">

@@ -90,17 +90,26 @@ export const useUserAccount = () => {
 	const [userActions, setUserActions] = useState([]);
 	const [userPMerals, setUserPMerals] = useState([]);
 	const [allowDelegates, setAllowDelegates] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
-	const { data, isLoading } = useQuery(`account_${address}`, () => getUserAccount(address), { enabled: !!address, refetchOnMount: true }); // TODO
-	const { data: dataSubgraph } = useQuery(`account_${address}_subgraph`, () => getL1Merals({ id: address }), { enabled: !!address, refetchOnMount: true }); // TODO
-	const { data: dataSubgraphL2 } = useQuery(`account_${address}_subgraphL2`, () => getL2Merals({ id: address }), { enabled: !!address, refetchOnMount: true }); // TODO
+	const { data, isLoading: isLoadingAccount } = useQuery(`account_${address}`, () => getUserAccount(address), { enabled: !!address, refetchOnMount: true }); // TODO
+	const { data: dataSubgraph, isLoading: isLoadingL1 } = useQuery(`account_${address}_subgraph`, () => getL1Merals({ id: address }), { enabled: !!address, refetchOnMount: true }); // TODO
+	const { data: dataSubgraphL2, isLoading: isLoadingL2 } = useQuery(`account_${address}_subgraphL2`, () => getL2Merals({ id: address }), { enabled: !!address, refetchOnMount: true }); // TODO
 
 	useEffect(() => {
-		if (data && !isLoading) {
+		if (data && !isLoadingAccount) {
 			setAccount(data);
 			setUserPMerals(data.pMerals);
 		}
-	}, [data, isLoading]);
+	}, [data, isLoadingAccount]);
+
+	useEffect(() => {
+		if (isLoadingAccount || isLoadingL1 || isLoadingL2) {
+			setIsLoading(true);
+		} else {
+			setIsLoading(false);
+		}
+	}, [isLoadingAccount, isLoadingL1, isLoadingL2]);
 
 	useEffect(() => {
 		if (dataSubgraph && dataSubgraph.account !== null) {
@@ -188,6 +197,7 @@ export const useUserAccount = () => {
     userMerals,
     userPets,
     userActions,
-    allowDelegates
+    allowDelegates,
+    isLoading
   };
 };

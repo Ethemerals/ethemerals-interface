@@ -70,7 +70,6 @@ const UserInventory = ({ toggle }) => {
 	const styleTabActive = {
 		color: '#4682B4',
 		backgroundColor: 'hsla(213, 40%, 80%)',
-		boxShadow: '0px -2px 2px #4682B4',
 	};
 
 	const styleTabInactive = {
@@ -113,23 +112,23 @@ const UserInventory = ({ toggle }) => {
 				</p>
 			</div>
 
-			<div style={{ boxShadow: '0px -2px 2px SteelBlue' }} className="h-full bg-customBlue-pale pt-6">
+			<div className="h-full bg-customBlue-pale pt-6">
 				{selectedTab === 0 && (
-					<div className="flex flex-wrap justify-center">
+					<div className="flex flex-wrap justify-center gap-4">
 						{meralShortList.map((nft) => (
 							<MeralThumbnail key={nft.meralId} nft={nft} select={selectAndToggle} />
 						))}
 					</div>
 				)}
 				{selectedTab === 1 && (
-					<div className="flex flex-wrap justify-center">
+					<div className="flex flex-wrap justify-center gap-4">
 						{NFTInBattleShortList.map((nft) => (
 							<MeralThumbnail key={nft.meralId} nft={nft} select={selectAndToggle} />
 						))}
 					</div>
 				)}
 				{selectedTab === 2 && (
-					<div className="flex flex-wrap justify-center">
+					<div className="flex flex-wrap justify-center gap-4">
 						{petShortList.map((nft) => (
 							<PetsThumbnail key={nft.id} nft={nft} select={selectPets} />
 						))}

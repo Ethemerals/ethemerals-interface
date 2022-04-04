@@ -168,11 +168,11 @@ const PairTrackerCard = ({ priceFeed }) => {
 							<div className="flex items-center mt-11 justify-between">
 								<a href={priceFeed.chainlink} target="blank" rel="noreferrer" className="flex items-center">
 									<SVGChainLink />
-									<span className="text-xs text-gray-400 pl-1">Data Feed</span>
+									<span className="text-xs text-gray-400 pl-1">Chainlink Data Feed</span>
 								</a>
 								<a href={priceFeed.coingecko} target="blank" rel="noreferrer" className="flex items-center">
 									<SVGCoinGecko />
-									<span className="text-xs text-gray-400 pl-1">Powered by Coingecko</span>
+									<span className="text-xs text-gray-400 pl-1">Coingecko</span>
 								</a>
 							</div>
 						</div>
@@ -189,7 +189,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 							{formatPlusMinus(marketData?.price_change_percentage_24h)}
 						</p> */}
 						<p className="">Last Season Champion:</p>
-						<p className="">Next Season beings in 6.7Days</p>
+						<p className="">Next Season beings in 21 Days</p>
 					</div>
 				</div>
 

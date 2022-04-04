@@ -46,7 +46,7 @@ const PetsThumbnail = ({ nft, select }) => {
 
 	return (
 		<>
-			<div onClick={() => select(nft.tokenId)} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} className="w-26 h-28 text-xs relative m-2">
+			<div onClick={() => select(nft.tokenId)} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} className="w-26 h-28 text-xs relative">
 				<div
 					style={{ borderColor: getPetBorderColor(nft.rarity), backgroundColor: getPetBorderColor(nft.rarity) }}
 					className="w-26 h-28 relative overflow-hidden rounded-lg bg-contain border-2 shadow-md hover:shadow-lg cursor-pointer"

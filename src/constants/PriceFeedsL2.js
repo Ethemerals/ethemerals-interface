@@ -2,7 +2,7 @@ const PriceFeedsL2 = [
 	{
 		ticker: 'ETH / USD',
 		price: '1',
-		id: 0,
+		id: 1,
 		baseName: 'Ethereum',
 		quoteName: 'US Dollar',
 		baseSymbol: 'ETH',
@@ -17,7 +17,7 @@ const PriceFeedsL2 = [
 	{
 		ticker: 'BTC / USD',
 		price: '1',
-		id: 1,
+		id: 2,
 		baseName: 'Bitcoin',
 		quoteName: 'US Dollar',
 		baseSymbol: 'BTC',

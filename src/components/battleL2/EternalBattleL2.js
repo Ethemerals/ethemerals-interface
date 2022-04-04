@@ -1,30 +1,63 @@
-import { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import NiceModal from '@ebay/nice-modal-react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import EternalBattleCard from './cards/EternalBattleCard';
 import EBattleHelp from '../battle/EBattleHelp';
+
 import { useChain } from 'react-moralis';
 import { getIsLayer2, getOtherLayerChainName } from '../../utils/contracts/parseChainId';
 import NetworksButton from '../navigation/NetworksButton';
 import { getPriceFeeds } from '../../constants/PriceFeedsL2';
 import PairTrackerCard from './cards/PriceTrackerCard';
+import { modalRegistry } from '../niceModals/RegisterModals';
+import { useActiveStakes } from '../../hooks/useEternalBattleL2';
+import MeralThumbnail from '../ethemerals/cards/MeralThumbnail';
 
 const EternalBattleL2 = () => {
 	let { id } = useParams();
-	const history = useHistory();
-	const { chainId } = useChain();
-	const isLayer2 = getIsLayer2(chainId);
-	const priceFeeds = getPriceFeeds();
 
 	if (!id) {
 		id = 0;
 	}
 
+	const priceFeeds = getPriceFeeds();
 	const priceFeed = priceFeeds[id];
+
+	const { activeStakes } = useActiveStakes(priceFeed.id);
+
+	const { chainId } = useChain();
+	const isLayer2 = getIsLayer2(chainId);
+
+	const [activeLongs, setActiveLongs] = useState(undefined);
+	const [activeShorts, setActiveShorts] = useState([undefined]);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
+
+	useEffect(() => {
+		if (activeStakes && activeStakes.length > 0) {
+			let longs = [];
+			let shorts = [];
+			activeStakes.forEach((stake) => {
+				if (stake.long) {
+					longs.push(stake);
+				} else {
+					shorts.push(stake);
+				}
+			});
+			setActiveLongs(longs);
+			setActiveShorts(shorts);
+		}
+	}, [activeStakes]);
+
+	const onSubmitChoose = async (long) => {
+		NiceModal.show(modalRegistry.ebChoose, { priceFeed, long });
+	};
+
+	const select = async (id) => {
+		console.log(id);
+	};
 
 	const styleBG = {
 		backgroundColor: 'gray',
@@ -72,14 +105,42 @@ const EternalBattleL2 = () => {
 				</div> */}
 
 				<PairTrackerCard priceFeed={priceFeed} cryptoName={priceFeed.baseName.toLowerCase()} />
+
+				{/* ACTIVE */}
 				<div className=" grid grid-cols-2 mt-24 items-start">
 					<div style={{ minHeight: '256px' }} className="border-white border rounded-md mr-2 py-8 bg-green-100 bg-opacity-30">
-						<div className="bg-white w-56 mx-auto py-2 rounded text-center shadow-md cursor-pointer hover:bg-blue-200"> Join {priceFeed.baseName} In Battle</div>
+						<div onClick={() => onSubmitChoose(true)} className="bg-white w-56 mx-auto py-2 rounded text-center shadow-md cursor-pointer hover:bg-blue-200">
+							Join {priceFeed.baseName} In Battle
+						</div>
+						<div className="flex-wrap flex gap-6 m-2">
+							{activeLongs &&
+								activeLongs.map((stake) => {
+									if (stake && stake.meral) {
+										return <MeralThumbnail key={stake.meral.meralId} nft={stake.meral} select={select} />;
+									}
+								})}
+						</div>
 					</div>
-					<div style={{ minHeight: '512px' }} className=" border-white border rounded-md ml-2 py-8 bg-red-100 bg-opacity-30">
-						<div className="bg-white w-56 mx-auto py-2 rounded text-center shadow-md cursor-pointer hover:bg-blue-200"> Join {priceFeed.quoteName} In Battle</div>
+					<div style={{ minHeight: '256px' }} className=" border-white border rounded-md ml-2 py-8 bg-red-100 bg-opacity-30">
+						<div onClick={() => onSubmitChoose(false)} className="bg-white w-56 mx-auto py-2 rounded text-center shadow-md cursor-pointer hover:bg-blue-200">
+							Join {priceFeed.quoteName} In Battle
+						</div>
+						<div className="flex-wrap flex gap-6 m-2">
+							{activeShorts &&
+								activeShorts.map((stake) => {
+									if (stake && stake.meral) {
+										return <MeralThumbnail key={stake.meral.meralId} nft={stake.meral} select={select} />;
+									}
+								})}
+						</div>
 					</div>
 				</div>
+
+				{/* RECORD */}
+				<div style={{ minHeight: '128px' }} className="bg-white w-full mt-44 p-4 flex rounded-md bg-opacity-90">
+					<p>History:</p>
+				</div>
+
 				<div className="h-96"></div>
 			</div>
 		</>

@@ -9,6 +9,8 @@ import { useWeb3 } from './useWeb3';
 import { getContract } from '../utils/contracts/getContract';
 import { useChain } from 'react-moralis';
 import { GET_EBSTAKES_BY_PRICEFEEDID, GET_EBSTAKES_RECORD_BY_PRICEFEEDID } from '../queries/SubgraphEternalBattle';
+import { Links } from '../constants/Links';
+import { GraphQLClient } from 'graphql-request';
 
 const getChangeAPI = async (id) => {
 	const url = `${process.env.REACT_APP_API_MARKETS}ebgetchange?id=${id}&network=${process.env.REACT_APP_NETWORK}`;
@@ -79,7 +81,33 @@ const getStake = async (provider, contract, id) => {
 	}
 };
 
-export const useEternalBattleL1GetChange = (contract, id) => {
+const getActivestakes = async (id) => {
+	console.log('here', id);
+	try {
+		console.log(id, 'here');
+		const endpoint = Links.SUBGRAPH_ENDPOINT_L2;
+		const graphQLClient = new GraphQLClient(endpoint);
+		const fetchData = await graphQLClient.request(GET_EBSTAKES_BY_PRICEFEEDID, { priceFeedId: id });
+		return fetchData;
+	} catch (error) {
+		throw new Error('get account error');
+	}
+};
+
+export const useActiveStakes = (id) => {
+	const { isLoading, data } = useQuery([`getActiveStakes_${id}`], () => getActivestakes(id), { enabled: !!id, refetchInterval: 50000 });
+
+	const [activeStakes, setActivestakes] = useState(undefined);
+	useEffect(() => {
+		if (data && !isLoading) {
+			setActivestakes(data.ebstakeActives);
+		}
+	}, [data, isLoading]);
+
+	return { activeStakes };
+};
+
+export const useEternalBattleL2GetChange = (contract, id) => {
 	const { provider } = useWeb3();
 	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contract, id), { enabled: !!id, refetchInterval: 50000 });
 
@@ -94,7 +122,7 @@ export const useEternalBattleL1GetChange = (contract, id) => {
 	return { scoreChange };
 };
 
-export const useEternalBattleL1GetStake = (contract, id) => {
+export const useEternalBattleL2GetStake = (contract, id) => {
 	const { provider } = useWeb3();
 	const { isLoading, data } = useQuery([`getStake_${id}`, id], () => getStake(provider, contract, id), { refetchInterval: 50000 });
 
@@ -109,7 +137,7 @@ export const useEternalBattleL1GetStake = (contract, id) => {
 	return { stake };
 };
 
-export const useEternalBattleL1Contract = () => {
+export const useEternalBattleL2Contract = () => {
 	const { provider } = useWeb3();
 	const { chainId } = useChain();
 
