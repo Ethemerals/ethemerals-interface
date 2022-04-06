@@ -48,7 +48,7 @@ const ChartData = ({ cryptoName }) => {
 	});
 
 	return (
-		<div style={{ width: '300px', height: '250px' }} className="chart">
+		<div style={{ width: '300px', height: '256px' }} className="chart">
 			<div className="flex justify-center">
 				{intervals.map((interval) => (
 					<button key={interval.value} className={`${dataInterval === interval.value ? 'text-blue-500' : 'text-gray-600 hover:text-blue-400'} px-4`} onClick={() => setDataInterval(interval.value)}>

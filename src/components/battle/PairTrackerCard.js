@@ -126,7 +126,7 @@ const PairTrackerCard = ({ priceFeed }) => {
 
 	if (isLoading) return <div className="chart-card bg-white text-black chart-expanded h-500 w-80"></div>;
 
-	const { image, name, market_data: marketData } = data;
+	const { name, market_data: marketData } = data;
 
 	return (
 		<>

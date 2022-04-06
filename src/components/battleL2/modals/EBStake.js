@@ -1,14 +1,11 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { BigNumber } from 'ethers';
-import { useHistory } from 'react-router-dom';
 import { useSendTx } from '../../../context/TxContext';
 import { useEternalBattleL2Contract } from '../../../hooks/useEternalBattleL2';
-import { useUser, useUserAccount } from '../../../hooks/useUser';
+import { useUser } from '../../../hooks/useUser';
 import MeralThumbnail from '../../ethemerals/cards/MeralThumbnail';
 import { modalRegistry } from '../../niceModals/RegisterModals';
-import MeralList from '../../proxyMerals/cards/MeralList';
 import CloseButton from './CloseButton';
-import Loading from './Loading';
 
 export default NiceModal.create(({ meral, priceFeed, long }) => {
 	const { address } = useUser();

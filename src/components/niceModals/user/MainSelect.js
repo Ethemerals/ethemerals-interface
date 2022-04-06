@@ -29,7 +29,7 @@ export default NiceModal.create(() => {
 				<div onClick={toggle} className="fixed w-full h-full top-0 left-0 bg-opacity-50 bg-black"></div>
 				<div className="center shadow-xl rounded bg-white">
 					<h2 className="text-center p-4">Select a Meral:</h2>
-					<div className="flex flex-wrap justify-center px-6 pb-12 pt-6">
+					<div className="flex flex-wrap justify-center px-6 pb-12 pt-6 gap-4">
 						{userMerals.map((nft) => {
 							return <MeralThumbnail key={nft.meralId} nft={nft} select={selectAndToggle} />;
 						})}

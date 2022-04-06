@@ -161,8 +161,8 @@
 	.chart svg {
 		vertical-align: middle;
 		position: absolute;
-		-ms-transform: translate(4px, 13px);
-		transform: translate(4px, 13px);
+		-ms-transform: translate(4px, 12px);
+		transform: translate(4px, 12px);
 	}
 }
 

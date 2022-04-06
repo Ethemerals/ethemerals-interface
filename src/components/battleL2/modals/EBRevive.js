@@ -38,7 +38,7 @@ export default NiceModal.create(({ priceFeed, long }) => {
 				) : (
 					<>
 						<div className="px-4">
-							<p className="text-4xl font-light">Choose a Meral</p>
+							<p className="text-4xl font-light">Revive Meral</p>
 							<span
 								onClick={() => {
 									history.push(`/register`);
