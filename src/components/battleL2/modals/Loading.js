@@ -10,7 +10,7 @@ const SpinnerSVG = () => (
 );
 
 const Loading = () => (
-	<div style={{ paddingTop: '25%' }} className="flex justify-center">
+	<div style={{ paddingTop: '18%' }} className="flex justify-center">
 		<SpinnerSVG />
 	</div>
 );

@@ -80,7 +80,7 @@ const StakedMeral = ({ priceFeed, stake, select }) => {
 	});
 
 	return (
-		<div className="w-full flex just-center relative my-4">
+		<div className="w-full flex just-center relative my-3">
 			<MeralThumbnail nft={stake.meral} select={select} />
 			<div className="w-full h-24 bg-gray-200 mb-8 rounded-r-lg shadow-lg overflow-hidden">
 				<div className="text-md px-4 text-white" style={{ backgroundColor: elements[stake.meral.element].color1 }}>
@@ -126,7 +126,7 @@ const StakedMeral = ({ priceFeed, stake, select }) => {
 					</>
 				)}
 			</div>
-			<div onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} className="absolute w-44 h-24 left-26 top-0 cursor-pointer"></div>
+			<div onClick={() => setIsHovered(!isHovered)} className="absolute w-56 h-24 left-26 top-0 cursor-pointer"></div>
 			<div className="flex absolute bottom-10 right-1">
 				{isOwned && (
 					<>

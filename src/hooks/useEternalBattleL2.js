@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import axios from 'axios';
 import { useGQLQueryL1, useGQLQueryL2 } from './useGQLQuery';
 
 import abis from '../constants/contracts/abis';
@@ -173,9 +172,9 @@ const calcBps = (_x, _y) => {
 // CONSTANTS
 let startPrice = 10000000;
 
-let atkDivMod = 1400;
-let defDivMod = 1000;
-let spdDivMod = 200;
+let atkDivMod = 1800;
+let defDivMod = 1400;
+let spdDivMod = 400;
 
 export const winCase = (positionSize, percentChange = 0.1, stats) => {
 	// SCORE

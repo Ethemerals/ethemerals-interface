@@ -1,0 +1,44 @@
+[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_priceFeedId",
+				"type": "uint16"
+			}
+		],
+		"name": "getLatestPrice",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "_id",
+				"type": "uint16"
+			},
+			{
+				"internalType": "address",
+				"name": "_dataFeedAddress",
+				"type": "address"
+			}
+		],
+		"name": "upsertFeed",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
