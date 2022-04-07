@@ -47,7 +47,7 @@ const PriceTracker = ({ priceFeed }) => {
 	return (
 		<>
 			<div className="text-black w-full">
-				<div className="mt-2 p-4 text-white">
+				<div className="mt-2 p-4 pb-2 text-white">
 					<p className="text-4xl">{priceFeed.ticker}</p>
 				</div>
 				<div className="flex items-stretch space-x-4">

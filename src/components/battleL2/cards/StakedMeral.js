@@ -18,7 +18,7 @@ import { useUserAccount } from '../../../hooks/useUser';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
-const StakedMeral = ({ priceFeed, stake, select }) => {
+const StakedMeral = ({ priceFeed, stake }) => {
 	let meral = stake.meral;
 	const { elements } = useMeralsUtils();
 	const { address } = useUserAccount();
@@ -44,7 +44,6 @@ const StakedMeral = ({ priceFeed, stake, select }) => {
 			let changeScore = parseInt(scoreChange.score);
 			let resultScore = scoreChange.win ? currentScore + changeScore : currentScore - changeScore;
 			setScoreCalculated(resultScore);
-			// updateScore(priceFeed.id, nft, currentScore, changeScore, resultScore, scoreChange.win, long, stake.positionSize);
 
 			let currentRewards = parseInt(meral.elf);
 			let changeRewards = parseInt(scoreChange.rewards);
@@ -63,10 +62,16 @@ const StakedMeral = ({ priceFeed, stake, select }) => {
 		return () => {
 			setTimeAgo('');
 		};
-	}, [scoreChange]);
+	}, [scoreChange, stake]);
+
+	const select = async (id) => {
+		console.log(id);
+	};
 
 	const onSubmitRevive = async () => {
-		NiceModal.show(modalRegistry.ebRevive, { id: meral.meralId });
+		let subtext = 'Which Meral will you use to be the Reviver?';
+		let modalOptions = { priceFeed, stake, subtext };
+		NiceModal.show(modalRegistry.ebChoose, { modalToShow: modalRegistry.ebRevive, modalOptions });
 	};
 
 	const styleHover = useSpring({
@@ -143,6 +148,7 @@ const StakedMeral = ({ priceFeed, stake, select }) => {
 				<>
 					<button
 						onClick={onSubmitRevive}
+						disabled={scoreCalculated >= 25}
 						data-tip
 						data-for="ttRevive"
 						className={`text-yellow-500 mr-1 opacity-10 ${scoreCalculated <= 25 ? 'opacity-100 cursor-pointer transition duration-300' : ''}`}

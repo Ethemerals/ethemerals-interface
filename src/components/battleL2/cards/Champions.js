@@ -3,14 +3,12 @@ import { useEternalBattleChampions } from '../../../hooks/useEternalBattleL2';
 import { useState, useEffect } from 'react';
 import { getMeralImages, useMeralGlobal } from '../../../hooks/useMerals';
 import { getSubclassInfo, useMeralsUtils } from '../../../hooks/useMeralsUtils';
-import { animated, useSpring, config } from '@react-spring/web';
 
 import championFrame from '../../../assets/battle/champion_frame.png';
 
 const MeralThumbnail = ({ nft }) => {
 	const { elements } = useMeralsUtils();
 	const [subclassInfo, setSubclassInfo] = useState(getSubclassInfo(0));
-	const [isHovered, setIsHovered] = useState(false);
 	const [imgSrc, setImgSrc] = useState(undefined);
 
 	// TYPE 1

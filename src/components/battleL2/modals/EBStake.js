@@ -9,11 +9,14 @@ import MeralThumbnail from '../../ethemerals/cards/MeralThumbnail';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 import CloseButton from './CloseButton';
 import { usePriceFeedContractL2, usePriceFeedPriceL2 } from '../../../hooks/usePriceFeedL2';
+import SVGQuestionMark from '../svg/SVGQuestionMark';
+import ReactTooltip from 'react-tooltip';
+import { Links } from '../../../constants/Links';
 
 const rangeDefaults = {
 	min: 100,
 	max: 500,
-	default: 255,
+	default: 300,
 	step: 1,
 };
 
@@ -25,7 +28,7 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 	const { contractPriceFeed } = usePriceFeedContractL2();
 	const { price } = usePriceFeedPriceL2(contractPriceFeed, priceFeed);
 
-	const [position, setPosition] = useState(255);
+	const [position, setPosition] = useState(300);
 	const [leverage, setLeverage] = useState(1);
 	const [liquidation, setLiquidation] = useState(undefined);
 	const [rangeValues, setRangeValues] = useState([rangeDefaults.default]);
@@ -34,6 +37,10 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 	const [losePreview, setLosePreview] = useState(undefined);
 
 	const modal = useModal();
+
+	useEffect(() => {
+		setPosition(rangeValues[0]);
+	}, [rangeValues]);
 
 	useEffect(() => {
 		if (price) {
@@ -46,58 +53,42 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 	}, [price, priceFeed]);
 
 	useEffect(() => {
-		setPosition(rangeValues[0]);
-	}, [rangeValues]);
-
-	const calcBps = (_x, _y) => {
-		return _x < _y ? ((_y - _x) * 10000) / _x : ((_x - _y) * 10000) / _y;
-	};
-
-	const findLiquidationPrice = (long, position, stats, currentPrice, hp) => {
-		let _price = currentPrice;
-		let increment = 0.001;
-		let remainingHp = parseInt(hp);
-		let count = 0;
-		while (true) {
-			let { score } = loseCase(position, increment, stats);
-			remainingHp = remainingHp - score;
-			if (remainingHp < 20) {
-				break;
-			}
-			increment += 0.001;
-			count++;
-			console.log(score, 'score');
-		}
-		if (long) {
-			_price = _price * (1 - increment * 10);
-		} else {
-			_price = _price * (1 + increment * 10);
-		}
-		console.log(calcBps(1000, 1100), 'bps');
-		console.log(position, 'position');
-		console.log((parseFloat(_price) / 10 ** priceFeed.decimals).toFixed(priceFeed.priceDecimalPlaces), 'price');
-		console.log(increment, remainingHp, count);
-		return (parseFloat(_price) / 10 ** priceFeed.decimals).toFixed(priceFeed.priceDecimalPlaces);
-	};
-
-	useEffect(() => {
 		setLeverage(((position / meral.hp) * 1).toFixed(1));
-
 		if (position >= 100 && position <= 500) {
 			let stats = { atk: meral.atk, def: meral.def, spd: meral.spd };
 			setWinPreview(winCase(position, 0.1, stats));
-			setLosePreview(loseCase(position, 0.1, stats));
-			let _liqPrice = findLiquidationPrice(long, position, stats, price, meral.hp);
-			setLiquidation(_liqPrice);
+			let _lose = loseCase(position, 0.1, stats);
+			setLosePreview(_lose);
+
+			// FIND LIQUIDATION PRICE
+			let _price;
+			let _currentPrice = parseFloat(price);
+			let remainingHp = parseFloat(meral.hp);
+			let incrementHp = parseFloat(_lose.score) / 100;
+
+			let count = 1;
+			while (remainingHp > 20) {
+				remainingHp -= incrementHp;
+				count++;
+			}
+
+			if (long) {
+				_price = _currentPrice - (_currentPrice * (count / 1000) + 1);
+			} else {
+				_price = _currentPrice + (_currentPrice * (count / 1000) + 1);
+			}
+
+			let _liqPrice = (parseFloat(_price) / 10 ** priceFeed.decimals).toFixed(priceFeed.priceDecimalPlaces);
+			setLiquidation(parseInt(_liqPrice));
 		}
-	}, [position, meral]);
+	}, [position, meral, long, price, priceFeed]);
 
 	const toggle = () => {
 		modal.remove();
 	};
 
 	const selectAndToggle = async (id) => {
-		console.log(id);
+		// console.log(id);
 	};
 
 	const onSubmitStake = async () => {
@@ -117,7 +108,7 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 				const tx = await contractBattle.createStake(id, pricefeedId, position, long, { gasLimit, maxFeePerGas: BigNumber.from('30000000000'), maxPriorityFeePerGas: BigNumber.from('30000000000') });
 				console.log(tx);
 
-				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, `account_${address}`, `account_${address}_subgraphL2`]);
+				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, `getActiveStakes_${priceFeed.id}`, `account_${address}`, `account_${address}_subgraphL2`]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
@@ -139,7 +130,11 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 				{/* HEADER */}
 				<div className="px-4">
 					<p className="text-4xl font-light">Enter the Battle</p>
-					<span className="text-xs text-blue-400 hover:text-blue-600 cursor-pointer">Need Help? Join our discord for more information</span>
+					<p className="text-xs text-blue-400 hover:text-blue-600 cursor-pointer">
+						<a href={Links.DISCORD} target="blank" rel="noreferrer">
+							Need Help? Join our discord for more information
+						</a>
+					</p>
 				</div>
 
 				{/* CONTENT */}
@@ -151,22 +146,28 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 						<div className="flex justify-center my-4">
 							<div className="mx-6">{meral && <MeralThumbnail key={meral.meralId} nft={meral} select={selectAndToggle} />}</div>
 							<div className="w-60 text-base leading-5 text-gray-500">
-								<p>
+								<div>
 									<span className="text-xs">AVAILABLE HP:</span>
 									<span className="pl-1 text-black">{meral.hp}</span>
-								</p>
-								<p>
+								</div>
+								<div>
 									<span className="text-xs">LEVERAGE:</span>
 									<span className="pl-1 text-black">{leverage}x</span>
-								</p>
-								<p>
+								</div>
+								<div className="flex items-baseline">
 									<span className="text-xs">LIQUIDATION PRICE:</span>
-									<span className="pl-1 text-black">{liquidation}</span>
-								</p>
-								<p>
+									<span className="pl-1 text-black">{!Number.isNaN(liquidation) && liquidation}</span>
+									<span data-tip data-for="ttLiquidation">
+										<SVGQuestionMark />
+									</span>
+									<ReactTooltip id="ttLiquidation" type="warning" effect="solid">
+										<span>If the price reaches this amount. The Meral becomes revivable by other Merals</span>
+									</ReactTooltip>
+								</div>
+								<div>
 									<span className="text-xs">POSITION SIZE:</span>
-									<span className="pl-1 text-black">{position} hp</span>
-								</p>
+									<span className="pl-1 text-black">{position} HP</span>
+								</div>
 
 								<div className="">
 									<Range

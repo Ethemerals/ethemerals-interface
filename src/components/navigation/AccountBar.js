@@ -1,6 +1,6 @@
 import NiceModal from '@ebay/nice-modal-react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
-
+import { useEffect } from 'react';
 import { shortenAddress } from '../../utils';
 import { useMiningStatus } from '../../context/TxContext';
 
@@ -8,6 +8,7 @@ import { useUser } from '../../hooks/useUser';
 import NetworksButton from './NetworksButton';
 import { modalRegistry } from '../niceModals/RegisterModals';
 import MainIcon from './MainIcon';
+import { useChain } from 'react-moralis';
 
 const Spinner = () => (
 	<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -18,7 +19,16 @@ const Spinner = () => (
 
 const AccountBar = () => {
 	const mining = useMiningStatus();
-	const { address } = useUser();
+	const { address, logout } = useUser();
+	const { account } = useChain();
+
+	useEffect(() => {
+		if (account && address) {
+			if (account.toLowerCase() !== address.toLowerCase()) {
+				logout();
+			}
+		}
+	}, [account, address, logout]);
 
 	const showUserWallet = (selected) => {
 		NiceModal.show(modalRegistry.userWallet, { selected });
