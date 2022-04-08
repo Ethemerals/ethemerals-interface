@@ -7,13 +7,10 @@ import { useCore, useCoreContract } from '../hooks/useCore';
 
 import { useUser } from '../hooks/useUser';
 import { modalRegistry } from '../components/niceModals/RegisterModals';
-import { useChain } from 'react-moralis';
-import { getIsLayer2, getOtherLayerChainName } from '../utils/contracts/parseChainId';
-import NetworksButton from '../components/navigation/NetworksButton';
+import { useGetLayerDetails } from '../hooks/useWeb3';
 
 const Mint = () => {
-	const { chainId } = useChain();
-	let isLayer2 = getIsLayer2(chainId);
+	const { isLayer2, otherLayerName } = useGetLayerDetails();
 
 	const { core } = useCore();
 	const { contractCore } = useCoreContract();
@@ -21,6 +18,10 @@ const Mint = () => {
 	const { login, address } = useUser();
 
 	const sendTx = useSendTx();
+
+	const onSwitchNetwork = () => {
+		NiceModal.show(modalRegistry.chooseNetworks);
+	};
 
 	const onSubmitMint = async () => {
 		if (contractCore) {
@@ -105,10 +106,12 @@ const Mint = () => {
 				{contractCore ? (
 					<div>
 						{isLayer2 && (
-							<div className="flex items-center space-x-2 mt-4 justify-center border border-gray-200 px-2 py-4">
-								<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
-								<NetworksButton />
-							</div>
+							<button
+								onClick={onSwitchNetwork}
+								className="text-center w-96 mx-auto border-2 border-pink-200 shadow-md sm:mx-8 mt-4 py-2 px-4 cursor-pointer rounded-lg font-bold text-2xl bg-blue-400 hover:bg-yellow-400 text-white transition duration-300 "
+							>
+								<p className="">Switch Network to {otherLayerName}</p>
+							</button>
 						)}
 						{!isLayer2 && (
 							<div>

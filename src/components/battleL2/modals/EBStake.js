@@ -12,6 +12,7 @@ import { usePriceFeedContractL2, usePriceFeedPriceL2 } from '../../../hooks/useP
 import SVGQuestionMark from '../svg/SVGQuestionMark';
 import ReactTooltip from 'react-tooltip';
 import { Links } from '../../../constants/Links';
+import { useGetLayerDetails } from '../../../hooks/useWeb3';
 
 const rangeDefaults = {
 	min: 100,
@@ -23,6 +24,7 @@ const rangeDefaults = {
 export default NiceModal.create(({ meral, priceFeed, long }) => {
 	const { address } = useUser();
 	const { contractBattle } = useEternalBattleL2Contract();
+	const { isLayer2, otherLayerName } = useGetLayerDetails();
 	const sendTx = useSendTx();
 
 	const { contractPriceFeed } = usePriceFeedContractL2();
@@ -89,6 +91,10 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 
 	const selectAndToggle = async (id) => {
 		// console.log(id);
+	};
+
+	const onSwitchNetwork = () => {
+		NiceModal.show(modalRegistry.chooseNetworks);
 	};
 
 	const onSubmitStake = async () => {
@@ -202,14 +208,27 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 							</div>
 						</div>
 						<div className="text-center">
-							<button
-								onClick={onSubmitStake}
-								className={`${
-									long ? 'bg-green-100 border-green-200 text-green-900' : 'bg-red-100 border-red-200 text-red-900'
-								} transition duration-300 hover:bg-white shadow border rounded-lg px-6 py-1 mt-2 text-lg uppercase`}
-							>
-								SEND {meral.name ? meral.name : `#${meral.tokenId}`} TO BATTLE!
-							</button>
+							{isLayer2 && (
+								<button
+									onClick={onSubmitStake}
+									className={`${
+										long ? 'bg-green-100 border-green-200 text-green-900' : 'bg-red-100 border-red-200 text-red-900'
+									} transition duration-300 hover:bg-white shadow border rounded-lg px-6 py-1 mt-2 text-lg uppercase`}
+								>
+									SEND {meral.name ? meral.name : `#${meral.tokenId}`} TO BATTLE!
+								</button>
+							)}
+
+							{!isLayer2 && (
+								<button
+									onClick={onSwitchNetwork}
+									className={`${
+										long ? 'bg-green-100 border-green-200 text-green-900' : 'bg-red-100 border-red-200 text-red-900'
+									} transition duration-300 hover:bg-white shadow border rounded-lg px-6 py-1 mt-2 text-lg uppercase`}
+								>
+									SWITCH NETWORK TO {otherLayerName}
+								</button>
+							)}
 						</div>
 					</div>
 					<div style={{ borderTop: '1px solid skyblue', height: '80px', bottom: '44px' }} className="w-full absolute text-xs bg-blue-100 border-t px-4 py-2 text-gray-500">

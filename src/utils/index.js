@@ -88,3 +88,7 @@ export const formatFilters = (filters) => {
 	}
 	return `{${_filters}}`;
 };
+
+// MATHS
+
+export const clamp = (num, min, max) => Math.min(Math.max(num, min), max);

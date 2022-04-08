@@ -1,7 +1,7 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
 import { useState, useEffect } from 'react';
-import { useChain } from 'react-moralis';
+
 import { Addresses } from '../../../constants/contracts/Addresses';
 import { Links } from '../../../constants/Links';
 
@@ -10,15 +10,13 @@ import { useCore, useCoreContract } from '../../../hooks/useCore';
 import { getIdFromType } from '../../../hooks/useMeralsUtils';
 
 import { useUserAccount } from '../../../hooks/useUser';
-import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
+import { useGetLayerDetails } from '../../../hooks/useWeb3';
 
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
-import NetworksButton from '../../navigation/NetworksButton';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 
 export default NiceModal.create(() => {
-	const { chainId } = useChain();
-	let isLayer2 = getIsLayer2(chainId);
+	const { isLayer2, otherLayerName } = useGetLayerDetails();
 
 	const modal = useModal();
 	const { core } = useCore();
@@ -49,6 +47,10 @@ export default NiceModal.create(() => {
 
 	const toggle = async () => {
 		modal.remove();
+	};
+
+	const onSwitchNetwork = () => {
+		NiceModal.show(modalRegistry.chooseNetworks);
 	};
 
 	const onSubmitBurn = async () => {
@@ -104,10 +106,9 @@ export default NiceModal.create(() => {
 
 									<div className="px-4 pt-6">
 										{isLayer2 && (
-											<div className="flex items-center space-x-2 mt-4 mb-10 justify-center">
-												<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
-												<NetworksButton />
-											</div>
+											<button onClick={onSwitchNetwork} className={`mt-2 mb-8 bg-brandColor text-white px-4 py-1 m-2 shadow rounded hover:shadow-lg transition duration-300`}>
+												Switch Network to {otherLayerName}
+											</button>
 										)}
 										{!isLayer2 && (
 											<>

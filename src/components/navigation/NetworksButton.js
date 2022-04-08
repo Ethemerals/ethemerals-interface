@@ -1,43 +1,20 @@
 import NiceModal from '@ebay/nice-modal-react';
 import { useEffect, useState } from 'react';
 import { useChain } from 'react-moralis';
-import { ETHLogo, PolygonLogo } from '../chains/Logos';
+import { Networks } from '../chains/Networks';
 import { modalRegistry } from '../niceModals/RegisterModals';
-
-const networks = [
-	{
-		key: '0x1',
-		value: 'Ethereum',
-		icon: <ETHLogo />,
-	},
-	{
-		key: '0x89',
-		value: 'Polygon',
-		icon: <PolygonLogo />,
-	},
-	{
-		key: '0x4',
-		value: 'Rinkeby',
-		icon: <ETHLogo />,
-	},
-	{
-		key: '0x13881',
-		value: 'Mumbai',
-		icon: <PolygonLogo />,
-	},
-];
 
 const NetworksButton = () => {
 	const { chainId } = useChain();
 	const [selected, setSelected] = useState(undefined);
 
 	useEffect(() => {
-		const newSelected = networks.find((item) => item.key === chainId);
+		const newSelected = Networks.find((item) => item.key === chainId);
 		setSelected(newSelected);
 	}, [chainId]);
 
 	const toggle = () => {
-		NiceModal.show(modalRegistry.chooseNetworks, { networks });
+		NiceModal.show(modalRegistry.chooseNetworks);
 	};
 
 	if (!chainId || !selected) return null;

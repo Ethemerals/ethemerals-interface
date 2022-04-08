@@ -1,12 +1,12 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { BigNumber, ethers } from 'ethers';
-import { useChain } from 'react-moralis';
+
 import { Addresses } from '../../constants/contracts/Addresses';
 import { useSendTx } from '../../context/TxContext';
 import { useMeralManagerContract, useRegisterMerals } from '../../hooks/useMeralManager';
 
 import { useUser, useUserAccount } from '../../hooks/useUser';
-import { getIsLayer2, getOtherLayerChainName } from '../../utils/contracts/parseChainId';
+import { useGetLayerDetails } from '../../hooks/useWeb3';
 
 import LoginButton from '../niceModals/cards/LoginButton';
 
@@ -22,8 +22,7 @@ const RegisterMerals = () => {
 	const sendTx = useSendTx();
 	const { contractMeralManager } = useMeralManagerContract();
 
-	const { chainId } = useChain();
-	let isLayer2 = getIsLayer2(chainId);
+	const { isLayer2, otherLayerName } = useGetLayerDetails();
 
 	const toggle = async () => {
 		// modal.remove();
@@ -33,6 +32,10 @@ const RegisterMerals = () => {
 		console.log('hi', id);
 		await submitRegisterMeral(id);
 		// TODO
+	};
+
+	const onSwitchNetwork = () => {
+		NiceModal.show(modalRegistry.chooseNetworks);
 	};
 
 	const submitRegisterMeral = async (id) => {
@@ -116,7 +119,11 @@ const RegisterMerals = () => {
 							{isLayer2 && availableMerals && <MeralList nfts={availableMerals} select={selectAndToggle} />}
 							<div className="py-4">
 								{!user && <LoginButton />}
-								{!isLayer2 && <SwitchNetworks message={`Switch your Network to ${getOtherLayerChainName(chainId)}`} />}
+								{!isLayer2 && (
+									<button onClick={onSwitchNetwork} className={`mt-2 mb-8 bg-brandColor text-white px-4 py-1 m-2 shadow rounded hover:shadow-lg transition duration-300`}>
+										Switch Network to {otherLayerName}
+									</button>
+								)}
 							</div>
 						</div>
 						<div className="my-2 py-2 bg-white bg-opacity-50">

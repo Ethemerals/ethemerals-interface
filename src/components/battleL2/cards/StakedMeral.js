@@ -6,7 +6,7 @@ import { modalRegistry } from '../../niceModals/RegisterModals';
 import { useEternalBattleL2GetChange } from '../../../hooks/useEternalBattleL2';
 import MeralThumbnail from '../../ethemerals/cards/MeralThumbnail';
 import { useMeralsUtils } from '../../../hooks/useMeralsUtils';
-import { formatPrice, shortenAddress } from '../../../utils';
+import { clamp, formatPrice, shortenAddress } from '../../../utils';
 
 import SVGRevive from '../svg/SVGRevive';
 import SVGUnstake from '../svg/SVGUnstake';
@@ -15,8 +15,6 @@ import Spinner from '../../Spinner';
 import { animated, useSpring, config } from '@react-spring/web';
 import { formatDistance } from 'date-fns';
 import { useUserAccount } from '../../../hooks/useUser';
-
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 const StakedMeral = ({ priceFeed, stake }) => {
 	let meral = stake.meral;
@@ -69,9 +67,20 @@ const StakedMeral = ({ priceFeed, stake }) => {
 	};
 
 	const onSubmitRevive = async () => {
-		let subtext = 'Which Meral will you use to be the Reviver?';
-		let modalOptions = { priceFeed, stake, subtext };
-		NiceModal.show(modalRegistry.ebChoose, { modalToShow: modalRegistry.ebRevive, modalOptions });
+		if (isOwned) {
+			onSubmitUnstake();
+		}
+		if (!isOwned && scoreCalculated <= 25) {
+			let subtext = 'Which Meral will you use to be the Reviver?';
+			let modalOptions = { priceFeed, stake, subtext };
+			NiceModal.show(modalRegistry.ebChoose, { modalToShow: modalRegistry.ebRevive, modalOptions });
+		}
+	};
+
+	const onSubmitUnstake = async () => {
+		if (isOwned) {
+			NiceModal.show(modalRegistry.ebUnstake, { stake, priceFeed, timeAgo, scoreCalculated, rewardsCalculated });
+		}
 	};
 
 	const styleHover = useSpring({
@@ -108,18 +117,17 @@ const StakedMeral = ({ priceFeed, stake }) => {
 							</p>
 							<p>
 								<span>STAKED:</span>
-
 								<span className="pl-1 text-black">{timeAgo}</span>
 							</p>
 						</animated.div>
 						<animated.div style={styleHover2} className="ml-4 text-gray-500 text-xs my-1">
 							<p>
-								<span>STARTING PRICE: </span>
+								<span>ENTRY PRICE: </span>
 								<span className="text-black"> {formatPrice(parseFloat(stake.startingPrice) / 10 ** priceFeed.decimals, 2)}</span>
 							</p>
 							<p>
 								<span>HP:</span>
-								<span className="pl-1 text-black">{`${clamp(scoreCalculated, 0, 1000)} `}</span>
+								<span className="pl-1 text-black">{`${clamp(scoreCalculated, 0, stake.meral.maxHp)} `}</span>
 								<span className={`text-xs ${scoreChange.win ? 'text-green-800' : 'text-red-800'}`}>{scoreChange.win ? `(+${parseInt(scoreChange.score)})` : `(-${parseInt(scoreChange.score)})`}</span>
 							</p>
 							<p>
@@ -135,7 +143,7 @@ const StakedMeral = ({ priceFeed, stake }) => {
 			<div className="flex absolute bottom-10 right-1">
 				{isOwned && (
 					<>
-						<button data-tip data-for="ttUnstake" className="mr-1 text-green-500 hover:text-green-700 cursor-pointer transition duration-300">
+						<button onClick={onSubmitUnstake} data-tip data-for="ttUnstake" className="mr-1 text-green-500 hover:text-green-700 cursor-pointer transition duration-300">
 							<SVGUnstake />
 						</button>
 
@@ -148,14 +156,17 @@ const StakedMeral = ({ priceFeed, stake }) => {
 				<>
 					<button
 						onClick={onSubmitRevive}
-						disabled={scoreCalculated >= 25}
+						// disabled={scoreCalculated >= 25}
 						data-tip
-						data-for="ttRevive"
+						data-for={scoreCalculated <= 25 && isOwned ? 'ttLiquidate' : 'ttRevive'}
 						className={`text-yellow-500 mr-1 opacity-10 ${scoreCalculated <= 25 ? 'opacity-100 cursor-pointer transition duration-300' : ''}`}
 					>
 						<SVGRevive />
 					</button>
 
+					<ReactTooltip id="ttLiquidate" type="warning" effect="solid">
+						<span>Warning! Your Meral is subject to Liquidation</span>
+					</ReactTooltip>
 					<ReactTooltip id="ttRevive" type="warning" effect="solid">
 						<span>Revive Meral!</span>
 					</ReactTooltip>

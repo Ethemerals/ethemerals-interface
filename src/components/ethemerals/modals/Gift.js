@@ -1,14 +1,14 @@
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../context/TxContext';
-import { useChain } from 'react-moralis';
 
 import { useCoreContract } from '../../../hooks/useCore';
 import { getIdFromType } from '../../../hooks/useMeralsUtils';
 import { useUserAccount } from '../../../hooks/useUser';
 
-import { getIsLayer2, getOtherLayerChainName } from '../../../utils/contracts/parseChainId';
-import NetworksButton from '../../navigation/NetworksButton';
+import { useGetLayerDetails } from '../../../hooks/useWeb3';
+import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const SpinnerSVG = () => (
 	<svg className=" animate-spin-slow text-brandColor" width="50" height="50" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,8 +22,7 @@ const SpinnerSVG = () => (
 );
 
 const Gift = ({ toggle, nft }) => {
-	const { chainId } = useChain();
-	let isLayer2 = getIsLayer2(chainId);
+	const { isLayer2, otherLayerName } = useGetLayerDetails();
 
 	const { register, handleSubmit } = useForm();
 	const { address } = useUserAccount();
@@ -32,6 +31,10 @@ const Gift = ({ toggle, nft }) => {
 	const sendTx = useSendTx();
 
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+
+	const onSwitchNetwork = () => {
+		NiceModal.show(modalRegistry.chooseNetworks);
+	};
 
 	const onSubmitGift = async (data) => {
 		if (contractCore) {
@@ -76,10 +79,9 @@ const Gift = ({ toggle, nft }) => {
 						{!isConfirmationOpen ? (
 							<>
 								{isLayer2 && (
-									<div className="flex items-center space-x-2 mt-4 justify-center">
-										<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
-										<NetworksButton />
-									</div>
+									<button onClick={onSwitchNetwork} className="bg-yellow-400 text-xl text-bold px-4 py-2 my-10 rounded shadow-lg hover:bg-yellow-300 transition duration-300">
+										Switch Network to {otherLayerName}
+									</button>
 								)}
 								{!isLayer2 && (
 									<button onClick={handleSubmit(onSubmitGift)} className="bg-yellow-400 text-xl text-bold px-4 py-2 my-10 rounded shadow-lg hover:bg-yellow-300 transition duration-300">

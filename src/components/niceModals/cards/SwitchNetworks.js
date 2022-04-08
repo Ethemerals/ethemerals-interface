@@ -3,8 +3,10 @@ import NetworksButton from '../../navigation/NetworksButton';
 const SwitchNetworks = ({ message }) => {
 	return (
 		<>
-			<div className="">{message}</div>
-			<NetworksButton />
+			<div className="bg-blue-100">
+				{message}
+				<NetworksButton />
+			</div>
 		</>
 	);
 };

@@ -8,10 +8,12 @@ import CloseButton from './CloseButton';
 import ReviveWings from '../svg/SVGReviveWings';
 import { useEternalBattleL2Contract } from '../../../hooks/useEternalBattleL2';
 import { useSendTx } from '../../../context/TxContext';
+import { useGetLayerDetails } from '../../../hooks/useWeb3';
 
 export default NiceModal.create(({ meral, priceFeed, stake }) => {
 	const { address } = useUser();
 	const { contractBattle } = useEternalBattleL2Contract();
+	const { isLayer2, otherLayerName } = useGetLayerDetails();
 	const sendTx = useSendTx();
 
 	const modal = useModal();
@@ -22,6 +24,10 @@ export default NiceModal.create(({ meral, priceFeed, stake }) => {
 
 	const selectAndToggle = async (id) => {
 		console.log(id);
+	};
+
+	const onSwitchNetwork = () => {
+		NiceModal.show(modalRegistry.chooseNetworks);
 	};
 
 	const onSubmitRevive = async () => {
@@ -79,12 +85,22 @@ export default NiceModal.create(({ meral, priceFeed, stake }) => {
 							<div className="text-center text-sm text-gray-800">
 								<p>{`${stake.meral.name ? stake.meral.name : `#${stake.meral.tokenId}`} has collapsed in Battle! Use ${meral.name ? meral.name : `#${meral.tokenId}`} to revive her.`}</p>
 								<p>{`Your Meral will extract 500 ELF from ${stake.meral.name ? stake.meral.name : `#${stake.meral.tokenId}`}... as a reward 🥰`}</p>
-								<button
-									onClick={onSubmitRevive}
-									className={'bg-yellow-100 border-yellow-200 text-yellow-900	transition duration-300 hover:bg-white shadow border rounded-lg px-6 py-1 mt-8 text-lg uppercase'}
-								>
-									REVIVE {stake.meral.name ? stake.meral.name : `#${stake.meral.tokenId}`}
-								</button>
+								{isLayer2 && (
+									<button
+										onClick={onSubmitRevive}
+										className={'bg-yellow-100 border-yellow-200 text-yellow-900	transition duration-300 hover:bg-white shadow border rounded-lg px-6 py-1 mt-8 text-lg uppercase'}
+									>
+										REVIVE {stake.meral.name ? stake.meral.name : `#${stake.meral.tokenId}`}
+									</button>
+								)}
+								{!isLayer2 && (
+									<button
+										onClick={onSwitchNetwork}
+										className={'bg-yellow-100 border-yellow-200 text-yellow-900	transition duration-300 hover:bg-white shadow border rounded-lg px-6 py-1 mt-8 text-lg uppercase'}
+									>
+										SWITCH NETWORK TO {otherLayerName}
+									</button>
+								)}
 							</div>
 						)}
 					</div>

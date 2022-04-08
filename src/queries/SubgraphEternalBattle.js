@@ -11,6 +11,7 @@ export const GET_EBSTAKES_BY_PRICEFEEDID = gql`
 				tokenId
 				meralId
 				hp
+				maxHp
 				elf
 				xp
 				atk
@@ -46,6 +47,7 @@ export const GET_EBSTAKES_RECORD_BY_PRICEFEEDID = gql`
 				tokenId
 				meralId
 				hp
+				maxHp
 				elf
 				xp
 				atk

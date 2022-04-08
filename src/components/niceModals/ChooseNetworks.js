@@ -2,7 +2,9 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { Links } from '../../constants/Links';
 import { useChain } from 'react-moralis';
 
-export default NiceModal.create(({ networks }) => {
+import { Networks } from '../chains/Networks';
+
+export default NiceModal.create(() => {
 	const modal = useModal();
 	const { switchNetwork } = useChain();
 
@@ -11,9 +13,9 @@ export default NiceModal.create(({ networks }) => {
 	};
 
 	const handleMenuClick = async (network) => {
-		console.log('switch to: ', networks[network].value);
+		console.log('switch to: ', Networks[network].value);
 		try {
-			await switchNetwork(networks[network].key);
+			await switchNetwork(Networks[network].key);
 		} catch (error) {}
 
 		toggle();
@@ -28,14 +30,14 @@ export default NiceModal.create(({ networks }) => {
 				</div>
 				<button onClick={() => handleMenuClick(0)} className="px-2 h-10 mr-2 z-30 focus:outline-none flex items-center justify-center text-black hover:text-blue-600 rounded transition duration-300">
 					<div className="flex items-center ">
-						{networks[0].icon}
-						<span className="px-2 text-xs font-bold">{networks[0].value}</span>
+						{Networks[0].icon}
+						<span className="px-2 text-xs font-bold">{Networks[0].value}</span>
 					</div>
 				</button>
 				<button onClick={() => handleMenuClick(1)} className="px-2 h-10 mr-2 focus:outline-none flex items-center justify-center text-black hover:text-blue-600 rounded transition duration-300">
 					<div className="flex items-center ">
-						{networks[1].icon}
-						<span className="px-2 text-xs font-bold">{networks[1].value}</span>
+						{Networks[1].icon}
+						<span className="px-2 text-xs font-bold">{Networks[1].value}</span>
 					</div>
 				</button>
 				<div className="h-6"></div>
@@ -48,14 +50,14 @@ export default NiceModal.create(({ networks }) => {
 						</div>
 						<button onClick={() => handleMenuClick(2)} className="px-2 h-10 mr-2 focus:outline-none flex items-center justify-center text-black hover:text-blue-600 rounded transition duration-300">
 							<div className="flex items-center ">
-								{networks[2].icon}
-								<span className="px-2 text-xs font-bold">{networks[2].value}</span>
+								{Networks[2].icon}
+								<span className="px-2 text-xs font-bold">{Networks[2].value}</span>
 							</div>
 						</button>
 						<button onClick={() => handleMenuClick(3)} className="px-2 h-10 mr-2 focus:outline-none flex items-center justify-center text-black hover:text-blue-600 rounded transition duration-300">
 							<div className="flex items-center ">
-								{networks[3].icon}
-								<span className="px-2 text-xs font-bold">{networks[3].value}</span>
+								{Networks[3].icon}
+								<span className="px-2 text-xs font-bold">{Networks[3].value}</span>
 							</div>
 						</button>
 						<div className="h-6"></div>

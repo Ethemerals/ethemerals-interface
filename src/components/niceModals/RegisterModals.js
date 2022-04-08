@@ -18,6 +18,7 @@ import BurnMeral from './minting/BurnMeral';
 import EBChoose from '../battleL2/modals/EBChoose';
 import EBStake from '../battleL2/modals/EBStake';
 import EBRevive from '../battleL2/modals/EBRevive';
+import EBUnstake from '../battleL2/modals/EBUnstake';
 
 export const modalRegistry = {
 	// MINTING
@@ -32,7 +33,9 @@ export const modalRegistry = {
 	// ETERNAL BATTLE
 	ebChoose: 'enternal-choose-meral',
 	ebStake: 'enternal-stake-meral',
+	ebUnstake: 'eternal-unstake-meral',
 	ebRevive: 'eternal-revive',
+
 	// MERAL MANAGER
 
 	// ONSEN
@@ -61,6 +64,7 @@ export const registerModals = () => {
 	NiceModal.register(modalRegistry.ebChoose, EBChoose);
 	NiceModal.register(modalRegistry.ebStake, EBStake);
 	NiceModal.register(modalRegistry.ebRevive, EBRevive);
+	NiceModal.register(modalRegistry.ebUnstake, EBUnstake);
 	// MERAL MANAGER
 
 	// ONSEN

@@ -1,22 +1,26 @@
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+import NiceModal from '@ebay/nice-modal-react';
 import PriceFeeds from '../../constants/PriceFeeds';
 import EternalBattleCard from './EternalBattleCard';
 import EBattleHelp from './EBattleHelp';
-import { useChain } from 'react-moralis';
-import { getIsLayer2, getOtherLayerChainName } from '../../utils/contracts/parseChainId';
-import NetworksButton from '../navigation/NetworksButton';
+
+import { useGetLayerDetails } from '../../hooks/useWeb3';
+import { modalRegistry } from '../niceModals/RegisterModals';
 
 const EternalBattleL1 = () => {
-	const { chainId } = useChain();
-	const isLayer2 = getIsLayer2(chainId);
+	const { isLayer2, otherLayerName } = useGetLayerDetails();
 
 	let { id } = useParams();
 	if (!id) {
 		id = 0;
 	}
 	const history = useHistory();
+
+	const onSwitchNetwork = () => {
+		NiceModal.show(modalRegistry.chooseNetworks);
+	};
 
 	let priceFeedId = parseInt(id);
 
@@ -29,9 +33,8 @@ const EternalBattleL1 = () => {
 			<div className="page_bg"></div>
 			<EBattleHelp />
 			{isLayer2 && (
-				<div className="flex items-center space-x-2 mt-4 justify-center">
-					<div className="">{`Switch your Network to ${getOtherLayerChainName(chainId)}`}</div>
-					<NetworksButton />
+				<div onClick={onSwitchNetwork} className="rounded bg-blue-100 w-96 mx-auto flex items-center space-x-2 mt-4 justify-center">
+					<div className="">{`Switch your Network to ${otherLayerName}`}</div>
 				</div>
 			)}
 
