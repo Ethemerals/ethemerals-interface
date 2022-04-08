@@ -10,7 +10,6 @@ import { useGetLayerDetails } from '../../hooks/useWeb3';
 
 import LoginButton from '../niceModals/cards/LoginButton';
 
-import SwitchNetworks from '../niceModals/cards/SwitchNetworks';
 import { modalRegistry } from '../niceModals/RegisterModals';
 
 import MeralList from './cards/MeralList';

@@ -4,26 +4,26 @@ import { useGQLQueryL1, useGQLQueryL2 } from './useGQLQuery';
 
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
-import { useWeb3 } from './useWeb3';
+import { useWeb3, useGetLayerDetails } from './useWeb3';
 import { getContract } from '../utils/contracts/getContract';
 import { useChain } from 'react-moralis';
 import { GET_EBSTAKES_BY_PRICEFEEDID, GET_EBSTAKES_RECORD_BY_PRICEFEEDID } from '../queries/SubgraphEternalBattle';
 import { Links } from '../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { GET_NFT_L2 } from '../queries/SubgraphPoly';
+import Moralis from 'moralis';
 
-const getChangeAPI = async (id) => {
-	// const url = `${process.env.REACT_APP_API_MARKETS}ebgetchange?id=${id}&network=${process.env.REACT_APP_NETWORK}`;
-	// const { data } = await axios.get(url);
-	// if (data.status === 'success') {
-	// 	return data.data;
-	// } else {
-	// 	return null;
-	// }
+const getChangeAPI = async (meralId) => {
+	try {
+		const result = await Moralis.Cloud.run('getChange', { meralId });
+		return result;
+	} catch (error) {
+		throw new Error('get change error');
+	}
 };
 
-const getChange = async (provider, contract, id) => {
-	if (provider && contract) {
+const getChange = async (provider, contract, id, isLayer2) => {
+	if (provider && contract && isLayer2) {
 		try {
 			let [score, rewards, win] = await contract.getChange(id);
 			return { score: score.toString(), rewards: rewards.toString(), win };
@@ -32,8 +32,7 @@ const getChange = async (provider, contract, id) => {
 		}
 	} else {
 		try {
-			const { change } = await getChangeAPI(id);
-			let data = { ...change };
+			const data = await getChangeAPI(id);
 			if (data) {
 				return data;
 			} else {
@@ -92,8 +91,9 @@ export const useActiveStakes = (id) => {
 
 export const useEternalBattleL2GetChange = (id) => {
 	const { provider } = useWeb3();
+	const { isLayer2 } = useGetLayerDetails();
 	const { contractBattle } = useEternalBattleL2Contract();
-	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contractBattle, id), { enabled: !!id && !!contractBattle, refetchInterval: 50000 });
+	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contractBattle, id, isLayer2), { enabled: !!id && !!contractBattle, refetchInterval: 50000 });
 
 	const [scoreChange, setScoreChange] = useState(undefined);
 

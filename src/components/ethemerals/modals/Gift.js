@@ -1,4 +1,4 @@
-import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import NiceModal from '@ebay/nice-modal-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSendTx } from '../../../context/TxContext';

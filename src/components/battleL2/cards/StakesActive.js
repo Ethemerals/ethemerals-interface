@@ -32,7 +32,8 @@ const StakesActive = ({ priceFeed }) => {
 	const styleStakeButton = {
 		// background: 'rgb(32,32,32)' /* fallback for old browsers */,
 		// background: 'linear-gradient(0deg, rgba(36,36,36,1) 0%, rgba(92,92,94,1) 58%, rgba(125,131,133,1) 86%, rgba(183,189,190,1) 100%)',
-		width: '128px',
+		minWidth: '164px',
+		width: 'max-content',
 		cursor: 'pointer',
 		borderRadius: '2px',
 		textAlign: 'center',
@@ -40,6 +41,8 @@ const StakesActive = ({ priceFeed }) => {
 		marginRight: 'auto',
 		paddingTop: '4px',
 		paddingBottom: '4px',
+		paddingLeft: '12px',
+		paddingRight: '12px',
 	};
 
 	return (
@@ -53,7 +56,7 @@ const StakesActive = ({ priceFeed }) => {
 				</p>
 
 				<div style={styleStakeButton} onClick={() => onSubmitChoose(true)} className="font-bold text-green-900 shadow-md bg-green-50 hover:bg-green-100 transition duration-200">
-					Join {priceFeed.baseSymbol}
+					Join {priceFeed.baseSymbol} ⚔️
 				</div>
 				<div className="m-4 mt-10">{activeLongs && activeLongs.map((stake) => <StakedMeral key={stake.meral.meralId} priceFeed={priceFeed} stake={stake} />)}</div>
 			</div>
@@ -67,7 +70,7 @@ const StakesActive = ({ priceFeed }) => {
 				</p>
 
 				<div style={styleStakeButton} onClick={() => onSubmitChoose(false)} className="font-bold text-red-900 shadow-md bg-red-50 hover:bg-red-100 transition duration-200">
-					Join {priceFeed.quoteSymbol}
+					Join {priceFeed.quoteSymbol} ⚔️
 				</div>
 				<div className="m-4 mt-10">{activeShorts && activeShorts.map((stake) => <StakedMeral key={stake.meral.meralId} priceFeed={priceFeed} stake={stake} />)}</div>
 			</div>

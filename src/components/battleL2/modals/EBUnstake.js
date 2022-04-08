@@ -16,7 +16,7 @@ export default NiceModal.create(({ priceFeed, stake, timeAgo, scoreCalculated, r
 	const { address } = useUser();
 	const { contractBattle } = useEternalBattleL2Contract();
 	const { isLayer2, otherLayerName } = useGetLayerDetails();
-	const { scoreChange, isLoading } = useEternalBattleL2GetChange(meral.meralId);
+	const { scoreChange } = useEternalBattleL2GetChange(meral.meralId);
 
 	const sendTx = useSendTx();
 	const modal = useModal();

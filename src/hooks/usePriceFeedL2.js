@@ -3,10 +3,13 @@ import { useQuery } from 'react-query';
 import { useChain } from 'react-moralis';
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
-import { useWeb3 } from './useWeb3';
+import { useWeb3, useGetLayerDetails } from './useWeb3';
 import { getContract } from '../utils/contracts/getContract';
 
-const getLatestPrice = async (contract, priceFeed) => {
+const getLatestPrice = async (contract, priceFeed, isLayer2) => {
+	if (!isLayer2) {
+		return '0';
+	}
 	try {
 		const price = await contract.getLatestPrice(priceFeed.id);
 		return price.toString();
@@ -16,7 +19,11 @@ const getLatestPrice = async (contract, priceFeed) => {
 };
 
 export const usePriceFeedPriceL2 = (contract, priceFeed) => {
-	const { isLoading, data } = useQuery([`priceFeedL2_${priceFeed.id}`, priceFeed.id], () => getLatestPrice(contract, priceFeed), { enabled: !!contract && !!priceFeed, refetchInterval: 30000 });
+	const { isLayer2 } = useGetLayerDetails();
+	const { isLoading, data } = useQuery([`priceFeedL2_${priceFeed.id}`, priceFeed.id], () => getLatestPrice(contract, priceFeed, isLayer2), {
+		enabled: !!contract && !!priceFeed,
+		refetchInterval: 30000,
+	});
 
 	const [price, setPriceFeed] = useState(undefined);
 

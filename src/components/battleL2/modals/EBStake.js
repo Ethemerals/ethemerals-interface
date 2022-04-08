@@ -95,6 +95,7 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 
 	const onSwitchNetwork = () => {
 		NiceModal.show(modalRegistry.chooseNetworks);
+		toggle();
 	};
 
 	const onSubmitStake = async () => {
