@@ -1,4 +1,6 @@
 import { useQuery } from 'react-query';
+import NiceModal from '@ebay/nice-modal-react';
+import { useState, useEffect } from 'react';
 import ChartData from './ChartData';
 
 import { formatPrice } from '../../../utils';
@@ -6,6 +8,7 @@ import { formatPrice } from '../../../utils';
 import SVGChainLink from '../svg/SVGChainLink';
 import SVGCoinGecko from '../svg/SVGCoinGecko';
 import Champions from './Champions';
+import { modalRegistry } from '../../niceModals/RegisterModals';
 
 const useGetCardData = (cryptoName, options) => {
 	return useQuery(
@@ -30,15 +33,26 @@ const formatPlusMinus = (priceChange) => {
 
 const PriceTracker = ({ priceFeed }) => {
 	const cryptoName = priceFeed.baseName.toLowerCase();
+	const [marketData, setMarketData] = useState(undefined);
 
 	const { data, isLoading } = useGetCardData(cryptoName, {
 		refetchInterval: 60000,
 		staleTime: 60000,
 	});
 
-	if (isLoading) return <div></div>;
+	useEffect(() => {
+		if (data && !isLoading) {
+			const { market_data } = data;
+			setMarketData(market_data);
+		}
+		return () => {
+			setMarketData(undefined);
+		};
+	}, [data, isLoading]);
 
-	const { market_data: marketData } = data;
+	const onSubmitChoose = async (long) => {
+		NiceModal.show(modalRegistry.ebMarkets);
+	};
 
 	const styleBoxshadow = {
 		boxShadow: '4px 4px 12px rgba(0, 0, 0, 0.4)',
@@ -47,8 +61,17 @@ const PriceTracker = ({ priceFeed }) => {
 	return (
 		<>
 			<div className="text-black w-full">
-				<div className="mt-2 p-4 pb-2 text-white">
-					<p className="text-4xl">{priceFeed.ticker}</p>
+				<div className="mt-2 p-4 pb-2 text-white flex items-center">
+					<div className="text-4xl">{priceFeed.ticker}</div>
+					<div
+						onClick={onSubmitChoose}
+						style={{ transform: 'translate(0px, 4px)', paddingTop: '3px', paddingBottom: '3px' }}
+						className="ml-3 bg-gray-800 px-4 text-xs font-bold flex items-center shadow cursor-pointer relative rounded-md border-gray-400 border bg-opacity-40 text-gray-400 hover:text-white transition 300"
+					>
+						<span>CHANGE MARKETS</span>
+						<div style={{ top: '-4px', right: '-3px' }} className="animate-ping bg-white rounded-full w-2 h-2 absolute"></div>
+						<div style={{ top: '-4px', right: '-3px' }} className="bg-gray-200 rounded-full w-2 h-2 absolute"></div>
+					</div>
 				</div>
 				<div className="flex items-stretch space-x-4">
 					<div style={styleBoxshadow} className="bg-white w-2/3 p-4 flex rounded-md">
@@ -58,27 +81,31 @@ const PriceTracker = ({ priceFeed }) => {
 								<span>{`${priceFeed.baseName} vs ${priceFeed.quoteName}`}</span>
 							</div>
 
-							<p className="font-light text-2xl mt-2 mb-4">
-								{formatPrice(marketData?.current_price?.usd, priceFeed.priceDecimalPlaces)}
-								{formatPlusMinus(marketData?.price_change_percentage_24h)}
-							</p>
-							<div style={{ borderBottom: '1px solid white' }} className="text-xs flex items-center justify-between pb-2 mb-3 text-gray-600">
-								<span>MARKET RANK:</span>
-								<span>{data.coingecko_rank}</span>
-							</div>
-							<div style={{ borderBottom: '1px solid white' }} className="text-xs flex items-center justify-between pb-2 mb-3 text-gray-600">
-								<span>MARKET CAP:</span>
-								<span>{formatPrice(marketData?.market_cap?.usd, priceFeed.volDecimalPlaces)}</span>
-							</div>
-							<div style={{ borderBottom: '1px solid white' }} className="text-xs flex items-center justify-between pb-2 mb-3 text-gray-600">
-								<span>VOLUME:</span>
-								<span>{formatPrice(marketData?.total_volume?.usd, priceFeed.volDecimalPlaces)}</span>
-							</div>
+							{marketData && (
+								<>
+									<p className="font-light text-2xl mt-2 mb-4">
+										{formatPrice(marketData?.current_price?.usd, priceFeed.priceDecimalPlaces)}
+										{formatPlusMinus(marketData?.price_change_percentage_24h)}
+									</p>
+									<div style={{ borderBottom: '1px solid white' }} className="text-xs flex items-center justify-between pb-2 mb-3 text-gray-600">
+										<span>MARKET RANK:</span>
+										<span>{marketData.coingecko_rank}</span>
+									</div>
+									<div style={{ borderBottom: '1px solid white' }} className="text-xs flex items-center justify-between pb-2 mb-3 text-gray-600">
+										<span>MARKET CAP:</span>
+										<span>{formatPrice(marketData?.market_cap?.usd, priceFeed.volDecimalPlaces)}</span>
+									</div>
+									<div style={{ borderBottom: '1px solid white' }} className="text-xs flex items-center justify-between pb-2 mb-3 text-gray-600">
+										<span>VOLUME:</span>
+										<span>{formatPrice(marketData?.total_volume?.usd, priceFeed.volDecimalPlaces)}</span>
+									</div>
+								</>
+							)}
 
 							<div className="flex w-full items-center justify-between absolute bottom-0 mb-2">
 								<a href={priceFeed.chainlink} target="blank" rel="noreferrer" className="flex items-center">
 									<SVGChainLink />
-									<span className="text-xs text-gray-400 pl-1">Chainlink Data Feed</span>
+									<span className="text-xs text-gray-400 pl-1">Chainlink Price Feed</span>
 								</a>
 								<a href={priceFeed.coingecko} target="blank" rel="noreferrer" className="flex items-center">
 									<SVGCoinGecko />

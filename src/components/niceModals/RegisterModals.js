@@ -19,6 +19,7 @@ import EBChoose from '../battleL2/modals/EBChoose';
 import EBStake from '../battleL2/modals/EBStake';
 import EBRevive from '../battleL2/modals/EBRevive';
 import EBUnstake from '../battleL2/modals/EBUnstake';
+import Markets from '../battleL2/modals/Markets';
 
 export const modalRegistry = {
 	// MINTING
@@ -35,6 +36,7 @@ export const modalRegistry = {
 	ebStake: 'enternal-stake-meral',
 	ebUnstake: 'eternal-unstake-meral',
 	ebRevive: 'eternal-revive',
+	ebMarkets: 'eternal-markets',
 
 	// MERAL MANAGER
 
@@ -65,6 +67,7 @@ export const registerModals = () => {
 	NiceModal.register(modalRegistry.ebStake, EBStake);
 	NiceModal.register(modalRegistry.ebRevive, EBRevive);
 	NiceModal.register(modalRegistry.ebUnstake, EBUnstake);
+	NiceModal.register(modalRegistry.ebMarkets, Markets);
 	// MERAL MANAGER
 
 	// ONSEN

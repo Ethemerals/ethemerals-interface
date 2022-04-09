@@ -7,7 +7,7 @@ import { Addresses } from '../constants/contracts/Addresses';
 import { useWeb3, useGetLayerDetails } from './useWeb3';
 import { getContract } from '../utils/contracts/getContract';
 import { useChain } from 'react-moralis';
-import { GET_EBSTAKES_BY_PRICEFEEDID, GET_EBSTAKES_RECORD_BY_PRICEFEEDID } from '../queries/SubgraphEternalBattle';
+import { GET_EBSTAKES_BY_PRICEFEEDID, GET_EBSTAKES_COUNT, GET_EBSTAKES_RECORD_BY_PRICEFEEDID } from '../queries/SubgraphEternalBattle';
 import { Links } from '../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { GET_NFT_L2 } from '../queries/SubgraphPoly';
@@ -45,14 +45,14 @@ const getChange = async (provider, contract, id, isLayer2) => {
 	}
 };
 
-const getActivestakes = async (id) => {
+const getActivestakes = async (id, count = false) => {
 	try {
 		const endpoint = Links.SUBGRAPH_ENDPOINT_L2;
 		const graphQLClient = new GraphQLClient(endpoint);
-		const fetchData = await graphQLClient.request(GET_EBSTAKES_BY_PRICEFEEDID, { priceFeedId: id });
+		const fetchData = await graphQLClient.request(count ? GET_EBSTAKES_COUNT : GET_EBSTAKES_BY_PRICEFEEDID, { priceFeedId: id });
 		return fetchData;
 	} catch (error) {
-		throw new Error('get account error');
+		throw new Error('get stakes error');
 	}
 };
 
@@ -89,11 +89,38 @@ export const useActiveStakes = (id) => {
 	return { activeLongs, activeShorts };
 };
 
+export const useActiveStakesCount = (id) => {
+	const { isLoading, data } = useQuery([`getActiveStakesCount_${id}`], () => getActivestakes(id, true), { enabled: !!id, refetchInterval: 50000 });
+	const [longs, setLongs] = useState(null);
+	const [shorts, setShorts] = useState(null);
+
+	useEffect(() => {
+		if (data && !isLoading) {
+			let longs = 0;
+			let shorts = 0;
+			data.ebstakeActives.forEach((stake) => {
+				if (stake.long) {
+					longs++;
+				} else {
+					shorts++;
+				}
+			});
+			setLongs(longs);
+			setShorts(shorts);
+		}
+	}, [data, isLoading]);
+
+	return {
+		longs,
+		shorts,
+	};
+};
+
 export const useEternalBattleL2GetChange = (id) => {
 	const { provider } = useWeb3();
 	const { isLayer2 } = useGetLayerDetails();
 	const { contractBattle } = useEternalBattleL2Contract();
-	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contractBattle, id, isLayer2), { enabled: !!id && !!contractBattle, refetchInterval: 50000 });
+	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contractBattle, id, isLayer2), { enabled: !!id, refetchInterval: 50000 });
 
 	const [scoreChange, setScoreChange] = useState(undefined);
 
@@ -133,36 +160,6 @@ export const useEternalBattleL2Contract = () => {
 	}, [provider, chainId]);
 
 	return { contractBattle };
-};
-
-export const useEternalBattleStakesActive = (priceFeedId) => {
-	const { data } = useGQLQueryL1(`eternalBattleStakesActive_${priceFeedId}`, GET_EBSTAKES_BY_PRICEFEEDID, { priceFeedId }, { refetchOnMount: true });
-	const [EBStakesActive, setEBStakesaAtive] = useState(null);
-
-	useEffect(() => {
-		if (data && data.account !== null) {
-			setEBStakesaAtive(data.ebstakeActives);
-		}
-	}, [data]);
-
-	return {
-		EBStakesActive,
-	};
-};
-
-export const useEternalBattleStakesRecord = (priceFeedId) => {
-	const { data } = useGQLQueryL1(`eternalBattleStakesRecord_${priceFeedId}`, GET_EBSTAKES_RECORD_BY_PRICEFEEDID, { priceFeedId }, { refetchOnMount: true });
-	const [EBStakesRecord, setEBStakesaRecord] = useState(null);
-
-	useEffect(() => {
-		if (data && data.account !== null) {
-			setEBStakesaRecord(data.ebstakesRecord);
-		}
-	}, [data]);
-
-	return {
-		EBStakesRecord,
-	};
 };
 
 const calcBps = (_x, _y) => {

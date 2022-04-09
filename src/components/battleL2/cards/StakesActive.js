@@ -56,7 +56,7 @@ const StakesActive = ({ priceFeed }) => {
 				</p>
 
 				<div style={styleStakeButton} onClick={() => onSubmitChoose(true)} className="font-bold text-green-900 shadow-md bg-green-50 hover:bg-green-100 transition duration-200">
-					Join {priceFeed.baseSymbol} ⚔️
+					Join <span className="pr-1">{priceFeed.baseSymbol}</span> ⚔️
 				</div>
 				<div className="m-4 mt-10">{activeLongs && activeLongs.map((stake) => <StakedMeral key={stake.meral.meralId} priceFeed={priceFeed} stake={stake} />)}</div>
 			</div>
@@ -70,7 +70,7 @@ const StakesActive = ({ priceFeed }) => {
 				</p>
 
 				<div style={styleStakeButton} onClick={() => onSubmitChoose(false)} className="font-bold text-red-900 shadow-md bg-red-50 hover:bg-red-100 transition duration-200">
-					Join {priceFeed.quoteSymbol} ⚔️
+					Join <span className="pr-1">{priceFeed.quoteSymbol}</span> ⚔️
 				</div>
 				<div className="m-4 mt-10">{activeShorts && activeShorts.map((stake) => <StakedMeral key={stake.meral.meralId} priceFeed={priceFeed} stake={stake} />)}</div>
 			</div>

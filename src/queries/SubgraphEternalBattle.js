@@ -1,5 +1,16 @@
 import gql from 'graphql-tag';
 
+export const GET_EBSTAKES_COUNT = gql`
+	query ($priceFeedId: Int!) {
+		ebstakeActives(first: 100, where: { active: true, priceFeedId: $priceFeedId }) {
+			meral {
+				id
+			}
+			long
+		}
+	}
+`;
+
 export const GET_EBSTAKES_BY_PRICEFEEDID = gql`
 	query ($priceFeedId: Int!) {
 		ebstakeActives(first: 50, where: { active: true, priceFeedId: $priceFeedId }) {
