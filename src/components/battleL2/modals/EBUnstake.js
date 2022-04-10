@@ -44,7 +44,7 @@ export default NiceModal.create(({ priceFeed, stake, timeAgo, scoreCalculated, r
 				const tx = await contractBattle.cancelStake(id, { gasLimit });
 				console.log(tx);
 
-				sendTx(tx.hash, 'Retrieve Meral', true, [`nft_${id}`, `getActiveStakes_${priceFeed.id}`, `account_${address}`, `account_${address}_subgraphL2`]);
+				sendTx(tx.hash, 'Retrieve Meral', true, [`nft_${id}`, `getActiveStakes_${priceFeed.id}`, `account_${address}`, `account_${address}_subgraphL2`, `getHistoryStakes_${priceFeed.id}`]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);

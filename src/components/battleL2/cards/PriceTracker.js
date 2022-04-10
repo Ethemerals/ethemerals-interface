@@ -62,15 +62,15 @@ const PriceTracker = ({ priceFeed }) => {
 		<>
 			<div className="text-black w-full">
 				<div className="mt-2 p-4 pb-2 text-white flex items-center">
-					<div className="text-4xl">{priceFeed.ticker}</div>
+					<h2 className="text-4xl">{priceFeed.ticker}</h2>
 					<div
 						onClick={onSubmitChoose}
 						style={{ transform: 'translate(0px, 4px)', paddingTop: '3px', paddingBottom: '3px' }}
-						className="ml-3 bg-gray-800 px-4 text-xs font-bold flex items-center shadow cursor-pointer relative rounded-md border-gray-400 border bg-opacity-40 text-gray-400 hover:text-white transition 300"
+						className="ml-3 bg-gray-800 px-4 text-xs font-bold flex items-center shadow cursor-pointer relative rounded-md border-gray-400 border bg-opacity-40 text-pink-200 hover:text-white transition 300"
 					>
 						<span>CHANGE MARKETS</span>
 						<div style={{ top: '-4px', right: '-3px' }} className="animate-ping bg-white rounded-full w-2 h-2 absolute"></div>
-						<div style={{ top: '-4px', right: '-3px' }} className="bg-gray-200 rounded-full w-2 h-2 absolute"></div>
+						<div style={{ top: '-4px', right: '-3px' }} className="bg-pink-200 rounded-full w-2 h-2 absolute"></div>
 					</div>
 				</div>
 				<div className="flex items-stretch space-x-4">

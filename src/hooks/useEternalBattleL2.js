@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useGQLQueryL1, useGQLQueryL2 } from './useGQLQuery';
+import { useGQLQueryL2 } from './useGQLQuery';
 
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
@@ -50,6 +50,17 @@ const getActivestakes = async (id, count = false) => {
 		const endpoint = Links.SUBGRAPH_ENDPOINT_L2;
 		const graphQLClient = new GraphQLClient(endpoint);
 		const fetchData = await graphQLClient.request(count ? GET_EBSTAKES_COUNT : GET_EBSTAKES_BY_PRICEFEEDID, { priceFeedId: id });
+		return fetchData;
+	} catch (error) {
+		throw new Error('get stakes error');
+	}
+};
+
+const getHistoryStakes = async (id) => {
+	try {
+		const endpoint = Links.SUBGRAPH_ENDPOINT_L2;
+		const graphQLClient = new GraphQLClient(endpoint);
+		const fetchData = await graphQLClient.request(GET_EBSTAKES_RECORD_BY_PRICEFEEDID, { priceFeedId: id });
 		return fetchData;
 	} catch (error) {
 		throw new Error('get stakes error');
@@ -114,6 +125,39 @@ export const useActiveStakesCount = (id) => {
 		longs,
 		shorts,
 	};
+};
+
+export const useHistoryStakes = (id) => {
+	const { isLoading, data } = useQuery([`getHistoryStakes_${id}`], () => getHistoryStakes(id), { enabled: !!id, refetchInterval: 50000 });
+
+	const [historyLongs, setHistoryLongs] = useState(undefined);
+	const [historyShorts, setHistoryShorts] = useState(undefined);
+
+	useEffect(() => {
+		if (data && !isLoading) {
+			let longs = [];
+			let shorts = [];
+			data.ebstakeRecords.forEach((stake) => {
+				if (stake.long) {
+					longs.push(stake);
+				} else {
+					shorts.push(stake);
+				}
+			});
+			if (longs.length > 0) {
+				setHistoryLongs(longs);
+			}
+			if (shorts.length > 0) {
+				setHistoryShorts(shorts);
+			}
+		}
+		return () => {
+			setHistoryLongs(undefined);
+			setHistoryShorts(undefined);
+		};
+	}, [data, isLoading]);
+
+	return { historyLongs, historyShorts };
 };
 
 export const useEternalBattleL2GetChange = (id) => {

@@ -57,7 +57,10 @@ const MeralThumbnail = ({ nft, select }) => {
 						/>
 						{/* BOTTOM BAR */}
 						<animated.div style={styleHover} className="w-full bottom-0 absolute text-white pb-2">
-							<p className="text-sm font-medium whitespace-nowrap pt-3">{nft.name && nft.name.length > 0 ? nft.name : ''}</p>
+							{/* <div className="pt-3 pr-1 text-white overflow-hidden whitespace-nowrap">
+								<p>HP: {nft.hp}</p>
+							</div> */}
+							<p className="text-sm font-medium whitespace-nowrap pt-4">{nft.name && nft.name.length > 0 ? nft.name : ''}</p>
 
 							<div style={{ top: '-18px' }} className="text-xs absolute font-bold mx-auto flex items-center w-min my-2 shadow-lg rounded overflow-hidden right-0">
 								<div style={{ backgroundColor: `hsla(0,100%,40%,1)`, paddingLeft: '2px', paddingRight: '2px', paddingTop: '1px', paddingBottom: '1px' }}>{nft.atk}</div>

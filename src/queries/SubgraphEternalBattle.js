@@ -48,7 +48,7 @@ export const GET_EBSTAKES_BY_PRICEFEEDID = gql`
 
 export const GET_EBSTAKES_RECORD_BY_PRICEFEEDID = gql`
 	query ($priceFeedId: Int!) {
-		ebstakesRecord(first: 50, where: { active: false, priceFeedId: $priceFeedId }) {
+		ebstakeRecords(first: 50, where: { priceFeedId: $priceFeedId }, orderDirection: desc, orderBy: endTime) {
 			id
 			startTime
 			endTime
@@ -83,6 +83,15 @@ export const GET_EBSTAKES_RECORD_BY_PRICEFEEDID = gql`
 			revived
 			reviver {
 				id
+				type
+				tokenId
+				meralId
+				element
+				cmId
+				coin
+				name
+				subclass
+				mainclass
 			}
 		}
 	}
