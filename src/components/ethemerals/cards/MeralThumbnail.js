@@ -32,15 +32,17 @@ const MeralThumbnail = ({ nft, select }) => {
 
 	const styleHover = useSpring({
 		backgroundColor: elements[nft.element].color,
-		transform: isHovered ? `translate(0px, 8px)` : `translate(0px, 70px)`,
+		transform: isHovered ? `translate(0px, 8px)` : `translate(0px, 110px)`,
 		config: config.stiff,
 	});
 
-	const styleTokenId = {
+	const styleTokenId = useSpring({
 		right: '-10px',
 		top: '-6px',
 		color: `hsla(${subclassInfo.hue},100%,40%,1)`,
-	};
+		transform: isHovered ? `scale(0)` : `scale(1)`,
+		config: config.stiff,
+	});
 
 	return (
 		<div className="w-26 h-28 text-xs relative">
@@ -60,7 +62,9 @@ const MeralThumbnail = ({ nft, select }) => {
 							{/* <div className="pt-3 pr-1 text-white overflow-hidden whitespace-nowrap">
 								<p>HP: {nft.hp}</p>
 							</div> */}
-							<p className="text-sm font-medium whitespace-nowrap pt-4">{nft.name && nft.name.length > 0 ? nft.name : ''}</p>
+							<p className="text-xs text-right font-bold whitespace-nowrap pt-3 pr-1">HP: {nft.hp}</p>
+							<p className="text-xs text-right font-bold whitespace-nowrap pr-1">ELF: {nft.elf}</p>
+							<p className="text-sm font-medium whitespace-nowrap pt-3">{nft.name && nft.name.length > 0 ? nft.name : ''}</p>
 
 							<div style={{ top: '-18px' }} className="text-xs absolute font-bold mx-auto flex items-center w-min my-2 shadow-lg rounded overflow-hidden right-0">
 								<div style={{ backgroundColor: `hsla(0,100%,40%,1)`, paddingLeft: '2px', paddingRight: '2px', paddingTop: '1px', paddingBottom: '1px' }}>{nft.atk}</div>
@@ -77,9 +81,9 @@ const MeralThumbnail = ({ nft, select }) => {
 				</div>
 			</div>
 
-			<div style={styleTokenId} className="absolute px-1 bg-white rounded-md shadow text-xs">
+			<animated.div style={styleTokenId} className="absolute px-1 bg-white rounded-md shadow text-xs">
 				#{nft.tokenId.toString().padStart(4, '0')}
-			</div>
+			</animated.div>
 		</div>
 	);
 };

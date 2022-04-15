@@ -111,6 +111,14 @@ export const GET_ACCOUNT_L2 = gql`
 	}
 `;
 
+export const GET_MERALS_BY_VERIFIEDOWNER = gql`
+	query ($id: ID!) {
+		merals(orderBy: timestamp, orderDirection: desc, where: { verifiedOwner: $id }) {
+			id
+		}
+	}
+`;
+
 export const GET_PENDING_MERALS = gql`
 	query ($id: ID!) {
 		account(id: $id) {

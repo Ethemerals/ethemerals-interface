@@ -6,7 +6,7 @@ import { useWeb3 } from './useWeb3';
 import { useChain } from 'react-moralis';
 import { getContract } from '../utils/contracts/getContract';
 import { useQuery } from 'react-query';
-import { GET_PENDING_MERALS, GET_PROXY_MERALS } from '../queries/SubgraphPoly';
+import { GET_MERALS_BY_VERIFIEDOWNER, GET_PENDING_MERALS, GET_PROXY_MERALS } from '../queries/SubgraphPoly';
 import { gql, GraphQLClient } from 'graphql-request';
 import { isAddress } from '../utils';
 import { GET_ACCOUNT } from '../queries/Subgraph';
@@ -71,6 +71,21 @@ const getProxiedMerals = async (variables) => {
 	}
 };
 
+const getVerifiedMerals = async (variables) => {
+	if (isAddress(variables.id)) {
+		try {
+			const endpoint = Links.SUBGRAPH_ENDPOINT_L2;
+			const graphQLClient = new GraphQLClient(endpoint);
+			const fetchData = await graphQLClient.request(GET_MERALS_BY_VERIFIEDOWNER, variables);
+			return fetchData;
+		} catch (error) {
+			throw new Error('get account error');
+		}
+	} else {
+		return { message: 'address not valid' };
+	}
+};
+
 export const useRegisterMerals = () => {
 	const { address } = useUser();
 	const [availableMerals, setAvailableMerals] = useState([]);
@@ -80,19 +95,18 @@ export const useRegisterMerals = () => {
 	const { data: dataAvailMerals } = useQuery(`account_${address}_getAvailableMerals`, () => getAvailableMerals({ id: address }), { enabled: !!address, refetchOnMount: true, refetchInterval: 10000 });
 	const { data: dataPendingMerals } = useQuery(`account_${address}_getPendingMerals`, () => getPendingMerals({ id: address }), { enabled: !!address, refetchOnMount: true, refetchInterval: 10000 });
 	const { data: dataProxiedMerals } = useQuery(`account_${address}_getProxiedMerals`, () => getProxiedMerals({ id: address }), { enabled: !!address, refetchOnMount: true, refetchInterval: 10000 });
+	const { data: dataVerifiedMerals } = useQuery(`account_${address}_getVerifiedMerals`, () => getVerifiedMerals({ id: address }), { enabled: !!address, refetchOnMount: true, refetchInterval: 10000 });
 
 	useEffect(() => {
 		if (dataAvailMerals && dataAvailMerals.account !== null) {
 			let idsToRemove = [];
 			let _availableMerals = [];
 
-			pendingMerals.forEach((meral) => {
-				idsToRemove.push(meral.id);
-			});
-
-			proxiedMerals.forEach((meral) => {
-				idsToRemove.push(meral.id);
-			});
+			if (dataVerifiedMerals && dataVerifiedMerals.merals !== null) {
+				dataVerifiedMerals.merals.forEach((meral) => {
+					idsToRemove.push(meral.id);
+				});
+			}
 
 			dataAvailMerals.account.merals.forEach((meral) => {
 				if (idsToRemove.indexOf(meral.meralId) === -1) {
@@ -102,7 +116,7 @@ export const useRegisterMerals = () => {
 
 			setAvailableMerals(_availableMerals);
 		}
-	}, [dataAvailMerals, pendingMerals, proxiedMerals]);
+	}, [dataAvailMerals, dataVerifiedMerals]);
 
 	useEffect(() => {
 		if (dataPendingMerals && dataPendingMerals.account !== null) {

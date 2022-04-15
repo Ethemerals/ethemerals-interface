@@ -1,93 +1,8 @@
-import NiceModal, { useModal } from '@ebay/nice-modal-react';
-import { BigNumber, ethers } from 'ethers';
-
-import { Addresses } from '../../constants/contracts/Addresses';
-import { useSendTx } from '../../context/TxContext';
-import { useMeralManagerContract, useRegisterMerals } from '../../hooks/useMeralManager';
-
-import { useUser, useUserAccount } from '../../hooks/useUser';
-import { useGetLayerDetails } from '../../hooks/useWeb3';
-
-import LoginButton from '../niceModals/cards/LoginButton';
-
-import { modalRegistry } from '../niceModals/RegisterModals';
-
-import MeralList from './cards/MeralList';
+import AvailableToRegister from './cards/AvailableToRegister';
+import PendingValidation from './cards/PendingValidation';
+import MintedProxyMerals from './cards/MintedProxyMerals';
 
 const RegisterMerals = () => {
-	const { address } = useUserAccount();
-	const { availableMerals, pendingMerals, proxiedMerals } = useRegisterMerals();
-	const { user } = useUser();
-	const sendTx = useSendTx();
-	const { contractMeralManager } = useMeralManagerContract();
-
-	const { isLayer2, otherLayerName } = useGetLayerDetails();
-
-	const toggle = async () => {
-		// modal.remove();
-	};
-
-	const selectAndToggle = async (id) => {
-		console.log('hi', id);
-		await submitRegisterMeral(id);
-		// TODO
-	};
-
-	const onSwitchNetwork = () => {
-		NiceModal.show(modalRegistry.chooseNetworks);
-	};
-
-	const submitRegisterMeral = async (id) => {
-		let _meral;
-		availableMerals.forEach((meral) => {
-			if (meral.meralId === id) {
-				_meral = meral;
-			}
-		});
-
-		if (!_meral) {
-			return;
-		}
-
-		if (contractMeralManager) {
-			NiceModal.show(modalRegistry.waitingForSignature, { message: `Registering Meral for Polygon Proxy Mint` });
-			try {
-				const gasEstimate = await contractMeralManager.estimateGas.registerMeral(
-					Addresses.Ethemerals,
-					_meral.tokenId,
-					_meral.hp,
-					_meral.elf,
-					_meral.atk,
-					_meral.def,
-					_meral.spd,
-					_meral.element,
-					_meral.subclass
-				);
-				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-
-				const tx = await contractMeralManager.registerMeral(Addresses.Ethemerals, _meral.tokenId, _meral.hp, _meral.elf, _meral.atk, _meral.def, _meral.spd, _meral.element, _meral.subclass, {
-					gasLimit,
-					maxFeePerGas: BigNumber.from('30000000000'),
-					maxPriorityFeePerGas: BigNumber.from('30000000000'),
-				});
-
-				console.log(tx);
-				sendTx(tx.hash, 'Register Meral', true, [
-					`account_${address}`,
-					`account_${address}_getAvailableMerals`,
-					`account_${address}_getPendingMerals`,
-					`account_${address}_getProxiedMerals`,
-					`nft_${id}`,
-				]);
-			} catch (error) {
-				NiceModal.remove(modalRegistry.waitingForSignature);
-				console.log(`${error.data} \n${error.message}`);
-			}
-		} else {
-			console.log('error');
-		}
-	};
-
 	const styleBG = {
 		backgroundColor: 'black',
 		backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/webapp/portal_bg.jpg'",
@@ -101,40 +16,29 @@ const RegisterMerals = () => {
 		zIndex: '-1',
 	};
 
+	const styleBoxshadow = {
+		boxShadow: '4px 4px 12px rgba(0, 0, 0, 0.4)',
+	};
+
 	return (
 		<>
 			<div style={styleBG}></div>
-			<div style={{ minWidth: '512px', maxWidth: '832px' }} className="pt-24 mb-96 w-4/5 mx-auto text-black">
-				<div className="p-4">
-					<h2 className="bg-white bg-opacity-50">Register and Mint Polygon Proxy Meral</h2>
-					<div className="py-4">
-						<div className="py-4 bg-white bg-opacity-50">
+			<div style={{ minWidth: '900px', maxWidth: '900px' }} className="pt-20 mb-64 mx-auto text-black">
+				{/* HEADER */}
+				<div className="text-black w-full">
+					<h2 className="mt-2 pb-2 text-4xl text-white p-4">PORTAL</h2>
+					<div className="flex items-stretch space-x-4">
+						<div style={styleBoxshadow} className="bg-white w-2/3 p-4 rounded-md">
 							<p>Short description about Registering your meral and minting the proxy, gas free!</p>
 							<p>Transend to Layer2... etc</p>
 						</div>
-
-						<div className="my-2 py-2 bg-white bg-opacity-50">
-							<h2 className="">Available to Register:</h2>
-							{isLayer2 && availableMerals && <MeralList nfts={availableMerals} select={selectAndToggle} />}
-							<div className="py-4">
-								{!user && <LoginButton />}
-								{!isLayer2 && (
-									<button onClick={onSwitchNetwork} className={`mt-2 mb-8 bg-brandColor text-white px-4 py-1 m-2 shadow rounded hover:shadow-lg transition duration-300`}>
-										Switch Network to {otherLayerName}
-									</button>
-								)}
-							</div>
-						</div>
-						<div className="my-2 py-2 bg-white bg-opacity-50">
-							<h2>Pending Validation:</h2>
-							{pendingMerals && <MeralList nfts={pendingMerals} select={selectAndToggle} />}
-						</div>
-						<div className="my-2 py-2 bg-white bg-opacity-50">
-							<h2>Minted Proxied Merals:</h2>
-							{proxiedMerals && <MeralList nfts={proxiedMerals} select={selectAndToggle} />}
-						</div>
+						<div className="w-1/3 rounded-md relative overflow-hidden bg-blue-200 text-center p-4">VALIDATOR STATUS</div>
 					</div>
 				</div>
+
+				<AvailableToRegister />
+				<PendingValidation />
+				<MintedProxyMerals />
 			</div>
 		</>
 	);
