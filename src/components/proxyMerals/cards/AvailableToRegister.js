@@ -29,6 +29,10 @@ const AvailableToRegister = () => {
 		// TODO
 	};
 
+	const onSubmitChoose = async () => {
+		NiceModal.show(modalRegistry.changeCollection);
+	};
+
 	const onSwitchNetwork = () => {
 		NiceModal.show(modalRegistry.chooseNetworks);
 	};
@@ -91,19 +95,30 @@ const AvailableToRegister = () => {
 
 	return (
 		<div className="text-black w-full">
-			<h2 className="mt-8 pb-2 text-xl text-white p-4">AVAILABLE TO REGISTER</h2>
-
+			<h2 style={{ textShadow: '1px 1px 0px slateblue' }} className="mt-8 pb-0 text-base font-bold text-white p-4">
+				AVAILABLE TO REGISTER
+			</h2>
 			<div style={styleBoxshadow} className="bg-white p-4 pb-8 rounded-md">
-				<div className="flex items-center py-2 pb-8">
-					<span className="mr-4">NFT Collections:</span>
-					<span className="mr-4 bg-blue-100 hover:bg-blue-50 text-blue-900 hover:text-blue-700 px-4 rounded-lg py-1 border-2 border-blue-400 cursor-pointer">Ethemerals</span>
+				<div className="flex items-baseline pb-2">
+					<h3 className="text-4xl">ETHEMERALS</h3>
 					<span className="flex-grow"></span>
-					<span className=" text-xs text-blue-600 hover:text-blue-400 cursor-pointer">Missing a collection? Send an integration request here</span>
+
+					<div
+						onClick={onSubmitChoose}
+						style={{ transform: 'translate(0px, -8px)', paddingTop: '3px', paddingBottom: '3px' }}
+						className="px-4 text-xs font-bold flex items-center shadow cursor-pointer relative rounded-md border-blue-400 border text-blue-400 hover:text-blue-600 transition 300"
+					>
+						<span>CHANGE COLLECTION</span>
+						<div style={{ top: '-4px', right: '-4px' }} className="animate-ping bg-blue-500 rounded-full w-2 h-2 absolute"></div>
+						<div style={{ top: '-4px', right: '-4px' }} className="bg-blue-500 rounded-full w-2 h-2 absolute"></div>
+					</div>
+					{/* <span className="text-xs text-blue-600 hover:text-blue-400 cursor-pointer">Missing a collection? Send an integration request here</span> */}
 				</div>
+
 				<div className="bg-gray-100 rounded-md py-4">
 					{user && isLayer2 && availableMerals && (
 						<>
-							<p className="text-xs text-center text-gray-600 pb-4">Click a NFT to register:</p>
+							<p className="text-xs text-center text-gray-600 pb-4">Select a NFT to register:</p>
 							<MeralList nfts={availableMerals} select={selectAndToggle} />
 						</>
 					)}
@@ -114,7 +129,7 @@ const AvailableToRegister = () => {
 						<ConnectButton />
 					</div>
 				)}
-				{!isLayer2 && (
+				{user && !isLayer2 && (
 					<div className="py-4 max-w-max mx-auto">
 						<button onClick={onSwitchNetwork} className="py-2 px-6 text-lg bg-brandColor hover:bg-yellow-400 text-white rounded-lg transition duration-300 flex items-center justify-center">
 							Switch Network to {otherLayerName}

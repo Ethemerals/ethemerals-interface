@@ -1,8 +1,13 @@
 import AvailableToRegister from './cards/AvailableToRegister';
 import PendingValidation from './cards/PendingValidation';
 import MintedProxyMerals from './cards/MintedProxyMerals';
+import { useEffect } from 'react';
 
 const RegisterMerals = () => {
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
 	const styleBG = {
 		backgroundColor: 'black',
 		backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/webapp/portal_bg.jpg'",
@@ -26,7 +31,7 @@ const RegisterMerals = () => {
 			<div style={{ minWidth: '900px', maxWidth: '900px' }} className="pt-20 mb-64 mx-auto text-black">
 				{/* HEADER */}
 				<div className="text-black w-full">
-					<h2 className="mt-2 pb-2 text-4xl text-white p-4">PORTAL</h2>
+					<h2 className="mt-2 pb-2 text-4xl text-white p-4">MULTI TOKEN GATEWAY</h2>
 					<div className="flex items-stretch space-x-4">
 						<div style={styleBoxshadow} className="bg-white w-2/3 p-4 rounded-md">
 							<p>Short description about Registering your meral and minting the proxy, gas free!</p>

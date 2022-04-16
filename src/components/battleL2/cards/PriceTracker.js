@@ -50,7 +50,7 @@ const PriceTracker = ({ priceFeed }) => {
 		};
 	}, [data, isLoading]);
 
-	const onSubmitChoose = async (long) => {
+	const onSubmitChoose = async () => {
 		NiceModal.show(modalRegistry.ebMarkets);
 	};
 
@@ -69,8 +69,8 @@ const PriceTracker = ({ priceFeed }) => {
 						className="ml-3 bg-gray-800 px-4 text-xs font-bold flex items-center shadow cursor-pointer relative rounded-md border-yellow-400 border bg-opacity-40 text-yellow-400 hover:text-yellow-200 transition 300"
 					>
 						<span>CHANGE MARKETS</span>
-						<div style={{ top: '-4px', right: '-3px' }} className="animate-ping bg-white rounded-full w-2 h-2 absolute"></div>
-						<div style={{ top: '-4px', right: '-3px' }} className="bg-yellow-400 rounded-full w-2 h-2 absolute"></div>
+						<div style={{ top: '-4px', right: '-4px' }} className="animate-ping bg-white rounded-full w-2 h-2 absolute"></div>
+						<div style={{ top: '-4px', right: '-4px' }} className="bg-yellow-400 rounded-full w-2 h-2 absolute"></div>
 					</div>
 				</div>
 				<div className="flex items-stretch space-x-4">

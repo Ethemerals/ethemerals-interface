@@ -89,7 +89,8 @@ function App() {
 					<WildsHub />
 				</Route>
 				<Route exact path="/wilds">
-					{parseInt(process.env.REACT_APP_NETWORK) !== 1 ? <WildsWorld /> : <WildsWorldAlpha />}
+					<WildsWorldAlpha />
+					{/* {parseInt(process.env.REACT_APP_NETWORK) !== 1 ? <WildsWorld /> : <WildsWorldAlpha />} */}
 				</Route>
 				<Route exact path="/dashboard">
 					<Dashboard />
