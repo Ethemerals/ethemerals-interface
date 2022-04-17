@@ -1,3 +1,5 @@
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import { modalRegistry } from '../../niceModals/RegisterModals';
 import { useState, useEffect } from 'react';
 import { getMeralImages, useMeralGlobal } from '../../../hooks/useMerals';
 import { getSubclassInfo, useMeralsUtils } from '../../../hooks/useMeralsUtils';
@@ -31,7 +33,7 @@ const MeralThumbnail = ({ nft, select }) => {
 	}, [nft, color, globalColors]);
 
 	const expand = () => {
-		console.log(nft.meralId, 'expand');
+		NiceModal.show(modalRegistry.meralDetails, { id: nft.meralId });
 	};
 
 	const styleHover = useSpring({

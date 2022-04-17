@@ -21,6 +21,7 @@ import EBRevive from '../battleL2/modals/EBRevive';
 import EBUnstake from '../battleL2/modals/EBUnstake';
 import Markets from '../battleL2/modals/Markets';
 import ChangeCollection from '../proxyMerals/modals/ChangeCollection';
+import MeralDetails from './merals/MeralDetails';
 
 export const modalRegistry = {
 	// MINTING
@@ -32,6 +33,8 @@ export const modalRegistry = {
 	mainSelect: 'main-select',
 	chooseNetworks: 'choose-networks',
 	waitingForSignature: 'waiting-for-signature',
+	// MERALS
+	meralDetails: 'meral-details',
 	// PORTAL
 	changeCollection: 'change-collection',
 	// ETERNAL BATTLE
@@ -65,6 +68,8 @@ export const registerModals = () => {
 	NiceModal.register(modalRegistry.userWallet, UserWallet);
 	NiceModal.register(modalRegistry.chooseNetworks, ChooseNetworks);
 	NiceModal.register(modalRegistry.waitingForSignature, WaitingForSignature);
+	// MERALS
+	NiceModal.register(modalRegistry.meralDetails, MeralDetails);
 	// PORTAL
 	NiceModal.register(modalRegistry.changeCollection, ChangeCollection);
 	// ETERNAL BATTLE

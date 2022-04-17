@@ -32,13 +32,11 @@ const ActionLink = (action) => {
 };
 
 const MeralDetails = () => {
-	const { elements } = useMeralsUtils();
 	const { id } = useParams();
 
+	const { elements } = useMeralsUtils();
 	const { meralData, currentColor } = useMeralDataById(getIdFromType(1, id));
-
 	const [color, setColor] = useState(undefined);
-
 	const [nft, setNFT] = useState(undefined);
 	const [subclassInfo, setSubclassInfo] = useState(undefined);
 
