@@ -31,11 +31,21 @@ const RegisterMerals = () => {
 			<div style={{ minWidth: '900px', maxWidth: '900px' }} className="pt-20 mb-64 mx-auto text-black">
 				{/* HEADER */}
 				<div className="text-black w-full">
-					<h2 className="mt-2 pb-2 text-4xl text-white p-4">MULTI TOKEN GATEWAY</h2>
+					<h2 className="mt-2 pb-2 text-4xl text-white p-4">VIRTUAL NFT GATEWAY</h2>
 					<div className="flex items-stretch space-x-4">
-						<div style={styleBoxshadow} className="bg-white w-2/3 p-4 rounded-md">
-							<p>Short description about Registering your meral and minting the proxy, gas free!</p>
-							<p>Transend to Layer2... etc</p>
+						<div style={styleBoxshadow} className="bg-white w-2/3 p-4 rounded-md py-6">
+							<p className="text-sm text-gray-700">
+								The Gateway allows you to virtualize a NFT from any collection. The NFT is reborn as a <strong>MERAL</strong> to be used with <strong>THE WILDS</strong> ecosystem of onchain games.
+								Climb the leaderboards, earn rewards and prizes. For glory and honor!
+							</p>
+							<p className="text-sm text-gray-700 pt-4">
+								For security reasons, virtualizing your NFT does not require the NFT to be moved or any contract to be approved! The virtualized Meral is minted on the Polygon Blockchain and available
+								to interact with as long as you own the original NFT.
+							</p>
+							<p className="text-sm text-gray-700 pt-4">
+								If you no longer own the orignal NFT, the Meral becomes dormant until the new owner activates it. The Meral stats and history will carry over.
+							</p>
+							<p className="text-sm text-gray-700 pt-4">Link to Gateway contract, Link to help, link to discord</p>
 						</div>
 						<div className="w-1/3 rounded-md relative overflow-hidden bg-blue-200 text-center p-4">VALIDATOR STATUS</div>
 					</div>

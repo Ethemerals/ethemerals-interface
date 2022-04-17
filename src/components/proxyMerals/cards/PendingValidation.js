@@ -21,7 +21,7 @@ const PendingValidation = () => {
 			</h2>
 			<div style={styleBoxshadow} className="bg-white p-4 pb-8 rounded-md">
 				<div className="flex items-center py-2 pb-8">
-					<span className=" text-xs ">After Registering, validators will validate ownership and base Meral stats. If successful the Virtual Meral will be minted and sent to your wallet</span>
+					<span className="text-sm text-gray-700">Validators will check ownership and base Meral stats. The Virtual Merals will then be minted and sent to your wallet</span>
 				</div>
 				<div className="bg-gray-100 rounded-md py-4">{pendingMerals && <MeralList nfts={pendingMerals} select={selectAndToggle} />}</div>
 			</div>

@@ -30,6 +30,10 @@ const MeralThumbnail = ({ nft, select }) => {
 		// TODO
 	}, [nft, color, globalColors]);
 
+	const expand = () => {
+		console.log(nft.meralId, 'expand');
+	};
+
 	const styleHover = useSpring({
 		backgroundColor: elements[nft.element].color,
 		transform: isHovered ? `translate(0px, 8px)` : `translate(0px, 110px)`,
@@ -41,6 +45,15 @@ const MeralThumbnail = ({ nft, select }) => {
 		top: '-6px',
 		color: `hsla(${subclassInfo.hue},100%,40%,1)`,
 		transform: isHovered ? `scale(0)` : `scale(1)`,
+		config: config.stiff,
+	});
+
+	const styleZoom = useSpring({
+		right: '0px',
+		top: '0px',
+		backgroundColor: `hsla(${subclassInfo.hue},100%,70%,1)`,
+		padding: '2px',
+		transform: !isHovered ? `scale(0)` : `scale(1)`,
 		config: config.stiff,
 	});
 
@@ -59,11 +72,9 @@ const MeralThumbnail = ({ nft, select }) => {
 						/>
 						{/* BOTTOM BAR */}
 						<animated.div style={styleHover} className="w-full bottom-0 absolute text-white pb-2">
-							{/* <div className="pt-3 pr-1 text-white overflow-hidden whitespace-nowrap">
-								<p>HP: {nft.hp}</p>
-							</div> */}
-							<p className="text-xs text-right font-bold whitespace-nowrap pt-3 pr-1">HP: {nft.hp}</p>
-							<p className="text-xs text-right font-bold whitespace-nowrap pr-1">ELF: {nft.elf}</p>
+							{/* <p className="text-xs text-right font-bold whitespace-nowrap pt-3 pr-1">HP: {nft.hp}</p> */}
+							{/* <p className="text-xs text-right font-bold whitespace-nowrap pr-1">ELF: {nft.elf}</p> */}
+
 							<p className="text-sm font-medium whitespace-nowrap pt-3">{nft.name && nft.name.length > 0 ? nft.name : ''}</p>
 
 							<div style={{ top: '-18px' }} className="text-xs absolute font-bold mx-auto flex items-center w-min my-2 shadow-lg rounded overflow-hidden right-0">
@@ -83,6 +94,18 @@ const MeralThumbnail = ({ nft, select }) => {
 
 			<animated.div style={styleTokenId} className="absolute px-1 bg-white rounded-md shadow text-xs">
 				#{nft.tokenId.toString().padStart(4, '0')}
+			</animated.div>
+			<animated.div
+				onClick={expand}
+				onMouseEnter={() => setIsHovered(true)}
+				onMouseLeave={() => setIsHovered(false)}
+				style={styleZoom}
+				className="absolute bg-white rounded-md shadow cursor-pointer text-black bg-opacity-60 hover:text-white"
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+					<path d="M5 8a1 1 0 011-1h1V6a1 1 0 012 0v1h1a1 1 0 110 2H9v1a1 1 0 11-2 0V9H6a1 1 0 01-1-1z" />
+					<path fillRule="evenodd" d="M2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8zm6-4a4 4 0 100 8 4 4 0 000-8z" clipRule="evenodd" />
+				</svg>
 			</animated.div>
 		</div>
 	);

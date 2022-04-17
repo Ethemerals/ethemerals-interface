@@ -46,33 +46,37 @@ const StakesActive = ({ priceFeed }) => {
 	};
 
 	return (
-		<div className=" grid grid-cols-2 mt-24 items-start">
-			<div style={{ minHeight: '256px' }} className="border-white border rounded-md mr-2 py-6 pt-2 bg-gray-100 bg-opacity-80">
-				<p style={{ transform: 'translate(0px, -28px)' }} className="text-white text-sm font-bold flex items-center justify-between">
-					<span style={{ textShadow: '1px 1px 0px #000' }}>LONGS</span>
-					{activeLongs && activeShorts && counterTradeBonus > 1 && activeLongs.length < activeShorts.length && (
-						<span className="text-xs bg-brandColor border border-brandColor-purple text-white rounded-lg px-2 shadow text-right">Counter Trade ELF Multiplier x{counterTradeBonus}</span>
-					)}
-				</p>
+		<div className="mt-24">
+			<h2 className="text-4xl text-white mb-8">Active</h2>
 
-				<div style={styleStakeButton} onClick={() => onSubmitChoose(true)} className="font-bold text-green-900 shadow-md bg-green-50 hover:bg-green-100 transition duration-200">
-					Join <span className="pr-1">{priceFeed.baseSymbol}</span> ⚔️
+			<div className=" grid grid-cols-2 items-start">
+				<div style={{ minHeight: '256px' }} className="border-white border rounded-md mr-2 py-6 pt-2 bg-gray-100 bg-opacity-80">
+					<p style={{ transform: 'translate(0px, -28px)' }} className="text-white text-sm font-bold flex items-center justify-between">
+						<span style={{ textShadow: '1px 1px 0px #000' }}>LONGS</span>
+						{activeLongs && activeShorts && counterTradeBonus > 1 && activeLongs.length < activeShorts.length && (
+							<span className="text-xs bg-brandColor border border-brandColor-purple text-white rounded-lg px-2 shadow text-right">Counter Trade ELF Multiplier x{counterTradeBonus}</span>
+						)}
+					</p>
+
+					<div style={styleStakeButton} onClick={() => onSubmitChoose(true)} className="font-bold text-green-900 shadow-md bg-green-50 hover:bg-green-100 transition duration-200">
+						Join <span className="pr-1">{priceFeed.baseSymbol}</span> ⚔️
+					</div>
+					<div className="m-4 mt-10">{activeLongs && activeLongs.map((stake) => <StakedMeral key={stake.meral.meralId} priceFeed={priceFeed} stake={stake} />)}</div>
 				</div>
-				<div className="m-4 mt-10">{activeLongs && activeLongs.map((stake) => <StakedMeral key={stake.meral.meralId} priceFeed={priceFeed} stake={stake} />)}</div>
-			</div>
 
-			<div style={{ minHeight: '256px' }} className="border-white border rounded-md ml-2 py-6 pt-2 bg-gray-100 bg-opacity-80">
-				<p style={{ transform: 'translate(0px, -28px)' }} className="text-white text-sm font-bold flex items-center justify-between">
-					<span style={{ textShadow: '1px 1px 0px #000' }}>SHORTS</span>
-					{activeLongs && activeShorts && counterTradeBonus > 1 && activeLongs.length > activeShorts.length && (
-						<span className="text-xs bg-brandColor border border-brandColor-purple text-white rounded-lg px-2 shadow text-right">Counter Trade ELF Multiplier x{counterTradeBonus}</span>
-					)}
-				</p>
+				<div style={{ minHeight: '256px' }} className="border-white border rounded-md ml-2 py-6 pt-2 bg-gray-100 bg-opacity-80">
+					<p style={{ transform: 'translate(0px, -28px)' }} className="text-white text-sm font-bold flex items-center justify-between">
+						<span style={{ textShadow: '1px 1px 0px #000' }}>SHORTS</span>
+						{activeLongs && activeShorts && counterTradeBonus > 1 && activeLongs.length > activeShorts.length && (
+							<span className="text-xs bg-brandColor border border-brandColor-purple text-white rounded-lg px-2 shadow text-right">Counter Trade ELF Multiplier x{counterTradeBonus}</span>
+						)}
+					</p>
 
-				<div style={styleStakeButton} onClick={() => onSubmitChoose(false)} className="font-bold text-red-900 shadow-md bg-red-50 hover:bg-red-100 transition duration-200">
-					Join <span className="pr-1">{priceFeed.quoteSymbol}</span> ⚔️
+					<div style={styleStakeButton} onClick={() => onSubmitChoose(false)} className="font-bold text-red-900 shadow-md bg-red-50 hover:bg-red-100 transition duration-200">
+						Join <span className="pr-1">{priceFeed.quoteSymbol}</span> ⚔️
+					</div>
+					<div className="m-4 mt-10">{activeShorts && activeShorts.map((stake) => <StakedMeral key={stake.meral.meralId} priceFeed={priceFeed} stake={stake} />)}</div>
 				</div>
-				<div className="m-4 mt-10">{activeShorts && activeShorts.map((stake) => <StakedMeral key={stake.meral.meralId} priceFeed={priceFeed} stake={stake} />)}</div>
 			</div>
 		</div>
 	);

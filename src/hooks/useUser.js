@@ -99,7 +99,6 @@ export const useUserAccount = () => {
 	useEffect(() => {
 		if (data && !isLoadingAccount) {
 			setAccount(data);
-			setUserPMerals(data.pMerals);
 		}
 	}, [data, isLoadingAccount]);
 

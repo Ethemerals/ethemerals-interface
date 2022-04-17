@@ -50,7 +50,7 @@ const AvailableToRegister = () => {
 		}
 
 		if (contractMeralManager) {
-			NiceModal.show(modalRegistry.waitingForSignature, { message: `Registering Meral for Polygon Proxy Mint` });
+			NiceModal.show(modalRegistry.waitingForSignature, { message: `Virtualizating Meral for Polygon Mint` });
 			try {
 				const gasEstimate = await contractMeralManager.estimateGas.registerMeral(
 					Addresses.Ethemerals,
@@ -96,7 +96,7 @@ const AvailableToRegister = () => {
 	return (
 		<div className="text-black w-full">
 			<h2 style={{ textShadow: '1px 1px 0px slateblue' }} className="mt-8 pb-0 text-base font-bold text-white p-4">
-				AVAILABLE TO REGISTER
+				AVAILABLE TO BE VIRTUALIZED:
 			</h2>
 			<div style={styleBoxshadow} className="bg-white p-4 pb-8 rounded-md">
 				<div className="flex items-baseline pb-2">
@@ -118,7 +118,7 @@ const AvailableToRegister = () => {
 				<div className="bg-gray-100 rounded-md py-4">
 					{user && isLayer2 && availableMerals && (
 						<>
-							<p className="text-xs text-center text-gray-600 pb-4">Select a NFT to register:</p>
+							<p className="text-sm text-gray-700 pb-4 text-center">Select a NFT to Virtualize (transform into a Meral):</p>
 							<MeralList nfts={availableMerals} select={selectAndToggle} />
 						</>
 					)}

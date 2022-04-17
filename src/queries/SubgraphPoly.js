@@ -68,6 +68,7 @@ export const GET_ACCOUNT_L2 = gql`
 				proxy
 				timestamp
 				hp
+				maxHp
 				elf
 				xp
 				atk

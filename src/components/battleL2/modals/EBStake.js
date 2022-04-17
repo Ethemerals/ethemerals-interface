@@ -155,7 +155,9 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 							<div className="w-60 text-base leading-5 text-gray-500">
 								<div>
 									<span className="text-xs">AVAILABLE HP:</span>
-									<span className="pl-1 text-black">{meral.hp}</span>
+									<span className="pl-1 text-black">
+										{meral.hp} of {meral.maxHp}
+									</span>
 								</div>
 								<div>
 									<span className="text-xs">LEVERAGE:</span>
