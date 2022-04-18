@@ -79,6 +79,7 @@ const AvailableToRegister = () => {
 					`account_${address}_getProxiedMerals`,
 					`account_${address}_getVerifiedMerals`,
 					`nft_${id}`,
+					`meral_${id}`,
 				]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);

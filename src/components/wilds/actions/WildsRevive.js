@@ -32,7 +32,7 @@ const WildsRevive = ({ contractWilds, landId, tokenId, canKiss }) => {
 				const tx = await contractWilds.deathKiss(id, deathId, { gasLimit });
 				console.log(tx);
 
-				sendTx(tx.hash, 'death kiss', true, [`land_${landId}`, `nft_${id}`, `nft_${deathId}`, 'account', 'lands']);
+				sendTx(tx.hash, 'death kiss', true, [`land_${landId}`, `meral_${id}`, `nft_${id}`, `nft_${deathId}`, 'account', 'lands']);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);

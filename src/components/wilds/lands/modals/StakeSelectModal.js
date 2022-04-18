@@ -31,7 +31,7 @@ export default NiceModal.create(({ landId, stakeAction }) => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractWilds.stake(parseInt(landId), parseInt(id), stakeAction.type, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Enter Land', true, [`account_${address}`, `account_${contractWilds.address}`, `getWildsLand_${landId}`, `nft_${id}`]);
+				sendTx(tx.hash, 'Enter Land', true, [`account_${address}`, `meral_${id}`, `account_${contractWilds.address}`, `getWildsLand_${landId}`, `nft_${id}`]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);

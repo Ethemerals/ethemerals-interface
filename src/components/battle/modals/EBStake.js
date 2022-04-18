@@ -88,7 +88,7 @@ const EBStake = ({ contractPriceFeed, toggle, priceFeed, long }) => {
 				const tx = await contractBattle.createStake(id, pricefeedId, position, long, { gasLimit });
 				console.log(tx);
 
-				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, 'account', 'account_eternalBattle']);
+				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, `meral_${id}`, 'account', 'account_eternalBattle']);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);

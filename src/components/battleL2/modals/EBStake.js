@@ -115,7 +115,7 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 				const tx = await contractBattle.createStake(id, pricefeedId, position, long, { gasLimit, maxFeePerGas: BigNumber.from('30000000000'), maxPriorityFeePerGas: BigNumber.from('30000000000') });
 				console.log(tx);
 
-				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, `getActiveStakes_${priceFeed.id}`, `account_${address}`, `account_${address}_subgraphL2`]);
+				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, `meral_${id}`, `getActiveStakes_${priceFeed.id}`, `account_${address}`, `account_${address}_subgraphL2`]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);

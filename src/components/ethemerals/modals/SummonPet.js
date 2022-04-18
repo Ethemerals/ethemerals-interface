@@ -40,7 +40,7 @@ const SummonPet = ({ toggle, nft }) => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractEquipable.redeemPet(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, `Summoned pet ${id}`, true, [`nft_${id}`, `account_${address}`], true, id);
+				sendTx(tx.hash, `Summoned pet ${id}`, true, [`nft_${id}`, `meral_${id}`, `account_${address}`], true, id);
 			} catch (error) {
 				console.log(`${error.data} \n${error.message}`);
 			}

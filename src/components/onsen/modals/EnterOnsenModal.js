@@ -66,7 +66,7 @@ export default NiceModal.create(({ stake }) => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractOnsen.stake(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Enter Onsen', true, [`account_${address}`, `account_${contractOnsen.address}`, `nft_${id}`]);
+				sendTx(tx.hash, 'Enter Onsen', true, [`account_${address}`, `meral_${id}`, `account_${contractOnsen.address}`, `nft_${id}`]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
@@ -84,7 +84,7 @@ export default NiceModal.create(({ stake }) => {
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractOnsen.unstake(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'Leave Onsen', true, [`account_${address}`, `account_${contractOnsen.address}`, `nft_${id}`]);
+				sendTx(tx.hash, 'Leave Onsen', true, [`account_${address}`, `meral_${id}`, `account_${contractOnsen.address}`, `nft_${id}`]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);

@@ -20,6 +20,7 @@ export const GET_NFT_L2 = gql`
 			}
 			cmId
 			hp
+			maxHp
 			elf
 			xp
 			atk

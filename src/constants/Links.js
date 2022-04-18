@@ -6,6 +6,7 @@ const getLinks = () => {
 		LANDING_URL: 'https://www.ethemerals.com',
 		DISCORD_URL: 'https://discord.gg/cwaYNS9DjG',
 		ETHERSCAN_URL: 'https://etherscan.io/',
+		POLYSCAN_URL: 'https://polygonscan.com/',
 		SUBGRAPH_ENDPOINT_L1: 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals-v2',
 		SUBGRAPH_ENDPOINT_L2: 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals-v2',
 		UNISWAP: 'https://google.com',
@@ -23,6 +24,7 @@ const getLinks = () => {
 
 	if (network === 4) {
 		links.ETHERSCAN_URL = 'https://rinkeby.etherscan.io/';
+		links.POLYSCAN_URL = 'https://mumbai.polygonscan.com/';
 		links.SUBGRAPH_ENDPOINT_L1 = 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals-rinkeby';
 		links.SUBGRAPH_ENDPOINT_L2 = 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals-mumbai';
 		links.OPENSEAS = 'https://testnets.opensea.io/assets';

@@ -1,14 +1,17 @@
 import { Links } from '../constants/Links';
 import { shortenAddress } from '../utils';
 
-const useParseAction = (action) => {
+const useParseAction = (action, isLayer2 = false) => {
 	if (!action) {
 		return ['', ''];
 	}
 
 	let words = [];
 	let actionString = '';
-	const txLink = `${Links.ETHERSCAN_URL}tx/${action.transaction.id}`;
+	let txLink = `${Links.ETHERSCAN_URL}tx/${action.transaction.id}`;
+	if (isLayer2) {
+		txLink = `${Links.POLYSCAN_URL}tx/${action.transaction.id}`;
+	}
 
 	if (action.description) {
 		actionString = action.description;
@@ -31,6 +34,10 @@ const useParseAction = (action) => {
 			words.push('🎁');
 			break;
 		case 'Minted':
+			if (isLayer2) {
+				words.shift();
+				words.unshift('Virtualized');
+			}
 			words.push('🐣');
 			break;
 		case 'Unstaked':

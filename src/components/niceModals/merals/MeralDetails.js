@@ -3,9 +3,8 @@ import { useState, useEffect } from 'react';
 import Images from '../../../constants/Images';
 import { useGQLQueryL1, useGQLQueryL2 } from '../../../hooks/useGQLQuery';
 import { getMeralImages, useMeralDataById } from '../../../hooks/useMerals';
-import { getIdFromType, getSubclassInfo, getTokenIdFromId, getTypeFromId, useMeralsUtils } from '../../../hooks/useMeralsUtils';
+import { getSubclassInfo, parseId, syncMeral, useMeralsUtils } from '../../../hooks/useMeralsUtils';
 
-import { useUser, useUserAccount } from '../../../hooks/useUser';
 import { GET_NFT } from '../../../queries/Subgraph';
 import { GET_NFT_L2 } from '../../../queries/SubgraphPoly';
 
@@ -22,23 +21,38 @@ const SpinnerSVG = () => (
 
 export default NiceModal.create(({ id }) => {
 	const modal = useModal();
+	const { tokenId, meralId, type, shouldGetL1 } = parseId(id);
 
 	const { elements } = useMeralsUtils();
-	console.log(id);
-	const { meralData, currentColor } = useMeralDataById(getIdFromType(1, getTokenIdFromId(id)));
+	const { currentColor } = useMeralDataById(meralId, type);
 	const [color, setColor] = useState(0);
 	const [nft, setNFT] = useState(undefined);
-
 	const [subclassInfo, setSubclassInfo] = useState(undefined);
 
-	const { data, status } = useGQLQueryL1(`nft_${id}`, GET_NFT, { id: getTokenIdFromId(id) }, { refetchOnMount: true });
+	const { data, status } = useGQLQueryL1(`nft_${tokenId}`, GET_NFT, { id: tokenId }, { enabled: !!shouldGetL1, refetchOnMount: true });
+	const { data: dataL2, status: statusL2 } = useGQLQueryL2(`meral_${meralId}`, GET_NFT_L2, { id: meralId }, { refetchOnMount: true });
 
 	useEffect(() => {
-		if (status === 'success' && data && data.meral) {
-			setNFT(data.meral);
-			setSubclassInfo(getSubclassInfo(data.meral.subclass));
+		if (type === 1) {
+			if (data && data.meral && dataL2 && !dataL2.meral) {
+				// NOT PROXIED
+				setNFT(data.meral);
+				setSubclassInfo(getSubclassInfo(data.meral.subclass));
+			}
+			if (data && data.meral && dataL2 && dataL2.meral) {
+				// PROXIED
+				setNFT(syncMeral(data.meral, dataL2.meral));
+				setSubclassInfo(getSubclassInfo(data.meral.subclass));
+			}
 		}
-	}, [status, data, nft]);
+
+		if (type !== 1) {
+			if (dataL2 && dataL2.meral) {
+				setNFT(dataL2.meral);
+				setSubclassInfo(getSubclassInfo(dataL2.meral.subclass));
+			}
+		}
+	}, [status, data, dataL2, statusL2, type]);
 
 	useEffect(() => {
 		if (currentColor !== undefined) {
@@ -53,8 +67,8 @@ export default NiceModal.create(({ id }) => {
 	if (!nft || color === undefined) {
 		return (
 			<>
-				<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-60 z-30"></div>
-				<div className="fixed center rounded-xl shadow-xl z-40 text-white bg-black bg-opacity-50">
+				<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-60 z-40"></div>
+				<div className="fixed center rounded-xl shadow-xl z-50 text-white bg-black">
 					<div className="nft_details_bg relative">
 						<div className="center">
 							<SpinnerSVG />
@@ -67,8 +81,8 @@ export default NiceModal.create(({ id }) => {
 
 	return (
 		<>
-			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-60 z-30"></div>
-			<div className="fixed center rounded-xl shadow-xl z-40 text-white rouned-xl overflow-hidden">
+			<div onClick={toggle} className="fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-60 z-40"></div>
+			<div className="fixed center rounded-xl shadow-xl z-50 text-white rouned-xl overflow-hidden">
 				<div className="nft_details_bg relative">
 					{/* LEFT BAR */}
 					<div className="p-4 w-32 z-10 absolute font-bold text-center">
@@ -121,7 +135,7 @@ export default NiceModal.create(({ id }) => {
 					{/* RIGHT BAR */}
 					<div className="mx-2 my-2 w-64 z-10 right-0 bottom-0 absolute border-white border-r">
 						<div className="flex items-center justify-end">
-							<p className="font-bold text-right -mr-1">{nft.hp} HP</p>
+							<p className="font-bold text-right -mr-1">{nft.maxHp ? `${nft.hp} of ${nft.maxHp}` : `${nft.hp}`} HP</p>
 							<img width="19px" height="19px" className="mx-2" src={Images.iconHeart} alt="" />
 						</div>
 						<div className="flex items-center justify-end">

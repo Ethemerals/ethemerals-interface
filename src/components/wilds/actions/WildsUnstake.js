@@ -18,7 +18,7 @@ const WildsUnstake = ({ contractWilds, landId, tokenId, canLeave }) => {
 				const tx = await contractWilds.unstake(id, { gasLimit });
 				console.log(tx);
 
-				sendTx(tx.hash, 'leave stake', true, [`land_${landId}`, `nft_${id}`, 'account', 'user', 'lands']);
+				sendTx(tx.hash, 'leave stake', true, [`land_${landId}`, `meral_${id}`, `nft_${id}`, 'account', 'user', 'lands']);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);

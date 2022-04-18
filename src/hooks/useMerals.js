@@ -25,11 +25,16 @@ export const getMeralImages = (cmId, currentColor = 0) => {
 	return colors;
 };
 
-export const getMeralDataById = async (meralId) => {
+export const getMeralDataById = async (meralId, type, setCurrentColor) => {
+	if (parseInt(type) !== 1) {
+		setCurrentColor(0);
+		return false;
+	}
 	const MeralData = Moralis.Object.extend('MeralData');
 	const query = new Moralis.Query(MeralData);
 	query.equalTo('meralId', meralId);
 	const result = await query.first();
+	setCurrentColor(result.get('currentColor'));
 	return result;
 };
 
@@ -48,18 +53,16 @@ const getMeralGlobalByGen = async (gen, type) => {
 	return result;
 };
 
-export const useMeralDataById = (id) => {
+export const useMeralDataById = (id, type) => {
 	const [meralData, setMeralData] = useState(undefined);
 	const [currentColor, setCurrentColor] = useState(undefined);
-	const { isLoading, data } = useQuery(`meralData_${id}`, () => getMeralDataById(id), { refetchOnMount: true });
+	const { isLoading, data } = useQuery(`meralData_${id}`, () => getMeralDataById(id, type, setCurrentColor), { refetchOnMount: true });
 
 	useEffect(() => {
 		if (data && !isLoading) {
 			setMeralData(data);
-			setCurrentColor(data.get('currentColor'));
 		}
 	}, [data, isLoading]);
-
 	return { meralData, currentColor };
 };
 

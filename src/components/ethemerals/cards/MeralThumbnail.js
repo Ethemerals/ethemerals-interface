@@ -1,4 +1,4 @@
-import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import NiceModal from '@ebay/nice-modal-react';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 import { useState, useEffect } from 'react';
 import { getMeralImages, useMeralGlobal } from '../../../hooks/useMerals';

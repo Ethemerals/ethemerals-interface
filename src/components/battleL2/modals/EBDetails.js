@@ -77,7 +77,7 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractBattle.reviveToken(id, userTokenId, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, `Revived #${id} Ethemeral`, true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
+				sendTx(tx.hash, `Revived #${id} Ethemeral`, true, [`nft_${id}`, `meral_${id}`, 'account_eternalBattle', 'account', 'core']);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);
@@ -97,7 +97,7 @@ const EBDetails = ({ nft, toggle, contractBattle, contractPriceFeed, priceFeed, 
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
 				const tx = await contractBattle.cancelStake(id, { gasLimit });
 				console.log(tx);
-				sendTx(tx.hash, 'cancel stake', true, [`nft_${id}`, 'account_eternalBattle', 'account', 'core']);
+				sendTx(tx.hash, 'cancel stake', true, [`nft_${id}`, `meral_${id}`, 'account_eternalBattle', 'account', 'core']);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
 				console.log(`${error.data} \n${error.message}`);

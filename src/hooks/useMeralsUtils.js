@@ -306,3 +306,70 @@ export const getIdFromType = (type, tokenId) => {
 export const getGenByTokenId = (tokenId) => {
 	return Math.ceil(tokenId / 1000);
 };
+
+export const parseId = (id) => {
+	let tokenId = parseInt(id);
+	let meralId = parseInt(id);
+
+	// PARSE ID
+	let type = getTypeFromId(id);
+	let shouldGetL1 = false;
+
+	if (type === 0) {
+		type = 1;
+	}
+	if (type === 1) {
+		shouldGetL1 = true;
+	}
+
+	if (id < 10000) {
+		tokenId = parseInt(id);
+		meralId = getIdFromType(type, tokenId);
+	} else {
+		tokenId = getTokenIdFromId(id);
+	}
+
+	return { tokenId, meralId, type, shouldGetL1 };
+};
+
+export const syncMeral = (meralL1, meralL2) => {
+	let syncMeral = { ...meralL1, ...meralL2 };
+
+	// SCORECARD
+
+	let scorecardL1 = meralL1.scorecard;
+	let scorecardL2 = meralL2.scorecard;
+	let scorecard = meralL2.scorecard;
+
+	scorecard.battles = parseInt(scorecardL2.battles) + parseInt(scorecardL1.battles);
+	scorecard.wins = parseInt(scorecardL2.wins) + parseInt(scorecardL1.wins);
+	scorecard.revived = parseInt(scorecardL2.revived) + parseInt(scorecardL1.revived);
+	scorecard.reviver = parseInt(scorecardL2.reviver) + parseInt(scorecardL1.reviver);
+	scorecard.reaped = parseInt(scorecardL2.reaped) + parseInt(scorecardL1.reaped);
+	scorecard.reaper = parseInt(scorecardL2.reaper) + parseInt(scorecardL1.reaper);
+	let actionsL1 = [];
+	let actionsL2 = [];
+
+	// ACTIONS
+	meralL1.actions.forEach((action) => {
+		action.isLayer2 = false;
+		actionsL1.push(action);
+	});
+
+	meralL1.actions = actionsL1;
+
+	meralL2.actions.forEach((action) => {
+		action.isLayer2 = true;
+		actionsL2.push(action);
+	});
+
+	meralL2.actions = actionsL2;
+
+	let actions = [...actionsL1, ...actionsL2];
+	actions.sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp));
+
+	syncMeral.scorecard = scorecardL2;
+	syncMeral.actions = actions;
+
+	return syncMeral;
+};
