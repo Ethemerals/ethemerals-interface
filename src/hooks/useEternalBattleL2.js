@@ -12,6 +12,7 @@ import { Links } from '../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { GET_NFT_L2 } from '../queries/SubgraphPoly';
 import Moralis from 'moralis';
+import { safeScale } from '../components/wilds/utils';
 
 const getChangeAPI = async (meralId) => {
 	try {
@@ -210,34 +211,70 @@ const calcBps = (_x, _y) => {
 	return _x < _y ? ((_y - _x) * 10000) / _x : ((_x - _y) * 10000) / _y;
 };
 
+const calcBonus = (_stat) => {
+	let stat = _stat * 10000;
+	return (stat + stat / 2) / 10000;
+};
+
 // CONSTANTS
 let startPrice = 10000000;
 
-let atkDivMod = 1800;
-let defDivMod = 1400;
-let spdDivMod = 400;
+let atkDivMod = 1200;
+let defDivMod = 2000;
+let spdDivMod = 5000;
 
-export const winCase = (positionSize, percentChange = 0.1, stats) => {
+export const winCase = (positionSize, percentChange = 0.1, stats, shouldBonus = false) => {
 	// SCORE
-	const change = positionSize * calcBps(startPrice, startPrice * (1 + percentChange));
+	let change = positionSize * calcBps(startPrice, startPrice * (1 + percentChange));
 
-	const atkMod = (stats.atk * change) / atkDivMod;
-	const score = (change + atkMod) / 1000;
+	let atk = stats.atk;
+	let def = stats.def;
+	let spd = stats.spd;
+
+	if (shouldBonus) {
+		atk = calcBonus(atk);
+		def = calcBonus(def);
+		spd = calcBonus(spd);
+	}
+
+	atk = safeScale(atk, 2000, 100, 2000);
+	def = safeScale(def, 2000, 100, 2000);
+	spd = safeScale(spd, 2000, 100, 2000);
+
+	change = change / 1000;
+
+	let score = (change * atk) / atkDivMod + change;
 
 	// ELF BONUS
-	const rewards = (stats.spd * score) / spdDivMod;
+	const rewards = (change * spd) / spdDivMod + change;
 	return {
 		score: parseInt(score),
 		rewards: parseInt(rewards),
 	};
 };
 
-export const loseCase = (positionSize, percentChange = 0.1, stats) => {
+export const loseCase = (positionSize, percentChange = 0.1, stats, shouldBonus = false) => {
 	// SCORE
-	const change = positionSize * calcBps(startPrice, startPrice * (1 - percentChange));
+	let change = positionSize * calcBps(startPrice, startPrice * (1 - percentChange));
 
-	const defMod = (stats.def * change) / defDivMod;
-	const score = (change - defMod) / 1000;
+	let atk = stats.atk;
+	let def = stats.def;
+	let spd = stats.spd;
+
+	if (shouldBonus) {
+		atk = calcBonus(atk);
+		def = calcBonus(def);
+		spd = calcBonus(spd);
+	}
+
+	atk = safeScale(atk, 2000, 100, 2000);
+	def = safeScale(def, 2000, 100, 2000);
+	spd = safeScale(spd, 2000, 100, 2000);
+
+	change = change / 1000;
+
+	let subtract = (change * def) / defDivMod;
+	let score = change > subtract ? change - subtract : 0;
 
 	// ELF BONUS
 	const rewards = 0;

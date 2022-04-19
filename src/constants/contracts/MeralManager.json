@@ -85,6 +85,25 @@
       {
         "indexed": false,
         "internalType": "uint32",
+        "name": "cmId",
+        "type": "uint32"
+      }
+    ],
+    "name": "ChangeCMID",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
         "name": "elf",
         "type": "uint32"
       },
@@ -140,6 +159,31 @@
       }
     ],
     "name": "ChangeHP",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "maxHp",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "maxStamina",
+        "type": "uint16"
+      }
+    ],
+    "name": "ChangeMax",
     "type": "event"
   },
   {
@@ -235,6 +279,12 @@
       {
         "indexed": false,
         "internalType": "uint32",
+        "name": "cmId",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
         "name": "elf",
         "type": "uint32"
       },
@@ -242,12 +292,6 @@
         "indexed": false,
         "internalType": "uint16",
         "name": "hp",
-        "type": "uint16"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint16",
-        "name": "maxHp",
         "type": "uint16"
       },
       {
@@ -266,12 +310,6 @@
         "indexed": false,
         "internalType": "uint16",
         "name": "spd",
-        "type": "uint16"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint16",
-        "name": "maxStamina",
         "type": "uint16"
       },
       {
@@ -307,31 +345,31 @@
       },
       {
         "indexed": false,
-        "internalType": "uint8",
-        "name": "status",
-        "type": "uint8"
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
       }
     ],
-    "name": "MeralStatusChange",
+    "name": "MeralOwnerChange",
     "type": "event"
   },
   {
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "status",
+        "type": "uint8"
       }
     ],
-    "name": "OwnershipTransferred",
+    "name": "MeralStatusChange",
     "type": "event"
   },
   {
@@ -405,6 +443,11 @@
     ],
     "name": "allMerals",
     "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "cmId",
+        "type": "uint32"
+      },
       {
         "internalType": "uint32",
         "name": "elf",
@@ -523,6 +566,24 @@
       },
       {
         "internalType": "uint32",
+        "name": "_cmId",
+        "type": "uint32"
+      }
+    ],
+    "name": "changeCMID",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint32",
         "name": "offset",
         "type": "uint32"
       },
@@ -574,6 +635,29 @@
       }
     ],
     "name": "changeHP",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint16",
+        "name": "_maxHp",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "_maxStamina",
+        "type": "uint16"
+      }
+    ],
+    "name": "changeMax",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -728,6 +812,11 @@
         "components": [
           {
             "internalType": "uint32",
+            "name": "cmId",
+            "type": "uint32"
+          },
+          {
+            "internalType": "uint32",
             "name": "elf",
             "type": "uint32"
           },
@@ -802,6 +891,11 @@
     "outputs": [
       {
         "components": [
+          {
+            "internalType": "uint32",
+            "name": "cmId",
+            "type": "uint32"
+          },
           {
             "internalType": "uint32",
             "name": "elf",
@@ -883,6 +977,11 @@
     "outputs": [
       {
         "components": [
+          {
+            "internalType": "uint32",
+            "name": "cmId",
+            "type": "uint32"
+          },
           {
             "internalType": "uint32",
             "name": "elf",
@@ -1184,30 +1283,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_type",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "ownerOfByType",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "contractAddress",
         "type": "address"
@@ -1231,14 +1306,19 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint16",
-        "name": "_hp",
-        "type": "uint16"
+        "internalType": "uint32",
+        "name": "_cmId",
+        "type": "uint32"
       },
       {
         "internalType": "uint32",
         "name": "_elf",
         "type": "uint32"
+      },
+      {
+        "internalType": "uint16",
+        "name": "_hp",
+        "type": "uint16"
       },
       {
         "internalType": "uint16",
@@ -1267,13 +1347,6 @@
       }
     ],
     "name": "registerMeral",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
