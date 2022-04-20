@@ -61,11 +61,11 @@ const HistoryMeral = ({ stake }) => {
 						</p>
 						<p>
 							<span>STAKED:</span>
-							<span className="pl-1 text-black">{timeAgo} ago</span>
+							<span className="pl-1 text-black overflow-hidden whitespace-nowrap">{timeAgo} ago</span>
 						</p>
 						<p>
 							<span>DURATION:</span>
-							<span className="pl-1 text-black">{duration}</span>
+							<span className="pl-1 text-black overflow-hidden whitespace-nowrap">{duration}</span>
 						</p>
 					</div>
 

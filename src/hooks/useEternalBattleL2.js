@@ -15,9 +15,7 @@ import Moralis from 'moralis';
 import { safeScale } from '../components/wilds/utils';
 
 const getChangeAPI = async (meralId) => {
-	console.log('hereAPI');
 	try {
-		console.log('hereAPI try');
 		const result = await Moralis.Cloud.run('getChange', { meralId });
 		return result;
 	} catch (error) {
@@ -27,10 +25,8 @@ const getChangeAPI = async (meralId) => {
 };
 
 const getChange = async (provider, contract, id, isLayer2) => {
-	console.log('here');
 	if (provider && contract && isLayer2) {
 		try {
-			console.log('here try');
 			let [score, rewards, win] = await contract.getChange(id);
 			return { score: score.toString(), rewards: rewards.toString(), win };
 		} catch (error) {
@@ -43,7 +39,6 @@ const getChange = async (provider, contract, id, isLayer2) => {
 			if (data) {
 				return data;
 			} else {
-				console.log('no data');
 				throw new Error('error');
 			}
 		} catch (error) {
@@ -173,13 +168,12 @@ export const useEternalBattleL2GetChange = (id) => {
 	const { isLayer2 } = useGetLayerDetails();
 	const { contractBattle } = useEternalBattleL2Contract();
 
-	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contractBattle, id, isLayer2), { enabled: !!id, refetchInterval: 50000 });
+	const { isLoading, data } = useQuery(`getChange_${id}`, () => getChange(provider, contractBattle, id, isLayer2), { enabled: !!id, refetchInterval: 50000 });
 
 	const [scoreChange, setScoreChange] = useState(undefined);
 
 	useEffect(() => {
 		if (!isLoading) {
-			console.log(data);
 			setScoreChange(data);
 		}
 	}, [data, isLoading]);
@@ -188,7 +182,7 @@ export const useEternalBattleL2GetChange = (id) => {
 };
 
 export const useEternalBattleChampions = (priceFeedId) => {
-	const { data } = useGQLQueryL2(`getEternalBattleChampions_${priceFeedId}`, GET_NFT_L2, { id: 1000404 }, { refetchOnMount: true });
+	const { data } = useGQLQueryL2(`getEternalBattleChampions_${priceFeedId}`, GET_NFT_L2, { id: 1000263 }, { refetchOnMount: true });
 
 	const [meral, setMeral] = useState(null);
 
