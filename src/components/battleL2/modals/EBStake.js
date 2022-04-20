@@ -118,7 +118,7 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, `meral_${id}`, `getActiveStakes_${priceFeed.id}`, `account_${address}`, `account_${address}_subgraphL2`]);
 			} catch (error) {
 				NiceModal.remove(modalRegistry.waitingForSignature);
-				console.log(`${error.data} \n${error.message}`);
+				console.log(error);
 			}
 			toggle();
 		} else {

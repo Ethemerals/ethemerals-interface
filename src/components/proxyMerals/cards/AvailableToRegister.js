@@ -56,8 +56,8 @@ const AvailableToRegister = () => {
 					Addresses.Ethemerals,
 					_meral.tokenId,
 					_meral.cmId,
-					_meral.hp,
 					_meral.elf,
+					_meral.hp,
 					_meral.atk,
 					_meral.def,
 					_meral.spd,
@@ -65,14 +65,13 @@ const AvailableToRegister = () => {
 					_meral.subclass
 				);
 				const gasLimit = gasEstimate.add(gasEstimate.div(8));
-				console.log(gasLimit.toString());
 
 				const tx = await contractMeralManager.registerMeral(
 					Addresses.Ethemerals,
 					_meral.tokenId,
 					_meral.cmId,
-					_meral.hp,
 					_meral.elf,
+					_meral.hp,
 					_meral.atk,
 					_meral.def,
 					_meral.spd,

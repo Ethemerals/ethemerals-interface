@@ -126,6 +126,7 @@ const StakedMeral = ({ priceFeed, stake }) => {
 								<span className="text-black"> {formatPrice(parseFloat(stake.startingPrice) / 10 ** priceFeed.decimals, 2)}</span>
 							</p>
 							<p>
+								{console.log(scoreCalculated)}
 								<span>HP:</span>
 								<span className="pl-1 text-black">{`${clamp(scoreCalculated, 0, stake.meral.maxHp)} `}</span>
 								<span className={`text-xs ${scoreChange.win ? 'text-green-800' : 'text-red-800'}`}>{scoreChange.win ? `(+${parseInt(scoreChange.score)})` : `(-${parseInt(scoreChange.score)})`}</span>

@@ -61,7 +61,7 @@ export const GET_ACCOUNT_L2 = gql`
 			id
 			elfBalance
 			allowDelegates
-			merals(orderBy: timestamp, orderDirection: desc) {
+			merals(orderBy: timestamp, orderDirection: desc, where: { status: 2 }) {
 				id
 				type
 				tokenId
@@ -115,7 +115,7 @@ export const GET_ACCOUNT_L2 = gql`
 
 export const GET_MERALS_BY_VERIFIEDOWNER = gql`
 	query ($id: ID!) {
-		merals(orderBy: timestamp, orderDirection: desc, where: { verifiedOwner: $id }) {
+		merals(orderBy: timestamp, orderDirection: desc, where: { verifiedOwner: $id, status: 2 }) {
 			id
 		}
 	}
@@ -125,7 +125,7 @@ export const GET_PENDING_MERALS = gql`
 	query ($id: ID!) {
 		account(id: $id) {
 			id
-			merals(orderBy: timestamp, orderDirection: desc, where: { status: "1" }) {
+			merals(orderBy: timestamp, orderDirection: desc, where: { status: 1 }) {
 				id
 				type
 				tokenId
@@ -156,7 +156,7 @@ export const GET_PROXY_MERALS = gql`
 	query ($id: ID!) {
 		account(id: $id) {
 			id
-			merals(orderBy: timestamp, orderDirection: desc, where: { status: "2" }) {
+			merals(orderBy: timestamp, orderDirection: desc, where: { status: 2 }) {
 				id
 				type
 				tokenId

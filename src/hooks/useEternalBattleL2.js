@@ -15,20 +15,26 @@ import Moralis from 'moralis';
 import { safeScale } from '../components/wilds/utils';
 
 const getChangeAPI = async (meralId) => {
+	console.log('hereAPI');
 	try {
+		console.log('hereAPI try');
 		const result = await Moralis.Cloud.run('getChange', { meralId });
 		return result;
 	} catch (error) {
+		console.log(error);
 		throw new Error('get change error');
 	}
 };
 
 const getChange = async (provider, contract, id, isLayer2) => {
+	console.log('here');
 	if (provider && contract && isLayer2) {
 		try {
+			console.log('here try');
 			let [score, rewards, win] = await contract.getChange(id);
 			return { score: score.toString(), rewards: rewards.toString(), win };
 		} catch (error) {
+			console.log(error);
 			throw new Error('error');
 		}
 	} else {
@@ -37,6 +43,7 @@ const getChange = async (provider, contract, id, isLayer2) => {
 			if (data) {
 				return data;
 			} else {
+				console.log('no data');
 				throw new Error('error');
 			}
 		} catch (error) {
@@ -165,12 +172,14 @@ export const useEternalBattleL2GetChange = (id) => {
 	const { provider } = useWeb3();
 	const { isLayer2 } = useGetLayerDetails();
 	const { contractBattle } = useEternalBattleL2Contract();
+
 	const { isLoading, data } = useQuery([`getChange_${id}`, id], () => getChange(provider, contractBattle, id, isLayer2), { enabled: !!id, refetchInterval: 50000 });
 
 	const [scoreChange, setScoreChange] = useState(undefined);
 
 	useEffect(() => {
 		if (!isLoading) {
+			console.log(data);
 			setScoreChange(data);
 		}
 	}, [data, isLoading]);
