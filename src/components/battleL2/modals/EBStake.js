@@ -1,6 +1,6 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { useState, useEffect } from 'react';
-import { BigNumber } from 'ethers';
+
 import { Range, getTrackBackground } from 'react-range';
 import { useSendTx } from '../../../context/TxContext';
 import { useEternalBattleL2Contract, winCase, loseCase } from '../../../hooks/useEternalBattleL2';
@@ -112,7 +112,7 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 
 				const gasEstimate = await contractBattle.estimateGas.createStake(id, pricefeedId.toString(), position.toString(), long);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractBattle.createStake(id, pricefeedId, position, long, { gasLimit, maxFeePerGas: BigNumber.from('30000000000'), maxPriorityFeePerGas: BigNumber.from('30000000000') });
+				const tx = await contractBattle.createStake(id, pricefeedId, position, long, { gasLimit });
 				console.log(tx);
 
 				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, `meral_${id}`, `getActiveStakes_${priceFeed.id}`, `account_${address}`, `account_${address}_subgraphL2`]);

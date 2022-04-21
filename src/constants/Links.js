@@ -8,7 +8,7 @@ const getLinks = () => {
 		ETHERSCAN_URL: 'https://etherscan.io/',
 		POLYSCAN_URL: 'https://polygonscan.com/',
 		SUBGRAPH_ENDPOINT_L1: 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals-v2',
-		SUBGRAPH_ENDPOINT_L2: 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals-v2',
+		SUBGRAPH_ENDPOINT_L2: 'https://api.thegraph.com/subgraphs/name/ethemerals/ethemerals-polygon',
 		UNISWAP: 'https://google.com',
 		APP: 'https://app.ethemerals.com',
 		GITHUB: 'https://github.com/Ethemerals',

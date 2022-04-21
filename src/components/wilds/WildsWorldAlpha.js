@@ -43,7 +43,7 @@ const WildsWorldAlpha = () => {
 								<h2 className="mb-20">ETERNAL BATTLE</h2>
 								<p className="text-sm">Stake your Merals against crypto markets, earn rewards and items</p>
 							</div>
-							<div className="bg-white w-1/3 rounded-md p-4 h-48 border-white border-2 opacity-20">
+							<div onClick={() => history.push(`/onsen`)} className="bg-white w-1/3 rounded-md p-4 h-48 border-white border-2 opacity-20">
 								<h2 className="mb-20">ONSEN</h2>
 								<p className="text-sm">Heal and relax ...</p>
 								<p className="text-sm">under construction</p>

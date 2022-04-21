@@ -131,9 +131,6 @@ export const GET_PENDING_MERALS = gql`
 				tokenId
 				meralId
 				proxy
-				verifiedOwner {
-					id
-				}
 				timestamp
 				hp
 				elf
@@ -162,9 +159,6 @@ export const GET_PROXY_MERALS = gql`
 				tokenId
 				meralId
 				proxy
-				verifiedOwner {
-					id
-				}
 				timestamp
 				hp
 				elf

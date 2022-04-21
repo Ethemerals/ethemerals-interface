@@ -1,8 +1,6 @@
 import NiceModal from '@ebay/nice-modal-react';
 
 import WaitingForSignature from './WaitingForSignature';
-import Onsen from '../onsen/modals/Onsen';
-import EnterOnsenModal from '../onsen/modals/EnterOnsenModal';
 
 import DefendersModal from '../wilds/lands/modals/DefendersModal';
 import AttackersModal from '../wilds/lands/modals/AttackersModal';
@@ -47,8 +45,7 @@ export const modalRegistry = {
 	// MERAL MANAGER
 
 	// ONSEN
-	openOnsen: 'open-onsen',
-	enterOnsen: 'enter-onsen',
+
 	// RAIDING
 	openDefenders: 'open-defenders',
 	openAttackers: 'open-attackers',
@@ -81,8 +78,7 @@ export const registerModals = () => {
 	// MERAL MANAGER
 
 	// ONSEN
-	NiceModal.register(modalRegistry.openOnsen, Onsen);
-	NiceModal.register(modalRegistry.enterOnsen, EnterOnsenModal);
+
 	// RAIDING
 	NiceModal.register(modalRegistry.openDefenders, DefendersModal);
 	NiceModal.register(modalRegistry.openAttackers, AttackersModal);

@@ -10,11 +10,21 @@ import { clamp, formatPrice, shortenAddress } from '../../../utils';
 
 import SVGRevive from '../svg/SVGRevive';
 import SVGUnstake from '../svg/SVGUnstake';
-import Spinner from '../../Spinner';
 
 import { animated, useSpring, config } from '@react-spring/web';
 import { formatDistance } from 'date-fns';
 import { useUserAccount } from '../../../hooks/useUser';
+
+const SpinnerSVG = ({ size }) => (
+	<svg className="animate-spin-slow text-brandColor" width={size} height={size} viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<g opacity="1">
+			<path
+				d="M152 304C68.0527 304 0 235.947 0 152C0 68.0527 68.0527 0 152 0L152 10.6431C73.9306 10.6431 10.6429 73.9308 10.6429 152C10.6429 230.069 73.9306 293.357 152 293.357C230.069 293.357 293.357 230.069 293.357 152L304 152C304 235.947 235.947 304 152 304Z"
+				fill="currentColor"
+			/>
+		</g>
+	</svg>
+);
 
 const StakedMeral = ({ priceFeed, stake }) => {
 	let meral = stake.meral;
@@ -37,7 +47,7 @@ const StakedMeral = ({ priceFeed, stake }) => {
 	}, [address, stake]);
 
 	useEffect(() => {
-		if (scoreChange && stake && !isLoading) {
+		if (scoreChange && !Number.isNaN(scoreChange) && stake && !isLoading) {
 			let currentScore = parseInt(meral.hp);
 			let changeScore = parseInt(scoreChange.score);
 			let resultScore = scoreChange.win ? currentScore + changeScore : currentScore - changeScore;
@@ -95,14 +105,14 @@ const StakedMeral = ({ priceFeed, stake }) => {
 
 	return (
 		<div className="w-full flex just-center relative my-3">
-			<MeralThumbnail nft={stake.meral} select={select} />
+			<MeralThumbnail nft={meral} select={select} />
 			<div className="w-full h-24 bg-gray-200 mb-8 rounded-r-lg shadow-lg overflow-hidden">
-				<div className="text-md px-4 text-white" style={{ backgroundColor: elements[stake.meral.element].color1 }}>
-					{stake.meral.name.toUpperCase()}
+				<div className="text-md px-4 text-white" style={{ backgroundColor: elements[meral.element].color1 }}>
+					{meral.name.toUpperCase()}
 				</div>
 				{!scoreChange ? (
-					<div className="ml-4 text-xs my-1">
-						<Spinner color="text-gray-300" size="h-12 w-12" margin="py-2" />
+					<div className="ml-5 my-5">
+						<SpinnerSVG size={32} />
 					</div>
 				) : (
 					<>
@@ -129,7 +139,7 @@ const StakedMeral = ({ priceFeed, stake }) => {
 							{!Number.isNaN(scoreCalculated) && scoreChange && (
 								<p>
 									<span>HP:</span>
-									<span className="pl-1 text-black">{`${clamp(scoreCalculated, 0, stake.meral.maxHp)} `}</span>
+									<span className="pl-1 text-black">{`${clamp(scoreCalculated, 0, meral.maxHp)} `}</span>
 									<span className={`text-xs ${scoreChange.win ? 'text-green-800' : 'text-red-800'}`}>
 										{scoreChange.win ? `(+${parseInt(scoreChange.score)})` : `(-${parseInt(scoreChange.score)})`}
 									</span>
@@ -138,15 +148,8 @@ const StakedMeral = ({ priceFeed, stake }) => {
 							{!scoreCalculated && (
 								<p className="flex items-center">
 									<span>HP:</span>
-									<span>
-										<svg className="animate-spin-slow text-brandColor ml-2" width="16" height="16" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<g opacity="1">
-												<path
-													d="M152 304C68.0527 304 0 235.947 0 152C0 68.0527 68.0527 0 152 0L152 10.6431C73.9306 10.6431 10.6429 73.9308 10.6429 152C10.6429 230.069 73.9306 293.357 152 293.357C230.069 293.357 293.357 230.069 293.357 152L304 152C304 235.947 235.947 304 152 304Z"
-													fill="currentColor"
-												/>
-											</g>
-										</svg>
+									<span className="ml-2">
+										<SpinnerSVG size={16} />
 									</span>
 								</p>
 							)}

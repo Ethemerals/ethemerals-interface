@@ -31,7 +31,6 @@ export const usePriceFeedPriceL2 = (contract, priceFeed) => {
 		if (!isLoading) {
 			setPriceFeed(data);
 		}
-		console.log(data);
 	}, [data, isLoading]);
 
 	return { price, isLoading };

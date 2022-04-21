@@ -16,6 +16,7 @@ import { safeScale } from '../components/wilds/utils';
 
 const getChangeAPI = async (meralId) => {
 	try {
+		console.log('hereAPI');
 		const result = await Moralis.Cloud.run('getChange', { meralId });
 		return result;
 	} catch (error) {
@@ -26,6 +27,7 @@ const getChangeAPI = async (meralId) => {
 
 const getChange = async (provider, contract, id, isLayer2) => {
 	if (provider && contract && isLayer2) {
+		console.log('here');
 		try {
 			let [score, rewards, win] = await contract.getChange(id);
 			return { score: score.toString(), rewards: rewards.toString(), win };
@@ -168,12 +170,12 @@ export const useEternalBattleL2GetChange = (id) => {
 	const { isLayer2 } = useGetLayerDetails();
 	const { contractBattle } = useEternalBattleL2Contract();
 
-	const { isLoading, data } = useQuery(`getChange_${id}`, () => getChange(provider, contractBattle, id, isLayer2), { enabled: !!id, refetchInterval: 50000 });
+	const { isLoading, data } = useQuery([`getChange_${id}`], () => getChange(provider, contractBattle, id, isLayer2), { enabled: !!id && !!contractBattle, refetchInterval: 50000 });
 
 	const [scoreChange, setScoreChange] = useState(undefined);
 
 	useEffect(() => {
-		if (!isLoading) {
+		if (!isLoading && data) {
 			setScoreChange(data);
 		}
 	}, [data, isLoading]);
@@ -231,17 +233,14 @@ export const winCase = (positionSize, percentChange = 0.1, stats, shouldBonus = 
 	let change = positionSize * calcBps(startPrice, startPrice * (1 + percentChange));
 
 	let atk = stats.atk;
-	let def = stats.def;
 	let spd = stats.spd;
 
 	if (shouldBonus) {
 		atk = calcBonus(atk);
-		def = calcBonus(def);
 		spd = calcBonus(spd);
 	}
 
 	atk = safeScale(atk, 2000, 100, 2000);
-	def = safeScale(def, 2000, 100, 2000);
 	spd = safeScale(spd, 2000, 100, 2000);
 
 	change = change / 1000;
@@ -260,19 +259,13 @@ export const loseCase = (positionSize, percentChange = 0.1, stats, shouldBonus =
 	// SCORE
 	let change = positionSize * calcBps(startPrice, startPrice * (1 - percentChange));
 
-	let atk = stats.atk;
 	let def = stats.def;
-	let spd = stats.spd;
 
 	if (shouldBonus) {
-		atk = calcBonus(atk);
 		def = calcBonus(def);
-		spd = calcBonus(spd);
 	}
 
-	atk = safeScale(atk, 2000, 100, 2000);
 	def = safeScale(def, 2000, 100, 2000);
-	spd = safeScale(spd, 2000, 100, 2000);
 
 	change = change / 1000;
 

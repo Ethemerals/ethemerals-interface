@@ -10,11 +10,11 @@ const getAddresses = () => {
 		BurnAddress: '0x13D8EE49CbA2Eb416584806b8D370Ff432fF5A03',
 		// BATTLE
 		EternalBattle: '0x169310e61e71ef5834ce5466c7155d8a90d15f1e',
-		EternalBattleL2: '0x4259580fb3adef3dda6d1c341279730c83afdc8c',
+		EternalBattleL2: '0xa9cf9e6daa70274ad3976c9a87bf8e80a4c4e8c6',
 		priceFeed: '0x04302ef1c51dff4625cdec79f4400342ad27f559',
-		priceFeedL2: '0x0b19386c832ba5043a6b1779d62f022dd98f4d31',
+		priceFeedL2: '0xf93404342eba65e721591f04cfc8ad9752a61b7e',
 		// LAYER 2
-		MeralManager: '0xb98f4fe8bb8d4cbc3bea5c8cfb3275ae83464672',
+		MeralManager: '0x4aa85b6f9f1a0c08c7cdaea7712272b76c0e599b',
 		Onsen: '0xbb9edd32755e2b626441f0eb24ad44931589d7b5',
 		Wilds: '0x7D37289d70E6Ba0907760b6B8fc76C0c987a3efc',
 	};

@@ -26,6 +26,7 @@ import ArtGame from './pages/ArtGame';
 import { registerModals } from './components/niceModals/RegisterModals';
 import WildsWorldAlpha from './components/wilds/WildsWorldAlpha';
 import RegisterMerals from './components/proxyMerals/RegisterMerals';
+import Onsen from './components/onsen/Onsen';
 import EternalBattleL2 from './components/battleL2/EternalBattleL2';
 import EternalBattleL1 from './components/battle/EternalBattleL1';
 
@@ -90,7 +91,6 @@ function App() {
 				</Route>
 				<Route exact path="/wilds">
 					<WildsWorldAlpha />
-					{/* {parseInt(process.env.REACT_APP_NETWORK) !== 1 ? <WildsWorld /> : <WildsWorldAlpha />} */}
 				</Route>
 				<Route exact path="/dashboard">
 					<Dashboard />
@@ -114,6 +114,11 @@ function App() {
 				{/* MERALMANAGER */}
 				<Route exact path="/register">
 					<RegisterMerals />
+				</Route>
+
+				{/* ONSEN */}
+				<Route exact path="/onsen">
+					<Onsen />
 				</Route>
 			</Switch>
 			<Navbar />
