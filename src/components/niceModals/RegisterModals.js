@@ -20,6 +20,7 @@ import EBUnstake from '../battleL2/modals/EBUnstake';
 import Markets from '../battleL2/modals/Markets';
 import ChangeCollection from '../proxyMerals/modals/ChangeCollection';
 import MeralDetails from './merals/MeralDetails';
+import Classbonus from '../battleL2/modals/Classbonus';
 
 export const modalRegistry = {
 	// MINTING
@@ -41,6 +42,7 @@ export const modalRegistry = {
 	ebUnstake: 'eternal-unstake-meral',
 	ebRevive: 'eternal-revive',
 	ebMarkets: 'eternal-markets',
+	ebClassBonus: 'eternal-class-bonus',
 
 	// MERAL MANAGER
 
@@ -75,6 +77,7 @@ export const registerModals = () => {
 	NiceModal.register(modalRegistry.ebRevive, EBRevive);
 	NiceModal.register(modalRegistry.ebUnstake, EBUnstake);
 	NiceModal.register(modalRegistry.ebMarkets, Markets);
+	NiceModal.register(modalRegistry.ebClassBonus, Classbonus);
 	// MERAL MANAGER
 
 	// ONSEN

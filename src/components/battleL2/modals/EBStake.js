@@ -16,10 +16,24 @@ import { useGetLayerDetails } from '../../../hooks/useWeb3';
 
 const rangeDefaults = {
 	min: 100,
-	max: 500,
+	max: 1000,
 	default: 300,
 	step: 1,
 };
+
+const ArrowUp = ({ color }) => (
+	<svg
+		style={{ width: '12px', height: '12px', transform: 'translate(0px, -3px)' }}
+		xmlns="http://www.w3.org/2000/svg"
+		className={color}
+		fill="none"
+		viewBox="0 0 24 24"
+		stroke="currentColor"
+		strokeWidth={2}
+	>
+		<path strokeLinecap="round" strokeLinejoin="round" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
+	</svg>
+);
 
 export default NiceModal.create(({ meral, priceFeed, long }) => {
 	const { address } = useUser();
@@ -37,6 +51,7 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 	const [priceFormated, setPriceFormated] = useState(undefined);
 	const [winPreview, setWinPreview] = useState(undefined);
 	const [losePreview, setLosePreview] = useState(undefined);
+	const [isBonus, setIsBonus] = useState(false);
 
 	const modal = useModal();
 
@@ -55,8 +70,8 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 	}, [price, priceFeed]);
 
 	useEffect(() => {
-		setLeverage(((position / meral.hp) * 1).toFixed(1));
-		if (position >= 100 && position <= 500) {
+		setLeverage(((position / meral.hp) * 10).toFixed(0));
+		if (position >= 100 && position <= 1000) {
 			let stats = { atk: meral.atk, def: meral.def, spd: meral.spd };
 			setWinPreview(winCase(position, 0.1, stats));
 			let _lose = loseCase(position, 0.1, stats);
@@ -83,6 +98,21 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 			let _liqPrice = (parseFloat(_price) / 10 ** priceFeed.decimals).toFixed(priceFeed.priceDecimalPlaces);
 			setLiquidation(parseInt(_liqPrice));
 		}
+
+		if (long) {
+			priceFeed.bonusLongs.forEach((bonus) => {
+				if (parseInt(bonus.cmId) === parseInt(meral.cmId)) {
+					setIsBonus(true);
+				}
+			});
+		}
+		if (!long) {
+			priceFeed.bonusShorts.forEach((bonus) => {
+				if (parseInt(bonus.cmId) === parseInt(meral.cmId)) {
+					setIsBonus(true);
+				}
+			});
+		}
 	}, [position, meral, long, price, priceFeed]);
 
 	const toggle = () => {
@@ -99,7 +129,7 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 	};
 
 	const onSubmitStake = async () => {
-		if (position < 100 || position > 500) {
+		if (position < 100 || position > 1000) {
 			console.log('out of bounds');
 			return;
 		}
@@ -151,8 +181,34 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 					</h2>
 					<div style={{ borderTop: '1px solid skyblue' }} className="h-80 overflow-auto bg-blue-50 pt-2">
 						<div className="flex justify-center my-4">
-							<div className="mx-6">{meral && <MeralThumbnail key={meral.meralId} nft={meral} select={selectAndToggle} />}</div>
-							<div className="w-60 text-base leading-5 text-gray-500">
+							<div className="mx-6 mt-1">{meral && <MeralThumbnail key={meral.meralId} nft={meral} select={selectAndToggle} />}</div>
+							<div className=" w-72 text-base leading-5 text-gray-500 ">
+								<div className="text-xs flex items-baseline">
+									<span>ATK:</span>
+									<span className="pl-1 text-red-800">{!isBonus ? meral.atk : parseInt(meral.atk * 1.5)}</span>
+									{isBonus && <ArrowUp color="text-red-800" />}
+									<span className="pl-2">DEF:</span>
+									<span className="pl-1 text-blue-800">{!isBonus ? meral.def : parseInt(meral.def * 1.5)}</span>
+									{isBonus && <ArrowUp color="text-blue-800" />}
+									<span className="pl-2">SPD:</span>
+									<span className="pl-1 text-green-800">{!isBonus ? meral.spd : parseInt(meral.spd * 1.5)}</span>
+									{isBonus && <ArrowUp color="text-green-800" />}
+									<span data-tip data-for="ttStats" className="text-yellow-400">
+										<SVGQuestionMark />
+									</span>
+									<ReactTooltip id="ttStats" type="warning" effect="float">
+										<div className="pb-4">
+											{isBonus && (
+												<p>
+													Your Meral has <strong>COIN BONUS</strong> applied!
+												</p>
+											)}
+											<p>Attack increases HP gained</p>
+											<p>Defence reduces HP lost</p>
+											<p>Speed increases ELF gain</p>
+										</div>
+									</ReactTooltip>
+								</div>
 								<div>
 									<span className="text-xs">AVAILABLE HP:</span>
 									<span className="pl-1 text-black">
@@ -166,18 +222,19 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 								<div className="flex items-baseline">
 									<span className="text-xs">LIQUIDATION PRICE:</span>
 									<span className="pl-1 text-black">{!Number.isNaN(liquidation) && liquidation}</span>
-									<span data-tip data-for="ttLiquidation">
+									<span data-tip data-for="ttLiquidation" className="text-yellow-400">
 										<SVGQuestionMark />
 									</span>
-									<ReactTooltip id="ttLiquidation" type="warning" effect="solid">
-										<span>If the price reaches this amount. The Meral becomes revivable by other Merals</span>
+									<ReactTooltip id="ttLiquidation" type="warning" effect="float">
+										<div className="pb-4 w-44">
+											<span>If the price reaches this amount. This Meral becomes 'revivable' by other Merals</span>
+										</div>
 									</ReactTooltip>
 								</div>
 								<div>
 									<span className="text-xs">POSITION SIZE:</span>
 									<span className="pl-1 text-black">{position} HP</span>
 								</div>
-
 								<div className="">
 									<Range
 										step={rangeDefaults.step}
@@ -190,7 +247,7 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 										renderTrack={({ props, children }) => (
 											<div
 												{...props}
-												className="w-52 h-1 rounded mt-6"
+												className="w-52 h-1 rounded mt-3"
 												style={{
 													background: getTrackBackground({
 														values: rangeValues,
