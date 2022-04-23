@@ -5,7 +5,7 @@ import MeralThumbnail from '../../ethemerals/cards/MeralThumbnail';
 
 export default NiceModal.create(() => {
 	const modal = useModal();
-	const { userMerals } = useUserAccount();
+	const { allMerals } = useUserAccount();
 	const { setUserData, user } = useUser();
 
 	const toggle = async () => {
@@ -13,13 +13,13 @@ export default NiceModal.create(() => {
 	};
 
 	const selectAndToggle = async (id) => {
-		if (userMerals && user) {
+		if (allMerals && user) {
 			setUserData({ meralMainId: parseInt(id) });
 		}
 		toggle();
 	};
 
-	if (!userMerals) {
+	if (!allMerals) {
 		return <></>;
 	}
 
@@ -30,7 +30,7 @@ export default NiceModal.create(() => {
 				<div className="center shadow-xl rounded bg-white">
 					<h2 className="text-center p-4">Select a Meral:</h2>
 					<div className="flex flex-wrap justify-center px-6 pb-12 pt-6 gap-4">
-						{userMerals.map((nft) => {
+						{allMerals.map((nft) => {
 							return <MeralThumbnail key={nft.meralId} nft={nft} select={selectAndToggle} />;
 						})}
 					</div>

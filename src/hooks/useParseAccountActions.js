@@ -1,32 +1,17 @@
 import { Links } from '../constants/Links';
 import { shortenAddress } from '../utils';
 
-// Default
-// Minted
-// Transfer
-// SendELF
-// ReceiveELF
-// Send
-// Receive
-// Staked
-// Unstaked
-// Revived
-// Reviver
-// Reaped
-// Reaper
-// RedeemELF
-// RedeemHonor
-// Resurrection
-// DelegateChange
-
-const useParseAccountAction = (action) => {
+const useParseAccountAction = (action, isLayer2 = false) => {
 	if (!action) {
 		return ['', ''];
 	}
 
 	let words = [];
 	let actionString = '';
-	const txLink = `${Links.ETHERSCAN_URL}tx/${action.transaction.id}`;
+	let txLink = `${Links.ETHERSCAN_URL}tx/${action.transaction.id}`;
+	if (isLayer2) {
+		txLink = `${Links.POLYSCAN_URL}tx/${action.transaction.id}`;
+	}
 
 	if (action.description) {
 		actionString = action.description;

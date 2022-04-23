@@ -74,8 +74,8 @@ export const GET_NFT = gql`
 			element
 			petRedeemed
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
+				id
 				timestamp
-				win
 				transaction {
 					id
 					from
@@ -199,6 +199,7 @@ export const GET_ETERNALBATTLE_ACCOUNT = gql`
 				mainclass
 				subclass
 				actions(first: 1, orderBy: timestamp, orderDirection: desc, where: { staked: true }) {
+					id
 					timestamp
 					priceFeed
 					staked

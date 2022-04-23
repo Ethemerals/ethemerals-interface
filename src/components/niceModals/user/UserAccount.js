@@ -15,7 +15,7 @@ const ExternalLinkSVG = () => (
 );
 
 const ActionLink = (action) => {
-	const [actionString, txLink] = useParseAccountAction(action);
+	const [actionString, txLink] = useParseAccountAction(action, action.isLayer2);
 
 	return (
 		<a href={txLink} target="_blank" rel="noreferrer" className="flex items-center hover:text-blue-400">

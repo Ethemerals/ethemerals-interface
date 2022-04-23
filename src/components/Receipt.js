@@ -35,7 +35,7 @@ const Receipt = () => {
 
 	// SPRING
 	const transitions = useTransition(show, {
-		from: { opacity: 0 },
+		from: { opacity: 1 },
 		enter: { opacity: 1 },
 		leave: { opacity: 0 },
 		reverse: show,

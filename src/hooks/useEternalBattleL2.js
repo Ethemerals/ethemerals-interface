@@ -16,7 +16,6 @@ import { safeScale } from '../components/wilds/utils';
 
 const getChangeAPI = async (meralId) => {
 	try {
-		console.log('api');
 		const result = await Moralis.Cloud.run('getChange', { meralId });
 		return result;
 	} catch (error) {
@@ -27,7 +26,6 @@ const getChangeAPI = async (meralId) => {
 
 const getChange = async (contract, id, provider, isLayer2) => {
 	if (contract && provider && isLayer2) {
-		console.log('here');
 		try {
 			let [score, rewards, win] = await contract.getChange(id);
 			return { score: score.toString(), rewards: rewards.toString(), win };

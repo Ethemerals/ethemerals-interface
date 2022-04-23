@@ -90,6 +90,7 @@ export const useRegisterMerals = () => {
 	const { address } = useUser();
 	const [availableMerals, setAvailableMerals] = useState([]);
 	const [pendingMerals, setPendingMerals] = useState([]);
+	const [verifiedMerals, setVerifiedMerals] = useState([]);
 	const [proxiedMerals, setProxiedMerals] = useState([]);
 
 	const { data: dataAvailMerals } = useQuery(`account_${address}_getAvailableMerals`, () => getAvailableMerals({ id: address }), { enabled: !!address, refetchOnMount: true, refetchInterval: 10000 });
@@ -103,7 +104,15 @@ export const useRegisterMerals = () => {
 			let _availableMerals = [];
 
 			if (dataVerifiedMerals && dataVerifiedMerals.merals !== null) {
+				setVerifiedMerals(dataVerifiedMerals.merals);
 				dataVerifiedMerals.merals.forEach((meral) => {
+					idsToRemove.push(meral.id);
+				});
+			}
+
+			if (dataPendingMerals && dataPendingMerals.account !== null) {
+				setPendingMerals(dataPendingMerals.account.merals);
+				dataPendingMerals.account.merals.forEach((meral) => {
 					idsToRemove.push(meral.id);
 				});
 			}
@@ -116,13 +125,7 @@ export const useRegisterMerals = () => {
 
 			setAvailableMerals(_availableMerals);
 		}
-	}, [dataAvailMerals, dataVerifiedMerals]);
-
-	useEffect(() => {
-		if (dataPendingMerals && dataPendingMerals.account !== null) {
-			setPendingMerals(dataPendingMerals.account.merals);
-		}
-	}, [dataPendingMerals]);
+	}, [dataAvailMerals, dataVerifiedMerals, dataPendingMerals]);
 
 	useEffect(() => {
 		if (dataProxiedMerals && dataProxiedMerals.account !== null) {
@@ -134,6 +137,7 @@ export const useRegisterMerals = () => {
 		availableMerals,
 		pendingMerals,
 		proxiedMerals,
+		verifiedMerals,
 	};
 };
 
@@ -201,31 +205,31 @@ const getSyncedMerals = (meralsL1, meralsL2) => {
 	return syncedMerals;
 };
 
-export const useSyncedMerals = (meralIds, nfts) => {
-	const [meralsL2ById, setMeralsL2ById] = useState(undefined);
-	const [syncedMerals, setSyncedMerals] = useState(undefined);
-	const { data, isLoading: isLoadingL2 } = useQuery([`getMeralsById`, meralIds], () => getMeralsById({ ids: meralIds, first: 50 }), { enabled: !!meralIds, refetchOnMount: true });
+// export const useSyncedMerals = (meralIds, nfts) => {
+// 	const [meralsL2ById, setMeralsL2ById] = useState(undefined);
+// 	const [syncedMerals, setSyncedMerals] = useState(undefined);
+// 	const { data, isLoading: isLoadingL2 } = useQuery([`getMeralsById`, meralIds], () => getMeralsById({ ids: meralIds, first: 50 }), { enabled: !!meralIds, refetchOnMount: true });
 
-	useEffect(() => {
-		if (data) {
-			setMeralsL2ById(data.merals);
-			console.log(data);
-		}
-	}, [data]);
+// 	useEffect(() => {
+// 		if (data) {
+// 			setMeralsL2ById(data.merals);
+// 			console.log(data);
+// 		}
+// 	}, [data]);
 
-	useEffect(() => {
-		if (nfts) {
-			if (meralsL2ById && meralsL2ById.length > 0) {
-				setSyncedMerals(getSyncedMerals(nfts, meralsL2ById));
-			} else {
-				setSyncedMerals(nfts);
-			}
-		}
-	}, [nfts, meralsL2ById]);
+// 	useEffect(() => {
+// 		if (nfts) {
+// 			if (meralsL2ById && meralsL2ById.length > 0) {
+// 				setSyncedMerals(getSyncedMerals(nfts, meralsL2ById));
+// 			} else {
+// 				setSyncedMerals(nfts);
+// 			}
+// 		}
+// 	}, [nfts, meralsL2ById]);
 
-	return {
-		meralsL2ById,
-		isLoadingL2,
-		syncedMerals,
-	};
-};
+// 	return {
+// 		meralsL2ById,
+// 		isLoadingL2,
+// 		syncedMerals,
+// 	};
+// };

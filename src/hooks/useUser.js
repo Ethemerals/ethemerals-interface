@@ -7,6 +7,7 @@ import { GET_ACCOUNT } from '../queries/Subgraph';
 import { useQuery } from 'react-query';
 import { isAddress } from '../utils';
 import { GET_ACCOUNT_L2 } from '../queries/SubgraphPoly';
+import { useRegisterMerals } from './useMeralManager';
 
 export const useUser = () => {
 	const { authenticate, isAuthenticated, isAuthenticating, isUnauthenticated, authError, logout, user, setUserData, isUserUpdating } = useMoralis();
@@ -81,14 +82,19 @@ const getL2Merals = async (variables) => {
 export const useUserAccount = () => {
 	const { address } = useUser();
 	const { isUserUpdating, user, setUserData } = useMoralis();
+	const { verifiedMerals } = useRegisterMerals();
 	const [autoTry, setAutoTry] = useState(0);
 
 	const [account, setAccount] = useState(undefined);
 	const [mainIndex, setMainIndex] = useState(undefined);
 	const [userMerals, setUserMerals] = useState([]);
+	const [userPMerals, setUserPMerals] = useState([]);
+	const [allMerals, setAllMerals] = useState([]);
+	const [stakedMerals, setStakedMerals] = useState([]);
 	const [userPets, setUserPets] = useState([]);
 	const [userActions, setUserActions] = useState([]);
-	const [userPMerals, setUserPMerals] = useState([]);
+	const [userL1Actions, setUserL1Actions] = useState([]);
+	const [userL2Actions, setUserL2Actions] = useState([]);
 	const [allowDelegates, setAllowDelegates] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -114,7 +120,7 @@ export const useUserAccount = () => {
 		if (dataSubgraph && dataSubgraph.account !== null) {
 			setUserMerals(dataSubgraph.account.merals);
 			setUserPets(dataSubgraph.account.pets);
-			setUserActions(dataSubgraph.account.actions);
+			setUserL1Actions(dataSubgraph.account.actions);
 			setAllowDelegates(dataSubgraph.account.allowDelegates);
 		}
 	}, [dataSubgraph]);
@@ -122,9 +128,19 @@ export const useUserAccount = () => {
 	useEffect(() => {
 		if (dataSubgraphL2 && dataSubgraphL2.account !== null) {
 			setUserPMerals(dataSubgraphL2.account.merals);
-			// setUserActions(dataSubgraphL2.account.actions);
+			setUserL2Actions(dataSubgraphL2.account.actions);
 		}
 	}, [dataSubgraphL2]);
+
+	useEffect(() => {
+		setUserActions(syncAccountsActions(userL1Actions, userL2Actions));
+	}, [userL1Actions, userL2Actions]);
+
+	useEffect(() => {
+		const { _allMerals, _stakedMerals } = syncMerals(userMerals, userPMerals, verifiedMerals);
+		setAllMerals(_allMerals);
+		setStakedMerals(_stakedMerals);
+	}, [userMerals, userPMerals, verifiedMerals]);
 
 	// GET MAIN
 	useEffect(() => {
@@ -194,9 +210,63 @@ export const useUserAccount = () => {
     mainIndex,
     userPMerals,
     userMerals,
+    allMerals,
+    stakedMerals,
     userPets,
     userActions,
     allowDelegates,
     isLoading
   };
+};
+
+const syncAccountsActions = (actionsL1, actionsL2) => {
+	let allActions = [];
+
+	actionsL1.forEach((action) => {
+		action.isLayer2 = false;
+		allActions.push(action);
+	});
+
+	actionsL2.forEach((action) => {
+		action.isLayer2 = true;
+		allActions.push(action);
+	});
+
+	allActions.sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp));
+
+	return allActions;
+};
+
+const syncMerals = (meralsL1, meralsL2, verifiedMerals) => {
+	let _allMerals = [];
+	let _stakedMerals = [];
+
+	meralsL1.forEach((meral) => {
+		let isProxy = false;
+
+		meralsL2.forEach((meralL2) => {
+			if (parseInt(meral.meralId) === parseInt(meralL2.meralId)) {
+				isProxy = true;
+				_allMerals.push(meralL2);
+			}
+		});
+
+		if (!isProxy) {
+			_allMerals.push(meral);
+		}
+	});
+
+	verifiedMerals.forEach((meral) => {
+		let isStaked = true;
+		meralsL2.forEach((meralL2) => {
+			if (parseInt(meral.meralId) === parseInt(meralL2.meralId)) {
+				isStaked = false;
+			}
+		});
+		if (isStaked) {
+			_stakedMerals.push(meral);
+		}
+	});
+
+	return { _allMerals, _stakedMerals };
 };

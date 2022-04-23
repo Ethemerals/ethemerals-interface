@@ -28,6 +28,7 @@ export const GET_NFT_L2 = gql`
 			spd
 			element
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
+				id
 				timestamp
 				transaction {
 					id
@@ -99,15 +100,13 @@ export const GET_ACCOUNT_L2 = gql`
 			actions(first: 10, orderBy: timestamp, orderDirection: desc) {
 				id
 				timestamp
-				account {
-					id
-				}
 				transaction {
 					id
-					to
 					from
+					to
 				}
 				type
+				description
 			}
 		}
 	}
@@ -117,6 +116,23 @@ export const GET_MERALS_BY_VERIFIEDOWNER = gql`
 	query ($id: ID!) {
 		merals(orderBy: timestamp, orderDirection: desc, where: { verifiedOwner: $id, status: 2 }) {
 			id
+			type
+			tokenId
+			meralId
+			proxy
+			timestamp
+			hp
+			elf
+			xp
+			atk
+			def
+			spd
+			cmId
+			element
+			coin
+			name
+			mainclass
+			subclass
 		}
 	}
 `;

@@ -53,8 +53,6 @@ const MeralDetails = () => {
 			}
 			if (data && data.meral && dataL2 && dataL2.meral) {
 				// PROXIED
-				// DO SYNC
-				console.log('do sync');
 				setNFT(syncMeral(data.meral, dataL2.meral));
 				setSubclassInfo(getSubclassInfo(data.meral.subclass));
 			}

@@ -1,7 +1,7 @@
 import AvailableToRegister from './cards/AvailableToRegister';
 import PendingValidation from './cards/PendingValidation';
-import MintedProxyMerals from './cards/MintedProxyMerals';
 import { useEffect } from 'react';
+import MintedVerifiedMerals from './cards/MintedVerifiedMerals';
 
 const RegisterMerals = () => {
 	useEffect(() => {
@@ -53,7 +53,7 @@ const RegisterMerals = () => {
 
 				<AvailableToRegister />
 				<PendingValidation />
-				<MintedProxyMerals />
+				<MintedVerifiedMerals />
 			</div>
 		</>
 	);
