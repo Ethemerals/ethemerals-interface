@@ -16,6 +16,7 @@ import { safeScale } from '../components/wilds/utils';
 
 const getChangeAPI = async (meralId) => {
 	try {
+		console.log('api');
 		const result = await Moralis.Cloud.run('getChange', { meralId });
 		return result;
 	} catch (error) {
@@ -24,8 +25,9 @@ const getChangeAPI = async (meralId) => {
 	}
 };
 
-const getChange = async (provider, contract, id, isLayer2) => {
-	if (provider && contract && isLayer2) {
+const getChange = async (contract, id, provider, isLayer2) => {
+	if (contract && provider && isLayer2) {
+		console.log('here');
 		try {
 			let [score, rewards, win] = await contract.getChange(id);
 			return { score: score.toString(), rewards: rewards.toString(), win };
@@ -34,17 +36,7 @@ const getChange = async (provider, contract, id, isLayer2) => {
 			throw new Error('error');
 		}
 	} else {
-		try {
-			const data = await getChangeAPI(id);
-			if (data) {
-				return data;
-			} else {
-				throw new Error('error');
-			}
-		} catch (error) {
-			console.log(error);
-			throw new Error('error');
-		}
+		return getChangeAPI(id);
 	}
 };
 
@@ -168,7 +160,17 @@ export const useEternalBattleL2GetChange = (id) => {
 	const { isLayer2 } = useGetLayerDetails();
 	const { contractBattle } = useEternalBattleL2Contract();
 
-	const { isLoading, data } = useQuery([`getChange_${id}`], () => getChange(provider, contractBattle, id, isLayer2), { enabled: !!id && !!contractBattle, refetchInterval: 50000 });
+	const getFromApi = !provider && !isLayer2 && !contractBattle;
+
+	const { isLoading, data } = useQuery([`getChange_${id}`], () => getChange(contractBattle, id, provider, isLayer2), {
+		enabled: !!id && !!contractBattle,
+		refetchInterval: 50000,
+	});
+
+	const { isLoading: isLoadingApi, data: dataApi } = useQuery([`getChange_${id}`], () => getChangeAPI(id), {
+		enabled: !!getFromApi,
+		refetchInterval: 50000,
+	});
 
 	const [scoreChange, setScoreChange] = useState(undefined);
 
@@ -178,10 +180,17 @@ export const useEternalBattleL2GetChange = (id) => {
 		}
 	}, [data, isLoading]);
 
+	useEffect(() => {
+		if (!isLoadingApi && dataApi) {
+			setScoreChange(dataApi);
+		}
+	}, [dataApi, isLoadingApi]);
+
 	return { scoreChange, isLoading };
 };
 
 export const useEternalBattleChampions = (priceFeedId) => {
+	// TODO
 	const { data } = useGQLQueryL2(`getEternalBattleChampions_${priceFeedId}`, GET_NFT_L2, { id: 1000263 }, { refetchOnMount: true });
 
 	const [meral, setMeral] = useState(null);
