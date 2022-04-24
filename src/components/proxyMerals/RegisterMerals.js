@@ -2,8 +2,15 @@ import AvailableToRegister from './cards/AvailableToRegister';
 import PendingValidation from './cards/PendingValidation';
 import { useEffect } from 'react';
 import MintedVerifiedMerals from './cards/MintedVerifiedMerals';
+import { availableCollectionsList } from '../../constants/Collections';
+import { useParams } from 'react-router-dom';
 
 const RegisterMerals = () => {
+	let { id } = useParams();
+	if (id === 0 || !id) {
+		id = 1;
+	}
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
@@ -51,7 +58,7 @@ const RegisterMerals = () => {
 					</div>
 				</div>
 
-				<AvailableToRegister />
+				<AvailableToRegister collection={availableCollectionsList[id]} />
 				<PendingValidation />
 				<MintedVerifiedMerals />
 			</div>

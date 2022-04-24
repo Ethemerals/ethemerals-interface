@@ -71,11 +71,11 @@ const HistoryMeral = ({ stake }) => {
 
 					<div className=" text-gray-500 text-xs my-1 pl-4">
 						<p>
-							<span>HP GAINS:</span>
+							<span>HP {win ? 'GAINS' : 'LOSE'}:</span>
 							<span className={`pl-1 font-bold ${win ? 'text-green-800' : 'text-red-800'}`}>{win ? `+${stake.hp}` : `-${stake.hp}`}</span>
 						</p>
 						<p>
-							<span>ELF GAINS:</span>
+							<span>ELF {win ? 'GAINS' : 'LOSE'}:</span>
 							<span className={`pl-1 font-bold ${win ? 'text-green-800' : 'text-red-800'}`}>{win ? `+${stake.elf}` : `${stake.revived ? '-500' : '0'}`}</span>
 						</p>
 						{stake.revived && <p>REVIVED BY:</p>}
@@ -83,7 +83,7 @@ const HistoryMeral = ({ stake }) => {
 				</div>
 			</div>
 			{stake.revived && <ReviverThumbnail nft={stake.reviver} select={selectReviver} />}
-			<div className="flex absolute bottom-0 right-8">{win && <img className="mx-auto w-56" style={{ width: '104px', height: '60px' }} src={winMedal} alt="" />}</div>
+			<div className="flex absolute -top-4 -right-4">{win && <img className="mx-auto w-56" style={{ width: '80px', height: '46px' }} src={winMedal} alt="" />}</div>
 		</div>
 	);
 };

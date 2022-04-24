@@ -35,7 +35,7 @@ const Home = () => {
 				</a>
 
 				<div className="mt-20 mb-2 text-gray-600 text-sm">
-					<h3 className="font-bold mb-4 text-center text-brandColor">Season 2 planned release in April 2022</h3>
+					<h3 className="font-bold mb-4 text-center text-brandColor">Season 2 planned release in May 2022</h3>
 					<h3 className="font-bold mt-10">What are Ethemerals?</h3>
 					<p className="my-2">Ethemerals are unique and dynamic NFT Collectables. Born into the Ethereum Blockchain</p>
 					<p className="my-2">There will only ever be 8400 Ethemerals. Released in Sets over a 4 year period.</p>

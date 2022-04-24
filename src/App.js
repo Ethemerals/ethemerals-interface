@@ -115,6 +115,9 @@ function App() {
 				<Route exact path="/register">
 					<RegisterMerals />
 				</Route>
+				<Route exact path="/register/:id">
+					<RegisterMerals />
+				</Route>
 
 				{/* ONSEN */}
 				<Route exact path="/onsen">

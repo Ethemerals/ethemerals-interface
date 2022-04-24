@@ -1,4 +1,6 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import { availableCollectionsList } from '../../../constants/Collections';
+import Collections from '../cards/Collections';
 // import { getPriceFeeds } from '../../../constants/PriceFeedsL2';
 // import Feeds from '../cards/Feeds';
 import CloseButton from './CloseButton';
@@ -34,8 +36,8 @@ export default NiceModal.create(() => {
 				{/* CONTENT */}
 				<div style={{ bottom: '10px', height: '524px' }} className=" w-full absolute">
 					<h2 className="text-sm text-gray-800 px-4">AVAILABLE COLLECTIONS</h2>
-					<div style={{ borderTop: '1px solid skyblue' }} className="h-full overflow-auto bg-blue-50 pt-2 px-8">
-						{/* {priceFeeds && priceFeeds.map((feed) => <Feeds key={feed.id} priceFeed={feed} toggle={toggle} />)} */}
+					<div style={{ borderTop: '1px solid skyblue' }} className="h-full overflow-auto bg-blue-50 pt-2 px-4">
+						{availableCollectionsList && availableCollectionsList.map((collection) => <Collections key={collection.id} collection={collection} toggle={toggle} />)}
 					</div>
 				</div>
 				<div style={{ bottom: '0px', backgroundColor: 'skyblue', height: '8px' }} className="absolute w-full"></div>

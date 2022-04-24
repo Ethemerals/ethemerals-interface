@@ -13,7 +13,7 @@ import { modalRegistry } from '../../niceModals/RegisterModals';
 
 import MeralList from './MeralList';
 
-const AvailableToRegister = () => {
+const AvailableToRegister = ({ collection }) => {
 	const { address } = useUserAccount();
 	const { availableMerals } = useRegisterMerals();
 	const { user } = useUser();
@@ -81,24 +81,6 @@ const AvailableToRegister = () => {
 					}
 				);
 
-				// const tx = await contractMeralManager.registerMeral(
-				// 	Addresses.Ethemerals,
-				// 	_meral.tokenId,
-				// 	_meral.cmId,
-				// 	_meral.elf,
-				// 	_meral.hp,
-				// 	_meral.atk,
-				// 	_meral.def,
-				// 	_meral.spd,
-				// 	_meral.element,
-				// 	_meral.subclass,
-				// 	{
-				// 		gasLimit,
-				// 		maxFeePerGas: BigNumber.from('30000000000'),
-				// 		maxPriorityFeePerGas: BigNumber.from('30000000000'),
-				// 	}
-				// );
-
 				console.log(tx);
 				sendTx(tx.hash, 'Register Meral', true, [
 					`account_${address}`,
@@ -129,7 +111,7 @@ const AvailableToRegister = () => {
 			</h2>
 			<div style={styleBoxshadow} className="bg-white p-4 pb-8 rounded-md">
 				<div className="flex items-baseline pb-2">
-					<h3 className="text-4xl">ETHEMERALS</h3>
+					<h3 className="text-4xl capitalize">{collection.name}</h3>
 					<span className="flex-grow"></span>
 
 					<div
@@ -141,7 +123,6 @@ const AvailableToRegister = () => {
 						<div style={{ top: '-4px', right: '-4px' }} className="animate-ping bg-blue-500 rounded-full w-2 h-2 absolute"></div>
 						<div style={{ top: '-4px', right: '-4px' }} className="bg-blue-500 rounded-full w-2 h-2 absolute"></div>
 					</div>
-					{/* <span className="text-xs text-blue-600 hover:text-blue-400 cursor-pointer">Missing a collection? Send an integration request here</span> */}
 				</div>
 
 				<div className="bg-gray-100 rounded-md py-4">
@@ -152,19 +133,19 @@ const AvailableToRegister = () => {
 						</>
 					)}
 					{user && isLayer2 && !availableMerals && <p className="text-xs text-center text-gray-600 pb-4">Found none</p>}
+					{!user && (
+						<div className="py-4 max-w-max mx-auto">
+							<ConnectButton />
+						</div>
+					)}
+					{user && !isLayer2 && (
+						<div className="py-4 max-w-max mx-auto">
+							<button onClick={onSwitchNetwork} className="py-2 px-6 text-lg bg-brandColor hover:bg-yellow-400 text-white rounded-lg transition duration-300 flex items-center justify-center">
+								Switch Network to {otherLayerName}
+							</button>
+						</div>
+					)}
 				</div>
-				{!user && (
-					<div className="py-4 max-w-max mx-auto">
-						<ConnectButton />
-					</div>
-				)}
-				{user && !isLayer2 && (
-					<div className="py-4 max-w-max mx-auto">
-						<button onClick={onSwitchNetwork} className="py-2 px-6 text-lg bg-brandColor hover:bg-yellow-400 text-white rounded-lg transition duration-300 flex items-center justify-center">
-							Switch Network to {otherLayerName}
-						</button>
-					</div>
-				)}
 			</div>
 		</div>
 	);

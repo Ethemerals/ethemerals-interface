@@ -1,13 +1,14 @@
+import { useHistory } from 'react-router-dom';
 import { useRegisterMerals } from '../../../hooks/useMeralManager';
 
 import MeralList from './MeralList';
 
 const MintedVerifiedMerals = () => {
 	const { verifiedMerals } = useRegisterMerals();
+	const history = useHistory();
 
 	const selectAndToggle = async (id) => {
-		console.log('hi', id);
-		// TODO
+		history.push(`/ethemeral/${id}`);
 	};
 
 	const styleBoxshadow = {
@@ -20,10 +21,14 @@ const MintedVerifiedMerals = () => {
 				YOUR VIRTUALIZED MERALS
 			</h2>
 			<div style={styleBoxshadow} className="bg-white p-4 pb-8 rounded-md">
-				<div className="flex items-center py-2 pb-8">
-					<span className="text-sm text-gray-700">These Merals are now available to be used in The Wilds! For the Ethemerals Collection, matadata will be synced</span>
-				</div>
-				<div className="bg-gray-100 rounded-md py-4">{verifiedMerals && <MeralList nfts={verifiedMerals} select={selectAndToggle} />}</div>
+				{verifiedMerals && verifiedMerals.length > 0 && (
+					<>
+						<div className="flex items-center py-2 pb-8">
+							<span className="text-sm text-gray-700">These Merals are now available to be used in The Wilds! For the Ethemerals Collection, matadata will be synced</span>
+						</div>
+						<div className="bg-gray-100 rounded-md py-4">{verifiedMerals && <MeralList nfts={verifiedMerals} select={selectAndToggle} />}</div>
+					</>
+				)}
 			</div>
 		</div>
 	);
