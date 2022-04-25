@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { MoralisProvider } from 'react-moralis';
 import NiceModal from '@ebay/nice-modal-react';
 import TxContextProvider from './context/TxContext';
+import MenuContext from './context/MenuContext';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -24,13 +25,15 @@ ReactDOM.render(
 	<React.StrictMode>
 		<Router>
 			<QueryClientProvider client={queryClient}>
-				<MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
-					<TxContextProvider>
-						<NiceModal.Provider>
-							<App />
-						</NiceModal.Provider>
-					</TxContextProvider>
-				</MoralisProvider>
+				<MenuContext>
+					<MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
+						<TxContextProvider>
+							<NiceModal.Provider>
+								<App />
+							</NiceModal.Provider>
+						</TxContextProvider>
+					</MoralisProvider>
+				</MenuContext>
 			</QueryClientProvider>
 		</Router>
 	</React.StrictMode>,

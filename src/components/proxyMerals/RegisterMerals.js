@@ -52,9 +52,12 @@ const RegisterMerals = () => {
 							<p className="text-sm text-gray-700 pt-4">
 								If you no longer own the orignal NFT, the Meral becomes dormant until the new owner activates it. The Meral stats and history will carry over.
 							</p>
-							<p className="text-sm text-gray-700 pt-4">Link to Gateway contract, Link to help, link to discord</p>
+							{/* <p className="text-sm text-gray-700 pt-4">Link to Gateway contract, Link to Help, link to Discord</p> */}
 						</div>
-						<div className="w-1/3 rounded-md relative overflow-hidden bg-blue-200 text-center p-4">VALIDATOR STATUS</div>
+						<div className="w-1/3 rounded-md relative overflow-hidden bg-blue-200 text-center p-4">
+							<p>VALIDATOR STATUS</p>
+							<p>MATIC FAUCET</p>
+						</div>
 					</div>
 				</div>
 

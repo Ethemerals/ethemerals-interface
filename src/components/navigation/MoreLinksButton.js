@@ -9,7 +9,7 @@ const MoreLinksButton = ({ large }) => {
 
 	return (
 		<button
-			className="w-10 h-10 mx-2 focus:outline-none flex items-center justify-center hover:bg-yellow-400 rounded transition duration-300 border border-brandColor-purple text-brandColor-purple"
+			className="w-10 h-10 mx-2 focus:outline-none bg-white flex items-center justify-center hover:bg-brandColor-pale rounded transition duration-300 border border-brandColor-purple text-brandColor-purple"
 			onClick={() => toggle(large)}
 		>
 			<svg width="24px" height="24px" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

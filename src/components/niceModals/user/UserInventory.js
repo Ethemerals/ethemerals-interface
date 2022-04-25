@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import { useEternalBattleL1Account } from '../../../hooks/useEternalBattleL1';
 import { getTokenIdFromId } from '../../../hooks/useMeralsUtils';
 import NFTInventoryCard from '../../ethemerals/cards/NFTInventoryCard';
 import { useUserAccount } from '../../../hooks/useUser';

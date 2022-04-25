@@ -21,7 +21,7 @@ const NetworksButton = () => {
 
 	return (
 		<div>
-			<button className="px-2 h-10 mr-2 border shadow-sm focus:outline-none flex items-center justify-center text-black hover:text-blue-900 rounded transition duration-300" onClick={toggle}>
+			<button className="px-2 h-10 mr-2 border bg-white shadow-sm focus:outline-none flex items-center justify-center text-black hover:text-blue-900 rounded transition duration-300" onClick={toggle}>
 				<div className="flex items-center ">
 					{selected.icon}
 					<span className="px-1 text-xs font-bold">{selected.value}</span>

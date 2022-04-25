@@ -35,7 +35,7 @@ const ReviverThumbnail = ({ nft, select }) => {
 	};
 
 	return (
-		<div onClick={() => select(nft.meralId)} style={{ width: '48px', height: '48px', bottom: '17px' }} className="text-xs absolute right-6 cursor-pointer">
+		<div onClick={() => select(nft.meralId)} style={{ width: '48px', height: '48px', bottom: '17px' }} className="text-xs absolute right-3 cursor-pointer">
 			<img
 				className="rounded-lg"
 				style={{
