@@ -46,12 +46,12 @@ const RegisterMerals = () => {
 					<div className="flex items-stretch space-x-4">
 						<div style={styleBoxshadow} className="bg-white w-2/3 p-4 rounded-md py-6">
 							<p className="text-sm text-gray-700">
-								The Gateway allows you to virtualize a NFT from any collection. The NFT is reborn as a <strong>MERAL</strong> to be used with <strong>THE WILDS</strong> ecosystem of onchain games.
-								Climb the leaderboards, earn rewards and prizes. For glory and honor!
+								The Gateway allows you to virtualize a NFT from any collection. A NFT on the Polygon blockchain is minted as a <strong>MERAL</strong> to be used with <strong>THE WILDS</strong>{' '}
+								ecosystem of onchain games. Climb the leaderboards, earn rewards and prizes. For glory and honor!
 							</p>
 							<p className="text-sm text-gray-700 pt-4">
-								For security reasons, virtualizing your NFT does not require the NFT to be moved or any contract to be approved! The virtualized Meral is minted on the Polygon Blockchain and available
-								to interact with as long as you own the original NFT.
+								The virtualized Meral is available to interact with as long as you own the original NFT. Virtualizing your original NFT does not require the NFT to be moved or any contract to be
+								approved!
 							</p>
 							<p className="text-sm text-gray-700 pt-4">
 								If you no longer own the orignal NFT, the Meral becomes dormant until the new owner activates it. The Meral stats and history will carry over.
