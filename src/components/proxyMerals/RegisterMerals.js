@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import MintedVerifiedMerals from './cards/MintedVerifiedMerals';
 import { availableCollectionsList } from '../../constants/Collections';
 import { useParams } from 'react-router-dom';
+import { Links } from '../../constants/Links';
+import { Addresses } from '../../constants/contracts/Addresses';
 
 const RegisterMerals = () => {
 	let { id } = useParams();
@@ -32,6 +34,8 @@ const RegisterMerals = () => {
 		boxShadow: '4px 4px 12px rgba(0, 0, 0, 0.4)',
 	};
 
+	let txLink = `${Links.POLYSCAN_URL}address/${Addresses.MeralManager}`;
+
 	return (
 		<>
 			<div style={styleBG}></div>
@@ -51,6 +55,15 @@ const RegisterMerals = () => {
 							</p>
 							<p className="text-sm text-gray-700 pt-4">
 								If you no longer own the orignal NFT, the Meral becomes dormant until the new owner activates it. The Meral stats and history will carry over.
+							</p>
+							<p className="text-sm text-blue-700 pt-4 cursor-pointer hover:text-blue-400">
+								<a href={txLink} target="_blank" rel="noreferrer" className="flex items-center hover:text-blue-400">
+									Verified Polygon Contract
+									<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+										<polyline points="15 3 21 3 21 9"></polyline>
+										<line x1="10" y1="14" x2="21" y2="3"></line>
+									</svg>
+								</a>
 							</p>
 							{/* <p className="text-sm text-gray-700 pt-4">Link to Gateway contract, Link to Help, link to Discord</p> */}
 						</div>
