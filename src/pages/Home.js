@@ -13,7 +13,7 @@ const Home = () => {
 				style={{ backgroundImage: "url('https://ethemerals-media.s3.amazonaws.com/webapp/home_banner.png')", backgroundRepeat: 'no-repeat', height: '495px' }}
 				className="absolute top-2/4 w-full bg-cover bg-center"
 			></div>
-			<div style={{ maxWidth: '500px' }} className="relative my-8 w-11/12 sm:my-10 sm:w-full mx-auto bg-white p-6 pt-20 pb-10 rounded-lg bg-opacity-80">
+			<div style={{ maxWidth: '500px' }} className="relative my-8 w-11/12 sm:my-10 sm:w-full mx-auto bg-white p-6 pt-20 pb-10 rounded-lg">
 				<div className="flex justify-center">
 					<img width="380" height="146" alt="mintable ethemeral" src={Images.titleEthem} />
 				</div>
@@ -40,8 +40,8 @@ const Home = () => {
 					<p className="my-2">Ethemerals are unique and dynamic NFT Collectables. Born into the Ethereum Blockchain</p>
 					<p className="my-2">There will only ever be 8400 Ethemerals. Released in Sets over a 4 year period.</p>
 					<p className="my-2">
-						This Genesis Set contains 100 unique character designs, with 10 editions each. Each single token minted starts with a base score (hp) and ELF. The minting process also generates random
-						stats (attack, defence, speed) to be used in potential future gameplay.
+						This Genesis Set contains 100 unique character designs, with 10 editions each. Each token starts with a base HP and ELF. The minting process also generates random stats to be used in
+						potential future gameplay.
 					</p>
 					<p className="mt-6 mb-4"> For further information:</p>
 

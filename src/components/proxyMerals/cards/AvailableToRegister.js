@@ -23,7 +23,7 @@ const AvailableToRegister = ({ collection }) => {
 	const { isLayer2, otherLayerName } = useGetLayerDetails();
 
 	const selectAndToggle = async (id) => {
-		console.log('hi', id);
+		console.log(id);
 		await submitRegisterMeral(id);
 		// TODO
 	};

@@ -25,7 +25,7 @@ export default NiceModal.create(({ landId }) => {
 	};
 
 	const selectAndToggle = async (id) => {
-		console.log('hi', id);
+		console.log(id);
 		// TODO
 	};
 

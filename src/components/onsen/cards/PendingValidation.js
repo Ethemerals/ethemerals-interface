@@ -6,7 +6,7 @@ const PendingValidation = () => {
 	const { pendingMerals } = useRegisterMerals();
 
 	const selectAndToggle = async (id) => {
-		console.log('hi', id);
+		console.log(id);
 		// TODO
 	};
 
