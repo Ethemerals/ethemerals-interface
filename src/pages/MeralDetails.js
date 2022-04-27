@@ -167,7 +167,7 @@ const MeralDetails = () => {
 					</div>
 					{/* EQUIPMENT */}
 					<div className="p-4 pt-2 mx-4 my-2 bg-blue-100 rounded-xl shadow-md">
-						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">POLYGON L2 ACTIONS</h3>
+						<h3 className="font-bold text-xs mb-4 text-brandColor-purple">LAYER2 AND OTHERS ACTIONS</h3>
 						<NFTPolyActions nft={nft} />
 					</div>
 

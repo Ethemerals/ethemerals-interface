@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { useHistory } from 'react-router';
 import MeralThumbnail from '../../ethemerals/cards/MeralThumbnail';
 import { useMeralsUtils } from '../../../hooks/useMeralsUtils';
 import { shortenAddress } from '../../../utils';
@@ -10,6 +10,7 @@ import { formatDistance } from 'date-fns';
 import ReviverThumbnail from './ReviverThumbnail';
 
 const HistoryMeral = ({ stake }) => {
+	const history = useHistory();
 	const { elements } = useMeralsUtils();
 
 	const [timeAgo, setTimeAgo] = useState('');
@@ -34,11 +35,11 @@ const HistoryMeral = ({ stake }) => {
 	}, [stake]);
 
 	const select = async (id) => {
-		console.log(id);
+		history.push(`/ethemeral/${id}`);
 	};
 
 	const selectReviver = async (id) => {
-		console.log(id);
+		history.push(`/ethemeral/${id}`);
 	};
 
 	return (

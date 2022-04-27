@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import NiceModal from '@ebay/nice-modal-react';
-
+import { useHistory } from 'react-router';
 import ReactTooltip from 'react-tooltip';
 import { modalRegistry } from '../../niceModals/RegisterModals';
 import { useEternalBattleL2GetChange } from '../../../hooks/useEternalBattleL2';
@@ -27,6 +27,7 @@ const SpinnerSVG = ({ size }) => (
 );
 
 const StakedMeral = ({ priceFeed, stake }) => {
+	const history = useHistory();
 	let meral = stake.meral;
 	const { elements } = useMeralsUtils();
 	const { address } = useUserAccount();
@@ -73,7 +74,7 @@ const StakedMeral = ({ priceFeed, stake }) => {
 	}, [scoreChange, stake]);
 
 	const select = async (id) => {
-		console.log(id);
+		history.push(`/ethemeral/${id}`);
 	};
 
 	const onSubmitRevive = async () => {

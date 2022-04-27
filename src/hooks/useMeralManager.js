@@ -7,7 +7,7 @@ import { useChain } from 'react-moralis';
 import { getContract } from '../utils/contracts/getContract';
 import { useQuery } from 'react-query';
 import { GET_MERALS_BY_VERIFIEDOWNER, GET_PENDING_MERALS, GET_PROXY_MERALS } from '../queries/SubgraphPoly';
-import { gql, GraphQLClient } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
 import { isAddress } from '../utils';
 import { GET_ACCOUNT } from '../queries/Subgraph';
 import { Links } from '../constants/Links';
