@@ -7,7 +7,7 @@ import { Addresses } from '../constants/contracts/Addresses';
 import { useWeb3, useGetLayerDetails } from './useWeb3';
 import { getContract } from '../utils/contracts/getContract';
 import { useChain } from 'react-moralis';
-import { GET_EBSTAKES_BY_PRICEFEEDID, GET_EBSTAKES_COUNT, GET_EBSTAKES_RECORD_BY_PRICEFEEDID } from '../queries/SubgraphEternalBattle';
+import { GET_EBSTAKES_BY_PRICEFEEDID, GET_EBSTAKES_COUNT, GET_EBSTAKES_RECORD_BY_PRICEFEEDID, GET_MARKET_CHAMPION } from '../queries/SubgraphEternalBattle';
 import { Links } from '../constants/Links';
 import { GraphQLClient } from 'graphql-request';
 import { GET_NFT_L2 } from '../queries/SubgraphPoly';
@@ -57,6 +57,18 @@ const getHistoryStakes = async (id) => {
 		return fetchData;
 	} catch (error) {
 		throw new Error('get stakes error');
+	}
+};
+
+const getMarketChampions = async (id, startTime) => {
+	console.log({ priceFeedId: parseInt(id), startTime: parseInt(startTime) });
+	try {
+		const endpoint = Links.SUBGRAPH_ENDPOINT_L2;
+		const graphQLClient = new GraphQLClient(endpoint);
+		const fetchData = await graphQLClient.request(GET_MARKET_CHAMPION, { priceFeedId: parseInt(id), startTime: parseInt(startTime) });
+		return fetchData;
+	} catch (error) {
+		throw new Error('get market champions error');
 	}
 };
 
@@ -215,6 +227,54 @@ export const useEternalBattleL2Contract = () => {
 	}, [provider, chainId]);
 
 	return { contractBattle };
+};
+
+export const useGetMarketChampion = (priceFeedId) => {
+	const seasonStart = process.env.REACT_APP_BATTLE_SEASON_START;
+	const [merals, setMerals] = useState([]);
+	const [champion, setChampion] = useState(undefined);
+	const { isLoading, data } = useQuery([`getMarketChampion_${priceFeedId}_${seasonStart}`], () => getMarketChampions(priceFeedId, seasonStart), { enabled: !!priceFeedId, refetchInterval: 100000 });
+
+	useEffect(() => {
+		if (!isLoading && data) {
+			let _merals = [];
+			let _meralsAdded = [];
+			let _meralIds = [];
+
+			data.ebstakeRecords.forEach((record) => {
+				let _meral = record.meral;
+				_meral.owner = record.owner.id;
+				_meral.hpGain = parseInt(record.hp);
+				_meral.elfGain = parseInt(record.elf);
+				_merals.push(_meral);
+			});
+
+			for (let i = 0; i < _merals.length; i++) {
+				let m = _merals[i];
+
+				for (let j = i + 1; j < _merals.slice(i, _merals.length - 1).length; j++) {
+					if (m.meralId === _merals[j].meralId) {
+						m.hpGain += _merals[j].hpGain;
+						m.elfGain += _merals[j].elfGain;
+					}
+				}
+
+				if (!_meralIds.find((element) => element === m.meralId)) {
+					_meralsAdded.push(m);
+				}
+				_meralIds.push(m.meralId);
+			}
+
+			setMerals(_meralsAdded);
+			if (_meralsAdded.length > 0) {
+				setChampion(_meralsAdded[0]);
+			}
+		}
+	}, [isLoading, data]);
+
+	// TODO get ACTIVE
+
+	return { champion, merals };
 };
 
 const calcBps = (_x, _y) => {

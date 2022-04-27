@@ -1,5 +1,43 @@
 import gql from 'graphql-tag';
 
+export const GET_MARKET_CHAMPION = gql`
+	query ($priceFeedId: Int!, $startTime: Int!) {
+		ebstakeRecords(where: { startTime_gt: $startTime, priceFeedId: $priceFeedId, hp_gt: 0 }, orderDirection: desc, orderBy: hp) {
+			id
+			startTime
+			endTime
+			meral {
+				id
+				type
+				tokenId
+				meralId
+				hp
+				maxHp
+				elf
+				xp
+				atk
+				def
+				spd
+				element
+				cmId
+				coin
+				name
+				subclass
+				mainclass
+			}
+			owner {
+				id
+			}
+			priceFeedId
+			positionSize
+			startingPrice
+			long
+			hp
+			elf
+		}
+	}
+`;
+
 export const GET_EBSTAKES_COUNT = gql`
 	query ($priceFeedId: Int!) {
 		ebstakeActives(first: 100, where: { active: true, priceFeedId: $priceFeedId }) {

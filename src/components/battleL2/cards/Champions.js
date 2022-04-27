@@ -1,4 +1,4 @@
-import { useEternalBattleChampions } from '../../../hooks/useEternalBattleL2';
+import { useEternalBattleChampions, useGetMarketChampion } from '../../../hooks/useEternalBattleL2';
 
 import { useState, useEffect } from 'react';
 import { getMeralImages, useMeralGlobal } from '../../../hooks/useMerals';
@@ -48,7 +48,7 @@ const MeralThumbnail = ({ nft }) => {
 };
 
 const Champions = ({ priceFeed }) => {
-	const { meral } = useEternalBattleChampions(404);
+	const { champion } = useGetMarketChampion(priceFeed.id);
 
 	const style = {
 		boxShadow: '4px 4px 12px rgba(0, 0, 0, 0.4)',
@@ -65,15 +65,15 @@ const Champions = ({ priceFeed }) => {
 			{/* CHAMPION */}
 			<div className="w-64 mx-auto relative">
 				<div style={{ top: '48px' }} className="absolute w-64 mx-auto">
-					<div className="mx-auto w-56">{meral && <MeralThumbnail nft={meral} />}</div>
+					<div className="mx-auto w-56">{champion && <MeralThumbnail nft={champion} />}</div>
 				</div>
 				<div className="absolute w-64 mx-auto top-8">
 					<img className="mx-auto w-56" style={{ width: '224px', height: '200px' }} src={championFrame} alt="" />
 				</div>
 
-				{meral && (
+				{champion && (
 					<div style={styleTokenId} className="absolute w-64 mx-auto px-1 text-xs text-center">
-						<span className="mx-auto bg-white rounded-md shadow px-4">#{meral.tokenId.toString().padStart(4, '0')}</span>
+						<span className="mx-auto bg-white rounded-md shadow px-4">#{champion.tokenId.toString().padStart(4, '0')}</span>
 					</div>
 				)}
 			</div>

@@ -72,11 +72,11 @@ const HistoryMeral = ({ stake }) => {
 
 					<div className=" text-gray-500 text-xs my-1 pl-4">
 						<p>
-							<span>HP {win ? 'GAINS' : 'LOSE'}:</span>
+							<span>HP {win ? 'GAINS' : 'LOST'}:</span>
 							<span className={`pl-1 font-bold ${win ? 'text-green-800' : 'text-red-800'}`}>{win ? `+${stake.hp}` : `-${stake.hp}`}</span>
 						</p>
 						<p>
-							<span>ELF {win ? 'GAINS' : 'LOSE'}:</span>
+							<span>ELF {win ? 'GAINS' : 'LOST'}:</span>
 							<span className={`pl-1 font-bold ${win ? 'text-green-800' : 'text-red-800'}`}>{win ? `+${stake.elf}` : `${stake.revived ? '-500' : '0'}`}</span>
 						</p>
 						{stake.revived && <p>REVIVED BY:</p>}
