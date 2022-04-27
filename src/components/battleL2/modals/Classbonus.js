@@ -20,7 +20,7 @@ export default NiceModal.create(({ priceFeed }) => {
 				{/* HEADER */}
 				<div className="px-4">
 					<p className="text-4xl font-light">Coin Bonuses</p>
-					<p className="text-xs text-blue-900">For the {priceFeed.ticker} Market, the following Merals receive 50% bonus stats when entering battle. Meral stats can help earn more HP and ELF</p>
+					<p className="text-xs text-blue-900">For the {priceFeed.ticker} Market, the following Merals receive +50% bonus stats when entering battle. Meral stats can help earn more HP and ELF</p>
 				</div>
 
 				{/* CONTENT */}

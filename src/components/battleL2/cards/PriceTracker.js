@@ -79,13 +79,6 @@ const PriceTracker = ({ priceFeed }) => {
 						<div style={{ top: '-4px', right: '-4px' }} className="bg-yellow-400 rounded-full w-2 h-2 absolute"></div>
 					</div>
 					<div className="flex-grow"></div>
-					<div
-						onClick={onSubmitV1}
-						style={{ transform: 'translate(0px, 4px)', paddingTop: '3px', paddingBottom: '3px' }}
-						className="bg-gray-800 px-4 text-xs font-bold flex items-center shadow cursor-pointer relative rounded-md border-blue-200 border bg-opacity-40 text-blue-100 hover:text-blue-200 transition 300"
-					>
-						Looking for BattleV1?
-					</div>
 				</div>
 				<div className="flex items-stretch space-x-4">
 					<div style={styleBoxshadow} className="bg-white w-2/3 p-4 flex rounded-md">
