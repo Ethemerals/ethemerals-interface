@@ -9,6 +9,7 @@ import { useEternalBattleL2Contract, useEternalBattleL2GetChange } from '../../.
 import { useSendTx } from '../../../context/TxContext';
 import { useGetLayerDetails } from '../../../hooks/useWeb3';
 import { clamp, formatPrice } from '../../../utils';
+import { useGetGasprice } from '../../../hooks/useGetGas';
 
 export default NiceModal.create(({ priceFeed, stake, timeAgo, scoreCalculated, rewardsCalculated }) => {
 	const meral = stake.meral;
@@ -17,6 +18,7 @@ export default NiceModal.create(({ priceFeed, stake, timeAgo, scoreCalculated, r
 	const { contractBattle } = useEternalBattleL2Contract();
 	const { isLayer2, otherLayerName } = useGetLayerDetails();
 	const { scoreChange } = useEternalBattleL2GetChange(meral.meralId);
+	const { isLoadingGasprice, maxPriorityFeePerGas, maxFeePerGas } = useGetGasprice(true);
 
 	const sendTx = useSendTx();
 	const modal = useModal();
@@ -41,7 +43,7 @@ export default NiceModal.create(({ priceFeed, stake, timeAgo, scoreCalculated, r
 				let id = meral.meralId;
 				const gasEstimate = await contractBattle.estimateGas.cancelStake(id);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractBattle.cancelStake(id, { gasLimit });
+				const tx = await contractBattle.cancelStake(id, { gasLimit, maxPriorityFeePerGas, maxFeePerGas });
 				console.log(tx);
 
 				sendTx(tx.hash, 'Retrieve Meral', true, [

@@ -13,6 +13,7 @@ import SVGQuestionMark from '../svg/SVGQuestionMark';
 import ReactTooltip from 'react-tooltip';
 import { Links } from '../../../constants/Links';
 import { useGetLayerDetails } from '../../../hooks/useWeb3';
+import { useGetGasprice } from '../../../hooks/useGetGas';
 
 const rangeDefaults = {
 	min: 100,
@@ -39,6 +40,8 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 	const { address } = useUser();
 	const { contractBattle } = useEternalBattleL2Contract();
 	const { isLayer2, otherLayerName } = useGetLayerDetails();
+	const { isLoadingGasprice, maxPriorityFeePerGas, maxFeePerGas } = useGetGasprice(true);
+
 	const sendTx = useSendTx();
 
 	const { contractPriceFeed } = usePriceFeedContractL2();
@@ -141,8 +144,8 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 				let pricefeedId = priceFeed.id;
 
 				const gasEstimate = await contractBattle.estimateGas.createStake(id, pricefeedId.toString(), position.toString(), long);
-				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractBattle.createStake(id, pricefeedId, position, long, { gasLimit });
+				const gasLimit = gasEstimate.add(gasEstimate.div(8));
+				const tx = await contractBattle.createStake(id, pricefeedId, position, long, { gasLimit, maxPriorityFeePerGas, maxFeePerGas });
 				console.log(tx);
 
 				sendTx(tx.hash, 'create stake', true, [`nft_${id}`, `meral_${id}`, `getActiveStakes_${priceFeed.id}`, `account_${address}`, `account_${address}_subgraphL2`]);
@@ -275,7 +278,7 @@ export default NiceModal.create(({ meral, priceFeed, long }) => {
 										long ? 'bg-green-100 border-green-200 text-green-900' : 'bg-red-100 border-red-200 text-red-900'
 									} transition duration-300 hover:bg-white shadow border rounded-lg px-6 py-1 mt-2 text-lg uppercase`}
 								>
-									SEND {meral.name ? meral.name : `#${meral.tokenId}`} TO BATTLE!
+									{isLoadingGasprice ? '...' : `SEND ${meral.name ? meral.name : `#${meral.tokenId}`} TO BATTLE!`}
 								</button>
 							)}
 

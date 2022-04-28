@@ -9,11 +9,13 @@ import ReviveWings from '../svg/SVGReviveWings';
 import { useEternalBattleL2Contract } from '../../../hooks/useEternalBattleL2';
 import { useSendTx } from '../../../context/TxContext';
 import { useGetLayerDetails } from '../../../hooks/useWeb3';
+import { useGetGasprice } from '../../../hooks/useGetGas';
 
 export default NiceModal.create(({ meral, priceFeed, stake }) => {
 	const { address } = useUser();
 	const { contractBattle } = useEternalBattleL2Contract();
 	const { isLayer2, otherLayerName } = useGetLayerDetails();
+	const { isLoadingGasprice, maxPriorityFeePerGas, maxFeePerGas } = useGetGasprice(true);
 	const sendTx = useSendTx();
 
 	const modal = useModal();
@@ -38,7 +40,7 @@ export default NiceModal.create(({ meral, priceFeed, stake }) => {
 				let userTokenId = meral.meralId;
 				const gasEstimate = await contractBattle.estimateGas.reviveToken(id, userTokenId);
 				const gasLimit = gasEstimate.add(gasEstimate.div(9));
-				const tx = await contractBattle.reviveToken(id, userTokenId, { gasLimit });
+				const tx = await contractBattle.reviveToken(id, userTokenId, { gasLimit, maxPriorityFeePerGas, maxFeePerGas });
 				console.log(tx);
 
 				sendTx(tx.hash, 'Revived Meral', true, [

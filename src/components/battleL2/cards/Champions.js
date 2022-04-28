@@ -1,4 +1,4 @@
-import { useEternalBattleChampions, useGetMarketChampion } from '../../../hooks/useEternalBattleL2';
+import { useGetMarketChampion } from '../../../hooks/useEternalBattleL2';
 
 import { useState, useEffect } from 'react';
 import { getMeralImages, useMeralGlobal } from '../../../hooks/useMerals';

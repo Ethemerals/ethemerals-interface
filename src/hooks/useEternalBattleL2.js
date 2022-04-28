@@ -198,23 +198,6 @@ export const useEternalBattleL2GetChange = (id) => {
 	return { scoreChange, isLoading };
 };
 
-export const useEternalBattleChampions = (priceFeedId) => {
-	// TODO
-	const { data } = useGQLQueryL2(`getEternalBattleChampions_${priceFeedId}`, GET_NFT_L2, { id: 1000263 }, { refetchOnMount: true });
-
-	const [meral, setMeral] = useState(null);
-
-	useEffect(() => {
-		if (data && data.meral !== null) {
-			setMeral(data.meral);
-		}
-	}, [data]);
-
-	return {
-		meral,
-	};
-};
-
 export const useEternalBattleL2Contract = () => {
 	const { provider } = useWeb3();
 	const { chainId } = useChain();
