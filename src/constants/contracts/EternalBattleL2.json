@@ -253,14 +253,14 @@
 						"type": "bool"
 					},
 					{
-						"internalType": "uint16",
+						"internalType": "uint256",
 						"name": "longs",
-						"type": "uint16"
+						"type": "uint256"
 					},
 					{
-						"internalType": "uint16",
+						"internalType": "uint256",
 						"name": "shorts",
-						"type": "uint16"
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct EternalBattle.GamePair",
