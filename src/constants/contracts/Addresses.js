@@ -27,9 +27,9 @@ const getAddresses = () => {
 		addresses.BurnAddress = '0x88329f0ec14ee9a958f0538f78757bc7442cf464';
 		// BATTLE
 		addresses.EternalBattle = '0x883170aAcEB39a23642f5aAaab083F5684D3fFB1';
-		addresses.EternalBattleL2 = '0x217a369731ea714bc7e8041153ed6f54a20fdbba';
+		addresses.EternalBattleL2 = '0xb2928128b426a8c6a8b69e99199579d36d5b9d7e';
 		addresses.priceFeed = '0xfacC389A4777D0Cda098C0f2Af4e6deDD1Ddf1f4';
-		addresses.priceFeedL2 = '0x9bc436a5e5bc09b109d4abb23f985a8054a899a4';
+		addresses.priceFeedL2 = '0xe0603f406bccef6825dd0a7afba0cbc4fabdcb20';
 		// LAYER 2
 		addresses.MeralManager = '0xc992e5b95f27f7dbd4f0fc33ad399cd1224844b5';
 		addresses.Onsen = '0xbb9edd32755e2b626441f0eb24ad44931589d7b5';

@@ -37,8 +37,11 @@ export const useGetGasprice = (fast = false) => {
 			const { wei: maxFee } = convert(maxF, 'gwei');
 			let _maxPriorityFeePerGas = BigNumber.from(maxPriorityFee.split('.')[0]);
 			let _maxFeePerGas = BigNumber.from(maxFee.split('.')[0]);
+			// _maxPriorityFeePerGas = _maxPriorityFeePerGas.mul(10);
+			// _maxFeePerGas = _maxFeePerGas.mul(10);
 			setMaxPriorityFeePerGas(_maxPriorityFeePerGas);
 			setMaxFeePerGas(_maxFeePerGas);
+			console.log(_maxPriorityFeePerGas.toString(), _maxFeePerGas.toString());
 		}
 	}, [data, isLoadingGasprice, fast]);
 

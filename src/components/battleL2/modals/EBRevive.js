@@ -15,7 +15,7 @@ export default NiceModal.create(({ meral, priceFeed, stake }) => {
 	const { address } = useUser();
 	const { contractBattle } = useEternalBattleL2Contract();
 	const { isLayer2, otherLayerName } = useGetLayerDetails();
-	const { isLoadingGasprice, maxPriorityFeePerGas, maxFeePerGas } = useGetGasprice(true);
+	const { maxPriorityFeePerGas, maxFeePerGas } = useGetGasprice(true);
 	const sendTx = useSendTx();
 
 	const modal = useModal();

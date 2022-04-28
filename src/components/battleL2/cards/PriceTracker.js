@@ -9,7 +9,6 @@ import SVGChainLink from '../svg/SVGChainLink';
 import SVGCoinGecko from '../svg/SVGCoinGecko';
 import Champions from './Champions';
 import { modalRegistry } from '../../niceModals/RegisterModals';
-import { useHistory } from 'react-router-dom';
 
 const useGetCardData = (cryptoName, options) => {
 	return useQuery(
@@ -35,7 +34,6 @@ const formatPlusMinus = (priceChange) => {
 const PriceTracker = ({ priceFeed }) => {
 	const cryptoName = priceFeed.baseName.toLowerCase();
 	const [marketData, setMarketData] = useState(undefined);
-	const history = useHistory();
 
 	const { data, isLoading } = useGetCardData(cryptoName, {
 		refetchInterval: 60000,
@@ -54,10 +52,6 @@ const PriceTracker = ({ priceFeed }) => {
 
 	const onSubmitChoose = async () => {
 		NiceModal.show(modalRegistry.ebMarkets);
-	};
-
-	const onSubmitV1 = () => {
-		history.push('/battle/mainnet');
 	};
 
 	const styleBoxshadow = {

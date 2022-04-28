@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useGQLQueryL2 } from './useGQLQuery';
 
 import abis from '../constants/contracts/abis';
 import { Addresses } from '../constants/contracts/Addresses';
@@ -10,7 +9,6 @@ import { useChain } from 'react-moralis';
 import { GET_EBSTAKES_BY_PRICEFEEDID, GET_EBSTAKES_COUNT, GET_EBSTAKES_RECORD_BY_PRICEFEEDID, GET_MARKET_CHAMPION } from '../queries/SubgraphEternalBattle';
 import { Links } from '../constants/Links';
 import { GraphQLClient } from 'graphql-request';
-import { GET_NFT_L2 } from '../queries/SubgraphPoly';
 import Moralis from 'moralis';
 import { safeScale } from '../components/wilds/utils';
 
@@ -25,7 +23,7 @@ const getChangeAPI = async (meralId) => {
 };
 
 const getChange = async (contract, id, provider, isLayer2) => {
-	if (contract && provider && isLayer2) {
+	if (contract && provider && isLayer2 && id) {
 		try {
 			let [score, rewards, win] = await contract.getChange(id);
 			return { score: score.toString(), rewards: rewards.toString(), win };

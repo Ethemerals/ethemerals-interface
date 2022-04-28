@@ -4,6 +4,7 @@ import { modalRegistry } from '../../niceModals/RegisterModals';
 import { useActiveStakes } from '../../../hooks/useEternalBattleL2';
 import ReactTooltip from 'react-tooltip';
 import StakedMeral from './StakedMeral';
+import { useUserAccount } from '../../../hooks/useUser';
 
 const StakesActive = ({ priceFeed }) => {
 	const onSubmitChoose = async (long) => {
@@ -12,22 +13,66 @@ const StakesActive = ({ priceFeed }) => {
 		NiceModal.show(modalRegistry.ebChoose, { modalToShow: modalRegistry.ebStake, modalOptions });
 	};
 
+	const { address } = useUserAccount();
+
 	const { activeLongs, activeShorts } = useActiveStakes(priceFeed.id);
+	const [isUserLong, setIsUserLong] = useState(false);
+	const [isUserShort, setIsUserShort] = useState(false);
+	const [totalLongs, setTotalLongs] = useState(0);
+	const [totalShorts, setTotalShorts] = useState(0);
 	const [counterTradeBonus, setCounterTradeBonus] = useState(undefined);
 
 	useEffect(() => {
-		if (activeLongs && activeShorts) {
-			let counterTradeBonus = 1;
-			if (activeShorts.length > 0 && activeLongs.length > activeShorts.length) {
-				counterTradeBonus = activeLongs.length / activeShorts.length;
-			}
-			if (activeLongs.length > 0 && activeShorts.length > activeLongs.length) {
-				counterTradeBonus = activeShorts.length / activeLongs.length;
-			}
-			counterTradeBonus = counterTradeBonus > 5 ? 5 : parseInt(counterTradeBonus);
-			setCounterTradeBonus(counterTradeBonus);
+		let longs = 0;
+		let shorts = 0;
+		let counterTradeBonus = 1;
+
+		if (activeLongs) {
+			setIsUserLong(false);
+			activeLongs.forEach((stake) => {
+				longs += parseInt(stake.positionSize);
+				if (address) {
+					if (stake.owner.id.toLowerCase() === address.toLowerCase()) {
+						setIsUserLong(true);
+					}
+				}
+			});
 		}
-	}, [activeLongs, activeShorts]);
+
+		if (activeShorts) {
+			setIsUserShort(false);
+			activeShorts.forEach((stake) => {
+				shorts += parseInt(stake.positionSize);
+				if (address) {
+					if (stake.owner.id.toLowerCase() === address.toLowerCase()) {
+						setIsUserShort(true);
+					}
+				}
+			});
+		}
+
+		if (longs > shorts) {
+			counterTradeBonus = longs / shorts;
+		}
+		if (longs < shorts) {
+			counterTradeBonus = shorts / longs;
+		}
+
+		if (longs > 0 && shorts > 0) {
+			counterTradeBonus = counterTradeBonus > 3 ? 3 : parseInt(counterTradeBonus);
+		} else {
+			counterTradeBonus = 1;
+		}
+
+		setCounterTradeBonus(counterTradeBonus);
+		setTotalLongs(longs);
+		setTotalShorts(shorts);
+
+		return () => {
+			setIsUserLong(false);
+			setIsUserShort(false);
+		};
+	}, [activeLongs, activeShorts, address, priceFeed]);
 
 	const styleStakeButton = {
 		// background: 'rgb(32,32,32)' /* fallback for old browsers */,
@@ -61,7 +106,7 @@ const StakesActive = ({ priceFeed }) => {
 					<div style={{ transform: 'translate(0px, -28px)' }} className="text-white text-sm font-bold flex items-center justify-between">
 						<span style={{ textShadow: '1px 1px 0px #000' }}>LONGS</span>
 
-						{activeLongs && activeShorts && counterTradeBonus > 1 && activeLongs.length < activeShorts.length && (
+						{counterTradeBonus > 1 && totalLongs < totalShorts && (
 							<>
 								<span data-tip data-for="longCountertrade" className="text-xs cursor-pointer bg-brandColor-pale text-white rounded-md px-2 shadow tex-tright">
 									ELF x{counterTradeBonus}
@@ -70,10 +115,11 @@ const StakesActive = ({ priceFeed }) => {
 									<div className="w-96">
 										<h4>Counter Trade</h4>
 										<ul className="list-disc text-xs">
-											<li>If a market pair has more participants on one side, the other side gets a ELF bonus multiplier</li>
-											<li>The ratios is 2:1 for each multiplier step for a max of 5x</li>
+											<li>If a market pair has more staked HP on one side, the other side gets a ELF bonus multiplier</li>
+											<li>The ratios is 2:1 for each multiplier step for a max of 3x</li>
 											<li>
-												For example, if there are 2 Long Merals, and 1 Short Meral in a market. The short Meral will gain 2x ELF rewards! <strong>(If she leaves the battle at that moment)</strong>
+												For example, if there are 2000HP staked on the long side, and 1000HP on the short side. The short Merals will gain 2x ELF rewards!{' '}
+												<strong>(If she leaves the battle at that moment)</strong>
 											</li>
 										</ul>
 									</div>
@@ -82,20 +128,26 @@ const StakesActive = ({ priceFeed }) => {
 						)}
 					</div>
 
-					<div
-						style={styleStakeButton}
-						onClick={() => onSubmitChoose(true)}
-						className="rounded-md border-2 border-b-4 border-green-600 text-green-600 font-bold shadow-md hover:shadow-lg bg-white hover:bg-green-100 transition duration-300"
-					>
-						JOIN <span className="pr-1">{priceFeed.baseSymbol}</span> ⚔️
+					<div className="text-center">
+						<button
+							style={styleStakeButton}
+							onClick={() => onSubmitChoose(true)}
+							disabled={isUserShort}
+							className={`rounded-md border-2 border-b-4 border-green-600 text-green-600 font-bold shadow-md bg-white ${
+								isUserShort ? 'opacity-20' : 'hover:shadow-lg hover:bg-green-100 transition duration-300'
+							} `}
+						>
+							<span className={`${isUserShort && 'line-through'}`}>JOIN {priceFeed.baseSymbol}</span> ⚔️
+						</button>
 					</div>
+
 					<div className="m-4 mt-10">{activeLongs && activeLongs.map((stake) => <StakedMeral key={stake.meral.meralId} priceFeed={priceFeed} stake={stake} />)}</div>
 				</div>
 
 				<div style={{ minHeight: '256px' }} className="border-gray-200 border rounded-md ml-2 py-6 pt-2 bg-gray-400 bg-opacity-80">
 					<div style={{ transform: 'translate(0px, -28px)' }} className="text-white text-sm font-bold flex items-center justify-between">
 						<span style={{ textShadow: '1px 1px 0px #000' }}>SHORTS</span>
-						{activeLongs && activeShorts && counterTradeBonus > 1 && activeLongs.length > activeShorts.length && (
+						{counterTradeBonus > 1 && totalLongs > totalShorts && (
 							<>
 								<span data-tip data-for="shortCountertrade" className="text-xs cursor-pointer bg-brandColor-pale text-white rounded-md px-2 shadow tex-tright">
 									ELF x{counterTradeBonus}
@@ -104,10 +156,11 @@ const StakesActive = ({ priceFeed }) => {
 									<div className="w-96">
 										<h4>Counter Trade</h4>
 										<ul className="list-disc text-xs">
-											<li>If a market pair has more participants on one side, the other side gets a ELF bonus multiplier</li>
-											<li>The ratios is 2:1 for each multiplier step for a max of 5x</li>
+											<li>If a market pair has more staked HP on one side, the other side gets a ELF bonus multiplier</li>
+											<li>The ratios is 2:1 for each multiplier step for a max of 3x</li>
 											<li>
-												For example, if there are 2 Long Merals, and 1 Short Meral in a market. The short Meral will gain 2x ELF rewards! <strong>(If she leaves the battle at that moment)</strong>
+												For example, if there are 2000HP staked on the long side, and 1000HP on the short side. The short Merals will gain 2x ELF rewards!{' '}
+												<strong>(If she leaves the battle at that moment)</strong>
 											</li>
 										</ul>
 									</div>
@@ -115,14 +168,19 @@ const StakesActive = ({ priceFeed }) => {
 							</>
 						)}
 					</div>
-
-					<div
-						style={styleStakeButton}
-						onClick={() => onSubmitChoose(false)}
-						className="rounded-md border-2 border-b-4 border-red-800 text-red-800 font-bold shadow-md hover:shadow-lg bg-white hover:bg-red-100 transition duration-300"
-					>
-						JOIN <span className="pr-1">{priceFeed.quoteSymbol}</span> ⚔️
+					<div className="text-center">
+						<button
+							style={styleStakeButton}
+							onClick={() => onSubmitChoose(false)}
+							disabled={isUserLong}
+							className={`rounded-md border-2 border-b-4 border-red-800 text-red-800 font-bold shadow-md bg-white ${
+								isUserLong ? 'opacity-20' : 'hover:shadow-lg hover:bg-red-100 transition duration-300'
+							}`}
+						>
+							<span className={`${isUserLong && 'line-through'}`}>JOIN {priceFeed.quoteSymbol}</span> ⚔️
+						</button>
 					</div>
+
 					<div className="m-4 mt-10">{activeShorts && activeShorts.map((stake) => <StakedMeral key={stake.meral.meralId} priceFeed={priceFeed} stake={stake} />)}</div>
 				</div>
 			</div>
