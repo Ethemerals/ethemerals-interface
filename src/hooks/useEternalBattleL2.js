@@ -28,8 +28,7 @@ const getChange = async (contract, id, provider, isLayer2) => {
 			let [score, rewards, win] = await contract.getChange(id);
 			return { score: score.toString(), rewards: rewards.toString(), win };
 		} catch (error) {
-			console.log(error);
-			throw new Error('error');
+			return getChangeAPI(id);
 		}
 	} else {
 		return getChangeAPI(id);
