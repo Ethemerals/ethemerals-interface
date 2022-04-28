@@ -61,7 +61,6 @@ const getHistoryStakes = async (id) => {
 };
 
 const getMarketChampions = async (id, startTime) => {
-	console.log({ priceFeedId: parseInt(id), startTime: parseInt(startTime) });
 	try {
 		const endpoint = Links.SUBGRAPH_ENDPOINT_L2;
 		const graphQLClient = new GraphQLClient(endpoint);
