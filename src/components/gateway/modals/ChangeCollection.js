@@ -1,5 +1,6 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { availableCollectionsList } from '../../../constants/Collections';
+import { Links } from '../../../constants/Links';
 import Collections from '../cards/Collections';
 // import { getPriceFeeds } from '../../../constants/PriceFeedsL2';
 // import Feeds from '../cards/Feeds';
@@ -27,7 +28,7 @@ export default NiceModal.create(() => {
 					<p className="text-4xl font-light">Select A Collection</p>
 					<p className="text-xs text-blue-400 hover:text-blue-600 cursor-pointer">
 						{/* TODO */}
-						<a href={'https://data.chain.link/'} target="blank" rel="noreferrer">
+						<a href={Links.DISCORD_URL} target="blank" rel="noreferrer">
 							Missing a collection? Send an integration request here
 						</a>
 					</p>

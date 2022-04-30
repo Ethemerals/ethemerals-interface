@@ -41,7 +41,6 @@ export const useGetGasprice = (fast = false) => {
 			// _maxFeePerGas = _maxFeePerGas.mul(10);
 			setMaxPriorityFeePerGas(_maxPriorityFeePerGas);
 			setMaxFeePerGas(_maxFeePerGas);
-			console.log(_maxPriorityFeePerGas.toString(), _maxFeePerGas.toString());
 		}
 	}, [data, isLoadingGasprice, fast]);
 

@@ -18,9 +18,10 @@ import EBStake from '../battleL2/modals/EBStake';
 import EBRevive from '../battleL2/modals/EBRevive';
 import EBUnstake from '../battleL2/modals/EBUnstake';
 import Markets from '../battleL2/modals/Markets';
-import ChangeCollection from '../proxyMerals/modals/ChangeCollection';
+import ChangeCollection from '../gateway/modals/ChangeCollection';
 import MeralDetails from './merals/MeralDetails';
 import Classbonus from '../battleL2/modals/Classbonus';
+import Faucet from '../gateway/modals/Faucet';
 
 export const modalRegistry = {
 	// MINTING
@@ -45,7 +46,7 @@ export const modalRegistry = {
 	ebClassBonus: 'eternal-class-bonus',
 
 	// MERAL MANAGER
-
+	faucet: 'meral-manager-faucet',
 	// ONSEN
 
 	// RAIDING
@@ -79,7 +80,7 @@ export const registerModals = () => {
 	NiceModal.register(modalRegistry.ebMarkets, Markets);
 	NiceModal.register(modalRegistry.ebClassBonus, Classbonus);
 	// MERAL MANAGER
-
+	NiceModal.register(modalRegistry.faucet, Faucet);
 	// ONSEN
 
 	// RAIDING

@@ -25,7 +25,7 @@ import ArtDetails from './pages/ArtDetails';
 import ArtGame from './pages/ArtGame';
 import { registerModals } from './components/niceModals/RegisterModals';
 import WildsWorldAlpha from './components/wilds/WildsWorldAlpha';
-import RegisterMerals from './components/proxyMerals/RegisterMerals';
+import Gateway from './components/gateway/Gateway';
 import Onsen from './components/onsen/Onsen';
 import EternalBattleL2 from './components/battleL2/EternalBattleL2';
 import EternalBattleL1 from './components/battle/EternalBattleL1';
@@ -111,12 +111,12 @@ function App() {
 					<MeralDetails />
 				</Route>
 
-				{/* MERALMANAGER */}
+				{/* GATEWAY */}
 				<Route exact path="/register">
-					<RegisterMerals />
+					<Gateway />
 				</Route>
 				<Route exact path="/register/:id">
-					<RegisterMerals />
+					<Gateway />
 				</Route>
 
 				{/* ONSEN */}

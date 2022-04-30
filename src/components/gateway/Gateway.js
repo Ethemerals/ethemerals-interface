@@ -6,8 +6,9 @@ import { availableCollectionsList } from '../../constants/Collections';
 import { useParams } from 'react-router-dom';
 import { Links } from '../../constants/Links';
 import { Addresses } from '../../constants/contracts/Addresses';
+import GatewayStatus from './cards/GatewayStatus';
 
-const RegisterMerals = () => {
+const Gateway = () => {
 	let { id } = useParams();
 	if (id === 0 || !id) {
 		id = 1;
@@ -67,10 +68,7 @@ const RegisterMerals = () => {
 							</p>
 							{/* <p className="text-sm text-gray-700 pt-4">Link to Gateway contract, Link to Help, link to Discord</p> */}
 						</div>
-						<div className="w-1/3 rounded-md relative overflow-hidden bg-blue-200 text-center p-4">
-							<p>VALIDATOR STATUS</p>
-							<p>MATIC FAUCET</p>
-						</div>
+						<GatewayStatus />
 					</div>
 				</div>
 
@@ -82,4 +80,4 @@ const RegisterMerals = () => {
 	);
 };
 
-export default RegisterMerals;
+export default Gateway;
