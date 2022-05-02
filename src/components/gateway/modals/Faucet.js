@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { useMoralisCloudFunction } from 'react-moralis';
 import { useGetFaucet } from '../../../hooks/useGetFaucet';
 
-import { useUserAccount } from '../../../hooks/useUser';
+import { useUser, useUserAccount } from '../../../hooks/useUser';
 import { shortenAddress } from '../../../utils';
 import { useQueryClient } from 'react-query';
+import { useWeb3 } from '../../../hooks/useWeb3';
 
 export default NiceModal.create(() => {
 	const [saving, setSaving] = useState(false);
@@ -18,6 +19,9 @@ export default NiceModal.create(() => {
 	const { fetch } = useMoralisCloudFunction('setFaucet', {}, { autoFetch: false });
 
 	const { address } = useUserAccount();
+	const { login, isUnauthenticated } = useUser();
+	const { provider } = useWeb3();
+
 	const handleRequestMatic = async () => {
 		if (address) {
 			setSaving(true);
@@ -50,7 +54,7 @@ export default NiceModal.create(() => {
 				<div className="px-4">
 					<p className="text-4xl font-light">Request Matic</p>
 					<p className="py-2 text-sm text-gray-700">
-						Need a little Matic to get you started? Matic is needed to pay for gas fees on the Polygon Network. Each transaction is estimated to cost less then a cent
+						Need a little Matic to get you started? Request free Matic! Matic is needed to pay for gas fees on the Polygon Network. Each transaction is estimated to cost less then a cent
 					</p>
 				</div>
 
@@ -76,14 +80,14 @@ export default NiceModal.create(() => {
 								</button>
 							)}
 							{!address && (
-								<button className="px-4 py-2 w-96 text-sm shadow-md font-bold relative rounded-md border text-white bg-blue-400">
+								<button onClick={login} className="px-4 py-2 w-96 text-sm shadow-md font-bold relative rounded-md border text-white bg-blue-400">
 									<span>SIGN IN FIRST</span>
 								</button>
 							)}
 						</div>
 						<div className="mt-10 text-xs text-gray-600 text-center">
 							<p className="font-bold">STATUS</p>
-							{userFaucet && userFaucet.requested && <p>Request is pending, please wait up to 5 minutes</p>}
+							{userFaucet && userFaucet.requested && !userFaucet.denied && <p>Request is pending, please wait up to 5 minutes</p>}
 							{userFaucet && userFaucet.denied && <p>Request is denied, please reach out in discord</p>}
 							{userFaucet && userFaucet.sent && <p>Matic has already been sent to this address</p>}
 						</div>
@@ -92,6 +96,7 @@ export default NiceModal.create(() => {
 							<p className="font-bold">REQUIREMENTS</p>
 							<p>Only one request per account</p>
 							<p>Account needs to hold at least one Ethemeral</p>
+							<p>Account needs to own zero Matic on Polygon</p>
 						</div>
 					</div>
 				</div>
