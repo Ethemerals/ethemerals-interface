@@ -87,7 +87,7 @@ export default NiceModal.create(() => {
 						</div>
 						<div className="mt-10 text-xs text-gray-600 text-center">
 							<p className="font-bold">STATUS</p>
-							{userFaucet && userFaucet.requested && !userFaucet.denied && <p>Request is pending, please wait up to 5 minutes</p>}
+							{userFaucet && userFaucet.requested && !userFaucet.denied && !userFaucet.sent && <p>Request is pending, please wait up to 5 minutes</p>}
 							{userFaucet && userFaucet.denied && <p>Request is denied, please reach out in discord</p>}
 							{userFaucet && userFaucet.sent && <p>Matic has already been sent to this address</p>}
 						</div>
