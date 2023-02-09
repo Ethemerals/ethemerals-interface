@@ -35,13 +35,12 @@ const Home = () => {
 				</a>
 
 				<div className="mt-20 mb-2 text-gray-600 text-sm">
-					<h3 className="font-bold mb-4 text-center text-brandColor">Season 2 planned release in May 2022</h3>
+					<h3 className="font-bold mb-4 text-center text-brandColor">Season 2 planned release coming soon...</h3>
 					<h3 className="font-bold mt-10">What are Ethemerals?</h3>
 					<p className="my-2">Ethemerals are unique and dynamic NFT Collectables. Born into the Ethereum Blockchain</p>
 					<p className="my-2">There will only ever be 8400 Ethemerals. Released in Sets over a 4 year period.</p>
 					<p className="my-2">
-						This Genesis Set contains 100 unique character designs, with 10 editions each. Each token starts with a base HP and ELF. The minting process also generates random stats to be used in
-						potential future gameplay.
+						This Genesis Set contains 100 unique character designs, with 10 editions each. Each token starts with a base HP and ELF. The minting process also generates random stats.
 					</p>
 					<p className="mt-6 mb-4"> For further information:</p>
 
